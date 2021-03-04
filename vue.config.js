@@ -1,4 +1,7 @@
 module.exports = {
   publicPath: '/dashboard/',
-  productionSourceMap: false
+  productionSourceMap: false,
+  devServer:{
+    disableHostCheck: true
+  }
 };
