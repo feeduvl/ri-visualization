@@ -1,20 +1,23 @@
 <template>
   <v-navigation-drawer app v-model="drawer" absolute temporary :style="style">
     <v-list class="pt-0" dense>
-      <v-list-tile
-        v-for="item in items"
-        :key="item.title"
-        :to="item.path"
-        active-class="active"
-        :class="item.path === $route.path ? 'active' : ''"
-      >
-        <v-list-tile-action>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+      <template v-for="(item, index) in items">
+        <v-divider v-if="item.divider" :key="index" ></v-divider>
+        <v-list-tile
+            v-else
+          :key="item.title"
+          :to="item.path"
+          active-class="active"
+          :class="item.path === $route.path ? 'active' : ''"
+        >
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </template>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -50,6 +53,37 @@ export default {
           title: "Settings",
           icon: "settings",
           path: "/settings"
+        },
+        { divider: true, inset: false },
+        {
+          title: "Upload Data",
+          icon: "upload",
+          path: "/upload"
+        },
+        {
+          title: "Start Concept Detection",
+          icon: "play_arrow",
+          path: "/detection"
+        },
+        {
+          title: "Detection Results",
+          icon: "assessment",
+          path: "/results"
+        },
+        {
+          title: "Concept View",
+          icon: "workspaces",
+          path: "/conceptView"
+        },
+        {
+          title: "Document View",
+          icon: "description",
+          path: "/documentView"
+        },
+        {
+          title: "Dataset View",
+          icon: "storage",
+          path: "/datasetView"
         }
       ],
       style: {
