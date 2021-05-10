@@ -1,5 +1,5 @@
 <template>
-    <div>This is the upload view for uploading files</div>
+    This is the upload view for uploading files
     <input id='fileholder' type='file' name='filename' hidden/>
     <label for="fileholder" class="file-upload">Choose file</label>
     <span id="file-chosen">{{fileName}}</span>
