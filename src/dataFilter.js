@@ -12,3 +12,10 @@ export const FILTER_NEUTRAL_SENTIMENT = tweet => {
 export const FILTER_TIMEFRAME = (startDate, endDate) => tweet => {
   return tweet.created_at >= startDate && tweet.created_at <= endDate;
 };
+// uvl
+export const FILTER_FOR_METHOD = method => run => {
+  return run.method == method;
+};
+export const FILTER_FOR_DATASET = dataset => run => {
+  return run.dataset == dataset;
+};

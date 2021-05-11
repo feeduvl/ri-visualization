@@ -9,6 +9,7 @@ export const ROUTE_INQUIRIES = "/inquiries";
 export const ROUTE_COMPARISON = "/comparison";
 export const ROUTE_SETTINGS = "/settings";
 export const ROUTE_UPLOAD = "/upload";
+export const ROUTE_START_DETECTION = "/detection";
 
 export const routes = [{
     path: ROUTE_EMPTY,
@@ -41,8 +42,11 @@ export const routes = [{
   {
     path: ROUTE_UPLOAD,
     component: () => import('./components/UploadHome.vue')
-  }
-    ,
+  },
+  {
+    path: ROUTE_START_DETECTION,
+    component: () => import('./components/StartDetectionHome.vue')
+  },
   {
     path: ROUTE_ALL,
     redirect: ROUTE_DASHBOARD
