@@ -6,9 +6,8 @@
           <h1>Start Run</h1>
         </v-card-title>
       </v-card>
+      <v-container>
       <v-layout row wrap>
-        <v-flex xs1>
-        </v-flex>
           <v-flex xs3>
           <v-select
               v-model="selectedMethod"
@@ -29,7 +28,9 @@
           </v-select>
           </v-flex>
       </v-layout>
-      <component v-bind:is="component" />
+      </v-container>
+      <v-divider/>
+      <component v-bind:is="component" v-bind:dataset="selectedDataset" />
     </v-card>
     <v-card>
     <v-card flat class="header">
@@ -76,8 +77,8 @@ export default {
   name: "StartDetectionHome",
   components: {
     "empty-parameter": () => import("./form/EmptyParameter"),
-    "lda-parameter": () => import("./form/ldaParameter"),
-    "seanmf-parameter": () => import("./form/seanmfParameter"),
+    "lda-parameter": () => import("./form/LdaParameter"),
+    "seanmf-parameter": () => import("./form/SeanmfParameter"),
   },
   data() {
     return {
@@ -85,7 +86,7 @@ export default {
       selectedMethod: "",
       selectedDataset: "",
       runMethods: ["LDA","SeaNMF"],
-      datasets: [],
+      datasets: ["Interviews-30", "Forum-Posts-Eclipse"],
       component:"empty-parameter",
       pagination: {
         sortBy: "created_at",
