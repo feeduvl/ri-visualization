@@ -83,7 +83,7 @@ export default {
         {
           title: "Dataset View",
           icon: "storage",
-          path: "/datasetView"
+          path: "/dataset"
         }
       ],
       style: {

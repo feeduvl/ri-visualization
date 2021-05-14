@@ -28,3 +28,12 @@ export const selectedTopics = state => {
 export const dataUpToDate = state => {
   return state.dataUpToDate;
 };
+export const runs = state => {
+  return state.runs;
+};
+export const datasets = state => {
+  return state.datasets;
+};
+export const selectedDataset = state => {
+  return state.selectedDataset;
+};

@@ -7,6 +7,28 @@ axios.defaults.headers.common = {
 };
 export default axios;
 
+// feeduvl
+export const GET_DATASET_ENDPOINT = function (dataset) {
+  return `${BASE_URL}/hitec/repository/concepts/dataset/${dataset}`;
+};
+
+export const GET_ALL_DATASETS_ENDPOINT = function () {
+  return `${BASE_URL}/hitec/repository/concepts/dataset/all`;
+};
+
+export const GET_RESULT_ENDPOINT = function (result) {
+  return `${BASE_URL}/hitec/repository/concepts/detection/result/${result}`;
+};
+
+export const GET_ALL_RESULTS_ENDPOINT = function () {
+  return `${BASE_URL}/hitec/repository/concepts/detection/result/all`;
+};
+
+export const DELETE_DATASET_ENDPOINT = function (dataset) {
+  return `${BASE_URL}/hitec/repository/concepts/dataset/${dataset}`;
+};
+
+// feedai
 export const GET_ALL_TWEETS_ENDPOINT = function (twitterAccount) {
   return `${BASE_URL}/hitec/repository/twitter/account_name/${twitterAccount}/all`;
 };
