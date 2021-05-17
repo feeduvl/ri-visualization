@@ -55,7 +55,9 @@ import {
   DELETE_DATASET_ENDPOINT
 } from "./../RESTconf.js";
 import {
-  ACTION_SET_TOOLBAR_HEADER,
+  ACTION_SET_FOOTER_TEXT,
+  ACTION_SET_PROJECT_TITLE,
+  ACTION_SET_TOOLBAR_HEADER, ACTION_SET_TOP_BAR_ALT_TEXT, ACTION_SET_TOP_BAR_LOGO,
 } from "./../store/types.js";
 
 export default {
@@ -97,7 +99,11 @@ export default {
 
       ],
       errors: [],
-      toolbarTitle: "Dataset View",
+      topBarTitle: "Dataset View",
+      projectTitle: "User View Language",
+      topBarLogo: require('@/assets/UVL_Logo_small.png'),
+      topBarAltText: 'uvl',
+      footer: "",
       rawData: [],
     };
   },
@@ -151,7 +157,11 @@ export default {
           this.loadData([...newValue]);
         }
     );
-    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, this.toolbarTitle);
+    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, this.topBarTitle);
+    this.$store.dispatch(ACTION_SET_PROJECT_TITLE, this.projectTitle);
+    this.$store.dispatch(ACTION_SET_TOP_BAR_LOGO, this.topBarLogo);
+    this.$store.dispatch(ACTION_SET_TOP_BAR_ALT_TEXT, this.topBarAltText);
+    this.$store.dispatch(ACTION_SET_FOOTER_TEXT, this.footer);
   }
 };
 </script>

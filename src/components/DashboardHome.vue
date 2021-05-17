@@ -52,6 +52,13 @@
   </v-container>
 </template>
 <script>
+import {
+  ACTION_SET_FOOTER_TEXT,
+  ACTION_SET_PROJECT_TITLE,
+  ACTION_SET_TOP_BAR_ALT_TEXT,
+  ACTION_SET_TOP_BAR_LOGO
+} from "@/store/types";
+
 export default {
   name: "DashboardHome",
   components: {
@@ -68,6 +75,13 @@ export default {
   },
   mounted() {
     this.$store.dispatch("setToolbarHeader", "Dashboard");
+    this.$store.dispatch(ACTION_SET_PROJECT_TITLE, 'Requirements Intelligence');
+    this.$store.dispatch(ACTION_SET_TOP_BAR_LOGO, require('@/assets/openreq_logo.png'));
+    this.$store.dispatch(ACTION_SET_TOP_BAR_ALT_TEXT, 'openreq');
+    this.$store.dispatch(ACTION_SET_FOOTER_TEXT, "— Christoph Stanik\n" +
+        "      <strong>\n" +
+        "        <a href=\"https://openreq.eu/\">@OpenReq</a>\n" +
+        "      </strong>");
   }
 };
 </script>

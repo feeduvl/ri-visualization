@@ -7,7 +7,11 @@ import {
 import {
   ACTION_RESET_FILTERED_TWEETS,
   MUTATE_FILTERED_TWEETS,
-  MUTATE_TOOLBAR_HEADER
+  MUTATE_TOOLBAR_HEADER,
+  MUTATE_PROJECT_TITLE,
+  MUTATE_TOP_BAR_LOGO,
+  MUTATE_TOP_BAR_ALT_TEXT,
+  MUTATE_FOOTER_TEXT
 } from './../store/types';
 
 export const actionFetchInitialData = ({
@@ -120,4 +124,24 @@ export const setToolbarHeader = ({
   commit
 }, title) => {
   commit(MUTATE_TOOLBAR_HEADER, title);
+};
+export const setProjectTitle = ({
+  commit
+}, title) => {
+  commit(MUTATE_PROJECT_TITLE, title);
+};
+export const setTopBarLogo = ({
+  commit
+}, logo) => {
+  commit(MUTATE_TOP_BAR_LOGO, logo);
+};
+export const setTopBarAltText = ({
+  commit
+}, text) => {
+  commit(MUTATE_TOP_BAR_ALT_TEXT, text);
+};
+export const setFooterText = ({
+  commit
+}, text) => {
+  commit(MUTATE_FOOTER_TEXT, text);
 };

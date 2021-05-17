@@ -37,3 +37,15 @@ export const datasets = state => {
 export const selectedDataset = state => {
   return state.selectedDataset;
 };
+export const getProjectTitle = state => {
+  return state.projectTitle;
+};
+export const getTopBarLogo = state => {
+  return state.topBarLogo;
+};
+export const getTopBarAltText = state => {
+  return state.topBarAltText;
+};
+export const getFooterText = state => {
+  return state.footer;
+};

@@ -56,6 +56,11 @@ export default {
         },
         { divider: true, inset: false },
         {
+          title: "UVL - User View Language",
+          icon: "",
+          path: ""
+        },
+        {
           title: "Upload Data",
           icon: "upload",
           path: "/upload"

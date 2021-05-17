@@ -149,7 +149,9 @@ import {
   POST_TWEET_LABEL_BACKUP_PAYLOAD
 } from "./../RESTconf.js";
 import {
-  ACTION_SET_TOOLBAR_HEADER,
+  ACTION_SET_FOOTER_TEXT,
+  ACTION_SET_PROJECT_TITLE,
+  ACTION_SET_TOOLBAR_HEADER, ACTION_SET_TOP_BAR_ALT_TEXT, ACTION_SET_TOP_BAR_LOGO,
   ACTION_UPDATE_TWEET
 } from "./../store/types.js";
 import { FILTER_FOR_TOPIC, FILTER_FOR_CATEGORY } from "./../dataFilter.js";
@@ -190,8 +192,15 @@ export default {
           width: "10%"
         }
       ],
-      erros: [],
-      tooblarTitle: "inquiries",
+      errors: [],
+      topBarTitle: "inquiries",
+      projectTitle: 'Requirements Intelligence',
+      topBarLogo: require('@/assets/openreq_logo.png'),
+      topBarAltText: 'openreq',
+      footer: "— Christoph Stanik\n" +
+          "      <strong>\n" +
+          "        <a href=\"https://openreq.eu/\">@OpenReq</a>\n" +
+          "      </strong>",
       cardTableTitle: "Inquiries",
       rawData: [],
       data: [],
@@ -346,7 +355,11 @@ export default {
         this.loadData([...newValue], this.topic);
       }
     );
-    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, this.tooblarTitle);
+    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, this.topBarTitle);
+    this.$store.dispatch(ACTION_SET_PROJECT_TITLE, this.projectTitle);
+    this.$store.dispatch(ACTION_SET_TOP_BAR_LOGO, this.topBarLogo);
+    this.$store.dispatch(ACTION_SET_TOP_BAR_ALT_TEXT, this.topBarAltText);
+    this.$store.dispatch(ACTION_SET_FOOTER_TEXT, this.footer);
   }
 };
 </script>

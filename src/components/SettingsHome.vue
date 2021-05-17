@@ -124,7 +124,11 @@ import {
 import {
   MUTATE_ACCESS_KEY_CONFIGURATION,
   MUTATE_ACCESS_KEY,
-  LOCAL_STORAGE_ACCESS_KEY
+  LOCAL_STORAGE_ACCESS_KEY,
+  ACTION_SET_PROJECT_TITLE,
+  ACTION_SET_TOP_BAR_LOGO,
+  ACTION_SET_TOP_BAR_ALT_TEXT,
+  ACTION_SET_FOOTER_TEXT
 } from "../store/types.js";
 export default {
   name: "SettingsHome",
@@ -167,7 +171,14 @@ export default {
           width: "5%"
         }
       ],
-      tooblarTitle: "Settings",
+      topBarTitle: "Settings",
+      projectTitle: 'Requirements Intelligence',
+      topBarLogo: require('@/assets/openreq_logo.png'),
+      topBarAltText: 'openreq',
+      footer: "— Christoph Stanik\n" +
+          "      <strong>\n" +
+          "        <a href=\"https://openreq.eu/\">@OpenReq</a>\n" +
+          "      </strong>",
       twitterAccounts: [],
       searchQuery: "",
       /*
@@ -332,6 +343,10 @@ export default {
   },
   mounted() {
     this.$store.dispatch("setToolbarHeader", "Settings");
+    this.$store.dispatch(ACTION_SET_PROJECT_TITLE, this.projectTitle);
+    this.$store.dispatch(ACTION_SET_TOP_BAR_LOGO, this.topBarLogo);
+    this.$store.dispatch(ACTION_SET_TOP_BAR_ALT_TEXT, this.topBarAltText);
+    this.$store.dispatch(ACTION_SET_FOOTER_TEXT, this.footer);
     this.getTwitterObservables();
   }
 };

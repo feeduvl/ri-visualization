@@ -8,10 +8,7 @@
       </keep-alive>
     </v-content>
     <v-footer class="footer">
-      &copy;{{new Date().getFullYear()}} — Christoph Stanik
-      <strong>
-        <a href="https://openreq.eu/">@OpenReq</a>
-      </strong>
+      &copy;{{new Date().getFullYear()}} <span v-html="footer"></span></p>
     </v-footer>
   </v-app>
 </template>
@@ -24,6 +21,11 @@ export default {
   components: {
     TopToolBar,
     TopNavigationDrawer
+  },
+  computed: {
+    footer() {
+      return this.$store.getters.getFooterText;
+    }
   }
 };
 </script>

@@ -9,6 +9,10 @@ export const ACTION_FILTER_TWEETS = 'actionFilterTweets';
 export const ACTION_RESET_FILTERED_TWEETS = 'actionResetFilteredTweets';
 export const ACTION_REMOVE_UNLABELED_TWEET = 'actionRemoveUnlabeledTweet';
 export const ACTION_SET_TOOLBAR_HEADER = 'setToolbarHeader';
+export const ACTION_SET_PROJECT_TITLE = 'setProjectTitle';
+export const ACTION_SET_TOP_BAR_LOGO = 'setTopBarLogo';
+export const ACTION_SET_TOP_BAR_ALT_TEXT = 'setTopBarAltText';
+export const ACTION_SET_FOOTER_TEXT = 'setFooterText';
 
 /*
  *  Mutation types
@@ -26,7 +30,11 @@ export const MUTATE_RESET_UNLABELED_TWEETS = 'mutateResetUnlabeledTweets';
 export const MUTATE_UNLABELED_TWEETS = 'mutateUnlabeledTweets';
 export const MUTATE_INITIAL_DATA = 'mutateInitalData';
 export const MUTATE_FILTERED_TWEETS = 'mutateFilteredTweets';
-export const MUTATE_TOOLBAR_HEADER = 'mutateToobarHeader';
+export const MUTATE_TOOLBAR_HEADER = 'mutateToolbarHeader';
+export const MUTATE_PROJECT_TITLE = 'mutateProjectTitle';
+export const MUTATE_TOP_BAR_LOGO = 'mutateTopBarLogo';
+export const MUTATE_TOP_BAR_ALT_TEXT = 'mutateTopBarAltText';
+export const MUTATE_FOOTER_TEXT = 'mutateFooterText';
 
 /*
  *  Local storage types

@@ -46,7 +46,7 @@
     >
       <template slot="items" slot-scope="props">
         <tr>
-          <td style="text-align:'center'">{{ getFormattedDate(props.item.created_at) }}</td>
+          <td style="text-align:center">{{ getFormattedDate(props.item.created_at) }}</td>
           <td>{{ props.item.method }}</td>
           <td>{{ props.item.dataset }}</td>
           <td>{{ props.item.parameters }}</td>
@@ -69,7 +69,9 @@ import {
   POST_TWEET_LABEL_BACKUP_PAYLOAD
 } from "./../RESTconf.js";
 import {
-  ACTION_SET_TOOLBAR_HEADER,
+  ACTION_SET_FOOTER_TEXT,
+  ACTION_SET_PROJECT_TITLE,
+  ACTION_SET_TOOLBAR_HEADER, ACTION_SET_TOP_BAR_ALT_TEXT, ACTION_SET_TOP_BAR_LOGO,
 } from "./../store/types.js";
 import { FILTER_FOR_METHOD, FILTER_FOR_DATASET } from "./../dataFilter.js";
 
@@ -129,8 +131,12 @@ export default {
           width: "15%"
         },
       ],
-      erros: [],
-      toolbarTitle: "Start new detection",
+      errors: [],
+      topBarTitle: "Start new detection",
+      projectTitle: "User View Language",
+      topBarLogo: require('@/assets/UVL_Logo_small.png'),
+      topBarAltText: 'uvl',
+      footer: "",
       cardTableTitle: "Last Runs",
       rawData: [],
       data: []
@@ -180,7 +186,11 @@ export default {
           this.loadData([...newValue]);
         }
     );
-    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, this.toolbarTitle);
+    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, this.topBarTitle);
+    this.$store.dispatch(ACTION_SET_PROJECT_TITLE, this.projectTitle);
+    this.$store.dispatch(ACTION_SET_TOP_BAR_LOGO, this.topBarLogo);
+    this.$store.dispatch(ACTION_SET_TOP_BAR_ALT_TEXT, this.topBarAltText);
+    this.$store.dispatch(ACTION_SET_FOOTER_TEXT, this.footer);
   }
 };
 </script>

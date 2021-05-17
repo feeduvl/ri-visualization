@@ -21,6 +21,13 @@
     import{
         BLUE_BORDER
     } from "../colors";
+    import {
+      ACTION_SET_FOOTER_TEXT,
+      ACTION_SET_PROJECT_TITLE,
+      ACTION_SET_TOOLBAR_HEADER,
+      ACTION_SET_TOP_BAR_ALT_TEXT,
+      ACTION_SET_TOP_BAR_LOGO
+    } from "@/store/types";
 
     export default {  // TODO add attribute 'multiple' on file input to allow selection of multiple files
         name: "UploadHome",
@@ -30,11 +37,24 @@
                 uploadedFile: undefined,
                 uploadButtonStyle: {
                     "background-color": BLUE_BORDER
-                }
+
+                },
+                topBarTitle: "Data Upload",
+                projectTitle: "User View Language",
+                topBarLogo: require('@/assets/UVL_Logo_small.png'),
+                topBarAltText: 'uvl',
+                footer: "",
+
             }
         },
         mounted() {
             this.isMounted = true;
+
+            this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, this.topBarTitle);
+            this.$store.dispatch(ACTION_SET_PROJECT_TITLE, this.projectTitle);
+            this.$store.dispatch(ACTION_SET_TOP_BAR_LOGO, this.topBarLogo);
+            this.$store.dispatch(ACTION_SET_TOP_BAR_ALT_TEXT, this.topBarAltText);
+            this.$store.dispatch(ACTION_SET_FOOTER_TEXT, this.footer);
 
             //  add some computed CSS stuff
             let halfwidth;

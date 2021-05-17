@@ -133,8 +133,8 @@ export default {
           value: "month"
         }
       ],
-      erros: [],
-      tooblarTitle: "Competitor Comparison",
+      errors: [],
+      topBarTitle: "Competitor Comparison",
       tweets: [],
       data: [],
       dataTopics: {},

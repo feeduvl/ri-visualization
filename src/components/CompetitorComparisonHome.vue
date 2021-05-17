@@ -22,7 +22,13 @@
 </template>
 
 <script>
-import { ACTION_SET_TOOLBAR_HEADER } from "./../store/types.js";
+import {
+  ACTION_SET_FOOTER_TEXT,
+  ACTION_SET_PROJECT_TITLE,
+  ACTION_SET_TOOLBAR_HEADER,
+  ACTION_SET_TOP_BAR_ALT_TEXT,
+  ACTION_SET_TOP_BAR_LOGO
+} from "./../store/types.js";
 
 const PROBLEM_REPORTS = "problem_reports";
 const INQUIRIES = "inquiries";
@@ -49,8 +55,15 @@ export default {
   data() {
     return {
       selectedTopics: [],
-      erros: [],
-      tooblarTitle: "Competitor Comparison"
+      errors: [],
+      topBarTitle: "Competitor Comparison",
+      projectTitle: 'Requirements Intelligence',
+      topBarLogo: require('@/assets/openreq_logo.png'),
+      topBarAltText: 'openreq',
+      footer: "— Christoph Stanik\n" +
+          "      <strong>\n" +
+          "        <a href=\"https://openreq.eu/\">@OpenReq</a>\n" +
+          "      </strong>",
     };
   },
   mounted() {
@@ -61,7 +74,11 @@ export default {
         this.selectedTopics = [...newValue];
       }
     );
-    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, this.tooblarTitle);
+    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, this.topBarTitle);
+    this.$store.dispatch(ACTION_SET_PROJECT_TITLE, this.projectTitle);
+    this.$store.dispatch(ACTION_SET_TOP_BAR_LOGO, this.topBarLogo);
+    this.$store.dispatch(ACTION_SET_TOP_BAR_ALT_TEXT, this.topBarAltText);
+    this.$store.dispatch(ACTION_SET_FOOTER_TEXT, this.footer);
   }
 };
 </script>

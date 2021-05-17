@@ -34,11 +34,24 @@ export const mutateAccessKey = (state, accessKey) => {
   state.accessKey = accessKey;
 };
 
-export const mutateToobarHeader = (state, title) => {
+export const mutateToolbarHeader = (state, title) => {
   state.topBarTitle = title;
 };
 
 export const mutateFilteredTweets = (state, filteredTweets) => {
   state.dataUpToDate = true;
   state.filteredTweets = filteredTweets;
+};
+
+export const mutateProjectTitle = (state, title) => {
+  state.projectTitle = title;
+};
+export const mutateTopBarLogo = (state, title) => {
+  state.topBarLogo = title;
+};
+export const mutateTopBarAltText = (state, title) => {
+  state.topBarAltText = title;
+};
+export const mutateFooterText = (state, title) => {
+  state.footer = title;
 };
