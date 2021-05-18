@@ -83,7 +83,7 @@ export default {
         {
           title: "Document View",
           icon: "description",
-          path: "/documentView"
+          path: "/documents"
         },
         {
           title: "Dataset View",

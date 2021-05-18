@@ -7,54 +7,54 @@
         </v-card-title>
       </v-card>
       <v-container>
-      <v-layout row wrap>
+        <v-layout row wrap>
           <v-flex xs3>
-          <v-select
-              v-model="selectedMethod"
-              :items="runMethods"
-              label="Method"
-              @change="updateForm"
-          >
-          </v-select>
+            <v-select
+                v-model="selectedMethod"
+                :items="runMethods"
+                label="Method"
+                @change="updateForm"
+            >
+            </v-select>
           </v-flex>
           <v-flex xs1>
           </v-flex>
           <v-flex xs3>
-          <v-select
-              v-model="selectedDataset"
-              :items="datasets"
-              label="Dataset"
-          >
-          </v-select>
+            <v-select
+                v-model="selectedDataset"
+                :items="datasets"
+                label="Dataset"
+            >
+            </v-select>
           </v-flex>
-      </v-layout>
+        </v-layout>
       </v-container>
       <v-divider/>
-      <component v-bind:is="component" v-bind:dataset="selectedDataset" />
+      <component v-bind:is="component" v-bind:dataset="selectedDataset"/>
     </v-card>
     <v-card>
-    <v-card flat class="header">
-      <v-card-title>
-        <h1>{{ cardTableTitle }}</h1>
-      </v-card-title>
-    </v-card>
-    <v-data-table
-        :headers="tableHeaders"
-        :items="data"
-        :custom-sort="customTableSort"
-        :pagination.sync="pagination"
-    >
-      <template slot="items" slot-scope="props">
-        <tr>
-          <td style="text-align:center">{{ getFormattedDate(props.item.created_at) }}</td>
-          <td>{{ props.item.method }}</td>
-          <td>{{ props.item.dataset }}</td>
-          <td>{{ props.item.parameters }}</td>
-          <td>{{ props.item.score }}</td>
-        </tr>
-      </template>
-    </v-data-table>
+      <v-card flat class="header">
+        <v-card-title>
+          <h1>{{ cardTableTitle }}</h1>
+        </v-card-title>
       </v-card>
+      <v-data-table
+          :headers="tableHeaders"
+          :items="data"
+          :custom-sort="customTableSort"
+          :pagination.sync="pagination"
+      >
+        <template slot="items" slot-scope="props">
+          <tr>
+            <td style="text-align:center">{{ getFormattedDate(props.item.created_at) }}</td>
+            <td>{{ props.item.method }}</td>
+            <td>{{ props.item.dataset }}</td>
+            <td>{{ props.item.parameters }}</td>
+            <td>{{ props.item.score }}</td>
+          </tr>
+        </template>
+      </v-data-table>
+    </v-card>
   </v-container>
 </template>
 
@@ -73,7 +73,7 @@ import {
   ACTION_SET_PROJECT_TITLE,
   ACTION_SET_TOOLBAR_HEADER, ACTION_SET_TOP_BAR_ALT_TEXT, ACTION_SET_TOP_BAR_LOGO,
 } from "./../store/types.js";
-import { FILTER_FOR_METHOD, FILTER_FOR_DATASET } from "./../dataFilter.js";
+import {FILTER_FOR_METHOD, FILTER_FOR_DATASET} from "./../dataFilter.js";
 
 export default {
   name: "StartDetectionHome",
@@ -87,9 +87,9 @@ export default {
       key: this.$route.path,
       selectedMethod: "",
       selectedDataset: "",
-      runMethods: ["LDA","SeaNMF"],
+      runMethods: ["LDA", "SeaNMF"],
       datasets: ["Interviews-30", "Forum-Posts-Eclipse"],
-      component:"empty-parameter",
+      component: "empty-parameter",
       pagination: {
         sortBy: "created_at",
         descending: true
@@ -199,10 +199,12 @@ export default {
 .header {
   margin-top: 20px;
 }
+
 .card-title-text {
   font-size: 2em;
   text-align: center;
 }
+
 table.v-table tbody tr,
 table.v-table tbody td,
 table.v-table tbody th {
@@ -210,45 +212,58 @@ table.v-table tbody th {
   height: 50px;
   max-height: 50px;
 }
+
 .row-item {
   margin: 15px 10px 15px 10px;
 }
+
 .row-header {
   margin: 15px 10px 35px 10px;
   position: fixed;
 }
+
 .action-left {
   margin-right: 5px;
 }
+
 .action-right {
   margin-left: 5px;
 }
+
 h1 {
   text-align: center;
 }
+
 .list-enter,
 .list-leave-to {
   transition: all 0.5s;
   opacity: 0;
 }
+
 .backgroundcolor-red {
   background-color: rgba(255, 0, 0, 0.04);
 }
+
 .backgroundcolor-yellow {
   background-color: rgba(255, 249, 196, 0.5);
 }
+
 .backgroundcolor-grey {
   background-color: rgba(238, 238, 238, 0.04);
 }
+
 .spacing {
   padding-top: 0px;
 }
+
 .pointer {
   cursor: pointer;
 }
+
 .toggle-effect {
   background-color: #bdbdbd !important;
 }
+
 .anti-margin {
   margin-bottom: 0px !important;
 }
