@@ -42,6 +42,7 @@ import {
   ACTION_SET_TOP_BAR_ALT_TEXT,
   ACTION_SET_TOP_BAR_LOGO
 } from "@/store/types";
+import {THEME_OPENREQ, setTheme} from "@/theme";
 
 export default {
   name: "DocumentsHome",
@@ -57,18 +58,11 @@ export default {
       content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, ", topics:
             [{number: 1, name: "", words: ["test", "text", "more"], probability: 0.97},{number: 2, name: "misc", words: ["another", "topic"], probability: 0.23}] },{ number: 2, content: "Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores. At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles. Ma quande lingues coalesce, li grammatica del resultant lingue es plu simplic e regulari quam ti del coalescent lingues. Li nov lingua franca va esser plu simplic e regulari quam li existent Europan ", topics: [{number: 1, name: "blindtext", words: ["lorem", "omnicros", "more"]},{number: 2, name: "misc", words: ["another", "topic"]}]}],
       topBarTitle: "Document View",
-      projectTitle: "User View Language",
-      topBarLogo: require('@/assets/UVL_Logo_small.png'),
-      topBarAltText: 'uvl',
-      footer: "",
+      designTheme: THEME_OPENREQ,
     };
   },
   mounted() {
-    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, this.topBarTitle);
-    this.$store.dispatch(ACTION_SET_PROJECT_TITLE, this.projectTitle);
-    this.$store.dispatch(ACTION_SET_TOP_BAR_LOGO, this.topBarLogo);
-    this.$store.dispatch(ACTION_SET_TOP_BAR_ALT_TEXT, this.topBarAltText);
-    this.$store.dispatch(ACTION_SET_FOOTER_TEXT, this.footer);
+    setTheme(this.topBarTitle, this.designTheme, this.$store);
   }
 }
 </script>

@@ -130,6 +130,7 @@ import {
   ACTION_SET_TOP_BAR_ALT_TEXT,
   ACTION_SET_FOOTER_TEXT
 } from "../store/types.js";
+import {THEME_OPENREQ, setTheme} from "@/theme";
 export default {
   name: "SettingsHome",
   data() {
@@ -172,13 +173,7 @@ export default {
         }
       ],
       topBarTitle: "Settings",
-      projectTitle: 'Requirements Intelligence',
-      topBarLogo: require('@/assets/openreq_logo.png'),
-      topBarAltText: 'openreq',
-      footer: "— Christoph Stanik\n" +
-          "      <strong>\n" +
-          "        <a href=\"https://openreq.eu/\">@OpenReq</a>\n" +
-          "      </strong>",
+      designTheme: THEME_OPENREQ,
       twitterAccounts: [],
       searchQuery: "",
       /*
@@ -342,11 +337,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("setToolbarHeader", "Settings");
-    this.$store.dispatch(ACTION_SET_PROJECT_TITLE, this.projectTitle);
-    this.$store.dispatch(ACTION_SET_TOP_BAR_LOGO, this.topBarLogo);
-    this.$store.dispatch(ACTION_SET_TOP_BAR_ALT_TEXT, this.topBarAltText);
-    this.$store.dispatch(ACTION_SET_FOOTER_TEXT, this.footer);
+    setTheme(this.topBarTitle, this.designTheme, this.$store);
     this.getTwitterObservables();
   }
 };

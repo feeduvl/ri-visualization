@@ -161,7 +161,7 @@ import {
   ACTION_UPDATE_TWEET
 } from "./../store/types.js";
 import { FILTER_FOR_TOPIC, FILTER_FOR_CATEGORY } from "./../dataFilter.js";
-
+import {THEME_OPENREQ, setTheme} from "@/theme";
 export default {
   name: "ProblemReportsHome",
   components: {
@@ -207,14 +207,8 @@ export default {
       ],
       errors: [],
       topBarTitle: "Problem Reports",
-      projectTitle: 'Requirements Intelligence',
-      topBarLogo: require('@/assets/openreq_logo.png'),
-      topBarAltText: 'openreq',
       cardTableTitle: "Problem Reports",
-      footer: "— Christoph Stanik\n" +
-          "      <strong>\n" +
-          "        <a href=\"https://openreq.eu/\">@OpenReq</a>\n" +
-          "      </strong>",
+      designTheme: THEME_OPENREQ,
       rawData: [],
       data: [],
       searchQuery: "",
@@ -372,11 +366,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, this.topBarTitle);
-    this.$store.dispatch(ACTION_SET_PROJECT_TITLE, this.projectTitle);
-    this.$store.dispatch(ACTION_SET_TOP_BAR_LOGO, this.topBarLogo);
-    this.$store.dispatch(ACTION_SET_TOP_BAR_ALT_TEXT, this.topBarAltText);
-    this.$store.dispatch(ACTION_SET_FOOTER_TEXT, this.footer);
+    setTheme(this.topBarTitle, this.designTheme, this.$store);
     this.setupTopics();
     this.$store.watch(
       (state, getters) => getters.filteredTweets,

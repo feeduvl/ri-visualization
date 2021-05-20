@@ -59,6 +59,7 @@ import {
   ACTION_SET_PROJECT_TITLE,
   ACTION_SET_TOOLBAR_HEADER, ACTION_SET_TOP_BAR_ALT_TEXT, ACTION_SET_TOP_BAR_LOGO,
 } from "./../store/types.js";
+import {THEME_UVL, setTheme} from "@/theme";
 
 export default {
   name: "DatasetHome",
@@ -100,10 +101,7 @@ export default {
       ],
       errors: [],
       topBarTitle: "Dataset View",
-      projectTitle: "User View Language",
-      topBarLogo: require('@/assets/UVL_Logo_small.png'),
-      topBarAltText: 'uvl',
-      footer: "",
+      designTheme: THEME_UVL,
       rawData: [],
     };
   },
@@ -157,11 +155,7 @@ export default {
           this.loadData([...newValue]);
         }
     );
-    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, this.topBarTitle);
-    this.$store.dispatch(ACTION_SET_PROJECT_TITLE, this.projectTitle);
-    this.$store.dispatch(ACTION_SET_TOP_BAR_LOGO, this.topBarLogo);
-    this.$store.dispatch(ACTION_SET_TOP_BAR_ALT_TEXT, this.topBarAltText);
-    this.$store.dispatch(ACTION_SET_FOOTER_TEXT, this.footer);
+    setTheme(this.topBarTitle, this.designTheme, this.$store);
   }
 };
 </script>

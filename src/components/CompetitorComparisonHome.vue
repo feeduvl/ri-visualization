@@ -29,6 +29,7 @@ import {
   ACTION_SET_TOP_BAR_ALT_TEXT,
   ACTION_SET_TOP_BAR_LOGO
 } from "./../store/types.js";
+import {THEME_OPENREQ, setTheme} from "@/theme";
 
 const PROBLEM_REPORTS = "problem_reports";
 const INQUIRIES = "inquiries";
@@ -57,16 +58,11 @@ export default {
       selectedTopics: [],
       errors: [],
       topBarTitle: "Competitor Comparison",
-      projectTitle: 'Requirements Intelligence',
-      topBarLogo: require('@/assets/openreq_logo.png'),
-      topBarAltText: 'openreq',
-      footer: "— Christoph Stanik\n" +
-          "      <strong>\n" +
-          "        <a href=\"https://openreq.eu/\">@OpenReq</a>\n" +
-          "      </strong>",
+      designTheme: THEME_OPENREQ,
     };
   },
   mounted() {
+    setTheme(this.topBarTitle, this.designTheme, this.$store);
     this.topics = this.$store.state.accessKeyConfiguration.topics;
     this.$store.watch(
       (state, getters) => getters.selectedTopics,
@@ -74,11 +70,6 @@ export default {
         this.selectedTopics = [...newValue];
       }
     );
-    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, this.topBarTitle);
-    this.$store.dispatch(ACTION_SET_PROJECT_TITLE, this.projectTitle);
-    this.$store.dispatch(ACTION_SET_TOP_BAR_LOGO, this.topBarLogo);
-    this.$store.dispatch(ACTION_SET_TOP_BAR_ALT_TEXT, this.topBarAltText);
-    this.$store.dispatch(ACTION_SET_FOOTER_TEXT, this.footer);
   }
 };
 </script>

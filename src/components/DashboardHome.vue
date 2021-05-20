@@ -58,6 +58,7 @@ import {
   ACTION_SET_TOP_BAR_ALT_TEXT,
   ACTION_SET_TOP_BAR_LOGO
 } from "@/store/types";
+import {THEME_OPENREQ, setTheme} from "@/theme";
 
 export default {
   name: "DashboardHome",
@@ -74,14 +75,7 @@ export default {
       import("./widget/bar/ClassFrequencyDistribution")
   },
   mounted() {
-    this.$store.dispatch("setToolbarHeader", "Dashboard");
-    this.$store.dispatch(ACTION_SET_PROJECT_TITLE, 'Requirements Intelligence');
-    this.$store.dispatch(ACTION_SET_TOP_BAR_LOGO, require('@/assets/openreq_logo.png'));
-    this.$store.dispatch(ACTION_SET_TOP_BAR_ALT_TEXT, 'openreq');
-    this.$store.dispatch(ACTION_SET_FOOTER_TEXT, "— Christoph Stanik\n" +
-        "      <strong>\n" +
-        "        <a href=\"https://openreq.eu/\">@OpenReq</a>\n" +
-        "      </strong>");
+    setTheme("Dashboard", THEME_OPENREQ, this.$store);
   }
 };
 </script>
