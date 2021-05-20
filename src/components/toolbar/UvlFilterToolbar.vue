@@ -29,7 +29,9 @@
 <script>
 import { BLUE_FILL } from "../../colors.js";
 import {
-  ROUTE_DOCUMENTS
+  ROUTE_DOCUMENTS,
+  ROUTE_CONCEPTS,
+  ROUTE_RESULTS
 } from "../../routes.js";
 
 export default {
@@ -47,12 +49,16 @@ export default {
   methods: {
     showMethodFilter() {
       return (
-          this.path === ROUTE_DOCUMENTS
+          this.path === ROUTE_DOCUMENTS ||
+          this.path === ROUTE_CONCEPTS ||
+          this.path === ROUTE_RESULTS
       );
     },
     showResultsFilter() {
       return (
-          this.path === ROUTE_DOCUMENTS
+          this.path === ROUTE_DOCUMENTS ||
+          this.path === ROUTE_CONCEPTS ||
+          this.path === ROUTE_RESULTS
       );
     },
     filterResultsByMethod() {

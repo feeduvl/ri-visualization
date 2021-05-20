@@ -78,7 +78,7 @@ export default {
         {
           title: "Concept View",
           icon: "workspaces",
-          path: "/conceptView"
+          path: "/concepts"
         },
         {
           title: "Document View",
