@@ -35,6 +35,7 @@ import {
   BLUE_BORDER
 } from "@/colors";
 import {THEME_UVL, setTheme} from "@/theme";
+import {POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
 
 export default {  // TODO add attribute 'multiple' on file input to allow selection of multiple files
   name: "UploadHome",
@@ -74,17 +75,21 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
     async persistFile(data) {
       let formData = new FormData();
       formData.append('file', this.uploadedFile);
-      axios.post( '/hitec/orchestration/concepts/store/dataset/',
+      let res = axios.post(POST_UPLOAD_DATASET_ENDPOINT,
           formData,
           {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
           }
-      ).then(function(){
-        window.alert("File has been persisted: " + data);
+      ).then(function () {
+        if (res.status > 200 || res.status < 300) {
+          window.alert("File has been uploaded: " + data);
+        } else {
+          window.alert("Error with upload: " + res.status+ " " + res);
+        }
       })
-          .catch(function(){
+          .catch(function () {
             window.alert("Error with file upload!");
           });
     },
