@@ -75,18 +75,18 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
     async persistFile(data) {
       let formData = new FormData();
       formData.append('file', this.uploadedFile);
-      let res = axios.post(`/hitec/orchestration/concepts/store/dataset/`,
+      axios.post(`/hitec/orchestration/concepts/store/dataset/`,
           formData,
           {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
           }
-      ).then(function () {
-        if (res.status > 200 || res.status < 300) {
+      ).then(function (response) {
+        if (response.status > 200 || response.status < 300) {
           window.alert("File has been uploaded: " + data);
         } else {
-          window.alert("Error with upload: " + res.status+ " " + res);
+          window.alert("Error with upload: " + response.status+ " " + response);
         }
       })
           .catch(function () {
