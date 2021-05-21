@@ -84,7 +84,12 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
           }
       ).then(function (response) {
         if (response.status > 200 || response.status < 300) {
-          window.alert("File has been uploaded: " + data);
+          window.alert("File has been uploaded: " + response.status + " " + response.data);
+          console.log(response.data);
+          console.log(response.status);
+          console.log(response.statusText);
+          console.log(response.headers);
+          console.log(response.config);
         } else {
           window.alert("Error with upload: " + response.status+ " " + response);
         }
