@@ -75,7 +75,7 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
     async persistFile(data) {
       let formData = new FormData();
       formData.append('file', this.uploadedFile);
-      let res = axios.post(POST_UPLOAD_DATASET_ENDPOINT,
+      let res = axios.post(`/hitec/orchestration/concepts/store/dataset/`,
           formData,
           {
             headers: {
