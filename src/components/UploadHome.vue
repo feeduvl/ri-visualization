@@ -7,8 +7,7 @@
         </v-card-title>
       </v-card>
       <v-container>
-      <v-layout row wrap>
-
+        <v-layout row wrap>
           <v-flex xs4>
             <div>
               <input id="file-input-field" type='file' hidden @change="getFileName"/>
@@ -24,23 +23,17 @@
                 </span>
             </div>
           </v-flex>
-      </v-layout>
+        </v-layout>
       </v-container>
     </v-card>
   </v-container>
 </template>
 
 <script>
+import axios from "axios";
 import {
   BLUE_BORDER
-} from "../colors";
-import {
-  ACTION_SET_FOOTER_TEXT,
-  ACTION_SET_PROJECT_TITLE,
-  ACTION_SET_TOOLBAR_HEADER,
-  ACTION_SET_TOP_BAR_ALT_TEXT,
-  ACTION_SET_TOP_BAR_LOGO
-} from "@/store/types";
+} from "@/colors";
 import {THEME_UVL, setTheme} from "@/theme";
 
 export default {  // TODO add attribute 'multiple' on file input to allow selection of multiple files
@@ -51,7 +44,6 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
       uploadedFile: undefined,
       uploadButtonStyle: {
         "background-color": BLUE_BORDER
-
       },
       topBarTitle: "Data Upload",
       designTheme: THEME_UVL,
@@ -59,15 +51,13 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
   },
   mounted() {
     this.isMounted = true;
-
     setTheme(this.topBarTitle, this.designTheme, this.$store);
 
     //  add some computed CSS stuff
-    let halfwidth;
-    let parentwidth = document.getElementById("file-upload-panel").getBoundingClientRect().width;
-    halfwidth = Math.floor(-1 * parentwidth / 2);
-    document.getElementById("file-upload-panel-inner").style["margin"] = "0 0 0 " + halfwidth + "px";
-
+    //let halfwidth;
+    //let parentwidth = document.getElementById("file-upload-panel").getBoundingClientRect().width;
+    //halfwidth = Math.floor(-1 * parentwidth / 2);
+    //document.getElementById("file-upload-panel-inner").style["margin"] = "0 0 0 " + halfwidth + "px";
   },
   computed: {
     fileInputField() {
@@ -81,13 +71,26 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
     }
   },
   methods: {
-    persistFile(data) {
-      window.alert("File has been persisted: " + data);
+    async persistFile(data) {
+      let formData = new FormData();
+      formData.append('file', this.uploadedFile);
+      axios.post( '/hitec/orchestration/concepts/store/dataset/',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+      ).then(function(){
+        window.alert("File has been persisted: " + data);
+      })
+          .catch(function(){
+            window.alert("Error with file upload!");
+          });
     },
     getFileName() {
       this.uploadedFile = this.fileInputField.files[0];
     }
-
   }
 }
 </script>
