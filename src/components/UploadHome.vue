@@ -26,6 +26,21 @@
         </v-layout>
       </v-container>
     </v-card>
+    <v-snackbar
+        v-model="snackbarVisible"
+        :timeout="snackbarTimeout"
+        :top=true
+    >
+      {{ snackbarText }}
+
+      <v-btn
+          color="blue"
+          text
+          @click="closeSnackbar"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -46,6 +61,9 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
       uploadButtonStyle: {
         "background-color": BLUE_BORDER
       },
+      snackbarVisible: false,
+      snackbarTimeout: 0,
+      snackbarText: "",
       topBarTitle: "Data Upload",
       designTheme: THEME_UVL,
     }
@@ -75,7 +93,7 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
     async persistFile(data) {
       let formData = new FormData();
       formData.append('file', this.uploadedFile);
-      axios.post(`/hitec/orchestration/concepts/store/dataset/`,
+      axios.post(POST_UPLOAD_DATASET_ENDPOINT,
           formData,
           {
             headers: {
@@ -84,14 +102,9 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
           }
       ).then(function (response) {
         if (response.status > 200 || response.status < 300) {
-          window.alert("File has been uploaded: " + response.status + " " + response.data);
-          console.log(response.data);
-          console.log(response.status);
-          console.log(response.statusText);
-          console.log(response.headers);
-          console.log(response.config);
+          this.displaySnackbar(response.data.message);
         } else {
-          window.alert("Error with upload: " + response.status+ " " + response);
+          window.alert("Error with file upload!");
         }
       })
           .catch(function () {
@@ -100,7 +113,15 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
     },
     getFileName() {
       this.uploadedFile = this.fileInputField.files[0];
-    }
+    },
+    displaySnackbar(message) {
+      this.snackbarText = message;
+      this.snackbarVisible = true;
+    },
+    closeSnackbar() {
+      this.snackbarVisible = false;
+      this.snackbarText = "";
+    },
   }
 }
 </script>
