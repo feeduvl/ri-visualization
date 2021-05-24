@@ -102,6 +102,8 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
           }
       ).then(function (response) {
         if (response.status > 200 || response.status < 300) {
+          console.log(response.data)
+          console.log(response.data.message)
           this.displaySnackbar(response.data.message);
         } else {
           window.alert("Error with file upload!");
