@@ -48,17 +48,12 @@
 
 <script>
 import axios from "axios";
-import moment from "moment";
 import "moment/locale/de";
 import {
   GET_DATASET_ENDPOINT,
+  GET_ALL_DATASETS_ENDPOINT,
   DELETE_DATASET_ENDPOINT
-} from "./../RESTconf.js";
-import {
-  ACTION_SET_FOOTER_TEXT,
-  ACTION_SET_PROJECT_TITLE,
-  ACTION_SET_TOOLBAR_HEADER, ACTION_SET_TOP_BAR_ALT_TEXT, ACTION_SET_TOP_BAR_LOGO,
-} from "./../store/types.js";
+} from "@/RESTconf";
 import {THEME_UVL, setTheme} from "@/theme";
 
 export default {
@@ -106,7 +101,7 @@ export default {
     };
   },
   methods: {
-    async loadData() {
+    async loadDataset() {
       axios
           .get(GET_DATASET_ENDPOINT(this.selectedDataset))
           .then(response => {
@@ -114,6 +109,17 @@ export default {
           })
           .catch(e => {
             this.errors.push(e);
+          });
+    },
+    async loadData() {
+      axios
+          .get(GET_ALL_DATASETS_ENDPOINT)
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log(this.errors)
           });
     },
     updateTable(responseData) {
@@ -152,10 +158,11 @@ export default {
     this.$store.watch(
         (state, getters) => getters.runs,
         (newValue, oldValue) => {
-          this.loadData([...newValue]);
+          this.loadDataset([...newValue]);
         }
     );
     setTheme(this.topBarTitle, this.designTheme, this.$store);
+    this.loadData();
   }
 };
 </script>

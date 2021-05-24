@@ -12,9 +12,7 @@ export const GET_DATASET_ENDPOINT = function (dataset) {
   return `${BASE_URL}/hitec/repository/concepts/dataset/${dataset}`;
 };
 
-export const GET_ALL_DATASETS_ENDPOINT = function () {
-  return `${BASE_URL}/hitec/repository/concepts/dataset/all`;
-};
+export const GET_ALL_DATASETS_ENDPOINT = `/hitec/repository/concepts/dataset/all`;
 
 export const GET_RESULT_ENDPOINT = function (result) {
   return `${BASE_URL}/hitec/repository/concepts/detection/result/${result}`;
