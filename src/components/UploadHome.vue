@@ -100,18 +100,15 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
               'Content-Type': 'multipart/form-data'
             }
           }
-      ).then(function (response) {
+      ).then(response => {
         if (response.status > 200 || response.status < 300) {
-          console.log(response.data)
-          console.log(response.data.message)
           this.displaySnackbar(response.data.message);
         } else {
           window.alert("Error with file upload!");
         }
       })
-          .catch(function () {
-            console.log(POST_UPLOAD_DATASET_ENDPOINT);
-            window.alert("Could not contact backend!");
+          .catch( () => {
+            this.displaySnackbar("Could not contact backend!");
           });
     },
     getFileName() {
