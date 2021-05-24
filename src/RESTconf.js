@@ -28,9 +28,7 @@ export const DELETE_DATASET_ENDPOINT = function (dataset) {
   return `${BASE_URL}/hitec/repository/concepts/dataset/${dataset}`;
 };
 
-export const POST_UPLOAD_DATASET_ENDPOINT = function () {
-  return `/hitec/orchestration/concepts/store/dataset/`;
-};
+export const POST_UPLOAD_DATASET_ENDPOINT =  `/hitec/orchestration/concepts/store/dataset/`;
 
 // feedai
 export const GET_ALL_TWEETS_ENDPOINT = function (twitterAccount) {

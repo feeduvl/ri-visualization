@@ -90,7 +90,7 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
     }
   },
   methods: {
-    async persistFile(data) {
+    async persistFile() {
       let formData = new FormData();
       formData.append('file', this.uploadedFile);
       axios.post(POST_UPLOAD_DATASET_ENDPOINT,
@@ -108,7 +108,7 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
         }
       })
           .catch(function () {
-            window.alert("Error with file upload!");
+            window.alert("Could not contact backend!");
           });
     },
     getFileName() {
