@@ -108,6 +108,7 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
         }
       })
           .catch(function () {
+            console.log(POST_UPLOAD_DATASET_ENDPOINT);
             window.alert("Could not contact backend!");
           });
     },
