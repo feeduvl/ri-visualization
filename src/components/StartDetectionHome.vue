@@ -173,28 +173,24 @@ export default {
     },
     async checkServiceStatus(service) {
 
-      console.log(GET_SERVICE_STATUS_ENDPOINT(service));
-      
       axios
           .get(GET_SERVICE_STATUS_ENDPOINT(service))
           .then(response => {
-            console.log("Before response");
             if (response.data !== null) {
               status = response.data.status;
-              console.log(response.data);
+              this.updateStatus(status);
             } else {
-              console.log("No response data");
               status = "offline";
+              this.updateStatus(status);
             }
           })
           .catch(e => {
-            console.log("Error caught");
             status = "offline"
+            this.updateStatus(status);
             this.errors.push(e);
           });
-
-      console.log(status);
-
+    },
+    updateStatus(status) {
       if (status === "operational") {
         this.serviceStatus = "Running";
         this.serviceColor = GREEN_FILL;
