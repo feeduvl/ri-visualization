@@ -11,7 +11,8 @@ import {
   MUTATE_PROJECT_TITLE,
   MUTATE_TOP_BAR_LOGO,
   MUTATE_TOP_BAR_ALT_TEXT,
-  MUTATE_FOOTER_TEXT
+  MUTATE_FOOTER_TEXT,
+  MUTATE_TOP_BAR_LINK
 } from './../store/types';
 
 export const actionFetchInitialData = ({
@@ -139,6 +140,11 @@ export const setTopBarAltText = ({
   commit
 }, text) => {
   commit(MUTATE_TOP_BAR_ALT_TEXT, text);
+};
+export const setTopBarLink = ({
+  commit
+}, text) => {
+  commit(MUTATE_TOP_BAR_LINK, text);
 };
 export const setFooterText = ({
   commit

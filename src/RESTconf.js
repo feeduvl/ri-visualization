@@ -9,7 +9,7 @@ export default axios;
 
 // feeduvl
 export const GET_DATASET_ENDPOINT = function (dataset) {
-  return `${BASE_URL}/hitec/repository/concepts/dataset/${dataset}`;
+  return `${BASE_URL}/hitec/repository/concepts/dataset/name/${dataset}`;
 };
 
 export const GET_ALL_DATASETS_ENDPOINT = `/hitec/repository/concepts/dataset/all`;

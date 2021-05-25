@@ -54,7 +54,6 @@ import {
   GET_ALL_DATASETS_ENDPOINT,
   DELETE_DATASET_ENDPOINT
 } from "@/RESTconf";
-import {THEME_UVL, setTheme} from "@/theme";
 
 export default {
   name: "DatasetHome",
@@ -95,8 +94,6 @@ export default {
 
       ],
       errors: [],
-      topBarTitle: "Dataset View",
-      designTheme: THEME_UVL,
       rawData: [],
     };
   },
@@ -161,7 +158,6 @@ export default {
           this.loadDataset([...newValue]);
         }
     );
-    setTheme(this.topBarTitle, this.designTheme, this.$store);
     this.loadData();
   }
 };

@@ -29,7 +29,6 @@ import {
   ACTION_SET_TOP_BAR_ALT_TEXT,
   ACTION_SET_TOP_BAR_LOGO
 } from "./../store/types.js";
-import {THEME_OPENREQ, setTheme} from "@/theme";
 
 const PROBLEM_REPORTS = "problem_reports";
 const INQUIRIES = "inquiries";
@@ -57,12 +56,9 @@ export default {
     return {
       selectedTopics: [],
       errors: [],
-      topBarTitle: "Competitor Comparison",
-      designTheme: THEME_OPENREQ,
     };
   },
   mounted() {
-    setTheme(this.topBarTitle, this.designTheme, this.$store);
     this.topics = this.$store.state.accessKeyConfiguration.topics;
     this.$store.watch(
       (state, getters) => getters.selectedTopics,

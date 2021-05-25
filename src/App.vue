@@ -8,7 +8,7 @@
       </keep-alive>
     </v-content>
     <v-footer class="footer">
-      &copy;{{new Date().getFullYear()}} <span v-html="footer"></span></p>
+      &copy;{{new Date().getFullYear()}} <span v-html="footer"></span>
     </v-footer>
   </v-app>
 </template>

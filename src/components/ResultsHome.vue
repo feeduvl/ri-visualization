@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import {THEME_UVL, setTheme} from "@/theme";
 
 export default {
   name: "ConceptHome",
@@ -45,14 +44,11 @@ export default {
   },
   data() {
     return {
-      designTheme: THEME_UVL,
-      topBarTitle: "Detection Results",
       component: "uvl-filter-toolbar",
     }
   },
   methods: {},
   mounted() {
-    setTheme(this.topBarTitle, this.designTheme, this.$store);
   }
 }
 </script>

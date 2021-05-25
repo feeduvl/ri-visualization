@@ -46,6 +46,9 @@ export const getTopBarLogo = state => {
 export const getTopBarAltText = state => {
   return state.topBarAltText;
 };
+export const getTopBarLink = state => {
+  return state.topBarLink;
+};
 export const getFooterText = state => {
   return state.footer;
 };

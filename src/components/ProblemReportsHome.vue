@@ -161,7 +161,6 @@ import {
   ACTION_UPDATE_TWEET
 } from "./../store/types.js";
 import { FILTER_FOR_TOPIC, FILTER_FOR_CATEGORY } from "./../dataFilter.js";
-import {THEME_OPENREQ, setTheme} from "@/theme";
 export default {
   name: "ProblemReportsHome",
   components: {
@@ -206,9 +205,7 @@ export default {
         }
       ],
       errors: [],
-      topBarTitle: "Problem Reports",
       cardTableTitle: "Problem Reports",
-      designTheme: THEME_OPENREQ,
       rawData: [],
       data: [],
       searchQuery: "",
@@ -366,7 +363,6 @@ export default {
     }
   },
   mounted() {
-    setTheme(this.topBarTitle, this.designTheme, this.$store);
     this.setupTopics();
     this.$store.watch(
       (state, getters) => getters.filteredTweets,

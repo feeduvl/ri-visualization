@@ -12,6 +12,7 @@ export const store = new Vuex.Store({
     projectTitle: 'Requirements Intelligence',
     topBarLogo: require('@/assets/openreq_logo.png'),
     topBarAltText: 'openreq',
+    topBarLink: 'https://openreq.eu/',
     footer: "— Christoph Stanik\n" +
         "      <strong>\n" +
         "        <a href=\"https://openreq.eu/\">@OpenReq</a>\n" +

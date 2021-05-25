@@ -6,11 +6,11 @@
       <span class="font-weight-light"> - {{ title }}</span>
     </v-toolbar-title>
     <v-spacer/>
-    <a href=""><img :src=logo style="height:50px;" :alt=altText></a>
+    <a :href=link><img :src=logo style="height:50px;" :alt=altText></a>
   </v-toolbar>
 </template>
 <script>
-import { WHITE } from "../../colors.js";
+import { WHITE } from "@/colors";
 export default {
   data() {
     return {
@@ -29,6 +29,9 @@ export default {
     },
     altText() {
       return this.$store.getters.getTopBarAltText;
+    },
+    link() {
+      return this.$store.getters.getTopBarLink;
     }
   }
 };

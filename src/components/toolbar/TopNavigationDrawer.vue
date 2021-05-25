@@ -8,6 +8,7 @@
           :key="item.title"
           :to="item.path"
           active-class="active"
+          @click="updateTheme(item.title,item.theme)"
           :class="item.path === $route.path ? 'active' : ''"
         >
           <v-list-tile-action>
@@ -23,7 +24,8 @@
 </template>
 
 <script>
-import { WHITE } from "../../colors.js";
+import { WHITE } from "@/colors";
+import {THEME_UVL, THEME_OPENREQ, setTheme} from "@/theme";
 export default {
   data() {
     return {
@@ -32,27 +34,32 @@ export default {
         {
           title: "Dashboard",
           icon: "dashboard",
-          path: "/dashboard"
+          path: "/dashboard",
+          theme: THEME_OPENREQ
         },
         {
           title: "Problem Reports",
           icon: "error_outline",
-          path: "/problemReports"
+          path: "/problemReports",
+          theme: THEME_OPENREQ
         },
         {
           title: "Inquiries",
           icon: "help_outline",
-          path: "/inquiries"
+          path: "/inquiries",
+          theme: THEME_OPENREQ
         },
         {
           title: "Competitor Comparison",
           icon: "compare_arrows",
-          path: "/comparison"
+          path: "/comparison",
+          theme: THEME_OPENREQ
         },
         {
           title: "Settings",
           icon: "settings",
-          path: "/settings"
+          path: "/settings",
+          theme: THEME_OPENREQ
         },
         { divider: true, inset: false },
         {
@@ -63,32 +70,38 @@ export default {
         {
           title: "Upload Data",
           icon: "upload",
-          path: "/upload"
+          path: "/upload",
+          theme: THEME_UVL
         },
         {
           title: "Start Concept Detection",
           icon: "play_arrow",
-          path: "/detection"
+          path: "/detection",
+          theme: THEME_UVL
         },
         {
           title: "Detection Results",
           icon: "assessment",
-          path: "/results"
+          path: "/results",
+          theme: THEME_UVL
         },
         {
           title: "Concept View",
           icon: "workspaces",
-          path: "/concepts"
+          path: "/concepts",
+          theme: THEME_UVL
         },
         {
           title: "Document View",
           icon: "description",
-          path: "/documents"
+          path: "/documents",
+          theme: THEME_UVL
         },
         {
           title: "Dataset View",
           icon: "storage",
-          path: "/dataset"
+          path: "/dataset",
+          theme: THEME_UVL
         }
       ],
       style: {
@@ -98,6 +111,11 @@ export default {
         left: 0
       }
     };
+  },
+  methods: {
+    updateTheme (title, theme) {
+      setTheme(title, theme, this.$store);
+    }
   }
 };
 </script>

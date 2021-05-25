@@ -8,10 +8,10 @@
         <v-layout row wrap>
           <v-flex xs3>
             <v-select
-                v-model="selectedTopic"
-                :items="resultTopics"
-                label="Select Topic"
-                @change="updateTopic"
+                v-model="selectedConcept"
+                :items="resultConcepts"
+                label="Select Concept"
+                @change="updateConcept"
                 max-width="200px"
             >
             </v-select>
@@ -22,27 +22,27 @@
       <v-container>
         <v-layout row wrap>
           <v-flex xs7>
-            <h3>Topic Words:</h3>
+            <h3>Concept Words:</h3>
           </v-flex>
           <v-flex xs1/>
           <v-flex xs4>
-            <h3>Topic Name:</h3>
+            <h3>Concept Name:</h3>
           </v-flex>
         </v-layout>
         <v-layout row wrap>
           <v-flex xs7>
-            <span v-for="word in topic.words" :key="word">{{ word }}, </span>
+            <span v-for="word in concept.words" :key="word">{{ word }}, </span>
           </v-flex>
           <v-flex xs1/>
           <v-flex xs2>
             <v-text-field
-                v-model="topic_name"
-                labe="Topic Name"
+                v-model="concept_name"
+                label="Concept Name"
                 clearable>
             </v-text-field>
           </v-flex>
           <v-flex xs1>
-            <v-btn small color="primary" @click="updateTopic">Update</v-btn>
+            <v-btn small color="primary" @click="updateConcept">Update</v-btn>
           </v-flex>
         </v-layout>
         <v-layout row wrap>
@@ -73,8 +73,6 @@
 </template>
 
 <script>
-import {THEME_UVL, setTheme} from "@/theme";
-
 export default {
   name: "ConceptHome",
   components: {
@@ -82,12 +80,10 @@ export default {
   },
   data() {
     return {
-      designTheme: THEME_UVL,
-      topBarTitle: "Concept View",
       component: "uvl-filter-toolbar",
-      selectedTopic: [],
-      resultTopics: [],
-      topic: {
+      selectedConcept: [],
+      resultConcepts: [],
+      concept: {
         words: ["Test", "Test2"],
       },
       documents: [
@@ -111,7 +107,6 @@ export default {
   },
   methods: {},
   mounted() {
-    setTheme(this.topBarTitle, this.designTheme, this.$store);
   }
 }
 </script>

@@ -62,19 +62,7 @@
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/de";
-import {
-  POST_TWEET_LABEL_ENDPOINT,
-  POST_TWEET_LABEL_PAYLOAD,
-  POST_TWEET_LABEL_BACKUP_ENDPOINT,
-  POST_TWEET_LABEL_BACKUP_PAYLOAD
-} from "./../RESTconf.js";
-import {
-  ACTION_SET_FOOTER_TEXT,
-  ACTION_SET_PROJECT_TITLE,
-  ACTION_SET_TOOLBAR_HEADER, ACTION_SET_TOP_BAR_ALT_TEXT, ACTION_SET_TOP_BAR_LOGO,
-} from "./../store/types.js";
 import {FILTER_FOR_METHOD, FILTER_FOR_DATASET} from "./../dataFilter.js";
-import {THEME_UVL, setTheme} from "@/theme";
 
 export default {
   name: "StartDetectionHome",
@@ -133,8 +121,6 @@ export default {
         },
       ],
       errors: [],
-      topBarTitle: "Start new detection",
-      designTheme: THEME_UVL,
       cardTableTitle: "Last Runs",
       rawData: [],
       data: []
@@ -184,7 +170,6 @@ export default {
           this.loadData([...newValue]);
         }
     );
-    setTheme(this.topBarTitle, this.designTheme, this.$store);
   }
 };
 </script>

@@ -130,7 +130,6 @@ import {
   ACTION_SET_TOP_BAR_ALT_TEXT,
   ACTION_SET_FOOTER_TEXT
 } from "../store/types.js";
-import {THEME_OPENREQ, setTheme} from "@/theme";
 export default {
   name: "SettingsHome",
   data() {
@@ -172,8 +171,6 @@ export default {
           width: "5%"
         }
       ],
-      topBarTitle: "Settings",
-      designTheme: THEME_OPENREQ,
       twitterAccounts: [],
       searchQuery: "",
       /*
@@ -337,7 +334,6 @@ export default {
     }
   },
   mounted() {
-    setTheme(this.topBarTitle, this.designTheme, this.$store);
     this.getTwitterObservables();
   }
 };

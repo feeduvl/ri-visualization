@@ -49,7 +49,6 @@ import axios from "axios";
 import {
   BLUE_BORDER
 } from "@/colors";
-import {THEME_UVL, setTheme} from "@/theme";
 import {POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
 
 export default {  // TODO add attribute 'multiple' on file input to allow selection of multiple files
@@ -64,13 +63,10 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
       snackbarVisible: false,
       snackbarTimeout: 0,
       snackbarText: "",
-      topBarTitle: "Data Upload",
-      designTheme: THEME_UVL,
     }
   },
   mounted() {
     this.isMounted = true;
-    setTheme(this.topBarTitle, this.designTheme, this.$store);
 
     //  add some computed CSS stuff
     //let halfwidth;

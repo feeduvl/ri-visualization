@@ -27,12 +27,12 @@
 </template>
 
 <script>
-import { BLUE_FILL } from "../../colors.js";
+import { BLUE_FILL } from "@/colors";
 import {
   ROUTE_DOCUMENTS,
   ROUTE_CONCEPTS,
   ROUTE_RESULTS
-} from "../../routes.js";
+} from "@/routes";
 
 export default {
   name: "UvlFilterToolbar",

@@ -52,6 +52,9 @@ export const mutateTopBarLogo = (state, title) => {
 export const mutateTopBarAltText = (state, title) => {
   state.topBarAltText = title;
 };
+export const mutateTopBarLink = (state, link) => {
+  state.topBarLink = link;
+};
 export const mutateFooterText = (state, title) => {
   state.footer = title;
 };

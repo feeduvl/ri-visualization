@@ -12,6 +12,7 @@ export const ACTION_SET_TOOLBAR_HEADER = 'setToolbarHeader';
 export const ACTION_SET_PROJECT_TITLE = 'setProjectTitle';
 export const ACTION_SET_TOP_BAR_LOGO = 'setTopBarLogo';
 export const ACTION_SET_TOP_BAR_ALT_TEXT = 'setTopBarAltText';
+export const ACTION_SET_TOP_BAR_LINK = 'setTopBarLink';
 export const ACTION_SET_FOOTER_TEXT = 'setFooterText';
 
 /*
@@ -34,6 +35,7 @@ export const MUTATE_TOOLBAR_HEADER = 'mutateToolbarHeader';
 export const MUTATE_PROJECT_TITLE = 'mutateProjectTitle';
 export const MUTATE_TOP_BAR_LOGO = 'mutateTopBarLogo';
 export const MUTATE_TOP_BAR_ALT_TEXT = 'mutateTopBarAltText';
+export const MUTATE_TOP_BAR_LINK = 'mutateTopBarLink';
 export const MUTATE_FOOTER_TEXT = 'mutateFooterText';
 
 /*
