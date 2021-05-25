@@ -17,8 +17,11 @@
             >
             </v-select>
           </v-flex>
-          <v-flex xs1>
+          <v-flex xs1/>
+          <v-flex xs3 id="service-status">
+            <b>Status: <span :style="{'color': serviceColor}" >{{ serviceStatus }}</span></b>
           </v-flex>
+          <v-flex xs1/>
           <v-flex xs3>
             <v-select
                 v-model="selectedDataset"
@@ -62,7 +65,9 @@
 import axios from "axios";
 import moment from "moment";
 import "moment/locale/de";
-import {FILTER_FOR_METHOD, FILTER_FOR_DATASET} from "./../dataFilter.js";
+import {FILTER_FOR_METHOD, FILTER_FOR_DATASET} from "@/dataFilter";
+import {GREEN_FILL, RED_FILL, GRAY} from "@/colors";
+import {GET_SERVICE_STATUS_ENDPOINT} from "@/RESTconf";
 
 export default {
   name: "StartDetectionHome",
@@ -76,6 +81,8 @@ export default {
       key: this.$route.path,
       selectedMethod: "",
       selectedDataset: "",
+      serviceStatus: "NA",
+      serviceColor: GRAY,
       runMethods: ["LDA", "SeaNMF"],
       datasets: ["Interviews-30", "Forum-Posts-Eclipse"],
       component: "empty-parameter",
@@ -156,12 +163,37 @@ export default {
     updateForm() {
       if (this.selectedMethod === "LDA") {
         this.component = "lda-parameter";
+        this.checkServiceStatus("lda");
       } else if (this.selectedMethod === "SeaNMF") {
         this.component = "seanmf-parameter";
+        this.checkServiceStatus("seanmf");
       } else {
         this.component = "empty-parameter";
       }
-    }
+    },
+    async checkServiceStatus(service) {
+      axios
+          .get(GET_SERVICE_STATUS_ENDPOINT(service))
+          .then(response => {
+            if (response.data !== null) {
+              status = response.data.status;
+            } else {
+              status = "offline";
+            }
+          })
+          .catch(e => {
+            status = "offline"
+            this.errors.push(e);
+          });
+
+      if (status === "operational") {
+        this.serviceStatus = "Running";
+        this.serviceColor = GREEN_FILL;
+      } else {
+        this.serviceStatus = "Offline";
+        this.serviceColor = RED_FILL;
+      }
+    },
   },
   mounted() {
     this.$store.watch(
@@ -245,5 +277,10 @@ h1 {
 
 .anti-margin {
   margin-bottom: 0px !important;
+}
+
+#service-status {
+  padding-left: 0px;
+  padding-top: 25px;
 }
 </style>

@@ -22,6 +22,10 @@ export const GET_ALL_RESULTS_ENDPOINT = function () {
   return `${BASE_URL}/hitec/repository/concepts/detection/result/all`;
 };
 
+export const GET_SERVICE_STATUS_ENDPOINT = function (service) {
+  return `${BASE_URL}/hitec/classify/concepts/${service}/status`;
+};
+
 export const DELETE_DATASET_ENDPOINT = function (dataset) {
   return `${BASE_URL}/hitec/repository/concepts/dataset/${dataset}`;
 };
