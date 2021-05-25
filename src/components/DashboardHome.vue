@@ -53,10 +53,7 @@
 </template>
 <script>
 import {
-  ACTION_SET_FOOTER_TEXT,
-  ACTION_SET_PROJECT_TITLE,
-  ACTION_SET_TOP_BAR_ALT_TEXT,
-  ACTION_SET_TOP_BAR_LOGO
+  ACTION_SET_TOOLBAR_HEADER
 } from "@/store/types";
 
 export default {
@@ -74,6 +71,7 @@ export default {
       import("./widget/bar/ClassFrequencyDistribution")
   },
   mounted() {
+    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, "Dashboard");
   }
 };
 </script>

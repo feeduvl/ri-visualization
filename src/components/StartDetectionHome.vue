@@ -172,19 +172,28 @@ export default {
       }
     },
     async checkServiceStatus(service) {
+
+      console.log(GET_SERVICE_STATUS_ENDPOINT(service));
+      
       axios
           .get(GET_SERVICE_STATUS_ENDPOINT(service))
           .then(response => {
+            console.log("Before response");
             if (response.data !== null) {
               status = response.data.status;
+              console.log(response.data);
             } else {
+              console.log("No response data");
               status = "offline";
             }
           })
           .catch(e => {
+            console.log("Error caught");
             status = "offline"
             this.errors.push(e);
           });
+
+      console.log(status);
 
       if (status === "operational") {
         this.serviceStatus = "Running";
