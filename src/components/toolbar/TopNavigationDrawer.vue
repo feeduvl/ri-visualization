@@ -65,7 +65,8 @@ export default {
         {
           title: "UVL - User View Language",
           icon: "",
-          path: ""
+          path: "",
+          theme: ""
         },
         {
           title: "Upload Data",
@@ -114,7 +115,9 @@ export default {
   },
   methods: {
     updateTheme (title, theme) {
-      setTheme(title, theme, this.$store);
+      if (theme !== "") {
+        setTheme(title, theme, this.$store);
+      }
     }
   }
 };
