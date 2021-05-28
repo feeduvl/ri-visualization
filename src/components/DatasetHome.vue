@@ -13,7 +13,7 @@
               v-model="selectedDataset"
               :items="datasets"
               label="Dataset"
-              @change="loadData"
+              @change="loadDataset"
           >
           </v-select>
         </v-flex>
@@ -43,6 +43,21 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-snackbar
+        v-model="snackbarVisible"
+        :timeout="snackbarTimeout"
+        :top=true
+    >
+      {{ snackbarText }}
+
+      <v-btn
+          color="blue"
+          text
+          @click="closeSnackbar"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -61,7 +76,11 @@ export default {
     return {
       key: this.$route.path,
       selectedDataset: "",
-      datasets: ["Interviews-30", "Forum-Posts-Eclipse"],
+      //datasets: ["Interviews-30", "Forum-Posts-Eclipse"],
+      datasets: [],
+      snackbarVisible: false,
+      snackbarTimeout: 0,
+      snackbarText: "",
       data: [{
         number: 1,
         text: "Test"
@@ -112,42 +131,47 @@ export default {
       axios
           .get(GET_ALL_DATASETS_ENDPOINT)
           .then(response => {
+            // DEBUG
             console.log(response.data);
+            this.datasets = response.data;
           })
           .catch(e => {
             this.errors.push(e);
+            // DEBUG
             console.log(this.errors)
           });
     },
     updateTable(responseData) {
-      this.data = [{
-        number: 1,
-        text: "Function Testing"
-      },
-        {
-          number: 2,
-          text: "Different Content"
-        },
-        {
-          number: 3,
-          text: "Another text"
-        }];
-      //this.data = responseData;
+      this.data = responseData;
     },
-    showMessage(message) {
-      // show a message snackbar
+    displaySnackbar(message, timeout=0) {
+      this.snackbarText = message;
+      this.snackbarVisible = true;
+      this.snackbarTimeout = timeout;
+    },
+    closeSnackbar() {
+      this.snackbarVisible = false;
+      this.snackbarText = "";
+      this.snackbarTimeout = 0;
     },
     async deleteDataset() {
       if (this.confirm_delete) {
         axios
-            .get(DELETE_DATASET_ENDPOINT(this.selectedDataset))
+            .delete(DELETE_DATASET_ENDPOINT(this.selectedDataset))
             .then(response => {
-              this.updateTable([]);
-              this.showMessage();
+              if (response.status > 200 || response.status < 300) {
+                this.updateTable([]);
+                this.displaySnackbar(response.data.message);
+              } else {
+                this.displaySnackbar("Error with file upload!!");
+              }
             })
             .catch(e => {
               this.errors.push(e);
+              this.displaySnackbar("Could not contact backend!");
             });
+      } else {
+        this.displaySnackbar("Please confirm deletion.", 2);
       }
     },
   },

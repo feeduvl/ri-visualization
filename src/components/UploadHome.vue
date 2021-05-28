@@ -100,7 +100,7 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
         if (response.status > 200 || response.status < 300) {
           this.displaySnackbar(response.data.message);
         } else {
-          window.alert("Error with file upload!");
+          this.displaySnackbar("Error with file upload!!");
         }
       })
           .catch( () => {
