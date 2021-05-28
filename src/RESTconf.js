@@ -27,7 +27,7 @@ export const GET_SERVICE_STATUS_ENDPOINT = function (service) {
 };
 
 export const DELETE_DATASET_ENDPOINT = function (dataset) {
-  return `${BASE_URL}/hitec/repository/concepts/dataset/${dataset}`;
+  return `${BASE_URL}/hitec/repository/concepts/dataset/name/${dataset}`;
 };
 
 export const POST_UPLOAD_DATASET_ENDPOINT =  `/hitec/orchestration/concepts/store/dataset/`;
