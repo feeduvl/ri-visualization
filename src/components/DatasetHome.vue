@@ -142,7 +142,14 @@ export default {
           });
     },
     updateTable(responseData) {
-      this.data = responseData;
+      var documents = []
+      for (var index in responseData["documents"]) {
+        var document = responseData["documents"][index];
+        var d = { text: document.text,
+              number: document.number};
+        documents.push(d);
+      }
+      this.data = documents;
     },
     displaySnackbar(message, timeout=0) {
       this.snackbarText = message;
@@ -163,7 +170,7 @@ export default {
                 this.updateTable([]);
                 this.displaySnackbar(response.data.message);
               } else {
-                this.displaySnackbar("Error with file upload!!");
+                this.displaySnackbar("Error with file deletion!");
               }
             })
             .catch(e => {
@@ -171,7 +178,7 @@ export default {
               this.displaySnackbar("Could not contact backend!");
             });
       } else {
-        this.displaySnackbar("Please confirm deletion.", 2);
+        this.displaySnackbar("Please confirm deletion.", 2000);
       }
     },
   },
