@@ -58,7 +58,7 @@ export default {
   data: function () {
     return {
       isMounted: false,
-      uploadedFile: undefined,
+      uploadedFile: "",
       uploadButtonStyle: {
         "background-color": BLUE_BORDER
       },
@@ -95,6 +95,8 @@ export default {
       ).then(response => {
         if (response.status > 200 || response.status < 300) {
           this.displaySnackbar(response.data.message);
+          this.fileInputField.value = null;
+          this.getFileName();
         } else {
           this.displaySnackbar("Error with file upload!!");
         }
