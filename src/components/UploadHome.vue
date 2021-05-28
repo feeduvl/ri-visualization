@@ -8,20 +8,22 @@
       </v-card>
       <v-container>
         <v-layout row wrap>
-          <v-flex xs4>
-            <div>
-              <input id="file-input-field" type='file' hidden @change="getFileName"/>
-              <label v-if="!uploadedFile" for="file-input-field" class="file-action-button file-picker-button">Choose
-                file</label>
-              <label v-else id="submit-file-button" class="file-action-button" :style="uploadButtonStyle"
-                     :enabled=uploadedFile @click="persistFile(fileDisplayName)">Submit</label>
-              <span id="file-chosen-display">{{ fileDisplayName }}</span>
-            </div>
-            <div id="upload-sendoff" v-if="uploadedFile" width="100%">
-                <span>
-                    Here are some instructions on the supported file format
-                </span>
-            </div>
+          <v-flex xs2>
+            <input id="file-input-field" type='file' hidden @change="getFileName"/>
+            <v-text-field
+                label="File Name"
+                v-model="fileDisplayName"
+                readonly
+                prepend-icon="attach_file"
+            ></v-text-field>
+            </v-flex>
+          <v-flex xs3>
+            <label for="file-input-field" class="v-btn v-btn--small theme--light primary file-action-button file-picker-button">Choose
+              file</label>
+            <v-btn small color="primary" @click="uploadFile(fileDisplayName)">Upload</v-btn>
+          </v-flex>
+          <v-flex xs6>
+            <span :style="{'color': 'gray'}">Currently allowed file types: csv</span>
           </v-flex>
         </v-layout>
       </v-container>
@@ -51,7 +53,7 @@ import {
 } from "@/colors";
 import {POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
 
-export default {  // TODO add attribute 'multiple' on file input to allow selection of multiple files
+export default {
   name: "UploadHome",
   data: function () {
     return {
@@ -67,12 +69,6 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
   },
   mounted() {
     this.isMounted = true;
-
-    //  add some computed CSS stuff
-    //let halfwidth;
-    //let parentwidth = document.getElementById("file-upload-panel").getBoundingClientRect().width;
-    //halfwidth = Math.floor(-1 * parentwidth / 2);
-    //document.getElementById("file-upload-panel-inner").style["margin"] = "0 0 0 " + halfwidth + "px";
   },
   computed: {
     fileInputField() {
@@ -82,11 +78,11 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
       if (this.uploadedFile) {
         return this.uploadedFile.name;
       }
-      return "No file chosen"
+      return ""
     }
   },
   methods: {
-    async persistFile() {
+    async uploadFile() {
       let formData = new FormData();
       formData.append('file', this.uploadedFile);
       axios.post(POST_UPLOAD_DATASET_ENDPOINT,
@@ -123,32 +119,5 @@ export default {  // TODO add attribute 'multiple' on file input to allow select
 </script>
 
 <style scoped>
-#file-upload-panel {
-  position: absolute;
-  top: 150px;
-  left: 50%;
-}
-
-.file-action-button {
-  color: white;
-  padding: 0.5rem;
-  font-family: sans-serif;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  margin-top: 1rem;
-}
-
-.file-picker-button {
-  background-color: indigo;
-}
-
-#file-chosen-display {
-  margin-left: 0.3rem;
-  font-family: sans-serif;
-}
-
-#upload-sendoff {
-  margin-top: 20px;
-}
 
 </style>
