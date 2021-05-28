@@ -172,7 +172,7 @@ export default {
       }
     },
     async checkServiceStatus(service) {
-
+      this.updateStatus("checking");
       axios
           .get(GET_SERVICE_STATUS_ENDPOINT(service))
           .then(response => {
@@ -194,6 +194,9 @@ export default {
       if (status === "operational") {
         this.serviceStatus = "Running";
         this.serviceColor = GREEN_FILL;
+      } else if (status === "checking") {
+        this.serviceStatus = "Checking";
+        this.serviceColor = GRAY;
       } else {
         this.serviceStatus = "Offline";
         this.serviceColor = RED_FILL;
