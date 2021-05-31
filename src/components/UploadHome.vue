@@ -20,10 +20,10 @@
           <v-flex xs3>
             <label for="file-input-field" class="v-btn v-btn--small theme--light primary file-action-button file-picker-button">Choose
               file</label>
-            <v-btn small color="primary" @click="uploadFile(fileDisplayName)">Upload</v-btn>
+            <v-btn small color="primary" :loading="loading" :disabled="loading" @click="uploadFile(fileDisplayName)">Upload</v-btn>
           </v-flex>
           <v-flex xs6>
-            <span :style="{'color': 'gray'}">Currently allowed file types: csv</span>
+            <span :style="{'color': 'gray'}">Currently allowed file types: csv. The dataset will be saved with its filename. Uploading a dataset which name already exists will update the dataset.</span>
           </v-flex>
         </v-layout>
       </v-container>
@@ -65,6 +65,7 @@ export default {
       snackbarVisible: false,
       snackbarTimeout: 0,
       snackbarText: "",
+      loading: false,
     }
   },
   mounted() {
@@ -83,6 +84,7 @@ export default {
   },
   methods: {
     async uploadFile() {
+      this.loading = true;
       let formData = new FormData();
       formData.append('file', this.uploadedFile);
       axios.post(POST_UPLOAD_DATASET_ENDPOINT,
@@ -104,6 +106,7 @@ export default {
           .catch( () => {
             this.displaySnackbar("Could not contact backend!");
           });
+      this.loading = false;
     },
     getFileName() {
       this.uploadedFile = this.fileInputField.files[0];
@@ -121,5 +124,11 @@ export default {
 </script>
 
 <style scoped>
+
+.v-text-field {
+  margin-right: 10px;
+  padding-top: 0px;
+  margin-top: 0px;
+}
 
 </style>

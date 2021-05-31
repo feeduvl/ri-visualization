@@ -34,6 +34,7 @@
           :headers="tableHeaders"
           :items="data"
           :pagination.sync="pagination"
+          :loading="loading"
       >
         <template slot="items" slot-scope="props">
           <tr>
@@ -76,19 +77,12 @@ export default {
     return {
       key: this.$route.path,
       selectedDataset: "",
-      //datasets: ["Interviews-30", "Forum-Posts-Eclipse"],
       datasets: [],
       snackbarVisible: false,
       snackbarTimeout: 0,
       snackbarText: "",
-      data: [{
-        number: 1,
-        text: "Test"
-      },
-        {
-          number: 2,
-          text: "Test2"
-        }],
+      loading: false,
+      data: [],
       cardTableTitle: "Dataset Content",
       confirm_delete: false,
       pagination: {
@@ -118,13 +112,16 @@ export default {
   },
   methods: {
     async loadDataset() {
+      this.loading = true;
       axios
           .get(GET_DATASET_ENDPOINT(this.selectedDataset))
           .then(response => {
             this.updateTable(response.data);
+            this.loading = false;
           })
           .catch(e => {
             this.errors.push(e);
+            this.loading = false;
           });
     },
     async loadData() {
