@@ -112,6 +112,7 @@ export default {
   },
   methods: {
     async loadDataset() {
+      this.data = [];
       this.loading = true;
       axios
           .get(GET_DATASET_ENDPOINT(this.selectedDataset))
@@ -229,6 +230,11 @@ table.v-table tbody th {
 
 h1 {
   text-align: center;
+}
+
+td {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .list-enter,
