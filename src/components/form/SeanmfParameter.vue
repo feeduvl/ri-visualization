@@ -57,7 +57,7 @@
     </v-layout>
     <v-layout row wrap>
       <v-flex xs10/>
-      <v-btn small color="primary" @click="startRun">Start</v-btn>
+      <v-btn small color="primary" :loading="loading" :disabled="loading" @click="startRun">Start</v-btn>
     </v-layout>
     <v-snackbar
         v-model="snackbar"
@@ -87,6 +87,7 @@ export default {
   },
   data: () => ({
     snackbar: false,
+    loading: false,
     text: 'Run has been started successfully.',
     timeout: 2000,
     alpha: 0.1,
@@ -99,10 +100,15 @@ export default {
   methods: {
     startRun() {
       this.snackbar = true;
-      this.reset();
+      this.blockButton();
+      //this.reset();
     },
     reset () {
       this.$refs.form.reset()
+    },
+    blockButton() {
+      this.loading = true;
+      setTimeout(() => {  this.loading = false; }, 1500);
     },
   }
 }
