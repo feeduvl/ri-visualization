@@ -8,7 +8,7 @@
       </v-card>
       <v-container>
         <v-layout row wrap>
-          <v-flex xs2>
+          <v-flex xs4>
             <input id="file-input-field" type='file' hidden @change="getFileName"/>
             <v-text-field
                 label="File Name"
@@ -22,8 +22,8 @@
               file</label>
             <v-btn small color="primary" :loading="loading" :disabled="loading" @click="uploadFile(fileDisplayName)">Upload</v-btn>
           </v-flex>
-          <v-flex xs6>
-            <span :style="{'color': 'gray'}">Currently allowed file types: csv. The dataset will be saved with its filename. Uploading a dataset which name already exists will update the dataset.</span>
+          <v-flex xs5>
+            <span :style="{'color': 'gray'}">Currently allowed file types: csv. The dataset will be saved with its filename. Uploading a dataset which name already exists will update the dataset. The delimiter is set to '|'.</span>
           </v-flex>
         </v-layout>
       </v-container>
