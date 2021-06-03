@@ -60,17 +60,17 @@
       <v-btn small color="primary" :loading="loading" :disabled="loading" @click="startRun">Start</v-btn>
     </v-layout>
     <v-snackbar
-        v-model="snackbar"
-        :timeout="timeout"
+        v-model="snackbarVisible"
+        :timeout="snackbarTimeout"
         :top=true
     >
-      {{ text }}
+      {{ snackbarText }}
 
         <v-btn
             small
             color="primary"
             text
-            @click="snackbar = false"
+            @click="closeSnackbar"
         >
           Close
         </v-btn>
@@ -80,16 +80,19 @@
 </template>
 
 <script>
+import axios from "axios";
+import {GET_ALL_DATASETS_ENDPOINT, POST_START_DETECTION_ENDPOINT} from "@/RESTconf";
 export default {
   name: "SeanmfParameter",
   props: {
     dataset: String,
   },
   data: () => ({
-    snackbar: false,
+    method: "seanmf",
+    snackbarVisible: false,
     loading: false,
-    text: 'Run has been started successfully.',
-    timeout: 2000,
+    snackbarText: "",
+    snackbarTimeout: 1500,
     alpha: 0.1,
     beta: 0,
     n_topics: 10,
@@ -98,19 +101,49 @@ export default {
     fix_random: false,
   }),
   methods: {
-    startRun() {
-      this.snackbar = true;
+    async startRun() {
+      this.loading = false;
+      axios.post(POST_START_DETECTION_ENDPOINT, this.getFormData()
+      ).then(response => {
+        if (response.status > 200 || response.status < 300) {
+          this.displaySnackbar("Run has been started successfully.");
+        } else {
+          this.displaySnackbar("Error starting run!!");
+        }
+      }).catch( () => {
+        this.displaySnackbar("Could not contact backend!");
+        console.log(this.getFormData());
+      });
       this.blockButton();
-      //this.reset();
     },
     reset () {
       this.$refs.form.reset()
     },
     blockButton() {
       this.loading = true;
-      setTimeout(() => {  this.loading = false; }, 1500);
+      setTimeout(() => {  this.loading = false; }, 1600);
     },
-  }
+    displaySnackbar(message) {
+      this.snackbarText = message;
+      this.snackbarVisible = true;
+    },
+    closeSnackbar() {
+      this.snackbarVisible = false;
+      this.snackbarText = "";
+    },
+    getFormData() {
+      return {
+        method: this.method,
+        dataset: this.$props.dataset,
+        alpha: this.alpha,
+        beta: this.beta,
+        n_topics: this.n_topics,
+        max_iter: this.max_iter,
+        max_err: this.max_err,
+        fix_random: this.fix_random,
+      };
+    },
+  },
 }
 </script>
 

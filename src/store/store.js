@@ -28,7 +28,8 @@ export const store = new Vuex.Store({
     showTutorial: false,
     loggedIn: false,
     accessKey: "",
-    accessKeyConfiguration: null
+    accessKeyConfiguration: null,
+    datasets: [],
   },
   getters,
   mutations,

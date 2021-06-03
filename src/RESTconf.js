@@ -30,6 +30,8 @@ export const DELETE_DATASET_ENDPOINT = function (dataset) {
   return `${BASE_URL}/hitec/repository/concepts/dataset/name/${dataset}`;
 };
 
+export const POST_START_DETECTION_ENDPOINT = `/hitec/orchestration/concepts/detection/`;
+
 export const POST_UPLOAD_DATASET_ENDPOINT =  `/hitec/orchestration/concepts/store/dataset/`;
 
 // feedai

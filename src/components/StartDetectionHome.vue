@@ -67,7 +67,7 @@ import moment from "moment";
 import "moment/locale/de";
 import {FILTER_FOR_METHOD, FILTER_FOR_DATASET} from "@/dataFilter";
 import {GREEN_FILL, RED_FILL, GRAY} from "@/colors";
-import {GET_SERVICE_STATUS_ENDPOINT} from "@/RESTconf";
+import {GET_ALL_DATASETS_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT} from "@/RESTconf";
 
 export default {
   name: "StartDetectionHome",
@@ -145,6 +145,20 @@ export default {
       // Update UI
       this.data.splice(0, 0);
     },
+    async loadDatasets() {
+      axios
+          .get(GET_ALL_DATASETS_ENDPOINT)
+          .then(response => {
+            // DEBUG
+            console.log(response.data);
+            this.datasets = response.data;
+          })
+          .catch(e => {
+            this.errors.push(e);
+            // DEBUG
+            console.log(this.errors)
+          });
+    },
     getFormattedDate(date) {
       return moment(date, "YYYYMMDD").format("DD.MM.YYYY");
     },
@@ -210,6 +224,7 @@ export default {
           this.loadData([...newValue]);
         }
     );
+    this.loadDatasets();
   }
 };
 </script>
