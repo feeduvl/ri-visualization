@@ -132,7 +132,7 @@ export default {
       this.snackbarText = "";
     },
     getFormData() {
-      return {
+      return JSON.stringify({
         method: this.method,
         dataset: this.$props.dataset,
         alpha: this.alpha,
@@ -141,7 +141,7 @@ export default {
         max_iter: this.max_iter,
         max_err: this.max_err,
         fix_random: this.fix_random,
-      };
+      });
     },
   },
 }
