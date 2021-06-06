@@ -90,7 +90,7 @@
                     method: this.method,
                     dataset: this.$props.dataset,
                     max_num_concepts: this.max_num_concepts,
-                    term_length: 1,
+                    term_length: 2,
                     command: "run_algorithm"
                 });
             },
