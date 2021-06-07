@@ -81,7 +81,7 @@
 
 <script>
 import axios from "axios";
-import {GET_ALL_DATASETS_ENDPOINT, POST_START_DETECTION_ENDPOINT} from "@/RESTconf";
+import {POST_START_DETECTION_ENDPOINT} from "@/RESTconf";
 export default {
   name: "SeanmfParameter",
   props: {
@@ -132,7 +132,7 @@ export default {
       this.snackbarText = "";
     },
     getFormData() {
-      return JSON.stringify({
+      let params = {
         method: this.method,
         dataset: this.$props.dataset,
         alpha: this.alpha,
@@ -141,7 +141,8 @@ export default {
         max_iter: this.max_iter,
         max_err: this.max_err,
         fix_random: this.fix_random,
-      });
+      };
+      return JSON.stringify(params);
     },
   },
 }
