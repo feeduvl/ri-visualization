@@ -75,6 +75,7 @@ export default {
     "empty-parameter": () => import("./form/EmptyParameter"),
     "lda-parameter": () => import("./form/LdaParameter"),
     "seanmf-parameter": () => import("./form/SeanmfParameter"),
+    "frequency-rbai-parameter": () => import("./form/FrequencyRBAIParameter")
   },
   data() {
     return {
@@ -83,8 +84,8 @@ export default {
       selectedDataset: "",
       serviceStatus: "NA",
       serviceColor: GRAY,
-      runMethods: ["LDA", "SeaNMF"],
-      datasets: [],
+      runMethods: ["LDA", "SeaNMF", "Frequency (RBAI)"],
+      datasets: ["Interviews-30", "Forum-Posts-Eclipse"],  // FIXME set to empty?
       component: "empty-parameter",
       pagination: {
         sortBy: "created_at",
@@ -181,8 +182,11 @@ export default {
       } else if (this.selectedMethod === "SeaNMF") {
         this.component = "seanmf-parameter";
         this.checkServiceStatus("seanmf");
+      } else if (this.selectedMethod === "Frequency (RBAI)"){
+        this.component = "frequency-rbai-parameter";
+        this.checkServiceStatus("frequency-rbai")
       } else {
-        this.component = "empty-parameter";
+          this.component = "empty-parameter";
       }
     },
     async checkServiceStatus(service) {
