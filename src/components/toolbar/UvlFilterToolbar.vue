@@ -36,6 +36,12 @@ import {
 
 export default {
   name: "UvlFilterToolbar",
+  props: {
+    selectedMethod: {},
+    selectedResult: {},
+    methods: [],
+    results: [],
+  },
   data() {
     return {
       color: BLUE_FILL,

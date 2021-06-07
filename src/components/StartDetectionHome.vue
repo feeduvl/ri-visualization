@@ -84,7 +84,7 @@ export default {
       serviceStatus: "NA",
       serviceColor: GRAY,
       runMethods: ["LDA", "SeaNMF"],
-      datasets: ["Interviews-30", "Forum-Posts-Eclipse"],
+      datasets: [],
       component: "empty-parameter",
       pagination: {
         sortBy: "created_at",
