@@ -64,9 +64,10 @@
                     } else {
                         this.displaySnackbar("Error starting run!!");
                     }
-                }).catch( () => {
+                }).catch( (e) => {
                     this.displaySnackbar("Could not contact backend!");
-                    console.log(this.getFormData());
+                    console.error("FrequencyRBAIParameter::startRun got error: "+e);
+                    console.error("FrequencyRBAIParameter::startRun Form data: "+this.getFormData());
                 });
                 this.blockButton();
             },
