@@ -48,18 +48,14 @@ export const actionFetchInitialConceptData = ({
   state,
   commit
 }) => {
-  return new Promise((resolve, reject) => {
-    axios.get(GET_ALL_DATASETS_ENDPOINT)
-      .then(response => {
-        state.datasets = response.data;
-        resolve();
-      })
-      .catch(e => {
-        // DEBUG
-        console.log(e);
-        reject(e);
-      });
-  });
+  axios.get(GET_ALL_DATASETS_ENDPOINT)
+    .then(response => {
+      state.datasets = response.data;
+    })
+    .catch(e => {
+      // DEBUG
+      console.log("actions::actionFetchInitialConceptData Error:" + e);
+    });
 };
 export const actionFilterTweets = ({
   state,

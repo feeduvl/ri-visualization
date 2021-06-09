@@ -128,17 +128,14 @@ export default {
         });
     },
     getInitialConceptsData() {
-      this.waitingForResponse = true;
       this.$store
           .dispatch(
               ACTION_FETCH_INITIAL_CONCEPT_DATA,
           )
           .then(
               response => {
-                this.waitingForResponse = false;
               },
               error => {
-                this.waitingForResponse = false;
                 console.error(
                     "Got nothing from server. Prompt user to check internet connection and try again"
                 );
