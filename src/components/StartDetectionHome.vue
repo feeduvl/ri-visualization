@@ -85,7 +85,7 @@ export default {
       serviceStatus: "NA",
       serviceColor: GRAY,
       runMethods: ["LDA", "SeaNMF", "Frequency (RBAI)"],
-      datasets: ["Interviews-30", "Forum-Posts-Eclipse"],  // FIXME set to empty?
+      datasets: [],
       component: "empty-parameter",
       pagination: {
         sortBy: "created_at",
@@ -228,7 +228,14 @@ export default {
           this.loadData([...newValue]);
         }
     );
-    this.loadDatasets();
+    this.datasets = this.$store.getters.datasets;
+    this.$store.watch(
+        (state, getters) => getters.datasets,
+        (newValue, oldValue) => {
+          //this.loadDataset([...newValue]);
+          this.datasets = newValue;
+        }
+    );
   }
 };
 </script>

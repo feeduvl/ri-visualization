@@ -182,7 +182,7 @@ export default {
     },
   },
   mounted() {
-    //this.datasets = this.$store.getters.datasets;
+    this.datasets = this.$store.getters.datasets;
     this.$store.watch(
         (state, getters) => getters.datasets,
         (newValue, oldValue) => {
