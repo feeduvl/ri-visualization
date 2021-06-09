@@ -139,6 +139,7 @@ export default {
           .get(GET_ALL_DATASETS_ENDPOINT)
           .then(response => {
             this.$store.dispatch(MUTATE_DATASETS, response.data);
+            console.log("DatasetHome::loadDatasets: "+ response.data);
           })
           .catch(e => {
             this.errors.push(e);
@@ -183,15 +184,14 @@ export default {
               this.displaySnackbar("Could not contact backend!");
             });
         this.confirm_delete = false;
-        setTimeout(() => {  this.btnLoading = false; }, 600);
+        setTimeout(() => {  this.btnLoading = false; }, 1100);
       } else {
         this.displaySnackbar("Please confirm deletion.", 2000);
       }
     },
   },
   mounted() {
-    // TODO: Remove after successful testing
-    //this.datasets = this.$store.getters.datasets;
+      setInterval(() => {  console.log("DatasetHome::mounted: "+ this.datasets); }, 1100);
   }
 };
 </script>

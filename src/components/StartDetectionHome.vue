@@ -233,8 +233,6 @@ export default {
           this.loadData([...newValue]);
         }
     );
-    // TODO: Remove after successful testing
-    //this.datasets = this.$store.getters.datasets;
   }
 };
 </script>
