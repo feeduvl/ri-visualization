@@ -44,23 +44,21 @@ export const actionFetchInitialData = ({
     });
   });
 };
-export const actionLoadDatasets = () => {
-  var datasets = [];
+export const actionLoadDatasets = state => {
   axios
     .get(GET_ALL_DATASETS_ENDPOINT)
     .then(response => {
-      datasets =  response.data;
+      state.datasets =  response.data;
     })
     .catch(e => {
       console.log("actions::actionLoadDatasets Error:" + e);
     });
-  return datasets;
 };
 export const actionFetchInitialConceptData = ({
   state,
   commit
 }) => {
-  state.datasets = actionLoadDatasets();
+  actionLoadDatasets(state);
 };
 export const actionFilterTweets = ({
   state,
