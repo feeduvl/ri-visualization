@@ -125,20 +125,6 @@ export default {
             this.loading = false;
           });
     },
-    async loadData() {
-      axios
-          .get(GET_ALL_DATASETS_ENDPOINT)
-          .then(response => {
-            // DEBUG
-            console.log(response.data);
-            this.datasets = response.data;
-          })
-          .catch(e => {
-            this.errors.push(e);
-            // DEBUG
-            console.log(this.errors)
-          });
-    },
     updateTable(responseData) {
       var documents = []
       for (var index in responseData["documents"]) {
@@ -166,7 +152,7 @@ export default {
             .then(response => {
               if (response.status > 200 || response.status < 300) {
                 this.updateTable([]);
-                this.loadData();
+                this.$store.dispatch(ACTION_LOAD_DATASETS);
                 this.displaySnackbar(response.data.message);
               } else {
                 this.displaySnackbar("Error with file deletion!");
@@ -190,7 +176,6 @@ export default {
           this.datasets = newValue;
         }
     );
-    //this.loadData();
   }
 };
 </script>

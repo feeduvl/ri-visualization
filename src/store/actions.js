@@ -4,7 +4,7 @@ import "moment/locale/de";
 import {
   GET_ALL_DATASETS_ENDPOINT,
   GET_ALL_TWEETS_ENDPOINT
-} from './../RESTconf';
+} from '@/RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
   MUTATE_FILTERED_TWEETS,
@@ -14,7 +14,7 @@ import {
   MUTATE_TOP_BAR_ALT_TEXT,
   MUTATE_FOOTER_TEXT,
   MUTATE_TOP_BAR_LINK
-} from './../store/types';
+} from '@/store/types';
 
 export const actionFetchInitialData = ({
   state,
@@ -44,18 +44,21 @@ export const actionFetchInitialData = ({
     });
   });
 };
+export const actionLoadDatasets = state => {
+  axios
+    .get(GET_ALL_DATASETS_ENDPOINT)
+    .then(response => {
+      state.datasets =  response.data;
+    })
+    .catch(e => {
+      console.log("actions::actionLoadDatasets Error:" + e);
+    });
+};
 export const actionFetchInitialConceptData = ({
   state,
   commit
 }) => {
-  axios.get(GET_ALL_DATASETS_ENDPOINT)
-    .then(response => {
-      state.datasets = response.data;
-    })
-    .catch(e => {
-      // DEBUG
-      console.log("actions::actionFetchInitialConceptData Error:" + e);
-    });
+  actionLoadDatasets(state);
 };
 export const actionFilterTweets = ({
   state,

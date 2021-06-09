@@ -3,6 +3,7 @@
  */
 export const ACTION_FETCH_INITIAL_DATA = 'actionFetchInitialData';
 export const ACTION_FETCH_INITIAL_CONCEPT_DATA = 'actionFetchInitialConceptData';
+export const ACTION_LOAD_DATASETS = 'actionLoadDatasets';
 export const ACTION_UPDATE_TWEET = 'actionUpdateTweet';
 export const ACTION_FETCH_UNLABELED_TWEETS = 'actionFetchUnlabeledTweets';
 export const ACTION_RESET_UNLABELED_TWEETS = 'actionResetUnlabeledTweets';
