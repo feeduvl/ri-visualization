@@ -104,7 +104,7 @@ export default {
           this.displaySnackbar(response.data.message);
           this.fileInputField.value = null;
           this.getFileName();
-          loadDatasets();
+          loadDatasets(this.$store);
         } else {
           this.displaySnackbar("Error with file upload!!");
         }
