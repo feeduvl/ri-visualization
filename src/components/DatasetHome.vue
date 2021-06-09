@@ -69,11 +69,10 @@ import axios from "axios";
 import "moment/locale/de";
 import {
   GET_DATASET_ENDPOINT,
-  GET_ALL_DATASETS_ENDPOINT,
   DELETE_DATASET_ENDPOINT
 } from "@/RESTconf";
-import {MUTATE_DATASETS} from "@/store/types";
 import { mapGetters } from 'vuex'
+import {loadDatasets} from "@/RESTcalls";
 
 export default {
   name: "DatasetHome",
@@ -134,16 +133,6 @@ export default {
             this.loading = false;
           });
     },
-    async loadDatasets() {
-      axios
-          .get(GET_ALL_DATASETS_ENDPOINT)
-          .then(response => {
-            this.$store.commit(MUTATE_DATASETS, response.data);
-          })
-          .catch(e => {
-            this.errors.push(e);
-          });
-    },
     updateTable(responseData) {
       var documents = []
       for (var index in responseData["documents"]) {
@@ -172,7 +161,7 @@ export default {
             .then(response => {
               if (response.status > 200 || response.status < 300) {
                 this.updateTable([]);
-                this.loadDatasets();
+                loadDatasets();
                 this.displaySnackbar(response.data.message);
               } else {
                 this.displaySnackbar("Error with file deletion!");

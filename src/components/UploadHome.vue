@@ -52,6 +52,8 @@ import {
   BLUE_BORDER
 } from "@/colors";
 import {POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
+import {mapGetters} from "vuex";
+import {loadDatasets} from "@/RESTcalls";
 
 export default {
   name: "UploadHome",
@@ -80,7 +82,10 @@ export default {
         return this.uploadedFile.name;
       }
       return ""
-    }
+    },
+    ...mapGetters({
+      datasets: 'datasets'
+    })
   },
   methods: {
     async uploadFile() {
@@ -99,6 +104,7 @@ export default {
           this.displaySnackbar(response.data.message);
           this.fileInputField.value = null;
           this.getFileName();
+          loadDatasets();
         } else {
           this.displaySnackbar("Error with file upload!!");
         }

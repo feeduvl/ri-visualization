@@ -151,20 +151,6 @@ export default {
       // Update UI
       this.data.splice(0, 0);
     },
-    async loadDatasets() {
-      axios
-          .get(GET_ALL_DATASETS_ENDPOINT)
-          .then(response => {
-            // DEBUG
-            console.log("StartDetectionHome::loadDatasets Got Datasets: "+response.data);
-            this.datasets = response.data;
-          })
-          .catch(e => {
-            this.errors.push(e);
-            // DEBUG
-            console.log(this.errors)
-          });
-    },
     getFormattedDate(date) {
       return moment(date, "YYYYMMDD").format("DD.MM.YYYY");
     },
