@@ -151,7 +151,7 @@ export default {
           .get(GET_ALL_DATASETS_ENDPOINT)
           .then(response => {
             // DEBUG
-            console.log(response.data);
+            console.log("StartDetectionHome::loadDatasets Got Datasets: "+response.data);
             this.datasets = response.data;
           })
           .catch(e => {
