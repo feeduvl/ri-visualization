@@ -68,6 +68,7 @@ import "moment/locale/de";
 import {FILTER_FOR_METHOD, FILTER_FOR_DATASET} from "@/dataFilter";
 import {GREEN_FILL, RED_FILL, GRAY} from "@/colors";
 import {GET_ALL_DATASETS_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT} from "@/RESTconf";
+import { mapGetters } from 'vuex'
 
 export default {
   name: "StartDetectionHome",

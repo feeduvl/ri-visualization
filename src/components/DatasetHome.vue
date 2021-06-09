@@ -72,7 +72,8 @@ import {
   GET_ALL_DATASETS_ENDPOINT,
   DELETE_DATASET_ENDPOINT
 } from "@/RESTconf";
-import {ACTION_LOAD_DATASETS, MUTATE_DATASETS} from "@/store/types";
+import {MUTATE_DATASETS} from "@/store/types";
+import { mapGetters } from 'vuex'
 
 export default {
   name: "DatasetHome",
