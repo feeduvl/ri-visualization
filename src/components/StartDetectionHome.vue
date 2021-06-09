@@ -77,6 +77,11 @@ export default {
     "seanmf-parameter": () => import("./form/SeanmfParameter"),
     "frequency-rbai-parameter": () => import("./form/FrequencyRBAIParameter")
   },
+  computed: {
+    ...mapGetters({
+      datasets: 'datasets'
+    })
+  },
   data() {
     return {
       key: this.$route.path,
@@ -85,7 +90,6 @@ export default {
       serviceStatus: "NA",
       serviceColor: GRAY,
       runMethods: ["LDA", "SeaNMF", "Frequency (RBAI)"],
-      datasets: [],
       component: "empty-parameter",
       pagination: {
         sortBy: "created_at",
@@ -228,14 +232,8 @@ export default {
           this.loadData([...newValue]);
         }
     );
-    this.datasets = this.$store.getters.datasets;
-    this.$store.watch(
-        (state, getters) => getters.datasets,
-        (newValue, oldValue) => {
-          //this.loadDataset([...newValue]);
-          this.datasets = newValue;
-        }
-    );
+    // TODO: Remove after successful testing
+    //this.datasets = this.$store.getters.datasets;
   }
 };
 </script>

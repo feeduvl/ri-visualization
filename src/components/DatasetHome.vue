@@ -76,11 +76,15 @@ import {ACTION_LOAD_DATASETS, MUTATE_DATASETS} from "@/store/types";
 
 export default {
   name: "DatasetHome",
+  computed: {
+    ...mapGetters({
+      datasets: 'datasets'
+    })
+  },
   data() {
     return {
       key: this.$route.path,
       selectedDataset: "",
-      datasets: [],
       snackbarVisible: false,
       snackbarTimeout: 0,
       snackbarText: "",
@@ -133,7 +137,7 @@ export default {
       axios
           .get(GET_ALL_DATASETS_ENDPOINT)
           .then(response => {
-            this.datasets = response.data;
+            this.$store.dispatch(MUTATE_DATASETS, response.data);
           })
           .catch(e => {
             this.errors.push(e);
@@ -168,7 +172,6 @@ export default {
               if (response.status > 200 || response.status < 300) {
                 this.updateTable([]);
                 this.loadDatasets();
-                this.$store.dispatch(MUTATE_DATASETS, this.datasets);
                 this.displaySnackbar(response.data.message);
               } else {
                 this.displaySnackbar("Error with file deletion!");
@@ -186,14 +189,8 @@ export default {
     },
   },
   mounted() {
-    this.datasets = this.$store.getters.datasets;
-    this.$store.watch(
-        (state, getters) => getters.datasets,
-        (newValue, oldValue) => {
-          //this.loadDataset([...newValue]);
-          this.datasets = newValue;
-        }
-    );
+    // TODO: Remove after successful testing
+    //this.datasets = this.$store.getters.datasets;
   }
 };
 </script>
