@@ -13,6 +13,4 @@ async function loadDatasets() {
     });
 }
 
-module.exports = {
-  loadDatasets,
-};
+export { loadDatasets };
