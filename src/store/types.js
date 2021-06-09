@@ -39,6 +39,7 @@ export const MUTATE_TOP_BAR_LOGO = 'mutateTopBarLogo';
 export const MUTATE_TOP_BAR_ALT_TEXT = 'mutateTopBarAltText';
 export const MUTATE_TOP_BAR_LINK = 'mutateTopBarLink';
 export const MUTATE_FOOTER_TEXT = 'mutateFooterText';
+export const MUTATE_DATASETS = 'mutateDatasets';
 
 /*
  *  Local storage types

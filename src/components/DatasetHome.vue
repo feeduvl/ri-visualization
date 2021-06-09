@@ -27,6 +27,8 @@
               v-model="confirm_delete"
               :label="`Confirm Deletion`"
               color="error"
+              :loading="btnLoadingg"
+              :disabled="btnLoading"
           ></v-checkbox>
         </v-flex>
       </v-layout>
@@ -70,6 +72,7 @@ import {
   GET_ALL_DATASETS_ENDPOINT,
   DELETE_DATASET_ENDPOINT
 } from "@/RESTconf";
+import {ACTION_LOAD_DATASETS, MUTATE_DATASETS} from "@/store/types";
 
 export default {
   name: "DatasetHome",
@@ -82,6 +85,7 @@ export default {
       snackbarTimeout: 0,
       snackbarText: "",
       loading: false,
+      btnLoading: false,
       data: [],
       cardTableTitle: "Dataset Content",
       confirm_delete: false,
@@ -147,12 +151,14 @@ export default {
     },
     async deleteDataset() {
       if (this.confirm_delete) {
+        this.btnLoading = true;
         axios
             .delete(DELETE_DATASET_ENDPOINT(this.selectedDataset))
             .then(response => {
               if (response.status > 200 || response.status < 300) {
                 this.updateTable([]);
-                this.$store.dispatch(ACTION_LOAD_DATASETS);
+                this.selectedDataset = "";
+                this.$store.dispatch(MUTATE_DATASETS(ACTION_LOAD_DATASETS));
                 this.displaySnackbar(response.data.message);
               } else {
                 this.displaySnackbar("Error with file deletion!");
@@ -162,9 +168,12 @@ export default {
               this.errors.push(e);
               this.displaySnackbar("Could not contact backend!");
             });
+        this.confirm_delete = false;
+        setTimeout(() => {  this.btnLoading = false; }, 600);
       } else {
         this.displaySnackbar("Please confirm deletion.", 2000);
       }
+
     },
   },
   mounted() {
