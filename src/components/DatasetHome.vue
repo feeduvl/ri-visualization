@@ -182,13 +182,15 @@ export default {
     },
   },
   mounted() {
+    //this.datasets = this.$store.getters.datasets;
     this.$store.watch(
-        (state, getters) => getters.runs,
+        (state, getters) => getters.datasets,
         (newValue, oldValue) => {
-          this.loadDataset([...newValue]);
+          //this.loadDataset([...newValue]);
+          this.datasets = newValue;
         }
     );
-    this.loadData();
+    //this.loadData();
   }
 };
 </script>

@@ -36,19 +36,13 @@ import {
 
 export default {
   name: "UvlFilterToolbar",
-  props: {
-    selectedMethod: {},
-    selectedResult: {},
-    methods: [],
-    results: [],
-  },
   data() {
     return {
       color: BLUE_FILL,
       selectedMethod: [],
       selectedResult: [],
-      Methods: [],
-      Results: [],
+      methods: [],
+      results: [],
       path: this.$router.currentRoute.path
     };
   },

@@ -29,7 +29,12 @@ export const store = new Vuex.Store({
     loggedIn: false,
     accessKey: "",
     accessKeyConfiguration: null,
+    // feed-uvl
     datasets: [],
+    runs: [],
+    selectedDataset: {},
+    selectedRun: {},
+    selectedConcept: "",
   },
   getters,
   mutations,

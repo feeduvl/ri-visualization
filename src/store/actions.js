@@ -2,6 +2,7 @@ import axios from 'axios';
 import moment from "moment";
 import "moment/locale/de";
 import {
+  GET_ALL_DATASETS_ENDPOINT,
   GET_ALL_TWEETS_ENDPOINT
 } from './../RESTconf';
 import {
@@ -41,6 +42,23 @@ export const actionFetchInitialData = ({
           reject(e);
         });
     });
+  });
+};
+export const actionFetchInitialConceptData = ({
+  state,
+  commit
+}) => {
+  return new Promise((resolve, reject) => {
+    axios.get(GET_ALL_DATASETS_ENDPOINT)
+      .then(response => {
+        state.datasets = response.data;
+        resolve();
+      })
+      .catch(e => {
+        // DEBUG
+        console.log(e);
+        reject(e);
+      });
   });
 };
 export const actionFilterTweets = ({

@@ -47,14 +47,14 @@ import {
 } from "./../RESTconf.js";
 import { BLUE_FILL } from "../colors.js";
 import {
-  ACTION_FETCH_INITAL_DATA,
+  ACTION_FETCH_INITIAL_DATA,
   MUTATE_LOGGED_IN,
   MUTATE_TWEETS,
   MUTATE_ACCESS_KEY,
   MUTATE_ACCESS_KEY_CONFIGURATION,
   MUTATE_TWITTER_ACCOUNTS,
   LOCAL_STORAGE_ACCESS_KEY,
-  LOCAL_STORAGE_ACCESS_KEY_CONFIGURATION
+  LOCAL_STORAGE_ACCESS_KEY_CONFIGURATION, ACTION_FETCH_INITIAL_CONCEPT_DATA
 } from "../store/types.js";
 
 import { ROUTE_DASHBOARD } from "../routes";
@@ -98,7 +98,7 @@ export default {
             localStorage.setItem(LOCAL_STORAGE_ACCESS_KEY, this.accessKey);
             this.$store
               .dispatch(
-                ACTION_FETCH_INITAL_DATA,
+                ACTION_FETCH_INITIAL_DATA,
                 response.data.twitter_accounts
               )
               .then(
@@ -126,6 +126,24 @@ export default {
           this.accessKey = "";
           this.errors.push(e);
         });
+    },
+    getInitialConceptsData() {
+      this.waitingForResponse = true;
+      this.$store
+          .dispatch(
+              ACTION_FETCH_INITIAL_CONCEPT_DATA,
+          )
+          .then(
+              response => {
+                this.waitingForResponse = false;
+              },
+              error => {
+                this.waitingForResponse = false;
+                console.error(
+                    "Got nothing from server. Prompt user to check internet connection and try again"
+                );
+              }
+          );
     }
   },
   mounted() {
@@ -136,6 +154,7 @@ export default {
     if (localStorage.getItem(LOCAL_STORAGE_ACCESS_KEY)) {
       this.accessKey = localStorage.getItem(LOCAL_STORAGE_ACCESS_KEY);
       this.sendCheckAccessKey();
+      this.getInitialConceptsData();
     }
   }
 };
