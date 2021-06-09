@@ -9,7 +9,7 @@ async function loadDatasets() {
       this.$store.commit(MUTATE_DATASETS, response.data);
     })
     .catch(e => {
-      this.errors.push(e);
+      console.log("RESTcalls::loadDatasets:" + e);
     });
 }
 
