@@ -27,7 +27,7 @@
               v-model="confirm_delete"
               :label="`Confirm Deletion`"
               color="error"
-              :loading="btnLoadingg"
+              :loading="btnLoading"
               :disabled="btnLoading"
           ></v-checkbox>
         </v-flex>
@@ -138,8 +138,7 @@ export default {
       axios
           .get(GET_ALL_DATASETS_ENDPOINT)
           .then(response => {
-            this.$store.dispatch(MUTATE_DATASETS, response.data);
-            console.log("DatasetHome::loadDatasets: "+ response.data);
+            this.$store.commit(MUTATE_DATASETS, response.data);
           })
           .catch(e => {
             this.errors.push(e);
@@ -191,7 +190,6 @@ export default {
     },
   },
   mounted() {
-      setInterval(() => {  console.log("DatasetHome::mounted: "+ this.datasets); }, 1100);
   }
 };
 </script>
