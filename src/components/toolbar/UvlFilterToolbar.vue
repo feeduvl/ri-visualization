@@ -43,7 +43,7 @@ export default {
     ...mapGetters({
       results: 'results'
     }),
-    selected_result: function () {
+    selectedResult: function () {
       let res = {};
       for (let r in this.results) {
         if (r["started_at"] === this.selectedResultByDate) {
