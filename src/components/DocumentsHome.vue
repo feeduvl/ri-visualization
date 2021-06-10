@@ -20,16 +20,16 @@
           </v-card>
         </v-flex>
       </v-layout>
-      <v-layout row v-for="item in documents" :key="item.number">
+      <v-layout row v-for="item in dataset.documents" :key="item.number">
         <v-flex xs1 class="small"/>
         <v-flex xs1 class="small">{{ item.number }}</v-flex>
-        <v-flex xs5>{{ item.content }}</v-flex>
+        <v-flex xs5>{{ item.text }}</v-flex>
         <v-flex xs5>
           <ul>
-            <li v-for="topic in item.topics" :key="topic.number">
-              Topic {{ topic.number }} ({{ topic.name }}): <span v-for="word in topic.words" :key="word">{{
+            <li v-for="topic in doc_topics[item.number]" :key="topic[0]">
+              Topic {{ topic[0] }} ({{ topics[topic[0]].name }}): <span v-for="word in topics[topic[0]]" :key="word">{{
                 word
-              }}, </span><span class="space-left"> {{ topic.probability * 100 }}%</span>
+              }}, </span><span class="space-left"> {{ topic[1] * 100 }}%</span>
             </li>
           </ul>
         </v-flex>

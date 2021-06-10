@@ -83,8 +83,7 @@ export default {
     },
     updateDataset() {
       console.log("UvlFilterToolBar::updateDataset: ");
-      console.log(this.selectedResultByDate);
-      console.log(this.selectedResult);
+      console.log(JSON.stringify(this.selectedResult));
       loadDataset(this.$store, this.selectedResult["dataset_name"]);
     },
   },
