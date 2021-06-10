@@ -112,7 +112,6 @@ export default {
           value: "text",
           width: "90%"
         },
-
       ],
       errors: [],
       rawData: [],
