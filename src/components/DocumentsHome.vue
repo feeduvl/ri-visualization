@@ -6,14 +6,14 @@
     <v-card>
       <v-data-table
           :headers="tableHeaders"
-          :items="data"
+          :items="dataset.documents"
           :pagination.sync="pagination"
           :loading="loading"
       >
         <template slot="items" slot-scope="props">
           <tr>
-            <td>{{ props.documents.item.number }}</td>
-            <td>{{ props.documents.item.text }}</td>
+            <td>{{ props.item.number }}</td>
+            <td>{{ props.item.text }}</td>
             <td><ul>
               <li v-for="topic in selectedResult.doc_topic[item.number]" :key="topic[0]">
                 Topic {{ topic[0] }} (): <span v-for="word in selectedResult.topics[topic[0]]" :key="word">{{
@@ -76,6 +76,11 @@ export default {
           width: "45%"
         },
       ],
+      pagination: {
+        sortBy: "number",
+        descending: false
+      },
+      loading: false,
     };
   },
   methods: {
