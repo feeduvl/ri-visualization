@@ -26,8 +26,8 @@
         <v-flex xs5>{{ item.text }}</v-flex>
         <v-flex xs5>
           <ul>
-            <li v-for="topic in doc_topics[item.number]" :key="topic[0]">
-              Topic {{ topic[0] }} ({{ topics[topic[0]].name }}): <span v-for="word in topics[topic[0]]" :key="word">{{
+            <li v-for="topic in selectedResult.doc_topic[item.number]" :key="topic[0]">
+              Topic {{ topic[0] }} (): <span v-for="word in selectedResult.topics[topic[0]]" :key="word">{{
                 word
               }}, </span><span class="space-left"> {{ topic[1] * 100 }}%</span>
             </li>
@@ -50,8 +50,8 @@ export default {
     "uvl-filter-toolbar": () => import("./toolbar/UvlFilterToolbar"),
   },
   computed: {
-    selected_result () {
-      return this.components["uvl-filter-toolbar"].selected_result;
+    selectedResult () {
+      return this.components["uvl-filter-toolbar"].selectedResult;
     },
     ...mapGetters({
       results: 'results',
@@ -83,7 +83,7 @@ export default {
     },
     async loadDataset() {
       axios
-          .get(GET_DATASET_ENDPOINT(this.selected_result["dataset_name"]))
+          .get(GET_DATASET_ENDPOINT(this.selectedResult["dataset_name"]))
           .then(response => {
             this.documents = response.data;
           })
