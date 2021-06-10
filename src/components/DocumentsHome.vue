@@ -50,12 +50,10 @@ export default {
     "uvl-filter-toolbar": () => import("./toolbar/UvlFilterToolbar"),
   },
   computed: {
-    selectedResult () {
-      return this.components["uvl-filter-toolbar"].selectedResult;
-    },
     ...mapGetters({
       results: 'results',
       dataset: 'selectedDataset',
+      selectedRedsult: 'selectedResult'
     })
   },
   data: function () {

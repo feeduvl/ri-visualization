@@ -19,7 +19,7 @@
             :items="results"
             label="Select Run"
             item-text="started_at"
-            @change="updateDataset"
+            @change="updateData"
         >
         </v-select>
       </v-flex>
@@ -36,6 +36,7 @@ import {
 } from "@/routes";
 import {mapGetters} from "vuex";
 import {loadDataset} from "@/RESTcalls";
+import {MUTATE_SELECTED_RESULT} from "@/store/types";
 
 export default {
   name: "UvlFilterToolbar",
@@ -43,16 +44,7 @@ export default {
     ...mapGetters({
       results: 'results'
     }),
-    selectedResult: function () {
-      let res = {};
-      for (const r of this.results) {
-        if (r["started_at"] === this.selectedResultByDate) {
-          res = r;
-          break;
-        }
-      }
-      return res;
-    },
+
   },
   data() {
     return {
@@ -81,10 +73,21 @@ export default {
     filterResultsByMethod() {
 
     },
-    updateDataset() {
+    getSelectedResultFromDate () {
+      let res = {};
+      for (const r of this.results) {
+        if (r["started_at"] === this.selectedResultByDate) {
+          res = r;
+          break;
+        }
+      }
+      return res;
+    },
+    updateData() {
       console.log("UvlFilterToolBar::updateDataset: ");
       console.log(JSON.stringify(this.selectedResult));
       loadDataset(this.$store, this.selectedResult["dataset_name"]);
+      this.$store.commit(MUTATE_SELECTED_RESULT, this.getSelectedResultFromDate());
     },
   },
 

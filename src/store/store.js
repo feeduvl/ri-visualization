@@ -33,7 +33,7 @@ export const store = new Vuex.Store({
     datasets: [],
     results: [],
     selectedDataset: {},
-    selectedRun: {},
+    selectedResult: {},
     selectedConcept: "",
   },
   getters,

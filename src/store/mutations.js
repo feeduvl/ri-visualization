@@ -49,6 +49,9 @@ export const mutateDatasets = (state, datasets) => {
 export const mutateSelectedDataset = (state, dataset) => {
   state.selectedDataset = dataset;
 };
+export const mutateSelectedResult = (state, result) => {
+  state.selectedResult = result;
+};
 export const mutateProjectTitle = (state, title) => {
   state.projectTitle = title;
 };
