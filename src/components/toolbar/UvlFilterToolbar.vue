@@ -18,6 +18,7 @@
             v-model="selectedResult"
             :items="results"
             label="Select Run"
+            item-text="started_at"
             @change="updateDataset"
         >
         </v-select>
@@ -71,7 +72,7 @@ export default {
 
     },
     updateDataset() {
-      loadDataset(this.$store, this.selected_result["dataset_name"]);
+      loadDataset(this.$store, this.selectedResult["dataset_name"]);
     },
   },
 
