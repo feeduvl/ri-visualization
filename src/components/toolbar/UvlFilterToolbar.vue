@@ -15,7 +15,7 @@
       <v-flex xs5 v-if="showResultsFilter()">
         <v-select
             :menu-props="{maxWidth:'300'}"
-            v-model="selectedResult"
+            v-model="selectedResultByDate"
             :items="results"
             label="Select Run"
             item-text="started_at"
@@ -42,13 +42,23 @@ export default {
   computed: {
     ...mapGetters({
       results: 'results'
-    })
+    }),
+    selected_result: function () {
+      let res = {};
+      for (let r in this.results) {
+        if (r["started_at"] === this.selectedResultByDate) {
+          res = r;
+          break;
+        }
+      }
+      return res;
+    },
   },
   data() {
     return {
       color: BLUE_FILL,
       selectedMethod: "",
-      selectedResult: {},
+      selectedResultByDate: "",
       methods: [],
       path: this.$router.currentRoute.path
     };
@@ -73,7 +83,7 @@ export default {
     },
     updateDataset() {
       console.log("UvlFilterToolBar::updateDataset: ");
-      console.log(this.selectedResult)
+      console.log(this.selectedResult);
       loadDataset(this.$store, this.selectedResult["dataset_name"]);
     },
   },
