@@ -45,7 +45,7 @@ export default {
     }),
     selectedResult: function () {
       let res = {};
-      for (let r in this.results) {
+      for (const r of this.results) {
         if (r["started_at"] === this.selectedResultByDate) {
           res = r;
           break;
@@ -83,6 +83,7 @@ export default {
     },
     updateDataset() {
       console.log("UvlFilterToolBar::updateDataset: ");
+      console.log(this.selectedResultByDate);
       console.log(this.selectedResult);
       loadDataset(this.$store, this.selectedResult["dataset_name"]);
     },
