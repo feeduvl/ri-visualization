@@ -4,6 +4,20 @@
       <component v-bind:is="component" v-bind:methods="methods" v-bind:results="results"/>
     </v-layout>
     <v-card>
+      <v-card-title>
+        <h2>Documents and Topics</h2>
+        <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
+        <v-text-field
+            v-model="search"
+            append-icon="search"
+            label="Search for ID or text content"
+            single-line
+            hide-details
+        ></v-text-field>
+      </v-card-title>
       <v-data-table
           :headers="tableHeaders"
           :items="dataset.documents"
@@ -50,23 +64,24 @@ export default {
     return {
       methods: [],
       component: "uvl-filter-toolbar",
-      documents: [ { number: 1,
-      content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, ", topics:
-            [{number: 1, name: "", words: ["test", "text", "more"], probability: 0.97},{number: 2, name: "misc", words: ["another", "topic"], probability: 0.23}] },{ number: 2, content: "Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot Europa usa li sam vocabular. Li lingues differe solmen in li grammatica, li pronunciation e li plu commun vocabules. Omnicos directe al desirabilite de un nov lingua franca: On refusa continuar payar custosi traductores. At solmen va esser necessi far uniform grammatica, pronunciation e plu sommun paroles. Ma quande lingues coalesce, li grammatica del resultant lingue es plu simplic e regulari quam ti del coalescent lingues. Li nov lingua franca va esser plu simplic e regulari quam li existent Europan ", topics: [{number: 1, name: "blindtext", words: ["lorem", "omnicros", "more"]},{number: 2, name: "misc", words: ["another", "topic"]}]}],
+      documents: {},
+      search: "",
       tableHeaders: [
         {
-          text: "Id",
+          text: "ID",
           align: "center",
           sortable: true,
           value: "number",
-          width: "10%"
+          width: "10%",
+          filterable: true
         },
         {
           text: "Text",
           align: "left",
           sortable: false,
           value: "text",
-          width: "45%"
+          width: "45%",
+          filterable: true
         },
         {
           text: "Topics",
@@ -84,19 +99,6 @@ export default {
     };
   },
   methods: {
-    async getAllResults() {
-      axios.get(GET_ALL_RESULTS_ENDPOINT)
-          .then(response => {
-            // DEBUG
-            console.log(response.data);
-            this.results = response.data;
-          })
-          .catch(e => {
-            this.errors.push(e);
-            // DEBUG
-            console.log(this.errors)
-          });
-    },
     async loadDataset() {
       axios
           .get(GET_DATASET_ENDPOINT(this.selectedResult["dataset_name"]))
@@ -109,7 +111,6 @@ export default {
     },
   },
   mounted() {
-    //this.getAllResults();
   }
 }
 </script>
@@ -125,7 +126,6 @@ export default {
 
 .space-left {
   padding-left: 10px;
-  float: right;
 }
 
 .layout.row {

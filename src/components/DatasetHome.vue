@@ -3,7 +3,7 @@
     <v-card>
       <v-card flat class="header">
         <v-card-title>
-          <h1>{{ cardTableTitle }}</h1>
+          <h2>{{ cardTableTitle }}</h2>
         </v-card-title>
       </v-card>
       <v-layout row wrap>
