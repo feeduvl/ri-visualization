@@ -46,6 +46,9 @@ export const mutateFilteredTweets = (state, filteredTweets) => {
 export const mutateDatasets = (state, datasets) => {
   state.datasets = datasets;
 };
+export const mutateSelectedDataset = (state, dataset) => {
+  state.selectedDataset = dataset;
+};
 export const mutateProjectTitle = (state, title) => {
   state.projectTitle = title;
 };

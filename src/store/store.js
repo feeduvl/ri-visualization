@@ -31,7 +31,7 @@ export const store = new Vuex.Store({
     accessKeyConfiguration: null,
     // feed-uvl
     datasets: [],
-    runs: [],
+    results: [],
     selectedDataset: {},
     selectedRun: {},
     selectedConcept: "",

@@ -18,7 +18,7 @@
             v-model="selectedResult"
             :items="results"
             label="Select Run"
-            @change="filterResultsByMethod"
+            @change="updateDataset"
         >
         </v-select>
       </v-flex>
@@ -33,16 +33,22 @@ import {
   ROUTE_CONCEPTS,
   ROUTE_RESULTS
 } from "@/routes";
+import {mapGetters} from "vuex";
+import {loadDataset} from "@/RESTcalls";
 
 export default {
   name: "UvlFilterToolbar",
+  computed: {
+    ...mapGetters({
+      results: 'results'
+    })
+  },
   data() {
     return {
       color: BLUE_FILL,
-      selectedMethod: [],
-      selectedResult: [],
+      selectedMethod: "",
+      selectedResult: {},
       methods: [],
-      results: [],
       path: this.$router.currentRoute.path
     };
   },
@@ -63,6 +69,9 @@ export default {
     },
     filterResultsByMethod() {
 
+    },
+    updateDataset() {
+      loadDataset(this.$store, this.selected_result["dataset_name"]);
     },
   },
 

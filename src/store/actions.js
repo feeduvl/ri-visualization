@@ -3,6 +3,7 @@ import moment from "moment";
 import "moment/locale/de";
 import {
   GET_ALL_DATASETS_ENDPOINT,
+  GET_ALL_RESULTS_ENDPOINT,
   GET_ALL_TWEETS_ENDPOINT
 } from '@/RESTconf';
 import {
@@ -54,11 +55,22 @@ export const actionLoadDatasets = state => {
       console.log("actions::actionLoadDatasets Error:" + e);
     });
 };
+export const actionLoadResults = state => {
+  axios
+    .get(GET_ALL_RESULTS_ENDPOINT)
+    .then(response => {
+      state.results =  response.data;
+    })
+    .catch(e => {
+      console.log("actions::actionLoadResults Error:" + e);
+    });
+};
 export const actionFetchInitialConceptData = ({
   state,
   commit
 }) => {
   actionLoadDatasets(state);
+  actionLoadResults(state);
 };
 export const actionFilterTweets = ({
   state,
