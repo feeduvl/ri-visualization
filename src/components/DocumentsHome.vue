@@ -23,6 +23,7 @@
           :items="dataset.documents"
           :pagination.sync="pagination"
           :loading="loading"
+          :search="search"
       >
         <template slot="items" slot-scope="props">
           <tr>
