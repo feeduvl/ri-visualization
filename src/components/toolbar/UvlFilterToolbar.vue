@@ -42,7 +42,8 @@ export default {
   name: "UvlFilterToolbar",
   computed: {
     ...mapGetters({
-      results: 'results'
+      results: 'results',
+      selectedResult: 'selectedResult',
     }),
 
   },
@@ -84,10 +85,10 @@ export default {
       return res;
     },
     updateData() {
+      this.$store.commit(MUTATE_SELECTED_RESULT, this.getSelectedResultFromDate());
       console.log("UvlFilterToolBar::updateDataset: ");
       console.log(JSON.stringify(this.selectedResult));
       loadDataset(this.$store, this.selectedResult["dataset_name"]);
-      this.$store.commit(MUTATE_SELECTED_RESULT, this.getSelectedResultFromDate());
     },
   },
 

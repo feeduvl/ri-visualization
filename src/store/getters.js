@@ -37,6 +37,9 @@ export const datasets = state => {
 export const selectedDataset = state => {
   return state.selectedDataset;
 };
+export const selectedResult = state => {
+  return state.selectedResult;
+};
 export const getProjectTitle = state => {
   return state.projectTitle;
 };
