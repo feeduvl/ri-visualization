@@ -14,13 +14,11 @@
           <td>{{ item.number }}</td>
           <td>{{ item.text }}</td>
           <td>
-            <ul>
-              <li v-for="topic in selectedResult.doc_topic[item.number]" :key="topic[0]">
+              <span v-for="topic in selectedResult.doc_topic[item.number]" :key="topic[0]">
                 Topic {{ topic[0] }} (): <span v-for="word in selectedResult.topics[topic[0]]" :key="word">{{
                   word
-                }}, </span><span class="space-left"> {{ topic[1] * 100 }}%</span>
-              </li>
-            </ul>
+                }}, </span><span class="space-left"> {{ topic[1] * 100 }}%</span><br>
+              </span>
           </td>
         </tr>
       </v-data-table>
@@ -72,7 +70,7 @@ export default {
           text: "Topics",
           align: "left",
           sortable: false,
-          value: "topic",
+          value: "text",
           width: "45%"
         },
       ],
