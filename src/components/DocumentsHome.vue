@@ -53,7 +53,7 @@ export default {
     ...mapGetters({
       results: 'results',
       dataset: 'selectedDataset',
-      selectedRedsult: 'selectedResult'
+      selectedResult: 'selectedResult'
     })
   },
   data: function () {
