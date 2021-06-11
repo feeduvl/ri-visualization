@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout row class="spacing">
-      <component v-bind:is="component" v-bind:dataset="selectedMethod"/>
+      <component v-bind:is="component" v-bind:methods="methods" v-bind:results="results"/>
     </v-layout>
     <v-card>
       <v-container>
@@ -11,7 +11,7 @@
                 v-model="selectedConcept"
                 :items="resultConcepts"
                 label="Select Concept"
-                @change="updateConcept"
+                @change="updateContent"
                 max-width="200px"
             >
             </v-select>
@@ -31,12 +31,12 @@
         </v-layout>
         <v-layout row wrap>
           <v-flex xs7>
-            <span v-for="word in concept.words" :key="word">{{ word }}, </span>
+            <span v-for="word in conceptWords" :key="word">{{ word }}, </span>
           </v-flex>
           <v-flex xs1/>
           <v-flex xs2>
             <v-text-field
-                v-model="concept_name"
+                v-model="conceptName"
                 label="Concept Name"
                 clearable>
             </v-text-field>
@@ -73,19 +73,61 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "ConceptHome",
   components: {
     "uvl-filter-toolbar": () => import("./toolbar/UvlFilterToolbar"),
   },
+  computed: {
+    ...mapGetters({
+      results: 'results',
+      dataset: 'selectedDataset',
+      selectedResult: 'selectedResult'
+    }),
+    conceptWords() {
+      let words = [];
+      if (this.selectedResult["topics"] === undefined) {
+        return words;
+      } else {
+        for (const word in this.selectedResult['topics'][this.selectedConcept[1]]) {
+          words.push(word);
+        }
+      }
+    },
+    resultConcepts() {
+      let concepts = [];
+      let conceptName = "";
+      if (this.selectedResult["topics"] === undefined) {
+        return concepts;
+      } else {
+        for (const c of this.selectedResult["topics"]) {
+          try {
+            conceptName = c[2];
+          } catch {
+            conceptName = "";
+          }
+          try {
+            concepts.push({text: "Concept " + c[0] + " " + conceptName, value: c[0]});
+          } catch {
+            return concepts;
+          }
+        }
+        return concepts;
+      }
+    },
+  },
   data() {
     return {
       component: "uvl-filter-toolbar",
-      selectedConcept: [],
-      resultConcepts: [],
+      methods: [],
+      selectedConcept: {},
+      conceptName: "",
       concept: {
         words: ["Test", "Test2"],
       },
+      // documents: {},
       documents: [
         {
           number: 1,
@@ -105,7 +147,14 @@ export default {
       ],
     }
   },
-  methods: {},
+  methods: {
+    updateConcept() {
+
+    },
+    updateContent() {
+
+    },
+  },
   mounted() {
   }
 }
