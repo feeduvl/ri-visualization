@@ -90,28 +90,37 @@ export default {
   methods: {
     async uploadFile() {
       this.loading = true;
-      let formData = new FormData();
-      formData.append('file', this.uploadedFile);
-      axios.post(POST_UPLOAD_DATASET_ENDPOINT,
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data'
+      if (this.fileInputField.files[0] === undefined) {
+        this.displaySnackbar("Select a file first!");
+        setTimeout(() => {  this.closeSnackbar(); }, 3000);
+      } else if (!(this.fileInputField.files[0].name.endsWith(".csv"))) {
+        this.displaySnackbar("File type not allowed!");
+        setTimeout(() => {  this.closeSnackbar(); }, 3000);
+      } else {
+        let formData = new FormData();
+        formData.append('file', this.uploadedFile);
+        axios.post(POST_UPLOAD_DATASET_ENDPOINT,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
             }
+        ).then(response => {
+          if (response.status > 200 || response.status < 300) {
+            this.displaySnackbar(response.data.message);
+            this.fileInputField.value = null;
+            // Reset file name display
+            this.getFileName();
+            loadDatasets(this.$store);
+          } else {
+            this.displaySnackbar("Error with file upload!");
           }
-      ).then(response => {
-        if (response.status > 200 || response.status < 300) {
-          this.displaySnackbar(response.data.message);
-          this.fileInputField.value = null;
-          this.getFileName();
-          loadDatasets(this.$store);
-        } else {
-          this.displaySnackbar("Error with file upload!!");
-        }
-      })
-          .catch( () => {
-            this.displaySnackbar("Could not contact backend!");
-          });
+        })
+            .catch(() => {
+              this.displaySnackbar("Could not contact backend!");
+            });
+      }
       this.loading = false;
     },
     getFileName() {
