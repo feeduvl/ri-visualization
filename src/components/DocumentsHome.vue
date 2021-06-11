@@ -5,7 +5,7 @@
     </v-layout>
     <v-card>
       <v-card-title>
-        <h2>Documents and Topics</h2>
+        <h2>Documents and Concepts</h2>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
@@ -31,7 +31,7 @@
             <td>{{ props.item.text }}</td>
             <td>
               <span v-for="topic in selectedResult.doc_topic[props.item.number]" :key="topic[0]">
-                <b>Topic {{ topic[0] }} ():</b> <span v-for="word in selectedResult.topics[topic[0]]" :key="word">{{
+                <b>Concept {{ topic[0] }} ():</b> <span v-for="word in selectedResult.topics[topic[0]]" :key="word">{{
                   word
                 }}, </span><span class="space-left"> {{ topic[1].toFixed(5) * 100 }}%</span><br>
               </span>
@@ -85,7 +85,7 @@ export default {
           filterable: true
         },
         {
-          text: "Topics",
+          text: "Concepts",
           align: "left",
           sortable: false,
           value: "text",
