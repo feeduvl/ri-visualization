@@ -54,6 +54,15 @@
           :label="`Fix Random Seed`"
       ></v-checkbox>
       </v-flex>
+      <v-flex xs1/>
+      <v-flex xs3>
+        <v-text-field
+            v-model="vocab_min_count"
+            :messages="['Integer. Default: 3']"
+            label="Minimum Word Count"
+            clearable
+        ></v-text-field>
+      </v-flex>
     </v-layout>
     <v-layout row wrap>
       <v-flex xs10/>
@@ -99,6 +108,7 @@ export default {
     max_iter: 500,
     max_err: 0.1,
     fix_random: false,
+    vocab_min_count: 3,
   }),
   methods: {
     async startRun() {
@@ -141,6 +151,7 @@ export default {
         max_iter: this.max_iter,
         max_err: this.max_err,
         fix_random: this.fix_random,
+        vocab_min_count: this.vocab_min_count,
       };
       return JSON.stringify(params);
     },
