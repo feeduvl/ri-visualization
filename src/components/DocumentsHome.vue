@@ -27,8 +27,8 @@
       >
         <template slot="items" slot-scope="props">
           <tr>
-            <td>{{ props.item.number }}</td>
-            <td>{{ props.item.text }}</td>
+            <td :inner-html.prop="props.item.number | highlight(search)"></td>
+            <td :inner-html.prop="props.item.text | highlight(search)"></td>
             <td>
               <span v-for="topic in selectedResult.doc_topic[props.item.number]" :key="topic[0]">
                 <b>Concept {{ topic[0] }} ():</b> <span v-for="word in selectedResult.topics[topic[0]]" :key="word">{{
@@ -45,7 +45,7 @@
 
 <script>
 
-import {GET_ALL_RESULTS_ENDPOINT, GET_DATASET_ENDPOINT} from "@/RESTconf";
+import {GET_DATASET_ENDPOINT} from "@/RESTconf";
 import axios from "axios";
 import {mapGetters} from "vuex";
 
@@ -60,6 +60,11 @@ export default {
       dataset: 'selectedDataset',
       selectedResult: 'selectedResult'
     })
+  },
+  filters: {
+    highlight: function (value, query) {
+      return value.replace(new RegExp(query, "ig"), '<span class=\'blue\'>' + query + '</span>')
+    },
   },
   data: function () {
     return {
