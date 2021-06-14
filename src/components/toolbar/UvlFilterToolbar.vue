@@ -1,12 +1,12 @@
 <template>
-  <v-toolbar :color="color" height="75">
+  <v-toolbar :color="color" height="95">
     <v-layout row wrap>
       <v-flex xs5 v-if="showMethodFilter()">
         <v-select
-            :menu-props="{maxWidth:'300'}"
             v-model="selectedMethod"
             :items="methods"
             label="Select Method"
+            dense=true
             @change="filterResultsByMethod"
         >
         </v-select>
@@ -14,11 +14,11 @@
       <v-flex xs1/>
       <v-flex xs5 v-if="showResultsFilter()">
         <v-select
-            :menu-props="{maxWidth:'300'}"
             v-model="selectedResultByDate"
             :items="results"
             label="Select Run"
             item-text="started_at"
+            dense=true
             @change="updateData"
         >
         </v-select>
