@@ -26,8 +26,8 @@ export const store = new Vuex.Store({
     dataUpToDate: false,
     dataUpdating: false,
     showTutorial: false,
-    loggedIn: false,
-    accessKey: "",
+    loggedIn: true,
+    accessKey: "demo",
     accessKeyConfiguration: null,
     // feed-uvl
     datasets: [],

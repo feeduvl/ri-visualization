@@ -27,7 +27,7 @@
       >
         <template slot="items" slot-scope="props">
           <tr>
-            <td :inner-html.prop="props.item.number | highlight(search)"></td>
+            <td :inner-html.prop="num.toString(props.item.number) | highlight(search)"></td>
             <td :inner-html.prop="props.item.text | highlight(search)"></td>
             <td>
               <span v-for="topic in selectedResult.doc_topic[props.item.number]" :key="topic[0]">
