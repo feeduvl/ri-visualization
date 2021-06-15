@@ -112,19 +112,23 @@ export default {
   }),
   methods: {
     async startRun() {
-      this.loading = false;
-      axios.post(POST_START_DETECTION_ENDPOINT, this.getFormData()
-      ).then(response => {
-        if (response.status > 200 || response.status < 300) {
-          this.displaySnackbar("Run has been started successfully.");
-        } else {
-          this.displaySnackbar("Error starting run!!");
-        }
-      }).catch( () => {
-        this.displaySnackbar("Could not contact backend!");
-        console.log(this.getFormData());
-      });
-      this.blockButton();
+      if (!(this.validateDatasetInput())) {
+        this.displaySnackbar("Please select a dataset!");
+      } else {
+        this.loading = false;
+        axios.post(POST_START_DETECTION_ENDPOINT, this.getFormData()
+        ).then(response => {
+          if (response.status > 200 || response.status < 300) {
+            this.displaySnackbar("Run has been started successfully.");
+          } else {
+            this.displaySnackbar("Error starting run!");
+          }
+        }).catch( () => {
+          this.displaySnackbar("Could not contact backend!");
+          console.log(this.getFormData());
+        });
+        this.blockButton();
+      }
     },
     reset () {
       this.$refs.form.reset()
@@ -154,6 +158,13 @@ export default {
         vocab_min_count: this.vocab_min_count,
       };
       return JSON.stringify(params);
+    },
+    validateDatasetInput() {
+      if (this.$props.dataset === "") {
+        return false
+      } else {
+        return true
+      }
     },
   },
 }
