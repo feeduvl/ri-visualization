@@ -30,13 +30,9 @@
             <td>{{ props.item.id }}</td>
             <td :inner-html.prop="props.item.text | highlight(search)"></td>
             <td>
-              {{ resetWordlist }}
-              <span v-for="(topic, index) in selectedResult.doc_topic[props.item.number]" :key="topic[0]">
-                <span v-for="word in selectedResult.topics[topic[0]]" :key="word">
-                  <span v-if="props.item.text.includes(word) && checkDuplicate(word)">
-                    {{ logState(props.item.text.includes(word) && checkDuplicate(word)) }}
-                    {{ word }}<span v-if="index+1 < selectedResult.topics[topic[0]].length">, </span>
-                  </span>
+              <span v-for="word in topicWordlist">
+                <span v-if="props.item.text.includes(word)">
+                  {{ word }}<span> </span>
                 </span>
               </span>
             </td>
@@ -64,10 +60,17 @@ export default {
       dataset: 'selectedDataset',
       selectedResult: 'selectedResult'
     }),
-    resetWordlist() {
-      console.log("wordlist cleared");
-      this.wordlist = [];
-      return "";
+    topicWordlist() {
+      let list = []
+      for (let topic in this.selectedResult.topics) {
+        for (let word in topic.words) {
+          if (!(list.indexOf(word) > -1)) {
+            list.push(word);
+          }
+        }
+      }
+      console.log(list);
+      return list;
     }
   },
   filters: {
@@ -81,7 +84,6 @@ export default {
       component: "uvl-filter-toolbar",
       documents: {},
       search: "",
-      wordlist: [],
       tableHeaders: [
         {
           text: "ID",
@@ -125,18 +127,6 @@ export default {
             this.errors.push(e);
           });
     },
-    checkDuplicate(word) {
-      if (this.wordlist.indexOf(word) > -1) {
-        return false;
-      } else {
-        this.wordlist.push(word);
-        return true;
-      }
-    },
-    logState(state) {
-      console.log(state);
-      return "";
-    }
   },
   mounted() {
   }
