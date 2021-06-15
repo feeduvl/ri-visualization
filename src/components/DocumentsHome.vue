@@ -30,10 +30,12 @@
             <td>{{ props.item.id }}</td>
             <td :inner-html.prop="props.item.text | highlight(search)"></td>
             <td>
-              <span v-for="topic in selectedResult.doc_topic[props.item.number]" :key="topic[0]">
-                <b>Concept {{ topic[0] }} ():</b> <span v-for="word in selectedResult.topics[topic[0]]" :key="word">{{
-                  word
-                }}, </span><span class="space-left"> {{ topic[1].toFixed(5) * 100 }}%</span><br>
+              <span v-for="(topic, index) in selectedResult.doc_topic[props.item.number]" :key="topic[0]">
+                <span v-for="word in selectedResult.topics[topic[0]]" :key="word">
+                  <span v-if="props.item.text.includes(word)">
+                    <span v-if="index != 0">, </span>{{ word }}
+                  </span>
+                </span>
               </span>
             </td>
           </tr>
