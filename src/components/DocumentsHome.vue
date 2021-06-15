@@ -33,7 +33,7 @@
               <span v-for="(topic, index) in selectedResult.doc_topic[props.item.number]" :key="topic[0]">
                 <span v-for="word in selectedResult.topics[topic[0]]" :key="word">
                   <span v-if="props.item.text.includes(word)">
-                    {{ word }}<span v-if="index+1 < lists.length">, </span>
+                    {{ word }}<span v-if="index+1 < selectedResult.topics[topic[0]].length">, </span>
                   </span>
                 </span>
               </span>
