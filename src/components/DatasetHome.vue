@@ -40,7 +40,7 @@
       >
         <template slot="items" slot-scope="props">
           <tr>
-            <td>{{ props.item.number }}</td>
+            <td>{{ props.item.id }}</td>
             <td>{{ props.item.text }}</td>
           </tr>
         </template>
@@ -99,7 +99,7 @@ export default {
       },
       tableHeaders: [
         {
-          text: "Number",
+          text: "ID",
           align: "center",
           sortable: true,
           value: "number",
