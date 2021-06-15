@@ -63,17 +63,13 @@ export default {
     topicWordlist() {
       let list = []
       for (let topic in this.selectedResult.topics) {
-        console.log(this.selectedResult.topics[topic]);
         for (let index in this.selectedResult.topics[topic]) {
           let word = this.selectedResult.topics[topic][index];
-          console.log(word);
-          console.log(!(list.indexOf(word) > -1));
           if (!(list.indexOf(word) > -1)) {
             list.push(word);
           }
         }
       }
-      console.log(list);
       return list;
     }
   },
