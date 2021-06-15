@@ -6,7 +6,7 @@
             v-model="selectedMethod"
             :items="methods"
             label="Select Method"
-            dense=true
+            :dense="true"
             @change="filterResultsByMethod"
         >
         </v-select>
@@ -18,7 +18,7 @@
             :items="results"
             label="Select Run"
             item-text="started_at"
-            dense=true
+            :dense="true"
             @change="updateData"
         >
         </v-select>

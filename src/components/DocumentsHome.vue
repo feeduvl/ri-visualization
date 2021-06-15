@@ -119,10 +119,13 @@ export default {
           });
     },
     checkDuplicate(word) {
+      console.log(word);
       if (this.wordlist.indexOf(word) > -1) {
+        console.log("false");
         return false;
       } else {
         this.wordlist.push(word);
+        console.log("true");
         return true;
       }
     },
