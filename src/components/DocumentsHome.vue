@@ -32,8 +32,9 @@
             <td>
               <span v-for="(topic, index) in selectedResult.doc_topic[props.item.number]" :key="topic[0]">
                 <span v-for="word in selectedResult.topics[topic[0]]" :key="word">
-                  <span v-if="checkWord(word, props.item.text)">
+                  <span v-if="props.item.text.includes(word) && checkDuplicate(word)">
                     {{ word }}<span v-if="index+1 < selectedResult.topics[topic[0]].length">, </span>
+                    <span v-if="index+1 >= selectedResult.topics[topic[0]].length"> {{ resetWordlist }}</span>
                   </span>
                 </span>
               </span>
@@ -61,7 +62,12 @@ export default {
       results: 'results',
       dataset: 'selectedDataset',
       selectedResult: 'selectedResult'
-    })
+    }),
+    resetWordlist() {
+      console.log("wordlist cleared");
+      this.wordlist = [];
+      return "";
+    }
   },
   filters: {
     highlight: function (value, query) {
@@ -127,17 +133,6 @@ export default {
         this.wordlist.push(word);
         console.log("true");
         return true;
-      }
-    },
-    checkWord(word, text) {
-      if (text.includes(word)) {
-        if (this.checkDuplicate(word)) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
       }
     },
   },
