@@ -63,7 +63,8 @@ export default {
     topicWordlist() {
       let list = []
       for (let topic in this.selectedResult.topics) {
-        for (let word in this.selectedResult.topics[topic].words) {
+        console.log(this.selectedResult.topics[topic]);
+        for (let word in this.selectedResult.topics[topic]) {
           console.log(word);
           console.log(!(list.indexOf(word) > -1));
           if (!(list.indexOf(word) > -1)) {
