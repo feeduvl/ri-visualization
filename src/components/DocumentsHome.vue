@@ -32,7 +32,7 @@
             <td>
               <span v-for="(topic, index) in selectedResult.doc_topic[props.item.number]" :key="topic[0]">
                 <span v-for="word in selectedResult.topics[topic[0]]" :key="word">
-                  <span v-if="props.item.text.includes(word) && checkDuplicate(word)">
+                  <span v-if="checkWord(word, props.item.text.includes(word))">
                     {{ word }}<span v-if="index+1 < selectedResult.topics[topic[0]].length">, </span>
                   </span>
                 </span>
@@ -127,6 +127,17 @@ export default {
         this.wordlist.push(word);
         console.log("true");
         return true;
+      }
+    },
+    checkWord(word, text) {
+      if (text.includes(word)) {
+        if (this.checkDuplicate(word)) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
       }
     },
   },
