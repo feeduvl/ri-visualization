@@ -32,7 +32,7 @@
             <td>
               <span v-for="(topic, index) in selectedResult.doc_topic[props.item.number]" :key="topic[0]">
                 <span v-for="word in selectedResult.topics[topic[0]]" :key="word">
-                  <span v-if="props.item.text.includes(word)">
+                  <span v-if="props.item.text.includes(word) && checkDuplicate(word)">
                     {{ word }}<span v-if="index+1 < selectedResult.topics[topic[0]].length">, </span>
                   </span>
                 </span>
@@ -74,6 +74,7 @@ export default {
       component: "uvl-filter-toolbar",
       documents: {},
       search: "",
+      wordlist: [],
       tableHeaders: [
         {
           text: "ID",
@@ -116,6 +117,14 @@ export default {
           .catch(e => {
             this.errors.push(e);
           });
+    },
+    checkDuplicate(word) {
+      if (this.wordlist.indexOf(word) > -1) {
+        return false;
+      } else {
+        this.wordlist.push(word);
+        return true;
+      }
     },
   },
   mounted() {
