@@ -30,11 +30,12 @@
             <td>{{ props.item.id }}</td>
             <td :inner-html.prop="props.item.text | highlight(search)"></td>
             <td>
+              {{ resetWordlist }}
               <span v-for="(topic, index) in selectedResult.doc_topic[props.item.number]" :key="topic[0]">
                 <span v-for="word in selectedResult.topics[topic[0]]" :key="word">
                   <span v-if="props.item.text.includes(word) && checkDuplicate(word)">
+                    {{ logState(props.item.text.includes(word) && checkDuplicate(word)) }}
                     {{ word }}<span v-if="index+1 < selectedResult.topics[topic[0]].length">, </span>
-                    <span v-if="index+1 >= selectedResult.topics[topic[0]].length"> {{ resetWordlist }}</span>
                   </span>
                 </span>
               </span>
@@ -125,16 +126,17 @@ export default {
           });
     },
     checkDuplicate(word) {
-      console.log(word);
       if (this.wordlist.indexOf(word) > -1) {
-        console.log("false");
         return false;
       } else {
         this.wordlist.push(word);
-        console.log("true");
         return true;
       }
     },
+    logState(state) {
+      console.log(state);
+      return "";
+    }
   },
   mounted() {
   }
