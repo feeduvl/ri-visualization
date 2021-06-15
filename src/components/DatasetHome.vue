@@ -102,7 +102,7 @@ export default {
           text: "ID",
           align: "center",
           sortable: true,
-          value: "number",
+          value: "id",
           width: "10%"
         },
         {
@@ -137,7 +137,8 @@ export default {
       for (var index in responseData["documents"]) {
         var document = responseData["documents"][index];
         var d = { text: document.text,
-              number: document.number};
+              number: document.number,
+              id: document.id};
         documents.push(d);
       }
       this.data = documents;

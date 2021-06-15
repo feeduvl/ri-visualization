@@ -98,7 +98,7 @@ export default {
         },
       ],
       pagination: {
-        sortBy: "number",
+        sortBy: "ID",
         descending: false
       },
       loading: false,
