@@ -1,13 +1,16 @@
 <template>
   <v-container>
   <v-form
-      ref="form">
+      ref="form"
+      v-model="formValid">
     <v-layout row wrap>
       <v-flex xs3>
       <v-text-field
               v-model="alpha"
-              :messages="['Must be between 0 and 1. Default: 0.1']"
+              hint="Must be between 0 and 1. Default: 0.1"
+              persistent-hint
               label="Alpha"
+              :rules="alphaRules"
               clearable
           ></v-text-field>
       </v-flex>
@@ -15,36 +18,44 @@
       <v-flex xs3>
           <v-text-field
               v-model="beta"
-              :messages="['Must be between 0 and 1. Default: 0']"
+              hint="Must be between 0 and 1. Default: 0"
               label="Beta"
               clearable
+              :rules="betaRules"
+              persistent-hint
           ></v-text-field>
       </v-flex>
       <v-flex xs1/>
       <v-flex xs3>
         <v-text-field
             v-model="n_topics"
-            :messages="['Positive Integer. Default: 10']"
+            hint="Positive Integer. Default: 10"
             label="Number of Topics"
+            :rules="nTopicsRules"
             clearable
+            persistent-hint
         ></v-text-field>
       </v-flex>
       <v-flex xs1/>
       <v-flex xs3>
         <v-text-field
             v-model="max_iter"
-            :messages="['Positive Integer. Default: 500']"
+            hint="Positive Integer. Default: 500"
             label="Maximum Iterations"
+            :rules="maxIterRules"
             clearable
+            persistent-hint
         ></v-text-field>
       </v-flex>
       <v-flex xs1/>
       <v-flex xs3>
         <v-text-field
             v-model="max_err"
-            :messages="['Positive Float. Default: 0.1']"
+            hint="Positive Float. Default: 0.1"
             label="Stop Criterion"
+            :rules="maxErrRules"
             clearable
+            persistent-hint
         ></v-text-field>
       </v-flex>
       <v-flex xs1/>
@@ -58,18 +69,21 @@
       <v-flex xs3>
         <v-text-field
             v-model="vocab_min_count"
-            :messages="['Integer. Default: 3']"
+            hint="Positive Integer. Default: 3"
             label="Minimum Word Count"
+            :rules="vocabMinCountRules"
             clearable
+            persistent-hint
         ></v-text-field>
       </v-flex>
       <v-flex xs1/>
       <v-flex xs3>
         <v-text-field
             v-model="run_name"
-            :messages="['Optional string to name this run.']"
+            hint="Optional string to name this run."
             label="Run Name"
             clearable
+            persistent-hint
         ></v-text-field>
       </v-flex>
     </v-layout>
@@ -119,11 +133,41 @@ export default {
     fix_random: false,
     vocab_min_count: 3,
     run_name: "",
+    formValid: true,
+    alphaRules: [
+      v => !!v || 'Alpha is required',
+      v => (v && v > 0 && v <= 1) || 'Must be > 0 and <= 1',
+    ],
+    betaRules: [
+      v => (String(v) !== "null" && String(v) !== "") || 'Beta is required',
+      v => (v >= 0 && v <= 1) || 'Must be between 0 and 1',
+    ],
+    nTopicsRules: [
+      v => !!v || 'Number of Topics is required',
+      v => (v && v % 1 === 0) || 'Must be an integer',
+      v => (v && v > 0) || 'Must be greater than 0',
+    ],
+    maxIterRules: [
+      v => !!v || 'Maximum Iterations is required',
+      v => (v && v % 1 === 0) || 'Must be an integer',
+      v => (v && v > 0) || 'Must be greater than 0',
+    ],
+    maxErrRules: [
+      v => !!v || 'Stop Criterion is required',
+      v => (v && v > 0) || 'Must be greater than 0',
+    ],
+    vocabMinCountRules: [
+      v => !!v || 'Minimum Word Count is required',
+      v => (v && v % 1 === 0) || 'Must be an integer',
+      v => (v && v > 0) || 'Must be greater than 0',
+    ],
   }),
   methods: {
     async startRun() {
       if (!(this.validateDatasetInput())) {
         this.displaySnackbar("Please select a dataset!");
+      } else if (!(this.formValid)) {
+        this.displaySnackbar("Please validate your parameter inputs!");
       } else {
         this.loading = false;
         axios.post(POST_START_DETECTION_ENDPOINT, this.getFormData()
@@ -172,9 +216,9 @@ export default {
     },
     validateDatasetInput() {
       if (this.$props.dataset === "") {
-        return false
+        return false;
       } else {
-        return true
+        return true;
       }
     },
   },
