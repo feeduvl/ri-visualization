@@ -63,6 +63,15 @@
             clearable
         ></v-text-field>
       </v-flex>
+      <v-flex xs1/>
+      <v-flex xs3>
+        <v-text-field
+            v-model="run_name"
+            :messages="['Optional string to name this run.']"
+            label="Run Name"
+            clearable
+        ></v-text-field>
+      </v-flex>
     </v-layout>
     <v-layout row wrap>
       <v-flex xs10/>
@@ -109,6 +118,7 @@ export default {
     max_err: 0.1,
     fix_random: false,
     vocab_min_count: 3,
+    run_name: "",
   }),
   methods: {
     async startRun() {
@@ -156,6 +166,7 @@ export default {
         max_err: this.max_err,
         fix_random: this.fix_random,
         vocab_min_count: this.vocab_min_count,
+        name: this.run_name,
       };
       return JSON.stringify(params);
     },
