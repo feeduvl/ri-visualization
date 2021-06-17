@@ -22,9 +22,8 @@
           :headers="tableHeaders"
           :items="dataset.documents"
           :pagination.sync="pagination"
-          :loading="loading"
+          :loading="loadingDataset"
           :search="search"
-          loading-text="Loading data... Please wait"
       >
         <template slot="items" slot-scope="props">
           <tr>
