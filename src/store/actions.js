@@ -62,11 +62,12 @@ export const actionLoadResults = state => {
     .then(response => {
       state.results =  response.data;
       state.filteredResults = response.data;
+      state.loadingResults = false;
     })
     .catch(e => {
       console.log("actions::actionLoadResults Error:" + e);
+      state.loadingResults = false;
     });
-  state.loadingResults = false;
 };
 export const actionFetchInitialConceptData = ({
   state,
