@@ -17,7 +17,8 @@
             v-model="selectedResultByDate"
             :items="results"
             label="Select Run"
-            item-text="started_at"
+            :item-text="getResultItemText"
+            item-value="started_at"
             :dense="true"
             @change="updateData"
         >
@@ -89,6 +90,15 @@ export default {
       console.log("UvlFilterToolBar::updateDataset: ");
       console.log(JSON.stringify(this.selectedResult));
       loadDataset(this.$store, this.selectedResult["dataset_name"]);
+    },
+    getResultItemText(item) {
+      let n = "";
+      if (item.name === "") {
+        n = item.method;
+      } else {
+        n = item.name;
+      }
+      return n + " - " + item.started_at.replace("Z", "").replace("T", " ");
     },
   },
 
