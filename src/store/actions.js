@@ -56,7 +56,7 @@ export const actionLoadDatasets = state => {
     });
 };
 export const actionLoadResults = state => {
-  this.loadingResults = true;
+  state.loadingResults = true;
   axios
     .get(GET_ALL_RESULTS_ENDPOINT)
     .then(response => {
@@ -66,7 +66,7 @@ export const actionLoadResults = state => {
     .catch(e => {
       console.log("actions::actionLoadResults Error:" + e);
     });
-  this.loadingResults = false;
+  state.loadingResults = false;
 };
 export const actionFetchInitialConceptData = ({
   state,
