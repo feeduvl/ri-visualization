@@ -7,6 +7,7 @@
             :items="methods"
             label="Select Method"
             :dense="true"
+            :disabled="loading"
             @change="filterResultsByMethod"
         >
         </v-select>
@@ -20,6 +21,8 @@
             :item-text="getResultItemText"
             item-value="started_at"
             :dense="true"
+            :disabled="loading"
+            :loading="loading"
             @change="updateData"
         >
         </v-select>
@@ -46,6 +49,7 @@ export default {
     ...mapGetters({
       results: 'filteredResults',
       selectedResult: 'selectedResult',
+      loading: "loadingResults",
     }),
 
   },

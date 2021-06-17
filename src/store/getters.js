@@ -46,6 +46,9 @@ export const selectedMethod = state => {
 export const filteredResults = state => {
   return state.filteredResults;
 };
+export const loadingResults = state => {
+  return state.loadingResults;
+};
 export const getProjectTitle = state => {
   return state.projectTitle;
 };

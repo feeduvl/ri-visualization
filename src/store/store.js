@@ -37,6 +37,7 @@ export const store = new Vuex.Store({
     selectedResult: {},
     selectedConcept: "",
     selectedMethod: "",
+    loadingResults: true,
   },
   getters,
   mutations,
