@@ -82,7 +82,7 @@ export default {
         method: this.selectedMethod,
       };
       this.$store.dispatch(ACTION_FILTER_RESULTS, payload);
-      this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedMethod);
+      this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedMethod.name);
     },
     getSelectedResultFromDate () {
       let res = {};
