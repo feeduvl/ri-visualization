@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios from "axios";
 import {GET_ALL_DATASETS_ENDPOINT, GET_DATASET_ENDPOINT} from "@/RESTconf";
 import {MUTATE_DATASETS, MUTATE_SELECTED_DATASET} from "@/store/types";

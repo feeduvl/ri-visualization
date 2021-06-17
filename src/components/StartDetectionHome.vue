@@ -12,6 +12,7 @@
             <v-select
                 v-model="selectedMethod"
                 :items="runMethods"
+                item-text="displayName"
                 label="Method"
                 @change="updateForm"
             >
@@ -69,6 +70,7 @@ import {FILTER_FOR_METHOD, FILTER_FOR_DATASET} from "@/dataFilter";
 import {GREEN_FILL, RED_FILL, GRAY} from "@/colors";
 import {GET_ALL_DATASETS_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT} from "@/RESTconf";
 import { mapGetters } from 'vuex'
+import {METHODS} from "@/methods";
 
 export default {
   name: "StartDetectionHome",
@@ -90,7 +92,7 @@ export default {
       selectedDataset: "",
       serviceStatus: "NA",
       serviceColor: GRAY,
-      runMethods: ["LDA", "SeaNMF", "Frequency (RBAI)"],
+      runMethods: METHODS,
       component: "empty-parameter",
       pagination: {
         sortBy: "created_at",

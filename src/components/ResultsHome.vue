@@ -36,11 +36,10 @@ export default {
   data() {
     return {
       component: "uvl-filter-toolbar",
+      comp: null,
     }
   },
   methods: {},
-  mounted() {
-  }
 }
 </script>
 

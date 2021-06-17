@@ -1,11 +1,9 @@
 <template>
-  <div>
+  <v-container>
     <v-layout row wrap>
-      <v-flex xs1>
-      </v-flex>
       LDA parameters come here.
     </v-layout>
-  </div>
+  </v-container>
 </template>
 
 <script>

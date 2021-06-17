@@ -82,7 +82,7 @@ export default {
     return {
       methods: [],
       component: "uvl-filter-toolbar",
-      documents: {},
+      documents: [],
       search: "",
       tableHeaders: [
         {
@@ -118,13 +118,17 @@ export default {
   },
   methods: {
     async loadDataset() {
+      this.loading = true;
+      this.documents = [];
       axios
           .get(GET_DATASET_ENDPOINT(this.selectedResult["dataset_name"]))
           .then(response => {
             this.documents = response.data;
+            this.loading = false;
           })
           .catch(e => {
             this.errors.push(e);
+            this.loading = false;
           });
     },
   },

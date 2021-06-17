@@ -5,6 +5,7 @@
         <v-select
             v-model="selectedMethod"
             :items="methods"
+            item-text="displayName"
             label="Select Method"
             :dense="true"
             :disabled="loading"
@@ -41,7 +42,7 @@ import {
 import {mapGetters} from "vuex";
 import {loadDataset} from "@/RESTcalls";
 import {ACTION_FILTER_RESULTS, MUTATE_SELECTED_METHOD, MUTATE_SELECTED_RESULT} from "@/store/types";
-import {METHOD_LIST} from "@/methods";
+import {METHODS} from "@/methods";
 
 export default {
   name: "UvlFilterToolbar",
@@ -51,14 +52,13 @@ export default {
       selectedResult: 'selectedResult',
       loading: "loadingResults",
     }),
-
   },
   data() {
     return {
       color: BLUE_FILL,
       selectedMethod: "",
       selectedResultByDate: "",
-      methods: METHOD_LIST,
+      methods: METHODS,
       path: this.$router.currentRoute.path
     };
   },
