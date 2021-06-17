@@ -14,7 +14,7 @@ import {
   MUTATE_TOP_BAR_LOGO,
   MUTATE_TOP_BAR_ALT_TEXT,
   MUTATE_FOOTER_TEXT,
-  MUTATE_TOP_BAR_LINK
+  MUTATE_TOP_BAR_LINK, MUTATE_FILTERED_RESULTS
 } from '@/store/types';
 
 export const actionFetchInitialData = ({
@@ -67,10 +67,23 @@ export const actionLoadResults = state => {
 };
 export const actionFetchInitialConceptData = ({
   state,
-  commit
 }) => {
   actionLoadDatasets(state);
   actionLoadResults(state);
+};
+export const actionFilterResults = ({
+  state,
+  commit
+}, payload) => {
+  let tmpFilteredResults = [];
+
+  for (let i = 0; i <  state.results.length; i++) {
+    if (state.results[i].method === payload.method) {
+      tmpFilteredResults.push(state.results[i]);
+    }
+  }
+
+  commit(MUTATE_FILTERED_RESULTS, tmpFilteredResults);
 };
 export const actionFilterTweets = ({
   state,

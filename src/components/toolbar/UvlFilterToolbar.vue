@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar :color="color" height="95">
+  <v-toolbar :color="color" height="75">
     <v-layout row wrap>
       <v-flex xs5 v-if="showMethodFilter()">
         <v-select
@@ -37,13 +37,14 @@ import {
 } from "@/routes";
 import {mapGetters} from "vuex";
 import {loadDataset} from "@/RESTcalls";
-import {MUTATE_SELECTED_RESULT} from "@/store/types";
+import {ACTION_FILTER_RESULTS, ACTION_FILTER_TWEETS, MUTATE_SELECTED_RESULT} from "@/store/types";
+import {METHOD_LIST} from "@/methods";
 
 export default {
   name: "UvlFilterToolbar",
   computed: {
     ...mapGetters({
-      results: 'results',
+      results: 'filteredResults',
       selectedResult: 'selectedResult',
     }),
 
@@ -53,7 +54,7 @@ export default {
       color: BLUE_FILL,
       selectedMethod: "",
       selectedResultByDate: "",
-      methods: [],
+      methods: METHOD_LIST,
       path: this.$router.currentRoute.path
     };
   },
@@ -73,7 +74,10 @@ export default {
       );
     },
     filterResultsByMethod() {
-
+      let payload = {
+        method: this.selectedMethod,
+      };
+      this.$store.dispatch(ACTION_FILTER_RESULTS, payload);
     },
     getSelectedResultFromDate () {
       let res = {};

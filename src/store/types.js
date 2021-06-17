@@ -16,6 +16,7 @@ export const ACTION_SET_TOP_BAR_LOGO = 'setTopBarLogo';
 export const ACTION_SET_TOP_BAR_ALT_TEXT = 'setTopBarAltText';
 export const ACTION_SET_TOP_BAR_LINK = 'setTopBarLink';
 export const ACTION_SET_FOOTER_TEXT = 'setFooterText';
+export const ACTION_FILTER_RESULTS = 'actionFilterResults';
 
 /*
  *  Mutation types
@@ -42,6 +43,8 @@ export const MUTATE_FOOTER_TEXT = 'mutateFooterText';
 export const MUTATE_DATASETS = 'mutateDatasets';
 export const MUTATE_SELECTED_DATASET = 'mutateSelectedDataset';
 export const MUTATE_SELECTED_RESULT = 'mutateSelectedResult';
+export const MUTATE_RESULTS = 'mutateResults';
+export const MUTATE_FILTERED_RESULTS = 'mutateFilteredResults';
 
 /*
  *  Local storage types

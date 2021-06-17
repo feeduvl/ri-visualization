@@ -46,11 +46,17 @@ export const mutateFilteredTweets = (state, filteredTweets) => {
 export const mutateDatasets = (state, datasets) => {
   state.datasets = datasets;
 };
+export const mutateResults = (state, results) => {
+  state.results = results;
+};
 export const mutateSelectedDataset = (state, dataset) => {
   state.selectedDataset = dataset;
 };
 export const mutateSelectedResult = (state, result) => {
   state.selectedResult = result;
+};
+export const mutateFilteredResults = (state, results) => {
+  state.filteredResults = results;
 };
 export const mutateProjectTitle = (state, title) => {
   state.projectTitle = title;
