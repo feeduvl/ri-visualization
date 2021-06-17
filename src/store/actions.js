@@ -60,6 +60,7 @@ export const actionLoadResults = state => {
     .get(GET_ALL_RESULTS_ENDPOINT)
     .then(response => {
       state.results =  response.data;
+      state.filteredResults = response.data;
     })
     .catch(e => {
       console.log("actions::actionLoadResults Error:" + e);

@@ -1,2 +1,11 @@
 
-export const METHOD_LIST = ["LDA", "SeaNMF", "Frequency (RBAI)"];
+export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai"];
+
+export const SEANMF = {
+  name: "seanmf",
+  displayName: "SeaNMF",
+  parameterComponentName: "seanmf-parameter",
+  parameterComponentPath: "./form/EmptyParameter",
+  resultComponentName: "",
+  resultComponentPath: "",
+};
