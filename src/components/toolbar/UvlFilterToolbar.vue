@@ -37,7 +37,7 @@ import {
 } from "@/routes";
 import {mapGetters} from "vuex";
 import {loadDataset} from "@/RESTcalls";
-import {ACTION_FILTER_RESULTS, ACTION_FILTER_TWEETS, MUTATE_SELECTED_RESULT} from "@/store/types";
+import {ACTION_FILTER_RESULTS, MUTATE_SELECTED_METHOD, MUTATE_SELECTED_RESULT} from "@/store/types";
 import {METHOD_LIST} from "@/methods";
 
 export default {
@@ -78,6 +78,7 @@ export default {
         method: this.selectedMethod,
       };
       this.$store.dispatch(ACTION_FILTER_RESULTS, payload);
+      this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedMethod);
     },
     getSelectedResultFromDate () {
       let res = {};

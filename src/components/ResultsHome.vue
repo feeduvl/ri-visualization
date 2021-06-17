@@ -1,46 +1,37 @@
 <template>
   <v-container>
     <v-layout row class="spacing">
-      <component v-bind:is="component" v-bind:dataset="selectedMethod"/>
+      <component v-bind:is="component"/>
     </v-layout>
     <v-card>
-      Test Detection Results
+      <component v-bind:is="resultComponent"/>
     </v-card>
-    <v-layout row full-row-widget>
-      <v-flex xs6 left-half-row-widget>
-        <metric-topic-coherence/>
-      </v-flex>
-      <v-flex xs6 right-half-row-widget>
-        <metric-perplexity/>
-      </v-flex>
-    </v-layout>
-    <v-layout row full-row-widget>
-      <v-flex xs12>
-        <v-card>
-        <ul>
-          <li v-for="topic in topics" :key="topic.number">
-            Topic {{ topic.number}} ({{ topic.name}}): <span v-for="word in topic.words" :key="word">{{ word }}, </span>
-          </li>
-        </ul>
-        </v-card>
-      </v-flex>
-    </v-layout>
   </v-container>
 </template>
 
 <script>
 
+import {mapGetters} from "vuex";
+import {METHODS} from "@/methods";
+
 export default {
   name: "ConceptHome",
   components: {
     "uvl-filter-toolbar": () => import("./toolbar/UvlFilterToolbar"),
-    "metric-topic-coherence": () =>
-        import("./widget/MetricTopicCoherence"),
-    "metric-perplexity": () => import("./widget/MetricPerplexity"),
-    "metric-f1-score": () =>
-        import("./widget/MetricF1Score"),
-    topics:
-        [{number: 1, name: "", words: ["test", "text", "more"], probability: 0.97},{number: 2, name: "misc", words: ["another", "topic"], probability: 0.23}],
+    "topic-detection-result": () => import("./result/TopicDetectionResult"),
+    "empty-result": () => import("./result/EmptyResult"),
+  },
+  computed: {
+    ...mapGetters({
+      selectedMethod: 'selectedMethod'
+    }),
+    resultComponent () {
+      if (this.selectedMethod === "") {
+        return "empty-result"
+      } else {
+        return METHODS[this.selectedMethod].resultComponentName;
+      }
+    }
   },
   data() {
     return {

@@ -49,6 +49,9 @@ export const mutateDatasets = (state, datasets) => {
 export const mutateResults = (state, results) => {
   state.results = results;
 };
+export const mutateSelectedMethod = (state, method) => {
+  state.selectedMethod = method;
+};
 export const mutateSelectedDataset = (state, dataset) => {
   state.selectedDataset = dataset;
 };
