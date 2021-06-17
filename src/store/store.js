@@ -38,6 +38,7 @@ export const store = new Vuex.Store({
     selectedConcept: "",
     selectedMethod: "",
     loadingResults: true,
+    loadingDataset: false,
   },
   getters,
   mutations,

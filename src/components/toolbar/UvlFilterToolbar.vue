@@ -6,6 +6,7 @@
             v-model="selectedMethod"
             :items="methods"
             item-text="displayName"
+            item-value="name"
             label="Select Method"
             :dense="true"
             :disabled="loading"
@@ -82,7 +83,7 @@ export default {
         method: this.selectedMethod,
       };
       this.$store.dispatch(ACTION_FILTER_RESULTS, payload);
-      this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedMethod.name);
+      this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedMethod);
     },
     getSelectedResultFromDate () {
       let res = {};
@@ -96,7 +97,7 @@ export default {
     },
     updateData() {
       this.$store.commit(MUTATE_SELECTED_RESULT, this.getSelectedResultFromDate());
-      console.log("UvlFilterToolBar::updateDataset: ");
+      console.log("UvlFilterToolBar::updateData: ");
       console.log(JSON.stringify(this.selectedResult));
       loadDataset(this.$store, this.selectedResult["dataset_name"]);
     },

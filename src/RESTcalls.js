@@ -15,13 +15,16 @@ async function loadDatasets(store) {
 }
 
 async function loadDataset(store, datasetName) {
+  store.state.loadingDataset = true;
   await axios
     .get(GET_DATASET_ENDPOINT(datasetName))
     .then(response => {
       store.commit(MUTATE_SELECTED_DATASET, response.data);
+      store.state.loadingDataset = false;
     })
     .catch(e => {
       console.log("RESTcalls::loadDataset:" + e);
+      store.state.loadingDataset = false;
     });
 }
 

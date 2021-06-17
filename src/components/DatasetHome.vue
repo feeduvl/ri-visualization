@@ -37,6 +37,7 @@
           :items="data"
           :pagination.sync="pagination"
           :loading="loading"
+          loading-text="Loading dataset... Please wait"
       >
         <template slot="items" slot-scope="props">
           <tr>

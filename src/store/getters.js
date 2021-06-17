@@ -49,6 +49,9 @@ export const filteredResults = state => {
 export const loadingResults = state => {
   return state.loadingResults;
 };
+export const loadingDataset = state => {
+  return state.loadingDataset;
+};
 export const getProjectTitle = state => {
   return state.projectTitle;
 };

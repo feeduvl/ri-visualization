@@ -24,6 +24,7 @@
           :pagination.sync="pagination"
           :loading="loading"
           :search="search"
+          loading-text="Loading data... Please wait"
       >
         <template slot="items" slot-scope="props">
           <tr>
@@ -58,7 +59,8 @@ export default {
     ...mapGetters({
       results: 'results',
       dataset: 'selectedDataset',
-      selectedResult: 'selectedResult'
+      selectedResult: 'selectedResult',
+      loadingDataset: 'loadingDataset',
     }),
     topicWordlist() {
       let list = []
@@ -113,22 +115,17 @@ export default {
         sortBy: "ID",
         descending: false
       },
-      loading: false,
     };
   },
   methods: {
     async loadDataset() {
-      this.loading = true;
-      this.documents = [];
       axios
           .get(GET_DATASET_ENDPOINT(this.selectedResult["dataset_name"]))
           .then(response => {
             this.documents = response.data;
-            this.loading = false;
           })
           .catch(e => {
             this.errors.push(e);
-            this.loading = false;
           });
     },
   },
