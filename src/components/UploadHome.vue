@@ -77,6 +77,8 @@
       <v-btn
           color="error"
           small
+          :loading="deleteBtn"
+          :disabled="deleteBtn"
           @click="deleteDataset"
       >
         Confirm
@@ -200,7 +202,7 @@ export default {
     deleteDataset() {
       this.deleteBtn = true;
         axios
-            .delete(DELETE_DATASET_ENDPOINT(this.selectedDataset))
+            .delete(DELETE_DATASET_ENDPOINT(this.datasetToDelete))
             .then(response => {
               if (response.status > 200 || response.status < 300) {
                 loadDatasets(this.$store);
