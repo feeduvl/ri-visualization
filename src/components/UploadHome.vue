@@ -43,6 +43,53 @@
         Close
       </v-btn>
     </v-snackbar>
+    <v-card id="listingWrapper">
+      <v-card flat class="header">
+        <v-card-title primary-title>
+          <h2>Available Datasets</h2>
+        </v-card-title>
+      </v-card>
+      <v-layout row wrap id="datasetListing">
+        <v-card
+            id="datasetTile"
+            max-width="400"
+            min-width="360"
+            height="100"
+            v-for="dataset in datasets"
+        >
+          <v-card-title><h3>{{ dataset }}</h3></v-card-title>
+          <v-btn small outline color="error" @click="showDeleteDataset(dataset)" class="btnAlign">
+            Delete
+          </v-btn>
+          <v-btn small color="primary" @click="showDataset(dataset)" class="btnAlign">
+            Show
+          </v-btn>
+        </v-card>
+      </v-layout>
+    </v-card>
+    <v-snackbar
+        v-model="deleteSnackbarVisible"
+        :timeout="deleteSnackbarTimeout"
+        :top=true
+    >
+      Delete Dataset {{ datasetToDelete }}?
+
+      <v-btn
+          color="error"
+          small
+          @click="deleteDataset"
+      >
+        Confirm
+      </v-btn>
+
+      <v-btn
+          color="primary"
+          small
+          @click="deleteSnackbarVisible = false"
+      >
+        Cancel
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -51,9 +98,11 @@ import axios from "axios";
 import {
   BLUE_BORDER
 } from "@/colors";
-import {POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
+import {DELETE_DATASET_ENDPOINT, POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
 import {mapGetters} from "vuex";
 import {loadDatasets} from "@/RESTcalls";
+import {setTheme, THEME_UVL} from "@/theme";
+import {MUTATE_SELECTED_DATASET_OUTSIDE} from "@/store/types";
 
 export default {
   name: "UploadHome",
@@ -68,6 +117,11 @@ export default {
       snackbarTimeout: 0,
       snackbarText: "",
       loading: false,
+      deleteSnackbarVisible: false,
+      deleteSnackbarTimeout: 0,
+      datasetToDelete: "",
+      deleteBtn: false,
+      errors: [],
     }
   },
   mounted() {
@@ -134,6 +188,47 @@ export default {
       this.snackbarVisible = false;
       this.snackbarText = "";
     },
+    showDataset(dataset) {
+      this.updateTheme("Dataset View", THEME_UVL);
+      this.$store.commit(MUTATE_SELECTED_DATASET_OUTSIDE, dataset);
+      this.$router.push("/dataset");
+    },
+    showDeleteDataset(dataset) {
+      this.datasetToDelete = dataset;
+      this.deleteSnackbarVisible = true;
+    },
+    deleteDataset() {
+      this.deleteBtn = true;
+        axios
+            .delete(DELETE_DATASET_ENDPOINT(this.selectedDataset))
+            .then(response => {
+              if (response.status > 200 || response.status < 300) {
+                loadDatasets(this.$store);
+                this.displaySnackbar(response.data.message);
+                this.deleteBtn = false;
+                this.deleteSnackbarVisible = false;
+                setTimeout(() => {  this.snackbarVisible = false; }, 3100);
+              } else {
+                this.displaySnackbar("Error with file deletion!");
+                this.deleteBtn = false;
+                this.deleteSnackbarVisible = false;
+                setTimeout(() => {  this.snackbarVisible = false; }, 3100);
+              }
+            })
+            .catch(e => {
+              this.errors.push(e);
+              console.log(this.errors);
+              this.displaySnackbar("Could not contact backend!");
+              this.deleteBtn = false;
+              this.deleteSnackbarVisible = false;
+              setTimeout(() => {  this.snackbarVisible = false; }, 3100);
+            });
+    },
+    updateTheme (title, theme) {
+      if (theme !== "") {
+        setTheme(title, theme, this.$store);
+      }
+    }
   }
 }
 </script>
@@ -144,6 +239,26 @@ export default {
   margin-right: 10px;
   padding-top: 0px;
   margin-top: 0px;
+}
+
+#datasetListing {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#listingWrapper {
+  margin-top: 20px;
+}
+
+#datasetTile {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 15px;
+  margin-right: 5px;
+}
+
+.btnAlign {
+  float: right;
 }
 
 </style>

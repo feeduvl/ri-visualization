@@ -52,6 +52,9 @@ export const loadingResults = state => {
 export const loadingDataset = state => {
   return state.loadingDataset;
 };
+export const selectedDatasetOutside = state => {
+  return state.selectedDatasetOutside;
+};
 export const getProjectTitle = state => {
   return state.projectTitle;
 };

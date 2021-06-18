@@ -39,6 +39,7 @@ export const store = new Vuex.Store({
     selectedMethod: "",
     loadingResults: true,
     loadingDataset: false,
+    selectedDatasetOutside: "",
   },
   getters,
   mutations,

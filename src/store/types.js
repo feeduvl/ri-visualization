@@ -46,6 +46,7 @@ export const MUTATE_SELECTED_RESULT = 'mutateSelectedResult';
 export const MUTATE_RESULTS = 'mutateResults';
 export const MUTATE_FILTERED_RESULTS = 'mutateFilteredResults';
 export const MUTATE_SELECTED_METHOD = 'mutateSelectedMethod';
+export const MUTATE_SELECTED_DATASET_OUTSIDE = 'mutateSelectedDatasetOutside';
 
 /*
  *  Local storage types

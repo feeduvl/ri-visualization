@@ -73,18 +73,35 @@ import {
 } from "@/RESTconf";
 import { mapGetters } from 'vuex'
 import {loadDatasets} from "@/RESTcalls";
+import {MUTATE_SELECTED_DATASET_OUTSIDE} from "@/store/types";
 
 export default {
   name: "DatasetHome",
   computed: {
     ...mapGetters({
-      datasets: 'datasets'
-    })
+      datasets: 'datasets',
+      selectedDatasetOutside: 'selectedDatasetOutside',
+    }),
+    selectedDataset: {
+      get () {
+        if (this.selectedDatasetOutside === "") {
+          return this.selectedDatasetProxy;
+        } else {
+          this.selectedDatasetProxy = this.selectedDatasetOutside;
+          this.$store.commit(MUTATE_SELECTED_DATASET_OUTSIDE, "");
+          this.loadDataset();
+          return this.selectedDatasetProxy;
+        }
+      },
+      set (val) {
+        this.selectedDatasetProxy = val;
+      },
+    },
   },
   data() {
     return {
       key: this.$route.path,
-      selectedDataset: "",
+      selectedDatasetProxy: "",
       snackbarVisible: false,
       snackbarTimeout: 0,
       snackbarText: "",

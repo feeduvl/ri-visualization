@@ -1,3 +1,4 @@
+
 export const mutateInitalData = (state, initialData) => {
   state.tweets = Object.assign({}, state.tweets, initialData);
   let hasAllKeys = state.twitterAccounts.every(function (item) {
@@ -54,6 +55,9 @@ export const mutateSelectedMethod = (state, method) => {
 };
 export const mutateSelectedDataset = (state, dataset) => {
   state.selectedDataset = dataset;
+};
+export const mutateSelectedDatasetOutside = (state, datasetName) => {
+  state.selectedDatasetOutside = datasetName;
 };
 export const mutateSelectedResult = (state, result) => {
   state.selectedResult = result;
