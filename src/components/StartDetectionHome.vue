@@ -224,7 +224,13 @@ export default {
       return(JSON.stringify(params).replace("{","").replace("}",""));
     },
     displayScore(metrics) {
-      return parseFloat(metrics.totalCoherence).substring(0, 6);
+      let metric;
+      try {
+        metric = parseFloat(metrics.totalCoherence).substring(0, 6);
+      } catch {
+        metric = "-";
+      }
+      return metric;
     },
     displayRunName(name) {
       if (name === "") {
