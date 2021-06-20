@@ -70,7 +70,42 @@
             <td>{{ displayParameter(props.item.params) }}</td>
             <td>{{ displayRunName(props.item.name) }}</td>
             <td>{{ displayScore(props.item.metrics) }}</td>
-            <td> actions </td>
+            <td>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                      small
+                      @click="showResult(props.item)"
+                  >
+                    visibility
+                  </v-icon>
+                </template>
+                <span>Show Result</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                      small
+                      class="mr-2"
+                      @click="editName(props.item)"
+                  >
+                    edit
+                  </v-icon>
+                </template>
+                <span>Edit Name</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                      small
+                      @click="deleteResult(props.item)"
+                  >
+                    delete
+                  </v-icon>
+                </template>
+                <span>Delete Result</span>
+              </v-tooltip>
+            </td>
           </tr>
         </template>
       </v-data-table>
@@ -125,7 +160,7 @@ export default {
       search: "",
       pagination: {
         sortBy: "started_at",
-        descending: true
+        descending: true,
       },
       tableHeaders: [
         {
@@ -134,7 +169,7 @@ export default {
           sortable: true,
           width: "10%",
           value: "started_at",
-          filterable: true
+          filterable: true,
         },
         {
           text: "Method",
@@ -142,7 +177,7 @@ export default {
           sortable: false,
           value: "method",
           width: "9%",
-          filterable: true
+          filterable: true,
         },
         {
           text: "Dataset",
@@ -150,15 +185,15 @@ export default {
           sortable: false,
           value: "dataset_name",
           width: "9%",
-          filterable: true
+          filterable: true,
         },
         {
           text: "Parameters",
           align: "left",
           sortable: false,
-          value: "JSON.stringify(params)",
+          value: "params",
           width: "37%",
-          filterable: true
+          filterable: true,
         },
         {
           text: "Name",
@@ -166,7 +201,7 @@ export default {
           sortable: false,
           value: "name",
           width: "12%",
-          filterable: true
+          filterable: true,
         },
         {
           text: "Avg. Coherence",
@@ -179,7 +214,8 @@ export default {
           text: "Actions",
           align: "center",
           sortable: false,
-          width: "9%"
+          value: 'actions',
+          width: "9%",
         },
       ],
       errors: [],
@@ -188,6 +224,18 @@ export default {
     };
   },
   methods: {
+    showResult(item) {
+      console.log("showResult() called");
+      console.log(item.name);
+    },
+    editName(item) {
+      console.log("editName() called");
+      console.log(item.name);
+    },
+    deleteResult(item) {
+      console.log("deleteResult() called");
+      console.log(item.name);
+    },
     updateForm() {
       if (this.selectedMethod === "lda") {
         this.component = "lda-parameter";
