@@ -226,11 +226,9 @@ export default {
     },
     displayScore(metrics) {
       let metric;
-      console.log(metrics)
       try {
-        metric = parseFloat(metrics.total_coherence).substring(0, 6);
+        metric = metrics.total_coherence.toString().substring(0, 6);
       } catch(e) {
-        console.log(e);
         metric = "-";
       }
       return metric;
