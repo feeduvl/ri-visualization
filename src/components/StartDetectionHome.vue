@@ -120,6 +120,8 @@ import {GREEN_FILL, RED_FILL, GRAY} from "@/colors";
 import {GET_SERVICE_STATUS_ENDPOINT} from "@/RESTconf";
 import { mapGetters } from 'vuex'
 import {METHODS} from "@/methods";
+import {MUTATE_SELECTED_RESULT} from "@/store/types";
+import {setTheme, THEME_UVL} from "@/theme";
 
 export default {
   name: "StartDetectionHome",
@@ -192,7 +194,7 @@ export default {
           align: "left",
           sortable: false,
           value: "params",
-          width: "37%",
+          width: "36%",
           filterable: true,
         },
         {
@@ -215,7 +217,7 @@ export default {
           align: "center",
           sortable: false,
           value: 'actions',
-          width: "9%",
+          width: "12%",
         },
       ],
       errors: [],
@@ -225,16 +227,22 @@ export default {
   },
   methods: {
     showResult(item) {
-      console.log("showResult() called");
-      console.log(item.name);
+      this.$store.commit(MUTATE_SELECTED_RESULT, item);
+      this.updateTheme("Detection Results", THEME_UVL)
+      this.$router.push("/results");
     },
     editName(item) {
       console.log("editName() called");
-      console.log(item.name);
+      console.log(item.method);
     },
     deleteResult(item) {
       console.log("deleteResult() called");
-      console.log(item.name);
+      console.log(item.method);
+    },
+    updateTheme (title, theme) {
+      if (theme !== "") {
+        setTheme(title, theme, this.$store);
+      }
     },
     updateForm() {
       if (this.selectedMethod === "lda") {

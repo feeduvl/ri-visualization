@@ -230,7 +230,7 @@ export default {
       if (theme !== "") {
         setTheme(title, theme, this.$store);
       }
-    }
+    },
   }
 }
 </script>
