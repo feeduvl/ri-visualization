@@ -47,13 +47,15 @@
           :items="filteredResults"
           :custom-sort="customTableSort"
           :pagination.sync="pagination"
+          :loading="loading"
       >
         <template slot="items" slot-scope="props">
           <tr>
-            <td style="text-align:center">{{ getFormattedDate(props.item.created_at) }}</td>
+            <td style="text-align:center">{{ item.started_at.replace("Z", "").replace("T", " ") }}</td>
             <td>{{ props.item.method }}</td>
-            <td>{{ props.item.dataset }}</td>
+            <td>{{ props.item.dataset_name }}</td>
             <td>{{ props.item.parameters }}</td>
+            <td>{{ props.item.name }}</td>
             <!--<td>{{ props.item.score }}</td>-->
           </tr>
         </template>
@@ -64,11 +66,10 @@
 
 <script>
 import axios from "axios";
-import moment from "moment";
 import "moment/locale/de";
 import {FILTER_FOR_METHOD, FILTER_FOR_DATASET} from "@/dataFilter";
 import {GREEN_FILL, RED_FILL, GRAY} from "@/colors";
-import {GET_ALL_DATASETS_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT} from "@/RESTconf";
+import {GET_SERVICE_STATUS_ENDPOINT} from "@/RESTconf";
 import { mapGetters } from 'vuex'
 import {METHODS} from "@/methods";
 
@@ -84,6 +85,7 @@ export default {
     ...mapGetters({
       datasets: 'datasets',
       filteredResults: 'filteredResults',
+      loading: "loadingResults",
     })
   },
   data() {
@@ -112,28 +114,35 @@ export default {
           align: "left",
           sortable: false,
           value: "method",
-          width: "15%"
+          width: "12%"
         },
         {
           text: "Dataset",
           align: "left",
           sortable: false,
           value: "dataset",
-          width: "15%"
+          width: "12%"
         },
         {
           text: "Parameters",
           align: "left",
           sortable: false,
           value: "parameters",
-          width: "45%"
+          width: "40%"
+        },
+        {
+          text: "Name",
+          align: "left",
+          sortable: false,
+          value: "name",
+          width: "12%"
         },
         {
           text: "Score",
           align: "left",
           sortable: false,
           value: "score",
-          width: "15%"
+          width: "12%"
         },
       ],
       errors: [],
@@ -153,9 +162,6 @@ export default {
 
       // Update UI
       this.data.splice(0, 0);
-    },
-    getFormattedDate(date) {
-      return moment(date, "YYYYMMDD").format("DD.MM.YYYY");
     },
     customTableSort(items, index, isDescending) {
       items.sort((a, b) => {
