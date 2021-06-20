@@ -304,7 +304,7 @@ export default {
             this.displaySnackbar(response.data.message);
             this.deleteBtn = false;
             this.deleteSnackbarVisible = false;
-            this.$store.commit(ACTION_DELETE_RESULT, item);
+            this.$store.dispatch(ACTION_DELETE_RESULT, this.resultToDelete);
             this.resultToDelete = {};
             setTimeout(() => {  this.snackbarVisible = false; }, 3100);
           } else {
@@ -317,8 +317,6 @@ export default {
         .catch(e => {
           this.errors.push(e);
           console.log(e);
-          console.log(DELETE_RESULT_ENDPOINT(this.resultToDelete.started_at));
-          console.log(this.resultToDelete.started_at);
           this.displaySnackbar("Could not contact backend!");
           this.deleteBtn = false;
           this.deleteSnackbarVisible = false;
