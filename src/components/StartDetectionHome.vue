@@ -148,8 +148,7 @@ export default {
           text: "Dataset",
           align: "left",
           sortable: false,
-          value: "dataset",
-
+          value: "dataset_name",
           width: "9%",
           filterable: true
         },
@@ -157,7 +156,7 @@ export default {
           text: "Parameters",
           align: "left",
           sortable: false,
-          value: "params",
+          value: "JSON.stringify(params)",
           width: "37%",
           filterable: true
         },
