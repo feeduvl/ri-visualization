@@ -133,7 +133,6 @@ export default {
           text: "Date",
           align: "center",
           sortable: true,
-          value: "started_at",
           width: "10%",
           filterable: true
         },
@@ -141,7 +140,6 @@ export default {
           text: "Method",
           align: "left",
           sortable: false,
-          value: "method",
           width: "9%",
           filterable: true
         },
@@ -149,7 +147,6 @@ export default {
           text: "Dataset",
           align: "left",
           sortable: false,
-          value: "dataset",
           width: "9%",
           filterable: true
         },
@@ -157,7 +154,6 @@ export default {
           text: "Parameters",
           align: "left",
           sortable: false,
-          value: "parameters",
           width: "37%",
           filterable: true
         },
@@ -165,7 +161,6 @@ export default {
           text: "Name",
           align: "left",
           sortable: false,
-          value: "name",
           width: "12%",
           filterable: true
         },
@@ -173,7 +168,6 @@ export default {
           text: "Avg. Coherence",
           align: "left",
           sortable: true,
-          value: "score",
           width: "12%",
         },
         {
@@ -190,13 +184,13 @@ export default {
   },
   methods: {
     updateForm() {
-      if (this.selectedMethod === "LDA") {
+      if (this.selectedMethod === "lda") {
         this.component = "lda-parameter";
         this.checkServiceStatus("lda");
-      } else if (this.selectedMethod === "SeaNMF") {
+      } else if (this.selectedMethod === "seanmf") {
         this.component = "seanmf-parameter";
         this.checkServiceStatus("seanmf");
-      } else if (this.selectedMethod === "Frequency (RBAI)"){
+      } else if (this.selectedMethod === "frequency-rbai)"){
         this.component = "frequency-rbai-parameter";
         this.checkServiceStatus("frequency-rbai")
       } else {

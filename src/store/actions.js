@@ -81,6 +81,10 @@ export const actionFilterResults = ({
 }, payload) => {
   let tmpFilteredResults = [];
 
+  if (payload.method === "") {
+    return state.results;
+  }
+
   for (let i = 0; i <  state.results.length; i++) {
     if (state.results[i].method === payload.method) {
       tmpFilteredResults.push(state.results[i]);

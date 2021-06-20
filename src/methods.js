@@ -4,7 +4,7 @@ export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai"];
 export const METHODS = [
     {
         name: "",
-        displayName: "None",
+        displayName: "Empty",
         parameterComponentName: "empty-parameter",
         parameterComponentPath: "./form/EmptyParameter",
         resultComponentName: "empty-result",
