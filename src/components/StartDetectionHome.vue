@@ -45,7 +45,6 @@
       <v-data-table
           :headers="tableHeaders"
           :items="filteredResults"
-          :custom-sort="customTableSort"
           :pagination.sync="pagination"
           :loading="loading"
       >
@@ -168,21 +167,9 @@ export default {
       errors: [],
       cardTableTitle: "Last Runs",
       rawData: [],
-      data: []
     };
   },
   methods: {
-    loadData(runs) {
-      //Sorted by creation date
-      this.data = runs.filter(FILTER_FOR_METHOD(this.selectedMethod));
-
-      this.data.sort((val1, val2) => {
-        return Date.parse(val1.started_at) - Date.parse(val2.started_at);
-      });
-
-      // Update UI
-      this.data.splice(0, 0);
-    },
     customTableSort(items, index, isDescending) {
       items.sort((a, b) => {
         if (index === "started_at") {
@@ -269,12 +256,6 @@ export default {
     },
   },
   mounted() {
-    this.$store.watch(
-        (state, getters) => getters.runs,
-        (newValue, oldValue) => {
-          this.loadData([...newValue]);
-        }
-    );
   }
 };
 </script>
