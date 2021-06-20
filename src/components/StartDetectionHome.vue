@@ -316,6 +316,9 @@ export default {
         })
         .catch(e => {
           this.errors.push(e);
+          console.log(e);
+          console.log(DELETE_RESULT_ENDPOINT(this.resultToDelete.started_at));
+          console.log(this.resultToDelete.started_at);
           this.displaySnackbar("Could not contact backend!");
           this.deleteBtn = false;
           this.deleteSnackbarVisible = false;
