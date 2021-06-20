@@ -16,6 +16,7 @@
             label="Search for ID or text content"
             single-line
             hide-details
+            clearable
         ></v-text-field>
       </v-card-title>
       <v-data-table
