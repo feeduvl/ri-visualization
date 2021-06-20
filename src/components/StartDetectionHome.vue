@@ -222,13 +222,12 @@ export default {
     },
     displayParameter(params) {
       return(JSON.stringify(params).replace("{","").replace("}","")
-      .replace('"',"").replace(",", ", "));
+      .replaceAll('"',"").replaceAll(",", ", "));
     },
     displayScore(metrics) {
-      console.log(metrics)
       let metric;
       try {
-        metric = parseFloat(metrics.totalCoherence).substring(0, 6);
+        metric = parseFloat(metrics.total_coherence).substring(0, 6);
       } catch {
         metric = "-";
       }
