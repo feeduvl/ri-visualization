@@ -44,7 +44,7 @@
       </v-card>
       <v-data-table
           :headers="tableHeaders"
-          :items="data"
+          :items="filteredResults"
           :custom-sort="customTableSort"
           :pagination.sync="pagination"
       >
@@ -54,7 +54,7 @@
             <td>{{ props.item.method }}</td>
             <td>{{ props.item.dataset }}</td>
             <td>{{ props.item.parameters }}</td>
-            <td>{{ props.item.score }}</td>
+            <!--<td>{{ props.item.score }}</td>-->
           </tr>
         </template>
       </v-data-table>
@@ -82,7 +82,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      datasets: 'datasets'
+      datasets: 'datasets',
+      filteredResults: 'filteredResults',
     })
   },
   data() {
