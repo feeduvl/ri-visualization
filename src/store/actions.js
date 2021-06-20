@@ -82,7 +82,8 @@ export const actionFilterResults = ({
   let tmpFilteredResults = [];
 
   if (payload.method === "") {
-    return state.results;
+    commit(MUTATE_FILTERED_RESULTS, state.results);
+    return;
   }
 
   for (let i = 0; i <  state.results.length; i++) {
