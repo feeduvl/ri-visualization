@@ -32,7 +32,7 @@
             <td>
               <span v-for="word in topicWordlist">
                 <span v-if="props.item.text.includes(word)">
-                  <v-chip @click="this.search = word">{{ word }}</v-chip><span> </span>
+                  <v-chip @click="search = word">{{ word }}</v-chip><span> </span>
                 </span>
               </span>
             </td>
