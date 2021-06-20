@@ -51,12 +51,12 @@
       >
         <template slot="items" slot-scope="props">
           <tr>
-            <td style="text-align:center">{{ props.item.started_at.replace("Z", "").replace("T", " ") }}</td>
+            <td style="text-align:center">{{ props.item.started_at.replace("Z", "").replace("T", " ").substring(0, 19) }}</td>
             <td>{{ getDisplayName(props.item.method) }}</td>
             <td>{{ props.item.dataset_name }}</td>
-            <td>{{ displayParameter(props.item.parameters) }}</td>
+            <td>{{ displayParameter(props.item.params) }}</td>
             <td>{{ props.item.name }}</td>
-            <!--<td>{{ props.item.score }}</td>-->
+            <td>{{ displayScore(props.item.metrics) }}</td>
           </tr>
         </template>
       </v-data-table>
@@ -138,7 +138,7 @@ export default {
           width: "12%"
         },
         {
-          text: "Score",
+          text: "Avg. Coherence",
           align: "left",
           sortable: false,
           value: "score",
@@ -222,7 +222,11 @@ export default {
     },
     displayParameter(params) {
       console.log(params);
-      return("displayParameter called.");
+      return(params);
+    },
+    displayScore(metrics) {
+      console.log(metrics);
+      return "-"
     },
     getDisplayName(method) {
       for (const index in METHODS) {
