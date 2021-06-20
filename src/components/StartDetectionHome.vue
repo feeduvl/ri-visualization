@@ -221,9 +221,11 @@ export default {
       }
     },
     displayParameter(params) {
-      return(JSON.stringify(params).replace("{","").replace("}",""));
+      return(JSON.stringify(params).replace("{","").replace("}","")
+      .replace('"',"").replace(",", ", "));
     },
     displayScore(metrics) {
+      console.log(metrics)
       let metric;
       try {
         metric = parseFloat(metrics.totalCoherence).substring(0, 6);
