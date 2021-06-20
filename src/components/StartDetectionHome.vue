@@ -86,8 +86,7 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
                       small
-                      class="mr-2"
-                      @click="editName(props.item)"
+                      @click="showEditName(props.item)"
                   >
                     edit
                   </v-icon>
@@ -98,7 +97,7 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
                       small
-                      @click="deleteResult(props.item)"
+                      @click="showDeleteResult(props.item)"
                   >
                     delete
                   </v-icon>
@@ -110,6 +109,46 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-snackbar
+        v-model="deleteSnackbarVisible"
+        :timeout="deleteSnackbarTimeout"
+        :top=true
+    >
+      Delete Result {{ resultToDelete.name }}?
+
+      <v-btn
+          color="error"
+          small
+          :loading="deleteBtn"
+          :disabled="deleteBtn"
+          @click="deleteResult"
+      >
+        Confirm
+      </v-btn>
+
+      <v-btn
+          color="primary"
+          small
+          @click="deleteSnackbarVisible = false"
+      >
+        Cancel
+      </v-btn>
+    </v-snackbar>
+    <v-snackbar
+        v-model="snackbarVisible"
+        :timeout="snackbarTimeout"
+        :top=true
+    >
+      {{ snackbarText }}
+
+      <v-btn
+          color="blue"
+          text
+          @click="closeSnackbar"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -122,6 +161,7 @@ import { mapGetters } from 'vuex'
 import {METHODS} from "@/methods";
 import {MUTATE_SELECTED_RESULT} from "@/store/types";
 import {setTheme, THEME_UVL} from "@/theme";
+import {loadDatasets} from "@/RESTcalls";
 
 export default {
   name: "StartDetectionHome",
@@ -223,6 +263,15 @@ export default {
       errors: [],
       cardTableTitle: "Last Runs",
       rawData: [],
+      resultToDelete: {},
+      resultToEdit: {},
+      deleteSnackbarVisible: false,
+      editDialogVisible: false,
+      deleteBtn: false,
+      snackbarVisible: false,
+      deleteSnackbarTimeout: 0,
+      snackbarText: "",
+      snackbarTimeout: 0,
     };
   },
   methods: {
@@ -231,13 +280,50 @@ export default {
       this.updateTheme("Detection Results", THEME_UVL)
       this.$router.push("/results");
     },
-    editName(item) {
-      console.log("editName() called");
-      console.log(item.method);
+    showEditName(item) {
+      this.resultToEdit = item;
+      this.editDialogVisible = true;
     },
-    deleteResult(item) {
-      console.log("deleteResult() called");
-      console.log(item.method);
+    editName() {
+
+    },
+    showDeleteResult(item) {
+      this.resultToDelete = item;
+      this.deleteSnackbarVisible = true;
+    },
+    deleteResult() {
+      this.deleteBtn = true;
+      axios.delete(DELETE_RESULT_ENDPOINT(this.resultToDelete.started_at))
+        .then(response => {
+          if (response.status > 200 || response.status < 300) {
+            this.displaySnackbar(response.data.message);
+            this.deleteBtn = false;
+            this.deleteSnackbarVisible = false;
+            this.$store.commit(DELETE_RESULT, item);
+            this.resultToDelete = {};
+            setTimeout(() => {  this.snackbarVisible = false; }, 3100);
+          } else {
+            this.displaySnackbar("Error with file deletion!");
+            this.deleteBtn = false;
+            this.deleteSnackbarVisible = false;
+            setTimeout(() => {  this.snackbarVisible = false; }, 3100);
+          }
+        })
+        .catch(e => {
+          this.errors.push(e);
+          this.displaySnackbar("Could not contact backend!");
+          this.deleteBtn = false;
+          this.deleteSnackbarVisible = false;
+          setTimeout(() => {  this.snackbarVisible = false; }, 3100);
+        })
+    },
+    displaySnackbar(message) {
+      this.snackbarText = message;
+      this.snackbarVisible = true;
+    },
+    closeSnackbar() {
+      this.snackbarVisible = false;
+      this.snackbarText = "";
     },
     updateTheme (title, theme) {
       if (theme !== "") {

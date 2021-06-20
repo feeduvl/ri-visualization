@@ -209,6 +209,7 @@ export default {
                 this.displaySnackbar(response.data.message);
                 this.deleteBtn = false;
                 this.deleteSnackbarVisible = false;
+                this.datasetToDelete = {};
                 setTimeout(() => {  this.snackbarVisible = false; }, 3100);
               } else {
                 this.displaySnackbar("Error with file deletion!");
@@ -219,7 +220,6 @@ export default {
             })
             .catch(e => {
               this.errors.push(e);
-              console.log(this.errors);
               this.displaySnackbar("Could not contact backend!");
               this.deleteBtn = false;
               this.deleteSnackbarVisible = false;
