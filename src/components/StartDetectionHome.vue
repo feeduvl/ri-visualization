@@ -90,6 +90,10 @@ export default {
     }),
     filteredResults () {
       let r = [];
+      console.log(this.selectedMethod);
+      if (this.selectedMethod === "") {
+        return this.results;
+      }
       for (const index in this.results) {
         if (this.results[index].method === this.selectedMethod) {
           r.push(this.results[index]);
@@ -173,7 +177,7 @@ export default {
       this.data = runs.filter(FILTER_FOR_METHOD(this.selectedMethod));
 
       this.data.sort((val1, val2) => {
-        return val1.started_at - val2.started_at;
+        return Date.parse(val1.started_at) - Date.parse(val2.started_at);
       });
 
       // Update UI
@@ -183,9 +187,9 @@ export default {
       items.sort((a, b) => {
         if (index === "started_at") {
           if (isDescending) {
-            return b.started_at - a.started_at;
+            return b.Date.parse(started_at) - Date.parse(a.started_at);
           } else {
-            return a.started_at - b.started_at;
+            return Date.parse(a.started_at) - Date.parse(b.started_at);
           }
         }
       });
