@@ -76,6 +76,8 @@
                   <v-icon
                       small
                       @click="showResult(props.item)"
+                      v-bind="attrs"
+                      v-on="on"
                   >
                     visibility
                   </v-icon>
@@ -87,6 +89,8 @@
                   <v-icon
                       small
                       @click="showEditName(props.item)"
+                      v-bind="attrs"
+                      v-on="on"
                   >
                     edit
                   </v-icon>
@@ -98,6 +102,8 @@
                   <v-icon
                       small
                       @click="showDeleteResult(props.item)"
+                      v-bind="attrs"
+                      v-on="on"
                   >
                     delete
                   </v-icon>
