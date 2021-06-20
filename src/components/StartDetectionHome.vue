@@ -13,6 +13,7 @@
                 v-model="selectedMethod"
                 :items="runMethods"
                 item-text="displayName"
+                item-value="name"
                 label="Method"
                 @change="updateForm"
             >
@@ -40,6 +41,18 @@
       <v-card flat class="header">
         <v-card-title>
           <h1>{{ cardTableTitle }}</h1>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+          <v-text-field
+              v-model="search"
+              append-icon="search"
+              label="Search"
+              single-line
+              hide-details
+              clearable
+          ></v-text-field>
         </v-card-title>
       </v-card>
       <v-data-table
@@ -47,6 +60,7 @@
           :items="filteredResults"
           :pagination.sync="pagination"
           :loading="loading"
+          :search="search"
       >
         <template slot="items" slot-scope="props">
           <tr>
@@ -67,7 +81,6 @@
 <script>
 import axios from "axios";
 import "moment/locale/de";
-import {FILTER_FOR_METHOD, FILTER_FOR_DATASET} from "@/dataFilter";
 import {GREEN_FILL, RED_FILL, GRAY} from "@/colors";
 import {GET_SERVICE_STATUS_ENDPOINT} from "@/RESTconf";
 import { mapGetters } from 'vuex'
@@ -110,6 +123,7 @@ export default {
       serviceColor: GRAY,
       runMethods: METHODS,
       component: "empty-parameter",
+      search: "",
       pagination: {
         sortBy: "started_at",
         descending: true
@@ -120,42 +134,47 @@ export default {
           align: "center",
           sortable: true,
           value: "started_at",
-          width: "10%"
+          width: "10%",
+          filterable: true
         },
         {
           text: "Method",
           align: "left",
           sortable: false,
           value: "method",
-          width: "9%"
+          width: "9%",
+          filterable: true
         },
         {
           text: "Dataset",
           align: "left",
           sortable: false,
           value: "dataset",
-          width: "9%"
+          width: "9%",
+          filterable: true
         },
         {
           text: "Parameters",
           align: "left",
           sortable: false,
           value: "parameters",
-          width: "37%"
+          width: "37%",
+          filterable: true
         },
         {
           text: "Name",
           align: "left",
           sortable: false,
           value: "name",
-          width: "12%"
+          width: "12%",
+          filterable: true
         },
         {
           text: "Avg. Coherence",
           align: "left",
-          sortable: false,
+          sortable: true,
           value: "score",
-          width: "12%"
+          width: "12%",
         },
         {
           text: "Actions",
@@ -170,18 +189,6 @@ export default {
     };
   },
   methods: {
-    customTableSort(items, index, isDescending) {
-      items.sort((a, b) => {
-        if (index === "started_at") {
-          if (isDescending) {
-            return b.Date.parse(started_at) - Date.parse(a.started_at);
-          } else {
-            return Date.parse(a.started_at) - Date.parse(b.started_at);
-          }
-        }
-      });
-      return items;
-    },
     updateForm() {
       if (this.selectedMethod === "LDA") {
         this.component = "lda-parameter";
