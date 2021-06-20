@@ -51,10 +51,10 @@
       >
         <template slot="items" slot-scope="props">
           <tr>
-            <td style="text-align:center">{{ item.started_at.replace("Z", "").replace("T", " ") }}</td>
-            <td>{{ props.item.method }}</td>
+            <td style="text-align:center">{{ props.item.started_at.replace("Z", "").replace("T", " ") }}</td>
+            <td>{{ getDisplayName(props.item.method) }}</td>
             <td>{{ props.item.dataset_name }}</td>
-            <td>{{ props.item.parameters }}</td>
+            <td>{{ displayParameter(props.item.parameters) }}</td>
             <td>{{ props.item.name }}</td>
             <!--<td>{{ props.item.score }}</td>-->
           </tr>
@@ -218,6 +218,17 @@ export default {
       } else {
         this.serviceStatus = "Offline";
         this.serviceColor = RED_FILL;
+      }
+    },
+    displayParameter(params) {
+      console.log(params);
+      return("displayParameter called.");
+    },
+    getDisplayName(method) {
+      for (const index in METHODS) {
+        if (METHODS[index].name === method) {
+          return METHODS[index].displayName;
+        }
       }
     },
   },
