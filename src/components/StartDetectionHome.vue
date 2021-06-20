@@ -102,7 +102,6 @@ export default {
     }),
     filteredResults () {
       let r = [];
-      console.log(this.selectedMethod);
       if (this.selectedMethod === "") {
         return this.results;
       }
@@ -174,7 +173,7 @@ export default {
           text: "Avg. Coherence",
           align: "left",
           sortable: true,
-          value: "metrics",
+          value: "metrics.total_coherence",
           width: "12%",
         },
         {
