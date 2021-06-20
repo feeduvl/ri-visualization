@@ -55,7 +55,7 @@
             <td>{{ getDisplayName(props.item.method) }}</td>
             <td>{{ props.item.dataset_name }}</td>
             <td>{{ displayParameter(props.item.params) }}</td>
-            <td>{{ props.item.name }}</td>
+            <td>{{ displayRunName(props.item.name) }}</td>
             <td>{{ displayScore(props.item.metrics) }}</td>
           </tr>
         </template>
@@ -221,12 +221,17 @@ export default {
       }
     },
     displayParameter(params) {
-      console.log(params);
-      return(params);
+      return(JSON.stringify(params).replace("{","").replace("}",""));
     },
     displayScore(metrics) {
-      console.log(metrics);
-      return "-"
+      return parseFloat(metrics.totalCoherence).substring(0, 6);
+    },
+    displayRunName(name) {
+      if (name === "") {
+        return "-";
+      } else {
+        return name;
+      }
     },
     getDisplayName(method) {
       for (const index in METHODS) {
