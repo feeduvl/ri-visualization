@@ -94,6 +94,21 @@ export const actionFilterResults = ({
 
   commit(MUTATE_FILTERED_RESULTS, tmpFilteredResults);
 };
+export const actionDeleteResult = ({
+  state,
+  commit
+}, payload) => {
+  for (const index in state.results) {
+    if (state.results[index].started_at === payload.started_at) {
+      state.results.splice(index, 1);
+    }
+  }
+  for (const index in state.filteredResults) {
+    if (state.filteredResults[index].started_at === payload.started_at) {
+      state.filteredResults.splice(index, 1);
+    }
+  }
+};
 export const actionFilterTweets = ({
   state,
   dispatch,

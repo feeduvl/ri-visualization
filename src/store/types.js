@@ -17,6 +17,7 @@ export const ACTION_SET_TOP_BAR_ALT_TEXT = 'setTopBarAltText';
 export const ACTION_SET_TOP_BAR_LINK = 'setTopBarLink';
 export const ACTION_SET_FOOTER_TEXT = 'setFooterText';
 export const ACTION_FILTER_RESULTS = 'actionFilterResults';
+export const ACTION_DELETE_RESULT = 'actionDeleteResult';
 
 /*
  *  Mutation types

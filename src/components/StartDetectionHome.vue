@@ -162,12 +162,11 @@
 import axios from "axios";
 import "moment/locale/de";
 import {GREEN_FILL, RED_FILL, GRAY} from "@/colors";
-import {GET_SERVICE_STATUS_ENDPOINT} from "@/RESTconf";
+import {DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT} from "@/RESTconf";
 import { mapGetters } from 'vuex'
 import {METHODS} from "@/methods";
-import {MUTATE_SELECTED_RESULT} from "@/store/types";
+import {ACTION_DELETE_RESULT, MUTATE_SELECTED_RESULT} from "@/store/types";
 import {setTheme, THEME_UVL} from "@/theme";
-import {loadDatasets} from "@/RESTcalls";
 
 export default {
   name: "StartDetectionHome",
@@ -305,7 +304,7 @@ export default {
             this.displaySnackbar(response.data.message);
             this.deleteBtn = false;
             this.deleteSnackbarVisible = false;
-            this.$store.commit(DELETE_RESULT, item);
+            this.$store.commit(ACTION_DELETE_RESULT, item);
             this.resultToDelete = {};
             setTimeout(() => {  this.snackbarVisible = false; }, 3100);
           } else {
