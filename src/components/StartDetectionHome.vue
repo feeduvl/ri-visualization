@@ -57,6 +57,7 @@
             <td>{{ displayParameter(props.item.params) }}</td>
             <td>{{ displayRunName(props.item.name) }}</td>
             <td>{{ displayScore(props.item.metrics) }}</td>
+            <td> actions </td>
           </tr>
         </template>
       </v-data-table>
@@ -84,9 +85,18 @@ export default {
   computed: {
     ...mapGetters({
       datasets: 'datasets',
-      filteredResults: 'filteredResults',
+      results: 'results',
       loading: "loadingResults",
-    })
+    }),
+    filteredResults () {
+      let r = [];
+      for (const index in this.results) {
+        if (this.results[index].method === this.selectedMethod) {
+          r.push(this.results[index]);
+        }
+      }
+      return r;
+    },
   },
   data() {
     return {
@@ -98,7 +108,7 @@ export default {
       runMethods: METHODS,
       component: "empty-parameter",
       pagination: {
-        sortBy: "created_at",
+        sortBy: "started_at",
         descending: true
       },
       tableHeaders: [
@@ -106,7 +116,7 @@ export default {
           text: "Date",
           align: "center",
           sortable: true,
-          value: "created_at",
+          value: "started_at",
           width: "10%"
         },
         {
@@ -114,21 +124,21 @@ export default {
           align: "left",
           sortable: false,
           value: "method",
-          width: "12%"
+          width: "9%"
         },
         {
           text: "Dataset",
           align: "left",
           sortable: false,
           value: "dataset",
-          width: "12%"
+          width: "9%"
         },
         {
           text: "Parameters",
           align: "left",
           sortable: false,
           value: "parameters",
-          width: "40%"
+          width: "37%"
         },
         {
           text: "Name",
@@ -144,6 +154,12 @@ export default {
           value: "score",
           width: "12%"
         },
+        {
+          text: "Actions",
+          align: "center",
+          sortable: false,
+          width: "9%"
+        },
       ],
       errors: [],
       cardTableTitle: "Last Runs",
@@ -157,7 +173,7 @@ export default {
       this.data = runs.filter(FILTER_FOR_METHOD(this.selectedMethod));
 
       this.data.sort((val1, val2) => {
-        return val1.created_at - val2.created_at;
+        return val1.started_at - val2.started_at;
       });
 
       // Update UI
@@ -165,11 +181,11 @@ export default {
     },
     customTableSort(items, index, isDescending) {
       items.sort((a, b) => {
-        if (index === "created_at") {
+        if (index === "started_at") {
           if (isDescending) {
-            return b.created_at - a.created_at;
+            return b.started_at - a.started_at;
           } else {
-            return a.created_at - b.created_at;
+            return a.started_at - b.started_at;
           }
         }
       });
