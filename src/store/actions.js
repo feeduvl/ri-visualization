@@ -109,6 +109,21 @@ export const actionDeleteResult = ({
     }
   }
 };
+export const actionEditResultName = ({
+  state,
+  commit
+}, payload) => {
+  for (const index in state.results) {
+    if (state.results[index].started_at === payload.started_at) {
+      state.results[index].name = payload.name;
+    }
+  }
+  for (const index in state.filteredResults) {
+    if (state.filteredResults[index].started_at === payload.started_at) {
+      state.filteredResults[index].name = payload.name;
+    }
+  }
+};
 export const actionFilterTweets = ({
   state,
   dispatch,

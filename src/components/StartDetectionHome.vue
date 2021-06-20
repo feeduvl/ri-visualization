@@ -155,6 +155,48 @@
         Close
       </v-btn>
     </v-snackbar>
+    <v-dialog
+        v-model="editDialogVisible"
+        max-width="290"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          Edit Result Name
+        </v-card-title>
+
+        <v-card-text>
+          <v-text-field
+              v-model="newResultName"
+              label="Name"
+              single-line
+              hide-details
+              clearable
+          ></v-text-field>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+              color="primary"
+              text
+              @click="editName"
+              :loading="editBtn"
+              :disabled="editBtn"
+          >
+            Edit
+          </v-btn>
+
+          <v-btn
+              color="error"
+              text
+              @click="editDialogVisible = false"
+          >
+            Cancel
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -162,10 +204,10 @@
 import axios from "axios";
 import "moment/locale/de";
 import {GREEN_FILL, RED_FILL, GRAY} from "@/colors";
-import {DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT} from "@/RESTconf";
+import {DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT, POST_UPDATE_RESULT_ENDPOINT} from "@/RESTconf";
 import { mapGetters } from 'vuex'
 import {METHODS} from "@/methods";
-import {ACTION_DELETE_RESULT, MUTATE_SELECTED_RESULT} from "@/store/types";
+import {ACTION_DELETE_RESULT, ACTION_EDIT_RESULT_NAME, MUTATE_SELECTED_RESULT} from "@/store/types";
 import {setTheme, THEME_UVL} from "@/theme";
 
 export default {
@@ -272,7 +314,9 @@ export default {
       resultToEdit: {},
       deleteSnackbarVisible: false,
       editDialogVisible: false,
+      newResultName: "",
       deleteBtn: false,
+      editBtn: false,
       snackbarVisible: false,
       deleteSnackbarTimeout: 0,
       snackbarText: "",
@@ -287,10 +331,37 @@ export default {
     },
     showEditName(item) {
       this.resultToEdit = item;
+      this.newResultName = item.name;
       this.editDialogVisible = true;
     },
     editName() {
-
+      this.editBtn = true;
+      this.resultToEdit.name = this.newResultName;
+      axios.post(POST_UPDATE_RESULT_ENDPOINT, this.resultToEdit)
+        .then(response => {
+          if (response.status > 200 || response.status < 300) {
+            this.displaySnackbar("Name edited");
+            this.editBtn = false;
+            this.editDialogVisible = false;
+            this.$store.dispatch(ACTION_EDIT_RESULT_NAME, this.resultToEdit);
+            this.resultToEdit = {};
+            this.newResultName = "";
+            setTimeout(() => { this.snackbarVisible = false; }, 3100);
+          } else {
+            this.displaySnackbar("Error with result name edit!");
+            this.editBtn = false;
+            this.editDialogVisible = false;
+            setTimeout(() => { this.snackbarVisible = false; }, 3100);
+          }
+        })
+        .catch(e => {
+          this.errors.push(e);
+          console.log(e);
+          this.displaySnackbar("Could not contact backend!");
+          this.editBtn = false;
+          this.editDialogVisible = false;
+          setTimeout(() => { this.snackbarVisible = false; }, 3100);
+        })
     },
     showDeleteResult(item) {
       this.resultToDelete = item;
@@ -306,21 +377,20 @@ export default {
             this.deleteSnackbarVisible = false;
             this.$store.dispatch(ACTION_DELETE_RESULT, this.resultToDelete);
             this.resultToDelete = {};
-            setTimeout(() => {  this.snackbarVisible = false; }, 3100);
+            setTimeout(() => { this.snackbarVisible = false; }, 3100);
           } else {
-            this.displaySnackbar("Error with file deletion!");
+            this.displaySnackbar("Error with result deletion!");
             this.deleteBtn = false;
             this.deleteSnackbarVisible = false;
-            setTimeout(() => {  this.snackbarVisible = false; }, 3100);
+            setTimeout(() => { this.snackbarVisible = false; }, 3100);
           }
         })
         .catch(e => {
           this.errors.push(e);
-          console.log(e);
           this.displaySnackbar("Could not contact backend!");
           this.deleteBtn = false;
           this.deleteSnackbarVisible = false;
-          setTimeout(() => {  this.snackbarVisible = false; }, 3100);
+          setTimeout(() => { this.snackbarVisible = false; }, 3100);
         })
     },
     displaySnackbar(message) {
