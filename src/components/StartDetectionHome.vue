@@ -134,12 +134,14 @@ export default {
           align: "center",
           sortable: true,
           width: "10%",
+          value: "started_at",
           filterable: true
         },
         {
           text: "Method",
           align: "left",
           sortable: false,
+          value: "method",
           width: "9%",
           filterable: true
         },
@@ -147,6 +149,8 @@ export default {
           text: "Dataset",
           align: "left",
           sortable: false,
+          value: "dataset",
+
           width: "9%",
           filterable: true
         },
@@ -154,6 +158,7 @@ export default {
           text: "Parameters",
           align: "left",
           sortable: false,
+          value: "params",
           width: "37%",
           filterable: true
         },
@@ -161,6 +166,7 @@ export default {
           text: "Name",
           align: "left",
           sortable: false,
+          value: "name",
           width: "12%",
           filterable: true
         },
@@ -168,6 +174,7 @@ export default {
           text: "Avg. Coherence",
           align: "left",
           sortable: true,
+          value: "metrics",
           width: "12%",
         },
         {
@@ -190,7 +197,7 @@ export default {
       } else if (this.selectedMethod === "seanmf") {
         this.component = "seanmf-parameter";
         this.checkServiceStatus("seanmf");
-      } else if (this.selectedMethod === "frequency-rbai)"){
+      } else if (this.selectedMethod === "frequency-rbai"){
         this.component = "frequency-rbai-parameter";
         this.checkServiceStatus("frequency-rbai")
       } else {
