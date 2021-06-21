@@ -149,7 +149,8 @@ export default {
         this.displaySnackbar("Select a file first!");
         setTimeout(() => {  this.closeSnackbar(); }, 6000);
       } else if (!(this.fileInputField.files[0].name.endsWith(".csv")) &&
-          !(this.fileInputField.files[0].name.endsWith(".txt"))
+          !(this.fileInputField.files[0].name.endsWith(".txt")) &&
+          !(this.fileInputField.files[0].name.endsWith(".xlsx"))
       ) {
         this.displaySnackbar("File type not allowed!");
         setTimeout(() => {  this.closeSnackbar(); }, 6000);
