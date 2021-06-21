@@ -145,7 +145,6 @@ export default {
   },
   methods: {
     async uploadFile() {
-      this.loading = true;
       if (this.fileInputField.files[0] === undefined) {
         this.displaySnackbar("Select a file first!");
         setTimeout(() => {  this.closeSnackbar(); }, 6000);
@@ -155,6 +154,7 @@ export default {
         this.displaySnackbar("File type not allowed!");
         setTimeout(() => {  this.closeSnackbar(); }, 6000);
       } else {
+        this.loading = true;
         let formData = new FormData();
         formData.append('file', this.uploadedFile);
         axios.post(POST_UPLOAD_DATASET_ENDPOINT,
