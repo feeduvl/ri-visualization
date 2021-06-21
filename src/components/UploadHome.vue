@@ -148,10 +148,10 @@ export default {
       this.loading = true;
       if (this.fileInputField.files[0] === undefined) {
         this.displaySnackbar("Select a file first!");
-        setTimeout(() => {  this.closeSnackbar(); }, 3000);
+        setTimeout(() => {  this.closeSnackbar(); }, 6000);
       } else if (!(this.fileInputField.files[0].name.endsWith(".csv"))) {
         this.displaySnackbar("File type not allowed!");
-        setTimeout(() => {  this.closeSnackbar(); }, 3000);
+        setTimeout(() => {  this.closeSnackbar(); }, 6000);
       } else {
         let formData = new FormData();
         formData.append('file', this.uploadedFile);
@@ -210,12 +210,12 @@ export default {
                 this.deleteBtn = false;
                 this.deleteSnackbarVisible = false;
                 this.datasetToDelete = {};
-                setTimeout(() => {  this.snackbarVisible = false; }, 3100);
+                setTimeout(() => {  this.snackbarVisible = false; }, 6100);
               } else {
                 this.displaySnackbar("Error with file deletion!");
                 this.deleteBtn = false;
                 this.deleteSnackbarVisible = false;
-                setTimeout(() => {  this.snackbarVisible = false; }, 3100);
+                setTimeout(() => {  this.snackbarVisible = false; }, 6100);
               }
             })
             .catch(e => {
@@ -223,7 +223,7 @@ export default {
               this.displaySnackbar("Could not contact backend!");
               this.deleteBtn = false;
               this.deleteSnackbarVisible = false;
-              setTimeout(() => {  this.snackbarVisible = false; }, 3100);
+              setTimeout(() => {  this.snackbarVisible = false; }, 6100);
             });
     },
     updateTheme (title, theme) {

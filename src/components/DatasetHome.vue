@@ -192,7 +192,7 @@ export default {
         this.confirm_delete = false;
         setTimeout(() => {  this.btnLoading = false; }, 1100);
       } else {
-        this.displaySnackbar("Please confirm deletion.", 2000);
+        this.displaySnackbar("Please confirm deletion.", 6000);
       }
     },
   },

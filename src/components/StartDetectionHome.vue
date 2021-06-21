@@ -346,12 +346,12 @@ export default {
             this.$store.dispatch(ACTION_EDIT_RESULT_NAME, this.resultToEdit);
             this.resultToEdit = {};
             this.newResultName = "";
-            setTimeout(() => { this.snackbarVisible = false; }, 3100);
+            setTimeout(() => { this.snackbarVisible = false; }, 6100);
           } else {
             this.displaySnackbar("Error with result name edit!");
             this.editBtn = false;
             this.editDialogVisible = false;
-            setTimeout(() => { this.snackbarVisible = false; }, 3100);
+            setTimeout(() => { this.snackbarVisible = false; }, 6100);
           }
         })
         .catch(e => {
@@ -360,7 +360,7 @@ export default {
           this.displaySnackbar("Could not contact backend!");
           this.editBtn = false;
           this.editDialogVisible = false;
-          setTimeout(() => { this.snackbarVisible = false; }, 3100);
+          setTimeout(() => { this.snackbarVisible = false; }, 6100);
         })
     },
     showDeleteResult(item) {
@@ -377,12 +377,12 @@ export default {
             this.deleteSnackbarVisible = false;
             this.$store.dispatch(ACTION_DELETE_RESULT, this.resultToDelete);
             this.resultToDelete = {};
-            setTimeout(() => { this.snackbarVisible = false; }, 3100);
+            setTimeout(() => { this.snackbarVisible = false; }, 6100);
           } else {
             this.displaySnackbar("Error with result deletion!");
             this.deleteBtn = false;
             this.deleteSnackbarVisible = false;
-            setTimeout(() => { this.snackbarVisible = false; }, 3100);
+            setTimeout(() => { this.snackbarVisible = false; }, 6100);
           }
         })
         .catch(e => {
@@ -390,7 +390,7 @@ export default {
           this.displaySnackbar("Could not contact backend!");
           this.deleteBtn = false;
           this.deleteSnackbarVisible = false;
-          setTimeout(() => { this.snackbarVisible = false; }, 3100);
+          setTimeout(() => { this.snackbarVisible = false; }, 6100);
         })
     },
     displaySnackbar(message) {
