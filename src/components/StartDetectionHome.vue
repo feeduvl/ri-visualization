@@ -293,7 +293,7 @@ export default {
           filterable: true,
         },
         {
-          text: "Avg. Coherence",
+          text: "Score",
           align: "left",
           sortable: true,
           value: "metrics.total_coherence",
