@@ -41,6 +41,21 @@
         </template>
       </v-data-table>
     </v-card>
+    <v-snackbar
+        v-model="snackbarVisible"
+        :timeout="snackbarTimeout"
+        :top=true
+    >
+      {{ snackbarText }}
+
+      <v-btn
+          color="blue"
+          text
+          @click="closeSnackbar"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -59,6 +74,7 @@ export default {
     ...mapGetters({
       results: 'results',
       dataset: 'selectedDataset',
+      datasets: 'datasets',
       selectedResult: 'selectedResult',
       loadingDataset: 'loadingDataset',
     }),
@@ -117,18 +133,32 @@ export default {
         descending: false,
         rowsPerPage: 25,
       },
+      snackbarVisible: false,
+      snackbarTimeout: 0,
     };
   },
   methods: {
     async loadDataset() {
-      axios
-          .get(GET_DATASET_ENDPOINT(this.selectedResult["dataset_name"]))
-          .then(response => {
-            this.documents = response.data;
-          })
-          .catch(e => {
-            this.errors.push(e);
-          });
+      if (!(this.datasets.includes(this.selectedResult["dataset_name"]))) {
+        this.displaySnackbar("Dataset is not in database anymore!");
+      } else {
+        axios
+            .get(GET_DATASET_ENDPOINT(this.selectedResult["dataset_name"]))
+            .then(response => {
+              this.documents = response.data;
+            })
+            .catch(e => {
+              this.errors.push(e);
+            });
+      }
+    },
+    displaySnackbar(message) {
+      this.snackbarText = message;
+      this.snackbarVisible = true;
+    },
+    closeSnackbar() {
+      this.snackbarVisible = false;
+      this.snackbarText = "";
     },
   },
   mounted() {
