@@ -86,6 +86,7 @@ export default {
       component: "uvl-filter-toolbar",
       documents: [],
       search: "",
+      itemsPerPage: 25,
       tableHeaders: [
         {
           text: "ID",
@@ -113,7 +114,8 @@ export default {
       ],
       pagination: {
         sortBy: "ID",
-        descending: false
+        descending: false,
+        rowsPerPage: 25,
       },
     };
   },

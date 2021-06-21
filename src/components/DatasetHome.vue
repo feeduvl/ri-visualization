@@ -112,7 +112,8 @@ export default {
       confirm_delete: false,
       pagination: {
         sortBy: "number",
-        descending: false
+        descending: false,
+        rowsPerPage: 25,
       },
       tableHeaders: [
         {
