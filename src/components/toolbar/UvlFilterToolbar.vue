@@ -30,6 +30,21 @@
         </v-select>
       </v-flex>
     </v-layout>
+    <v-snackbar
+        v-model="snackbarVisible"
+        :timeout="snackbarTimeout"
+        :top=true
+    >
+      {{ snackbarText }}
+
+      <v-btn
+          color="blue"
+          text
+          @click="closeSnackbar"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-toolbar>
 </template>
 
@@ -52,6 +67,7 @@ export default {
       results: 'filteredResults',
       selectedResult: 'selectedResult',
       loading: "loadingResults",
+      datasets: "datasets",
     }),
     sortedResults () {
       return this.results.reverse();
@@ -63,7 +79,10 @@ export default {
       selectedMethod: "",
       selectedResultByDate: "",
       methods: METHODS,
-      path: this.$router.currentRoute.path
+      path: this.$router.currentRoute.path,
+      snackbarVisible: false,
+      snackbarTimeout: 0,
+      snackbarText: "",
     };
   },
   methods: {
@@ -102,7 +121,11 @@ export default {
       this.$store.commit(MUTATE_SELECTED_RESULT, this.getSelectedResultFromDate());
       console.log("UvlFilterToolBar::updateData: ");
       console.log(JSON.stringify(this.selectedResult));
-      loadDataset(this.$store, this.selectedResult["dataset_name"]);
+      if (!(this.datasets.includes(this.selectedResult["dataset_name"]))) {
+        this.displaySnackbar("Dataset is not in database anymore!");
+      } else {
+        loadDataset(this.$store, this.selectedResult["dataset_name"]);
+      }
     },
     getResultItemText(item) {
       let n = "";
@@ -112,6 +135,14 @@ export default {
         n = item.name;
       }
       return n + " - " + item.started_at.replace("Z", "").replace("T", " ");
+    },
+    displaySnackbar(message) {
+      this.snackbarText = message;
+      this.snackbarVisible = true;
+    },
+    closeSnackbar() {
+      this.snackbarVisible = false;
+      this.snackbarText = "";
     },
   },
 
