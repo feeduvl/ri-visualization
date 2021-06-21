@@ -204,7 +204,7 @@
 import axios from "axios";
 import "moment/locale/de";
 import {GREEN_FILL, RED_FILL, GRAY} from "@/colors";
-import {DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT, POST_UPDATE_RESULT_ENDPOINT} from "@/RESTconf";
+import {DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT} from "@/RESTconf";
 import { mapGetters } from 'vuex'
 import {METHODS} from "@/methods";
 import {ACTION_DELETE_RESULT, ACTION_EDIT_RESULT_NAME, MUTATE_SELECTED_RESULT} from "@/store/types";
@@ -337,7 +337,8 @@ export default {
     editName() {
       this.editBtn = true;
       this.resultToEdit.name = this.newResultName;
-      axios.post(POST_UPDATE_RESULT_ENDPOINT, this.resultToEdit)
+      axios.post(POST_UPDATE_RESULT_NAME_ENDPOINT, {name: this.resultToEdit.name,
+        started_at: this.resultToEdit.started_at})
         .then(response => {
           if (response.status > 200 || response.status < 300) {
             this.displaySnackbar("Name edited");

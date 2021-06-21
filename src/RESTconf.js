@@ -36,7 +36,7 @@ export const POST_START_DETECTION_ENDPOINT = `/hitec/orchestration/concepts/dete
 
 export const POST_UPLOAD_DATASET_ENDPOINT =  `/hitec/orchestration/concepts/store/dataset/`;
 
-export const POST_UPDATE_RESULT_ENDPOINT = `/hitec/repository/concepts/store/detection/result/`;
+export const POST_UPDATE_RESULT_NAME_ENDPOINT = `/hitec/repository/concepts/store/detection/result/name`;
 
 // feedai
 export const GET_ALL_TWEETS_ENDPOINT = function (twitterAccount) {
