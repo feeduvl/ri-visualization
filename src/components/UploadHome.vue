@@ -168,18 +168,20 @@ export default {
           if (response.status > 200 || response.status < 300) {
             this.displaySnackbar(response.data.message);
             this.fileInputField.value = null;
+            this.loading = false;
             // Reset file name display
             this.getFileName();
             loadDatasets(this.$store);
           } else {
             this.displaySnackbar("Error with file upload!");
+            this.loading = false;
           }
         })
             .catch(() => {
               this.displaySnackbar("Could not contact backend!");
+              this.loading = false;
             });
       }
-      this.loading = false;
     },
     getFileName() {
       this.uploadedFile = this.fileInputField.files[0];
