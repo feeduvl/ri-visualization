@@ -1,7 +1,8 @@
 /* eslint-disable */
 import axios from "axios";
 import {GET_ALL_DATASETS_ENDPOINT, GET_DATASET_ENDPOINT} from "@/RESTconf";
-import {MUTATE_DATASETS, MUTATE_SELECTED_DATASET} from "@/store/types";
+import {ACTION_LOAD_RESULTS, MUTATE_DATASETS, MUTATE_SELECTED_DATASET} from "@/store/types";
+import {actionFilterResults, actionLoadResults} from "@/store/actions";
 
 async function loadDatasets(store) {
   await axios
@@ -28,4 +29,11 @@ async function loadDataset(store, datasetName) {
     });
 }
 
-export { loadDatasets, loadDataset };
+async function reloadResults(store) {
+    if (!store.state.loadingResults) {
+        actionLoadResults(store.state);
+        actionFilterResults(store.state, {method: store.state.selectedMethod});
+    }
+}
+
+export { loadDatasets, loadDataset, reloadResults };

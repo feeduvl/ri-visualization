@@ -222,10 +222,10 @@ import {METHODS} from "@/methods";
 import {
   ACTION_DELETE_RESULT,
   ACTION_EDIT_RESULT_NAME,
-  ACTION_LOAD_RESULTS,
   MUTATE_SELECTED_RESULT
 } from "@/store/types";
 import {setTheme, THEME_UVL} from "@/theme";
+import {reloadResults} from "@/RESTcalls";
 
 export default {
   name: "StartDetectionHome",
@@ -499,10 +499,8 @@ export default {
       }
     },
     reloadResults() {
-      if (!this.loading) {
-        this.$store.dispatch(ACTION_LOAD_RESULTS);
-      }
-    },
+      reloadResults(this.$store);
+    }
   },
   mounted() {
   }
