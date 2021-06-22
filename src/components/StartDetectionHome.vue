@@ -81,6 +81,7 @@
             <td>{{ props.item.dataset_name }}</td>
             <td>{{ displayParameter(props.item.params) }}</td>
             <td>{{ displayRunName(props.item.name) }}</td>
+            <td>{{ displayStatus(props.item.status) }}</td>
             <td>{{ displayScore(props.item.metrics) }}</td>
             <td>
               <v-tooltip bottom>
@@ -310,6 +311,14 @@ export default {
           filterable: true,
         },
         {
+          text: "Status",
+          align: "left",
+          sortable: false,
+          value: "status",
+          width: "12%",
+          filterable: false,
+        },
+        {
           text: "Score",
           align: "left",
           sortable: true,
@@ -423,6 +432,17 @@ export default {
       if (theme !== "") {
         setTheme(title, theme, this.$store);
       }
+    },
+    displayStatus(status) {
+      let color;
+      if (status === "finished") {
+        color = GREEN_FILL;
+      } else if (status === "failed") {
+        color = RED_FILL;
+      } else {
+        color = GRAY;
+      }
+      return ("<span :style={'color': " + color + "} >" + status.toUpperCase() + "</span>")
     },
     updateForm() {
       if (this.selectedMethod === "lda") {
