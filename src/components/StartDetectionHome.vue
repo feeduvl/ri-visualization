@@ -76,14 +76,14 @@
       >
         <template slot="items" slot-scope="props">
           <tr>
-            <td style="text-align:center">{{ props.item.started_at }}</td>
+            <td style="text-align:center">{{ props.item.started_at.replace("Z", "").replace("T", " ").substring(0, 19) }}</td>
             <td>{{ getDisplayName(props.item.method) }}</td>
             <td>{{ props.item.dataset_name }}</td>
             <td>{{ displayParameter(props.item.params) }}</td>
             <td>{{ displayRunName(props.item.name) }}</td>
             <td><span :style="{'color': getStatusColor(props.item.status)}" >{{ props.item.status.toUpperCase() }}</span></td>
             <td>{{ displayScore(props.item.metrics) }}</td>
-            <td>
+            <td><span v-if="props.item.status !== 'scheduled' && props.item.status !== 'started'">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
@@ -123,7 +123,8 @@
                 </template>
                 <span>Delete Result</span>
               </v-tooltip>
-
+              </span>
+              <span v-else>-</span>
             </td>
           </tr>
         </template>
@@ -217,7 +218,7 @@
 <script>
 import axios from "axios";
 import "moment/locale/de";
-import {GREEN_FILL, RED_FILL, GRAY} from "@/colors";
+import {GREEN_FILL, RED_FILL, GRAY, PRIMARY} from "@/colors";
 import {DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT} from "@/RESTconf";
 import { mapGetters } from 'vuex'
 import {METHODS} from "@/methods";
@@ -440,6 +441,8 @@ export default {
         color = GREEN_FILL;
       } else if (status === "failed") {
         color = RED_FILL;
+      } else if (status === "started") {
+        color = PRIMARY;
       } else {
         color = GRAY;
       }

@@ -24,6 +24,7 @@ export const BLACK = 'rgb(0, 0, 0, 1)';
 export const WHITE = 'rgb(255, 255, 255, 1)';
 
 export const GRAY = 'rgb(153, 145, 145, 1)';
+export const PRIMARY = 'rgb(25,118,210)';
 
 // Chart itemStyles
 export const ITEM_STYLE_BAR_BLUE = {
