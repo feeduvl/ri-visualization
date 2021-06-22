@@ -81,7 +81,7 @@
             <td>{{ props.item.dataset_name }}</td>
             <td>{{ displayParameter(props.item.params) }}</td>
             <td>{{ displayRunName(props.item.name) }}</td>
-            <td> <span :style="{'color': getStatusColor(props.item.status)}" >{{ props.item.status.toUpperCase() }}</span></td>
+            <td><span :style="{'color': getStatusColor(props.item.status)}" >{{ props.item.status.toUpperCase() }}</span></td>
             <td>{{ displayScore(props.item.metrics) }}</td>
             <td>
               <v-tooltip bottom>
@@ -299,7 +299,7 @@ export default {
           align: "left",
           sortable: false,
           value: "params",
-          width: "36%",
+          width: "40%",
           filterable: true,
         },
         {
@@ -307,7 +307,7 @@ export default {
           align: "left",
           sortable: false,
           value: "name",
-          width: "12%",
+          width: "10%",
           filterable: true,
         },
         {
@@ -323,7 +323,7 @@ export default {
           align: "left",
           sortable: true,
           value: "metrics.total_coherence",
-          width: "12%",
+          width: "10%",
         },
         {
           text: "Actions",
@@ -607,5 +607,9 @@ h1 {
 
 #reload-btn {
   margin-left: 10px;
+}
+
+table.v-table tbody td:first-child, table.v-table tbody td:not(:first-child), table.v-table tbody th:first-child, table.v-table tbody th:not(:first-child), table.v-table thead td:first-child, table.v-table thead td:not(:first-child), table.v-table thead th:first-child, table.v-table thead th:not(:first-child) {
+  padding: 0 8px;
 }
 </style>
