@@ -76,7 +76,7 @@
       >
         <template slot="items" slot-scope="props">
           <tr>
-            <td style="text-align:center">{{ props.item.started_at.replace("Z", "").replace("T", " ").substring(0, 19) }}</td>
+            <td style="text-align:center">{{ props.item.started_at }}</td>
             <td>{{ getDisplayName(props.item.method) }}</td>
             <td>{{ props.item.dataset_name }}</td>
             <td>{{ displayParameter(props.item.params) }}</td>
@@ -123,6 +123,7 @@
                 </template>
                 <span>Delete Result</span>
               </v-tooltip>
+
             </td>
           </tr>
         </template>
