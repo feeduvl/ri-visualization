@@ -419,6 +419,8 @@ export default {
         this.checkServiceStatus("frequency-rbai")
       } else {
           this.component = "empty-parameter";
+          this.serviceColor = GRAY;
+          this.serviceStatus = "NA";
       }
     },
     async checkServiceStatus(service) {
