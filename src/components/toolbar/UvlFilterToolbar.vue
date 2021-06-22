@@ -29,6 +29,19 @@
         >
         </v-select>
       </v-flex>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-icon
+              @click="reloadResults"
+              v-bind="attrs"
+              v-on="on"
+              id="reload-btn"
+          >
+            refresh
+          </v-icon>
+        </template>
+        <span>Reload Results</span>
+      </v-tooltip>
     </v-layout>
     <v-snackbar
         v-model="snackbarVisible"
@@ -56,7 +69,7 @@ import {
   ROUTE_RESULTS
 } from "@/routes";
 import {mapGetters} from "vuex";
-import {loadDataset} from "@/RESTcalls";
+import {loadDataset, reloadResults} from "@/RESTcalls";
 import {ACTION_FILTER_RESULTS, MUTATE_SELECTED_METHOD, MUTATE_SELECTED_RESULT} from "@/store/types";
 import {METHODS} from "@/methods";
 
@@ -144,11 +157,16 @@ export default {
       this.snackbarVisible = false;
       this.snackbarText = "";
     },
+    reloadResults() {
+      reloadResults(this.$store);
+    },
   },
 
 }
 </script>
 
 <style scoped>
-
+#reload-btn {
+  margin-left: 10px;
+}
 </style>

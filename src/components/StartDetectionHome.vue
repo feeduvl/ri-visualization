@@ -500,7 +500,7 @@ export default {
     },
     reloadResults() {
       reloadResults(this.$store);
-    }
+    },
   },
   mounted() {
   }
