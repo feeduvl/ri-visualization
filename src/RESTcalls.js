@@ -29,7 +29,7 @@ async function loadDataset(store, datasetName) {
     });
 }
 
-async function reloadResults(store) {
+function reloadResults(store) {
     if (!store.state.loadingResults) {
         actionLoadResults(store.state);
         actionFilterResults(store.state, {method: store.state.selectedMethod});
