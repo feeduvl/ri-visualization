@@ -56,6 +56,7 @@
             min-width="360"
             height="100"
             v-for="dataset in datasets"
+            v-bind:key="dataset"
         >
           <v-card-title><h3>{{ dataset }}</h3></v-card-title>
           <v-btn small outline color="error" @click="showDeleteDataset(dataset)" class="btnAlign">
