@@ -81,7 +81,7 @@
             <td>{{ props.item.dataset_name }}</td>
             <td>{{ displayParameter(props.item.params) }}</td>
             <td>{{ displayRunName(props.item.name) }}</td>
-            <td>{{ displayStatus(props.item.status) }}</td>
+            <td> <span :style="{'color': getStatusColor(props.item.status)}" >{{ props.item.status.toUpperCase() }}</span></td>
             <td>{{ displayScore(props.item.metrics) }}</td>
             <td>
               <v-tooltip bottom>
@@ -433,7 +433,7 @@ export default {
         setTheme(title, theme, this.$store);
       }
     },
-    displayStatus(status) {
+    getStatusColor(status) {
       let color;
       if (status === "finished") {
         color = GREEN_FILL;
@@ -442,7 +442,7 @@ export default {
       } else {
         color = GRAY;
       }
-      return ("<span :style={'color': " + color + "} >" + status.toUpperCase() + "</span>")
+      return color;
     },
     updateForm() {
       if (this.selectedMethod === "lda") {
