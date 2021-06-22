@@ -19,6 +19,7 @@ export const ACTION_SET_FOOTER_TEXT = 'setFooterText';
 export const ACTION_FILTER_RESULTS = 'actionFilterResults';
 export const ACTION_DELETE_RESULT = 'actionDeleteResult';
 export const ACTION_EDIT_RESULT_NAME = 'actionEditResultName';
+export const ACTION_LOAD_RESULTS = 'actionLoadResults';
 
 /*
  *  Mutation types

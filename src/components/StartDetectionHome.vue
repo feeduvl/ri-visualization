@@ -41,7 +41,19 @@
       <v-card flat class="header">
         <v-card-title>
           <h1>{{ cardTableTitle }}</h1>
-          <v-spacer></v-spacer>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                  @click="reloadResults"
+                  v-bind="attrs"
+                  v-on="on"
+                  id="reload-btn"
+              >
+                refresh
+              </v-icon>
+            </template>
+            <span>Reload Results</span>
+          </v-tooltip>
           <v-spacer></v-spacer>
           <v-spacer></v-spacer>
           <v-spacer></v-spacer>
@@ -207,7 +219,12 @@ import {GREEN_FILL, RED_FILL, GRAY} from "@/colors";
 import {DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT} from "@/RESTconf";
 import { mapGetters } from 'vuex'
 import {METHODS} from "@/methods";
-import {ACTION_DELETE_RESULT, ACTION_EDIT_RESULT_NAME, MUTATE_SELECTED_RESULT} from "@/store/types";
+import {
+  ACTION_DELETE_RESULT,
+  ACTION_EDIT_RESULT_NAME,
+  ACTION_LOAD_RESULTS,
+  MUTATE_SELECTED_RESULT
+} from "@/store/types";
 import {setTheme, THEME_UVL} from "@/theme";
 
 export default {
@@ -481,6 +498,11 @@ export default {
         }
       }
     },
+    reloadResults() {
+      if (!this.loading) {
+        this.$store.dispatch(ACTION_LOAD_RESULTS);
+      }
+    },
   },
   mounted() {
   }
@@ -563,5 +585,9 @@ h1 {
 #service-status {
   padding-left: 0px;
   padding-top: 25px;
+}
+
+#reload-btn {
+  margin-left: 10px;
 }
 </style>
