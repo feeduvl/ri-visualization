@@ -62,6 +62,9 @@ export const mutateSelectedDatasetOutside = (state, datasetName) => {
 export const mutateSelectedResult = (state, result) => {
   state.selectedResult = result;
 };
+export const mutateLoadingResults = (state, status) => {
+  state.loadingResults = status;
+};
 export const mutateFilteredResults = (state, results) => {
   state.filteredResults = results;
 };

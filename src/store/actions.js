@@ -60,7 +60,7 @@ export const actionLoadResults = state => {
   axios
     .get(GET_ALL_RESULTS_ENDPOINT)
     .then(response => {
-      state.results =  response.data;
+      state.results = response.data;
       state.filteredResults = response.data;
       state.loadingResults = false;
     })
@@ -79,12 +79,11 @@ export const actionFilterResults = ({
   state,
   commit
 }, payload) => {
-  let tmpFilteredResults = [];
-
   if (payload.method === "") {
     commit(MUTATE_FILTERED_RESULTS, state.results);
     return;
   }
+  let tmpFilteredResults = [];
 
   for (let i = 0; i <  state.results.length; i++) {
     if (state.results[i].method === payload.method) {

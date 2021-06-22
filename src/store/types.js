@@ -50,6 +50,7 @@ export const MUTATE_RESULTS = 'mutateResults';
 export const MUTATE_FILTERED_RESULTS = 'mutateFilteredResults';
 export const MUTATE_SELECTED_METHOD = 'mutateSelectedMethod';
 export const MUTATE_SELECTED_DATASET_OUTSIDE = 'mutateSelectedDatasetOutside';
+export const MUTATE_LOADING_RESULTS = 'mutateLoadingResults';
 
 /*
  *  Local storage types
