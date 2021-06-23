@@ -502,6 +502,8 @@ export default {
     displayScore(item) {
       const isMethod = (element) => element.name === item.name;
       console.log(METHODS.findIndex(isMethod));
+      console.log(METHODS[0])
+      console.log(getScoreSeaNMF(item));
       return METHODS[METHODS.findIndex(isMethod)].scoreFunction(item);
     },
     displayRunName(name) {
