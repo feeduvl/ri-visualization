@@ -500,11 +500,7 @@ export default {
       .replaceAll('"',"").replaceAll(",", ", "));
     },
     displayScore(item) {
-      const isMethod = (element) => element.name === item.name;
-      console.log(METHODS.findIndex(isMethod));
-      console.log(METHODS[0]);
-      console.log(item.name);
-      console.log(getScoreSeaNMF(item));
+      const isMethod = (element) => element.name === item.method;
       return METHODS[METHODS.findIndex(isMethod)].scoreFunction(item);
     },
     displayRunName(name) {
