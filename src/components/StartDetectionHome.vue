@@ -500,7 +500,9 @@ export default {
       .replaceAll('"',"").replaceAll(",", ", "));
     },
     displayScore(item) {
-      return METHODS[item.method].scoreFunction(item);
+      const isMethod = (element) => element.name === item.name;
+      console.log(METHODS.findIndex(isMethod));
+      return METHODS[METHODS.findIndex(isMethod)].scoreFunction(item);
     },
     displayRunName(name) {
       if (name === "") {
