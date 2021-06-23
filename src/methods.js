@@ -9,6 +9,7 @@ export const METHODS = [
         parameterComponentPath: "./form/EmptyParameter",
         resultComponentName: "empty-result",
         resultComponentPath: "./components/result/EmptyResult",
+        scoreFunction: getScoreEmpty,
     },
     {
         name: "lda",
@@ -17,6 +18,7 @@ export const METHODS = [
         parameterComponentPath: "./form/LdaParameter",
         resultComponentName: "topic-detection-result",
         resultComponentPath: "./components/result/TopicDetectionResult",
+        scoreFunction: getScoreLDA,
     },
     {
         name: "seanmf",
@@ -25,6 +27,7 @@ export const METHODS = [
         parameterComponentPath: "./form/SeanmfParameter",
         resultComponentName: "topic-detection-result",
         resultComponentPath: "./components/result/TopicDetectionResult",
+        scoreFunction: getScoreSeaNMF,
     },
     {
         name: "frequency-rbai",
@@ -33,5 +36,34 @@ export const METHODS = [
         parameterComponentPath: "./form/FrequencyRBAIParameter",
         resultComponentName: "",
         resultComponentPath: "",
+        scoreFunction: getScoreFrequencyRBAI,
     },
 ];
+
+export function getScoreSeaNMF(result) {
+    let metric;
+    try {
+        metric = result.metrics.total_coherence.toString().substring(0, 6);
+    } catch(e) {
+        metric = "-";
+    }
+    return metric;
+}
+
+export function getScoreLDA(result) {
+    let metric;
+    try {
+        metric = result.metrics.total_coherence.toString().substring(0, 6);
+    } catch(e) {
+        metric = "-";
+    }
+    return metric;
+}
+
+export function getScoreFrequencyRBAI(result) {
+    return "-";
+}
+
+export function getScoreEmpty(result) {
+    return "-";
+}

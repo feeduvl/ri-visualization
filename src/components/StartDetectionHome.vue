@@ -82,7 +82,7 @@
             <td>{{ displayParameter(props.item.params) }}</td>
             <td>{{ displayRunName(props.item.name) }}</td>
             <td><span :style="{'color': getStatusColor(props.item.status)}" >{{ props.item.status.toUpperCase() }}</span></td>
-            <td>{{ displayScore(props.item.metrics) }}</td>
+            <td>{{ displayScore(props.item) }}</td>
             <td><span v-if="props.item.status !== 'scheduled' && props.item.status !== 'started'">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
@@ -499,14 +499,8 @@ export default {
       return(JSON.stringify(params).replace("{","").replace("}","")
       .replaceAll('"',"").replaceAll(",", ", "));
     },
-    displayScore(metrics) {
-      let metric;
-      try {
-        metric = metrics.total_coherence.toString().substring(0, 6);
-      } catch(e) {
-        metric = "-";
-      }
-      return metric;
+    displayScore(item) {
+      return METHODS[item.method].scoreFunction(item);
     },
     displayRunName(name) {
       if (name === "") {
