@@ -75,8 +75,8 @@
                     }
                 }).catch( (e) => {
                     this.displaySnackbar("Could not contact backend!");
-                    console.error("FrequencyRBAIParameter::startRun got error: "+e);
-                    console.error("FrequencyRBAIParameter::startRun Form data: "+this.getFormData());
+                    console.error("FrequencyFCICParameter::startRun got error: "+e);
+                    console.error("FrequencyFCICParameter::startRun Form data: "+this.getFormData());
                 });
                 this.blockButton();
             },
@@ -100,8 +100,8 @@
                     method: this.method,
                     dataset: this.$props.dataset,
                     max_num_concepts: this.max_num_concepts,
-                    term_length: 2,
                     run_name: this.run_name,
+                    term_length: 1,
                     command: "run_algorithm"
                 });
             },

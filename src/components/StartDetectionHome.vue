@@ -236,7 +236,8 @@ export default {
     "empty-parameter": () => import("./form/EmptyParameter"),
     "lda-parameter": () => import("./form/LdaParameter"),
     "seanmf-parameter": () => import("./form/SeanmfParameter"),
-    "frequency-rbai-parameter": () => import("./form/FrequencyRBAIParameter")
+    "frequency-rbai-parameter": () => import("./form/FrequencyRBAIParameter"),
+    "frequency-fcic-parameter": () => import("./form/FrequencyFCICParameter")
   },
   computed: {
     ...mapGetters({
@@ -457,7 +458,10 @@ export default {
         this.checkServiceStatus("seanmf");
       } else if (this.selectedMethod === "frequency-rbai"){
         this.component = "frequency-rbai-parameter";
-        this.checkServiceStatus("frequency-rbai")
+        this.checkServiceStatus("frequency-rbai");
+      } else if (this.selectedMethod === "frequency-fcic"){
+        this.component = "frequency-fcic-parameter";
+        this.checkServiceStatus("frequency-fcic");
       } else {
           this.component = "empty-parameter";
           this.serviceColor = GRAY;
