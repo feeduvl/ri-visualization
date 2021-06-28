@@ -114,6 +114,7 @@
 <script>
 import axios from "axios";
 import {POST_START_DETECTION_ENDPOINT} from "@/RESTconf";
+import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 export default {
   name: "SeanmfParameter",
   props: {
@@ -124,7 +125,7 @@ export default {
     snackbarVisible: false,
     loading: false,
     snackbarText: "",
-    snackbarTimeout: 1500,
+    snackbarTimeout: SNACKBAR_DISPLAY_TIME,
     alpha: 0.1,
     beta: 0,
     n_topics: 10,

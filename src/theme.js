@@ -34,3 +34,5 @@ export const setTheme = function (topBarTitle, theme, store) {
   store.dispatch(ACTION_SET_TOP_BAR_LINK, theme.topBarLink);
   store.dispatch(ACTION_SET_FOOTER_TEXT, theme.footer);
 };
+
+export const SNACKBAR_DISPLAY_TIME = 6000;

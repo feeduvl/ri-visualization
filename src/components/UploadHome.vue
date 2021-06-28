@@ -105,7 +105,7 @@ import {
 import {DELETE_DATASET_ENDPOINT, POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
 import {mapGetters} from "vuex";
 import {loadDatasets} from "@/RESTcalls";
-import {setTheme, THEME_UVL} from "@/theme";
+import {setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL} from "@/theme";
 import {MUTATE_SELECTED_DATASET_OUTSIDE} from "@/store/types";
 
 export default {
@@ -149,13 +149,13 @@ export default {
     async uploadFile() {
       if (this.fileInputField.files[0] === undefined) {
         this.displaySnackbar("Select a file first!");
-        setTimeout(() => {  this.closeSnackbar(); }, 6000);
+        setTimeout(() => {  this.closeSnackbar(); }, SNACKBAR_DISPLAY_TIME);
       } else if (!(this.fileInputField.files[0].name.endsWith(".csv")) &&
           !(this.fileInputField.files[0].name.endsWith(".txt")) &&
           !(this.fileInputField.files[0].name.endsWith(".xlsx"))
       ) {
         this.displaySnackbar("File type not allowed!");
-        setTimeout(() => {  this.closeSnackbar(); }, 6000);
+        setTimeout(() => {  this.closeSnackbar(); }, SNACKBAR_DISPLAY_TIME);
       } else {
         this.loading = true;
         let formData = new FormData();
@@ -217,12 +217,12 @@ export default {
                 this.deleteBtn = false;
                 this.deleteSnackbarVisible = false;
                 this.datasetToDelete = {};
-                setTimeout(() => {  this.snackbarVisible = false; }, 6100);
+                setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
               } else {
                 this.displaySnackbar("Error with file deletion!");
                 this.deleteBtn = false;
                 this.deleteSnackbarVisible = false;
-                setTimeout(() => {  this.snackbarVisible = false; }, 6100);
+                setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
               }
             })
             .catch(e => {
@@ -230,7 +230,7 @@ export default {
               this.displaySnackbar("Could not contact backend!");
               this.deleteBtn = false;
               this.deleteSnackbarVisible = false;
-              setTimeout(() => {  this.snackbarVisible = false; }, 6100);
+              setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
             });
     },
     updateTheme (title, theme) {

@@ -71,6 +71,7 @@ import {mapGetters} from "vuex";
 import {loadDataset, reloadResults} from "@/RESTcalls";
 import {ACTION_FILTER_RESULTS, MUTATE_SELECTED_METHOD, MUTATE_SELECTED_RESULT} from "@/store/types";
 import {METHODS} from "@/methods";
+import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 
 export default {
   name: "UvlFilterToolbar",
@@ -94,7 +95,7 @@ export default {
       methods: METHODS,
       path: this.$router.currentRoute.path,
       snackbarVisible: false,
-      snackbarTimeout: 0,
+      snackbarTimeout: SNACKBAR_DISPLAY_TIME,
       snackbarText: "",
     };
   },

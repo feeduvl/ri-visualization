@@ -74,6 +74,7 @@ import {
 import { mapGetters } from 'vuex'
 import {loadDatasets} from "@/RESTcalls";
 import {MUTATE_SELECTED_DATASET_OUTSIDE} from "@/store/types";
+import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 
 export default {
   name: "DatasetHome",
@@ -192,7 +193,7 @@ export default {
         this.confirm_delete = false;
         setTimeout(() => {  this.btnLoading = false; }, 1100);
       } else {
-        this.displaySnackbar("Please confirm deletion.", 6000);
+        this.displaySnackbar("Please confirm deletion.", SNACKBAR_DISPLAY_TIME);
       }
     },
   },

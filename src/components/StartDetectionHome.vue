@@ -227,7 +227,7 @@ import {
   ACTION_EDIT_RESULT_NAME,
   MUTATE_SELECTED_RESULT
 } from "@/store/types";
-import {setTheme, THEME_UVL} from "@/theme";
+import {setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL} from "@/theme";
 import {reloadResults} from "@/RESTcalls";
 
 export default {
@@ -377,12 +377,12 @@ export default {
             this.$store.dispatch(ACTION_EDIT_RESULT_NAME, this.resultToEdit);
             this.resultToEdit = {};
             this.newResultName = "";
-            setTimeout(() => { this.snackbarVisible = false; }, 6100);
+            setTimeout(() => { this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
           } else {
             this.displaySnackbar("Error with result name edit!");
             this.editBtn = false;
             this.editDialogVisible = false;
-            setTimeout(() => { this.snackbarVisible = false; }, 6100);
+            setTimeout(() => { this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
           }
         })
         .catch(e => {
@@ -391,7 +391,7 @@ export default {
           this.displaySnackbar("Could not contact backend!");
           this.editBtn = false;
           this.editDialogVisible = false;
-          setTimeout(() => { this.snackbarVisible = false; }, 6100);
+          setTimeout(() => { this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
         })
     },
     showDeleteResult(item) {
@@ -408,12 +408,12 @@ export default {
             this.deleteSnackbarVisible = false;
             this.$store.dispatch(ACTION_DELETE_RESULT, this.resultToDelete);
             this.resultToDelete = {};
-            setTimeout(() => { this.snackbarVisible = false; }, 6100);
+            setTimeout(() => { this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
           } else {
             this.displaySnackbar("Error with result deletion!");
             this.deleteBtn = false;
             this.deleteSnackbarVisible = false;
-            setTimeout(() => { this.snackbarVisible = false; }, 6100);
+            setTimeout(() => { this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
           }
         })
         .catch(e => {
@@ -421,7 +421,7 @@ export default {
           this.displaySnackbar("Could not contact backend!");
           this.deleteBtn = false;
           this.deleteSnackbarVisible = false;
-          setTimeout(() => { this.snackbarVisible = false; }, 6100);
+          setTimeout(() => { this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
         })
     },
     displaySnackbar(message) {
