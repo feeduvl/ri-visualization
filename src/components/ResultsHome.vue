@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout row class="spacing">
-      <component v-bind:is="component"/>
+      <uvl-filter-toolbar/>
     </v-layout>
     <v-card>
       <component v-bind:is="resultComponent"/>

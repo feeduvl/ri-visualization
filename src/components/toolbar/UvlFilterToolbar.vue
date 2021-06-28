@@ -18,7 +18,7 @@
       <v-flex xs5 v-if="showResultsFilter()">
         <v-select
             v-model="selectedResultByDate"
-            :items="sortedResults"
+            :items="results"
             label="Select Run"
             :item-text="getResultItemText"
             item-value="started_at"
@@ -81,9 +81,6 @@ export default {
       loading: "loadingResults",
       datasets: "datasets",
     }),
-    sortedResults () {
-      return this.results.reverse();
-    }
   },
   data() {
     return {

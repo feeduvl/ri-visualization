@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout row class="spacing">
-      <component v-bind:is="component" v-bind:methods="methods" v-bind:results="results"/>
+      <uvl-filter-toolbar/>
     </v-layout>
     <v-card>
       <v-card-title>
@@ -46,8 +46,6 @@
 
 <script>
 
-import {GET_DATASET_ENDPOINT} from "@/RESTconf";
-import axios from "axios";
 import {mapGetters} from "vuex";
 
 export default {

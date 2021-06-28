@@ -80,7 +80,7 @@ export const actionFilterResults = ({
   commit
 }, payload) => {
   if (payload.method === "") {
-    commit(MUTATE_FILTERED_RESULTS, state.results);
+    commit(MUTATE_FILTERED_RESULTS, state.results.reverse());
     return;
   }
   let tmpFilteredResults = [];
@@ -91,7 +91,7 @@ export const actionFilterResults = ({
     }
   }
 
-  commit(MUTATE_FILTERED_RESULTS, tmpFilteredResults);
+  commit(MUTATE_FILTERED_RESULTS, tmpFilteredResults.reverse());
 };
 export const actionDeleteResult = ({
   state,
