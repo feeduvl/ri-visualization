@@ -26,7 +26,7 @@ export default {
       selectedMethod: 'selectedMethod'
     }),
     resultComponent () {
-      return getMethodObj(this.selectedMethod).parameterComponentName;
+      return getMethodObj(this.selectedMethod).resultComponentName;
     }
   },
   data() {
