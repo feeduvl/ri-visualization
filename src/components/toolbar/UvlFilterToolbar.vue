@@ -65,7 +65,6 @@
 import { BLUE_FILL } from "@/colors";
 import {
   ROUTE_DOCUMENTS,
-  ROUTE_CONCEPTS,
   ROUTE_RESULTS
 } from "@/routes";
 import {mapGetters} from "vuex";
@@ -102,14 +101,12 @@ export default {
     showMethodFilter() {
       return (
           this.path === ROUTE_DOCUMENTS ||
-          this.path === ROUTE_CONCEPTS ||
           this.path === ROUTE_RESULTS
       );
     },
     showResultsFilter() {
       return (
           this.path === ROUTE_DOCUMENTS ||
-          this.path === ROUTE_CONCEPTS ||
           this.path === ROUTE_RESULTS
       );
     },

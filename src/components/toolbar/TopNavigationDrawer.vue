@@ -87,12 +87,6 @@ export default {
           theme: THEME_UVL
         },
         {
-          title: "Concept View",
-          icon: "workspaces",
-          path: "/concepts",
-          theme: THEME_UVL
-        },
-        {
           title: "Document View",
           icon: "description",
           path: "/documents",
