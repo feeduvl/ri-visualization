@@ -12,7 +12,7 @@
 <script>
 
 import {mapGetters} from "vuex";
-import {METHODS} from "@/methods";
+import {getMethodObj} from "@/methods";
 
 export default {
   name: "ConceptHome",
@@ -26,11 +26,7 @@ export default {
       selectedMethod: 'selectedMethod'
     }),
     resultComponent () {
-      if (this.selectedMethod === "") {
-        return "empty-result"
-      } else {
-        return METHODS[this.selectedMethod].resultComponentName;
-      }
+      this.component = getMethodObj(this.selectedMethod).parameterComponentName;
     }
   },
   data() {

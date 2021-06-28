@@ -221,7 +221,7 @@ import "moment/locale/de";
 import {GREEN_FILL, RED_FILL, GRAY, PRIMARY} from "@/colors";
 import {DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT} from "@/RESTconf";
 import { mapGetters } from 'vuex'
-import {getScoreSeaNMF, METHODS} from "@/methods";
+import {getMethodObj, getScoreSeaNMF, METHODS} from "@/methods";
 import {
   ACTION_DELETE_RESULT,
   ACTION_EDIT_RESULT_NAME,
@@ -450,22 +450,13 @@ export default {
       return color;
     },
     updateForm() {
-      if (this.selectedMethod === "lda") {
-        this.component = "lda-parameter";
-        this.checkServiceStatus("lda");
-      } else if (this.selectedMethod === "seanmf") {
-        this.component = "seanmf-parameter";
-        this.checkServiceStatus("seanmf");
-      } else if (this.selectedMethod === "frequency-rbai"){
-        this.component = "frequency-rbai-parameter";
-        this.checkServiceStatus("frequency-rbai");
-      } else if (this.selectedMethod === "frequency-fcic"){
-        this.component = "frequency-fcic-parameter";
-        this.checkServiceStatus("frequency-fcic");
+      this.component = getMethodObj(this.selectedMethod).parameterComponentName;
+
+      if (this.component === METHODS[0].parameterComponentName) {
+        this.serviceColor = GRAY;
+        this.serviceStatus = "NA";
       } else {
-          this.component = "empty-parameter";
-          this.serviceColor = GRAY;
-          this.serviceStatus = "NA";
+        this.checkServiceStatus(this.selectedMethod);
       }
     },
     async checkServiceStatus(service) {

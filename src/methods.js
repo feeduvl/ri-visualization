@@ -69,10 +69,15 @@ export function getScoreLDA(result) {
     return metric;
 }
 
-export function getScoreFrequencyRBAI(result) {
+export function getScoreEmpty(result) {
     return "-";
 }
 
-export function getScoreEmpty(result) {
-    return "-";
+export function getMethodObj(methodName) {
+    for(let index in METHODS){
+        if(METHODS[i].name === methodName){
+            return method;
+        }
+    }
+    return METHODS[0];
 }
