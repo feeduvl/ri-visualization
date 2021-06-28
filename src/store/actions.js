@@ -66,7 +66,7 @@ export const actionFilterResults = ({
 
   for (let i = 0; i <  _tmpFilteredResults.length; i++) {
     if (_tmpFilteredResults[i].method === payload.method) {
-      tmpFilteredResults.push(state.results[i]);
+      tmpFilteredResults.push(_tmpFilteredResults[i]);
     }
   }
 
