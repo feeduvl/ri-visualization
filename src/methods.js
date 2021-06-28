@@ -76,7 +76,7 @@ export function getScoreEmpty(result) {
 export function getMethodObj(methodName) {
     for(let index in METHODS){
         if(METHODS[i].name === methodName){
-            return method;
+            return METHODS[i];
         }
     }
     return METHODS[0];
