@@ -56,7 +56,7 @@
             dataset: String,
         },
         data: () => ({
-            method: "frequency-rbai",
+            method: "frequency-fcic",
             snackbarVisible: false,
             loading: false,
             snackbarText: "",
