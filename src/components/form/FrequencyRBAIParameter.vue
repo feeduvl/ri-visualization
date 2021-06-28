@@ -102,7 +102,7 @@
                     dataset: this.$props.dataset,
                     max_num_concepts: this.max_num_concepts,
                     term_length: 2,
-                    run_name: this.run_name,
+                    name: this.run_name,
                     command: "run_algorithm"
                 });
             },
