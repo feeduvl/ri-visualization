@@ -88,7 +88,7 @@ export const actionLoadResults = state => {
     .get(GET_ALL_RESULTS_ENDPOINT)
     .then(response => {
       state.results = response.data;
-      actionFilterResults(state, {method: ""});
+      state.filteredResults = response.data;
       state.loadingResults = false;
     })
     .catch(e => {
@@ -101,6 +101,7 @@ export const actionFetchInitialConceptData = ({
 }) => {
   actionLoadDatasets(state);
   actionLoadResults(state);
+  actionFilterResults(state, {method: ""});
 };
 export const actionDeleteResult = ({
   state,
