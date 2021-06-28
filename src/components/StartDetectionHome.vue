@@ -60,7 +60,7 @@
           <v-text-field
               v-model="search"
               append-icon="search"
-              label="Search"
+              label="Search for Run Name"
               single-line
               hide-details
               clearable
@@ -279,7 +279,7 @@ export default {
           sortable: true,
           width: "10%",
           value: "started_at",
-          filterable: true,
+          filterable: false,
         },
         {
           text: "Method",
@@ -287,7 +287,7 @@ export default {
           sortable: false,
           value: "method",
           width: "9%",
-          filterable: true,
+          filterable: false,
         },
         {
           text: "Dataset",
@@ -295,7 +295,7 @@ export default {
           sortable: false,
           value: "dataset_name",
           width: "9%",
-          filterable: true,
+          filterable: false,
         },
         {
           text: "Parameters",
@@ -303,7 +303,7 @@ export default {
           sortable: false,
           value: "params",
           width: "40%",
-          filterable: true,
+          filterable: false,
         },
         {
           text: "Name",
@@ -324,6 +324,7 @@ export default {
         {
           text: "Score",
           align: "left",
+          // Change to 'false' and change the value, when there are new methods that do not use topic coherence as metric
           sortable: true,
           value: "metrics.total_coherence",
           width: "10%",
