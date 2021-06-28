@@ -59,7 +59,7 @@ export const actionFilterResults = ({
   }
 
   if (payload.method === "") {
-    commit(MUTATE_FILTERED_RESULTS, _tmpFilteredResults.reverse());
+    commit(MUTATE_FILTERED_RESULTS, _tmpFilteredResults);
     return;
   }
   let tmpFilteredResults = [];
@@ -70,7 +70,7 @@ export const actionFilterResults = ({
     }
   }
 
-  commit(MUTATE_FILTERED_RESULTS, tmpFilteredResults.reverse());
+  commit(MUTATE_FILTERED_RESULTS, tmpFilteredResults);
 };
 export const actionLoadDatasets = state => {
   axios
@@ -88,7 +88,16 @@ export const actionLoadResults = state => {
     .get(GET_ALL_RESULTS_ENDPOINT)
     .then(response => {
       state.results = response.data;
-      state.filteredResults = response.data;
+
+      // Filter for finished runs
+      let _tmpFilteredResults = [];
+      for (let i = 0; i <  state.results.length; i++) {
+        if (state.results[i].status === "finished") {
+          _tmpFilteredResults.push(state.results[i]);
+        }
+      }
+
+      state.filteredResults = _tmpFilteredResults;
       state.loadingResults = false;
     })
     .catch(e => {
@@ -101,7 +110,6 @@ export const actionFetchInitialConceptData = ({
 }) => {
   actionLoadDatasets(state);
   actionLoadResults(state);
-  actionFilterResults(state, {method: ""});
 };
 export const actionDeleteResult = ({
   state,
