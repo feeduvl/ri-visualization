@@ -102,7 +102,7 @@
                     method: this.method,
                     dataset: this.$props.dataset,
                     max_num_concepts: this.max_num_concepts,
-                    run_name: this.run_name,
+                    name: this.run_name,
                     term_length: 1,
                     command: "run_algorithm"
                 });
