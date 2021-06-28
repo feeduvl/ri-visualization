@@ -151,10 +151,10 @@ export default {
           });
     },
     updateTable(responseData) {
-      var documents = []
-      for (var index in responseData["documents"]) {
-        var document = responseData["documents"][index];
-        var d = { text: document.text,
+      let documents = []
+      for (let index in responseData["documents"]) {
+        let document = responseData["documents"][index];
+        let d = { text: document.text,
               number: document.number,
               id: document.id};
         documents.push(d);

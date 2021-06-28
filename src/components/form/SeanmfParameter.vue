@@ -215,11 +215,7 @@ export default {
       return JSON.stringify(params);
     },
     validateDatasetInput() {
-      if (this.$props.dataset === "") {
-        return false;
-      } else {
-        return true;
-      }
+      return this.$props.dataset !== "";
     },
   },
 }
