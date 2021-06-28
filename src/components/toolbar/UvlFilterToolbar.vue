@@ -82,7 +82,7 @@ export default {
       datasets: "datasets",
     }),
     sortedResults() {
-      a = this.results.slice();
+      let a = this.results.slice();
       return a.reverse();
     }
   },
