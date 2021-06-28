@@ -450,12 +450,19 @@ export default {
       return color;
     },
     updateForm() {
+      console.log(this.component);
+      console.log(this.selectedMethod);
+      console.log(getMethodObj(this.selectedMethod));
+      console.log(getMethodObj(this.selectedMethod).parameterComponentName);
       this.component = getMethodObj(this.selectedMethod).parameterComponentName;
+      console.log(METHODS[0].parameterComponentName);
 
       if (this.component === METHODS[0].parameterComponentName) {
         this.serviceColor = GRAY;
         this.serviceStatus = "NA";
+        console.log("test1");
       } else {
+        console.log("test2");
         this.checkServiceStatus(this.selectedMethod);
       }
     },
