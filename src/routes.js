@@ -11,7 +11,6 @@ export const ROUTE_SETTINGS = "/settings";
 export const ROUTE_UPLOAD = "/upload";
 export const ROUTE_START_DETECTION = "/detection";
 export const ROUTE_RESULTS = "/results";
-export const ROUTE_CONCEPTS = "/concepts";
 export const ROUTE_DOCUMENTS = "/documents";
 export const ROUTE_DATASET = "/dataset";
 
@@ -54,10 +53,6 @@ export const routes = [{
   {
     path: ROUTE_RESULTS,
     component: () => import('./components/ResultsHome.vue')
-  },
-  {
-    path: ROUTE_CONCEPTS,
-    component: () => import('./components/ConceptHome.vue')
   },
   {
     path: ROUTE_DOCUMENTS,

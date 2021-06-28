@@ -45,6 +45,33 @@ export const actionFetchInitialData = ({
     });
   });
 };
+export const actionFilterResults = ({
+  state,
+  commit
+}, payload) => {
+
+  // Filter for finished runs
+  let _tmpFilteredResults = [];
+  for (let i = 0; i <  state.results.length; i++) {
+    if (state.results[i].status === "finished") {
+      _tmpFilteredResults.push(state.results[i]);
+    }
+  }
+
+  if (payload.method === "") {
+    commit(MUTATE_FILTERED_RESULTS, _tmpFilteredResults.reverse());
+    return;
+  }
+  let tmpFilteredResults = [];
+
+  for (let i = 0; i <  _tmpFilteredResults.length; i++) {
+    if (_tmpFilteredResults[i].method === payload.method) {
+      tmpFilteredResults.push(_tmpFilteredResults[i]);
+    }
+  }
+
+  commit(MUTATE_FILTERED_RESULTS, tmpFilteredResults.reverse());
+};
 export const actionLoadDatasets = state => {
   axios
     .get(GET_ALL_DATASETS_ENDPOINT)
@@ -74,24 +101,7 @@ export const actionFetchInitialConceptData = ({
 }) => {
   actionLoadDatasets(state);
   actionLoadResults(state);
-};
-export const actionFilterResults = ({
-  state,
-  commit
-}, payload) => {
-  if (payload.method === "") {
-    commit(MUTATE_FILTERED_RESULTS, state.results);
-    return;
-  }
-  let tmpFilteredResults = [];
-
-  for (let i = 0; i <  state.results.length; i++) {
-    if (state.results[i].method === payload.method) {
-      tmpFilteredResults.push(state.results[i]);
-    }
-  }
-
-  commit(MUTATE_FILTERED_RESULTS, tmpFilteredResults);
+  actionFilterResults(state, {method: ""});
 };
 export const actionDeleteResult = ({
   state,

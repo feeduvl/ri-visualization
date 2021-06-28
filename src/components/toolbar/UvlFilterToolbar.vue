@@ -18,7 +18,7 @@
       <v-flex xs5 v-if="showResultsFilter()">
         <v-select
             v-model="selectedResultByDate"
-            :items="sortedResults"
+            :items="results"
             label="Select Run"
             :item-text="getResultItemText"
             item-value="started_at"
@@ -65,7 +65,6 @@
 import { BLUE_FILL } from "@/colors";
 import {
   ROUTE_DOCUMENTS,
-  ROUTE_CONCEPTS,
   ROUTE_RESULTS
 } from "@/routes";
 import {mapGetters} from "vuex";
@@ -82,9 +81,6 @@ export default {
       loading: "loadingResults",
       datasets: "datasets",
     }),
-    sortedResults () {
-      return this.results.reverse();
-    }
   },
   data() {
     return {
@@ -102,14 +98,12 @@ export default {
     showMethodFilter() {
       return (
           this.path === ROUTE_DOCUMENTS ||
-          this.path === ROUTE_CONCEPTS ||
           this.path === ROUTE_RESULTS
       );
     },
     showResultsFilter() {
       return (
           this.path === ROUTE_DOCUMENTS ||
-          this.path === ROUTE_CONCEPTS ||
           this.path === ROUTE_RESULTS
       );
     },
