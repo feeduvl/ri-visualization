@@ -10,7 +10,8 @@
                             label="Max. Num. Concepts"
                             clearable
                     ></v-text-field>
-
+                </v-flex>
+                <v-flex>
                     <v-text-field
                             v-model="run_name"
                             hint="Optional string to name this run."

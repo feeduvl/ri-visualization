@@ -1,5 +1,5 @@
 /* eslint-disable */
-export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai"];
+export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic"];
 
 export const METHODS = [
     {
@@ -36,8 +36,17 @@ export const METHODS = [
         parameterComponentPath: "./form/FrequencyRBAIParameter",
         resultComponentName: "",
         resultComponentPath: "",
-        scoreFunction: getScoreFrequencyRBAI,
+        scoreFunction: getScoreEmpty,
     },
+    {
+        name: "frequency-fcic",
+        displayName: "Decision Tree Model (FCIC)",
+        parameterComponentName: "frequency-fcic-parameter",
+        parameterComponentPath: "./form/FrequencyFCICParameter",
+        resultComponentName: "",
+        resultComponentPath: "",
+        scoreFunction: getScoreEmpty,
+    }
 ];
 
 export function getScoreSeaNMF(result) {
