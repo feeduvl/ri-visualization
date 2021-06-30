@@ -41,15 +41,23 @@ function reloadResults(store) {
             .then(response => {
                 store.commit(MUTATE_RESULTS, response.data)
 
+                // Filter for finished runs
+                let _tmpFilteredResults = [];
+                for (let i = 0; i <  state.results.length; i++) {
+                    if (state.results[i].status === "finished") {
+                        _tmpFilteredResults.push(state.results[i]);
+                    }
+                }
+
                 if (store.state.selectedMethod === "") {
-                    store.commit(MUTATE_FILTERED_RESULTS, response.data);
+                    store.commit(MUTATE_FILTERED_RESULTS, _tmpFilteredResultsa);
                     store.commit(MUTATE_LOADING_RESULTS, false);
                 } else {
                     let tmpFilteredResults = [];
 
-                    for (let i = 0; i < store.state.results.length; i++) {
-                        if (store.state.results[i].method === store.state.selectedMethod) {
-                            tmpFilteredResults.push(store.state.results[i]);
+                    for (let i = 0; i < _tmpFilteredResults.length; i++) {
+                        if (_tmpFilteredResults[i].method === store.state.selectedMethod) {
+                            tmpFilteredResults.push(_tmpFilteredResults[i]);
                         }
                     }
 
