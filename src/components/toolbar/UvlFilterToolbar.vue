@@ -163,7 +163,10 @@ export default {
       reloadResults(this.$store);
     },
   },
-
+  mounted() {
+    let a = this.results.slice();
+    this.sortedResults = a.reverse();
+  }
 }
 </script>
 
