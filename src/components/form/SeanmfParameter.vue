@@ -88,7 +88,8 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap>
-      <v-flex xs10/>
+      <v-flex xs9/>
+      <v-btn small color="primary" :loading="loading" :disabled="loading" @click="resetForm">Reset</v-btn>
       <v-btn small color="primary" :loading="loading" :disabled="loading" @click="startRun">Start</v-btn>
     </v-layout>
     <v-snackbar
@@ -217,6 +218,16 @@ export default {
     },
     validateDatasetInput() {
       return this.$props.dataset !== "";
+    },
+    resetForm() {
+      this.alpha = 0.1;
+      this.beta = 0;
+      this.n_topics = 10;
+      this.max_iter = 500;
+      this.max_err = 0.1;
+      this.fix_random = false;
+      this.vocab_min_count = 3;
+      this.run_name = "";
     },
   },
 }

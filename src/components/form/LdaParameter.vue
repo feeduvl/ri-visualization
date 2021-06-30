@@ -203,7 +203,7 @@ export default {
       this.stemming = false;
       this.fix_random = false;
       this.run_name = "";
-    }
+    },
   },
 }
 </script>
