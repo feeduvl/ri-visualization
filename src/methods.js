@@ -58,6 +58,7 @@ export const METHODS = [
         resultProps: {nameTitle: "Concept",
             scoreTitle: "Information Gain",
             fromSelectedResult: function(sr){
+                console.log(sr);
                 return Array.from(sr.topics.concepts, (v, i) => {return {name: v, score: sr.topics.information_gain[i]}})
             }}
     }
