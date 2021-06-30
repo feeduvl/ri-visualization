@@ -10,6 +10,7 @@ export const METHODS = [
         resultComponentName: "empty-result",
         resultComponentPath: "./components/result/EmptyResult",
         scoreFunction: getScoreEmpty,
+        resultProps: {}
     },
     {
         name: "lda",
@@ -19,6 +20,7 @@ export const METHODS = [
         resultComponentName: "topic-detection-result",
         resultComponentPath: "./components/result/TopicDetectionResult",
         scoreFunction: getScoreLDA,
+        resultProps: {}
     },
     {
         name: "seanmf",
@@ -28,24 +30,36 @@ export const METHODS = [
         resultComponentName: "topic-detection-result",
         resultComponentPath: "./components/result/TopicDetectionResult",
         scoreFunction: getScoreSeaNMF,
+        resultProps: {}
     },
     {
         name: "frequency-rbai",
         displayName: "Frequency (RBAI)",
         parameterComponentName: "frequency-rbai-parameter",
         parameterComponentPath: "./form/FrequencyRBAIParameter",
-        resultComponentName: "",
+        resultComponentName: "ranked-list-result",
         resultComponentPath: "",
         scoreFunction: getScoreEmpty,
+        resultProps: {
+            nameTitle: "Concept",
+            scoreTitle: "Relevance Score",
+            fromSelectedResult: function(sr){
+                return Array.from(sr.topics.concepts, (v, i) => {return {name: v, score: sr.topics.scores[i]}})
+            }}
     },
     {
         name: "frequency-fcic",
         displayName: "Decision Tree Model (FCIC)",
         parameterComponentName: "frequency-fcic-parameter",
         parameterComponentPath: "./form/FrequencyFCICParameter",
-        resultComponentName: "",
+        resultComponentName: "ranked-list-result",
         resultComponentPath: "",
         scoreFunction: getScoreEmpty,
+        resultProps: {nameTitle: "Concept",
+            scoreTitle: "Information Gain",
+            fromSelectedResult: function(sr){
+                return Array.from(sr.topics.concepts, (v, i) => {return {name: v, score: sr.topics.information_gain[i]}})
+            }}
     }
 ];
 
