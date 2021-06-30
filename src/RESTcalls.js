@@ -43,9 +43,9 @@ function reloadResults(store) {
 
                 // Filter for finished runs
                 let _tmpFilteredResults = [];
-                for (let i = 0; i <  state.results.length; i++) {
-                    if (state.results[i].status === "finished") {
-                        _tmpFilteredResults.push(state.results[i]);
+                for (let i = 0; i <  response.data.length; i++) {
+                    if (response.data[i].status === "finished") {
+                        _tmpFilteredResults.push(response.data[i]);
                     }
                 }
 
@@ -66,7 +66,7 @@ function reloadResults(store) {
                 }
             })
             .catch(e => {
-                console.log("actions::actionLoadResults Error:" + e);
+                console.log("RESTcalls:reloadResults: Error:" + e);
                 store.commit(MUTATE_LOADING_RESULTS, false);
             });
     }
