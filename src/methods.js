@@ -44,7 +44,7 @@ export const METHODS = [
             nameTitle: "Concept",
             scoreTitle: "Relevance Score",
             fromSelectedResult: function(sr){
-                const {concepts, scores} = sr;
+                const {concepts, scores} = sr.topics;
                 let arr = []
                 for(let i = 0; i < concepts.length; i++){
                     arr.push({name: concepts[i], score: scores[i]})
