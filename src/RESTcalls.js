@@ -50,7 +50,7 @@ function reloadResults(store) {
                 }
 
                 if (store.state.selectedMethod === "") {
-                    store.commit(MUTATE_FILTERED_RESULTS, _tmpFilteredResultsa);
+                    store.commit(MUTATE_FILTERED_RESULTS, _tmpFilteredResults);
                     store.commit(MUTATE_LOADING_RESULTS, false);
                 } else {
                     let tmpFilteredResults = [];
