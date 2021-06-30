@@ -82,10 +82,12 @@ export default {
       loading: "loadingResults",
       datasets: "datasets",
     }),
-    sortedResults() {
+  },
+  watch: {
+    results: function (newValue, oldValue) {
       let a = this.results.slice();
-      return a.reverse();
-    }
+      this.sortedResults = a.reverse();
+    },
   },
   data() {
     return {
@@ -97,6 +99,7 @@ export default {
       snackbarVisible: false,
       snackbarTimeout: SNACKBAR_DISPLAY_TIME,
       snackbarText: "",
+      sortedResults: [],
     };
   },
   methods: {
@@ -160,7 +163,10 @@ export default {
       reloadResults(this.$store);
     },
   },
-
+  mounted() {
+    let a = this.results.slice();
+    this.sortedResults = a.reverse();
+  }
 }
 </script>
 

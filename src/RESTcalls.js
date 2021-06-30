@@ -41,15 +41,23 @@ function reloadResults(store) {
             .then(response => {
                 store.commit(MUTATE_RESULTS, response.data)
 
+                // Filter for finished runs
+                let _tmpFilteredResults = [];
+                for (let i = 0; i <  response.data.length; i++) {
+                    if (response.data[i].status === "finished") {
+                        _tmpFilteredResults.push(response.data[i]);
+                    }
+                }
+
                 if (store.state.selectedMethod === "") {
-                    store.commit(MUTATE_FILTERED_RESULTS, response.data);
+                    store.commit(MUTATE_FILTERED_RESULTS, _tmpFilteredResults);
                     store.commit(MUTATE_LOADING_RESULTS, false);
                 } else {
                     let tmpFilteredResults = [];
 
-                    for (let i = 0; i < store.state.results.length; i++) {
-                        if (store.state.results[i].method === store.state.selectedMethod) {
-                            tmpFilteredResults.push(store.state.results[i]);
+                    for (let i = 0; i < _tmpFilteredResults.length; i++) {
+                        if (_tmpFilteredResults[i].method === store.state.selectedMethod) {
+                            tmpFilteredResults.push(_tmpFilteredResults[i]);
                         }
                     }
 
@@ -58,7 +66,7 @@ function reloadResults(store) {
                 }
             })
             .catch(e => {
-                console.log("actions::actionLoadResults Error:" + e);
+                console.log("RESTcalls:reloadResults: Error:" + e);
                 store.commit(MUTATE_LOADING_RESULTS, false);
             });
     }
