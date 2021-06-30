@@ -89,7 +89,7 @@
     </v-layout>
     <v-layout row wrap>
       <v-flex xs9/>
-      <v-btn small color="primary" :loading="loading" :disabled="loading" @click="resetForm">Reset</v-btn>
+      <v-btn small color="primary" @click="resetForm">Reset</v-btn>
       <v-btn small color="primary" :loading="loading" :disabled="loading" @click="startRun">Start</v-btn>
     </v-layout>
     <v-snackbar
