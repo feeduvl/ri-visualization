@@ -64,7 +64,7 @@ export const METHODS = [
             scoreTitle: "Information Gain",
             fromSelectedResult: function(sr){
             console.log(sr);
-                const {concepts, information_gain} = sr;
+                const {concepts, information_gain} = sr.topics;
                 let arr = []
                 for(let i = 0; i < concepts.length; i++){
                     arr.push({name: concepts[i], score: information_gain[i]})
