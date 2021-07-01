@@ -13,7 +13,7 @@
         >
           <template slot="items" slot-scope="props">
             <tr>
-              <td>{{ items.indexOf(props.item) + 1 }}</td>
+              <td>{{ props.indexOf(props.item) + 1 }}</td>
               <td>
                 <span v-for="word in props.item">
                     <v-chip>{{ word }}</v-chip><span> </span>
