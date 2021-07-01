@@ -1,6 +1,14 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12>
+      <v-card id="wordcloud_holder">
+        <v-card-title>
+          <h2>Concept Wordcloud</h2>
+        </v-card-title>
+        <cloud :data="words" :height="height" :padding="padding" :width="width" :fontSizeMapper="fontSizeMapper" :rotate="rotate" :coloring="coloring" :colors="colors" />
+      </v-card>
+    </v-flex>
+    <v-flex xs12>
       <v-card>
         <v-card-title>
           <h2>Concept Words</h2>
@@ -29,6 +37,8 @@
 
 <script>
 import {mapGetters} from "vuex";
+import Cloud from 'vue-d3-cloud'
+import {CLOUD} from "@/colors";
 
 export default {
   name: "TopicDetectionResult",
@@ -49,19 +59,36 @@ export default {
         obj.number = parseInt(topic) + 1;
         obj.words = li;
         list.push(obj);
-        console.log(obj);
       }
       return list;
+    },
+    topicWords() {
+      let list = []
+      let tw = []
+      for (let topic in this.selectedResult.topics) {
+        for (let index in this.selectedResult.topics[topic]) {
+          let word = this.selectedResult.topics[topic][index];
+          if (!(list.indexOf(word) > -1)) {
+            list.push(word);
+            tw.push({text: word, value: 24})
+          }
+        }
+      }
+      return tw;
     }
   },
-  watch: {
-    // Debug print
-    selectedResult: function (newValue, oldValue) {
-      console.log(this.selectedResult);
-    },
+  components: {
+    Cloud,
   },
   data: function () {
     return {
+      fontSizeMapper: word => word.value,
+      rotate: 0,
+      coloring: "random",
+      colors: CLOUD,
+      width: 1152,
+      height: 400,
+      padding: 5,
       tableHeaders: [
         {
           text: "Number",
@@ -91,5 +118,9 @@ export default {
 </script>
 
 <style scoped>
+
+#wordcloud_holder {
+  margin-bottom: 20px;
+}
 
 </style>

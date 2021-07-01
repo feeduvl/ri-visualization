@@ -26,6 +26,9 @@ export const WHITE = 'rgb(255, 255, 255, 1)';
 export const GRAY = 'rgb(153, 145, 145, 1)';
 export const PRIMARY = 'rgb(25,118,210)';
 
+//export const CLOUD = ["#1976D2","#246BB3","#80B7ED","#075DB3","#0A6BCC","#1861AB"];
+export const CLOUD = ["#1976D2","#082E54","#67A9EB","#0A56A3","#B7D6F6"];
+
 // Chart itemStyles
 export const ITEM_STYLE_BAR_BLUE = {
   color: BLUE_FILL,
