@@ -21,6 +21,7 @@ export default {
   components: {
     "uvl-filter-toolbar": () => import("./toolbar/UvlFilterToolbar"),
     "topic-detection-result": () => import("./result/TopicDetectionResult"),
+    "ranked-list-result": () => import("./result/RankedListResult"),
     "empty-result": () => import("./result/EmptyResult"),
   },
   computed: {
@@ -29,6 +30,9 @@ export default {
     }),
     resultComponent () {
       return getMethodObj(this.selectedMethod).resultComponentName;
+    },
+    resultComponentProps(){
+      return getMethodObj(this.selectedMethod).resultProps;
     }
   },
   data() {
