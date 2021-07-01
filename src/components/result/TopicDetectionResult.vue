@@ -5,23 +5,23 @@
         <v-card-title>
           <h2>Concept Words</h2>
         </v-card-title>
-      <v-data-table
-          :headers="tableHeaders"
-          :items="selectedResult.topics"
-          :pagination.sync="pagination"
-          :loading="loadingResults"
-      >
-        <template slot="items" slot-scope="props">
-          <tr v-for="topic in props.items">
-            <td>{{ topic+1 }}</td>
-            <td>
+        <v-data-table
+            :headers="tableHeaders"
+            :items="selectedResult.topics"
+            :pagination.sync="pagination"
+            :loading="loadingResults"
+        >
+          <template slot="items" slot-scope="props">
+            <tr v-for="topic in props.items.keys()">
+              <td>{{ topic + 1 }}</td>
+              <td>
                 <span v-for="word in props.items[topic]">
                     <v-chip>{{ props.items[topic][word] }}</v-chip><span> </span>
                 </span>
-            </td>
-          </tr>
-        </template>
-      </v-data-table>
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
       </v-card>
     </v-flex>
   </v-layout>
