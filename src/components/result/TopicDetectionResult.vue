@@ -38,6 +38,12 @@ export default {
       selectedResult: 'selectedResult',
     }),
   },
+  watch: {
+    selectedResult: function (newValue, oldValue) {
+      console.log(this.selectedResult);
+      console.log(this.selectedResult.topics);
+    },
+  },
   data: function () {
     return {
       tableHeaders: [
