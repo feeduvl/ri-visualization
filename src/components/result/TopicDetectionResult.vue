@@ -11,16 +11,14 @@
             :pagination.sync="pagination"
             :loading="loadingResults"
         >
-          <template slot="items" slot-scope="props">
-            <tr>
-              <td>{{ props.indexOf(props.item) + 1 }}</td>
+            <tr v-for="topic in topicWordlist">
+              <td>{{ topicWordlist.indexOf(topic) + 1 }}</td>
               <td>
-                <span v-for="word in props.item">
+                <span v-for="word in topic">
                     <v-chip>{{ word }}</v-chip><span> </span>
                 </span>
               </td>
             </tr>
-          </template>
         </v-data-table>
       </v-card>
     </v-flex>
