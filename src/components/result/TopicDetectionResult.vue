@@ -12,11 +12,11 @@
           :loading="loadingResults"
       >
         <template slot="items" slot-scope="props">
-          <tr v-for="(topic, index) in props.items">
-            <td>{{ index+1 }}</td>
+          <tr v-for="topic in props.items">
+            <td>{{ topic+1 }}</td>
             <td>
-                <span v-for="word in topic">
-                    <v-chip>{{ word }}</v-chip><span> </span>
+                <span v-for="word in props.items[topic]">
+                    <v-chip>{{ props.items[topic][word] }}</v-chip><span> </span>
                 </span>
             </td>
           </tr>
@@ -39,9 +39,9 @@ export default {
     }),
   },
   watch: {
+    // Debug print
     selectedResult: function (newValue, oldValue) {
       console.log(this.selectedResult);
-      console.log(this.selectedResult.topics);
     },
   },
   data: function () {
