@@ -11,14 +11,16 @@
             :pagination.sync="pagination"
             :loading="loadingResults"
         >
-            <tr v-for="topic in topicWordlist">
-              <td>{{ topicWordlist.indexOf(topic) + 1 }}</td>
+          <template slot="items" slot-scope="props">
+            <tr>
+              <td>{{ props.item.number }}</td>
               <td>
-                <span v-for="word in topic">
+                <span v-for="word in props.item.words">
                     <v-chip>{{ word }}</v-chip><span> </span>
                 </span>
               </td>
             </tr>
+          </template>
         </v-data-table>
       </v-card>
     </v-flex>
@@ -39,11 +41,15 @@ export default {
       let list = []
       for (let topic in this.selectedResult.topics) {
         let li = []
+        let obj = {}
         for (let index in this.selectedResult.topics[topic]) {
           let word = this.selectedResult.topics[topic][index];
             li.push(word);
         }
-        list.push(li);
+        obj.number = topic + 1;
+        obj.words = li;
+        list.push(obj);
+        console.log(obj);
       }
       return list;
     }
