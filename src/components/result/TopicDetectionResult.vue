@@ -47,6 +47,13 @@ export default {
         }
         list.push(li);
       }
+      // Debug
+      for (let topic in list) {
+        console.log(topic);
+        break
+      }
+      console.log(list);
+      //
       return list;
     }
   },
