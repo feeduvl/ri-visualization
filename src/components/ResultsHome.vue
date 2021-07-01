@@ -5,7 +5,7 @@
     </v-layout>
     <v-layout row class="spacing">
       <v-flex xs12>
-        <component v-bind:is="resultComponent"/>
+        <component v-bind="resultComponentProps"  v-bind:is="resultComponent"/>
       </v-flex>
     </v-layout>
   </v-container>
