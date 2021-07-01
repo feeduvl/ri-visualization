@@ -3,9 +3,11 @@
     <v-layout row class="spacing">
       <uvl-filter-toolbar/>
     </v-layout>
-    <v-card>
-      <component v-bind:is="resultComponent"/>
-    </v-card>
+    <v-layout row class="spacing">
+      <v-flex xs12>
+        <component v-bind:is="resultComponent"/>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 

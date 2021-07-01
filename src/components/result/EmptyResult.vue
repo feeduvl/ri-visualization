@@ -1,9 +1,11 @@
 <template>
-  <v-container>
-    <v-layout row wrap>
-      Select a method and a result to see results here.
-    </v-layout>
-  </v-container>
+    <v-card>
+      <v-container>
+        <v-layout row wrap>
+          Select a method and a result to see results here.
+        </v-layout>
+      </v-container>
+    </v-card>
 </template>
 
 <script>
