@@ -7,16 +7,16 @@
         </v-card-title>
         <v-data-table
             :headers="tableHeaders"
-            :items="selectedResult.topics"
+            :items="topicWordlist"
             :pagination.sync="pagination"
             :loading="loadingResults"
         >
           <template slot="items" slot-scope="props">
-            <tr v-for="topic in props.items.keys()">
-              <td>{{ topic + 1 }}</td>
+            <tr v-for="(topic, index) in props.items">
+              <td>{{ index + 1 }}</td>
               <td>
-                <span v-for="word in props.items[topic]">
-                    <v-chip>{{ props.items[topic][word] }}</v-chip><span> </span>
+                <span v-for="word in topic">
+                    <v-chip>{{ word }}</v-chip><span> </span>
                 </span>
               </td>
             </tr>
@@ -37,6 +37,18 @@ export default {
       loadingResults: 'loadingResults',
       selectedResult: 'selectedResult',
     }),
+    topicWordlist() {
+      let list = []
+      for (let topic in this.selectedResult.topics) {
+        let li = []
+        for (let index in this.selectedResult.topics[topic]) {
+          let word = this.selectedResult.topics[topic][index];
+            li.push(word);
+        }
+        list.push(li);
+      }
+      return list;
+    }
   },
   watch: {
     // Debug print
