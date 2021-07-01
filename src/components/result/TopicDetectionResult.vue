@@ -5,7 +5,7 @@
         <v-card-title>
           <h2>Concept Wordcloud</h2>
         </v-card-title>
-        <cloud :data="words" :height="height" :padding="padding" :width="width" :fontSizeMapper="fontSizeMapper" :rotate="rotate" :coloring="coloring" :colors="colors" />
+        <cloud :data="topicWords" :height="height" :padding="padding" :width="width" :fontSizeMapper="fontSizeMapper" :rotate="rotate" :coloring="coloring" :colors="colors" />
       </v-card>
     </v-flex>
     <v-flex xs12>
