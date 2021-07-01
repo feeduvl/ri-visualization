@@ -46,7 +46,7 @@ export default {
           let word = this.selectedResult.topics[topic][index];
             li.push(word);
         }
-        obj.number = topic + 1;
+        obj.number = parseInt(topic) + 1;
         obj.words = li;
         list.push(obj);
         console.log(obj);
