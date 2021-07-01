@@ -12,10 +12,10 @@
             :loading="loadingResults"
         >
           <template slot="items" slot-scope="props">
-            <tr v-for="(topic, index) in props.items">
-              <td>{{ index + 1 }}</td>
+            <tr>
+              <td>{{ items.indexOf(props.item) + 1 }}</td>
               <td>
-                <span v-for="word in topic">
+                <span v-for="word in props.item">
                     <v-chip>{{ word }}</v-chip><span> </span>
                 </span>
               </td>
@@ -47,13 +47,6 @@ export default {
         }
         list.push(li);
       }
-      // Debug
-      for (let topic in list) {
-        console.log(topic);
-        break
-      }
-      console.log(list);
-      //
       return list;
     }
   },
