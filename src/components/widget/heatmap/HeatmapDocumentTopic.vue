@@ -152,7 +152,11 @@ export default {
               if (tup[1] === 1e-20 || tup[1] === 0) {
                 val = "-";
               } else {
-                val = tup[1].toFixed(5) * 100;
+                val = tup[1] * 100;
+                val = val.toFixed(5)
+              }
+              if (val === 0) {
+                val = "-";
               }
               break;
             }
