@@ -151,6 +151,7 @@ export default {
         Object.keys(doc_topic).forEach(function(document) {
           console.log("document: " + document);
           const isTopic = (element) => element[0] === index;
+          console.log(doc_topic[document]);
           let val = doc_topic[document][doc_topic[document].findIndex(isTopic())];
           data.push([index, parseInt(document), val]);
           console.log([index, parseInt(document), val]);
