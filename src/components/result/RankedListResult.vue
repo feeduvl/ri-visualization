@@ -1,14 +1,8 @@
 <template>
     <v-data-table
-            :headers="[nameTitle, scoreTitle]"
+            :headers="[{'text': nameTitle, 'value': 'name' }, {'text': scoreTitle, 'value': 'score'}]"
             :items="fromSelectedResult(selectedResult)"
     >
-        <template slot="items" slot-scope="props">
-            <tr>
-                <td style="text-align:center">{{ props.item.name}}</td>
-                <td>{{ props.item.score }}</td>
-            </tr>
-        </template>
     </v-data-table>
 </template>
 
