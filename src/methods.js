@@ -63,13 +63,13 @@ export const METHODS = [
         resultProps: {nameTitle: "Concept",
             scoreTitle: "Information Gain",
             fromSelectedResult: function(sr){
-            console.log(sr);
+            //console.log(sr);
                 const {concepts, information_gain} = sr.topics;
                 let arr = []
                 for(let i = 0; i < concepts.length; i++){
                     arr.push({name: concepts[i], score: information_gain[i]})
                 }
-                console.log(arr);
+                //console.log(arr);
                 return arr
             }}
     }
