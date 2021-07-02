@@ -92,7 +92,7 @@ export default {
       },
       visualMap: {
         min: 0,
-        max: 5,
+        max: 100,
         calculable: true,
         orient: "horizontal",
         left: "center",
@@ -152,7 +152,7 @@ export default {
               if (tup[1] === 1e-20 || tup[1] === 0) {
                 val = "-";
               } else {
-                val = tup[1].toFixed(5);
+                val = tup[1].toFixed(5) * 100;
               }
               break;
             }
@@ -167,7 +167,7 @@ export default {
       this.option.yAxis.data = yAxis;
       this.option.xAxis.data = xAxis;
       this.option.series[0].data = data;
-      this.option.visualMap.max = max;
+      //this.option.visualMap.max = max;
       this.loading = false;
     },
   },
