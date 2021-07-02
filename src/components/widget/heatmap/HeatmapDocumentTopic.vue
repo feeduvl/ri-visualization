@@ -152,12 +152,12 @@ export default {
               if (tup[1] === 1e-20 || tup[1] === 0) {
                 val = "-";
               } else {
-                val = tup[1].toFixed(3);
+                val = tup[1].toFixed(5);
               }
               break;
             }
           }
-          data.push([index, parseInt(document), val]);
+          data.push([parseInt(document), index, val]);
           if (val > max) {
             max = val;
           }
