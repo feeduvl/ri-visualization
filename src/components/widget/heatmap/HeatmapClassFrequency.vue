@@ -215,6 +215,11 @@ export default {
           return [item[1], item[0], item[2] || "-"];
         });
 
+        console.log("HeatmapClassFrequency:");
+        console.log(chartDict);
+        console.log("-------");
+        console.log(data);
+
         this.option.series[0].data = data;
         this.option.visualMap.max = max;
         this.loading = false;
