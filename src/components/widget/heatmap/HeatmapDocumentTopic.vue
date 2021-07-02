@@ -151,15 +151,15 @@ export default {
           let val = 0;
           for (const tup of doc_topic[document]) {
             if (tup[0] === index) {
-              if (val === 1e-20) {
-                val = 0;
+              if (val === 1e-20 || val === 0) {
+                val = "-";
               } else {
                 val = tup[1].toFixed(3);
               }
               break;
             }
           }
-          data.push([index, parseInt(document), val]);
+          data.push([parseInt(document), index, val]);
           if (val > max) {
             max = val;
           }
