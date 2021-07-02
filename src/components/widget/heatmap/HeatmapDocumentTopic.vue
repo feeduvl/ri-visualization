@@ -140,7 +140,7 @@ export default {
       let xAxis = Object.keys(doc_topic);
       let yAxis = [];
       for (let index=1; index <= doc_topic["0"].length; index++) {
-        yAxis.append("Concept " + index);
+        yAxis.push("Concept " + index);
       }
       console.log(xAxis);
       console.log(yAxis);
