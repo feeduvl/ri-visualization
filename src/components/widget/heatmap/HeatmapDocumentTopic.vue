@@ -9,7 +9,7 @@
 <script>
 import ECharts from "vue-echarts";
 import "echarts";
-import { BLUE_LIGHT, BLUE_DARK, BLACK } from "../../../colors.js";
+import { BLUE_LIGHT, BLUE_DARK, BLACK } from "@/colors";
 import {mapGetters} from "vuex";
 
 export default {
@@ -137,7 +137,7 @@ export default {
       let data = [];
       let max = 0;
 
-      let xAxis = doc_topic.keys();
+      let xAxis = Object.keys(doc_topic);
       let yAxis = [];
       for (let index=1; index <= doc_topic["0"].length; index++) {
         yAxis.append("Concept " + index);
@@ -173,7 +173,7 @@ export default {
     this.loadChartData();
   },
   watch: {
-    selectedResult: function (newValue, oldValue) {
+    selectedResult: function () {
       this.loadChartData();
     },
   }
@@ -194,14 +194,14 @@ export default {
   }
 }
 .action-item {
-  margin: 5px 0px 0px 0px;
+  margin: 5px 0 0 0;
 }
 .divider {
   height: 40px;
 }
 .configuration {
-  padding: 0px 0px 0px 30px;
-  margin: 0px 0px 0px 0px;
+  padding: 0 0 0 30px;
+  margin: 0 0 0 0;
   max-width: 50%;
 }
 </style>
