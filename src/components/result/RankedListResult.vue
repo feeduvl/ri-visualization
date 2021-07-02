@@ -3,6 +3,13 @@
             :headers="[{'text': nameTitle, 'value': 'name' }, {'text': scoreTitle, 'value': 'score'}]"
             :items="fromSelectedResult(selectedResult)"
     >
+
+        <template v-slot:items="props">
+
+            <td class="text-xs-right">{{ props.item.name }}</td>
+            <td class="text-xs-right">{{ props.item.score }}</td>
+
+        </template>
     </v-data-table>
 </template>
 
