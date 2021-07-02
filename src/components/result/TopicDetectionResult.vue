@@ -32,6 +32,9 @@
         </v-data-table>
       </v-card>
     </v-flex>
+    <v-flex xs12 id="heatmap-holder">
+      <heatmap-document-topic/>
+    </v-flex>
   </v-layout>
 </template>
 
@@ -79,6 +82,8 @@ export default {
   },
   components: {
     Cloud,
+    "heatmap-document-topic": () =>
+        import("../widget/heatmap/HeatmapDocumentTopic"),
   },
   data: function () {
     return {
@@ -121,6 +126,10 @@ export default {
 
 #wordcloud_holder {
   margin-bottom: 20px;
+}
+
+#heatmap-holder {
+  margin-top: 20px;
 }
 
 </style>
