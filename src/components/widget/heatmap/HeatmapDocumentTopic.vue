@@ -152,7 +152,18 @@ export default {
           console.log("document: " + document);
           const isTopic = (element) => element[0] === index;
           console.log(doc_topic[document]);
-          let val = doc_topic[document][doc_topic[document].findIndex(isTopic())];
+          console.log(doc_topic[document][0]);
+          let val = 0;
+          //
+          for (const tup of doc_topic[document]) {
+            if (tup[0] === index) {
+              val = tup[1];
+              break;
+            }
+          }
+          //
+          //console.log(doc_topic[document].findIndex(isTopic()));
+          //val = doc_topic[document][doc_topic[document].findIndex(isTopic())];
           data.push([index, parseInt(document), val]);
           console.log([index, parseInt(document), val]);
           if (val > max) {
