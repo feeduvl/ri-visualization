@@ -38,7 +38,7 @@ export default {
       animation: true,
       grid: {
         top: "40",
-        height: "60%",
+        height: "70%",
         left: "90",
         right: "25",
         y: "10%"
@@ -108,7 +108,7 @@ export default {
           data: [],
           label: {
             normal: {
-              show: true
+              show: false
             }
           },
           itemStyle: {
@@ -142,37 +142,29 @@ export default {
       for (let index=1; index <= doc_topic["0"].length; index++) {
         yAxis.push("Concept " + index);
       }
-      console.log(xAxis);
-      console.log(yAxis);
 
       // Iterate over topics
       for (let index=0; index < doc_topic["0"].length; index++) {
         // Iterate over documents
         Object.keys(doc_topic).forEach(function(document) {
-          console.log("document: " + document);
           const isTopic = (element) => element[0] === index;
-          console.log(doc_topic[document]);
-          console.log(doc_topic[document][0]);
           let val = 0;
-          //
           for (const tup of doc_topic[document]) {
             if (tup[0] === index) {
-              val = tup[1];
+              if (val = 1e-20) {
+                val = 0;
+              } else {
+                val = tup[1];
+              }
               break;
             }
           }
-          //
-          //console.log(doc_topic[document].findIndex(isTopic()));
-          //val = doc_topic[document][doc_topic[document].findIndex(isTopic())];
           data.push([index, parseInt(document), val]);
-          console.log([index, parseInt(document), val]);
           if (val > max) {
             max = val;
           }
         })
       }
-
-      console.log(max);
 
       this.option.yAxis.data = yAxis;
       this.option.xAxis.data = xAxis;
@@ -194,8 +186,8 @@ export default {
 
 <style lang="scss" scoped>
 .echarts {
-  min-height: 250px;
-  max-height: 300px;
+  min-height: 450px;
+  max-height: 2000px;
   height: 100%;
   width: 100%;
   padding-top: 5px;
