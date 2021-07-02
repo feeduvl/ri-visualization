@@ -132,8 +132,6 @@ export default {
         return;
       }
 
-      console.log("HeatmapDocumentTopic::loadChartData");
-
       let data = [];
       let max = 0;
 
@@ -159,7 +157,7 @@ export default {
               break;
             }
           }
-          data.push([parseInt(document), index, val]);
+          data.push([index, parseInt(document), val]);
           if (val > max) {
             max = val;
           }
