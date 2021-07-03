@@ -47,7 +47,7 @@ export const METHODS = [
                 const {concepts, scores} = sr.topics;
                 let arr = []
                 for(let i = 0; i < concepts.length; i++){
-                    arr.push({name: concepts[i], score: scores[i]})
+                    arr.push({text: concepts[i], score: scores[i]})
                 }
                 return arr
             }}
@@ -57,17 +57,16 @@ export const METHODS = [
         displayName: "Decision Tree Model (FCIC)",
         parameterComponentName: "frequency-fcic-parameter",
         parameterComponentPath: "./form/FrequencyFCICParameter",
-        resultComponentName: "ranked-list-result",
+        resultComponentName: "fcic-result",
         resultComponentPath: "",
         scoreFunction: getScoreEmpty,
-        resultProps: {nameTitle: "Concept",
-            scoreTitle: "Information Gain",
+        resultProps: {
             fromSelectedResult: function(sr){
             //console.log(sr);
                 const {concepts, information_gain} = sr.topics;
                 let arr = []
                 for(let i = 0; i < concepts.length; i++){
-                    arr.push({name: concepts[i], score: information_gain[i]})
+                    arr.push({text: concepts[i], score: information_gain[i]})
                 }
                 //console.log(arr);
                 return arr

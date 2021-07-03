@@ -21,7 +21,7 @@ export default {
   components: {
     "uvl-filter-toolbar": () => import("./toolbar/UvlFilterToolbar"),
     "topic-detection-result": () => import("./result/TopicDetectionResult"),
-    "ranked-list-result": () => import("./result/RankedListResult"),
+    "fcic-result": () => import("./result/FcicResult"),
     "empty-result": () => import("./result/EmptyResult"),
   },
   computed: {

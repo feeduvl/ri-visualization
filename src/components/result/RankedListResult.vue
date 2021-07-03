@@ -1,6 +1,6 @@
 <template>
     <v-data-table
-            :headers="[{'text': nameTitle, 'value': 'name' }, {'text': scoreTitle, 'value': 'score'}]"
+            :headers="[{'text': nameTitle, 'value': 'text' }, {'text': scoreTitle, 'value': 'score'}]"
             :items="fromSelectedResult(selectedResult)"
     >
 
