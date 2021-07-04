@@ -9,8 +9,7 @@ export const METHODS = [
         parameterComponentPath: "./form/EmptyParameter",
         resultComponentName: "empty-result",
         resultComponentPath: "./components/result/EmptyResult",
-        scoreFunction: getScoreEmpty,
-        resultProps: {}
+        scoreFunction: getScoreEmpty
     },
     {
         name: "lda",
@@ -19,8 +18,7 @@ export const METHODS = [
         parameterComponentPath: "./form/LdaParameter",
         resultComponentName: "topic-detection-result",
         resultComponentPath: "./components/result/TopicDetectionResult",
-        scoreFunction: getScoreLDA,
-        resultProps: {}
+        scoreFunction: getScoreLDA
     },
     {
         name: "seanmf",
@@ -29,8 +27,7 @@ export const METHODS = [
         parameterComponentPath: "./form/SeanmfParameter",
         resultComponentName: "topic-detection-result",
         resultComponentPath: "./components/result/TopicDetectionResult",
-        scoreFunction: getScoreSeaNMF,
-        resultProps: {}
+        scoreFunction: getScoreSeaNMF
     },
     {
         name: "frequency-rbai",
@@ -39,18 +36,7 @@ export const METHODS = [
         parameterComponentPath: "./form/FrequencyRBAIParameter",
         resultComponentName: "ranked-list-result",
         resultComponentPath: "",
-        scoreFunction: getScoreEmpty,
-        resultProps: {
-            nameTitle: "Concept",
-            scoreTitle: "Relevance Score",
-            fromSelectedResult: function(sr){
-                const {concepts, scores} = sr.topics;
-                let arr = []
-                for(let i = 0; i < concepts.length; i++){
-                    arr.push({text: concepts[i], score: scores[i]})
-                }
-                return arr
-            }}
+        scoreFunction: getScoreEmpty
     },
     {
         name: "frequency-fcic",
@@ -59,18 +45,7 @@ export const METHODS = [
         parameterComponentPath: "./form/FrequencyFCICParameter",
         resultComponentName: "fcic-result",
         resultComponentPath: "",
-        scoreFunction: getScoreEmpty,
-        resultProps: {
-            fromSelectedResult: function(sr){
-            //console.log(sr);
-                const {concepts, information_gain} = sr.topics;
-                let arr = []
-                for(let i = 0; i < concepts.length; i++){
-                    arr.push({text: concepts[i], score: information_gain[i]})
-                }
-                //console.log(arr);
-                return arr
-            }}
+        scoreFunction: getScoreEmpty
     }
 ]
 
