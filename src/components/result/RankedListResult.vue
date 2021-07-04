@@ -6,7 +6,7 @@
 
         <template v-slot:items="props">
 
-            <td class="text-xs-right">{{ props.item.name }}</td>
+            <td class="text-xs-right">{{ props.item.text }}</td>
             <td class="text-xs-right">{{ props.item.score }}</td>
 
         </template>
