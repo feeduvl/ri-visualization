@@ -73,12 +73,16 @@ export default {
       return list.sort();
     },
     search() {
-      return " " + this.searchProxy;
+      if (this.searchProxy === null) {
+        return "";
+      } else {
+        return " " + this.searchProxy;
+      }
     },
   },
   filters: {
     highlight: function (value, query) {
-      return value.replace(new RegExp(query, "ig"), '<span class=\'blue\'>' + query + '</span>')
+      return value.replace(new RegExp(query, "ig"), ' ' + '<span class=\'blue\'>' + query.trim() + '</span>')
     },
   },
   data: function () {
