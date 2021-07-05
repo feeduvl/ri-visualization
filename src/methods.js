@@ -34,7 +34,7 @@ export const METHODS = [
         displayName: "Frequency (RBAI)",
         parameterComponentName: "frequency-rbai-parameter",
         parameterComponentPath: "./form/FrequencyRBAIParameter",
-        resultComponentName: "ranked-list-result",
+        resultComponentName: "rbai-result",
         resultComponentPath: "",
         scoreFunction: getScoreEmpty
     },
