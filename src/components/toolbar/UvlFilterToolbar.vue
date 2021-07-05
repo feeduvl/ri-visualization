@@ -95,10 +95,12 @@ export default {
       this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedResult.method);
       console.log("UvlFilterToolBar::updateData: ");
       console.log(JSON.stringify(this.selectedResult));
-      if (!(this.datasets.includes(this.selectedResult["dataset_name"]))) {
-        this.displaySnackbar("Dataset is not in database anymore!");
-      } else {
-        loadDataset(this.$store, this.selectedResult["dataset_name"]);
+      if(!(JSON.stringify(this.selectedResult) !== JSON.stringify({}))) {
+        if (!(this.datasets.includes(this.selectedResult["dataset_name"]))) {
+          this.displaySnackbar("Dataset is not in database anymore!");
+        } else {
+          loadDataset(this.$store, this.selectedResult["dataset_name"]);
+        }
       }
     }
   },
