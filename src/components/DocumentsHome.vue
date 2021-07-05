@@ -70,7 +70,7 @@ export default {
           }
         }
       }
-      return list;
+      return list.sort();
     }
   },
   filters: {

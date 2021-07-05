@@ -60,7 +60,7 @@ export default {
             li.push(word);
         }
         obj.number = parseInt(topic) + 1;
-        obj.words = li;
+        obj.words = li.sort();
         list.push(obj);
       }
       return list;
