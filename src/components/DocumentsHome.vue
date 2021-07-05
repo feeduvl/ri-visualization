@@ -74,7 +74,7 @@ export default {
     },
     search() {
       if (this.searchProxy === null) {
-        return "";
+        return null;
       } else {
         return " " + this.searchProxy;
       }
