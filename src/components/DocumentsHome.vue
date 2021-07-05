@@ -11,7 +11,7 @@
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <v-text-field
-            v-model="search"
+            v-model="searchProxy"
             append-icon="search"
             label="Search for ID or text content"
             single-line
@@ -33,7 +33,7 @@
             <td>
               <span v-for="word in topicWordlist">
                 <span v-if="props.item.text.includes(word)">
-                  <v-chip @click="search = word">{{ word }}</v-chip><span> </span>
+                  <v-chip @click="searchProxy = word">{{ word }}</v-chip><span> </span>
                 </span>
               </span>
             </td>
@@ -71,7 +71,10 @@ export default {
         }
       }
       return list.sort();
-    }
+    },
+    search() {
+      return " " + this.searchProxy;
+    },
   },
   filters: {
     highlight: function (value, query) {
@@ -83,7 +86,7 @@ export default {
       methods: [],
       component: "uvl-filter-toolbar",
       documents: [],
-      search: "",
+      searchProxy: "",
       itemsPerPage: 25,
       tableHeaders: [
         {
