@@ -89,7 +89,14 @@ export default {
       this.sortedResults = a.reverse();
     },
     selectedResult: function () {
-      this.selectedResultByDate = this.selectedResult;
+      this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedResult.method);
+      console.log("UvlFilterToolBar::updateData: ");
+      console.log(JSON.stringify(this.selectedResult));
+      if (!(this.datasets.includes(this.selectedResult["dataset_name"]))) {
+        this.displaySnackbar("Dataset is not in database anymore!");
+      } else {
+        loadDataset(this.$store, this.selectedResult["dataset_name"]);
+      }
     }
   },
   data() {
@@ -137,14 +144,6 @@ export default {
     },
     updateData() {
       this.$store.commit(MUTATE_SELECTED_RESULT, this.getSelectedResultFromDate());
-      this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedResult.method);
-      console.log("UvlFilterToolBar::updateData: ");
-      console.log(JSON.stringify(this.selectedResult));
-      if (!(this.datasets.includes(this.selectedResult["dataset_name"]))) {
-        this.displaySnackbar("Dataset is not in database anymore!");
-      } else {
-        loadDataset(this.$store, this.selectedResult["dataset_name"]);
-      }
     },
     getResultItemText(item) {
       let n = "";
