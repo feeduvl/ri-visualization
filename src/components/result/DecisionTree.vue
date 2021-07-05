@@ -9,9 +9,9 @@
             tree: Array
         },
         mounted() {
-            this.$loadScript("raphael.js").then(
+            this.$loadScript("dashboard/raphael.js").then(
                 ()=>{
-                    this.$loadScript("Treant.js").then(this.addTree)
+                    this.$loadScript("dashboard/Treant.js").then(this.addTree)
                 });
         },
         created(){
