@@ -95,7 +95,7 @@ export default {
       this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedResult.method);
       console.log("UvlFilterToolBar::updateData: ");
       console.log(JSON.stringify(this.selectedResult));
-      if(!(JSON.stringify(this.selectedResult) !== JSON.stringify({}))) {
+      if(JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
         if (!(this.datasets.includes(this.selectedResult["dataset_name"]))) {
           this.displaySnackbar("Dataset is not in database anymore!");
         } else {
