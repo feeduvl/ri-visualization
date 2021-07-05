@@ -82,7 +82,11 @@ export default {
   },
   filters: {
     highlight: function (value, query) {
-      return value.replace(new RegExp(query, "ig"), ' ' + '<span class=\'blue\'>' + query.trim() + '</span>')
+      if (query === null || query === "") {
+        return value;
+      } else {
+        return value.replace(new RegExp(query, "ig"), ' ' + '<span class=\'blue\'>' + query.trim() + '</span>')
+      }
     },
   },
   data: function () {
