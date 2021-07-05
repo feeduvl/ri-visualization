@@ -90,6 +90,7 @@ export default {
     },
     selectedResult: function () {
       this.selectedResultByDate = this.selectedResult.started_at;
+      this.selectedMethod = this.selectedResult.method;
       this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedResult.method);
       console.log("UvlFilterToolBar::updateData: ");
       console.log(JSON.stringify(this.selectedResult));
@@ -173,6 +174,7 @@ export default {
 
     if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
       this.selectedResultByDate = this.selectedResult.started_at;
+      this.selectedMethod = this.selectedResult.method;
       this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedResult.method);
       console.log("UvlFilterToolBar::updateData: ");
       console.log(JSON.stringify(this.selectedResult));
