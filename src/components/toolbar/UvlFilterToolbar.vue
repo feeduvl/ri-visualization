@@ -88,6 +88,9 @@ export default {
       let a = this.results.slice();
       this.sortedResults = a.reverse();
     },
+    selectedResult: function () {
+      this.selectedResultByDate = this.selectedResult;
+    }
   },
   data() {
     return {
