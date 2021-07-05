@@ -7,7 +7,7 @@
       <v-card-title>
         <h2>Documents and Concepts</h2>
         <v-spacer></v-spacer>
-        <v-spacer></v-spacer>
+        <span id="dataset-name">Dataset: {{ this.selectedResult.dataset_name }}</span>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <v-text-field
@@ -143,4 +143,10 @@ export default {
 .layout.row {
   padding-bottom: 10px;
 }
+
+#dataset-name {
+  color: gray;
+  margin-top: 25px;
+}
+
 </style>
