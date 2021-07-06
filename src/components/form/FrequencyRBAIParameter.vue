@@ -12,6 +12,16 @@
                     ></v-text-field>
                 </v-flex>
                 <v-flex>
+                    <v-radio-group v-model="term_length" row>
+                        <v-radio
+                                v-for="n in 2"
+                                :key="n"
+                                :label="`Word length ${n}`"
+                                :value="n"
+                        ></v-radio>
+                    </v-radio-group>
+                </v-flex>
+                <v-flex>
                     <v-text-field
                             v-model="run_name"
                             hint="Optional string to name this run."
@@ -20,6 +30,7 @@
                             persistent-hint
                     ></v-text-field>
                 </v-flex>
+
                 <v-flex xs1/>
             </v-layout>
             <v-layout row wrap>
@@ -63,6 +74,7 @@
             max_num_concepts: 20,
             run_name: "",
             fix_random: false,
+            term_length: 1
         }),
         methods: {
             async startRun() {
@@ -101,7 +113,7 @@
                     method: this.method,
                     dataset: this.$props.dataset,
                     max_num_concepts: this.max_num_concepts,
-                    term_length: 2,
+                    term_length: this.term_length,
                     name: this.run_name,
                     command: "run_algorithm"
                 });
