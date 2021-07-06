@@ -1,6 +1,8 @@
 <template>
     <v-data-table
-            :headers="[{'text': nameTitle, 'value': 'text' }, {'text': scoreTitle, 'value': 'score'}]"
+            :headers="[{'text': nameTitle, 'value': 'text' },
+            {'text': scoreTitle, 'value': 'score'},
+            {'text': 'Occurences', 'value': 'occurences'}]"
             :items="fromSelectedResult(selectedResult)"
     >
 
@@ -8,6 +10,7 @@
 
             <td class="text-xs-right">{{ props.item.text }}</td>
             <td class="text-xs-right">{{ props.item.score }}</td>
+            <td class="text-xs-right">{{ props.item.occurences }}</td>
 
         </template>
     </v-data-table>
@@ -15,6 +18,7 @@
 
 <script>
     import {mapGetters} from "vuex";
+
     export default {
         name: "RankedListResult",
         computed: {

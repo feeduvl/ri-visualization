@@ -14,6 +14,8 @@
     import {CLOUD} from "../../colors";
     import {mapGetters} from "vuex";
     import {selectedResult} from "../../store/getters";
+    import {getOccurenceDesc} from "./occurence_descriptor"
+
     export default {
         name: "FcicResult",
         components: {
@@ -29,7 +31,10 @@
                 width: 1152,
                 height: 400,
                 colors: CLOUD,
-                padding: 5
+                padding: 5,
+                onWordClick(word){
+                    window.alert("Word occurences: \n "+word.occurences);
+                }
             }
         },
         computed: {
@@ -43,10 +48,12 @@
         methods: {
             fromSelectedResult(){
                 let sr = this.selectedResult;
-                const {concepts, information_gain} = sr.topics;
+                const {concepts, information_gain, text_ids, occurences} = sr.topics;
+                let occs = getOccurenceDesc(text_ids, concepts, occurences);
+
                 let arr = []
                 for(let i = 0; i < concepts.length; i++){
-                    arr.push({text: concepts[i], score: information_gain[i]})
+                    arr.push({text: concepts[i], score: information_gain[i], occurences: occs[i]})
                 }
                 return arr
             }
