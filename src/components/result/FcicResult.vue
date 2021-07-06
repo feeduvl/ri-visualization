@@ -1,7 +1,7 @@
 <template>
 
     <v-container>
-        <cloud :data="fromSelectedResult()" :padding="padding" :fontSizeMapper="fontSizeMapper" :rotate="rotate" :coloring="coloring" :colors="colors" />
+        <cloud :data="fromSelectedResult()" :padding="padding" :fontSizeMapper="fontSizeMapper" :onWordClick="onWordClick" :rotate="rotate" :coloring="coloring" :colors="colors" />
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Information gain on split',
             fromSelectedResult }"></ranked-list-result>
@@ -14,7 +14,7 @@
     import {CLOUD} from "../../colors";
     import {mapGetters} from "vuex";
     import {selectedResult} from "../../store/getters";
-    import {getOccurenceDesc} from "./occurence_descriptor"
+    import {getOccurenceDesc, onWordCloudWordClicked} from "./frequency_result_methods"
 
     export default {
         name: "FcicResult",
@@ -32,9 +32,7 @@
                 height: 400,
                 colors: CLOUD,
                 padding: 5,
-                onWordClick(word){
-                    window.alert("Word occurences: \n "+word.occurences);
-                }
+                onWordClick: onWordCloudWordClicked
             }
         },
         computed: {

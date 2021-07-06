@@ -1,7 +1,7 @@
 <template>
 
     <v-container>
-        <cloud :data="fromSelectedResult()" :padding="padding" :fontSizeMapper="fontSizeMapper" :rotate="rotate" :coloring="coloring" :colors="colors" />
+        <cloud :data="fromSelectedResult()" :padding="padding" :fontSizeMapper="fontSizeMapper" :onWordClick="onWordClick" :rotate="rotate" :coloring="coloring" :colors="colors" />
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Relevancy Score',
             fromSelectedResult }"></ranked-list-result>
@@ -12,6 +12,7 @@
     import Cloud from 'vue-d3-cloud'
     import {CLOUD} from "../../colors";
     import {mapGetters} from "vuex";
+    import {getOccurenceDesc, onWordCloudWordClicked} from "./frequency_result_methods";
 
     export default {
         name: "RbaiResult",
@@ -27,7 +28,8 @@
                 rotate: 0,
                 coloring: "random",
                 colors: CLOUD,
-                padding: 5
+                padding: 5,
+                onWordClick: onWordCloudWordClicked
             }
         },
 
@@ -43,10 +45,12 @@
         methods:{
             fromSelectedResult(){
                 let sr = this.selectedResult;
-                const {concepts, scores} = sr.topics;
+                const {concepts, scores, text_ids, text_occurences} = sr.topics;
+                let occs = getOccurenceDesc(text_ids, concepts, text_occurences);
+
                 let arr = []
                 for(let i = 0; i < concepts.length; i++){
-                    arr.push({text: concepts[i], score: scores[i]})
+                    arr.push({text: concepts[i], score: scores[i], occurences: occs[i]})
                 }
                 return arr
             }

@@ -23,3 +23,8 @@ export const getOccurenceDesc = function(textIds, concepts, occurences){
   }
   return ret;
 };
+
+export const onWordCloudWordClicked = function(word){
+  // eslint-disable-next-line no-alert
+  window.alert("Word occurences: \n"+word.occurences);
+};
