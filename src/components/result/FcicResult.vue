@@ -48,8 +48,8 @@
         methods: {
             fromSelectedResult(){
                 let sr = this.selectedResult;
-                const {concepts, information_gain, text_ids, occurences} = sr.topics;
-                let occs = getOccurenceDesc(text_ids, concepts, occurences);
+                const {concepts, information_gain, text_ids, text_occurences} = sr.topics;
+                let occs = getOccurenceDesc(text_ids, concepts, text_occurences);
 
                 let arr = []
                 for(let i = 0; i < concepts.length; i++){
