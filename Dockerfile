@@ -1,8 +1,7 @@
 FROM node:latest
 
 ADD package.json /tmp/package.json
-RUN cd /tmp && npm install node-sass
-RUN cd /tmp && npm install --legacy-peer-deps
+RUN cd /tmp && npm install node-sass --legacy-peer-deps
 RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app
 
 
