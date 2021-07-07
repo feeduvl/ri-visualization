@@ -70,14 +70,14 @@
                     },
                     xAxis: {
                         type: "category",
-                        data: this.selectedResult.topics.concepts,
+                        data: concepts,
                         splitArea: {
                             show: true
                         }
                     },
                     yAxis: {
                         type: "category",
-                        data: this.selectedResult.topics.text_ids,
+                        data: text_ids,
                         splitArea: {
                             show: true
                         }
