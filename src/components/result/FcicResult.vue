@@ -12,8 +12,9 @@
 
 <script>
     import ECharts from "vue-echarts";
+    import "echarts";
     import Cloud from 'vue-d3-cloud'
-    import {CLOUD} from "../../colors";
+    import {BLACK, BLUE_DARK, BLUE_LIGHT, CLOUD} from "../../colors";
     import {mapGetters} from "vuex";
     import {selectedResult} from "../../store/getters";
     import {getOccurenceDesc, onWordCloudWordClicked} from "./frequency_result_methods"
@@ -35,22 +36,9 @@
                 height: 400,
                 colors: CLOUD,
                 padding: 5,
-                onWordClick: onWordCloudWordClicked
-            }
-        },
-        computed: {
-            ...mapGetters({
-                selectedResult: 'selectedResult'
-            }),
-            heatmapConfig(){
-                let seriesdata = []
-                const {concepts, text_ids, text_occurences} = this.selectedResult.topics;
-                for (let doc = 0; doc < text_ids.length; doc++){
-                    for (let c = 0; c < concepts.length; c++){
-                        seriesdata.push([c, doc, text_occurences[doc][c]]);
-                    }
-                }
-                return {
+                onWordClick: onWordCloudWordClicked,
+                heatmapConfig: {
+
                     title: {
                         text: "Concept Occurences in Input",
                         top: "0",
@@ -70,14 +58,14 @@
                     },
                     xAxis: {
                         type: "category",
-                        data: concepts,
+                        data: [],
                         splitArea: {
                             show: true
                         }
                     },
                     yAxis: {
                         type: "category",
-                        data: text_ids,
+                        data: [],
                         splitArea: {
                             show: true
                         }
@@ -97,7 +85,7 @@
                         {
                             name: "Occurences:",
                             type: "heatmap",
-                            data: seriesdata,
+                            data: [],
                             label: {
                                 normal: {
                                     show: false
@@ -111,7 +99,25 @@
                             }
                         }]
                 }
-            },
+            }
+        },
+        created() {
+            let seriesdata = []
+            const {concepts, text_ids, text_occurences} = this.selectedResult.topics;
+            for (let doc = 0; doc < text_ids.length; doc++){
+                for (let c = 0; c < concepts.length; c++){
+                    seriesdata.push([c, doc, text_occurences[doc][c]]);
+                }
+            }
+            this.heatmapConfig.xAxis.data = concepts;
+            this.heatmapConfig.yAxis.data = text_ids;
+            this.heatmapConfig.series[0].data = seriesdata;
+        },
+        computed: {
+            ...mapGetters({
+                selectedResult: 'selectedResult'
+            }),
+
             maxValue(){
                 return Math.max(...this.selectedResult.topics.information_gain);
             },
