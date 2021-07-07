@@ -13,13 +13,15 @@ export const getOccurenceDesc = function(textIds, concepts, occurences){
     let first = true;
     for (let j = 0; j < textIds.length; j++){
       if (occurences[j][i] > 0){
-        if (!first){
-          s += ", ";
+        if (first){
           first = false;
+        } else {
+          s += ", ";
         }
         s += textIds[j] + ": " + occurences[j][i];
       }
     }
+    ret.push(s);
   }
   return ret;
 };
