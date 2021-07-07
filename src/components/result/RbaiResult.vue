@@ -41,7 +41,7 @@
         computed: {
             heatmapConfig(){
                 let seriesdata = []
-                const {concepts, text_ids, text_occurences} = selectedResult.topics;
+                const {concepts, text_ids, text_occurences} = this.selectedResult.topics;
                 for (let doc = 0; doc < text_ids.length; doc++){
                     for (let c = 0; c < concepts.length; c++){
                         seriesdata.push([c, doc, text_occurences[doc][c]]);
@@ -67,14 +67,14 @@
                     },
                     xAxis: {
                         type: "category",
-                        data: selectedResult.topics.concepts,
+                        data: this.selectedResult.topics.concepts,
                         splitArea: {
                             show: true
                         }
                     },
                     yAxis: {
                         type: "category",
-                        data: selectedResult.topics.text_ids,
+                        data: this.selectedResult.topics.text_ids,
                         splitArea: {
                             show: true
                         }
