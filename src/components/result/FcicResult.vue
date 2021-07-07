@@ -1,10 +1,10 @@
 <template>
 
     <v-container>
-        <cloud :data="fromSelectedResult()" :padding="padding" :fontSizeMapper="fontSizeMapper" :onWordClick="onWordClick" :rotate="rotate" :coloring="coloring" :colors="colors" />
+        <cloud :data="itemsList" :padding="padding" :fontSizeMapper="fontSizeMapper" :onWordClick="onWordClick" :rotate="rotate" :coloring="coloring" :colors="colors" />
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Information gain on split',
-            fromSelectedResult }"></ranked-list-result>
+            items:itemsList }"></ranked-list-result>
         <decision-tree :tree ="selectedResult.topics.tree"></decision-tree>
     </v-container>
 </template>
@@ -41,10 +41,8 @@
             }),
             maxValue(){
                 return Math.max(...this.selectedResult.topics.information_gain);
-            }
-        },
-        methods: {
-            fromSelectedResult(){
+            },
+            itemsList(){
                 let sr = this.selectedResult;
                 const {concepts, information_gain, text_ids, text_occurences} = sr.topics;
                 let occs = getOccurenceDesc(text_ids, concepts, text_occurences);

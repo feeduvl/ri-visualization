@@ -1,25 +1,29 @@
 <template>
 
     <v-container>
-        <cloud :data="fromSelectedResult()" :padding="padding" :fontSizeMapper="fontSizeMapper" :onWordClick="onWordClick" :rotate="rotate" :coloring="coloring" :colors="colors" />
+        <cloud :data="itemsList" :padding="padding" :fontSizeMapper="fontSizeMapper" :onWordClick="onWordClick" :rotate="rotate" :coloring="coloring" :colors="colors" />
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Relevancy Score',
-            fromSelectedResult }"></ranked-list-result>
+            itemsList }"></ranked-list-result>
+        <ECharts class="chart" :options="heatmapConfig" auto-resize></ECharts>
     </v-container>
 </template>
 
 <script>
+    import ECharts from "vue-echarts";
     import Cloud from 'vue-d3-cloud'
     import {CLOUD} from "../../colors";
     import {mapGetters} from "vuex";
     import {getOccurenceDesc, onWordCloudWordClicked} from "./frequency_result_methods";
+    import {selectedResult} from "../../store/getters";
 
     export default {
         name: "RbaiResult",
 
         components: {
             "ranked-list-result": () => import("./RankedListResult"),
-            Cloud
+            Cloud,
+            ECharts
         },
 
         data(){
@@ -29,21 +33,89 @@
                 coloring: "random",
                 colors: CLOUD,
                 padding: 5,
-                onWordClick: onWordCloudWordClicked
+                onWordClick: onWordCloudWordClicked,
+
             }
         },
 
         computed: {
+            heatmapConfig(){
+                let seriesdata = []
+                const {concepts, text_ids, text_occurences} = selectedResult.topics;
+                for (let doc = 0; doc < text_ids.length; doc++){
+                    for (let c = 0; c < concepts.length; c++){
+                        seriesdata.push([c, doc, text_occurences[doc][c]]);
+                    }
+                }
+                return {
+                    title: {
+                        text: "Concept Occurences in Input",
+                        top: "0",
+                        left: "center",
+                        right: "center"
+                    },
+                    tooltip: {
+                        position: "top"
+                    },
+                    animation: true,
+                    grid: {
+                        top: "40",
+                        height: "70%",
+                        left: "90",
+                        right: "25",
+                        y: "10%"
+                    },
+                    xAxis: {
+                        type: "category",
+                        data: selectedResult.topics.concepts,
+                        splitArea: {
+                            show: true
+                        }
+                    },
+                    yAxis: {
+                        type: "category",
+                        data: selectedResult.topics.text_ids,
+                        splitArea: {
+                            show: true
+                        }
+                    },
+                    visualMap: {
+                        min: 0,
+                        max: 100,
+                        calculable: true,
+                        orient: "horizontal",
+                        left: "center",
+                        bottom: "0%",
+                        inRange: {
+                            color: [BLUE_LIGHT, BLUE_DARK] //From smaller to bigger value ->
+                        }
+                    },
+                    series: [
+                        {
+                            name: "Occurences:",
+                            type: "heatmap",
+                            data: seriesdata,
+                            label: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowColor: BLACK
+                                }
+                            }
+                        }]
+                }
+            },
             maxValue(){
                 return Math.max(...this.selectedResult.topics.scores);
             },
             ...mapGetters({
                 selectedResult: 'selectedResult'
             }),
-        },
-
-        methods:{
-            fromSelectedResult(){
+            itemsList(){
                 let sr = this.selectedResult;
                 const {concepts, scores, text_ids, text_occurences} = sr.topics;
                 let occs = getOccurenceDesc(text_ids, concepts, text_occurences);

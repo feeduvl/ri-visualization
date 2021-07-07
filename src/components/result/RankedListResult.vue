@@ -3,7 +3,7 @@
             :headers="[{'text': nameTitle, 'value': 'text' },
             {'text': scoreTitle, 'value': 'score'},
             {'text': 'Occurences', 'value': 'occurences'}]"
-            :items="fromSelectedResult(selectedResult)"
+            :items="items"
     >
 
         <template v-slot:items="props">
@@ -17,19 +17,12 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
-
     export default {
         name: "RankedListResult",
-        computed: {
-            ...mapGetters({
-                selectedResult: 'selectedResult'
-            }),
-        },
         props : {
             nameTitle : String,
             scoreTitle: String,
-            fromSelectedResult: Function
+            items: Array
         }
     }
 </script>
