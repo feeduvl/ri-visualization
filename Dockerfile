@@ -1,7 +1,7 @@
 FROM node:latest
 
 ADD package.json /tmp/package.json
-RUN cd /tmp && npm install -g npm@7.19.1 --legacy-peer-deps
+RUN cd /tmp && npm install npm@7.19.1 --legacy-peer-deps
 RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app
 
 
