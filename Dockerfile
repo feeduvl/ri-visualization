@@ -1,4 +1,4 @@
-FROM node:14.17.3
+FROM node:14
 
 ADD package.json /tmp/package.json
 RUN cd /tmp && npm install --legacy-peer-deps
