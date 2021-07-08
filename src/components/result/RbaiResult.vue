@@ -12,7 +12,7 @@
 <script>
     import ECharts from "vue-echarts";
     import Cloud from 'vue-d3-cloud'
-    import {CLOUD} from "../../colors";
+    import {BLACK, BLUE_DARK, BLUE_LIGHT, CLOUD} from "../../colors";
     import {mapGetters} from "vuex";
     import {getOccurenceDesc, onWordCloudWordClicked} from "./frequency_result_methods";
     import {selectedResult} from "../../store/getters";
@@ -37,9 +37,12 @@
 
             }
         },
+        methods: {
+            getHeatmapConfig(){
 
-        computed: {
-            heatmapConfig(){
+                console.log("RbaiResult::getHeatmapConfig selected result: ");
+                console.log(this.selectedResult);
+
                 let seriesdata = []
                 const {concepts, text_ids, text_occurences} = this.selectedResult.topics;
                 for (let doc = 0; doc < text_ids.length; doc++){
@@ -47,7 +50,11 @@
                         seriesdata.push([c, doc, text_occurences[doc][c]]);
                     }
                 }
+
+                console.log(seriesdata);
+
                 return {
+
                     title: {
                         text: "Concept Occurences in Input",
                         top: "0",
@@ -67,14 +74,14 @@
                     },
                     xAxis: {
                         type: "category",
-                        data: this.selectedResult.topics.concepts,
+                        data: concepts,
                         splitArea: {
                             show: true
                         }
                     },
                     yAxis: {
                         type: "category",
-                        data: this.selectedResult.topics.text_ids,
+                        data: text_ids,
                         splitArea: {
                             show: true
                         }
@@ -108,7 +115,10 @@
                             }
                         }]
                 }
-            },
+            }
+        },
+
+        computed: {
             maxValue(){
                 return Math.max(...this.selectedResult.topics.scores);
             },

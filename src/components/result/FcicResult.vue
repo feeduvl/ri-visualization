@@ -42,6 +42,9 @@
         methods: {
             getHeatmapConfig(){
 
+                console.log("RbaiResult::getHeatmapConfig selected result: ");
+                console.log(this.selectedResult);
+
                 let seriesdata = []
                 const {concepts, text_ids, text_occurences} = this.selectedResult.topics;
                 for (let doc = 0; doc < text_ids.length; doc++){
@@ -49,6 +52,8 @@
                         seriesdata.push([c, doc, text_occurences[doc][c]]);
                     }
                 }
+
+                console.log(seriesdata);
 
                 return {
 
