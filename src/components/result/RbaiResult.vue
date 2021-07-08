@@ -11,6 +11,7 @@
 
 <script>
     import ECharts from "vue-echarts";
+    import "echarts";
     import Cloud from 'vue-d3-cloud'
     import {BLACK, BLUE_DARK, BLUE_LIGHT, CLOUD} from "../../colors";
     import {mapGetters} from "vuex";

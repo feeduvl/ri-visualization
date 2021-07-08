@@ -28,5 +28,5 @@ export const getOccurenceDesc = function(textIds, concepts, occurences){
 
 export const onWordCloudWordClicked = function(word){
   // eslint-disable-next-line no-alert
-  window.alert("Word occurences: \n"+word.occurences);
+  window.alert("'"+word.text+"' concept occurences: \n"+word.occurences);
 };
