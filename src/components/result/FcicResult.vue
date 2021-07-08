@@ -2,7 +2,7 @@
 
     <v-container>
         <cloud :data="itemsList" :padding="padding" :fontSizeMapper="fontSizeMapper" :onWordClick="onWordClick" :rotate="rotate" :coloring="coloring" :colors="colors" />
-        <ECharts class="chart" :options="heatmapConfig" auto-resize></ECharts>
+        <ECharts class="chart" :options="getHeatmapConfig()" auto-resize></ECharts>
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Information gain on split',
             items:itemsList }"></ranked-list-result>
@@ -37,47 +37,60 @@
                 colors: CLOUD,
                 padding: 5,
                 onWordClick: onWordCloudWordClicked,
-                heatmapConfig: {
+            }
+        },
+        methods: {
+            getHeatmapConfig(){
+
+                let seriesdata = []
+                const {concepts, text_ids, text_occurences} = this.selectedResult.topics;
+                for (let doc = 0; doc < text_ids.length; doc++){
+                    for (let c = 0; c < concepts.length; c++){
+                        seriesdata.push([c, doc, text_occurences[doc][c]]);
+                    }
+                }
+
+                return {
 
                     title: {
                         text: "Concept Occurences in Input",
-                        top: "0",
-                        left: "center",
-                        right: "center"
+                            top: "0",
+                            left: "center",
+                            right: "center"
                     },
                     tooltip: {
                         position: "top"
                     },
                     animation: true,
-                    grid: {
+                        grid: {
                         top: "40",
-                        height: "70%",
-                        left: "90",
-                        right: "25",
-                        y: "10%"
+                            height: "70%",
+                            left: "90",
+                            right: "25",
+                            y: "10%"
                     },
                     xAxis: {
                         type: "category",
-                        data: [],
-                        splitArea: {
+                            data: concepts,
+                            splitArea: {
                             show: true
                         }
                     },
                     yAxis: {
                         type: "category",
-                        data: [],
-                        splitArea: {
+                            data: text_ids,
+                            splitArea: {
                             show: true
                         }
                     },
                     visualMap: {
                         min: 0,
-                        max: 100,
-                        calculable: true,
-                        orient: "horizontal",
-                        left: "center",
-                        bottom: "0%",
-                        inRange: {
+                            max: 100,
+                            calculable: true,
+                            orient: "horizontal",
+                            left: "center",
+                            bottom: "0%",
+                            inRange: {
                             color: [BLUE_LIGHT, BLUE_DARK] //From smaller to bigger value ->
                         }
                     },
@@ -85,7 +98,7 @@
                         {
                             name: "Occurences:",
                             type: "heatmap",
-                            data: [],
+                            data: seriesdata,
                             label: {
                                 normal: {
                                     show: false
@@ -100,19 +113,7 @@
                         }]
                 }
             }
-        },
-        created() {
-            let seriesdata = []
-            const {concepts, text_ids, text_occurences} = this.selectedResult.topics;
-            for (let doc = 0; doc < text_ids.length; doc++){
-                for (let c = 0; c < concepts.length; c++){
-                    seriesdata.push([c, doc, text_occurences[doc][c]]);
-                }
-            }
-            this.heatmapConfig.xAxis.data = concepts;
-            this.heatmapConfig.yAxis.data = text_ids;
-            this.heatmapConfig.series[0].data = seriesdata;
-        },
+        }
         computed: {
             ...mapGetters({
                 selectedResult: 'selectedResult'
