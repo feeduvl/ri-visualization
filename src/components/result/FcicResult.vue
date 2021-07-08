@@ -32,8 +32,6 @@
                 fontSizeMapper: word => 15 + (30*(word.score/this.maxValue)),
                 rotate: 0,
                 coloring: "random",
-                width: 1152,
-                height: 400,
                 colors: CLOUD,
                 padding: 5,
                 onWordClick: onWordCloudWordClicked,
@@ -143,5 +141,10 @@
 </script>
 
 <style scoped>
+
+    .chart{
+        width: 100%;
+        height: 600px;
+    }
 
 </style>
