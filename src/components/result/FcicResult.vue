@@ -2,15 +2,15 @@
 
     <v-container>
         <cloud :data="itemsList" :padding="padding" :fontSizeMapper="fontSizeMapper" :onWordClick="onWordClick" :rotate="rotate" :coloring="coloring" :colors="colors" />
+        <ECharts class="chart" :options="this.getHeatmapConfig()" auto-resize></ECharts>
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Information gain on split',
             items:itemsList }"></ranked-list-result>
-        <decision-tree :tree ="selectedResult.topics.tree"></decision-tree>
+        <decision-tree :tree ="this.selectedResult.topics.tree"></decision-tree>
     </v-container>
 </template>
 
 <script>
-    //        <ECharts class="chart" :options="getHeatmapConfig()" auto-resize></ECharts>
     import ECharts from "vue-echarts";
     import "echarts";
     import Cloud from 'vue-d3-cloud'
@@ -25,7 +25,7 @@
             "ranked-list-result": () => import("./RankedListResult"),
             "decision-tree": () => import("./DecisionTree"),
             Cloud,
-            //ECharts
+            ECharts
         },
         data(){
             return {
@@ -42,7 +42,7 @@
         methods: {
             getHeatmapConfig(){
 
-                console.log("RbaiResult::getHeatmapConfig selected result: ");
+                console.log("FcicResult::getHeatmapConfig selected result: ");
                 console.log(this.selectedResult);
 
                 let seriesdata = []

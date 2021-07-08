@@ -4,8 +4,8 @@
         <cloud :data="itemsList" :padding="padding" :fontSizeMapper="fontSizeMapper" :onWordClick="onWordClick" :rotate="rotate" :coloring="coloring" :colors="colors" />
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Relevancy Score',
-            itemsList }"></ranked-list-result>
-        <ECharts class="chart" :options="heatmapConfig" auto-resize></ECharts>
+            items:itemsList }"></ranked-list-result>
+        <ECharts class="chart" :options="this.getHeatmapConfig()" auto-resize></ECharts>
     </v-container>
 </template>
 
