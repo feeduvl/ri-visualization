@@ -113,7 +113,7 @@
                         }]
                 }
             }
-        }
+        },
         computed: {
             ...mapGetters({
                 selectedResult: 'selectedResult'
