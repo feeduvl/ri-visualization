@@ -96,6 +96,8 @@ export default {
             );
             this.$store.commit(MUTATE_ACCESS_KEY_CONFIGURATION, response.data);
             localStorage.setItem(LOCAL_STORAGE_ACCESS_KEY, this.accessKey);
+
+            this.getInitialConceptsData();
             this.$store
               .dispatch(
                 ACTION_FETCH_INITIAL_DATA,
@@ -151,7 +153,6 @@ export default {
     if (localStorage.getItem(LOCAL_STORAGE_ACCESS_KEY)) {
       this.accessKey = localStorage.getItem(LOCAL_STORAGE_ACCESS_KEY);
       this.sendCheckAccessKey();
-      this.getInitialConceptsData();
     }
   }
 };

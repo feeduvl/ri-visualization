@@ -86,7 +86,7 @@ export const actionLoadDatasets = state => {
       console.log("actions::actionLoadDatasets Error:" + e);
     });
 };
-export const actionLoadResults = ({state, commit}) => {
+export const actionLoadResults = ({commit}) => {
 
   commit(MUTATE_LOADING_RESULTS, true);
   axios
