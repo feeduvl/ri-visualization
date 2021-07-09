@@ -52,7 +52,6 @@ export const MUTATE_SELECTED_DATASET_OUTSIDE = 'mutateSelectedDatasetOutside';
 export const MUTATE_LOADING_RESULTS = 'mutateLoadingResults';
 export const MUTATE_LOADING_DATASET = 'mutateLoadingDataset';
 
-
 /*
  *  Local storage types
  */

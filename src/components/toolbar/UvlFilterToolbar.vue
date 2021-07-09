@@ -67,7 +67,7 @@ import {
   ROUTE_RESULTS
 } from "@/routes";
 import {mapGetters} from "vuex";
-import {reloadResults} from "@/RESTcalls";
+import {loadDataset, reloadResults} from "@/RESTcalls";
 import {MUTATE_SELECTED_METHOD, MUTATE_SELECTED_RESULT} from "@/store/types";
 import {METHODS} from "@/methods";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
@@ -139,6 +139,7 @@ export default {
       }
     }
   },
+
   methods: {
     selectedResultChanged(){
       this.selectedResult = this.getSelectedResultFromDate(this.selectedResultByDate);
