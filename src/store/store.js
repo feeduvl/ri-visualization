@@ -32,7 +32,6 @@ export const store = new Vuex.Store({
     // feed-uvl
     datasets: [],
     results: [],
-    filteredResults: [],
     selectedDataset: {},
     selectedResult: {},
     selectedConcept: "",

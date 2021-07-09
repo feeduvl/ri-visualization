@@ -5,7 +5,7 @@
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Relevancy Score',
             items:itemsList }"></ranked-list-result>
-        <ECharts class="chart" :options="this.getHeatmapConfig()" auto-resize></ECharts>
+        <ECharts class="chart" :options="this.getHeatmapConfig" auto-resize></ECharts>
     </v-container>
 </template>
 
@@ -38,7 +38,9 @@
 
             }
         },
-        methods: {
+
+        computed: {
+
             getHeatmapConfig(){
 
                 console.log("RbaiResult::getHeatmapConfig selected result: ");
@@ -116,10 +118,7 @@
                             }
                         }]
                 }
-            }
-        },
-
-        computed: {
+            },
             maxValue(){
                 return Math.max(...this.selectedResult.topics.scores);
             },

@@ -3,9 +3,9 @@ import axios from "axios";
 import {GET_ALL_DATASETS_ENDPOINT, GET_ALL_RESULTS_ENDPOINT, GET_DATASET_ENDPOINT} from "@/RESTconf";
 import {
     MUTATE_DATASETS,
-    MUTATE_FILTERED_RESULTS,
     MUTATE_LOADING_RESULTS, MUTATE_RESULTS,
-    MUTATE_SELECTED_DATASET
+    MUTATE_SELECTED_DATASET,
+    MUTATE_LOADING_DATASET
 } from "@/store/types";
 
 async function loadDatasets(store) {
@@ -20,17 +20,17 @@ async function loadDatasets(store) {
 }
 
 async function loadDataset(store, datasetName) {
-  store.state.loadingDataset = true;
+    store.commit(MUTATE_LOADING_DATASET, true);
+
   await axios
     .get(GET_DATASET_ENDPOINT(datasetName))
     .then(response => {
       store.commit(MUTATE_SELECTED_DATASET, response.data);
-      store.state.loadingDataset = false;
     })
     .catch(e => {
       console.log("RESTcalls::loadDataset:" + e);
-      store.state.loadingDataset = false;
-    });
+    }).finally(() =>
+          store.commit(MUTATE_LOADING_DATASET, false));
 }
 
 function reloadResults(store) {
@@ -40,35 +40,10 @@ function reloadResults(store) {
             .get(GET_ALL_RESULTS_ENDPOINT)
             .then(response => {
                 store.commit(MUTATE_RESULTS, response.data)
-
-                // Filter for finished runs
-                let _tmpFilteredResults = [];
-                for (let i = 0; i <  response.data.length; i++) {
-                    if (response.data[i].status === "finished") {
-                        _tmpFilteredResults.push(response.data[i]);
-                    }
-                }
-
-                if (store.state.selectedMethod === "") {
-                    store.commit(MUTATE_FILTERED_RESULTS, _tmpFilteredResults);
-                    store.commit(MUTATE_LOADING_RESULTS, false);
-                } else {
-                    let tmpFilteredResults = [];
-
-                    for (let i = 0; i < _tmpFilteredResults.length; i++) {
-                        if (_tmpFilteredResults[i].method === store.state.selectedMethod) {
-                            tmpFilteredResults.push(_tmpFilteredResults[i]);
-                        }
-                    }
-
-                    store.commit(MUTATE_FILTERED_RESULTS, tmpFilteredResults);
-                    store.commit(MUTATE_LOADING_RESULTS, false);
-                }
             })
             .catch(e => {
                 console.log("RESTcalls:reloadResults: Error:" + e);
-                store.commit(MUTATE_LOADING_RESULTS, false);
-            });
+            }).finally(() => store.commit(MUTATE_LOADING_RESULTS, false));
     }
 }
 

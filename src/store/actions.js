@@ -14,7 +14,7 @@ import {
   MUTATE_TOP_BAR_LOGO,
   MUTATE_TOP_BAR_ALT_TEXT,
   MUTATE_FOOTER_TEXT,
-  MUTATE_TOP_BAR_LINK, MUTATE_FILTERED_RESULTS
+  MUTATE_TOP_BAR_LINK
 } from '@/store/types';
 
 export const actionFetchInitialData = ({
@@ -45,6 +45,8 @@ export const actionFetchInitialData = ({
     });
   });
 };
+
+/*
 export const actionFilterResults = ({
   state,
   commit
@@ -71,12 +73,13 @@ export const actionFilterResults = ({
   }
 
   commit(MUTATE_FILTERED_RESULTS, tmpFilteredResults);
-};
+};*/
+
 export const actionLoadDatasets = state => {
   axios
     .get(GET_ALL_DATASETS_ENDPOINT)
     .then(response => {
-      state.datasets =  response.data;
+      state.datasets = response.data;
     })
     .catch(e => {
       console.log("actions::actionLoadDatasets Error:" + e);
@@ -88,22 +91,12 @@ export const actionLoadResults = state => {
     .get(GET_ALL_RESULTS_ENDPOINT)
     .then(response => {
       state.results = response.data;
-
-      // Filter for finished runs
-      let _tmpFilteredResults = [];
-      for (let i = 0; i <  state.results.length; i++) {
-        if (state.results[i].status === "finished") {
-          _tmpFilteredResults.push(state.results[i]);
-        }
-      }
-
-      state.filteredResults = _tmpFilteredResults;
-      state.loadingResults = false;
     })
     .catch(e => {
       console.log("actions::actionLoadResults Error:" + e);
-      state.loadingResults = false;
-    });
+    })
+    .finally(() => {state.loadingResults = false;});
+
 };
 export const actionFetchInitialConceptData = ({
   state,

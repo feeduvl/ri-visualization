@@ -16,7 +16,6 @@ export const ACTION_SET_TOP_BAR_LOGO = 'setTopBarLogo';
 export const ACTION_SET_TOP_BAR_ALT_TEXT = 'setTopBarAltText';
 export const ACTION_SET_TOP_BAR_LINK = 'setTopBarLink';
 export const ACTION_SET_FOOTER_TEXT = 'setFooterText';
-export const ACTION_FILTER_RESULTS = 'actionFilterResults';
 export const ACTION_DELETE_RESULT = 'actionDeleteResult';
 export const ACTION_EDIT_RESULT_NAME = 'actionEditResultName';
 export const ACTION_LOAD_RESULTS = 'actionLoadResults';
@@ -51,6 +50,8 @@ export const MUTATE_FILTERED_RESULTS = 'mutateFilteredResults';
 export const MUTATE_SELECTED_METHOD = 'mutateSelectedMethod';
 export const MUTATE_SELECTED_DATASET_OUTSIDE = 'mutateSelectedDatasetOutside';
 export const MUTATE_LOADING_RESULTS = 'mutateLoadingResults';
+export const MUTATE_LOADING_DATASET = 'mutateLoadingDataset';
+
 
 /*
  *  Local storage types

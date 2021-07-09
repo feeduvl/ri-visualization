@@ -43,9 +43,15 @@ export const selectedResult = state => {
 export const selectedMethod = state => {
   return state.selectedMethod;
 };
-export const filteredResults = state => {
-  return state.filteredResults;
+
+export const finishedResults = state => {
+  return state.results.filter(a => a.status === "finished");
 };
+
+export const resultsForSelectedMethod = (state, getters) => {
+  return getters.finishedResults.filter(a => a.method === state.selectedMethod);
+};
+
 export const loadingResults = state => {
   return state.loadingResults;
 };

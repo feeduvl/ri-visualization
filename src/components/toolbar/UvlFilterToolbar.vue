@@ -10,7 +10,7 @@
             label="Select Method"
             :dense="true"
             :disabled="loading"
-            @change="filterResultsByMethod"
+            @change="updateSelectedMethod"
         >
         </v-select>
       </v-flex>
@@ -18,14 +18,14 @@
       <v-flex xs5 v-if="showResultsFilter()">
         <v-select
             v-model="selectedResultByDate"
-            :items="sortedResults"
+            :items="resultsForMethod"
             label="Select Run"
             :item-text="getResultItemText"
             item-value="started_at"
             :dense="true"
             :disabled="loading"
             :loading="loading"
-            @change="updateData"
+            @change="updateSelectedResult"
         >
         </v-select>
       </v-flex>
@@ -68,8 +68,8 @@ import {
   ROUTE_RESULTS
 } from "@/routes";
 import {mapGetters} from "vuex";
-import {loadDataset, reloadResults} from "@/RESTcalls";
-import {ACTION_FILTER_RESULTS, MUTATE_SELECTED_METHOD, MUTATE_SELECTED_RESULT} from "@/store/types";
+import {reloadResults} from "@/RESTcalls";
+import {MUTATE_SELECTED_METHOD, MUTATE_SELECTED_RESULT} from "@/store/types";
 import {METHODS} from "@/methods";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 
@@ -77,37 +77,14 @@ export default {
   name: "UvlFilterToolbar",
   computed: {
     ...mapGetters({
-      results: 'filteredResults',
+      resultsForMethod: 'resultsForSelectedMethod',
       selectedResult: 'selectedResult',
-      loading: "loadingResults",
       datasets: "datasets",
     }),
   },
-  watch: {
-    results: function (newValue, oldValue) {
-      let a = this.results.slice();
-      this.sortedResults = a.reverse();
-    },
-    selectedResult: function () {
-      if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
-        this.selectedMethod = this.selectedResult.method;
-      }
-      this.filterResultsByMethod();
-      this.selectedResultByDate = this.selectedResult.started_at;
-      this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedResult.method);
-      console.log("UvlFilterToolBar::updateData: ");
-      console.log(JSON.stringify(this.selectedResult));
-      if(JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
-        if (!(this.datasets.includes(this.selectedResult["dataset_name"]))) {
-          this.displaySnackbar("Dataset is not in database anymore!");
-        } else {
-          loadDataset(this.$store, this.selectedResult["dataset_name"]);
-        }
-      }
-    }
-  },
   data() {
     return {
+      loading: this.$store.state.loadingResults,
       color: BLUE_FILL,
       selectedMethod: "",
       selectedResultByDate: "",
@@ -132,21 +109,9 @@ export default {
           this.path === ROUTE_RESULTS
       );
     },
-    filterResultsByMethod() {
-      let payload = {
-        method: this.selectedMethod,
-      };
-      this.$store.dispatch(ACTION_FILTER_RESULTS, payload);
-      this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedMethod);
-      if ((JSON.stringify(this.selectedResult) !== JSON.stringify({}))) {
-        if (this.selectedResult.method !== this.selectedMethod) {
-          this.$store.commit(MUTATE_SELECTED_RESULT, {});
-        }
-      }
-    },
     getSelectedResultFromDate () {
       let res = {};
-      for (const r of this.results) {
+      for (const r of this.resultsForMethod) {
         if (r["started_at"] === this.selectedResultByDate) {
           res = r;
           break;
@@ -154,7 +119,10 @@ export default {
       }
       return res;
     },
-    updateData() {
+    updateSelectedMethod(){
+      this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedMethod);
+    },
+    updateSelectedResult() {
       this.$store.commit(MUTATE_SELECTED_RESULT, this.getSelectedResultFromDate());
     },
     getResultItemText(item) {
@@ -177,26 +145,9 @@ export default {
     reloadResults() {
       reloadResults(this.$store);
     },
-  },
-  mounted() {
-    let a = this.results.slice();
-    this.sortedResults = a.reverse();
-
-    if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
-      this.selectedMethod = this.selectedResult.method;
-      this.filterResultsByMethod();
-      this.selectedResultByDate = this.selectedResult.started_at;
-      this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedResult.method);
-      console.log("UvlFilterToolBar::updateData: ");
-      console.log(JSON.stringify(this.selectedResult));
-      if (!(this.datasets.includes(this.selectedResult["dataset_name"]))) {
-        this.displaySnackbar("Dataset is not in database anymore!");
-      } else {
-        loadDataset(this.$store, this.selectedResult["dataset_name"]);
-      }
-    }
   }
 }
+
 </script>
 
 <style scoped>
