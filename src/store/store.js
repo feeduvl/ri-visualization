@@ -36,7 +36,7 @@ export const store = new Vuex.Store({
     selectedResult: {},
     selectedConcept: "",
     selectedMethod: "",
-    loadingResults: true,
+    loadingResults: false,
     loadingDataset: false,
     selectedDatasetOutside: "",
   },
