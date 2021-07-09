@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from "moment";
 import "moment/locale/de";
-import {ACTION_LOAD_RESULTS} from "./types";
+import {ACTION_LOAD_RESULTS, MUTATE_LOADING_RESULTS, MUTATE_RESULTS} from "./types";
 import {
   GET_ALL_DATASETS_ENDPOINT,
   GET_ALL_RESULTS_ENDPOINT,
@@ -86,17 +86,19 @@ export const actionLoadDatasets = state => {
       console.log("actions::actionLoadDatasets Error:" + e);
     });
 };
-export const actionLoadResults = state => {
-  state.loadingResults = true;
+export const actionLoadResults = ({state, commit}) => {
+
+  commit(MUTATE_LOADING_RESULTS, true);
   axios
     .get(GET_ALL_RESULTS_ENDPOINT)
     .then(response => {
-      state.results = response.data;
+      console.log("actions::actionLoadResults got payload");
+      commit(MUTATE_RESULTS, response.data);
     })
     .catch(e => {
       console.log("actions::actionLoadResults Error:" + e);
     })
-    .finally(() => {state.loadingResults = false;});
+    .finally(() => {commit(MUTATE_LOADING_RESULTS, false);});
 
 };
 export const actionFetchInitialConceptData = ({
