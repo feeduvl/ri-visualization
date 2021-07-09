@@ -154,7 +154,7 @@ export default {
 
 #dataset-name {
   color: gray;
-  margin-top: 25px;
+  margin-top: 17px;
 }
 
 </style>
