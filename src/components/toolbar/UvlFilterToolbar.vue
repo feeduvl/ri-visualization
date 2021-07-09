@@ -77,7 +77,7 @@ export default {
   name: "UvlFilterToolbar",
   computed: {
     methods(){
-      if(path === ROUTE_DOCUMENTS){
+      if(this.path === ROUTE_DOCUMENTS){
           return this.documentViewMethods;
       } else{
         return METHODS;

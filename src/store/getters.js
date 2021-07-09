@@ -55,6 +55,9 @@ export const finishedResults = state => {
 };
 
 export const resultsForSelectedMethod = (state, getters) => {
+  if (state.selectedMethod === METHODS[0].name){
+    return getters.finishedResults;
+  }
   return getters.finishedResults.filter(a => a.method === state.selectedMethod);
 };
 
