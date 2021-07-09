@@ -10,7 +10,6 @@
             label="Select Method"
             :dense="true"
             :disabled="loading"
-            @change="updateSelectedMethod"
         >
         </v-select>
       </v-flex>
@@ -25,7 +24,7 @@
             :dense="true"
             :disabled="loading"
             :loading="loading"
-            @change="updateSelectedResult"
+            @change="selectedResultChanged"
         >
         </v-select>
       </v-flex>
@@ -83,19 +82,33 @@ export default {
         return METHODS;
       }
     },
+    selectedResult: {
+      get(){
+        return this.$store.state.selectedResult;
+      },
+      set(newValue){
+        this.$store.commit(MUTATE_SELECTED_RESULT, newValue);
+      }
+    },
+    selectedMethod: {
+      get(){
+        return this.$store.state.selectedMethod;
+      },
+      set(newValue){
+        this.$store.commit(MUTATE_SELECTED_METHOD, newValue);
+      }
+    },
     ...mapGetters({
       resultsForMethod: 'resultsForSelectedMethod',
-      selectedResult: 'selectedResult',
       datasets: "datasets",
       documentViewMethods: "documentViewMethods"
     }),
   },
   data() {
     return {
+      selectedResultByDate: "",
       loading: this.$store.state.loadingResults,
       color: BLUE_FILL,
-      selectedMethod: "",
-      selectedResultByDate: "",
       path: this.$router.currentRoute.path,
       snackbarVisible: false,
       snackbarTimeout: SNACKBAR_DISPLAY_TIME,
@@ -103,7 +116,33 @@ export default {
       sortedResults: [],
     };
   },
+  created() {
+    if(this.selectedResult.started_at !== undefined){
+      this.selectedResultByDate = this.selectedResult.started_at;
+    }
+  },
+  watch: {
+    selectedResult: function () {
+      if (JSON.stringify(this.selectedResult) !== JSON.stringify({}) && this.selectedMethod === "") {
+        // implied this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedResult.method);
+        this.selectedMethod = this.selectedResult.method;
+      }
+
+      //  should be changed by change handler this.selectedResultByDate = this.selectedResult.started_at;
+
+      if(JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
+        if (!(this.datasets.includes(this.selectedResult["dataset_name"]))) {
+          this.displaySnackbar("Dataset is not in database anymore!");
+        } else {
+          loadDataset(this.$store, this.selectedResult["dataset_name"]);
+        }
+      }
+    }
+  },
   methods: {
+    selectedResultChanged(){
+      this.selectedResult = this.getSelectedResultFromDate(this.selectedResultByDate);
+    },
     showMethodFilter() {
       return (
           this.path === ROUTE_DOCUMENTS ||
@@ -116,21 +155,15 @@ export default {
           this.path === ROUTE_RESULTS
       );
     },
-    getSelectedResultFromDate () {
+    getSelectedResultFromDate (date) {
       let res = {};
       for (const r of this.resultsForMethod) {
-        if (r["started_at"] === this.selectedResultByDate) {
+        if (r["started_at"] === date) {
           res = r;
           break;
         }
       }
       return res;
-    },
-    updateSelectedMethod(){
-      this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedMethod);
-    },
-    updateSelectedResult() {
-      this.$store.commit(MUTATE_SELECTED_RESULT, this.getSelectedResultFromDate());
     },
     getResultItemText(item) {
       let n = "";
