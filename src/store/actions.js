@@ -1,6 +1,7 @@
 import axios from 'axios';
 import moment from "moment";
 import "moment/locale/de";
+import {ACTION_LOAD_RESULTS} from "./types";
 import {
   GET_ALL_DATASETS_ENDPOINT,
   GET_ALL_RESULTS_ENDPOINT,
@@ -99,10 +100,10 @@ export const actionLoadResults = state => {
 
 };
 export const actionFetchInitialConceptData = ({
-  state,
+  state, dispatch
 }) => {
   actionLoadDatasets(state);
-  actionLoadResults(state);
+  dispatch(ACTION_LOAD_RESULTS);
 };
 export const actionDeleteResult = ({
   state,
