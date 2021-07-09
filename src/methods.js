@@ -9,7 +9,8 @@ export const METHODS = [
         parameterComponentPath: "./form/EmptyParameter",
         resultComponentName: "empty-result",
         resultComponentPath: "./components/result/EmptyResult",
-        scoreFunction: getScoreEmpty
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: true
     },
     {
         name: "lda",
@@ -18,7 +19,9 @@ export const METHODS = [
         parameterComponentPath: "./form/LdaParameter",
         resultComponentName: "topic-detection-result",
         resultComponentPath: "./components/result/TopicDetectionResult",
-        scoreFunction: getScoreLDA
+        scoreFunction: getScoreLDA,
+        showInDocumentView: true
+
     },
     {
         name: "seanmf",
@@ -27,7 +30,8 @@ export const METHODS = [
         parameterComponentPath: "./form/SeanmfParameter",
         resultComponentName: "topic-detection-result",
         resultComponentPath: "./components/result/TopicDetectionResult",
-        scoreFunction: getScoreSeaNMF
+        scoreFunction: getScoreSeaNMF,
+        showInDocumentView: true
     },
     {
         name: "frequency-rbai",
@@ -36,7 +40,9 @@ export const METHODS = [
         parameterComponentPath: "./form/FrequencyRBAIParameter",
         resultComponentName: "rbai-result",
         resultComponentPath: "",
-        scoreFunction: getScoreEmpty
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: false
+
     },
     {
         name: "frequency-fcic",
@@ -45,7 +51,8 @@ export const METHODS = [
         parameterComponentPath: "./form/FrequencyFCICParameter",
         resultComponentName: "fcic-result",
         resultComponentPath: "",
-        scoreFunction: getScoreEmpty
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: false
     }
 ]
 

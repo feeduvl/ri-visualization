@@ -113,11 +113,6 @@ export const actionDeleteResult = ({
       state.results.splice(index, 1);
     }
   }
-  for (const index in state.filteredResults) {
-    if (state.filteredResults[index].started_at === payload.started_at) {
-      state.filteredResults.splice(index, 1);
-    }
-  }
 };
 export const actionEditResultName = ({
   state,
@@ -126,11 +121,6 @@ export const actionEditResultName = ({
   for (const index in state.results) {
     if (state.results[index].started_at === payload.started_at) {
       state.results[index].name = payload.name;
-    }
-  }
-  for (const index in state.filteredResults) {
-    if (state.filteredResults[index].started_at === payload.started_at) {
-      state.filteredResults[index].name = payload.name;
     }
   }
 };

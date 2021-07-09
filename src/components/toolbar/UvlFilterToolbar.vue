@@ -76,10 +76,18 @@ import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 export default {
   name: "UvlFilterToolbar",
   computed: {
+    methods(){
+      if(path === ROUTE_DOCUMENTS){
+          return this.documentViewMethods;
+      } else{
+        return METHODS;
+      }
+    },
     ...mapGetters({
       resultsForMethod: 'resultsForSelectedMethod',
       selectedResult: 'selectedResult',
       datasets: "datasets",
+      documentViewMethods: "documentViewMethods"
     }),
   },
   data() {
@@ -88,7 +96,6 @@ export default {
       color: BLUE_FILL,
       selectedMethod: "",
       selectedResultByDate: "",
-      methods: METHODS,
       path: this.$router.currentRoute.path,
       snackbarVisible: false,
       snackbarTimeout: SNACKBAR_DISPLAY_TIME,

@@ -243,7 +243,7 @@ export default {
   },
   computed: {
     component() {
-      return this.getMethodObj(this.selectedMethod).parameterComponentName;
+      return getMethodObj(this.selectedMethod).parameterComponentName;
     },
     selectedMethod: {
       get(){

@@ -1,3 +1,5 @@
+import {METHODS} from "../methods";
+
 export const getTopBarTitle = state => {
   return state.topBarTitle;
 };
@@ -42,6 +44,10 @@ export const selectedResult = state => {
 };
 export const selectedMethod = state => {
   return state.selectedMethod;
+};
+
+export const documentViewMethods = state => {
+  return METHODS.filter(a => a.showInDocumentView);
 };
 
 export const finishedResults = state => {
