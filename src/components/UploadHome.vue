@@ -23,7 +23,7 @@
             <v-btn small color="primary" :loading="loading" :disabled="loading" @click="uploadFile(fileDisplayName)">Upload</v-btn>
           </v-flex>
           <v-flex xs5>
-            <span :style="{'color': 'gray'}">Currently allowed file types: csv. The dataset will be saved with its filename. Uploading a dataset which name already exists will update the dataset. The delimiter is set to '|'.
+            <span :style="{'color': 'gray'}">Currently allowed file types: xlsx, csv and txt. The dataset will be saved with its filename. Uploading a dataset which name already exists will update the dataset. For csv and txt the delimiter is set to '|'.
             <br /> Note: FCIC and RBAI require UTF-8 compatible encodings. Please consider that any typographic errors and unexpected characters may lead to artifacts in the results.</span>
           </v-flex>
         </v-layout>
