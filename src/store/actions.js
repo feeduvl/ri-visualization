@@ -1,6 +1,7 @@
 import axios from 'axios';
 import moment from "moment";
 import "moment/locale/de";
+import {ACTION_LOAD_RESULTS, MUTATE_LOADING_RESULTS, MUTATE_RESULTS} from "./types";
 import {
   GET_ALL_DATASETS_ENDPOINT,
   GET_ALL_RESULTS_ENDPOINT,
@@ -14,7 +15,7 @@ import {
   MUTATE_TOP_BAR_LOGO,
   MUTATE_TOP_BAR_ALT_TEXT,
   MUTATE_FOOTER_TEXT,
-  MUTATE_TOP_BAR_LINK, MUTATE_FILTERED_RESULTS
+  MUTATE_TOP_BAR_LINK
 } from '@/store/types';
 
 export const actionFetchInitialData = ({
@@ -45,6 +46,8 @@ export const actionFetchInitialData = ({
     });
   });
 };
+
+/*
 export const actionFilterResults = ({
   state,
   commit
@@ -71,45 +74,38 @@ export const actionFilterResults = ({
   }
 
   commit(MUTATE_FILTERED_RESULTS, tmpFilteredResults);
-};
+};*/
+
 export const actionLoadDatasets = state => {
   axios
     .get(GET_ALL_DATASETS_ENDPOINT)
     .then(response => {
-      state.datasets =  response.data;
+      state.datasets = response.data;
     })
     .catch(e => {
       console.log("actions::actionLoadDatasets Error:" + e);
     });
 };
-export const actionLoadResults = state => {
-  state.loadingResults = true;
+export const actionLoadResults = ({commit}) => {
+
+  commit(MUTATE_LOADING_RESULTS, true);
   axios
     .get(GET_ALL_RESULTS_ENDPOINT)
     .then(response => {
-      state.results = response.data;
-
-      // Filter for finished runs
-      let _tmpFilteredResults = [];
-      for (let i = 0; i <  state.results.length; i++) {
-        if (state.results[i].status === "finished") {
-          _tmpFilteredResults.push(state.results[i]);
-        }
-      }
-
-      state.filteredResults = _tmpFilteredResults;
-      state.loadingResults = false;
+      console.log("actions::actionLoadResults got payload");
+      commit(MUTATE_RESULTS, response.data);
     })
     .catch(e => {
       console.log("actions::actionLoadResults Error:" + e);
-      state.loadingResults = false;
-    });
+    })
+    .finally(() => {commit(MUTATE_LOADING_RESULTS, false);});
+
 };
 export const actionFetchInitialConceptData = ({
-  state,
+  state, dispatch
 }) => {
   actionLoadDatasets(state);
-  actionLoadResults(state);
+  dispatch(ACTION_LOAD_RESULTS);
 };
 export const actionDeleteResult = ({
   state,
@@ -120,11 +116,6 @@ export const actionDeleteResult = ({
       state.results.splice(index, 1);
     }
   }
-  for (const index in state.filteredResults) {
-    if (state.filteredResults[index].started_at === payload.started_at) {
-      state.filteredResults.splice(index, 1);
-    }
-  }
 };
 export const actionEditResultName = ({
   state,
@@ -133,11 +124,6 @@ export const actionEditResultName = ({
   for (const index in state.results) {
     if (state.results[index].started_at === payload.started_at) {
       state.results[index].name = payload.name;
-    }
-  }
-  for (const index in state.filteredResults) {
-    if (state.filteredResults[index].started_at === payload.started_at) {
-      state.filteredResults[index].name = payload.name;
     }
   }
 };

@@ -2,7 +2,7 @@
 
     <v-container>
         <cloud :data="itemsList" :padding="padding" :fontSizeMapper="fontSizeMapper" :onWordClick="onWordClick" :rotate="rotate" :coloring="coloring" :colors="colors" />
-        <ECharts class="chart" :options="this.getHeatmapConfig()" auto-resize></ECharts>
+        <ECharts class="chart" :options="this.getHeatmapConfig" auto-resize></ECharts>
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Information gain on split',
             items:itemsList }"></ranked-list-result>
@@ -37,7 +37,11 @@
                 onWordClick: onWordCloudWordClicked,
             }
         },
-        methods: {
+        computed: {
+            ...mapGetters({
+                selectedResult: 'selectedResult'
+            }),
+
             getHeatmapConfig(){
 
                 console.log("FcicResult::getHeatmapConfig selected result: ");
@@ -57,43 +61,43 @@
 
                     title: {
                         text: "Concept Occurences in Input",
-                            top: "0",
-                            left: "center",
-                            right: "center"
+                        top: "0",
+                        left: "center",
+                        right: "center"
                     },
                     tooltip: {
                         position: "top"
                     },
                     animation: true,
-                        grid: {
+                    grid: {
                         top: "40",
-                            height: "70%",
-                            left: "90",
-                            right: "25",
-                            y: "10%"
+                        height: "70%",
+                        left: "90",
+                        right: "25",
+                        y: "10%"
                     },
                     xAxis: {
                         type: "category",
-                            data: concepts,
-                            splitArea: {
+                        data: concepts,
+                        splitArea: {
                             show: true
                         }
                     },
                     yAxis: {
                         type: "category",
-                            data: text_ids,
-                            splitArea: {
+                        data: text_ids,
+                        splitArea: {
                             show: true
                         }
                     },
                     visualMap: {
                         min: 0,
-                            max: 100,
-                            calculable: true,
-                            orient: "horizontal",
-                            left: "center",
-                            bottom: "0%",
-                            inRange: {
+                        max: 100,
+                        calculable: true,
+                        orient: "horizontal",
+                        left: "center",
+                        bottom: "0%",
+                        inRange: {
                             color: [BLUE_LIGHT, BLUE_DARK] //From smaller to bigger value ->
                         }
                     },
@@ -115,12 +119,7 @@
                             }
                         }]
                 }
-            }
-        },
-        computed: {
-            ...mapGetters({
-                selectedResult: 'selectedResult'
-            }),
+            },
 
             maxValue(){
                 return Math.max(...this.selectedResult.topics.information_gain);

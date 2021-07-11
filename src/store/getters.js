@@ -1,3 +1,5 @@
+import {METHODS} from "../methods";
+
 export const getTopBarTitle = state => {
   return state.topBarTitle;
 };
@@ -43,9 +45,22 @@ export const selectedResult = state => {
 export const selectedMethod = state => {
   return state.selectedMethod;
 };
-export const filteredResults = state => {
-  return state.filteredResults;
+
+export const documentViewMethods = state => {
+  return METHODS.filter(a => a.showInDocumentView);
 };
+
+export const finishedResults = state => {
+  return state.results.filter(a => a.status === "finished");
+};
+
+export const resultsForSelectedMethod = (state, getters) => {
+  if (state.selectedMethod === METHODS[0].name){
+    return [...getters.finishedResults].reverse();
+  }
+  return [...getters.finishedResults.filter(a => a.method === state.selectedMethod)].reverse();
+};
+
 export const loadingResults = state => {
   return state.loadingResults;
 };

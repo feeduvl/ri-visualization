@@ -65,8 +65,8 @@ export const mutateSelectedResult = (state, result) => {
 export const mutateLoadingResults = (state, status) => {
   state.loadingResults = status;
 };
-export const mutateFilteredResults = (state, results) => {
-  state.filteredResults = results;
+export const mutateLoadingDataset = (state, status) => {
+  state.loadingDataset = status;
 };
 export const mutateProjectTitle = (state, title) => {
   state.projectTitle = title;

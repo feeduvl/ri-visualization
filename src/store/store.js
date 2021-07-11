@@ -32,12 +32,11 @@ export const store = new Vuex.Store({
     // feed-uvl
     datasets: [],
     results: [],
-    filteredResults: [],
     selectedDataset: {},
     selectedResult: {},
     selectedConcept: "",
     selectedMethod: "",
-    loadingResults: true,
+    loadingResults: false,
     loadingDataset: false,
     selectedDatasetOutside: "",
   },
