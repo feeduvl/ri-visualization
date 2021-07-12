@@ -2,11 +2,15 @@
 
     <v-container>
         <cloud :data="itemsList" :padding="padding" :fontSizeMapper="fontSizeMapper" :onWordClick="onWordClick" :rotate="rotate" :coloring="coloring" :colors="colors" />
-        <ECharts class="chart" :options="this.getHeatmapConfig" auto-resize></ECharts>
-        <v-btn
+        <ECharts class="chart" :options="this.getHeatmapConfig()" auto-resize></ECharts>
+        <v-btn v-if="!showingDecisionTree"
                 elevation="2"
                 @click="showingDecisionTree=!showingDecisionTree"
         >Show Decision Tree</v-btn>
+        <v-btn v-if="showingDecisionTree"
+                                          elevation="2"
+                                          @click="showingDecisionTree=!showingDecisionTree"
+    >Hide Decision Tree</v-btn>
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Information gain on split',
             items:itemsList }"></ranked-list-result>
@@ -44,40 +48,6 @@
             }
         },
         methods: {
-
-            seriesData(){
-
-                let sd = []
-                let concepts = [];
-                let text_ids = [];
-                if(this.isValidResult){
-                    concepts = this.selectedResult.topics.concepts;
-                    text_ids = this.selectedResult.topics.text_ids;
-                    let text_occurences = this.selectedResult.topics.text_occurences;
-
-                    for (let doc = 0; doc < text_ids.length; doc++){
-                        for (let c = 0; c < concepts.length; c++){
-                            let occs = text_occurences[doc][c];
-                            sd.push([c, doc, occs]);
-                            if(occs > this.maxSeriesData){
-                                this.maxSeriesData = occs;
-                            }
-                        }
-                    }
-                    return sd;
-                } else {
-                    return []
-                }
-            },
-        },
-        computed: {
-            ...mapGetters({
-                selectedResult: 'selectedResult'
-            }),
-
-            isValidResult(){
-                return this.selectedResult && this.selectedResult.topics && this.selectedResult.topics.information_gain;
-            },
 
             getHeatmapConfig(){
 
@@ -151,6 +121,40 @@
                             }
                         }]
                 }
+            },
+
+            seriesData(){
+
+                let sd = []
+                let concepts = [];
+                let text_ids = [];
+                if(this.isValidResult){
+                    concepts = this.selectedResult.topics.concepts;
+                    text_ids = this.selectedResult.topics.text_ids;
+                    let text_occurences = this.selectedResult.topics.text_occurences;
+
+                    for (let doc = 0; doc < text_ids.length; doc++){
+                        for (let c = 0; c < concepts.length; c++){
+                            let occs = text_occurences[doc][c];
+                            sd.push([c, doc, occs]);
+                            if(occs > this.maxSeriesData){
+                                this.maxSeriesData = occs;
+                            }
+                        }
+                    }
+                    return sd;
+                } else {
+                    return []
+                }
+            },
+        },
+        computed: {
+            ...mapGetters({
+                selectedResult: 'selectedResult'
+            }),
+
+            isValidResult(){
+                return this.selectedResult && this.selectedResult.topics && this.selectedResult.topics.information_gain;
             },
 
             maxValue(){

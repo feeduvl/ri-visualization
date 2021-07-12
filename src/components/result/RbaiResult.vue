@@ -5,7 +5,7 @@
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Relevancy Score',
             items:itemsList }"></ranked-list-result>
-        <ECharts class="chart" :options="this.getHeatmapConfig" auto-resize></ECharts>
+        <ECharts class="chart" :options="this.getHeatmapConfig()" auto-resize></ECharts>
     </v-container>
 </template>
 
@@ -64,14 +64,6 @@
                     return []
                 }
             },
-
-        },
-        computed: {
-
-            isValidResult(){
-                return this.selectedResult && this.selectedResult.topics && this.selectedResult.topics.scores;
-            },
-
             getHeatmapConfig(){
 
                 let concepts = [];
@@ -144,6 +136,14 @@
                         }]
                 }
             },
+
+        },
+        computed: {
+
+            isValidResult(){
+                return this.selectedResult && this.selectedResult.topics && this.selectedResult.topics.scores;
+            },
+
             maxValue(){
                 if(!this.isValidResult){
                     return 0;
