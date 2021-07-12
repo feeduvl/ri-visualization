@@ -42,6 +42,10 @@
                 selectedResult: 'selectedResult'
             }),
 
+            isValidResult(){
+                return this.selectedResult && this.selectedResult.topics && this.selectedResult.topics.information_gain;
+            },
+
             getHeatmapConfig(){
 
                 console.log("FcicResult::getHeatmapConfig selected result: ");
@@ -122,9 +126,15 @@
             },
 
             maxValue(){
+                if(!this.isValidResult){
+                    return 0;
+                }
                 return Math.max(...this.selectedResult.topics.information_gain);
             },
             itemsList(){
+                if(!this.isValidResult){
+                    return [];
+                }
                 let sr = this.selectedResult;
                 const {concepts, information_gain, text_ids, text_occurences} = sr.topics;
                 let occs = getOccurenceDesc(text_ids, concepts, text_occurences);

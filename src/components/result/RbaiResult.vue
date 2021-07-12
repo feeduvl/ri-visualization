@@ -38,26 +38,31 @@
 
             }
         },
-
         computed: {
+
+            isValidResult(){
+                return this.selectedResult && this.selectedResult.topics && this.selectedResult.topics.scores;
+            },
 
             getHeatmapConfig(){
 
-                console.log("RbaiResult::getHeatmapConfig selected result: ");
-                console.log(this.selectedResult);
-
                 let seriesdata = []
-                const {concepts, text_ids, text_occurences} = this.selectedResult.topics;
-                for (let doc = 0; doc < text_ids.length; doc++){
-                    for (let c = 0; c < concepts.length; c++){
-                        seriesdata.push([c, doc, text_occurences[doc][c]]);
+                let concepts = [];
+                let text_ids = [];
+
+                if(this.isValidResult){
+                    concepts = this.selectedResult.topics.concepts;
+                    text_ids = this.selectedResult.topics.text_ids;
+                    let text_occurences = this.selectedResult.topics.text_occurences;
+
+                    for (let doc = 0; doc < text_ids.length; doc++){
+                        for (let c = 0; c < concepts.length; c++){
+                            seriesdata.push([c, doc, text_occurences[doc][c]]);
+                        }
                     }
                 }
 
-                console.log(seriesdata);
-
                 return {
-
                     title: {
                         text: "Concept Occurences in Input",
                         top: "0",
@@ -120,12 +125,18 @@
                 }
             },
             maxValue(){
+                if(!this.isValidResult){
+                    return 0;
+                }
                 return Math.max(...this.selectedResult.topics.scores);
             },
             ...mapGetters({
                 selectedResult: 'selectedResult'
             }),
             itemsList(){
+                if(!this.isValidResult){
+                    return [];
+                }
                 let sr = this.selectedResult;
                 const {concepts, scores, text_ids, text_occurences} = sr.topics;
                 let occs = getOccurenceDesc(text_ids, concepts, text_occurences);
