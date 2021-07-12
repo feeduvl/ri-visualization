@@ -99,7 +99,7 @@ export default {
       }
     },
     ...mapGetters({
-      resultsForMethod: 'resultsForSelectedMethod',
+      resultsForMethod: 'finishedResultsForSelectedMethod',
       datasets: "datasets",
       documentViewMethods: "documentViewMethods"
     }),
