@@ -43,14 +43,7 @@
                 showingDecisionTree: false
             }
         },
-        computed: {
-            ...mapGetters({
-                selectedResult: 'selectedResult'
-            }),
-
-            isValidResult(){
-                return this.selectedResult && this.selectedResult.topics && this.selectedResult.topics.information_gain;
-            },
+        methods: {
 
             seriesData(){
 
@@ -75,6 +68,15 @@
                 } else {
                     return []
                 }
+            },
+        },
+        computed: {
+            ...mapGetters({
+                selectedResult: 'selectedResult'
+            }),
+
+            isValidResult(){
+                return this.selectedResult && this.selectedResult.topics && this.selectedResult.topics.information_gain;
             },
 
             getHeatmapConfig(){
@@ -135,7 +137,7 @@
                         {
                             name: "Occurences:",
                             type: "heatmap",
-                            data: this.seriesData,
+                            data: this.seriesData(),
                             label: {
                                 normal: {
                                     show: false

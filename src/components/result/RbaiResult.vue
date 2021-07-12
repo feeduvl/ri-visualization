@@ -38,11 +38,7 @@
                 maxSeriesData: 0
             }
         },
-        computed: {
-
-            isValidResult(){
-                return this.selectedResult && this.selectedResult.topics && this.selectedResult.topics.scores;
-            },
+        methods: {
 
             seriesData(){
 
@@ -67,6 +63,13 @@
                 } else {
                     return []
                 }
+            },
+
+        },
+        computed: {
+
+            isValidResult(){
+                return this.selectedResult && this.selectedResult.topics && this.selectedResult.topics.scores;
             },
 
             getHeatmapConfig(){
@@ -126,7 +129,7 @@
                         {
                             name: "Occurences:",
                             type: "heatmap",
-                            data: this.seriesData,
+                            data: this.seriesData(),
                             label: {
                                 normal: {
                                     show: false
