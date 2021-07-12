@@ -48,18 +48,21 @@
 
             getHeatmapConfig(){
 
-                console.log("FcicResult::getHeatmapConfig selected result: ");
-                console.log(this.selectedResult);
-
                 let seriesdata = []
-                const {concepts, text_ids, text_occurences} = this.selectedResult.topics;
-                for (let doc = 0; doc < text_ids.length; doc++){
-                    for (let c = 0; c < concepts.length; c++){
-                        seriesdata.push([c, doc, text_occurences[doc][c]]);
+                let concepts = [];
+                let text_ids = [];
+
+                if(this.isValidResult){
+                    concepts = this.selectedResult.topics.concepts;
+                    text_ids = this.selectedResult.topics.text_ids;
+                    let text_occurences = this.selectedResult.topics.text_occurences;
+
+                    for (let doc = 0; doc < text_ids.length; doc++){
+                        for (let c = 0; c < concepts.length; c++){
+                            seriesdata.push([c, doc, text_occurences[doc][c]]);
+                        }
                     }
                 }
-
-                console.log(seriesdata);
 
                 return {
 
