@@ -11,7 +11,20 @@
                             clearable
                     ></v-text-field>
                 </v-flex>
-
+                <v-flex>
+                    <v-radio-group v-model="corpus_dataset_name" row>
+                        <v-radio
+                                :key="'Small'"
+                                :label="'Training set: Small'"
+                                :value="'Small'"
+                        ></v-radio>
+                        <v-radio
+                            :key="'Medium'"
+                            :label="'Training set: Medium'"
+                            :value="'Medium'"
+                    ></v-radio>
+                    </v-radio-group>
+                </v-flex>
                 <v-flex>
                     <v-text-field
                             v-model="run_name"
@@ -64,6 +77,7 @@
             max_num_concepts: 20,
             run_name: "",
             fix_random: false,
+            corpus_dataset_name: "Small"
         }),
         methods: {
             async startRun() {
@@ -104,7 +118,8 @@
                     max_num_concepts: this.max_num_concepts,
                     name: this.run_name,
                     term_length: 1,
-                    command: "run_algorithm"
+                    command: "run_algorithm",
+                    corpus_dataset_name: this.corpus_dataset_name
                 });
             },
         },
