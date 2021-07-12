@@ -9,23 +9,43 @@
             tree: Array
         },
         mounted() {
-            this.$loadScript("dashboard/raphael.js").then(
-                ()=>{
-                    this.$loadScript("dashboard/Treant.js").then(this.addTree)
-                });
-        },
-        created(){
-
+            this.loadDependencies();
         },
         methods: {
+            loadAndThen(p, deps, start){
+                let dep = deps.pop();
+                //console.log("Loading: "+dep);
+                let promise = p.then(() => this.$loadScript(dep)).catch(() => console.error("Couldn't load dependency: "+dep));
+                if(deps.length > 0){
+                    return this.loadAndThen(promise, deps, start);
+                } else {
+                    return promise.then(() => {
+                        //console.log("Finished loading dependencies: "+(Date.now() - start));
+                        this.addTree();
+                    }).catch((e) => console.error("Failed to run addTree: "+e));
+                }
+            },
+            loadDependencies(){
+                const start = Date.now();
+                //console.log('loading dependencies: '+start);
+                let deps = ["dashboard/jquery.min.js",
+                    "dashboard/jquery.mousewheel.js",
+                    "dashboard/jquery.easing.js",
+                    "dashboard/raphael.js",
+                    "dashboard/perfect-scrollbar.js",
+                    "dashboard/Treant.js"];
+                deps = deps.reverse();
+                let dep = deps.pop();
+                //console.log("Loading: "+dep);
+                return this.loadAndThen(this.$loadScript(dep), deps, start);
+            },
             addTree() {
                 const leaf_input = "dec-tree__leaf_node_input";
                 const leaf_corpus = "dec-tree__leaf_node_corpus";
 
                 let config = {
                     container: "#tree-simple",
-                    nodeAlign: "BOTTOM",
-
+                    nodeAlign: "CENTER",
                     connectors: {
                         type: 'step'
                     },
@@ -55,18 +75,19 @@
                     nodes.push(obj);
                 }
                 //console.log(nodes);
-                new window.Treant(nodes);
+                window.Treant(nodes);
             }
         }
     }
 </script>
 <style>
-    .chart { height: 550px; margin: 5px; width: 900px;  }
     .Treant > .node {  }
     .Treant > p { font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-weight: bold; font-size: 12px; }
     .node-name { font-weight: bold;}
 
     #tree-simple {
+        width: 100%;
+        height: 100%;
         position: absolute;
     }
 

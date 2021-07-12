@@ -35,7 +35,7 @@
                 colors: CLOUD,
                 padding: 5,
                 onWordClick: onWordCloudWordClicked,
-
+                maxSeriesData: 0
             }
         },
         computed: {
@@ -44,12 +44,11 @@
                 return this.selectedResult && this.selectedResult.topics && this.selectedResult.topics.scores;
             },
 
-            getHeatmapConfig(){
+            seriesData(){
 
-                let seriesdata = []
+                let sd = []
                 let concepts = [];
                 let text_ids = [];
-
                 if(this.isValidResult){
                     concepts = this.selectedResult.topics.concepts;
                     text_ids = this.selectedResult.topics.text_ids;
@@ -57,9 +56,27 @@
 
                     for (let doc = 0; doc < text_ids.length; doc++){
                         for (let c = 0; c < concepts.length; c++){
-                            seriesdata.push([c, doc, text_occurences[doc][c]]);
+                            let occs = text_occurences[doc][c];
+                            sd.push([c, doc, occs]);
+                            if(occs > this.maxSeriesData){
+                                this.maxSeriesData = occs;
+                            }
                         }
                     }
+                    return sd;
+                } else {
+                    return []
+                }
+            },
+
+            getHeatmapConfig(){
+
+                let concepts = [];
+                let text_ids = [];
+
+                if(this.isValidResult){
+                    concepts = this.selectedResult.topics.concepts;
+                    text_ids = this.selectedResult.topics.text_ids;
                 }
 
                 return {
@@ -96,7 +113,7 @@
                     },
                     visualMap: {
                         min: 0,
-                        max: 100,
+                        max: this.maxSeriesData,
                         calculable: true,
                         orient: "horizontal",
                         left: "center",
@@ -109,7 +126,7 @@
                         {
                             name: "Occurences:",
                             type: "heatmap",
-                            data: seriesdata,
+                            data: this.seriesData,
                             label: {
                                 normal: {
                                     show: false
