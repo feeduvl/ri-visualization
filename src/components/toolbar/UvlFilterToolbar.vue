@@ -142,7 +142,9 @@ export default {
 
   methods: {
     selectedResultChanged(){
-      this.selectedResult = this.getSelectedResultFromDate(this.selectedResultByDate);
+      if(this.selectedResultByDate !== ""){
+        this.selectedResult = this.getSelectedResultFromDate(this.selectedResultByDate);
+      }
     },
     showMethodFilter() {
       return (
