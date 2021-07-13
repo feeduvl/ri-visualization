@@ -251,6 +251,9 @@ export default {
       },
       set(newValue){
         this.$store.commit(MUTATE_SELECTED_METHOD, newValue);
+        if (this.$store.state.selectedResult.method !== newValue) {
+          this.$store.commit(MUTATE_SELECTED_RESULT, {})
+        }
       }
     },
     ...mapGetters({
