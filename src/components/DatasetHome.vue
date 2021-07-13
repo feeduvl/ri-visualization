@@ -182,8 +182,13 @@ export default {
       this.data = documents;
     },
     showDeleteDataset(dataset) {
-      this.datasetToDelete = dataset;
-      this.deleteSnackbarVisible = true;
+      if (this.selectedDataset !== "") {
+        this.datasetToDelete = dataset;
+        this.deleteSnackbarVisible = true;
+      } else {
+        this.displaySnackbar("Select a dataset first!");
+        setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
+      }
     },
     displaySnackbar(message, timeout=0) {
       this.snackbarText = message;
