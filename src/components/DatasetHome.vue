@@ -65,7 +65,7 @@
           small
           :loading="deleteBtn"
           :disabled="deleteBtn"
-          @click="deleteDataset"
+          @click="showDataset(selectedDataset)"
       >
         Confirm
       </v-btn>
