@@ -127,6 +127,7 @@ export default {
       if (JSON.stringify(this.selectedResult) !== JSON.stringify({}) && this.selectedMethod === "") {
         // implied this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedResult.method);
         this.selectedMethod = this.selectedResult.method;
+        this.selectedResultByDate = this.selectedResult.started_at;
       }
       if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
         this.selectedResultByDate = this.selectedResult.started_at;
