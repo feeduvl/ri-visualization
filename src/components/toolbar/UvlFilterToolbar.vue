@@ -120,6 +120,7 @@ export default {
   created() {
     if(this.selectedResult.started_at !== undefined){
       this.selectedResultByDate = this.selectedResult.started_at;
+      this.selectedMethod = this.selectedResult.method;
     }
   },
   watch: {
