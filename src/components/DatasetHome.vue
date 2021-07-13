@@ -91,6 +91,7 @@ import {
 import { mapGetters } from 'vuex'
 import {ACTION_LOAD_DATASETS, MUTATE_SELECTED_DATASET_OUTSIDE} from "@/store/types";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
+import {loadDatasets} from "@/RESTcalls";
 
 export default {
   name: "DatasetHome",
@@ -206,7 +207,7 @@ export default {
           .delete(DELETE_DATASET_ENDPOINT(this.datasetToDelete))
           .then(response => {
             if (response.status > 200 || response.status < 300) {
-              this.$store.dispatch(ACTION_LOAD_DATASETS);
+              loadDatasets(this.$store);
               this.displaySnackbar(response.data.message);
               this.datasetToDelete = "";
             } else {
