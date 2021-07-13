@@ -19,17 +19,9 @@
         </v-flex>
         <v-flex xs5/>
         <v-flex xs2>
-          <v-btn small outline color="error" @click="deleteDataset()">
-            <!-- <v-icon>clear</v-icon> -->
+          <v-btn small outline color="error" @click="deleteDataset()" id="delete_button">
             Delete Dataset
           </v-btn>
-          <v-checkbox
-              v-model="confirm_delete"
-              :label="`Confirm Deletion`"
-              color="error"
-              :loading="btnLoading"
-              :disabled="btnLoading"
-          ></v-checkbox>
         </v-flex>
       </v-layout>
       <v-data-table
@@ -61,6 +53,31 @@
         Close
       </v-btn>
     </v-snackbar>
+    <v-snackbar
+        v-model="deleteSnackbarVisible"
+        :timeout="deleteSnackbarTimeout"
+        :top=true
+    >
+      Delete Dataset {{ datasetToDelete }}?
+
+      <v-btn
+          color="error"
+          small
+          :loading="deleteBtn"
+          :disabled="deleteBtn"
+          @click="deleteDataset"
+      >
+        Confirm
+      </v-btn>
+
+      <v-btn
+          color="primary"
+          small
+          @click="deleteSnackbarVisible = false"
+      >
+        Cancel
+      </v-btn>
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -72,8 +89,7 @@ import {
   DELETE_DATASET_ENDPOINT
 } from "@/RESTconf";
 import { mapGetters } from 'vuex'
-import {loadDatasets} from "@/RESTcalls";
-import {MUTATE_SELECTED_DATASET_OUTSIDE} from "@/store/types";
+import {ACTION_LOAD_DATASETS, MUTATE_SELECTED_DATASET_OUTSIDE} from "@/store/types";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 
 export default {
@@ -106,11 +122,14 @@ export default {
       snackbarVisible: false,
       snackbarTimeout: 0,
       snackbarText: "",
+      deleteSnackbarVisible: false,
+      deleteSnackbarTimeout: 0,
+      datasetToDelete: "",
+      deleteBtn: false,
       loading: false,
       btnLoading: false,
       data: [],
       cardTableTitle: "Dataset Content",
-      confirm_delete: false,
       pagination: {
         sortBy: "number",
         descending: false,
@@ -162,6 +181,10 @@ export default {
       }
       this.data = documents;
     },
+    showDeleteDataset(dataset) {
+      this.datasetToDelete = dataset;
+      this.deleteSnackbarVisible = true;
+    },
     displaySnackbar(message, timeout=0) {
       this.snackbarText = message;
       this.snackbarVisible = true;
@@ -172,29 +195,28 @@ export default {
       this.snackbarText = "";
       this.snackbarTimeout = 0;
     },
-    async deleteDataset() {
-      if (this.confirm_delete) {
-        this.btnLoading = true;
-        axios
-            .delete(DELETE_DATASET_ENDPOINT(this.selectedDataset))
-            .then(response => {
-              if (response.status > 200 || response.status < 300) {
-                this.updateTable([]);
-                loadDatasets(this.$store);
-                this.displaySnackbar(response.data.message);
-              } else {
-                this.displaySnackbar("Error with file deletion!");
-              }
-            })
-            .catch(e => {
-              this.errors.push(e);
-              this.displaySnackbar("Could not contact backend!");
-            });
-        this.confirm_delete = false;
-        setTimeout(() => {  this.btnLoading = false; }, 1100);
-      } else {
-        this.displaySnackbar("Please confirm deletion.", SNACKBAR_DISPLAY_TIME);
-      }
+    deleteDataset() {
+      this.deleteBtn = true;
+      axios
+          .delete(DELETE_DATASET_ENDPOINT(this.datasetToDelete))
+          .then(response => {
+            if (response.status > 200 || response.status < 300) {
+              this.$store.dispatch(ACTION_LOAD_DATASETS);
+              this.displaySnackbar(response.data.message);
+              this.datasetToDelete = "";
+            } else {
+              this.displaySnackbar("Error with file deletion!");
+            }
+          })
+          .catch(e => {
+            this.errors.push(e);
+            this.displaySnackbar("Could not contact backend!");
+          })
+          .finally( () => {
+            this.deleteBtn = false;
+            this.deleteSnackbarVisible = false;
+            setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
+          });
     },
   },
   mounted() {
@@ -278,5 +300,9 @@ td {
 
 .anti-margin {
   margin-bottom: 0px !important;
+}
+
+#delete_button {
+  margin-top: 22px;
 }
 </style>

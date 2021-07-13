@@ -216,7 +216,7 @@ export default {
                 this.displaySnackbar(response.data.message);
                 this.deleteBtn = false;
                 this.deleteSnackbarVisible = false;
-                this.datasetToDelete = {};
+                this.datasetToDelete = "";
                 setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
               } else {
                 this.displaySnackbar("Error with file deletion!");
