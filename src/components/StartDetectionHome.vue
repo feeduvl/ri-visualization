@@ -20,7 +20,7 @@
           </v-flex>
           <v-flex xs1/>
           <v-flex xs3 id="service-status">
-            <b>Status: <span :style="{'color': serviceColor}" >{{ serviceStatus }}</span></b>
+            <b>Status: <span :style="{'color': serviceColor}">{{ serviceStatus }}</span></b>
           </v-flex>
           <v-flex xs1/>
           <v-flex xs3>
@@ -75,12 +75,16 @@
       >
         <template slot="items" slot-scope="props">
           <tr>
-            <td style="text-align:center">{{ props.item.started_at.replace("Z", "").replace("T", " ").substring(0, 19) }}</td>
+            <td style="text-align:center">{{
+                props.item.started_at.replace("Z", "").replace("T", " ").substring(0, 19)
+              }}
+            </td>
             <td>{{ getDisplayName(props.item.method) }}</td>
             <td>{{ props.item.dataset_name }}</td>
             <td>{{ displayParameter(props.item.params) }}</td>
             <td>{{ displayRunName(props.item.name) }}</td>
-            <td><span :style="{'color': getStatusColor(props.item.status)}" >{{ props.item.status.toUpperCase() }}</span></td>
+            <td><span :style="{'color': getStatusColor(props.item.status)}">{{ props.item.status.toUpperCase() }}</span>
+            </td>
             <td>{{ displayScore(props.item) }}</td>
             <td><span v-if="props.item.status !== 'scheduled' && props.item.status !== 'started'">
               <v-tooltip bottom>
@@ -219,7 +223,7 @@ import axios from "axios";
 import "moment/locale/de";
 import {GREEN_FILL, RED_FILL, GRAY, PRIMARY} from "@/colors";
 import {DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT} from "@/RESTconf";
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import {getMethodObj, METHODS} from "@/methods";
 import {
   ACTION_DELETE_RESULT,
@@ -245,10 +249,10 @@ export default {
       return getMethodObj(this.selectedMethod).parameterComponentName;
     },
     selectedMethod: {
-      get(){
+      get() {
         return this.$store.state.selectedMethod;
       },
-      set(newValue){
+      set(newValue) {
         this.$store.commit(MUTATE_SELECTED_METHOD, newValue);
         if (this.$store.state.selectedResult.method !== newValue) {
           this.$store.commit(MUTATE_SELECTED_RESULT, {})
@@ -272,266 +276,266 @@ export default {
       }
     }
   },
-    data() {
-      return {
-        key: this.$route.path,
-        selectedDataset: "",
-        serviceStatus: "NA",
-        serviceColor: GRAY,
-        runMethods: METHODS,
-        search: "",
-        pagination: {
-          sortBy: "started_at",
-          descending: true,
+  data() {
+    return {
+      key: this.$route.path,
+      selectedDataset: "",
+      serviceStatus: "NA",
+      serviceColor: GRAY,
+      runMethods: METHODS,
+      search: "",
+      pagination: {
+        sortBy: "started_at",
+        descending: true,
+      },
+      tableHeaders: [
+        {
+          text: "Date",
+          align: "center",
+          sortable: true,
+          width: "10%",
+          value: "started_at",
+          filterable: false,
         },
-        tableHeaders: [
-          {
-            text: "Date",
-            align: "center",
-            sortable: true,
-            width: "10%",
-            value: "started_at",
-            filterable: false,
-          },
-          {
-            text: "Method",
-            align: "left",
-            sortable: false,
-            value: "method",
-            width: "9%",
-            filterable: false,
-          },
-          {
-            text: "Dataset",
-            align: "left",
-            sortable: false,
-            value: "dataset_name",
-            width: "9%",
-            filterable: false,
-          },
-          {
-            text: "Parameters",
-            align: "left",
-            sortable: false,
-            value: "params",
-            width: "40%",
-            filterable: false,
-          },
-          {
-            text: "Name",
-            align: "left",
-            sortable: false,
-            value: "name",
-            width: "10%",
-            filterable: true,
-          },
-          {
-            text: "Status",
-            align: "left",
-            sortable: false,
-            value: "status",
-            width: "12%",
-            filterable: false,
-          },
-          {
-            text: "Score",
-            align: "left",
-            // Change to 'false' and change the value, when there are new methods that do not use topic coherence as metric
-            sortable: true,
-            value: "metrics.total_coherence",
-            width: "10%",
-          },
-          {
-            text: "Actions",
-            align: "center",
-            sortable: false,
-            value: 'actions',
-            width: "12%",
-          },
-        ],
-        errors: [],
-        cardTableTitle: "Last Runs",
-        rawData: [],
-        resultToDelete: {},
-        resultToEdit: {},
-        deleteSnackbarVisible: false,
-        editDialogVisible: false,
-        newResultName: "",
-        deleteBtn: false,
-        editBtn: false,
-        snackbarVisible: false,
-        deleteSnackbarTimeout: 0,
-        snackbarText: "",
-        snackbarTimeout: 0,
-      };
+        {
+          text: "Method",
+          align: "left",
+          sortable: false,
+          value: "method",
+          width: "9%",
+          filterable: false,
+        },
+        {
+          text: "Dataset",
+          align: "left",
+          sortable: false,
+          value: "dataset_name",
+          width: "9%",
+          filterable: false,
+        },
+        {
+          text: "Parameters",
+          align: "left",
+          sortable: false,
+          value: "params",
+          width: "40%",
+          filterable: false,
+        },
+        {
+          text: "Name",
+          align: "left",
+          sortable: false,
+          value: "name",
+          width: "10%",
+          filterable: true,
+        },
+        {
+          text: "Status",
+          align: "left",
+          sortable: false,
+          value: "status",
+          width: "12%",
+          filterable: false,
+        },
+        {
+          text: "Score",
+          align: "left",
+          // Change to 'false' and change the value, when there are new methods that do not use topic coherence as metric
+          sortable: true,
+          value: "metrics.total_coherence",
+          width: "10%",
+        },
+        {
+          text: "Actions",
+          align: "center",
+          sortable: false,
+          value: 'actions',
+          width: "12%",
+        },
+      ],
+      errors: [],
+      cardTableTitle: "Last Runs",
+      rawData: [],
+      resultToDelete: {},
+      resultToEdit: {},
+      deleteSnackbarVisible: false,
+      editDialogVisible: false,
+      newResultName: "",
+      deleteBtn: false,
+      editBtn: false,
+      snackbarVisible: false,
+      deleteSnackbarTimeout: 0,
+      snackbarText: "",
+      snackbarTimeout: 0,
+    };
+  },
+  methods: {
+    showResult(item) {
+      this.$store.commit(MUTATE_SELECTED_RESULT, item);
+      this.updateTheme("Detection Results", THEME_UVL)
+      this.$router.push("/results");
     },
-    methods: {
-      showResult(item) {
-        this.$store.commit(MUTATE_SELECTED_RESULT, item);
-        this.updateTheme("Detection Results", THEME_UVL)
-        this.$router.push("/results");
-      },
-      showEditName(item) {
-        this.resultToEdit = item;
-        this.newResultName = item.name;
-        this.editDialogVisible = true;
-      },
-      editName() {
-        this.editBtn = true;
-        this.resultToEdit.name = this.newResultName;
-        axios.post(POST_UPDATE_RESULT_NAME_ENDPOINT, {
-          name: this.resultToEdit.name,
-          started_at: this.resultToEdit.started_at
-        })
-                .then(response => {
-                  if (response.status > 200 || response.status < 300) {
-                    this.displaySnackbar("Name edited");
-                    this.editBtn = false;
-                    this.editDialogVisible = false;
-                    this.$store.dispatch(ACTION_EDIT_RESULT_NAME, this.resultToEdit);
-                    this.resultToEdit = {};
-                    this.newResultName = "";
-                    setTimeout(() => {
-                      this.snackbarVisible = false;
-                    }, SNACKBAR_DISPLAY_TIME);
-                  } else {
-                    this.displaySnackbar("Error with result name edit!");
-                    this.editBtn = false;
-                    this.editDialogVisible = false;
-                    setTimeout(() => {
-                      this.snackbarVisible = false;
-                    }, SNACKBAR_DISPLAY_TIME);
-                  }
-                })
-                .catch(e => {
-                  this.errors.push(e);
-                  console.log(e);
-                  this.displaySnackbar("Could not contact backend!");
-                  this.editBtn = false;
-                  this.editDialogVisible = false;
-                  setTimeout(() => {
-                    this.snackbarVisible = false;
-                  }, SNACKBAR_DISPLAY_TIME);
-                })
-      },
-      showDeleteResult(item) {
-        this.resultToDelete = item;
-        this.deleteSnackbarVisible = true;
-      },
-      deleteResult() {
-        this.deleteBtn = true;
-        axios.delete(DELETE_RESULT_ENDPOINT(this.resultToDelete.started_at))
-                .then(response => {
-                  if (response.status > 200 || response.status < 300) {
-                    this.displaySnackbar(response.data.message);
-                    this.deleteBtn = false;
-                    this.deleteSnackbarVisible = false;
-                    this.$store.dispatch(ACTION_DELETE_RESULT, this.resultToDelete);
-                    this.resultToDelete = {};
-                    setTimeout(() => {
-                      this.snackbarVisible = false;
-                    }, SNACKBAR_DISPLAY_TIME);
-                  } else {
-                    this.displaySnackbar("Error with result deletion!");
-                    this.deleteBtn = false;
-                    this.deleteSnackbarVisible = false;
-                    setTimeout(() => {
-                      this.snackbarVisible = false;
-                    }, SNACKBAR_DISPLAY_TIME);
-                  }
-                })
-                .catch(e => {
-                  this.errors.push(e);
-                  this.displaySnackbar("Could not contact backend!");
-                  this.deleteBtn = false;
-                  this.deleteSnackbarVisible = false;
-                  setTimeout(() => {
-                    this.snackbarVisible = false;
-                  }, SNACKBAR_DISPLAY_TIME);
-                })
-      },
-      displaySnackbar(message) {
-        this.snackbarText = message;
-        this.snackbarVisible = true;
-      },
-      closeSnackbar() {
-        this.snackbarVisible = false;
-        this.snackbarText = "";
-      },
-      updateTheme(title, theme) {
-        if (theme !== "") {
-          setTheme(title, theme, this.$store);
-        }
-      },
-      getStatusColor(status) {
-        let color;
-        if (status === "finished") {
-          color = GREEN_FILL;
-        } else if (status === "failed") {
-          color = RED_FILL;
-        } else if (status === "started") {
-          color = PRIMARY;
-        } else {
-          color = GRAY;
-        }
-        return color;
-      },
-      async checkServiceStatus(service) {
-        this.updateStatus("checking");
-        axios
-                .get(GET_SERVICE_STATUS_ENDPOINT(service))
-                .then(response => {
-                  if (response.data !== null) {
-                    status = response.data.status;
-                    this.updateStatus(status);
-                  } else {
-                    status = "offline";
-                    this.updateStatus(status);
-                  }
-                })
-                .catch(e => {
-                  status = "offline"
-                  this.updateStatus(status);
-                  this.errors.push(e);
-                });
-      },
-      updateStatus(status) {
-        if (status === "operational") {
-          this.serviceStatus = "Running";
-          this.serviceColor = GREEN_FILL;
-        } else if (status === "checking") {
-          this.serviceStatus = "Checking";
-          this.serviceColor = GRAY;
-        } else {
-          this.serviceStatus = "Offline";
-          this.serviceColor = RED_FILL;
-        }
-      },
-      displayParameter(params) {
-        return (JSON.stringify(params).replace("{", "").replace("}", "")
-                .replaceAll('"', "").replaceAll(",", ", "));
-      },
-      displayScore(item) {
-        const isMethod = (element) => element.name === item.method;
-        return METHODS[METHODS.findIndex(isMethod)].scoreFunction(item);
-      },
-      displayRunName(name) {
-        if (name === "") {
-          return "-";
-        } else {
-          return name;
-        }
-      },
-      getDisplayName(method) {
-        return getMethodObj(method).displayName;
-      },
-      reloadResults() {
-        reloadResults(this.$store);
-      },
+    showEditName(item) {
+      this.resultToEdit = item;
+      this.newResultName = item.name;
+      this.editDialogVisible = true;
     },
-    mounted() {
-    }
+    editName() {
+      this.editBtn = true;
+      this.resultToEdit.name = this.newResultName;
+      axios.post(POST_UPDATE_RESULT_NAME_ENDPOINT, {
+        name: this.resultToEdit.name,
+        started_at: this.resultToEdit.started_at
+      })
+          .then(response => {
+            if (response.status > 200 || response.status < 300) {
+              this.displaySnackbar("Name edited");
+              this.editBtn = false;
+              this.editDialogVisible = false;
+              this.$store.dispatch(ACTION_EDIT_RESULT_NAME, this.resultToEdit);
+              this.resultToEdit = {};
+              this.newResultName = "";
+              setTimeout(() => {
+                this.snackbarVisible = false;
+              }, SNACKBAR_DISPLAY_TIME);
+            } else {
+              this.displaySnackbar("Error with result name edit!");
+              this.editBtn = false;
+              this.editDialogVisible = false;
+              setTimeout(() => {
+                this.snackbarVisible = false;
+              }, SNACKBAR_DISPLAY_TIME);
+            }
+          })
+          .catch(e => {
+            this.errors.push(e);
+            console.log(e);
+            this.displaySnackbar("Could not contact backend!");
+            this.editBtn = false;
+            this.editDialogVisible = false;
+            setTimeout(() => {
+              this.snackbarVisible = false;
+            }, SNACKBAR_DISPLAY_TIME);
+          })
+    },
+    showDeleteResult(item) {
+      this.resultToDelete = item;
+      this.deleteSnackbarVisible = true;
+    },
+    deleteResult() {
+      this.deleteBtn = true;
+      axios.delete(DELETE_RESULT_ENDPOINT(this.resultToDelete.started_at))
+          .then(response => {
+            if (response.status > 200 || response.status < 300) {
+              this.displaySnackbar(response.data.message);
+              this.deleteBtn = false;
+              this.deleteSnackbarVisible = false;
+              this.$store.dispatch(ACTION_DELETE_RESULT, this.resultToDelete);
+              this.resultToDelete = {};
+              setTimeout(() => {
+                this.snackbarVisible = false;
+              }, SNACKBAR_DISPLAY_TIME);
+            } else {
+              this.displaySnackbar("Error with result deletion!");
+              this.deleteBtn = false;
+              this.deleteSnackbarVisible = false;
+              setTimeout(() => {
+                this.snackbarVisible = false;
+              }, SNACKBAR_DISPLAY_TIME);
+            }
+          })
+          .catch(e => {
+            this.errors.push(e);
+            this.displaySnackbar("Could not contact backend!");
+            this.deleteBtn = false;
+            this.deleteSnackbarVisible = false;
+            setTimeout(() => {
+              this.snackbarVisible = false;
+            }, SNACKBAR_DISPLAY_TIME);
+          })
+    },
+    displaySnackbar(message) {
+      this.snackbarText = message;
+      this.snackbarVisible = true;
+    },
+    closeSnackbar() {
+      this.snackbarVisible = false;
+      this.snackbarText = "";
+    },
+    updateTheme(title, theme) {
+      if (theme !== "") {
+        setTheme(title, theme, this.$store);
+      }
+    },
+    getStatusColor(status) {
+      let color;
+      if (status === "finished") {
+        color = GREEN_FILL;
+      } else if (status === "failed") {
+        color = RED_FILL;
+      } else if (status === "started") {
+        color = PRIMARY;
+      } else {
+        color = GRAY;
+      }
+      return color;
+    },
+    async checkServiceStatus(service) {
+      this.updateStatus("checking");
+      axios
+          .get(GET_SERVICE_STATUS_ENDPOINT(service))
+          .then(response => {
+            if (response.data !== null) {
+              status = response.data.status;
+              this.updateStatus(status);
+            } else {
+              status = "offline";
+              this.updateStatus(status);
+            }
+          })
+          .catch(e => {
+            status = "offline"
+            this.updateStatus(status);
+            this.errors.push(e);
+          });
+    },
+    updateStatus(status) {
+      if (status === "operational") {
+        this.serviceStatus = "Running";
+        this.serviceColor = GREEN_FILL;
+      } else if (status === "checking") {
+        this.serviceStatus = "Checking";
+        this.serviceColor = GRAY;
+      } else {
+        this.serviceStatus = "Offline";
+        this.serviceColor = RED_FILL;
+      }
+    },
+    displayParameter(params) {
+      return (JSON.stringify(params).replace("{", "").replace("}", "")
+          .replaceAll('"', "").replaceAll(",", ", "));
+    },
+    displayScore(item) {
+      const isMethod = (element) => element.name === item.method;
+      return METHODS[METHODS.findIndex(isMethod)].scoreFunction(item);
+    },
+    displayRunName(name) {
+      if (name === "") {
+        return "-";
+      } else {
+        return name;
+      }
+    },
+    getDisplayName(method) {
+      return getMethodObj(method).displayName;
+    },
+    reloadResults() {
+      reloadResults(this.$store);
+    },
+  },
+  mounted() {
   }
+}
 
 </script>
 
