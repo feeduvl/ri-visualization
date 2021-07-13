@@ -19,7 +19,7 @@
         </v-flex>
         <v-flex xs5/>
         <v-flex xs2>
-          <v-btn small outline color="error" @click="deleteDataset()" id="delete_button">
+          <v-btn small outline color="error" @click="showDeleteDataset(selectedDataset)" id="delete_button">
             Delete Dataset
           </v-btn>
         </v-flex>
@@ -65,7 +65,7 @@
           small
           :loading="deleteBtn"
           :disabled="deleteBtn"
-          @click="showDataset(selectedDataset)"
+          @click="deleteDataset"
       >
         Confirm
       </v-btn>
