@@ -33,6 +33,7 @@ async function loadDataset(store, datasetName) {
           store.commit(MUTATE_LOADING_DATASET, false));
 }
 
+// Refactor to updateResults()
 function reloadResults(store) {
     if (!store.state.loadingResults) {
         store.commit(MUTATE_LOADING_RESULTS, true);

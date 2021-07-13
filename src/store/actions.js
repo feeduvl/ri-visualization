@@ -47,35 +47,6 @@ export const actionFetchInitialData = ({
   });
 };
 
-/*
-export const actionFilterResults = ({
-  state,
-  commit
-}, payload) => {
-
-  // Filter for finished runs
-  let _tmpFilteredResults = [];
-  for (let i = 0; i <  state.results.length; i++) {
-    if (state.results[i].status === "finished") {
-      _tmpFilteredResults.push(state.results[i]);
-    }
-  }
-
-  if (payload.method === "") {
-    commit(MUTATE_FILTERED_RESULTS, _tmpFilteredResults);
-    return;
-  }
-  let tmpFilteredResults = [];
-
-  for (let i = 0; i <  _tmpFilteredResults.length; i++) {
-    if (_tmpFilteredResults[i].method === payload.method) {
-      tmpFilteredResults.push(_tmpFilteredResults[i]);
-    }
-  }
-
-  commit(MUTATE_FILTERED_RESULTS, tmpFilteredResults);
-};*/
-
 export const actionLoadDatasets = state => {
   axios
     .get(GET_ALL_DATASETS_ENDPOINT)
