@@ -15,7 +15,6 @@
                 item-text="displayName"
                 item-value="name"
                 label="Method"
-                @change="updateForm"
             >
             </v-select>
           </v-flex>
@@ -263,6 +262,16 @@ export default {
       filteredResults: "resultsForSelectedMethod"
     })
   },
+  watch: {
+    selectedMethod: function (val) {
+      if (val === "") {
+        this.serviceColor = GRAY;
+        this.serviceStatus = "NA";
+      } else {
+        this.checkServiceStatus(val);
+      }
+    }
+  },
     data() {
       return {
         key: this.$route.path,
@@ -466,14 +475,6 @@ export default {
           color = GRAY;
         }
         return color;
-      },
-      updateForm() {
-        if (this.component === METHODS[0].parameterComponentName) {
-          this.serviceColor = GRAY;
-          this.serviceStatus = "NA";
-        } else {
-          this.checkServiceStatus(this.selectedMethod);
-        }
       },
       async checkServiceStatus(service) {
         this.updateStatus("checking");
