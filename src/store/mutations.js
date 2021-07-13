@@ -1,10 +1,9 @@
 
-export const mutateInitalData = (state, initialData) => {
+export const mutateInitialData = (state, initialData) => {
   state.tweets = Object.assign({}, state.tweets, initialData);
-  let hasAllKeys = state.twitterAccounts.every(function (item) {
+  state.initialDataLoaded = state.twitterAccounts.every(function (item) {
     return Object.prototype.hasOwnProperty.call(state.tweets, item);
   });
-  state.initialDataLoaded = hasAllKeys;
 };
 
 export const mutateTweets = (state, tweets) => {

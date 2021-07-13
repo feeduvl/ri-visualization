@@ -22,13 +22,6 @@
 </template>
 
 <script>
-import {
-  ACTION_SET_FOOTER_TEXT,
-  ACTION_SET_PROJECT_TITLE,
-  ACTION_SET_TOOLBAR_HEADER,
-  ACTION_SET_TOP_BAR_ALT_TEXT,
-  ACTION_SET_TOP_BAR_LOGO
-} from "./../store/types.js";
 
 const PROBLEM_REPORTS = "problem_reports";
 const INQUIRIES = "inquiries";

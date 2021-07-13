@@ -145,7 +145,6 @@ export default {
       for (let index=0; index < doc_topic["0"].length; index++) {
         // Iterate over documents
         Object.keys(doc_topic).forEach(function(document) {
-          const isTopic = (element) => element[0] === index;
           let val = 0;
           for (const tup of doc_topic[document]) {
             if (tup[0] === index) {
@@ -154,9 +153,6 @@ export default {
               } else {
                 val = tup[1] * 100;
                 val = val.toFixed(5)
-              }
-              if (val === 0) {
-                val = "-";
               }
               break;
             }

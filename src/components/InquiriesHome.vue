@@ -148,12 +148,7 @@ import {
   POST_TWEET_LABEL_BACKUP_ENDPOINT,
   POST_TWEET_LABEL_BACKUP_PAYLOAD
 } from "./../RESTconf.js";
-import {
-  ACTION_SET_FOOTER_TEXT,
-  ACTION_SET_PROJECT_TITLE,
-  ACTION_SET_TOOLBAR_HEADER, ACTION_SET_TOP_BAR_ALT_TEXT, ACTION_SET_TOP_BAR_LOGO,
-  ACTION_UPDATE_TWEET
-} from "./../store/types.js";
+import { ACTION_UPDATE_TWEET } from "./../store/types.js";
 import { FILTER_FOR_TOPIC, FILTER_FOR_CATEGORY } from "./../dataFilter.js";
 
 export default {

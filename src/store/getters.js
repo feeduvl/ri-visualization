@@ -1,4 +1,4 @@
-import {METHODS} from "../methods";
+import {METHODS} from "@/methods";
 
 export const getTopBarTitle = state => {
   return state.topBarTitle;

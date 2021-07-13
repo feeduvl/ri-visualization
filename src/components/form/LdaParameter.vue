@@ -163,9 +163,6 @@ export default {
         this.blockButton();
       }
     },
-    reset () {
-      this.$refs.form.reset()
-    },
     blockButton() {
       this.loading = true;
       setTimeout(() => {  this.loading = false; }, 1600);
