@@ -189,7 +189,7 @@ import {getMethodObj} from "@/methods";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 import axios from "axios";
 import {DELETE_RESULT_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT} from "@/RESTconf";
-import {ACTION_DELETE_RESULT, ACTION_EDIT_RESULT_NAME} from "@/store/types";
+import {ACTION_DELETE_RESULT, ACTION_EDIT_RESULT_NAME, MUTATE_SELECTED_RESULT} from "@/store/types";
 
 export default {
   name: "TopicDetectionResult",
