@@ -263,7 +263,8 @@ export default {
       datasets: 'datasets',
       results: 'results',
       loading: "loadingResults",
-      filteredResults: "resultsForSelectedMethod"
+      filteredResults: "resultsForSelectedMethod",
+      selectedResult: "selectedResult",
     })
   },
   watch: {
@@ -434,6 +435,9 @@ export default {
               this.deleteBtn = false;
               this.deleteSnackbarVisible = false;
               this.$store.dispatch(ACTION_DELETE_RESULT, this.resultToDelete);
+              if (this.resultToDelete.started_at === this.selectedResult.started_at) {
+                this.$store.commit(MUTATE_SELECTED_RESULT, {});
+              }
               this.resultToDelete = {};
               setTimeout(() => {
                 this.snackbarVisible = false;

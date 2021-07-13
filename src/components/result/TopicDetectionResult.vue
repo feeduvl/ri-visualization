@@ -297,7 +297,6 @@ export default {
             }
           })
           .catch(e => {
-            this.errors.push(e);
             console.log(e);
             this.displaySnackbar("Could not contact backend!");
           })
@@ -317,6 +316,7 @@ export default {
               this.displaySnackbar(response.data.message);
               this.$store.dispatch(ACTION_DELETE_RESULT, this.resultToDelete);
               this.resultToDelete = {};
+              this.$store.commit(MUTATE_SELECTED_RESULT, {});
             } else {
               this.displaySnackbar("Error with result deletion!");
             }
@@ -383,13 +383,23 @@ export default {
       }
     },
     showEditName() {
-      this.resultToEdit = this.selectedResult;
-      this.newResultName = this.selectedResult.name;
-      this.editDialogVisible = true;
+      if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
+        this.resultToEdit = this.selectedResult;
+        this.newResultName = this.selectedResult.name;
+        this.editDialogVisible = true;
+      } else {
+        this.displaySnackbar("Select a result first!");
+        setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
+      }
     },
     showDeleteResult() {
-      this.resultToDelete = this.selectedResult;
-      this.deleteSnackbarVisible = true;
+      if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
+        this.resultToDelete = this.selectedResult;
+        this.deleteSnackbarVisible = true;
+      } else {
+        this.displaySnackbar("Select a result first!");
+        setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
+      }
     },
   },
 }
