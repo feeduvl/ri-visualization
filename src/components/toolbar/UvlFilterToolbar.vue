@@ -149,7 +149,6 @@ export default {
     selectedMethodChanged(){
       this.selectedResult = {};
     },
-
     selectedResultChanged(){
       this.selectedResult = this.getSelectedResultFromDate(this.selectedResultByDate);
     },

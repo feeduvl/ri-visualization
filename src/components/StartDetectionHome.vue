@@ -519,8 +519,7 @@ export default {
           .replaceAll('"', "").replaceAll(",", ", "));
     },
     displayScore(item) {
-      const isMethod = (element) => element.name === item.method;
-      return METHODS[METHODS.findIndex(isMethod)].scoreFunction(item);
+      return getMethodObj(item.method).scoreFunction(item);
     },
     displayRunName(name) {
       if (name === "") {
