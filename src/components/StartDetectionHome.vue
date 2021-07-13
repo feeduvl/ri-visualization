@@ -268,12 +268,7 @@ export default {
   },
   watch: {
     selectedMethod: function (val) {
-      if (val === "") {
-        this.serviceColor = GRAY;
-        this.serviceStatus = "NA";
-      } else {
-        this.checkServiceStatus(val);
-      }
+      this.updateServiceStatus(val);
     }
   },
   data() {
@@ -370,6 +365,14 @@ export default {
     };
   },
   methods: {
+    updateServiceStatus(service) {
+      if (service === "") {
+        this.serviceColor = GRAY;
+        this.serviceStatus = "NA";
+      } else {
+        this.checkServiceStatus(service);
+      }
+    },
     showResult(item) {
       this.$store.commit(MUTATE_SELECTED_RESULT, item);
       this.updateTheme("Detection Results", THEME_UVL)
@@ -534,6 +537,7 @@ export default {
     },
   },
   mounted() {
+    this.updateServiceStatus(this.selectedMethod);
   }
 }
 
