@@ -127,10 +127,8 @@ export default {
       if (JSON.stringify(this.selectedResult) !== JSON.stringify({}) && this.selectedMethod === "") {
         // implied this.$store.commit(MUTATE_SELECTED_METHOD, this.selectedResult.method);
         this.selectedMethod = this.selectedResult.method;
+        this.selectedResultByDate = this.selectedResult.started_at;
       }
-
-      //  should be changed by change handler this.selectedResultByDate = this.selectedResult.started_at;
-
       if(JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
         if (!(this.datasets.includes(this.selectedResult["dataset_name"]))) {
           this.displaySnackbar("Dataset is not in database anymore!");
