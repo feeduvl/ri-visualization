@@ -54,7 +54,14 @@ export const finishedResults = state => {
   return state.results.filter(a => a.status === "finished");
 };
 
-export const resultsForSelectedMethod = (state, getters) => {
+export const resultsForSelectedMethod = state => {
+  if (state.selectedMethod === METHODS[0].name){
+    return [...state.results].reverse();
+  }
+  return [...state.results.filter(a => a.method === state.selectedMethod)].reverse();
+};
+
+export const finishedResultsForSelectedMethod = (state, getters) => {
   if (state.selectedMethod === METHODS[0].name){
     return [...getters.finishedResults].reverse();
   }

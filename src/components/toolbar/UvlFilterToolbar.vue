@@ -10,6 +10,7 @@
             label="Select Method"
             :dense="true"
             :disabled="loading"
+            @change="selectedMethodChanged"
         >
         </v-select>
       </v-flex>
@@ -99,7 +100,7 @@ export default {
       }
     },
     ...mapGetters({
-      resultsForMethod: 'resultsForSelectedMethod',
+      resultsForMethod: 'finishedResultsForSelectedMethod',
       datasets: "datasets",
       documentViewMethods: "documentViewMethods"
     }),
@@ -141,6 +142,10 @@ export default {
   },
 
   methods: {
+    selectedMethodChanged(){
+      this.selectedResult = {};
+    },
+
     selectedResultChanged(){
       this.selectedResult = this.getSelectedResultFromDate(this.selectedResultByDate);
     },
@@ -158,10 +163,12 @@ export default {
     },
     getSelectedResultFromDate (date) {
       let res = {};
+      if(date === ""){
+        return res;
+      }
       for (const r of this.resultsForMethod) {
         if (r["started_at"] === date) {
-          res = r;
-          break;
+          return r;
         }
       }
       return res;

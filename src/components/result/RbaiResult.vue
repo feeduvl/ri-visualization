@@ -5,7 +5,7 @@
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Relevancy Score',
             items:itemsList }"></ranked-list-result>
-        <ECharts class="chart" :options="this.getHeatmapConfig" auto-resize></ECharts>
+        <ECharts class="chart" :options="this.getHeatmapConfig()" auto-resize></ECharts>
     </v-container>
 </template>
 
@@ -35,29 +35,46 @@
                 colors: CLOUD,
                 padding: 5,
                 onWordClick: onWordCloudWordClicked,
-
+                maxSeriesData: 0
             }
         },
+        methods: {
 
-        computed: {
+            seriesData(){
 
+                let sd = []
+                let concepts = [];
+                let text_ids = [];
+                if(this.isValidResult){
+                    concepts = this.selectedResult.topics.concepts;
+                    text_ids = this.selectedResult.topics.text_ids;
+                    let text_occurences = this.selectedResult.topics.text_occurences;
+
+                    for (let doc = 0; doc < text_ids.length; doc++){
+                        for (let c = 0; c < concepts.length; c++){
+                            let occs = text_occurences[doc][c];
+                            sd.push([c, doc, occs]);
+                            if(occs > this.maxSeriesData){
+                                this.maxSeriesData = occs;
+                            }
+                        }
+                    }
+                    return sd;
+                } else {
+                    return []
+                }
+            },
             getHeatmapConfig(){
 
-                console.log("RbaiResult::getHeatmapConfig selected result: ");
-                console.log(this.selectedResult);
+                let concepts = [];
+                let text_ids = [];
 
-                let seriesdata = []
-                const {concepts, text_ids, text_occurences} = this.selectedResult.topics;
-                for (let doc = 0; doc < text_ids.length; doc++){
-                    for (let c = 0; c < concepts.length; c++){
-                        seriesdata.push([c, doc, text_occurences[doc][c]]);
-                    }
+                if(this.isValidResult){
+                    concepts = this.selectedResult.topics.concepts;
+                    text_ids = this.selectedResult.topics.text_ids;
                 }
 
-                console.log(seriesdata);
-
                 return {
-
                     title: {
                         text: "Concept Occurences in Input",
                         top: "0",
@@ -91,7 +108,7 @@
                     },
                     visualMap: {
                         min: 0,
-                        max: 100,
+                        max: this.maxSeriesData,
                         calculable: true,
                         orient: "horizontal",
                         left: "center",
@@ -104,7 +121,7 @@
                         {
                             name: "Occurences:",
                             type: "heatmap",
-                            data: seriesdata,
+                            data: this.seriesData(),
                             label: {
                                 normal: {
                                     show: false
@@ -119,13 +136,27 @@
                         }]
                 }
             },
+
+        },
+        computed: {
+
+            isValidResult(){
+                return this.selectedResult && this.selectedResult.topics && this.selectedResult.topics.scores;
+            },
+
             maxValue(){
+                if(!this.isValidResult){
+                    return 0;
+                }
                 return Math.max(...this.selectedResult.topics.scores);
             },
             ...mapGetters({
                 selectedResult: 'selectedResult'
             }),
             itemsList(){
+                if(!this.isValidResult){
+                    return [];
+                }
                 let sr = this.selectedResult;
                 const {concepts, scores, text_ids, text_occurences} = sr.topics;
                 let occs = getOccurenceDesc(text_ids, concepts, text_occurences);

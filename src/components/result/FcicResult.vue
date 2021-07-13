@@ -2,11 +2,19 @@
 
     <v-container>
         <cloud :data="itemsList" :padding="padding" :fontSizeMapper="fontSizeMapper" :onWordClick="onWordClick" :rotate="rotate" :coloring="coloring" :colors="colors" />
-        <ECharts class="chart" :options="this.getHeatmapConfig" auto-resize></ECharts>
+        <ECharts class="chart" :options="this.getHeatmapConfig()" auto-resize></ECharts>
+        <v-btn v-if="!showingDecisionTree"
+                elevation="2"
+                @click="showingDecisionTree=!showingDecisionTree"
+        >Show Decision Tree</v-btn>
+        <v-btn v-if="showingDecisionTree"
+                                          elevation="2"
+                                          @click="showingDecisionTree=!showingDecisionTree"
+    >Hide Decision Tree</v-btn>
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Information gain on split',
             items:itemsList }"></ranked-list-result>
-        <decision-tree :tree ="this.selectedResult.topics.tree"></decision-tree>
+        <decision-tree v-if="showingDecisionTree" :tree ="this.selectedResult.topics.tree"></decision-tree>
     </v-container>
 </template>
 
@@ -35,27 +43,21 @@
                 colors: CLOUD,
                 padding: 5,
                 onWordClick: onWordCloudWordClicked,
+                maxSeriesData: 0,
+                showingDecisionTree: false
             }
         },
-        computed: {
-            ...mapGetters({
-                selectedResult: 'selectedResult'
-            }),
+        methods: {
 
             getHeatmapConfig(){
 
-                console.log("FcicResult::getHeatmapConfig selected result: ");
-                console.log(this.selectedResult);
+                let concepts = [];
+                let text_ids = [];
 
-                let seriesdata = []
-                const {concepts, text_ids, text_occurences} = this.selectedResult.topics;
-                for (let doc = 0; doc < text_ids.length; doc++){
-                    for (let c = 0; c < concepts.length; c++){
-                        seriesdata.push([c, doc, text_occurences[doc][c]]);
-                    }
+                if(this.isValidResult){
+                    concepts = this.selectedResult.topics.concepts;
+                    text_ids = this.selectedResult.topics.text_ids;
                 }
-
-                console.log(seriesdata);
 
                 return {
 
@@ -92,7 +94,7 @@
                     },
                     visualMap: {
                         min: 0,
-                        max: 100,
+                        max: this.maxSeriesData,
                         calculable: true,
                         orient: "horizontal",
                         left: "center",
@@ -105,7 +107,7 @@
                         {
                             name: "Occurences:",
                             type: "heatmap",
-                            data: seriesdata,
+                            data: this.seriesData(),
                             label: {
                                 normal: {
                                     show: false
@@ -121,10 +123,50 @@
                 }
             },
 
+            seriesData(){
+
+                let sd = []
+                let concepts = [];
+                let text_ids = [];
+                if(this.isValidResult){
+                    concepts = this.selectedResult.topics.concepts;
+                    text_ids = this.selectedResult.topics.text_ids;
+                    let text_occurences = this.selectedResult.topics.text_occurences;
+
+                    for (let doc = 0; doc < text_ids.length; doc++){
+                        for (let c = 0; c < concepts.length; c++){
+                            let occs = text_occurences[doc][c];
+                            sd.push([c, doc, occs]);
+                            if(occs > this.maxSeriesData){
+                                this.maxSeriesData = occs;
+                            }
+                        }
+                    }
+                    return sd;
+                } else {
+                    return []
+                }
+            },
+        },
+        computed: {
+            ...mapGetters({
+                selectedResult: 'selectedResult'
+            }),
+
+            isValidResult(){
+                return this.selectedResult && this.selectedResult.topics && this.selectedResult.topics.information_gain;
+            },
+
             maxValue(){
+                if(!this.isValidResult){
+                    return 0;
+                }
                 return Math.max(...this.selectedResult.topics.information_gain);
             },
             itemsList(){
+                if(!this.isValidResult){
+                    return [];
+                }
                 let sr = this.selectedResult;
                 const {concepts, information_gain, text_ids, text_occurences} = sr.topics;
                 let occs = getOccurenceDesc(text_ids, concepts, text_occurences);
