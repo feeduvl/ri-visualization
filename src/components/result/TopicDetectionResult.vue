@@ -197,6 +197,7 @@ export default {
     ...mapGetters({
       loadingResults: 'loadingResults',
       selectedResult: 'selectedResult',
+      selectedDataset: 'selectedDataset',
     }),
     topicWordlist() {
       let list = []
@@ -214,18 +215,30 @@ export default {
       return list;
     },
     topicWords() {
-      let list = []
-      let tw = []
-      for (let topic in this.selectedResult.topics) {
-        for (let index in this.selectedResult.topics[topic]) {
-          let word = this.selectedResult.topics[topic][index];
-          if (!(list.indexOf(word) > -1)) {
-            list.push(word);
-            tw.push({text: word, value: 24})
+      if (this.selectedDataset.documents !== undefined) {
+        let list = []
+        let tw = []
+        for (let topic in this.selectedResult.topics) {
+          for (let index in this.selectedResult.topics[topic]) {
+            let word = this.selectedResult.topics[topic][index];
+            if (!(list.indexOf(word) > -1)) {
+              list.push(word);
+            }
           }
         }
+        for (const word of list) {
+          let count = 0;
+          for (const document of this.selectedDataset["documents"]) {
+            if (document.text.includes(" " + word + " ")) {
+              count++;
+            }
+          }
+          tw.push({text: word, value: count});
+        }
+        return tw;
+      } else {
+        return [];
       }
-      return tw;
     }
   },
   components: {
