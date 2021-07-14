@@ -166,8 +166,8 @@ export default {
         for (let index in this.selectedDataset["documents"]) {
           let doc = this.selectedDataset["documents"][index].text;
           // Iterate over words
-          for (let index2 in yAxis) {
-            let word = yAxis[index2];
+          for (let index2 in xAxis) {
+            let word = xAxis[index2];
             let re = new RegExp(' ' + word, 'g');
             let count = (doc.toLowerCase().match(re) || []).length;
             if (count === 0) {
