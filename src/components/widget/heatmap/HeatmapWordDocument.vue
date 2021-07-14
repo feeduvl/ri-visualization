@@ -155,8 +155,8 @@ export default {
         let data = [];
         let max = 0;
 
-        let xAxis = [];
-        let yAxis = this.topicWords();
+        let xAxis = this.topicWords();
+        let yAxis = [];
 
         for (const doc of this.selectedDataset["documents"]) {
           yAxis.push(doc.id);
