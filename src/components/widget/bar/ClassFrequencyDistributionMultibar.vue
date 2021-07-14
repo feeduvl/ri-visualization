@@ -279,8 +279,8 @@ export default {
   }
 }
 .timeframe {
-  padding: 0px 0px 0px 30px;
-  margin: 0px 0px 0px 0px;
+  padding: 0 0 0 30px;
+  margin: 0 0 0 0;
   width: 25%;
 }
 </style>

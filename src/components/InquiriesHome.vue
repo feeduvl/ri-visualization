@@ -392,7 +392,7 @@ h1 {
   background-color: rgba(238, 238, 238, 0.04);
 }
 .spacing {
-  padding-top: 0px;
+  padding-top: 0;
 }
 .pointer {
   cursor: pointer;
@@ -401,6 +401,6 @@ h1 {
   background-color: #bdbdbd !important;
 }
 .anti-margin {
-  margin-bottom: 0px !important;
+  margin-bottom: 0 !important;
 }
 </style>

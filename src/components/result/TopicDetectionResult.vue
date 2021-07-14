@@ -436,6 +436,7 @@ export default {
 .param_content {
   padding-top: 0;
   padding-left: 25px;
+  font-weight: 500;
 }
 
 .param_header {

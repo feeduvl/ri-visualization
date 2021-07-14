@@ -278,14 +278,14 @@ export default {
   }
 }
 .action-item {
-  margin: 5px 0px 0px 0px;
+  margin: 5px 0 0 0;
 }
 .divider {
   height: 40px;
 }
 .configuration {
-  padding: 0px 0px 0px 30px;
-  margin: 0px 0px 0px 0px;
+  padding: 0 0 0 30px;
+  margin: 0 0 0 0;
   max-width: 50%;
 }
 </style>

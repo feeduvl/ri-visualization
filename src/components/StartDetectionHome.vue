@@ -604,7 +604,7 @@ h1 {
 }
 
 .spacing {
-  padding-top: 0px;
+  padding-top: 0;
 }
 
 .pointer {
@@ -616,11 +616,11 @@ h1 {
 }
 
 .anti-margin {
-  margin-bottom: 0px !important;
+  margin-bottom: 0 !important;
 }
 
 #service-status {
-  padding-left: 0px;
+  padding-left: 0;
   padding-top: 25px;
 }
 

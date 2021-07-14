@@ -322,11 +322,11 @@ export default {
   }
 }
 .timeframe {
-  padding: 0px 0px 20px 30px;
-  margin: 0px 0px 0px 0px;
+  padding: 0 0 20px 30px;
+  margin: 0 0 0 0;
 }
 .switch {
-  padding: 0px 0px 20px 0px;
-  margin: 0px 0px 0px 0px;
+  padding: 0 0 20px 0;
+  margin: 0 0 0 0;
 }
 </style>

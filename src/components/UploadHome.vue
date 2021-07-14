@@ -246,8 +246,8 @@ export default {
 
 .v-text-field {
   margin-right: 10px;
-  padding-top: 0px;
-  margin-top: 0px;
+  padding-top: 0;
+  margin-top: 0;
 }
 
 #datasetListing {
@@ -260,10 +260,7 @@ export default {
 }
 
 #datasetTile {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 15px;
-  margin-right: 5px;
+  margin: 10px 5px 10px 15px;
 }
 
 .btnAlign {
