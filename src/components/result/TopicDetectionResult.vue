@@ -52,7 +52,7 @@
           </template>
           <v-card elevation="0" class="param_holder">
             <v-card-title class="param_header">
-              <span class="grey--text text-uppercase">Topic Coherence</span>
+              <span class="grey--text text-uppercase">Average Coherence</span>
             </v-card-title>
             <v-card-text class="param_content">
               {{ displayScore(selectedResult) }}
@@ -94,7 +94,7 @@
       </v-card>
     </v-flex>
     <v-flex xs12 id="heatmap-holder">
-      <heatmap-document-topic/>
+      <heatmap-word-document/>
     </v-flex>
     <v-snackbar
         v-model="snackbarVisible"
@@ -243,8 +243,8 @@ export default {
   },
   components: {
     Cloud,
-    "heatmap-document-topic": () =>
-        import("../widget/heatmap/HeatmapDocumentTopic"),
+    "heatmap-word-document": () =>
+        import("../widget/heatmap/HeatmapWordDocument"),
   },
   data: function () {
     return {
