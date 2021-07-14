@@ -394,33 +394,24 @@ export default {
           .then(response => {
             if (response.status > 200 || response.status < 300) {
               this.displaySnackbar("Name edited");
-              this.editBtn = false;
-              this.editDialogVisible = false;
               this.$store.dispatch(ACTION_EDIT_RESULT_NAME, this.resultToEdit);
               this.resultToEdit = {};
               this.newResultName = "";
-              setTimeout(() => {
-                this.snackbarVisible = false;
-              }, SNACKBAR_DISPLAY_TIME);
             } else {
               this.displaySnackbar("Error with result name edit!");
-              this.editBtn = false;
-              this.editDialogVisible = false;
-              setTimeout(() => {
-                this.snackbarVisible = false;
-              }, SNACKBAR_DISPLAY_TIME);
             }
           })
           .catch(e => {
             this.errors.push(e);
             console.log(e);
             this.displaySnackbar("Could not contact backend!");
+          }).finally( () => {
             this.editBtn = false;
             this.editDialogVisible = false;
             setTimeout(() => {
               this.snackbarVisible = false;
             }, SNACKBAR_DISPLAY_TIME);
-          })
+      });
     },
     showDeleteResult(item) {
       this.resultToDelete = item;
@@ -432,34 +423,25 @@ export default {
           .then(response => {
             if (response.status > 200 || response.status < 300) {
               this.displaySnackbar(response.data.message);
-              this.deleteBtn = false;
-              this.deleteSnackbarVisible = false;
               this.$store.dispatch(ACTION_DELETE_RESULT, this.resultToDelete);
               if (this.resultToDelete.started_at === this.selectedResult.started_at) {
                 this.$store.commit(MUTATE_SELECTED_RESULT, {});
               }
               this.resultToDelete = {};
-              setTimeout(() => {
-                this.snackbarVisible = false;
-              }, SNACKBAR_DISPLAY_TIME);
             } else {
               this.displaySnackbar("Error with result deletion!");
-              this.deleteBtn = false;
-              this.deleteSnackbarVisible = false;
-              setTimeout(() => {
-                this.snackbarVisible = false;
-              }, SNACKBAR_DISPLAY_TIME);
             }
           })
           .catch(e => {
             this.errors.push(e);
             this.displaySnackbar("Could not contact backend!");
+          }).finally( () => {
             this.deleteBtn = false;
             this.deleteSnackbarVisible = false;
             setTimeout(() => {
               this.snackbarVisible = false;
             }, SNACKBAR_DISPLAY_TIME);
-          })
+      });
     },
     displaySnackbar(message) {
       this.snackbarText = message;
@@ -488,23 +470,23 @@ export default {
       return color;
     },
     async checkServiceStatus(service) {
-      this.updateStatus("checking");
+      let status = "checking"
+      this.updateStatus(status);
       axios
           .get(GET_SERVICE_STATUS_ENDPOINT(service))
           .then(response => {
             if (response.data !== null) {
               status = response.data.status;
-              this.updateStatus(status);
             } else {
               status = "offline";
-              this.updateStatus(status);
             }
           })
           .catch(e => {
             status = "offline"
-            this.updateStatus(status);
             this.errors.push(e);
-          });
+          }).finally( () => {
+            this.updateStatus(status);
+      });
     },
     updateStatus(status) {
       if (status === "operational") {

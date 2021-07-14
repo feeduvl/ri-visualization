@@ -164,12 +164,11 @@ export default {
           .get(GET_DATASET_ENDPOINT(this.selectedDataset))
           .then(response => {
             this.updateTable(response.data);
-            this.loading = false;
           })
           .catch(e => {
             this.errors.push(e);
-            this.loading = false;
-          });
+          }).finally( () =>
+          this.loading = false);
     },
     updateTable(responseData) {
       let documents = []

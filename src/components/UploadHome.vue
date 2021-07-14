@@ -171,19 +171,17 @@ export default {
           if (response.status > 200 || response.status < 300) {
             this.displaySnackbar(response.data.message);
             this.fileInputField.value = null;
-            this.loading = false;
             // Reset file name display
             this.getFileName();
             loadDatasets(this.$store);
           } else {
             this.displaySnackbar("Error with file upload!");
-            this.loading = false;
           }
-        })
-            .catch(() => {
-              this.displaySnackbar("Could not contact backend!");
-              this.loading = false;
-            });
+        }).catch(() => {
+          this.displaySnackbar("Could not contact backend!");
+        }).finally(() => {
+          this.loading = false;
+        });
       }
     },
     getFileName() {
@@ -214,24 +212,19 @@ export default {
               if (response.status > 200 || response.status < 300) {
                 loadDatasets(this.$store);
                 this.displaySnackbar(response.data.message);
-                this.deleteBtn = false;
-                this.deleteSnackbarVisible = false;
                 this.datasetToDelete = "";
-                setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
               } else {
                 this.displaySnackbar("Error with file deletion!");
-                this.deleteBtn = false;
-                this.deleteSnackbarVisible = false;
-                setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
               }
             })
             .catch(e => {
               this.errors.push(e);
               this.displaySnackbar("Could not contact backend!");
+            }).finally( () => {
               this.deleteBtn = false;
               this.deleteSnackbarVisible = false;
               setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
-            });
+        });
     },
     updateTheme (title, theme) {
       if (theme !== "") {
