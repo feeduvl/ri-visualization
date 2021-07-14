@@ -523,6 +523,10 @@ export default {
   },
   mounted() {
     this.updateServiceStatus(this.selectedMethod);
+
+    setInterval(function () {
+      this.updateServiceStatus(this.selectedMethod);
+    }.bind(this), 5000);
   }
 }
 
