@@ -42,7 +42,7 @@ export default {
       grid: {
         top: "40",
         height: "70%",
-        left: "90",
+        left: "150",
         right: "25",
         y: "10%"
       },
@@ -78,7 +78,9 @@ export default {
           show: true
         },
         axisLabel: {
-          rotate: 90
+          rotate: 90,
+          margin: 4,
+          fontSize: 10,
         },
       },
       yAxis: {
@@ -146,7 +148,7 @@ export default {
     },
     loadChartData() {
 
-      if (this.selectedDataset.hasOwnProperty("documents")) {
+      if (this.selectedDataset.hasOwnProperty("documents") && this.selectedDataset.name === this.selectedResult.dataset_name) {
 
         // xAxis = words
         // yAxis = topics
@@ -201,13 +203,16 @@ export default {
     selectedResult: function () {
       this.loadChartData();
     },
+    selectedDataset: function () {
+      this.loadChartData();
+    },
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .echarts {
-  min-height: 450px;
+  min-height: 850px;
   max-height: 2000px;
   height: 100%;
   width: 100%;
@@ -215,7 +220,7 @@ export default {
   padding-bottom: 5px;
   .chart {
     width: 100%;
-    height: 85%;
+    height: 90%;
   }
 }
 .action-item {
