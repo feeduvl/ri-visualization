@@ -76,7 +76,10 @@ export default {
         ],
         splitArea: {
           show: true
-        }
+        },
+        axisLabel: {
+          rotate: 90
+        },
       },
       yAxis: {
         type: "category",
@@ -162,18 +165,30 @@ export default {
           yAxis.push(doc.id);
         }
 
+        console.log("axis");
+        console.log(xAxis);
+        console.log(yAxis);
+
         // Iterate over documents
         for (let index in this.selectedDataset["documents"]) {
           let doc = this.selectedDataset["documents"][index].text;
+          console.log("Iterate document");
+          console.log(index);
+          console.log(doc);
           // Iterate over words
           for (let index2 in xAxis) {
+            console.log("Iterate words");
+            console.log(index2);
             let word = xAxis[index2];
+            console.log(word);
             let re = new RegExp(' ' + word, 'g');
             let count = (doc.toLowerCase().match(re) || []).length;
+            console.log(count);
             if (count === 0) {
               count = '-';
             }
             data.push([index, index2, count]);
+            console.log([index, index2, count]);
             if (count > max) {
               max = count;
             }
