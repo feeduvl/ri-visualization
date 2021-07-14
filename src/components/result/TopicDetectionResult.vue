@@ -229,7 +229,7 @@ export default {
         for (const word of list) {
           let count = 0;
           for (const document of this.selectedDataset["documents"]) {
-            if (document.text.includes(" " + word + " ")) {
+            if (document.text.toLowerCase().includes(" " + word)) {
               count++;
             }
           }
