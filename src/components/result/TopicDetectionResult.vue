@@ -233,7 +233,7 @@ export default {
               count++;
             }
           }
-          tw.push({text: word, value: count});
+          tw.push({text: word, value: Math.min((count *2) + this.baseFontsize, 120)});
         }
         return tw;
       } else {
@@ -248,6 +248,7 @@ export default {
   },
   data: function () {
     return {
+      baseFontsize: 20,
       resultToDelete: {},
       resultToEdit: {},
       deleteSnackbarVisible: false,
