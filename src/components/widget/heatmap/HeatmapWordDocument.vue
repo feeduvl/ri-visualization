@@ -154,7 +154,7 @@ export default {
         // yAxis = topics
 
         // Data has form:
-        // [document_index, word_index, value]
+        // [word_index, document_index, value]
         // Heatmap starts filling from bottom left
 
         let data = [];
@@ -178,7 +178,7 @@ export default {
             if (count === 0) {
               count = '-';
             }
-            data.push([parseInt(index), parseInt(index2), count]);
+            data.push([parseInt(index2), parseInt(index1), count]);
             if (count > max) {
               max = count;
             }
