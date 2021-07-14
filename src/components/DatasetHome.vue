@@ -89,7 +89,7 @@ import {
   DELETE_DATASET_ENDPOINT
 } from "@/RESTconf";
 import { mapGetters } from 'vuex'
-import {ACTION_LOAD_DATASETS, MUTATE_SELECTED_DATASET_OUTSIDE} from "@/store/types";
+import {MUTATE_SELECTED_DATASET_OUTSIDE} from "@/store/types";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 import {loadDatasets} from "@/RESTcalls";
 
@@ -293,7 +293,7 @@ td {
 }
 
 .spacing {
-  padding-top: 0px;
+  padding-top: 0;
 }
 
 .pointer {
@@ -305,7 +305,7 @@ td {
 }
 
 .anti-margin {
-  margin-bottom: 0px !important;
+  margin-bottom: 0 !important;
 }
 
 #delete_button {
