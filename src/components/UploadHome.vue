@@ -283,6 +283,8 @@ export default {
             this.getGroundtruthFileName();
             this.addGroundtruthDialogVisible = false;
             // Update local dataset if the selectedDataset is the one that changed
+            console.log(this.selectedDatasetName);
+            console.log(this.datasetNameForGroundtruth);
             if (this.selectedDatasetName === this.datasetNameForGroundtruth) {
               this.loadDataset(this.$store, this.selectedDatasetName);
             }
