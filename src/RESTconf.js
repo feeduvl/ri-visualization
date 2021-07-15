@@ -36,6 +36,8 @@ export const POST_START_DETECTION_ENDPOINT = `/hitec/orchestration/concepts/dete
 
 export const POST_UPLOAD_DATASET_ENDPOINT =  `/hitec/orchestration/concepts/store/dataset/`;
 
+export const POST_ADD_GROUNDTRUTH_ENDPOINT = `/hitec/orchestration/concepts/store/groundtruth/`;
+
 export const POST_UPDATE_RESULT_NAME_ENDPOINT = `/hitec/repository/concepts/store/detection/result/name`;
 
 // feedai
