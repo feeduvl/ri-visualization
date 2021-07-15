@@ -15,6 +15,7 @@
                 v-model="fileDisplayName"
                 readonly
                 prepend-icon="attach_file"
+                class="file-name-field"
             ></v-text-field>
             </v-flex>
           <v-flex xs3>
@@ -66,6 +67,9 @@
           <v-btn small color="primary" @click="showDataset(dataset)" class="btnAlign">
             Show
           </v-btn>
+          <v-btn small color="primary" @click="showAddGroundtruth(dataset)" class="btnAlign">
+            Add Groundtruth
+          </v-btn>
         </v-card>
       </v-layout>
     </v-card>
@@ -94,6 +98,51 @@
         Cancel
       </v-btn>
     </v-snackbar>
+    <v-dialog
+        v-model="addGroundtruthDialogVisible"
+        max-width="490"
+    >
+      <v-card>
+        <v-card-title class="text-h5 dialog-title">
+          Add Groundtruth
+        </v-card-title>
+
+        <v-card-text>
+          <input id="file-input-field-groundtruth" type='file' hidden @change="getGroundtruthFileName"/>
+          <v-text-field
+              label="File Name"
+              v-model="groundtruthFileDisplayName"
+              readonly
+              prepend-icon="attach_file"
+              class="file-name-field"
+          ></v-text-field>
+            <label for="file-input-field-groundtruth" class="v-btn v-btn--small theme--light primary file-action-button file-picker-button">Choose
+              file</label>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+              color="primary"
+              text
+              @click="uploadGroundtruth"
+              :loading="uploadGroundtruthBtn"
+              :disabled="uploadGroundtruthBtn"
+          >
+            Upload
+          </v-btn>
+
+          <v-btn
+              color="error"
+              text
+              @click="addGroundtruthDialogVisible = false"
+          >
+            Cancel
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -102,7 +151,7 @@ import axios from "axios";
 import {
   BLUE_BORDER
 } from "@/colors";
-import {DELETE_DATASET_ENDPOINT, POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
+import {DELETE_DATASET_ENDPOINT, POST_UPLOAD_DATASET_ENDPOINT, POST_ADD_GROUNDTRUTH_ENDPOINT} from "@/RESTconf";
 import {mapGetters} from "vuex";
 import {loadDatasets} from "@/RESTcalls";
 import {setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL} from "@/theme";
@@ -125,6 +174,10 @@ export default {
       deleteSnackbarTimeout: 0,
       datasetToDelete: "",
       deleteBtn: false,
+      datasetNameForGroundtruth: "",
+      addGroundtruthDialogVisible: false,
+      uploadedFileGroundtruth: "",
+      uploadGroundtruthBtn: false,
       errors: [],
     }
   },
@@ -140,6 +193,22 @@ export default {
         return this.uploadedFile.name;
       }
       return ""
+    },
+    fileInputFieldGroundtruth() {
+      return document.getElementById("file-input-field-groundtruth");
+    },
+    groundtruthFileDisplayName() {
+      if (this.uploadedFileGroundtruth) {
+        return this.uploadedFileGroundtruth.name;
+      }
+      return ""
+    },
+    selectedDatasetName () {
+      if (this.$store.state.selectedDataset.hasOwnProperty(name)) {
+        return this.$store.state.selectedDataset.name;
+      } else {
+        return "";
+      }
     },
     ...mapGetters({
       datasets: 'datasets'
@@ -184,8 +253,58 @@ export default {
         });
       }
     },
+    async uploadGroundtruth () {
+      if (this.fileInputFieldGroundtruth.files[0] === undefined) {
+        this.displaySnackbar("Select a file first!");
+        setTimeout(() => {  this.closeSnackbar(); }, SNACKBAR_DISPLAY_TIME);
+      } else if (!(this.fileInputFieldGroundtruth.files[0].name.endsWith(".csv")) &&
+          !(this.fileInputFieldGroundtruth.files[0].name.endsWith(".txt")) &&
+          !(this.fileInputFieldGroundtruth.files[0].name.endsWith(".xlsx"))
+      ) {
+        this.displaySnackbar("File type not allowed!");
+        setTimeout(() => {  this.closeSnackbar(); }, SNACKBAR_DISPLAY_TIME);
+      } else {
+        this.uploadGroundtruthBtn = true;
+        let formData = new FormData();
+        formData.append('file', this.uploadedFileGroundtruth);
+        formData.append('dataset', this.datasetNameForGroundtruth);
+        axios.post(POST_ADD_GROUNDTRUTH_ENDPOINT,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            }
+        ).then(response => {
+          if (response.status > 200 || response.status < 300) {
+            this.displaySnackbar(response.data.message);
+            this.fileInputFieldGroundtruth.value = null;
+            // Reset file name display
+            this.getGroundtruthFileName();
+            this.addGroundtruthDialogVisible = false;
+            // Update local dataset if the selectedDataset is the one that changed
+            console.log(this.selectedDatasetName);
+            console.log(this.datasetNameForGroundtruth);
+            if (this.selectedDatasetName === this.datasetNameForGroundtruth) {
+              this.loadDataset(this.$store, this.selectedDatasetName);
+            }
+            this.datasetNameForGroundtruth = "";
+          } else {
+            this.displaySnackbar("Error with file upload!");
+          }
+        }).catch(e => {
+          console.log("UploadHome::uploadGroundtruth:" + e);
+          this.displaySnackbar("Could not contact backend!");
+        }).finally(() => {
+          this.uploadGroundtruthBtn = false;
+        });
+      }
+    },
     getFileName() {
       this.uploadedFile = this.fileInputField.files[0];
+    },
+    getGroundtruthFileName() {
+      this.uploadedFileGroundtruth = this.fileInputFieldGroundtruth.files[0];
     },
     displaySnackbar(message) {
       this.snackbarText = message;
@@ -203,6 +322,10 @@ export default {
     showDeleteDataset(dataset) {
       this.datasetToDelete = dataset;
       this.deleteSnackbarVisible = true;
+    },
+    showAddGroundtruth(dataset) {
+      this.datasetNameForGroundtruth = dataset;
+      this.addGroundtruthDialogVisible = true;
     },
     deleteDataset() {
       this.deleteBtn = true;
@@ -237,7 +360,7 @@ export default {
 
 <style scoped>
 
-.v-text-field {
+.file-name-field {
   margin-right: 10px;
   padding-top: 0;
   margin-top: 0;
@@ -258,6 +381,10 @@ export default {
 
 .btnAlign {
   float: right;
+}
+
+.dialog-title {
+  font-weight: 500;
 }
 
 </style>

@@ -178,7 +178,7 @@
         max-width="290"
     >
       <v-card>
-        <v-card-title class="text-h5">
+        <v-card-title class="text-h5 dialog-title">
           Edit Result Name
         </v-card-title>
 
@@ -526,7 +526,7 @@ export default {
 
     setInterval(function () {
       this.updateServiceStatus(this.selectedMethod);
-    }.bind(this), 5000);
+    }.bind(this), 30000);
   }
 }
 
@@ -617,4 +617,9 @@ h1 {
 table.v-table tbody td:first-child, table.v-table tbody td:not(:first-child), table.v-table tbody th:first-child, table.v-table tbody th:not(:first-child), table.v-table thead td:first-child, table.v-table thead td:not(:first-child), table.v-table thead th:first-child, table.v-table thead th:not(:first-child) {
   padding: 0 8px;
 }
+
+.dialog-title {
+  font-weight: 500;
+}
+
 </style>
