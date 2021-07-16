@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card id="holder">
     <v-card-title>
       <h2>
         Groundtruth Comparison
@@ -51,30 +51,33 @@
             {{ falseNegatives }}
           </v-card-text>
         </v-card>
-        <v-card elevation="0" class="param_holder">
+        <v-card elevation="0" class="param_holder_gauge">
           <v-card-title class="param_header">
             <span class="grey--text text-uppercase">Precision</span>
           </v-card-title>
           <v-card-text class="param_content">
             {{ precision.toString().substring(0, 6) }}
+            <score-gauge v-bind:value="precision"/>
           </v-card-text>
         </v-card>
         <v-divider vertical inset/>
-        <v-card elevation="0" class="param_holder">
+        <v-card elevation="0" class="param_holder_gauge">
           <v-card-title class="param_header">
             <span class="grey--text text-uppercase">Recall</span>
           </v-card-title>
           <v-card-text class="param_content">
             {{ recall.toString().substring(0, 6) }}
+            <score-gauge v-bind:value="recall"/>
           </v-card-text>
         </v-card>
         <v-divider vertical inset/>
-        <v-card elevation="0" class="param_holder">
+        <v-card elevation="0" class="param_holder_gauge">
           <v-card-title class="param_header">
             <span class="grey--text text-uppercase">F1-Score</span>
           </v-card-title>
           <v-card-text class="param_content">
             {{ fOneScore.toString().substring(0, 6) }}
+            <score-gauge v-bind:value="fOneScore"/>
           </v-card-text>
         </v-card>
       </v-layout>
@@ -85,6 +88,9 @@
 <script>
 export default {
   name: "GroundtruthComparison",
+  components: {
+    "score-gauge": () => import("@/components/widget/gauge/ScoreGauge"),
+  },
   props: {
     conceptWords: Array,
     groundtruth: Array,
@@ -156,10 +162,20 @@ export default {
   min-width: 222px;
 }
 
+.param_holder_gauge {
+  min-width: 360px;
+  max-height: 220px;
+  overflow: hidden;
+}
+
 .param_content {
   padding-top: 0;
   padding-left: 25px;
   font-size: 20px;
   font-weight: 500;
+}
+
+#holder {
+  max-height: 450px;
 }
 </style>

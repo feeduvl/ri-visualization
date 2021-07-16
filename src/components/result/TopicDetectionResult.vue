@@ -332,10 +332,6 @@ export default {
             if (!(gtPositives.indexOf(this.groundtruthList[index2]) > -1)) {
               gtPositives.push(this.groundtruthList[index2]);
             }
-            console.log("Word:");
-            console.log(this.topicWordList[index]);
-            console.log("GT:");
-            console.log(this.groundtruthList[index2]);
           }
         }
       }
