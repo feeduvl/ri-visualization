@@ -74,7 +74,7 @@
         <v-card-title>
           <h2>Concept Words</h2><span id="cw_legend">Legend: <v-chip :color="BLUE_LIGHT">matching</v-chip><span> </span><v-chip :color="ORANGE_LIGHT">not matching</v-chip></span>
         </v-card-title>
-        <v-layout row wrap>
+        <v-layout row wrap id="concept_word_content">
           <v-flex xs5 id="concept_words">
             <h4 class="grey-headline">Concept Words</h4>
             <span v-for="word in topicWordList">
@@ -215,7 +215,6 @@ export default {
       selectedDataset: 'selectedDataset',
     }),
     topicWordList() {
-      console.log("topicWordList called");
       let list = [];
       for (let topic in this.selectedResult.topics) {
         for (let index in this.selectedResult.topics[topic]) {
@@ -228,7 +227,6 @@ export default {
       return list.sort();
     },
     groundtruthList() {
-      console.log("groundtruthList called");
       let list = [];
       if (this.selectedDataset.hasOwnProperty("ground_truth")) {
         for (let index in this.selectedDataset.ground_truth) {
@@ -325,7 +323,6 @@ export default {
   },
   methods: {
     updateWordMapping() {
-      console.log("updateWordMapping called");
       let twPositives = [];
       let gtPositives = [];
       for (let index in this.topicWordList) {
@@ -530,6 +527,10 @@ export default {
   float: right;
   margin-top: 6px;
   margin-left: 700px;
+}
+
+#concept_word_content {
+  overflow-y: scroll;
 }
 
 </style>
