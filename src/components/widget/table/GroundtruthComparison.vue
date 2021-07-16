@@ -56,7 +56,7 @@
             <span class="grey--text text-uppercase">Precision</span>
           </v-card-title>
           <v-card-text class="param_content">
-            {{ precision }}
+            {{ precision.toString().substring(0, 6) }}
           </v-card-text>
         </v-card>
         <v-divider vertical inset/>
@@ -65,7 +65,7 @@
             <span class="grey--text text-uppercase">Recall</span>
           </v-card-title>
           <v-card-text class="param_content">
-            {{ recall }}
+            {{ recall.toString().substring(0, 6) }}
           </v-card-text>
         </v-card>
         <v-divider vertical inset/>
@@ -74,7 +74,7 @@
             <span class="grey--text text-uppercase">F1-Score</span>
           </v-card-title>
           <v-card-text class="param_content">
-            {{ fOneScore }}
+            {{ fOneScore.toString().substring(0, 6) }}
           </v-card-text>
         </v-card>
       </v-layout>
@@ -116,14 +116,14 @@ export default {
       this.truePositives = 0;
       for (let index in this.conceptWords) {
         for (let index2 in this.groundtruth) {
-          if (" " + this.groundtruth[index2].toLowerCase().includes(" " + this.conceptWords[index])) {
+          if ((" " + this.groundtruth[index2].toLowerCase()).includes(" " + this.conceptWords[index])) {
             this.truePositives++;
             break;
           }
         }
       }
-      this.falseNegatives = this.numConceptsMethod - this.truePositives;
-      this.falsePositives = this.numConceptsGroundtruth - this.truePositives;
+      this.falseNegatives = this.numConceptsGroundtruth - this.truePositives;
+      this.falsePositives = this.numConceptsMethod - this.truePositives;
       // precision
       this.precision = this.truePositives/(this.truePositives+this.falsePositives);
       if(isNaN(this.precision)) {
@@ -131,8 +131,14 @@ export default {
       }
       // recall
       this.recall = this.truePositives/(this.truePositives+this.falseNegatives);
+      if(isNaN(this.recall)) {
+        this.recall = 0;
+      }
       // f1-score
       this.fOneScore = this.truePositives/(this.truePositives + (0.5 * (this.falsePositives + this.falseNegatives)));
+      if(isNaN(this.fOneScore)) {
+        this.fOneScore = 0;
+      }
     },
   },
   mounted() {

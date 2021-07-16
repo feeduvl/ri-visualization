@@ -327,7 +327,7 @@ export default {
       let gtPositives = [];
       for (let index in this.topicWordList) {
         for (let index2 in this.groundtruthList) {
-          if (" " + this.groundtruthList[index2].toLowerCase().includes(" " + this.topicWordList[index])) {
+          if ((" " + this.groundtruthList[index2].toLowerCase()).includes(" " + this.topicWordList[index])) {
             twPositives.push(this.topicWordList[index]);
             if (!(gtPositives.indexOf(this.groundtruthList[index2]) > -1)) {
               gtPositives.push(this.groundtruthList[index2]);
@@ -337,6 +337,8 @@ export default {
       }
       this.conceptWordPositives = twPositives;
       this.groundtruthPositives = gtPositives;
+      console.log(this.groundtruthPositives);
+      console.log(this.groundtruthList);
     },
     editName() {
       this.editBtn = true;
