@@ -61,7 +61,7 @@ export default {
       loadingDataset: 'loadingDataset',
     }),
     topicWordlist() {
-      let list = []
+      let list = [];
       for (let topic in this.selectedResult.topics) {
         for (let index in this.selectedResult.topics[topic]) {
           let word = this.selectedResult.topics[topic][index];

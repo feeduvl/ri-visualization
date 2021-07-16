@@ -70,28 +70,35 @@
       </v-card>
     </v-flex>
     <v-flex xs12>
-      <v-card>
+      <v-card id="concept_word_holder">
         <v-card-title>
-          <h2>Concept Words</h2>
+          <h2>Concept Words</h2><span id="cw_legend">Legend: <v-chip :color="BLUE_LIGHT">matching</v-chip><span> </span><v-chip :color="ORANGE_LIGHT">not matching</v-chip></span>
         </v-card-title>
-        <v-data-table
-            :headers="tableHeaders"
-            :items="topicWordlist"
-            :pagination.sync="pagination"
-            :loading="loadingResults"
-        >
-          <template slot="items" slot-scope="props">
-            <tr>
-              <td>{{ props.item.number }}</td>
-              <td>
-                <span v-for="word in props.item.words">
-                    <v-chip>{{ word }}</v-chip><span> </span>
-                </span>
-              </td>
-            </tr>
-          </template>
-        </v-data-table>
+        <v-layout row wrap>
+          <v-flex xs5 id="concept_words">
+            <h4 class="grey-headline">Concept Words</h4>
+            <span v-for="word in topicWordList">
+              <v-chip v-if="conceptWordPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
+              <v-chip v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
+            </span>
+          </v-flex>
+          <v-spacer></v-spacer>
+          <v-flex v-if="groundtruthList.length > 0" xs5 id="groundtruth_words">
+            <h4 class="grey-headline">Ground Truth</h4>
+            <span v-for="word in groundtruthList">
+              <v-chip v-if="groundtruthPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
+              <v-chip v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
+            </span>
+          </v-flex>
+          <v-flex v-else>
+            <h4 class="grey-headline">Ground Truth</h4>
+            <h4>No groundtruth data available</h4>
+          </v-flex>
+        </v-layout>
       </v-card>
+    </v-flex>
+    <v-flex xs12 id="groundtruth-comparison-holder">
+      <groundtruth-comparison v-bind:conceptWords="topicWordList" v-bind:groundtruth="groundtruthList"/>
     </v-flex>
     <v-flex xs12 id="heatmap-holder">
       <heatmap-word-document/>
@@ -184,7 +191,7 @@
 <script>
 import {mapGetters} from "vuex";
 import Cloud from 'vue-d3-cloud'
-import {CLOUD} from "@/colors";
+import {BLUE_LIGHT, CLOUD, ORANGE_LIGHT} from "@/colors";
 import {getMethodObj} from "@/methods";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 import axios from "axios";
@@ -193,31 +200,48 @@ import {ACTION_DELETE_RESULT, ACTION_EDIT_RESULT_NAME, MUTATE_SELECTED_RESULT} f
 
 export default {
   name: "TopicDetectionResult",
+  watch: {
+    topicWordList: function () {
+      this.updateWordMapping();
+    },
+    groundTruthList: function () {
+      this.updateWordMapping();
+    }
+  },
   computed: {
     ...mapGetters({
       loadingResults: 'loadingResults',
       selectedResult: 'selectedResult',
       selectedDataset: 'selectedDataset',
     }),
-    topicWordlist() {
-      let list = []
+    topicWordList() {
+      let list = [];
       for (let topic in this.selectedResult.topics) {
-        let li = []
-        let obj = {}
         for (let index in this.selectedResult.topics[topic]) {
           let word = this.selectedResult.topics[topic][index];
-            li.push(word);
+          if (!(list.indexOf(word) > -1)) {
+            list.push(word);
+          }
         }
-        obj.number = parseInt(topic) + 1;
-        obj.words = li.sort();
-        list.push(obj);
       }
-      return list;
+      return list.sort();
+    },
+    groundtruthList() {
+      let list = [];
+      if (this.selectedDataset.hasOwnProperty("ground_truth")) {
+        for (let index in this.selectedDataset.ground_truth) {
+          let gt = this.selectedDataset.ground_truth[index];
+          if (!(list.indexOf(gt.value) > -1)) {
+            list.push(gt.value);
+          }
+        }
+      }
+      return list.sort();
     },
     topicWords() {
       if (this.selectedDataset.documents !== undefined) {
-        let list = []
-        let tw = []
+        let list = [];
+        let tw = [];
         for (let topic in this.selectedResult.topics) {
           for (let index in this.selectedResult.topics[topic]) {
             let word = this.selectedResult.topics[topic][index];
@@ -245,14 +269,19 @@ export default {
     Cloud,
     "heatmap-word-document": () =>
         import("../widget/heatmap/HeatmapWordDocument"),
+    "groundtruth-comparison": () => import("@/components/widget/table/GroundtruthComparison"),
   },
   data: function () {
     return {
+      BLUE_LIGHT: BLUE_LIGHT,
+      ORANGE_LIGHT: ORANGE_LIGHT,
       baseFontsize: 20,
       resultToDelete: {},
       resultToEdit: {},
       deleteSnackbarVisible: false,
       editDialogVisible: false,
+      conceptWordPositives: [],
+      groundtruthPositives: [],
       newResultName: "",
       deleteBtn: false,
       editBtn: false,
@@ -269,15 +298,15 @@ export default {
       padding: 5,
       tableHeaders: [
         {
-          text: "Number",
-          align: "center",
-          sortable: true,
-          value: "id",
-          width: "10%",
+          text: "Concept Words",
+          align: "left",
+          sortable: false,
+          value: "text",
+          width: "90%",
           filterable: false
         },
         {
-          text: "Concept Words",
+          text: "Ground Truth",
           align: "left",
           sortable: false,
           value: "text",
@@ -293,6 +322,22 @@ export default {
     }
   },
   methods: {
+    updateWordMapping() {
+      let twPositives = [];
+      let gtPositives = [];
+      for (let index in this.topicWordList) {
+        for (let index2 in this.groundtruthList) {
+          if (" " + this.groundtruthList[index2].toLowerCase().includes(" " + this.topicWordList[index])) {
+            twPositives.push(this.topicWordList[index]);
+            if (!(gtPositives.indexOf(this.groundtruthList[index2]) > -1)) {
+              gtPositives.push(this.groundtruthList[index2]);
+            }
+          }
+        }
+      }
+      this.conceptWordPositives = twPositives;
+      this.groundtruthPositives = gtPositives;
+    },
     editName() {
       this.editBtn = true;
       this.resultToEdit.name = this.newResultName;
@@ -416,12 +461,19 @@ export default {
       }
     },
   },
+  mounted() {
+    this.updateWordMapping();
+  },
 }
 </script>
 
 <style scoped>
 
 #wordcloud_holder {
+  margin-bottom: 20px;
+}
+
+#concept_word_holder {
   margin-bottom: 20px;
 }
 
@@ -453,6 +505,28 @@ export default {
 
 .btnAlign {
   float: right;
+}
+
+#concept_words {
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+#groundtruth_words {
+  margin-right: 20px;
+  align-content: center;
+}
+
+.grey-headline {
+  color: grey;
+  font-weight: 450;
+}
+
+#cw_legend {
+  font-weight: 450;
+  float: right;
+  margin-top: 6px;
+  margin-left: 700px;
 }
 
 </style>
