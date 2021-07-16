@@ -19,6 +19,9 @@ export default {
       this.option.series[0].data[0].value = val;
     },
   },
+  mounted() {
+    this.option.series[0].data[0].value = this.value;
+  },
   data: () => ({
     option: {
       series: [{
