@@ -201,10 +201,10 @@ import {ACTION_DELETE_RESULT, ACTION_EDIT_RESULT_NAME, MUTATE_SELECTED_RESULT} f
 export default {
   name: "TopicDetectionResult",
   watch: {
-    topicWordList: function () {
+    selectedResult: function () {
       this.updateWordMapping();
     },
-    groundTruthList: function () {
+    selectedDataset: function () {
       this.updateWordMapping();
     }
   },
@@ -215,6 +215,7 @@ export default {
       selectedDataset: 'selectedDataset',
     }),
     topicWordList() {
+      console.log("topicWordList called");
       let list = [];
       for (let topic in this.selectedResult.topics) {
         for (let index in this.selectedResult.topics[topic]) {
@@ -227,6 +228,7 @@ export default {
       return list.sort();
     },
     groundtruthList() {
+      console.log("groundtruthList called");
       let list = [];
       if (this.selectedDataset.hasOwnProperty("ground_truth")) {
         for (let index in this.selectedDataset.ground_truth) {
@@ -323,6 +325,7 @@ export default {
   },
   methods: {
     updateWordMapping() {
+      console.log("updateWordMapping called");
       let twPositives = [];
       let gtPositives = [];
       for (let index in this.topicWordList) {
@@ -337,8 +340,6 @@ export default {
       }
       this.conceptWordPositives = twPositives;
       this.groundtruthPositives = gtPositives;
-      console.log(this.groundtruthPositives);
-      console.log(this.groundtruthList);
     },
     editName() {
       this.editBtn = true;
