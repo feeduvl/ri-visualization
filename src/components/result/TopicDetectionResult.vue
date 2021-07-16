@@ -253,7 +253,7 @@ export default {
         for (const word of list) {
           let count = 0;
           for (const document of this.selectedDataset["documents"]) {
-            if (document.text.toLowerCase().includes(" " + word)) {
+            if ((" " + document.text.toLowerCase()).includes(" " + word)) {
               count++;
             }
           }
@@ -332,6 +332,10 @@ export default {
             if (!(gtPositives.indexOf(this.groundtruthList[index2]) > -1)) {
               gtPositives.push(this.groundtruthList[index2]);
             }
+            console.log("Word:");
+            console.log(this.topicWordList[index]);
+            console.log("GT:");
+            console.log(this.groundtruthList[index2]);
           }
         }
       }
@@ -531,6 +535,7 @@ export default {
 
 #concept_word_content {
   overflow-y: scroll;
+  max-height: 500px;
 }
 
 </style>
