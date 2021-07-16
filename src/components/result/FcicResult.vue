@@ -3,14 +3,23 @@
     <v-container>
         <cloud :data="itemsList" :padding="padding" :fontSizeMapper="fontSizeMapper" :onWordClick="onWordClick" :rotate="rotate" :coloring="coloring" :colors="colors" />
         <ECharts class="chart" :options="this.getHeatmapConfig()" auto-resize></ECharts>
-        <v-btn v-if="!showingDecisionTree"
-                elevation="2"
-                @click="showingDecisionTree=!showingDecisionTree"
-        >Show Decision Tree</v-btn>
-        <v-btn v-if="showingDecisionTree"
-                                          elevation="2"
-                                          @click="showingDecisionTree=!showingDecisionTree"
-    >Hide Decision Tree</v-btn>
+        <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                        color="primary"
+                        dark
+                        v-bind="attrs"
+                        v-on="on"
+                        elevation="2"
+                        @click="showingDecisionTree=!showingDecisionTree"
+                >
+                    <span v-if="!showingDecisionTree">Show Decision Tree</span>
+                    <span v-else>Hide Decision Tree</span>
+                </v-btn>
+            </template>
+            <span>{{toolTipDecisionTree}}</span>
+        </v-tooltip>
+
         <ranked-list-result v-bind="{nameTitle: 'Concept',
             scoreTitle: 'Information gain on split',
             items:itemsList }"></ranked-list-result>
@@ -44,7 +53,9 @@
                 padding: 5,
                 onWordClick: onWordCloudWordClicked,
                 maxSeriesData: 0,
-                showingDecisionTree: false
+                showingDecisionTree: false,
+                toolTipDecisionTree: "Interpretation: Starting at the root node, check for the presence of a concept in an input sentence. If the concept represented by this node is present, move to the left child. If the concept is not present, move to the right child. Leaf nodes represent the final classification of the input text."
+
             }
         },
         methods: {
