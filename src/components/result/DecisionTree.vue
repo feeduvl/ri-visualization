@@ -88,7 +88,7 @@
     #tree-simple {
         width: 100%;
         height: 800px;
-        position: absolute;
+        position: relative;
     }
 
     #tree-simple svg {
