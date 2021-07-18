@@ -527,6 +527,10 @@ export default {
     setInterval(function () {
       this.updateServiceStatus(this.selectedMethod);
     }.bind(this), 30000);
+
+    setInterval(function () {
+      reloadResults(this.$store);
+    }.bind(this), 20000);
   }
 }
 
