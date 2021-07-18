@@ -57,8 +57,16 @@
         v-model="deleteSnackbarVisible"
         :timeout="deleteSnackbarTimeout"
         :top=true
+        :multi-line="true"
     >
       Delete Dataset {{ datasetToDelete }}?
+
+      <v-checkbox
+          v-model="alsoDeleteRuns"
+          :label="``"
+          :dark="true"
+      ></v-checkbox>
+      Also delete runs with this dataset?
 
       <v-btn
           color="error"
@@ -86,10 +94,10 @@ import axios from "axios";
 import "moment/locale/de";
 import {
   GET_DATASET_ENDPOINT,
-  DELETE_DATASET_ENDPOINT
+  DELETE_DATASET_ENDPOINT, DELETE_RESULT_ENDPOINT
 } from "@/RESTconf";
 import { mapGetters } from 'vuex'
-import {MUTATE_SELECTED_DATASET_OUTSIDE} from "@/store/types";
+import {ACTION_DELETE_RESULT, MUTATE_SELECTED_DATASET_OUTSIDE, MUTATE_SELECTED_RESULT} from "@/store/types";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 import {loadDatasets} from "@/RESTcalls";
 
@@ -99,6 +107,7 @@ export default {
     ...mapGetters({
       datasets: 'datasets',
       selectedDatasetOutside: 'selectedDatasetOutside',
+      results: 'finishedResults',
     }),
     selectedDataset: {
       get () {
@@ -126,6 +135,7 @@ export default {
       deleteSnackbarVisible: false,
       deleteSnackbarTimeout: 0,
       datasetToDelete: "",
+      alsoDeleteRuns: false,
       deleteBtn: false,
       loading: false,
       btnLoading: false,
@@ -206,6 +216,15 @@ export default {
           .delete(DELETE_DATASET_ENDPOINT(this.datasetToDelete))
           .then(response => {
             if (response.status > 200 || response.status < 300) {
+              // Check to also delete runs with dataset
+              if (this.alsoDeleteRuns) {
+                console.log("Deleting runs with dataset:");
+                console.log(this.datasetToDelete);
+                let runsWithDataset = results.filter(a => a.dataset_name === this.datasetToDelete);
+                for (let index in runsWithDataset) {
+                  this.deleteResult(runsWithDataset[index]);
+                }
+              }
               loadDatasets(this.$store);
               this.displaySnackbar(response.data.message);
               this.datasetToDelete = "";
@@ -222,6 +241,22 @@ export default {
             this.deleteSnackbarVisible = false;
             setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
           });
+    },
+    deleteResult(result) {
+      axios.delete(DELETE_RESULT_ENDPOINT(result.started_at))
+          .then(response => {
+            if (response.status > 200 || response.status < 300) {
+              if (this.selectedResult.started_at === result.started_at) {
+                  this.$store.commit(MUTATE_SELECTED_RESULT, {});
+                }
+              this.$store.dispatch(ACTION_DELETE_RESULT, result);
+            } else {
+              console.log("DatasetHome::deleteResult: ", response.status);
+            }
+          })
+          .catch(e => {
+            console.log("DatasetHome::deleteResult: ", e);
+          })
     },
   },
   mounted() {
