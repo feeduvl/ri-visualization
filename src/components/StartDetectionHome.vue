@@ -525,11 +525,15 @@ export default {
     this.updateServiceStatus(this.selectedMethod);
 
     setInterval(function () {
-      this.updateServiceStatus(this.selectedMethod);
+      if(!(this._inactive)) {
+        this.updateServiceStatus(this.selectedMethod);
+      }
     }.bind(this), 30000);
 
     setInterval(function () {
-      reloadResults(this.$store);
+      if(!(this._inactive)) {
+        reloadResults(this.$store);
+      }
     }.bind(this), 20000);
   }
 }
