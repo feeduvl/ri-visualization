@@ -108,6 +108,7 @@ export default {
       datasets: 'datasets',
       selectedDatasetOutside: 'selectedDatasetOutside',
       results: 'finishedResults',
+      selectedResult: 'selectedResult',
     }),
     selectedDataset: {
       get () {
@@ -191,6 +192,9 @@ export default {
       }
       this.data = documents;
     },
+    resetTable() {
+      this.data = [];
+    },
     showDeleteDataset(dataset) {
       if (this.selectedDataset !== "") {
         this.datasetToDelete = dataset;
@@ -240,16 +244,18 @@ export default {
             this.deleteBtn = false;
             this.deleteSnackbarVisible = false;
             setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
-            this.updateTable();
+            this.resetTable();
           });
     },
     deleteResult(result) {
       axios.delete(DELETE_RESULT_ENDPOINT(result.started_at))
           .then(response => {
             if (response.status > 200 || response.status < 300) {
-              if (this.selectedResult.started_at === result.started_at) {
+              if (this.selectedResult.started_at !== undefined) {
+                if (this.selectedResult.started_at === result.started_at) {
                   this.$store.commit(MUTATE_SELECTED_RESULT, {});
                 }
+              }
               this.$store.dispatch(ACTION_DELETE_RESULT, result);
             } else {
               console.log("DatasetHome::deleteResult: ", response.status);
