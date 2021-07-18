@@ -222,8 +222,6 @@ export default {
             if (response.status > 200 || response.status < 300) {
               // Check to also delete runs with dataset
               if (this.alsoDeleteRuns) {
-                console.log("Deleting runs with dataset:");
-                console.log(this.datasetToDelete);
                 let runsWithDataset = this.results.filter(a => a.dataset_name === this.datasetToDelete);
                 for (let index in runsWithDataset) {
                   this.deleteResult(runsWithDataset[index]);
