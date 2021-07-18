@@ -489,6 +489,7 @@ export default {
   padding-top: 0;
   padding-left: 25px;
   font-weight: 500;
+  font-size: 16px;
 }
 
 .param_header {
@@ -501,6 +502,7 @@ export default {
 
 #parameter_layout {
   padding-left: 20px;
+  padding-bottom: 20px;
 }
 
 .btnAlign {
