@@ -220,7 +220,7 @@ export default {
               if (this.alsoDeleteRuns) {
                 console.log("Deleting runs with dataset:");
                 console.log(this.datasetToDelete);
-                let runsWithDataset = results.filter(a => a.dataset_name === this.datasetToDelete);
+                let runsWithDataset = this.results.filter(a => a.dataset_name === this.datasetToDelete);
                 for (let index in runsWithDataset) {
                   this.deleteResult(runsWithDataset[index]);
                 }
@@ -240,6 +240,7 @@ export default {
             this.deleteBtn = false;
             this.deleteSnackbarVisible = false;
             setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
+            this.updateTable();
           });
     },
     deleteResult(result) {
