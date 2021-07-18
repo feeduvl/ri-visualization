@@ -257,7 +257,7 @@ export default {
               count++;
             }
           }
-          tw.push({text: word, value: Math.min((count *2) + this.baseFontsize, 120)});
+          tw.push({text: word, value: Math.min((count *2) + this.baseFontsize, 100)});
         }
         return tw;
       } else {
