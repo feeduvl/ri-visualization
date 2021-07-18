@@ -243,6 +243,7 @@ export default {
             this.deleteSnackbarVisible = false;
             setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
             this.resetTable();
+            this.alsoDeleteRuns = false;
           });
     },
     deleteResult(result) {

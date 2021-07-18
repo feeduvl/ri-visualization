@@ -250,6 +250,7 @@ export default {
         ).then(response => {
           if (response.status > 200 || response.status < 300) {
             this.displaySnackbar(response.data.message);
+            setTimeout(() => {  this.closeSnackbar(); }, SNACKBAR_DISPLAY_TIME);
             this.fileInputField.value = null;
             // Reset file name display
             this.getFileName();
@@ -289,6 +290,7 @@ export default {
         ).then(response => {
           if (response.status > 200 || response.status < 300) {
             this.displaySnackbar(response.data.message);
+            setTimeout(() => {  this.closeSnackbar(); }, SNACKBAR_DISPLAY_TIME);
             this.fileInputFieldGroundtruth.value = null;
             // Reset file name display
             this.getGroundtruthFileName();
@@ -363,6 +365,7 @@ export default {
               this.deleteBtn = false;
               this.deleteSnackbarVisible = false;
               setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
+              this.alsoDeleteRuns = false;
         });
     },
     deleteResult(result) {
