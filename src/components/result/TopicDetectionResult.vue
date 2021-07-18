@@ -29,7 +29,7 @@
                 <span class="grey--text text-uppercase">Dataset</span>
               </v-card-title>
               <v-card-text class="param_content">
-                {{ selectedResult.dataset_name }}
+                {{ displayDatasetName(selectedResult.dataset_name) }}
               </v-card-text>
             </v-card>
             <v-card elevation="0" class="param_holder">
@@ -392,10 +392,17 @@ export default {
           }
       )},
     displayRunName(name) {
-      if (name === "") {
+      if (name === "" || name === undefined) {
         return "-";
       } else {
         return name;
+      }
+    },
+    displayDatasetName(dataset_name) {
+      if (dataset_name === "" || dataset_name === undefined) {
+        return "-";
+      } else {
+        return dataset_name;
       }
     },
     getNameForFile() {
@@ -534,6 +541,7 @@ export default {
 #concept_word_content {
   overflow-y: scroll;
   max-height: 500px;
+  padding-bottom: 20px;
 }
 
 </style>
