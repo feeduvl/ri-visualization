@@ -94,7 +94,12 @@
                         data: concepts,
                         splitArea: {
                             show: true
-                        }
+                        },
+                        axisLabel: {
+                            rotate: 90,
+                            margin: 4,
+                            fontSize: 10,
+                        },
                     },
                     yAxis: {
                         type: "category",
@@ -121,7 +126,7 @@
                             data: this.seriesData(),
                             label: {
                                 normal: {
-                                    show: false
+                                    show: true
                                 }
                             },
                             itemStyle: {
