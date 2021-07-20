@@ -2,7 +2,8 @@
     <v-data-table
             :headers="[{'text': nameTitle, 'value': 'text' },
             {'text': scoreTitle, 'value': 'score'},
-            {'text': 'Occurences', 'value': 'occurences'}]"
+            {'text': 'Occurences (total)', 'value': 'occs_total'},
+            {'text': 'Occurences (number of documents)', 'value':'occ_doc_count'}]"
             :items="items"
     >
 
