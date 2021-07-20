@@ -97,7 +97,12 @@
                         data: concepts,
                         splitArea: {
                             show: true
-                        }
+                        },
+                        axisLabel: {
+                            rotate: 90,
+                            margin: 4,
+                            fontSize: 10,
+                        },
                     },
                     yAxis: {
                         type: "category",
