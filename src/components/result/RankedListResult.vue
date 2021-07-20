@@ -11,7 +11,8 @@
 
             <td class="text-xs-right">{{ props.item.text }}</td>
             <td class="text-xs-right">{{ props.item.score }}</td>
-            <td class="text-xs-right">{{ props.item.occurences }}</td>
+            <td class="text-xs-right">{{ props.item.occs_total}}</td>
+            <td class="text-xs-right">{{ props.item.occ_doc_count}}</td>
 
         </template>
     </v-data-table>
