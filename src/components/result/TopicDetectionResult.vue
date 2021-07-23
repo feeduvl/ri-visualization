@@ -72,22 +72,22 @@
     <v-flex xs12>
       <v-card id="concept_word_holder">
         <v-card-title>
-          <h2>Concept Words</h2><span id="cw_legend">Legend: <v-chip :color="BLUE_LIGHT">matching</v-chip><span> </span><v-chip :color="ORANGE_LIGHT">not matching</v-chip></span>
+          <h2>Concept Words</h2><span id="cw_legend">Legend: <v-chip @click="toggleShowMatching" :color="BLUE_LIGHT">matching</v-chip><span> </span><v-chip @click="toggleShowNotMatching" :color="ORANGE_LIGHT">not matching</v-chip></span>
         </v-card-title>
         <v-layout row wrap id="concept_word_content">
           <v-flex xs5 id="concept_words">
             <h4 class="grey-headline">Concept Words</h4>
             <span v-for="word in topicWordList">
-              <v-chip @click="toggleShowMatching" v-show="showMatching" v-if="conceptWordPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
-              <v-chip @click="toggleShowNotMatching" v-show="showNotMatching" v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
+              <v-chip v-show="showMatching" v-if="conceptWordPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
+              <v-chip v-show="showNotMatching" v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
             </span>
           </v-flex>
           <v-spacer></v-spacer>
           <v-flex v-if="groundtruthList.length > 0" xs5 id="groundtruth_words">
             <h4 class="grey-headline">Ground Truth</h4>
             <span v-for="word in groundtruthList">
-              <v-chip v-if="groundtruthPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
-              <v-chip v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
+              <v-chip v-show="showMatching"  v-if="groundtruthPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
+              <v-chip v-show="showNotMatching" v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
             </span>
           </v-flex>
           <v-flex v-else>
