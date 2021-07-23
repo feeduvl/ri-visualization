@@ -78,8 +78,8 @@
           <v-flex xs5 id="concept_words">
             <h4 class="grey-headline">Concept Words</h4>
             <span v-for="word in topicWordList">
-              <v-chip onclick="toggleShowMatching" v-show="showMatching" v-if="conceptWordPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
-              <v-chip onclick="toggleShowNotMatching" v-show="showNotMatching" v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
+              <v-chip @click="toggleShowMatching" v-show="showMatching" v-if="conceptWordPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
+              <v-chip @click="toggleShowNotMatching" v-show="showNotMatching" v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
             </span>
           </v-flex>
           <v-spacer></v-spacer>
