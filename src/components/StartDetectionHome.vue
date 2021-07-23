@@ -520,9 +520,6 @@ export default {
     async reloadResults() {
       if(!(this._inactive)) {
         await reloadResults(this.$store);
-        setTimeout(() => this.reloadResults(this.$store), 20000);
-      } else {
-        setTimeout(() => this.reloadResults(this.$store), 20000);
       }
     },
   },
@@ -535,7 +532,9 @@ export default {
       }
     }.bind(this), 30000);
 
-    setTimeout(() => this.reloadResults(this.$store), 20000);
+    setInterval(function () {
+      this.reloadResults(this.$store)
+    }.bind(this), 20000);
 
   }
 }
