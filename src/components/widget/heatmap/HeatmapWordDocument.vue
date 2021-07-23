@@ -103,6 +103,9 @@ export default {
         for (let topic in this.selectedResult.topics) {
           for (let index in this.selectedResult.topics[topic]) {
             let word = this.selectedResult.topics[topic][index];
+            if (word.length <= 1) {
+              continue;
+            }
             if (!(list.indexOf(word) > -1)) {
               list.push(word);
             }
