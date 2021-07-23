@@ -533,7 +533,7 @@ export default {
     }.bind(this), 30000);
 
     setInterval(function () {
-      this.reloadResults(this.$store)
+      this.reloadResults(this.$store);
     }.bind(this), 20000);
 
   }

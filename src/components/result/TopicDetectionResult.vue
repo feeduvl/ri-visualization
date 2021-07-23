@@ -78,8 +78,8 @@
           <v-flex xs5 id="concept_words">
             <h4 class="grey-headline">Concept Words</h4>
             <span v-for="word in topicWordList">
-              <v-chip v-if="conceptWordPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
-              <v-chip v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
+              <v-chip onclick="toggleShowMatching" v-show="showMatching" v-if="conceptWordPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
+              <v-chip onclick="toggleShowNotMatching" v-show="showNotMatching" v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
             </span>
           </v-flex>
           <v-spacer></v-spacer>
@@ -284,6 +284,8 @@ export default {
       baseFontsize: 20,
       resultToDelete: {},
       resultToEdit: {},
+      showMatching: true,
+      showNotMatching: true,
       deleteSnackbarVisible: false,
       editDialogVisible: false,
       conceptWordPositives: [],
@@ -328,6 +330,12 @@ export default {
     }
   },
   methods: {
+    toggleShowMatching() {
+      this.showMatching = !this.showMatching;
+    },
+    toggleShowNotMatching() {
+      this.showNotMatching = !this.showNotMatching;
+    },
     updateWordMapping() {
       let twPositives = [];
       let gtPositives = [];
