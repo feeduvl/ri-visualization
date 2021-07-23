@@ -190,7 +190,7 @@
 
 <script>
 import {mapGetters} from "vuex";
-import Cloud from 'vue-d3-cloud'
+import Cloud from 'vue-d3-cloud';
 import {BLUE_LIGHT, CLOUD, ORANGE_LIGHT} from "@/colors";
 import {getMethodObj} from "@/methods";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
@@ -219,6 +219,9 @@ export default {
       for (let topic in this.selectedResult.topics) {
         for (let index in this.selectedResult.topics[topic]) {
           let word = this.selectedResult.topics[topic][index];
+          if (word.length <= 1) {
+            continue;
+          }
           if (!(list.indexOf(word) > -1)) {
             list.push(word);
           }
@@ -245,6 +248,9 @@ export default {
         for (let topic in this.selectedResult.topics) {
           for (let index in this.selectedResult.topics[topic]) {
             let word = this.selectedResult.topics[topic][index];
+            if (word.length <= 1) {
+              continue;
+            }
             if (!(list.indexOf(word) > -1)) {
               list.push(word);
             }
