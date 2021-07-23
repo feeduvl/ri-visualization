@@ -15,7 +15,7 @@
     import Cloud from 'vue-d3-cloud'
     import {BLACK, BLUE_DARK, BLUE_LIGHT, CLOUD} from "../../colors";
     import {mapGetters} from "vuex";
-    import {getOccurenceDesc, onWordCloudWordClicked} from "./frequency_result_methods";
+    import {getOccurenceDesc, getOccurenceStats, onWordCloudWordClicked} from "./frequency_result_methods";
     import {selectedResult} from "../../store/getters";
 
     export default {
@@ -97,7 +97,12 @@
                         data: concepts,
                         splitArea: {
                             show: true
-                        }
+                        },
+                        axisLabel: {
+                            rotate: 90,
+                            margin: 4,
+                            fontSize: 10,
+                        },
                     },
                     yAxis: {
                         type: "category",
@@ -161,9 +166,14 @@
                 const {concepts, scores, text_ids, text_occurences} = sr.topics;
                 let occs = getOccurenceDesc(text_ids, concepts, text_occurences);
 
+                let occs_stats = getOccurenceStats(text_ids, concepts, text_occurences);
                 let arr = []
                 for(let i = 0; i < concepts.length; i++){
-                    arr.push({text: concepts[i], score: scores[i], occurences: occs[i]})
+                    arr.push({text: concepts[i],
+                        score: scores[i],
+                        occurence_desc: occs[i],
+                        occ_doc_count: occs_stats[i][0],
+                        occs_total: occs_stats[i][1]})
                 }
                 return arr
             }

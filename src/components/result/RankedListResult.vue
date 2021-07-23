@@ -2,7 +2,8 @@
     <v-data-table
             :headers="[{'text': nameTitle, 'value': 'text' },
             {'text': scoreTitle, 'value': 'score'},
-            {'text': 'Occurences', 'value': 'occurences'}]"
+            {'text': 'Occurences (total)', 'value': 'occs_total'},
+            {'text': 'Occurences (number of documents)', 'value':'occ_doc_count'}]"
             :items="items"
     >
 
@@ -10,7 +11,8 @@
 
             <td class="text-xs-right">{{ props.item.text }}</td>
             <td class="text-xs-right">{{ props.item.score }}</td>
-            <td class="text-xs-right">{{ props.item.occurences }}</td>
+            <td class="text-xs-right">{{ props.item.occs_total}}</td>
+            <td class="text-xs-right">{{ props.item.occ_doc_count}}</td>
 
         </template>
     </v-data-table>

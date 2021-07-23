@@ -34,7 +34,7 @@
     import {BLACK, BLUE_DARK, BLUE_LIGHT, CLOUD} from "../../colors";
     import {mapGetters} from "vuex";
     import {selectedResult} from "../../store/getters";
-    import {getOccurenceDesc, onWordCloudWordClicked} from "./frequency_result_methods"
+    import {getOccurenceDesc, getOccurenceStats, onWordCloudWordClicked} from "./frequency_result_methods"
 
     export default {
         name: "FcicResult",
@@ -94,7 +94,12 @@
                         data: concepts,
                         splitArea: {
                             show: true
-                        }
+                        },
+                        axisLabel: {
+                            rotate: 90,
+                            margin: 4,
+                            fontSize: 10,
+                        },
                     },
                     yAxis: {
                         type: "category",
@@ -121,7 +126,7 @@
                             data: this.seriesData(),
                             label: {
                                 normal: {
-                                    show: false
+                                    show: true
                                 }
                             },
                             itemStyle: {
@@ -181,10 +186,14 @@
                 let sr = this.selectedResult;
                 const {concepts, information_gain, text_ids, text_occurences} = sr.topics;
                 let occs = getOccurenceDesc(text_ids, concepts, text_occurences);
-
+                let occs_stats = getOccurenceStats(text_ids, concepts, text_occurences);
                 let arr = []
                 for(let i = 0; i < concepts.length; i++){
-                    arr.push({text: concepts[i], score: information_gain[i], occurences: occs[i]})
+                    arr.push({text: concepts[i],
+                        score: information_gain[i],
+                        occurence_desc: occs[i],
+                        occ_doc_count: occs_stats[i][0],
+                        occs_total: occs_stats[i][1]})
                 }
                 return arr
             }

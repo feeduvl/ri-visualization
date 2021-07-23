@@ -26,7 +26,22 @@ export const getOccurenceDesc = function(textIds, concepts, occurences){
   return ret;
 };
 
+export const getOccurenceStats = function(textIds, concepts, occurrences){
+  let occsStats = [];
+  for (let i = 0; i < concepts.length; i++){
+    let numDocs = 0;
+    let totalCount = 0;
+    for (let j = 0; j < textIds.length; j++){
+      let occs = occurrences[j][i];
+      numDocs += ((occs > 0) ? 1 : 0);
+      totalCount += occs;
+    }
+    occsStats.push([numDocs, totalCount]);
+  }
+  return occsStats;
+};
+
 export const onWordCloudWordClicked = function(word){
   // eslint-disable-next-line no-alert
-  window.alert("'"+word.text+"' concept occurences: \n"+word.occurences);
+  window.alert("'"+word.text+"' concept occurences: \n"+word.occurence_desc);
 };
