@@ -519,9 +519,8 @@ export default {
     },
     async reloadResults() {
       if(!(this._inactive)) {
-        await reloadResults(this.$store).then( () => {
-          setTimeout(() => this.reloadResults(this.$store), 20000);
-        });
+        await reloadResults(this.$store);
+        setTimeout(() => this.reloadResults(this.$store), 20000);
       } else {
         setTimeout(() => this.reloadResults(this.$store), 20000);
       }
