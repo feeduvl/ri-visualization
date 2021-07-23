@@ -518,7 +518,10 @@ export default {
       return getMethodObj(method).displayName;
     },
     reloadResults() {
-      reloadResults(this.$store);
+      if(!(this._inactive)) {
+        reloadResults(this.$store);
+      }
+      setTimeout(() => this.reloadResults(this.$store), 20000);
     },
   },
   mounted() {
@@ -530,11 +533,8 @@ export default {
       }
     }.bind(this), 30000);
 
-    setInterval(function () {
-      if(!(this._inactive)) {
-        reloadResults(this.$store);
-      }
-    }.bind(this), 20000);
+    setTimeout(() => this.reloadResults(this.$store), 20000);
+
   }
 }
 
