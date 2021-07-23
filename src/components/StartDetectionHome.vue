@@ -517,9 +517,9 @@ export default {
     getDisplayName(method) {
       return getMethodObj(method).displayName;
     },
-    reloadResults() {
+    async reloadResults() {
       if(!(this._inactive)) {
-        reloadResults(this.$store);
+        await reloadResults(this.$store);
       }
       setTimeout(() => this.reloadResults(this.$store), 20000);
     },
