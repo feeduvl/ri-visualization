@@ -17,7 +17,14 @@
           >
           </v-select>
         </v-flex>
-        <v-flex xs5/>
+        <v-flex xs1/>
+        <span v-if="!hasGroundtruth" class="groundtruth_info">Groundtruth: {{ this.hasGroundtruthString }}</span>
+        <span v-else class="groundtruth_info">Groundtruth:
+        <v-btn small color="primary" @click="toggleShowGroundtruth">
+          {{ gtBtnText }}
+        </v-btn>
+        </span>
+        <v-flex xs3/>
         <v-flex xs2>
           <v-btn small outline color="error" @click="showDeleteDataset(selectedDataset)" id="delete_button">
             Delete Dataset
@@ -103,6 +110,11 @@ import {loadDatasets} from "@/RESTcalls";
 
 export default {
   name: "DatasetHome",
+  watch: {
+    selectedDataset: function () {
+      this.hasGroundtruth = !!this.selectedDataset.hasOwnProperty("groundtruth");
+    }
+  },
   computed: {
     ...mapGetters({
       datasets: 'datasets',
@@ -135,6 +147,10 @@ export default {
       snackbarText: "",
       deleteSnackbarVisible: false,
       deleteSnackbarTimeout: 0,
+      hasGroundtruthString: "Not available",
+      hasGroundtruth: false,
+      gtBtnText: "Show",
+      showGroundtruth: false,
       datasetToDelete: "",
       alsoDeleteRuns: false,
       deleteBtn: false,
@@ -168,6 +184,14 @@ export default {
     };
   },
   methods: {
+    toggleShowGroundtruth() {
+      if (this.showGroundtruth) {
+        this.gtBtnText = "Hide";
+      } else {
+        this.gtBtnText = "Show";
+      }
+      this.showGroundtruth = !this.showGroundtruth;
+    },
     async loadDataset() {
       this.data = [];
       this.loading = true;
@@ -185,6 +209,12 @@ export default {
       let documents = []
       for (let index in responseData["documents"]) {
         let document = responseData["documents"][index];
+        let t = document.text;
+        if (this.showGroundtruth) {
+          for (const gt of this.selectedDataset.groundtruth) {
+            t = t.replace(new RegExp(gt.text, "ig"), ' ' + '<span class=\'blue\'>' + gt.text.trim() + '</span>');
+          }
+        }
         let d = { text: document.text,
               number: document.number,
               id: document.id};
@@ -350,5 +380,10 @@ td {
 
 #delete_button {
   margin-top: 22px;
+}
+
+.groundtruth_info {
+  color: gray;
+  margin-top: 25px;
 }
 </style>

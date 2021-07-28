@@ -72,7 +72,7 @@
     <v-flex xs12>
       <v-card id="concept_word_holder">
         <v-card-title>
-          <h2>Concept Words</h2><span id="cw_legend">Legend: <v-chip @click="toggleShowNotMatching" :color="BLUE_LIGHT">matching</v-chip><span> </span><v-chip @click="toggleShowMatching" :color="ORANGE_LIGHT">not matching</v-chip></span>
+          <h2>Concept Words</h2><span id="cw_legend">Legend (click to filter): <v-chip @click="toggleShowNotMatching" :color="BLUE_LIGHT">matching</v-chip><span> </span><v-chip @click="toggleShowMatching" :color="ORANGE_LIGHT">not matching</v-chip></span>
         </v-card-title>
         <v-layout row wrap id="concept_word_content">
           <v-flex xs5 id="concept_words">
