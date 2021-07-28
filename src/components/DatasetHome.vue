@@ -18,8 +18,8 @@
           </v-select>
         </v-flex>
         <v-flex xs1/>
-        <span v-show="!hasGroundtruth" class="groundtruth_info">Groundtruth: {{ this.hasGroundtruthString }}</span>
-        <span v-show="hasGroundtruth" class="groundtruth_info">Groundtruth:
+        <span v-show="!hasGroundtruth" id="groundtruth_info">Groundtruth: {{ this.hasGroundtruthString }}</span>
+        <span v-show="hasGroundtruth" id="groundtruth_info_alt">Groundtruth:
         <v-btn small color="primary" @click="toggleShowGroundtruth">
           {{ gtBtnText }}
         </v-btn>
@@ -138,6 +138,18 @@ export default {
         this.selectedDatasetProxy = val;
       },
     },
+    groundtruthList() {
+      let list = [];
+      if (this.selectedDataset.hasOwnProperty("ground_truth")) {
+        for (let index in this.selectedDataset.ground_truth) {
+          let gt = this.selectedDataset.ground_truth[index];
+          if (!(list.indexOf(gt.value) > -1)) {
+            list.push(gt.value);
+          }
+        }
+      }
+      return list.sort();
+    },
   },
   data() {
     return {
@@ -215,8 +227,8 @@ export default {
         let document = responseData["documents"][index];
         let t = document.text;
         if (this.showGroundtruth) {
-          for (const gt of this.dataset.ground_truth) {
-            t = t.replace(new RegExp(gt.value, "ig"), ' ' + '<span class=\'blue\'>' + gt.value.trim() + '</span>');
+          for (const gt of this.groundtruthList) {
+            t = t.replace(new RegExp(gt, "ig"), '<span class=\'blue\'>' + gt + '</span>');
           }
         }
         let d = { text: t,
@@ -386,8 +398,13 @@ td {
   margin-top: 22px;
 }
 
-.groundtruth_info {
+#groundtruth_info {
   color: gray;
   margin-top: 25px;
+}
+
+#groundtruth_info_alt {
+  color: gray;
+  margin-top: 20px;
 }
 </style>
