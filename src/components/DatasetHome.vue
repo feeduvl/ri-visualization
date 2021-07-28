@@ -18,8 +18,8 @@
           </v-select>
         </v-flex>
         <v-flex xs1/>
-        <span v-if="!hasGroundtruth" class="groundtruth_info">Groundtruth: {{ this.hasGroundtruthString }}</span>
-        <span v-else class="groundtruth_info">Groundtruth:
+        <span v-show="!hasGroundtruth" class="groundtruth_info">Groundtruth: {{ this.hasGroundtruthString }}</span>
+        <span v-show="hasGroundtruth" class="groundtruth_info">Groundtruth:
         <v-btn small color="primary" @click="toggleShowGroundtruth">
           {{ gtBtnText }}
         </v-btn>
@@ -111,8 +111,8 @@ import {loadDatasets} from "@/RESTcalls";
 export default {
   name: "DatasetHome",
   watch: {
-    selectedDataset: function () {
-      this.hasGroundtruth = !!this.selectedDataset.hasOwnProperty("groundtruth");
+    dataset: function () {
+      this.hasGroundtruth = !!this.dataset.hasOwnProperty("groundtruth");
     }
   },
   computed: {
@@ -157,6 +157,7 @@ export default {
       loading: false,
       btnLoading: false,
       data: [],
+      dataset: {},
       cardTableTitle: "Dataset Content",
       pagination: {
         sortBy: "number",
@@ -191,6 +192,7 @@ export default {
         this.gtBtnText = "Show";
       }
       this.showGroundtruth = !this.showGroundtruth;
+      this.updateTable(this.dataset);
     },
     async loadDataset() {
       this.data = [];
@@ -199,6 +201,7 @@ export default {
           .get(GET_DATASET_ENDPOINT(this.selectedDataset))
           .then(response => {
             this.updateTable(response.data);
+            this.dataset = response.data;
           })
           .catch(e => {
             this.errors.push(e);
