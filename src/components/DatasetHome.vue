@@ -115,7 +115,7 @@ export default {
       console.log(this.hasGroundtruth);
       console.log(!!this.dataset.hasOwnProperty("groundtruth"));
       console.log(this.dataset);
-      this.hasGroundtruth = !!this.dataset.hasOwnProperty("groundtruth");
+      this.hasGroundtruth = !!this.dataset.hasOwnProperty("ground_truth");
     }
   },
   computed: {
@@ -217,7 +217,7 @@ export default {
         let document = responseData["documents"][index];
         let t = document.text;
         if (this.showGroundtruth) {
-          for (const gt of this.selectedDataset.groundtruth) {
+          for (const gt of this.selectedDataset.ground_truth) {
             t = t.replace(new RegExp(gt.text, "ig"), ' ' + '<span class=\'blue\'>' + gt.text.trim() + '</span>');
           }
         }
