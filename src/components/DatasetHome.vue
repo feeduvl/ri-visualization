@@ -112,6 +112,9 @@ export default {
   name: "DatasetHome",
   watch: {
     dataset: function () {
+      console.log(this.hasGroundtruth);
+      console.log(!!this.dataset.hasOwnProperty("groundtruth"));
+      console.log(this.dataset);
       this.hasGroundtruth = !!this.dataset.hasOwnProperty("groundtruth");
     }
   },
