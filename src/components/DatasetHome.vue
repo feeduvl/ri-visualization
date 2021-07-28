@@ -113,7 +113,6 @@ export default {
   watch: {
     dataset: function () {
       this.hasGroundtruth = this.dataset.ground_truth.length !== 0;
-      console.log(this.hasGroundtruth);
     }
   },
   computed: {
@@ -140,9 +139,9 @@ export default {
     },
     groundtruthList() {
       let list = [];
-      if (this.selectedDataset.hasOwnProperty("ground_truth")) {
-        for (let index in this.selectedDataset.ground_truth) {
-          let gt = this.selectedDataset.ground_truth[index];
+      if (this.dataset.hasOwnProperty("ground_truth")) {
+        for (let index in this.dataset.ground_truth) {
+          let gt = this.dataset.ground_truth[index];
           if (!(list.indexOf(gt.value) > -1)) {
             list.push(gt.value);
           }
@@ -405,6 +404,6 @@ td {
 
 #groundtruth_info_alt {
   color: gray;
-  margin-top: 20px;
+  margin-top: 17px;
 }
 </style>
