@@ -112,9 +112,7 @@ export default {
   name: "DatasetHome",
   watch: {
     dataset: function () {
-      console.log(!!this.dataset.hasOwnProperty("ground_truth"));
-      console.log(this.dataset);
-      this.hasGroundtruth = !!this.dataset.hasOwnProperty("ground_truth");
+      this.hasGroundtruth = this.dataset.ground_truth.length !== 0;
       console.log(this.hasGroundtruth);
     }
   },
@@ -218,7 +216,7 @@ export default {
         let t = document.text;
         if (this.showGroundtruth) {
           for (const gt of this.dataset.ground_truth) {
-            t = t.replace(new RegExp(gt.text, "ig"), ' ' + '<span class=\'blue\'>' + gt.text.trim() + '</span>');
+            t = t.replace(new RegExp(gt.value, "ig"), ' ' + '<span class=\'blue\'>' + gt.value.trim() + '</span>');
           }
         }
         let d = { text: t,
