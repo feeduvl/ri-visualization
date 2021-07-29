@@ -114,11 +114,14 @@ export default {
   watch: {
     dataset: function () {
       if (this.dataset.hasOwnProperty("ground_truth")) {
-        if (this.dataset.ground_truth.length > 0) {
+        if (this.dataset.ground_truth.length !== null) {
           this.hasGroundtruth = true;
+        } else {
+          this.hasGroundtruth = false;
         }
+      } else {
+        this.hasGroundtruth = false;
       }
-      this.hasGroundtruth = false;
     }
   },
   computed: {
