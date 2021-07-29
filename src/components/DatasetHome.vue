@@ -40,7 +40,7 @@
         <template slot="items" slot-scope="props">
           <tr>
             <td>{{ props.item.id }}</td>
-            <td>{{ props.item.text }}</td>
+            <td><text-highlight :queries="queries">{{ props.item.text }}</text-highlight></td>
           </tr>
         </template>
       </v-data-table>
@@ -107,22 +107,21 @@ import { mapGetters } from 'vuex'
 import {ACTION_DELETE_RESULT, MUTATE_SELECTED_DATASET_OUTSIDE, MUTATE_SELECTED_RESULT} from "@/store/types";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 import {loadDatasets} from "@/RESTcalls";
-import "mark.js";
+import TextHighlight from 'vue-text-highlight';
 
 export default {
   name: "DatasetHome",
   watch: {
     dataset: function () {
       if (this.dataset.hasOwnProperty("ground_truth")) {
-        if (this.dataset.ground_truth.length !== null) {
-          this.hasGroundtruth = true;
-        } else {
-          this.hasGroundtruth = false;
-        }
+        this.hasGroundtruth = this.dataset.ground_truth.length !== null;
       } else {
         this.hasGroundtruth = false;
       }
     }
+  },
+  components: {
+    'text-highlight': TextHighlight,
   },
   computed: {
     ...mapGetters({
@@ -179,6 +178,7 @@ export default {
       btnLoading: false,
       data: [],
       dataset: {},
+      queries: [],
       cardTableTitle: "Dataset Content",
       pagination: {
         sortBy: "number",
@@ -207,19 +207,15 @@ export default {
   },
   methods: {
     toggleShowGroundtruth() {
-      var instance = new Mark(document.querySelector(".markable"));
       if (this.showGroundtruth) {
         this.gtBtnText = "Hide";
-        instance.mark(this.groundtruthList, {
-          "accuracy": "exactly",
-          "diacritics": false
-        });
+        this.queries = this.groundtruthList;
       } else {
         this.gtBtnText = "Show";
-        instance.unmark();
+        this.queries = [];
       }
       this.showGroundtruth = !this.showGroundtruth;
-      this.updateTable(this.dataset);
+      //this.updateTable(this.dataset);
     },
     async loadDataset() {
       this.data = [];
@@ -240,11 +236,11 @@ export default {
       for (let index in responseData["documents"]) {
         let document = responseData["documents"][index];
         let t = document.text;
-        if (this.showGroundtruth) {
-          for (const gt of this.groundtruthList) {
-            t = t.replace(new RegExp(gt, "ig"), '<span class=\'blue\'>' + gt + '</span>');
-          }
-        }
+        //if (this.showGroundtruth) {
+        //  for (const gt of this.groundtruthList) {
+        //    t = t.replace(new RegExp(gt, "ig"), '<span class=\'blue\'>' + gt + '</span>');
+        //  }
+        //}
         let d = { text: t,
               number: document.number,
               id: document.id};
