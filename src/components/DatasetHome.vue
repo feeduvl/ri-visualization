@@ -40,7 +40,11 @@
         <template slot="items" slot-scope="props">
           <tr>
             <td>{{ props.item.id }}</td>
-            <td><text-highlight :queries="queries">{{ props.item.text }}</text-highlight></td>
+            <td><text-highlight
+                :highlightStyle="'background-color: #2196f3 !important;'"
+                :queries="queries"
+                :diacriticsSensitive="false"
+            >{{ props.item.text }}</text-highlight></td>
           </tr>
         </template>
       </v-data-table>
