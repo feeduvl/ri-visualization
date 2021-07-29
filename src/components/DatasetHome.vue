@@ -107,12 +107,18 @@ import { mapGetters } from 'vuex'
 import {ACTION_DELETE_RESULT, MUTATE_SELECTED_DATASET_OUTSIDE, MUTATE_SELECTED_RESULT} from "@/store/types";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 import {loadDatasets} from "@/RESTcalls";
+import "mark.js";
 
 export default {
   name: "DatasetHome",
   watch: {
     dataset: function () {
-      this.hasGroundtruth = this.dataset.ground_truth.length !== 0;
+      if (this.dataset.hasOwnProperty("ground_truth")) {
+        if (this.dataset.ground_truth.length > 0) {
+          this.hasGroundtruth = true;
+        }
+      }
+      this.hasGroundtruth = false;
     }
   },
   computed: {
@@ -198,10 +204,16 @@ export default {
   },
   methods: {
     toggleShowGroundtruth() {
+      var instance = new Mark(document.querySelector(".markable"));
       if (this.showGroundtruth) {
         this.gtBtnText = "Hide";
+        instance.mark(this.groundtruthList, {
+          "accuracy": "exactly",
+          "diacritics": false
+        });
       } else {
         this.gtBtnText = "Show";
+        instance.unmark();
       }
       this.showGroundtruth = !this.showGroundtruth;
       this.updateTable(this.dataset);
@@ -405,5 +417,9 @@ td {
 #groundtruth_info_alt {
   color: gray;
   margin-top: 17px;
+}
+
+mark{
+  background-color: #2196f3 !important;
 }
 </style>
