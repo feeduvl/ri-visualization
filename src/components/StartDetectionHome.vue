@@ -233,7 +233,7 @@ import {
   MUTATE_SELECTED_METHOD
 } from "@/store/types";
 import {setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL} from "@/theme";
-import {reloadResults} from "@/RESTcalls";
+import {loadDataset, reloadResults} from "@/RESTcalls";
 
 export default {
   name: "StartDetectionHome",
@@ -378,6 +378,7 @@ export default {
       this.updateTheme("Detection Results", THEME_UVL)
       this.$router.push("/results");
       this.$store.commit(MUTATE_SELECTED_RESULT, item);
+      loadDataset(this.$store, item["dataset_name"]);
     },
     showEditName(item) {
       this.resultToEdit = item;
