@@ -46,7 +46,7 @@ export const selectedMethod = state => {
   return state.selectedMethod;
 };
 
-export const documentViewMethods = state => {
+export const documentViewMethods = () => {
   return METHODS.filter(a => a.showInDocumentView);
 };
 

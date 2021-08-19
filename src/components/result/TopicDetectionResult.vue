@@ -41,7 +41,7 @@
               </v-card-text>
             </v-card>
           <template v-for="(item, key) in selectedResult.params">
-            <v-card elevation="0" class="param_holder">
+            <v-card :key="key" elevation="0" class="param_holder">
               <v-card-title class="param_header">
                 <span class="grey--text text-uppercase">{{ key }}</span>
               </v-card-title>
@@ -231,7 +231,7 @@ export default {
     },
     groundtruthList() {
       let list = [];
-      if (this.selectedDataset.hasOwnProperty("ground_truth")) {
+      if (Object.prototype.hasOwnProperty.call(this.selectedDataset,"ground_truth")) {
         for (let index in this.selectedDataset.ground_truth) {
           let gt = this.selectedDataset.ground_truth[index];
           if (!(list.indexOf(gt.value) > -1)) {
@@ -304,6 +304,7 @@ export default {
       width: 1152,
       height: 400,
       padding: 5,
+      errors: [],
       tableHeaders: [
         {
           text: "Concept Words",

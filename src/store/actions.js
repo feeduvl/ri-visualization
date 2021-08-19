@@ -80,7 +80,6 @@ export const actionFetchInitialConceptData = ({
 };
 export const actionDeleteResult = ({
   state,
-  commit
 }, payload) => {
   for (const index in state.results) {
     if (state.results[index].started_at === payload.started_at) {
@@ -90,7 +89,6 @@ export const actionDeleteResult = ({
 };
 export const actionEditResultName = ({
   state,
-  commit
 }, payload) => {
   for (const index in state.results) {
     if (state.results[index].started_at === payload.started_at) {

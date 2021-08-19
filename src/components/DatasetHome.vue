@@ -117,7 +117,7 @@ export default {
   name: "DatasetHome",
   watch: {
     dataset: function () {
-      if (this.dataset.hasOwnProperty("ground_truth")) {
+      if (Object.prototype.hasOwnProperty.call(this.dataset,"ground_truth")) {
         this.hasGroundtruth = this.dataset.ground_truth.length !== null;
       } else {
         this.hasGroundtruth = false;
@@ -151,7 +151,7 @@ export default {
     },
     groundtruthList() {
       let list = [];
-      if (this.dataset.hasOwnProperty("ground_truth")) {
+      if (Object.prototype.hasOwnProperty.call(this.dataset,"ground_truth")) {
         for (let index in this.dataset.ground_truth) {
           let gt = this.dataset.ground_truth[index];
           if (!(list.indexOf(gt.value) > -1)) {

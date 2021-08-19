@@ -213,7 +213,7 @@ export default {
       return ""
     },
     selectedDatasetName () {
-      if (this.$store.state.selectedDataset.hasOwnProperty(name)) {
+      if (Object.prototype.hasOwnProperty.call(this.$store.state.selectedDataset, name)) {
         return this.$store.state.selectedDataset.name;
       } else {
         return "";
