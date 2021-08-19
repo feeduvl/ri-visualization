@@ -77,7 +77,7 @@
         <v-layout row wrap id="concept_word_content">
           <v-flex xs5 id="concept_words">
             <h4 class="grey-headline">Concept Words</h4>
-            <span v-for="word in topicWordList">
+            <span v-for="word in topicWordList" :key="word">
               <v-chip v-show="showMatching" v-if="conceptWordPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
               <v-chip v-show="showNotMatching" v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
             </span>
@@ -85,7 +85,7 @@
           <v-spacer></v-spacer>
           <v-flex v-if="groundtruthList.length > 0" xs5 id="groundtruth_words">
             <h4 class="grey-headline">Ground Truth</h4>
-            <span v-for="word in groundtruthList">
+            <span v-for="word in groundtruthList" :key="word">
               <v-chip v-show="showMatching"  v-if="groundtruthPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
               <v-chip v-show="showNotMatching" v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
             </span>
