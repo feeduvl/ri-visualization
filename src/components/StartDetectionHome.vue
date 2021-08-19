@@ -375,9 +375,9 @@ export default {
       }
     },
     showResult(item) {
-      this.$store.commit(MUTATE_SELECTED_RESULT, item);
       this.updateTheme("Detection Results", THEME_UVL)
       this.$router.push("/results");
+      this.$store.commit(MUTATE_SELECTED_RESULT, item);
     },
     showEditName(item) {
       this.resultToEdit = item;
