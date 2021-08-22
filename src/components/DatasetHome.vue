@@ -120,6 +120,7 @@ export default {
       if (Object.prototype.hasOwnProperty.call(this.dataset,"ground_truth")) {
         console.log("True");
         console.log(this.dataset.ground_truth.length !== null);
+        console.log(this.dataset.ground_truth)
         this.hasGroundtruth = this.dataset.ground_truth.length !== null;
       } else {
         console.log("False");
