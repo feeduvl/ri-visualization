@@ -120,7 +120,7 @@ export default {
       if (Object.prototype.hasOwnProperty.call(this.dataset,"ground_truth")) {
         this.hasGroundtruth = this.dataset.ground_truth.length !== null && this.dataset.ground_truth.length !== 0;
       } else {
-        console.log("False");
+        this.hasGroundtruth = false;
       }
     }
   },
