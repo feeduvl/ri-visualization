@@ -118,13 +118,9 @@ export default {
   watch: {
     dataset: function () {
       if (Object.prototype.hasOwnProperty.call(this.dataset,"ground_truth")) {
-        console.log("True");
-        console.log(this.dataset.ground_truth.length !== null);
-        console.log(this.dataset.ground_truth)
-        this.hasGroundtruth = this.dataset.ground_truth.length !== null;
+        this.hasGroundtruth = this.dataset.ground_truth.length !== null && this.dataset.ground_truth.length !== 0;
       } else {
         console.log("False");
-        this.hasGroundtruth = false;
       }
     }
   },
