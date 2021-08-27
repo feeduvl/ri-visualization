@@ -68,7 +68,7 @@
             Show
           </v-btn>
           <v-btn small color="primary" @click="showAddGroundtruth(dataset)" class="btnAlign">
-            Add Groundtruth
+            Add Ground truth
           </v-btn>
         </v-card>
       </v-layout>
@@ -112,7 +112,7 @@
     >
       <v-card>
         <v-card-title class="text-h5 dialog-title">
-          Add Groundtruth
+          Add Ground truth
         </v-card-title>
 
         <v-card-text>

@@ -18,8 +18,8 @@
           </v-select>
         </v-flex>
         <v-flex xs1/>
-        <span v-show="!hasGroundtruth" id="groundtruth_info">Groundtruth: {{ this.hasGroundtruthString }}</span>
-        <span v-show="hasGroundtruth" id="groundtruth_info_alt">Groundtruth:
+        <span v-show="!hasGroundtruth" id="groundtruth_info">Ground truth: {{ this.hasGroundtruthString }}</span>
+        <span v-show="hasGroundtruth" id="groundtruth_info_alt">Ground truth:
         <v-btn small color="primary" @click="toggleShowGroundtruth">
           {{ gtBtnText }}
         </v-btn>

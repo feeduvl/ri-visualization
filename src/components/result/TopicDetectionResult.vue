@@ -92,7 +92,7 @@
           </v-flex>
           <v-flex v-else>
             <h4 class="grey-headline">Ground Truth</h4>
-            <h4>No groundtruth data available</h4>
+            <h4>No ground truth data available</h4>
           </v-flex>
         </v-layout>
       </v-card>
