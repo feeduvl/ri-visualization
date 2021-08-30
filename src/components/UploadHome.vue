@@ -411,7 +411,7 @@ export default {
 }
 
 #datasetTile {
-  margin: 10px 5px 10px 15px;
+  margin: 10px 5px 10px 11px;
 }
 
 .btnAlign {
