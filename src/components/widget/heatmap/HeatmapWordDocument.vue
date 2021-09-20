@@ -98,11 +98,14 @@ export default {
   }),
   methods: {
     topicWords() {
-      if (this.selectedDataset.hasOwnProperty("documents")) {
+      if (Object.prototype.hasOwnProperty.call(this.selectedDataset,"documents")) {
         let list = []
         for (let topic in this.selectedResult.topics) {
           for (let index in this.selectedResult.topics[topic]) {
             let word = this.selectedResult.topics[topic][index];
+            if (word.length <= 1) {
+              continue;
+            }
             if (!(list.indexOf(word) > -1)) {
               list.push(word);
             }
@@ -115,7 +118,7 @@ export default {
     },
     loadChartData() {
 
-      if (this.selectedDataset.hasOwnProperty("documents") && this.selectedDataset.name === this.selectedResult.dataset_name) {
+      if (Object.prototype.hasOwnProperty.call(this.selectedDataset,"documents") && this.selectedDataset.name === this.selectedResult.dataset_name) {
 
         // xAxis = words
         // yAxis = topics

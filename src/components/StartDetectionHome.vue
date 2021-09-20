@@ -233,7 +233,7 @@ import {
   MUTATE_SELECTED_METHOD
 } from "@/store/types";
 import {setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL} from "@/theme";
-import {reloadResults} from "@/RESTcalls";
+import {loadDataset, reloadResults} from "@/RESTcalls";
 
 export default {
   name: "StartDetectionHome",
@@ -375,9 +375,10 @@ export default {
       }
     },
     showResult(item) {
-      this.$store.commit(MUTATE_SELECTED_RESULT, item);
       this.updateTheme("Detection Results", THEME_UVL)
       this.$router.push("/results");
+      this.$store.commit(MUTATE_SELECTED_RESULT, item);
+      loadDataset(this.$store, item["dataset_name"]);
     },
     showEditName(item) {
       this.resultToEdit = item;
@@ -517,8 +518,10 @@ export default {
     getDisplayName(method) {
       return getMethodObj(method).displayName;
     },
-    reloadResults() {
-      reloadResults(this.$store);
+    async reloadResults() {
+      if(!(this._inactive)) {
+        await reloadResults(this.$store);
+      }
     },
   },
   mounted() {
@@ -531,10 +534,9 @@ export default {
     }.bind(this), 30000);
 
     setInterval(function () {
-      if(!(this._inactive)) {
-        reloadResults(this.$store);
-      }
+      this.reloadResults(this.$store);
     }.bind(this), 20000);
+
   }
 }
 

@@ -2,7 +2,7 @@
   <v-card id="holder">
     <v-card-title>
       <h2>
-        Groundtruth Comparison
+        Ground truth Comparison
       </h2>
     </v-card-title>
     <v-card-text>

@@ -126,7 +126,7 @@ export default {
 
       let doc_topic = {}
 
-      if (this.selectedResult.hasOwnProperty("doc_topic")) {
+      if (Object.prototype.hasOwnProperty.call(this.selectedResult,"doc_topic")) {
         doc_topic = this.selectedResult.doc_topic;
       } else {
         return;

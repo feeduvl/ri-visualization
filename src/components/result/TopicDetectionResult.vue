@@ -41,7 +41,7 @@
               </v-card-text>
             </v-card>
           <template v-for="(item, key) in selectedResult.params">
-            <v-card elevation="0" class="param_holder">
+            <v-card :key="key" elevation="0" class="param_holder">
               <v-card-title class="param_header">
                 <span class="grey--text text-uppercase">{{ key }}</span>
               </v-card-title>
@@ -72,27 +72,27 @@
     <v-flex xs12>
       <v-card id="concept_word_holder">
         <v-card-title>
-          <h2>Concept Words</h2><span id="cw_legend">Legend: <v-chip :color="BLUE_LIGHT">matching</v-chip><span> </span><v-chip :color="ORANGE_LIGHT">not matching</v-chip></span>
+          <h2>Concept Words</h2><span id="cw_legend">Legend (click to filter): <v-chip @click="toggleShowNotMatching" :color="BLUE_LIGHT">matching</v-chip><span> </span><v-chip @click="toggleShowMatching" :color="ORANGE_LIGHT">not matching</v-chip></span>
         </v-card-title>
         <v-layout row wrap id="concept_word_content">
           <v-flex xs5 id="concept_words">
             <h4 class="grey-headline">Concept Words</h4>
-            <span v-for="word in topicWordList">
-              <v-chip v-if="conceptWordPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
-              <v-chip v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
+            <span v-for="word in topicWordList" :key="word">
+              <v-chip v-show="showMatching" v-if="conceptWordPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
+              <v-chip v-show="showNotMatching" v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
             </span>
           </v-flex>
           <v-spacer></v-spacer>
           <v-flex v-if="groundtruthList.length > 0" xs5 id="groundtruth_words">
             <h4 class="grey-headline">Ground Truth</h4>
-            <span v-for="word in groundtruthList">
-              <v-chip v-if="groundtruthPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
-              <v-chip v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
+            <span v-for="word in groundtruthList" :key="word">
+              <v-chip v-show="showMatching"  v-if="groundtruthPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
+              <v-chip v-show="showNotMatching" v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
             </span>
           </v-flex>
           <v-flex v-else>
             <h4 class="grey-headline">Ground Truth</h4>
-            <h4>No groundtruth data available</h4>
+            <h4>No ground truth data available</h4>
           </v-flex>
         </v-layout>
       </v-card>
@@ -190,7 +190,7 @@
 
 <script>
 import {mapGetters} from "vuex";
-import Cloud from 'vue-d3-cloud'
+import Cloud from 'vue-d3-cloud';
 import {BLUE_LIGHT, CLOUD, ORANGE_LIGHT} from "@/colors";
 import {getMethodObj} from "@/methods";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
@@ -219,6 +219,9 @@ export default {
       for (let topic in this.selectedResult.topics) {
         for (let index in this.selectedResult.topics[topic]) {
           let word = this.selectedResult.topics[topic][index];
+          if (word.length <= 1) {
+            continue;
+          }
           if (!(list.indexOf(word) > -1)) {
             list.push(word);
           }
@@ -228,7 +231,7 @@ export default {
     },
     groundtruthList() {
       let list = [];
-      if (this.selectedDataset.hasOwnProperty("ground_truth")) {
+      if (Object.prototype.hasOwnProperty.call(this.selectedDataset,"ground_truth")) {
         for (let index in this.selectedDataset.ground_truth) {
           let gt = this.selectedDataset.ground_truth[index];
           if (!(list.indexOf(gt.value) > -1)) {
@@ -245,6 +248,9 @@ export default {
         for (let topic in this.selectedResult.topics) {
           for (let index in this.selectedResult.topics[topic]) {
             let word = this.selectedResult.topics[topic][index];
+            if (word.length <= 1) {
+              continue;
+            }
             if (!(list.indexOf(word) > -1)) {
               list.push(word);
             }
@@ -278,6 +284,8 @@ export default {
       baseFontsize: 20,
       resultToDelete: {},
       resultToEdit: {},
+      showMatching: true,
+      showNotMatching: true,
       deleteSnackbarVisible: false,
       editDialogVisible: false,
       conceptWordPositives: [],
@@ -296,6 +304,7 @@ export default {
       width: 1152,
       height: 400,
       padding: 5,
+      errors: [],
       tableHeaders: [
         {
           text: "Concept Words",
@@ -322,6 +331,12 @@ export default {
     }
   },
   methods: {
+    toggleShowMatching() {
+      this.showMatching = !this.showMatching;
+    },
+    toggleShowNotMatching() {
+      this.showNotMatching = !this.showNotMatching;
+    },
     updateWordMapping() {
       let twPositives = [];
       let gtPositives = [];

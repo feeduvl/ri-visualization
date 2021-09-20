@@ -68,7 +68,7 @@
             Show
           </v-btn>
           <v-btn small color="primary" @click="showAddGroundtruth(dataset)" class="btnAlign">
-            Add Groundtruth
+            Add Ground truth
           </v-btn>
         </v-card>
       </v-layout>
@@ -112,7 +112,7 @@
     >
       <v-card>
         <v-card-title class="text-h5 dialog-title">
-          Add Groundtruth
+          Add Ground truth
         </v-card-title>
 
         <v-card-text>
@@ -213,7 +213,7 @@ export default {
       return ""
     },
     selectedDatasetName () {
-      if (this.$store.state.selectedDataset.hasOwnProperty(name)) {
+      if (Object.prototype.hasOwnProperty.call(this.$store.state.selectedDataset, name)) {
         return this.$store.state.selectedDataset.name;
       } else {
         return "";
@@ -411,7 +411,7 @@ export default {
 }
 
 #datasetTile {
-  margin: 10px 5px 10px 15px;
+  margin: 10px 5px 10px 11px;
 }
 
 .btnAlign {

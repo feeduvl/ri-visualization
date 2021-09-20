@@ -31,7 +31,7 @@
             <td>{{ props.item.id }}</td>
             <td :inner-html.prop="props.item.text | highlight(search)"></td>
             <td>
-              <span v-for="word in topicWordlist">
+              <span v-for="word in topicWordlist" :key="word">
                 <span v-if="props.item.text.toLowerCase().includes(' ' + word)">
                   <v-chip @click="searchProxy = word">{{ word }}</v-chip><span> </span>
                 </span>
@@ -65,6 +65,9 @@ export default {
       for (let topic in this.selectedResult.topics) {
         for (let index in this.selectedResult.topics[topic]) {
           let word = this.selectedResult.topics[topic][index];
+          if (word.length <= 1) {
+            continue;
+          }
           if (!(list.indexOf(word) > -1)) {
             list.push(word);
           }

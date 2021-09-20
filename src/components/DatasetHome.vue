@@ -17,7 +17,14 @@
           >
           </v-select>
         </v-flex>
-        <v-flex xs5/>
+        <v-flex xs1/>
+        <span v-show="!hasGroundtruth" id="groundtruth_info">Ground truth: {{ this.hasGroundtruthString }}</span>
+        <span v-show="hasGroundtruth" id="groundtruth_info_alt">Ground truth:
+        <v-btn small color="primary" @click="toggleShowGroundtruth">
+          {{ gtBtnText }}
+        </v-btn>
+        </span>
+        <v-flex xs3/>
         <v-flex xs2>
           <v-btn small outline color="error" @click="showDeleteDataset(selectedDataset)" id="delete_button">
             Delete Dataset
@@ -33,7 +40,11 @@
         <template slot="items" slot-scope="props">
           <tr>
             <td>{{ props.item.id }}</td>
-            <td>{{ props.item.text }}</td>
+            <td><text-highlight
+                :highlightStyle="'background-color: #2196f3 !important;'"
+                :queries="queries"
+                :diacriticsSensitive="false"
+            >{{ props.item.text }}</text-highlight></td>
           </tr>
         </template>
       </v-data-table>
@@ -100,9 +111,22 @@ import { mapGetters } from 'vuex'
 import {ACTION_DELETE_RESULT, MUTATE_SELECTED_DATASET_OUTSIDE, MUTATE_SELECTED_RESULT} from "@/store/types";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 import {loadDatasets} from "@/RESTcalls";
+import TextHighlight from 'vue-text-highlight';
 
 export default {
   name: "DatasetHome",
+  watch: {
+    dataset: function () {
+      if (Object.prototype.hasOwnProperty.call(this.dataset,"ground_truth")) {
+        this.hasGroundtruth = this.dataset.ground_truth.length !== null && this.dataset.ground_truth.length !== 0;
+      } else {
+        this.hasGroundtruth = false;
+      }
+    }
+  },
+  components: {
+    'text-highlight': TextHighlight,
+  },
   computed: {
     ...mapGetters({
       datasets: 'datasets',
@@ -125,6 +149,18 @@ export default {
         this.selectedDatasetProxy = val;
       },
     },
+    groundtruthList() {
+      let list = [];
+      if (Object.prototype.hasOwnProperty.call(this.dataset,"ground_truth")) {
+        for (let index in this.dataset.ground_truth) {
+          let gt = this.dataset.ground_truth[index];
+          if (!(list.indexOf(gt.value) > -1)) {
+            list.push(gt.value);
+          }
+        }
+      }
+      return list.sort();
+    },
   },
   data() {
     return {
@@ -135,12 +171,18 @@ export default {
       snackbarText: "",
       deleteSnackbarVisible: false,
       deleteSnackbarTimeout: 0,
+      hasGroundtruthString: "Not available",
+      hasGroundtruth: false,
+      gtBtnText: "Show",
+      showGroundtruth: false,
       datasetToDelete: "",
       alsoDeleteRuns: false,
       deleteBtn: false,
       loading: false,
       btnLoading: false,
       data: [],
+      dataset: {},
+      queries: [],
       cardTableTitle: "Dataset Content",
       pagination: {
         sortBy: "number",
@@ -168,6 +210,17 @@ export default {
     };
   },
   methods: {
+    toggleShowGroundtruth() {
+      if (this.showGroundtruth) {
+        this.gtBtnText = "Hide";
+        this.queries = this.groundtruthList;
+      } else {
+        this.gtBtnText = "Show";
+        this.queries = [];
+      }
+      this.showGroundtruth = !this.showGroundtruth;
+      //this.updateTable(this.dataset);
+    },
     async loadDataset() {
       this.data = [];
       this.loading = true;
@@ -175,6 +228,7 @@ export default {
           .get(GET_DATASET_ENDPOINT(this.selectedDataset))
           .then(response => {
             this.updateTable(response.data);
+            this.dataset = response.data;
           })
           .catch(e => {
             this.errors.push(e);
@@ -185,7 +239,13 @@ export default {
       let documents = []
       for (let index in responseData["documents"]) {
         let document = responseData["documents"][index];
-        let d = { text: document.text,
+        let t = document.text;
+        //if (this.showGroundtruth) {
+        //  for (const gt of this.groundtruthList) {
+        //    t = t.replace(new RegExp(gt, "ig"), '<span class=\'blue\'>' + gt + '</span>');
+        //  }
+        //}
+        let d = { text: t,
               number: document.number,
               id: document.id};
         documents.push(d);
@@ -350,5 +410,19 @@ td {
 
 #delete_button {
   margin-top: 22px;
+}
+
+#groundtruth_info {
+  color: gray;
+  margin-top: 25px;
+}
+
+#groundtruth_info_alt {
+  color: gray;
+  margin-top: 17px;
+}
+
+mark{
+  background-color: #2196f3 !important;
 }
 </style>
