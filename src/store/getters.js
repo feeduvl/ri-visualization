@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {METHODS} from "@/methods";
 
 export const getTopBarTitle = state => {
@@ -91,4 +92,52 @@ export const getTopBarLink = state => {
 };
 export const getFooterText = state => {
   return state.footer;
+};
+
+// ANNOTATION STUFF
+export const selectedToken = state => {
+  return state.selectedToken;
+};
+
+export const pos_tags = state => {
+  return state.pos_tags;
+};
+
+export const clusterNames = state => {
+  let ret = [];
+  for (let i = 0; i < state.token_clusters.length; i++){
+    if (state.token_clusters[i] && state.token_clusters[i].name){
+      ret.push(state.token_clusters[i].name);
+    }
+  }
+  return ret;
+};
+
+export const hoveringToken = state => {
+  return state.hoveringToken;
+};
+
+export const selectedClusterRelationship = state => {
+  return state.selectedClusterRelationship;
+};
+
+export const hoveringClusterRelationship = state => {
+  return state.hoveringClusterRelationship;
+};
+
+export const hoveringTokenCluster = state => {
+  return state.hoveringTokenCluster;
+};
+
+export const selectedTokenCluster = state => {
+  return state.selectedTokenCluster;
+};
+export const isLinking = state => {
+  return state.isLinking;
+};
+export const token = state => index => state.tokens[index];
+
+export const requiredAnnotationsPresent = state => {
+  return !(state.selectedTokenCluster !== null && state.selectedTokenCluster.name === "") &&
+      !(state.selectedClusterRelationship !== null && state.selectedClusterRelationship.relationship_names.length > 0);
 };

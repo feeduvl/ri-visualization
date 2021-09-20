@@ -8,6 +8,13 @@ axios.defaults.headers.common = {
 export default axios;
 
 // feeduvl
+
+// annotation
+
+export const GET_EXAMPLE_ANNOTATION_POST_ENDPOINT = `${BASE_URL}/hitec/orchestration/concepts/annotation/init/`;
+
+
+// concept detection
 export const GET_DATASET_ENDPOINT = function (dataset) {
   return `${BASE_URL}/hitec/repository/concepts/dataset/name/${dataset}`;
 };

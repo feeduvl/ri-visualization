@@ -1,11 +1,18 @@
 import axios from 'axios';
 import moment from "moment";
 import "moment/locale/de";
-import {ACTION_LOAD_RESULTS, MUTATE_LOADING_RESULTS, MUTATE_RESULTS} from "./types";
+import {
+  ACTION_LOAD_RESULTS, MUTATE_CLUSTER_RELATIONSHIPS,
+  MUTATE_LOADING_RESULTS,
+  MUTATE_RESULTS,
+  MUTATE_TOKEN_CLUSTERS,
+  MUTATE_TOKENS
+} from "./types";
 import {
   GET_ALL_DATASETS_ENDPOINT,
   GET_ALL_RESULTS_ENDPOINT,
-  GET_ALL_TWEETS_ENDPOINT
+  GET_ALL_TWEETS_ENDPOINT,
+  GET_EXAMPLE_ANNOTATION_POST_ENDPOINT  
 } from '@/RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -17,6 +24,25 @@ import {
   MUTATE_FOOTER_TEXT,
   MUTATE_TOP_BAR_LINK
 } from '@/store/types';
+
+export const actionGetExampleAnnotation = ({
+  state, commit
+}) => {
+  return new Promise((resolve, reject) => {
+    axios.post(GET_EXAMPLE_ANNOTATION_POST_ENDPOINT)
+      .then(response => {
+        console.log("actionGetExampleAnnotation Got response:");
+        const {data} = response;
+        console.log(data);
+
+        commit(MUTATE_TOKENS, data.tokens);
+        commit(MUTATE_TOKEN_CLUSTERS, data.token_clusters);
+        commit(MUTATE_CLUSTER_RELATIONSHIPS, data.cluster_relationships);
+
+      })
+      .catch(e => reject(e));
+  });
+};
 
 export const actionFetchInitialData = ({
   state,

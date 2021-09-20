@@ -81,6 +81,12 @@ export default {
           theme: THEME_UVL
         },
         {
+          title: "Annotation",
+          icon: "mode",
+          path: "/annotation",
+          theme: THEME_UVL
+        },
+        {
           title: "Detection Results",
           icon: "assessment",
           path: "/results",

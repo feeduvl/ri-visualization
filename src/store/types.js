@@ -1,6 +1,7 @@
 /*
  *  Action types
  */
+export const ACTION_GET_EXAMPLE_ANNOTATION = "actionGetExampleAnnotation";
 export const ACTION_FETCH_INITIAL_DATA = 'actionFetchInitialData';
 export const ACTION_FETCH_INITIAL_CONCEPT_DATA = 'actionFetchInitialConceptData';
 export const ACTION_LOAD_DATASETS = 'actionLoadDatasets';
@@ -50,6 +51,9 @@ export const MUTATE_SELECTED_METHOD = 'mutateSelectedMethod';
 export const MUTATE_SELECTED_DATASET_OUTSIDE = 'mutateSelectedDatasetOutside';
 export const MUTATE_LOADING_RESULTS = 'mutateLoadingResults';
 export const MUTATE_LOADING_DATASET = 'mutateLoadingDataset';
+export const MUTATE_TOKENS = "setTokens";
+export const MUTATE_TOKEN_CLUSTERS = "setTokenClusters";
+export const MUTATE_CLUSTER_RELATIONSHIPS = "setClusterRelationships";
 
 /*
  *  Local storage types
