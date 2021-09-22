@@ -26,7 +26,7 @@ import {
 } from '@/store/types';
 
 export const actionGetExampleAnnotation = ({
-  state
+  commit
 }) => {
   return new Promise(() => {
     axios.post(GET_EXAMPLE_ANNOTATION_POST_ENDPOINT, {
@@ -35,16 +35,9 @@ export const actionGetExampleAnnotation = ({
     })
       .then(response => {
         console.log("actionGetExampleAnnotation Got good response.");
+
         const {data} = response;
-
-        state.tokens = data.tokens;
-        state.codes = data.codes;
-        state.tore_relationships = data.tore_relationships;
-        state.docs = [state.all_docs].concat(data.docs);
-
-        state.all_docs.end_index = data.tokens.length;
-        state.selected_doc = data.docs.length > 0 ? 1: 0;  // document indices from the server start at 1!
-
+        commit("setAnnotationPayload", data);
       })
       .catch(e => console.log("Error getting tokens: "+e));
   });

@@ -234,3 +234,13 @@ export const add_token_to_selected_relationship = (state, token) => {
     console.log("Setting selected relationship: "+relationship.index);
     state.selected_tore_relationship = relationship;
   };
+
+export const setAnnotationPayload = (state, {tokens, codes, tore_relationships, docs}) => {
+  state.tokens = tokens;
+  state.codes = codes;
+  state.tore_relationships = tore_relationships;
+  state.docs = [state.all_docs].concat(docs);
+
+  state.all_docs.end_index = tokens.length;
+  state.selected_doc = docs.length > 0 ? 1: 0;  // document indices from the server start at 1!
+};
