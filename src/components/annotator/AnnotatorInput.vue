@@ -1,191 +1,207 @@
 <template>
     <v-card
             class="annotator-input"
-            :class="[isLinking?'annotator-input-link':'annotator-input-no-link']"
-            :style="{width: `${width}%`}">
+            :style="{width: `${width}%`}"
+            :disabled="disabled">
 
-        <template v-if="!isLinking">
+        <div class="annotator-input__input-fields">
+            <template v-if="!isLinking"
+            class="annotator-input-no-link">
+                <v-menu
+                        bottom
+                        left
+                        offset-x>
+                    <template v-slot:activator="{on: onMenu}">
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{on: onTooltip}">
+                                <v-icon v-on="{...onMenu, ...onTooltip}">
+                                    mdi-format-list-bulleted
+                                </v-icon>
+                            </template>
+                            <span>Show Options</span>
+                        </v-tooltip>
+                    </template>
 
-            <v-tooltip bottom>
-                <template v-slot:activator="{on: onTooltip}">
-                    <v-menu
-                            v-on="{onTooltip}"
-                            bottom
-                            left
-                            offset-x
-                    >
-                        <template v-slot:activator="{on: onMenu}">
-                            <v-icon v-on="onMenu">
-                                mdi-format-list-bulleted
-                            </v-icon>
-                        </template>
+                    <v-list>
+                        <v-dialog
+                                v-model="promptHighlightAll"
+                                transition="dialog-bottom-transition"
+                        >
+                            <v-card>
+                                <v-card-title class="text-h5 grey lighten-2">
+                                    Highlight all similar
+                                </v-card-title>
 
-                        <v-list>
-                            <v-dialog
-                                    v-model="promptHighlightAll"
-                                    transition="dialog-bottom-transition"
-                            >
-                                <v-card>
-                                    <v-card-title class="text-h5 grey lighten-2">
-                                        Highlight all similar
-                                    </v-card-title>
+                                <v-card-text>
+                                    Current token: <b>{{selectedToken.name}}</b> Current token lemma: <b>{{selectedToken.lemma}}</b><br>
 
-                                    <v-card-text>
-                                        Current token: <b>{{selectedToken.name}}</b> Current token lemma: <b>{{selectedToken.lemma}}</b><br>
+                                    Current code: <b>[{{getselected_codeString("name")}}]</b> Current code (lemmas): <b>[{{getselected_codeString("lemma")}}]</b>  <br>
 
-                                        Current token cluster: <b>[{{getSelectedTokenClusterString("name")}}]</b> Current token cluster (lemmas): <b>[{{getSelectedTokenClusterString("lemma")}}]</b>  <br>
+                                    Highlighting all similar codes will <b>only</b> find codes with <b>adjacent</b> matching tokens/lemmas.
+                                </v-card-text>
 
-                                        Highlighting all similar clusters will <b>only</b> find clusters with <b>adjacent</b> matching tokens/lemmas.
-                                    </v-card-text>
+                                <v-text-field></v-text-field>
 
-                                    <v-text-field></v-text-field>
+                                <v-divider></v-divider>
 
-                                    <v-divider></v-divider>
-
-                                    <v-card-actions>
-                                        <v-spacer></v-spacer>
-                                        <v-btn
-                                                color="primary"
-                                                text
-                                                @click="promptHighlightAll = false"
-                                        >
-                                            token
-                                        </v-btn>
-                                        <v-btn
-                                                color="primary"
-                                                text
-                                                @click="promptHighlightAll = false"
-                                        >
-                                            lemma
-                                        </v-btn>
-                                        <v-btn
-                                                color="primary"
-                                                text
-                                                @click="promptHighlightAll = false"
-                                        >
-                                            token cluster
-                                        </v-btn>
-                                        <v-btn
-                                                color="primary"
-                                                text
-                                                @click="promptHighlightAll = false"
-                                        >
-                                            token cluster (lemmas)
-                                        </v-btn>
-                                    </v-card-actions>
-                                </v-card>
-
-                                <template v-slot:activator="{on: onDialog}" >
-                                    <v-list-item
-                                            :disabled="!requiredAnnotationsPresent"
-                                            v-on="onDialog"
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                            color="primary"
+                                            text
+                                            @click="promptHighlightAll = false"
                                     >
-                                        <v-list-item-title>Highlight all similar</v-list-item-title>
-                                    </v-list-item>
-                                </template>
-                            </v-dialog>
-                        </v-list>
-                    </v-menu>
-                </template>
-                <span>Show Options</span>
-            </v-tooltip>
+                                        token
+                                    </v-btn>
+                                    <v-btn
+                                            color="primary"
+                                            text
+                                            @click="promptHighlightAll = false"
+                                    >
+                                        lemma
+                                    </v-btn>
+                                    <v-btn
+                                            color="primary"
+                                            text
+                                            @click="promptHighlightAll = false"
+                                    >
+                                        code
+                                    </v-btn>
+                                    <v-btn
+                                            color="primary"
+                                            text
+                                            @click="promptHighlightAll = false"
+                                    >
+                                        code (lemmas)
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
 
+                            <template v-slot:activator="{on: onDialog}" >
+                                <v-list-item
+                                        v-on="onDialog"
+                                >
+                                    <v-list-item-title>Highlight all similar</v-list-item-title>
+                                </v-list-item>
+                            </template>
+                        </v-dialog>
+                    </v-list>
+                </v-menu>
 
-            <v-tooltip bottom>
-                <template #activator="{on}">
-                    <v-icon v-on="on"
-                            @click="trashClicked" class="annotator-input__trash">
-                        mdi-trash-can-outline
-                    </v-icon>
-                </template>
-                <span>Delete This Concept</span>
-            </v-tooltip>
-
-            <v-autocomplete
-                    required
-                    :class="['annotator-input__name']"
-                    label="Name"
-                    :items="clusterNames"
-                    item-text="name"
-                    item-value="name"
-                    :value="name"
-                    @change="updateNote"
-                    :rules="[requiredAnnotationsPresent || 'Name is required (Enter to confirm)']"
-                    @keydown="$emit('cluster-name-input-keydown', $event)"
-                    @keyup="$emit('cluster-name-input-keyup', $event)"
-            ></v-autocomplete>
-
-            <v-autocomplete
-                    class="annotator-input__tore"
-                    @change="updateTore"
-                    :items="tore_codes"
-                    :value="tore"
-                    label="TORE-Code">
-            </v-autocomplete>
-
-            <v-tooltip bottom>
-                <template #activator="{on}">
-                    <v-icon v-on="on"
-                            @click="startLinking"
-                            :disabled="linkingDisabledNotEnoughClusters">
-                        mdi-link
-                    </v-icon>
-                </template>
-                <span>Link This Concept</span>
-            </v-tooltip>
-
-        </template>
-
-        <template v-else>
-            <v-tooltip bottom>
-                <template #activator="{on}">
-                    <v-icon v-on="on"
-                            @click="stopLinking">
-                        mdi-window-close
-                    </v-icon>
-                </template>
-                <span>Stop Linking</span>
-            </v-tooltip>
-
-
-            <v-tooltip bottom>
-                <template #activator="{on}">
-                    <v-icon v-on="on"
-                            @click="$store.commit('deleteClusterRelationship')">
-                        mdi-trash-can-outline
-                    </v-icon>
-                </template>
-                <span>Delete This Relationship</span>
-            </v-tooltip>
-
-            <v-autocomplete  class="annotator-input__relationship-name"
-                             @change="updateRelationshipName"
-                             :items="relationship_name_options"
-                             :value="relationshipName"
-                             label="Relationship Name">
-            </v-autocomplete>
-        </template>
-
-
-        <v-card-actions>
-            <v-tooltip bottom>
-                <template #activator="{on}">
+                <v-tooltip bottom>
+                    <template #activator="{on}">
                         <v-icon v-on="on"
-                                v-if="panelIsUp"
-                                @click="arrowIconClicked">
-                            mdi-arrow-down
+                                @click="trashClicked" class="annotator-input__trash">
+                            mdi-trash-can-outline
                         </v-icon>
-                        <v-icon
+                    </template>
+                    <span>Delete This Concept</span>
+                </v-tooltip>
+
+                <v-autocomplete
+                        required
+                        :class="['annotator-input__name']"
+                        label="Name"
+                        :items="codeNames"
+                        item-text="name"
+                        item-value="name"
+                        :value="name"
+                        autofocus
+                        :rules="[requiredAnnotationsPresent || 'Either a name or a TORE code is required']"
+                        @change="updateName"
+                        @keydown="$emit('code-name-input-keydown', $event)"
+                        @keyup="$emit('code-name-input-keyup', $event)"
+                        ref="nameInput"
+                ></v-autocomplete>
+
+                <v-autocomplete
+                        class="annotator-input__tore"
+                        @change="updateTore"
+                        :rules="[requiredAnnotationsPresent || 'Either a name or a TORE code is required']"
+                        :items="tore_codes"
+                        :value="tore"
+                        label="TORE-Code">
+                </v-autocomplete>
+
+                <v-tooltip bottom>
+                    <template #activator="{on}">
+                        <v-icon v-on="on"
+                                :disabled="!selected_code.tore"
+                                @click="startLinking">
+                            mdi-link
+                        </v-icon>
+                    </template>
+                    <span>New TORE Relationship</span>
+                </v-tooltip>
+            </template>
+            <template v-else
+                      class="annotator-input-link">
+                <v-tooltip bottom>
+                    <template #activator="{on}">
+                        <v-icon v-on="on"
+                                v-if="selected_tore_relationship"
+                                @click="stopLinking">
+                        mdi-check-underline
+                        </v-icon>
+                        <v-icon v-else
                                 v-on="on"
-                                v-else
-                                @click="arrowIconClicked">
-                            mdi-arrow-up
+                                @click="stopLinking">
+                            mdi-window-close
                         </v-icon>
+                    </template>
+                    <span v-if="selected_tore_relationship">Finish Linking</span>
+                    <span v-else>Stop Linking</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                    <template #activator="{on}">
+                        <v-icon v-on="on"
+                                @click="deleteRelationshipClicked">
+                            mdi-trash-can-outline
+                        </v-icon>
+                    </template>
+                    <span>Delete This Relationship</span>
+                </v-tooltip>
+
+                <v-autocomplete  class="annotator-input__relationship-name"
+                                 @change="updateRelationshipName"
+                                 :items="relationship_name_options"
+                                 :value="relationshipName"
+                                 :disabled="!selected_tore_relationship"
+                                 :label="selected_tore_relationship?'Relationship Name':'Select a target token'">
+                </v-autocomplete>
+            </template>
+            <v-tooltip bottom>
+                <template #activator="{on}">
+                    <v-icon v-on="on"
+                            v-if="panelIsUp"
+                            @click="arrowIconClicked">
+                        mdi-arrow-down
+                    </v-icon>
+                    <v-icon
+                            v-on="on"
+                            v-else
+                            @click="arrowIconClicked">
+                        mdi-arrow-up
+                    </v-icon>
                 </template>
                 <span>Move this box {{directionCueString}}</span>
             </v-tooltip>
+        </div>
 
-        </v-card-actions>
+        <div class="annotator-input__relationships" v-if="!isLinking">
+            <v-list class="annotator-input__relationships-list">
+                <v-subheader>Edit a relationship</v-subheader>
+                <v-list-item>
+                    <v-list-item
+                            @click="setSelectedToreRelationship(item)"
+                            v-for="(item, i) in selectedCodeRelationships"
+                            :key="'relationships_'+i">
+                        {{(item.relationship_name?item.relationship_name:'[TORE Relationship without name]') +' -> '+tokenListToString(item.target_tokens)}}
+                    </v-list-item>
+                </v-list-item>
+            </v-list>
+        </div>
+
     </v-card>
 </template>
 
@@ -210,57 +226,82 @@
             }
         },
         computed: {
-            ...mapGetters(["isLinking",
-                "clusterNames",
-                "selectedTokenCluster",
-                "selectedClusterRelationship",
+            ...mapGetters(["requiredAnnotationsPresent",
+                "isLinking",
+                "codeNames",
+                "selected_code",
+                "selected_tore_relationship",
                 "selectedToken",
-                "requiredAnnotationsPresent"]),
-            linkingDisabledNotEnoughClusters(){
-                return this.$store.state.token_clusters.length<=1;
-            },
+                "tokenListToString"]),
             name(){
-                return this.$store.state.selectedTokenCluster.name;
+                return this.selected_code.name;
             },
             tore(){
-                return this.$store.state.selectedTokenCluster.tore;
+                return this.selected_code.tore;
             },
             relationshipName(){
-                return this.$store.state.selectedClusterRelationship.relationship_names[this.$store.state.selectedTokenCluster.index]
+                let r = this.$store.state.selected_tore_relationship
+                return r ? r.relationship_name : ""
             },
             directionCueString(){
                 return this.panelIsUp?"down":"up";
+            },
+
+            selectedCodeRelationships(){
+                let r = []
+                for (let rel of this.selected_code.relationship_memberships){
+                    r.push(this.$store.state.tore_relationships[rel])
+                }
+                return r
             }
         },
         methods: {
-            getSelectedTokenClusterString(field){
-                return this.selectedTokenCluster.tokens.map(t => t==null?null:this.$store.state.tokens[t][field]).filter(t => t != null).toString();
+
+            getselected_codeString(field){
+                return this.selected_code.tokens.map(t => t==null?null:this.$store.state.tokens[t][field]).filter(t => t != null).toString();
             },
             updateRelationshipName(value){
-                this.$store.commit("setRelationshipName", value);
+                if(this.$store.state.selected_tore_relationship){
+                    this.$store.commit("setRelationshipName", value);
+                }
             },
-            updateNote(value){
-                this.$store.commit("updateTokenClusterNote", value);
+            updateName(value){
+                this.$store.commit("updateCodeName", value);
             },
             updateTore(value){
-                this.$store.commit("updateTokenClusterTore", value);
+                this.$store.commit("updateCodeTore", value);
             },
             trashClicked(){
                 this.$emit("annotator-input-trash-click");
             },
             startLinking(){
-                this.$store.commit("newClusterRelationship");
+                this.$store.commit("setIsLinking", true);
             },
             stopLinking(){
                 this.$store.commit("setIsLinking", false);
             },
             arrowIconClicked(){
                 this.$emit("annotator-input__arrow-icon-click");
+            },
+            deleteRelationshipClicked(){
+                if(this.selected_tore_relationship){
+                    this.$store.commit('delete_tore_relationship', this.selected_tore_relationship)
+                }
+                this.stopLinking()
+            },
+            setSelectedToreRelationship(relationship){
+                this.startLinking()
+                this.$store.commit("setSelectedToreRelationship", relationship)
             }
         },
         props: {
             panelIsUp: {
                 type: Boolean
+            },
+
+            disabled: {
+                type: Boolean,
+                default: false
             },
 
             width: {
@@ -277,6 +318,14 @@
     .annotator-input{
         display: flex;
         width: fit-content;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .annotator-input__input-fields {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
     }
 
     .annotator-input-no-link{
@@ -292,7 +341,7 @@
         margin-right: 10px;
     }
 
-    .annotator-input__name {
+    .annotator-input__relationship-name {
         float: left;
         flex: 1 1 20em;
     }
@@ -300,6 +349,15 @@
     .annotator-input__tore {
         float: left;
         flex: 1 1 20em;
+    }
+
+    .annotator-input__relationships-list .v-list-item{
+        min-height: 28px;
+    }
+
+    .annotator-input__relationships-list .v-subheader {
+        justify-content: center;
+        height: 14px;
     }
 
 </style>

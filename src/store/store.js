@@ -51,33 +51,29 @@ export const store = new Vuex.Store({
     ],
 
     annotatorInputVisible: false,
-    selectedTokenCluster: null,
+    selected_code: null,
 
     hoveringToken: null,
-    hoveringTokenCluster: null,
-    hoveringClusterRelationship: null,
+    hovering_codes: [],
+    hovering_tore_relationships: [],
 
     selectedToken: null,
     isLinking: false,
 
-    tokens: [],
-    token_clusters: [],
-    cluster_relationships: [],
-
-    selectedClusterRelationship: null,
-
-    displaySnackbarNoMultiClusters: false,  // show the snackback alerting the user that multi-cluster tokens aren't allowed
-
-    availableDocuments: [
-      {name: "Of Mice and Men"},
-      {name: "The Grapes of Wrath"},
-      {name: "The DaVinci Code"}
-    ],
+    selected_tore_relationship: null,
 
     algo_results: [
       {name: "Result: Animals", lemmas: ["fox", "dog"]},
       {name: "Result: Adjectives", lemmas: ["quick", "brown", "lazy"]}
     ],
+
+    all_docs: {index: 0, name: "All Documents", begin_index: 0, end_index: null},
+    selected_doc: null, // set it to first when loading
+
+    docs: [],  // document indices from the server start at 1!
+    tokens: [],
+    codes: [],
+    tore_relationships: []
   },
   getters,
   mutations,

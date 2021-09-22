@@ -4,10 +4,11 @@
 
             <v-autocomplete
                     class="annotator-toolbar__selected-document"
-                    :items="$store.state.availableDocuments"
+                    :items="$store.state.docs"
+                    v-model="$store.state.selected_doc"
                     item-text="name"
-                    label="Select a Document"
-                    clearable>
+                    item-value="index"
+                    label="Select a Document">
             </v-autocomplete>
 
             <v-autocomplete
@@ -48,14 +49,14 @@
 
         </v-card>
         <v-card v-if="false" class="annotator-debug-panel">
-            <v-textarea v-for="(t, index) in $store.state.token_clusters"
+            <v-textarea v-for="(t, index) in $store.state.codes"
                         :key="index"
                         :label="JSON.stringify(t)"
                         outlined
                         dense
                         rows="2"
             ></v-textarea>
-            <v-textarea v-for="(c, index) in $store.state.cluster_relationships"
+            <v-textarea v-for="(c, index) in $store.state.tore_relationships"
                         :key="'relationship'+index"
                         :label="JSON.stringify(c)"
                         outlined
@@ -70,13 +71,12 @@
                    @annotator-token-mouseover="tokenHover"
                    @annotator-token-mouseleave="tokenUnhover"
                    ref="token"
-                   v-for="(t, index) in $store.state.tokens"
+                   v-for="(t, index) in $store.state.tokens.filter(t => t.index >= docs[selected_doc].begin_index && t.index < docs[selected_doc].end_index)"
                    :key="index"
                    v-bind="{
                        ...t,
-                       show_pos: selected_pos_tags.filter((tag) => tag === t.pos).length > 0,
-                       algo_lemma: algo_lemmas && algo_lemmas.includes(t.lemma),
-                       index: index  // FIXME remove this in deployment
+                       show_pos: selected_pos_tags.includes(t.pos) > 0,
+                       algo_lemma: algo_lemmas && algo_lemmas.includes(t.lemma)
                    }">
             </Token>
             <br v-for="(_, emptyLineIndex) of [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]"
@@ -84,35 +84,49 @@
             <AnnotatorInput
                     class="annotator-input"
                     v-if="showingInput"
+                    :disabled="mustDisambiguateTokenCode"
                     v-click-outside="annotatorInputFocusOut"
                     ref="input_panel"
                     :style="inputFieldPanelLocationStyle"
                     :panelIsUp="panelIsUp"
                     :width="annotatorInputWidthPct"
-                    :requiredAnnotationsPresent="requiredAnnotationsPresent"
-                    @annotator-input-trash-click="deleteSelectedTokenCluster"
+                    @annotator-input-trash-click="delete_selected_code"
                     @annotator-input__arrow-icon-click="panelIsUp = !panelIsUp"
-                    @cluster-name-input-keydown="expandIncompleteNameKeyDown"
+                    @code-name-input-keydown="expandIncompleteNameKeyDown"
             />
+            <v-card
+                    class="disambiguation-prompt"
+                    :style="inputFieldPanelLocationStyle"
+                    v-if="mustDisambiguateTokenCode">
+                <v-list>
+                    <v-subheader>Do something with this token: </v-subheader>
+                    <v-list-item
+                            v-for="(item, i) in multipleCodesPromptList"
+                            :key="'prompt_'+i"
+                            :style="i===0?'border: green solid 2px':''"
+                            @click="disambiguateTokenCode(item, i, this)()">
+                        {{i > 0 ? 'Edit ' + _Code_user_display_prompt(item) : item.name}}
+                    </v-list-item>
+                </v-list>
+            </v-card>
         </v-card>
-        <v-snackbar v-model="displaySnackbarNoMultiClusters" bottom >
-            Tokens cannot be assigned to more than one concept
-        </v-snackbar>
     </div>
 </template>
 
 <script>
     import Token from "@/components/annotator/Token";
     import AnnotatorInput from "@/components/annotator/AnnotatorInput";
-    import {TokenCluster} from "@/components/annotator/token_cluster";
-
+    import {Code, Code_user_display_prompt} from "@/components/annotator/code";
     import {mapGetters} from "vuex";
-    import {GET_EXAMPLE_ANNOTATION_POST_ENDPOINT} from "../../RESTconf";
 
     export default {
         name: "Annotator",
         data: () => {
             return {
+
+                requestAnnotatorInput: false,
+                disambiguatedTokenCode: null,
+
                 selected_pos_tags: [],
                 incompleteNameInput: "",  // workaround to allow the user to type new names within autocomplete, should reflect current input value
 
@@ -124,8 +138,16 @@
         },
         components: {AnnotatorInput, Token},
         computed: {
+
+            mustDisambiguateTokenCode(){
+                return this.requestAnnotatorInput && this.multipleCodesPromptList.length > 1 && this.disambiguatedTokenCode === null;
+            },
+            multipleCodesPromptList () {
+                return [{name: "Create new Code", tore: ""}].concat(this.selectedToken===null?[]:this.getCodesForToken(this.selectedToken))
+            },
+
             showingInput(){
-                return this.selectedTokenCluster && this.$store.state.annotatorInputVisible;
+                return this.selected_code && this.$store.state.annotatorInputVisible;
             },
             inputFieldPanelLocationStyle(){
                 if(this.$store.state.selectedToken===null){
@@ -140,43 +162,105 @@
                 }
             },
 
-            displaySnackbarNoMultiClusters: {
-                get: function() {
-                    return this.$store.state.displaySnackbarNoMultiClusters;
-                },
-                set: function(){
-                    this.$store.commit("setDisplaySnackbarNoMultiClusters", false);
-                }
-            },
-            ...mapGetters(["pos_tags","selectedTokenCluster", "selectedClusterRelationship", "isLinking", "token", "requiredAnnotationsPresent"])
-        },
-        created(){
-            this.$store.commit("resetAnnotator")
+            ...mapGetters(["requiredAnnotationsPresent",
+                "getCodesForToken",
+                "selectedToken",
+                "pos_tags",
+                "selected_code",
+                "selected_tore_relationship",
+                "isLinking",
+                "token",
+                "docs",
+                "selected_doc"])
         },
 
-        mounted() {
-            this.$store.dispatch(GET_EXAMPLE_ANNOTATION_POST_ENDPOINT).then(response => console.log("Annotator callback")).catch(e => {
-                console.error("Error getting annotation: "+e);
-            })
+        mounted(){
+            this.$store.dispatch("actionGetExampleAnnotation")
         },
 
         methods: {   // NOTE: `token` refers to the Vue Component in these methods
 
-            expandIncompleteNameKeyDown(evnt){
-                console.log(evnt)
+            disambiguateTokenCode(item, i){
+                let self = this;
+                return function(){
+                    if(i === 0){  // create a new code
+                        self.disambiguatedTokenCode = null;
+                    } else {
+                        self.disambiguatedTokenCode = item
+                    }
+                    self.requestAnnotatorInput = false;  // decision has been made, hide the panel
+                    console.log('Code click: '+item)
+                    self.addSelectedTokenToCode()
+                }
+            },
+            _Code_user_display_prompt(item){
+                return Code_user_display_prompt(item);
+            },
 
+            /**
+             * perform the assignment of the selected token to a Code
+             * Create a new Core if necessary, else use user selected one
+             */
+            addSelectedTokenToCode(){
+                let token = this.selectedToken;
+                if(!this.isLinking){
+                    let code = null;
+                    let new_code = false;
+
+                    if(this.disambiguatedTokenCode === null){
+                        new_code = true;
+                    } else {
+                        code = this.disambiguatedTokenCode;
+                        this.disambiguatedTokenCode = null;
+                    }
+                    code = new_code?new Code(this.$store.state.codes.length):code;
+
+                    this.$store.commit('assignToCode', {token: this.token(token.index),
+                        code: code,
+                        new_code:new_code});
+
+                    this.$store.commit("set_selected_code", code);
+
+                } else {
+                    console.error("addTokenToCode called while linker is open")
+                }
+            },
+
+            tokenClicked(token){
+                if(!this.isLinking){
+                    this.updateSelectedToken(token);
+                    this.requestAnnotatorInput = true;  //  let the panel know we want to open the annotator input
+
+                    if(!this.mustDisambiguateTokenCode){  // else the assignment will be performed after user action
+                        this.requestAnnotatorInput = false;
+                        this.addSelectedTokenToCode()
+                    }
+                } else {
+                    if(this.selected_tore_relationship === null){
+                        this.$store.commit("new_tore_relationship", token)
+                    } else {
+                        this.$store.commit("add_token_to_selected_relationship", token)
+                    }
+                }
+            },
+
+            expandIncompleteNameKeyDown(evnt){
                 const key = evnt.key;
                 if (key === "Enter"){
-                    console.warn("User pressed Enter, persisting new token cluster name: "+this.incompleteNameInput);
-                    this.$store.commit("updateTokenClusterNote", this.incompleteNameInput);
-                    this.incompleteNameInput = ""
+                    if(this.incompleteNameInput!==""){
+                        console.warn("User pressed Enter, persisting new code name: "+this.incompleteNameInput);
+                        this.$store.commit("updateCodeName", this.incompleteNameInput);
+                        this.incompleteNameInput = "";
+                    }
+                } else if (key === "Backspace"){
+                    this.incompleteNameInput = this.incompleteNameInput.substring(0, Math.max(0, this.incompleteNameInput.length-1))
                 } else if(key.length === 1) {
                     this.incompleteNameInput += key;
                 }
             },
 
             /**
-             * Will implicitly set the selectedTokenCluster
+             * Set the selected token and show the annotation
              * @param token
              */
             updateSelectedToken(token){
@@ -191,34 +275,16 @@
             tokenShiftClicked(token){
                 if(this.showingInput){
                     const clickindex = token.index;
-                    let endlim = this.$store.state.selectedTokenCluster.tokens[this.$store.state.selectedTokenCluster.tokens.length-1];
+                    let endlim = this.$store.state.selected_code.tokens[this.$store.state.selected_code.tokens.length-1];
                     let grow = endlim <= clickindex ? 1 : -1;
                     for(let i = endlim; i !== clickindex + grow; endlim <= clickindex ? i++ : i--){
-                        if(this.$refs.token[i].token_cluster === null){
-                            this.$store.commit('assignToCluster', {token: this.token(i), token_cluster: this.$store.state.selectedTokenCluster})
-                        }
+                        this.$store.commit('assignToCode', {token: this.token(i), code: this.$store.state.selected_code})
                     }
                 } else {
                     this.tokenClicked(token)
                 }
             },
 
-            tokenClicked(token){
-                this.incompleteNameInput = token.token_cluster !== null ? this.$store.state.token_clusters[token.token_cluster].name : "";
-                if(!this.isLinking){
-                    if(token.token_cluster===null){
-                        this.$store.commit('assignToCluster', {token: this.token(token.index),
-                            token_cluster: new TokenCluster(this.$store.state.token_clusters.length),
-                            new_cluster:true});
-                    }
-                    this.updateSelectedToken(token);
-                } else {
-                    if(token.token_cluster !== null){
-                        this.$store.commit("addClusterToSelectedRelationship", this.$store.state.token_clusters[token.token_cluster]);
-                        this.updateSelectedToken(token);
-                    }
-                }
-            },
 
             /**
              * Should not be called if in linking mode
@@ -226,7 +292,7 @@
              */
             tokenCtrlClicked(token){
                 if(this.showingInput){
-                    this.$store.commit('assignToCluster', {token: this.token(token.index), token_cluster: this.$store.state.selectedTokenCluster})
+                    this.$store.commit('assignToCode', {token: this.token(token.index), code: this.$store.state.selected_code})
                 } else {
                     this.tokenClicked(token)
                 }
@@ -240,8 +306,8 @@
                     }
                 }
 
-                if(!this.requiredAnnotationsPresent){
-                    return;  // don't focus out
+                if(!this.requiredAnnotationsPresent){  // codes need some kind of label
+                    return;
                 }
 
                 // checking if target was another token
@@ -263,8 +329,8 @@
                 }
             },
 
-            deleteSelectedTokenCluster(){
-                this.$store.commit("deleteSelectedTokenCluster");
+            delete_selected_code(){
+                this.$store.commit("delete_selected_code");
                 this.$store.commit("setAnnotatorInputVisible", false);
             }
         }
@@ -278,7 +344,6 @@
 }
 
 .annotator-toolbar {
-    z-index: 20;
     position: sticky;
     top: 0px;
     display: flex;
@@ -286,11 +351,16 @@
     width: 100%;
 }
 
+
+.annotator-toolbar__selected-document , .annotator-toolbar__algo-results {
+    margin-top: 14px;
+}
+
 .annotator-token-area {
     display: block;
 }
 
-.annotator-input {
+.annotator-input, .disambiguation-prompt {
     position: fixed;
 }
 

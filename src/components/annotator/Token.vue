@@ -1,11 +1,10 @@
 <template>
     <span class="annotator-token-outer" :class="[applyPosStyle ? posClass:'token-outer-default',
     {
-        whitespace: index < $store.state.tokens.length - 1, // whitespace after this token
-        notEligibleForLink: notEligibleForLink,  //  not allowed for linking
-        //notEligibleForClusterMembership: notEligibleForClusterMembership,  // only one cluster per token
+        // whitespace after this token
+        whitespace: index < $store.state.tokens.length - 1,
         hoveringLinkable: hoveringLinkable,
-        linkedTogetherHovering: linkedTogetherHovering,  // indicates that a token is part of the currently hovering cluster
+        linkedTogether: linkedTogether,
         isAlgoLemma: algo_lemma
     }]"
           :style="applyPosStyle ? posStyle: ''"
@@ -16,9 +15,9 @@
           @click.ctrl="onCtrlClick">
             <span class="annotator-token-inner"
                   :class="['token-inner-default', {
-                    hasClusterHighlighted: hasCluster,  // indicates that a token has been assigned to a cluster
-                    assignedToSelectedTokenCluster: assignedToSelectedTokenCluster,  // is part of the currently selected cluster
-                    currentlyHoveringCluster: currentlyHoveringCluster // indicates membership of 'currently hovering' cluster
+                    hasCodeHighlighted: hasCode,  // indicates that a token has been assigned to a code
+                    assignedToselected_code: assignedToSelected_code,  // is part of the currently selected code
+                    currentlyHoveringCode: currentlyHoveringCode // indicates membership of 'currently hovering' code
             }]">
                 {{this.name}}
             </span>
@@ -37,66 +36,76 @@
             }
         },
         computed: {
+
+
             ...mapGetters(["isLinking",
-                "selectedClusterRelationship",
-                "selectedTokenCluster",
-                "hoveringTokenCluster",
-                "hoveringToken",  // used only to prevent token assignment to multiple clusters
-                "hoveringClusterRelationship",
-                "requiredAnnotationsPresent"]),
+                "selected_tore_relationship",
+                "selected_code",
+                "hovering_codes",
+                "hoveringToken",  // used only to prevent token assignment to multiple codes
+                "hovering_tore_relationships"]),
 
             hoveringLinkable(){
-                return this.isLinking && !this.notEligibleForLink && this.isHovering
+                return this.isLinking && this.isHoveringToken
             },
 
-            hoveringClusterIsNonTrivial(){
-                return this.hoveringTokenCluster !== null && this.hoveringTokenCluster.tokens.length > 1;
+            isHoveringToken(){  // FIXME not working
+                return this.hoveringToken && this.index === this.hoveringToken.index;
             },
 
-            currentlyHoveringCluster(){
-                return this.isHovering && this.hoveringClusterIsNonTrivial &&!this.hoveringLinkable;
+            hoveringCodeIsNonTrivial(){
+                return this.hoveringCodesList.filter(c => c && c.tokens.length > 1).length > 0;
             },
 
-            notEligibleForLink(){
-                return this.isLinking && (!this.hasCluster || this.assignedToSelectedClusterRelationship);
+            currentlyHoveringCode(){
+                return this.isHoveringCode && this.hoveringCodeIsNonTrivial && !this.hoveringLinkable;
             },
 
             /*
-            notEligibleForClusterMembership(){
-                return !this.isLinking && this.hasCluster && this.isHovering && this.selectedTokenCluster != null && !this.assignedToSelectedTokenCluster;
+            notEligibleForCodeMembership(){
+                return !this.isLinking && this.hasCode && this.isHovering && this.selected_code != null && !this.assignedToselected_code;
             },*/
 
-            assignedToSelectedTokenCluster(){
-                return this.selectedTokenCluster && this.token_cluster === this.selectedTokenCluster.index;
+            assignedToSelected_code(){
+                return this.selected_code && this.code === this.selected_code.index;
             },
 
-            assignedToSelectedClusterRelationship(){
-                return this.selectedClusterRelationship && this.hasCluster && this.selectedClusterRelationship.token_clusters.includes(this.token_cluster)
+            assignedToSelected_tore_relationship(){
+                return this.selected_tore_relationship && this.hasCode && this.selected_tore_relationship.codes.includes(this.code)
             },
 
             applyPosStyle(){
-                return this.show_pos && !this.isLinking && (!this.isHovering || !this.currentlyHoveringCluster)
+                return this.show_pos && !this.isLinking && (!this.isHoveringCode || !this.currentlyHoveringCode)
             },
 
-            hasCluster(){
-                return this.token_cluster !== null;
+            hasCode(){
+                return this.$store.state.tokens[this.index].num_codes > 0;
             },
-            linkedTogetherHovering(){
-                return !this.isLinking && this.hoveringClusterRelationship!==null
-                    && this.hasCluster && this.hoveringClusterRelationship.token_clusters.includes(this.token_cluster)
+
+            hoveringCodesList(){
+                return this.hovering_codes.filter(c => c && c.tokens.includes(this.index));
             },
-            isHovering(){
-                return this.hoveringTokenCluster !== null && this.hoveringTokenCluster.tokens.includes(this.index)
+
+            isHoveringCode(){
+                return this.hoveringCodesList.length > 0;
+            },
+
+            isHoveringRelationshipOwner(){  // currently hovering and owns a relationship
+                return this.hoveringCodesList.filter(h => h && h.relationship_memberships.length > 0);
+            },
+
+            linkedTogether(){
+                return this.isLinking && this.selected_tore_relationship && this.selected_tore_relationship.target_tokens.includes(this.index)
             },
 
             posStyle(){
                 let border_color = "border-color: ";
                 switch (this.pos) {
-                    case "V":
+                    case "v":
                         return border_color+VERB_COLOR;
-                    case "N":
+                    case "n":
                         return border_color+NOUN_COLOR;
-                    case "ADJ":
+                    case "a":
                         return border_color+ADJECTIVE_COLOR;
                 }
                 return "";
@@ -104,17 +113,20 @@
 
             posClass(){
                 switch (this.pos) {
-                    case "V":
+                    case "v":
                         return "verb-token";
-                    case "N":
+                    case "n":
                         return "noun-token";
-                    case "ADJ":
+                    case "a":
                         return "adjective-token";
                 }
                 return "";
             }
         },
         methods: {
+            toString(){
+                return "Name: "+this.name+", tore: "+this.tore+", index: "+this.index+", relationship memberships: "+this.relationship_memberships;
+            },
             onMouseover(){
                 this.$emit('annotator-token-mouseover', this)
             },
@@ -122,24 +134,18 @@
                 this.$emit('annotator-token-mouseleave', this)
             },
             onClick(){
-                if(this.requiredAnnotationsPresent) {
-                    this.$emit('annotator-token-click', this);
-                }
+                this.$emit('annotator-token-click', this);
             },
 
             onShiftClick(){
                 if(!this.isLinking){
-                    if(this.requiredAnnotationsPresent) {
-                        this.$emit('annotator-token-click-shift', this);
-                    }
+                    this.$emit('annotator-token-click-shift', this);
                 }
             },
 
             onCtrlClick(){
                 if(!this.isLinking){
-                    if(this.requiredAnnotationsPresent) {
-                        this.$emit('annotator-token-click-ctrl', this);
-                    }
+                    this.$emit('annotator-token-click-ctrl', this);
                 }
             }
 
@@ -161,7 +167,7 @@
                 type: Number,
                 required: true
             },
-            token_cluster: {
+            code: {
                 type: Number
             },
             algo_lemma: {
@@ -181,6 +187,7 @@
     }
 
     .token-inner-default, .token-outer-default{
+        user-select: none;
         border: 2px solid transparent;
     }
 
@@ -192,24 +199,24 @@
         margin-right: 0.7em;
     }
 
-    .currentlyHoveringCluster {
+    .currentlyHoveringCode {
         border: black solid 2px;
     }
 
-    .hasClusterHighlighted{
+    .hasCodeHighlighted{
         background-color: #dbdb30;
     }
 
-    .assignedToSelectedTokenCluster{
+    .assignedToselected_code{
         background-color: #BC3823;
     }
 
-    .notEligibleForLink, .notEligibleForClusterMembership {
+    .notEligibleForCodeMembership {
         border: 2px solid transparent;
         opacity: 0.5;
     }
 
-    .hoveringLinkable {
+    .hoveringLinkable, .linkedTogether {
         border: #0066ff solid 2px;
     }
 

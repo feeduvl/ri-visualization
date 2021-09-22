@@ -26,21 +26,24 @@ import {
 } from '@/store/types';
 
 export const actionGetExampleAnnotation = ({
-  state, commit
+  state
 }) => {
-  return new Promise((resolve, reject) => {
-    axios.post(GET_EXAMPLE_ANNOTATION_POST_ENDPOINT)
+  return new Promise(() => {
+    axios.post(GET_EXAMPLE_ANNOTATION_POST_ENDPOINT, {})
       .then(response => {
-        console.log("actionGetExampleAnnotation Got response:");
+        console.log("actionGetExampleAnnotation Got good response.");
         const {data} = response;
-        console.log(data);
 
-        commit(MUTATE_TOKENS, data.tokens);
-        commit(MUTATE_TOKEN_CLUSTERS, data.token_clusters);
-        commit(MUTATE_CLUSTER_RELATIONSHIPS, data.cluster_relationships);
+        state.tokens = data.tokens;
+        state.codes = data.codes;
+        state.tore_relationships = data.tore_relationships;
+        state.docs = [state.all_docs].concat(data.docs);
+
+        state.all_docs.end_index = data.tokens.length;
+        state.selected_doc = data.docs.length > 0 ? 1: 0;  // document indices from the server start at 1!
 
       })
-      .catch(e => reject(e));
+      .catch(e => console.log("Error getting tokens: "+e));
   });
 };
 

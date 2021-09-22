@@ -1,6 +1,12 @@
 /* eslint-disable keyword-spacing,camelcase,no-param-reassign,valid-jsdoc */
 import Vue from 'vue';
-import {ClusterRelationship} from "../components/annotator/token_cluster";
+import {
+  Code_add_relationship,
+  Code_add_token,
+  Code_remove_relationship,
+  CodeToString, TORERelationship,
+  TORERelationship_add_token, TORERelationship_set_relationship_name
+} from "../components/annotator/code";
 
 export const mutateInitialData = (state, initialData) => {
   state.tweets = Object.assign({}, state.tweets, initialData);
@@ -88,177 +94,143 @@ export const mutateFooterText = (state, title) => {
 
 // ANNOTATOR STUFF
 
-export const setTokens = (state, tokens) => {
-  state.tokens = tokens;
-};
-
-export const setTokenClusters = (state, token_clusters) => {
-  state.token_clusters = token_clusters;
-};
-
-export const setClusterRelationships = (state, cluster_relationships) => {
-  state.cluster_relationships = cluster_relationships;
-};
-
 /**
- * Applied to currently selected cluster relationship
- * @param state
- * @param name
- */
+* @param state
+* @param tore_relationship
+* @param name
+*/
 export const setRelationshipName = (state, name) => {
-  state.selectedClusterRelationship.set_relationship_name(state.selectedTokenCluster, name);
-};
-
-export const setDisplaySnackbarNoMultiClusters = (state, value) => {
-  state.displaySnackbarNoMultiClusters = value;
+  TORERelationship_set_relationship_name(state.selected_tore_relationship, name);
 };
 
 /**
  * @param state
- * @param cluster_relationship if undefined; will delete currently selected
+ * @param tore_relationship
  */
-export const deleteClusterRelationship = (state, cluster_relationship) => {
-  let index;
-  if(cluster_relationship===undefined){
-    index = state.selectedClusterRelationship.index;
+export const delete_tore_relationship = (state, tore_relationship) => {
+
+  Code_remove_relationship(state.codes[tore_relationship.TOREEntity], tore_relationship);
+
+  Vue.set(state.tore_relationships, tore_relationship.index, null);
+  if(state.hovering_tore_relationships.includes(tore_relationship)){
+    state.hovering_tore_relationships.splice(state.hovering_tore_relationships.indexOf(tore_relationship), 1);
+  }
+
+  if(state.selected_tore_relationship && state.selected_tore_relationship.index === tore_relationship.index){
+    state.selected_tore_relationship = null;
+  }
+}; 
+
+/**
+ * Created a new code relationship and adds the currently selected code to it
+ * linker should already be open and tokens selected
+ * @param state
+ * @param firstToken initial token, more may follow
+ */
+export const new_tore_relationship = (state, firstToken) => {
+  console.log("new_tore_relationship for selected code: "+CodeToString(state.selected_code));
+  let relationship = new TORERelationship(state.selected_code, [firstToken.index], state.tore_relationships.length);
+  Code_add_relationship(state.selected_code, relationship);
+  state.selected_tore_relationship = relationship;
+  state.tore_relationships.push(relationship);
+}; 
+
+export const add_token_to_selected_relationship = (state, token) => {
+  console.log("Adding token: ... to current relationship: "+state.selected_tore_relationship.index);
+  console.log(token);
+  if(state.selected_tore_relationship === null){
+    console.error("add_token_to_selected_relationship called while selected tore relationship is null");
   } else {
-    index = cluster_relationship.index;
+    TORERelationship_add_token(state.selected_tore_relationship, token);
   }
+}; export const 
 
-  for(let i of state.cluster_relationships[index].token_clusters){
-    state.token_clusters[i].remove_relationship(state.cluster_relationships[index]);
-  }
-
-  Vue.set(state.cluster_relationships, index, null);
-  if(state.hoveringClusterRelationship && state.hoveringClusterRelationship.index===index){
-    state.hoveringClusterRelationship = null;
-  }
-  if(state.selectedClusterRelationship && state.selectedClusterRelationship.index === index){
-    state.selectedClusterRelationship = null;
-  }
-
-  this.commit("setIsLinking", false);  //  close the linker and clear 'selected' relationship
-};
-
-/**
- * Created a new cluster relationship and adds the currently selected token cluster to it
- * @param state
- */
-export const newClusterRelationship = state => {
-  let relationship = new ClusterRelationship(state.cluster_relationships.length);
-  state.selectedClusterRelationship = relationship;
-  state.cluster_relationships.push(relationship);
-  relationship.add_cluster(state.selectedTokenCluster);
-  this.commit("setIsLinking", true);  //  open the linker
-};
-
-export const setIsLinking = (state, isLinking) => {
-  state.isLinking = isLinking;
-  if(!isLinking){
-    state.selectedClusterRelationship = null;
-    state.hoveringClusterRelationship = null;  // not necessary
-  }
-};
-
-export const addClusterToSelectedRelationship = (state, token_cluster) => {
-  state.selectedClusterRelationship.add_cluster(token_cluster);
-};
-
-export const deleteSelectedTokenCluster = state => {
-  let token_indices = state.selectedTokenCluster.tokens;
-  let index = state.selectedTokenCluster.index;
-
-  if(state.hoveringTokenCluster === state.selectedTokenCluster){
-    state.hoveringTokenCluster = null;
-  }
-
-  for(let i of state.selectedTokenCluster.relationship_memberships){
-    state.cluster_relationships[i].remove_cluster(state.selectedTokenCluster.index);
-    if(state.cluster_relationships[i].token_clusters.filter(t_c => t_c).length < 2){  // don't count nulls
-      console.log(`vuex.js: not enough clusters left in relationship ${i}; deleting relationship`);
-      this.commit("deleteClusterRelationship", state.cluster_relationships[i]);
+  setIsLinking = (state, isLinking) => {
+    state.isLinking = isLinking;
+    if(!isLinking){
+      state.selected_tore_relationship = null;
+      state.hovering_tore_relationships = [];  // not necessary
     }
-  }
+  }; export const 
 
-  state.selectedTokenCluster = null;
+  delete_selected_code = state => {
+    let token_indices = state.selected_code.tokens;
+    let index = state.selected_code.index;
 
-  for(let i of token_indices){
-    state.tokens[i].token_cluster = null;
-  }
+    if(state.hovering_codes.includes(state.selected_code)){
+      state.hovering_codes.splice(state.hovering_codes.indexOf(state.selected_code, 1));
+    }
 
-  Vue.set(state.token_clusters, index, null);
+    for(let i of state.selected_code.relationship_memberships){
+      this.commit("deleteToreRelationship", state.tore_relationships[i]);  // relationships are dependent upon tore codes
+    }
 
-};
+    state.selected_code = null;
 
-export const setAnnotatorInputVisible = (state, visible) => {
-  state.annotatorInputVisible = visible;
-  if(!visible){
-    state.isLinking = false;
-    state.selectedToken = null;
-    state.selectedTokenCluster = null;
-    state.selectedClusterRelationship = null;
-  }
-};
+    for(let i of token_indices){
+      state.tokens[i].num_codes--;
+    }
+    Vue.set(state.codes, index, null);
+  }; export const 
 
-export const setSelectedTokenCluster = (state, cluster) => {
-  state.selectedTokenCluster = cluster;
-};
+  setAnnotatorInputVisible=(state, visible) => {
+    state.annotatorInputVisible = visible;
+    if(!visible){
+      state.isLinking = false;
+      state.selectedToken = null;
+      state.selected_code = null;
+      state.selected_tore_relationship = null;
+    }
+  }; export const 
 
-export const setHoveringToken = (state, token) => {
-  state.hoveringToken = token;
-  if(token===null){
-    state.hoveringClusterRelationship = null;
-    state.hoveringTokenCluster = null;
-    return;
-  }
+  set_selected_code = (state, code) => {
+    console.log("Set selected code: "+CodeToString(code));
+    state.selected_code = code;
+  }; export const 
 
-  let cluster_index = token.token_cluster;
-  let cluster = cluster_index===null?null:state.token_clusters[cluster_index];
-  state.hoveringTokenCluster = cluster;
-  if(cluster===null || cluster.relationship_memberships.length === 0){
-    state.hoveringClusterRelationship = null;
-  } else {
-    // eslint-disable-next-line no-warning-comments
-    state.hoveringClusterRelationship = state.cluster_relationships[cluster.relationship_memberships[0]];  // TODO use the first for now
-  }
-};
+  setHoveringToken = (state, token) => {
+    state.hoveringToken = token;
+    if(token===null){
+      state.hovering_tore_relationships = [];
+      state.hovering_codes = [];
+      return;
+    }
 
-export const setSelectedToken = (state, token) => {
-  token = state.tokens[token.index];
-  state.selectedToken = token;
-  // eslint-disable-next-line no-eq-null
-  this.commit("setSelectedTokenCluster", token.token_cluster==null?null:state.token_clusters[token.token_cluster]);
-};
+    let ind = token.index;
+    state.hovering_codes = state.codes.filter(c => c && c.tokens.includes(ind));
+    state.hovering_tore_relationships =
+      state.tore_relationships.filter(r =>
+        r && (r.target_tokens.includes(ind) || state.codes[r.TOREEntity].tokens.includes(ind)));
+  }; export const 
 
-/**
- * If using `new_cluster`; the `index` attribute of the new cluster MUST be set to the length of `state.token_clusters` prior to this method being called
+  setSelectedToken = (state, token) => {
+  //console.log("Selected token is: "+token)
+    state.selectedToken = token;
+  }; export const 
+
+  /**
  * @param state
  * @param args
  */
-export const assignToCluster = (state, args) => {
-  const {token, token_cluster, new_cluster} = args;
-  if(!token_cluster.add_token(token)){
-    state.displaySnackbarNoMultiClusters = true;
-  }
-  if(new_cluster){
-    state.token_clusters.push(token_cluster);
-  }
-};
+  assignToCode =(state, args) => {
+    const {token, code, new_code} = args;
+    //console.log("Adding token: "+TokenToString(token)+" to code: "+CodeToString(code))
+    Code_add_token(code, token);
+    //console.log("Resulting token: "+TokenToString(token))
+    if(new_code){
+      state.codes.push(code);
+    }
+  }; export const 
 
-// eslint-disable-next-line no-warning-comments
-export const resetAnnotator = state => {  // TODO add a tokens argument
-  state.token_clusters = [];
-  state.cluster_relationships = [];
+  updateCodeName = (state, note) => {
+    state.selected_code.name = note;
+  }; export const 
 
-  for(let i = 0; i < state.tokens.length; i++){
-    Vue.set(state.tokens[i], "index", i);
-  }
-};
+  updateCodeTore = (state, tore) => {
+    state.selected_code.tore = tore;
+  }; export const 
 
-export const updateTokenClusterNote = (state, note) => {
-  state.selectedTokenCluster.name = note;
-};
-
-export const updateTokenClusterTore = (state, tore) => {
-  state.selectedTokenCluster.tore = tore;
-};
+  setSelectedToreRelationship = (state, relationship) => {
+    console.log("Setting selected relationship: "+relationship.index);
+    state.selected_tore_relationship = relationship;
+  };

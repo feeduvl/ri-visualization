@@ -95,49 +95,67 @@ export const getFooterText = state => {
 };
 
 // ANNOTATION STUFF
-export const selectedToken = state => {
-  return state.selectedToken;
-};
 
-export const pos_tags = state => {
-  return state.pos_tags;
-};
+export const docs = state => {
+  return state.docs;
+}; export const 
+  selected_doc = state => {
+    return state.selected_doc;
+  }; export const 
 
-export const clusterNames = state => {
-  let ret = [];
-  for (let i = 0; i < state.token_clusters.length; i++){
-    if (state.token_clusters[i] && state.token_clusters[i].name){
-      ret.push(state.token_clusters[i].name);
+  selectedToken = state => {
+    return state.selectedToken;
+  }; export const 
+  pos_tags = state => {
+    return state.pos_tags;
+  }; export const 
+
+  codeNames = state => {
+    let ret = [];
+    for (let i = 0; i < state.codes.length; i++){
+      if (state.codes[i] && state.codes[i].name){
+        ret.push(state.codes[i].name);
+      }
     }
-  }
-  return ret;
-};
+    return ret;
+  }; export const 
 
-export const hoveringToken = state => {
-  return state.hoveringToken;
-};
+  hoveringToken = state => {
+    return state.hoveringToken;
+  }; export const 
 
-export const selectedClusterRelationship = state => {
-  return state.selectedClusterRelationship;
-};
+  selected_tore_relationship = state => {
+    return state.selected_tore_relationship;
+  }; export const 
 
-export const hoveringClusterRelationship = state => {
-  return state.hoveringClusterRelationship;
-};
+  hovering_tore_relationships = state => {
+    return state.hovering_tore_relationships;
+  }; export const 
 
-export const hoveringTokenCluster = state => {
-  return state.hoveringTokenCluster;
-};
+  hovering_codes = state => {
+    return state.hovering_codes;
+  }; export const 
 
-export const selectedTokenCluster = state => {
-  return state.selectedTokenCluster;
-};
-export const isLinking = state => {
-  return state.isLinking;
-};
+  selected_code = state => {
+    return state.selected_code;
+  }; export const 
+  isLinking = state => {
+    return state.isLinking;
+  }; 
+
 export const token = state => index => state.tokens[index];
 
+export const getCodesForToken = state => token => (token===null?[]:state.codes.filter(c => c && c.tokens.includes(token.index)));
+
 export const requiredAnnotationsPresent = state => {
-  return !(state.selectedTokenCluster !== null && state.selectedTokenCluster.name === "") &&
-      !(state.selectedClusterRelationship !== null && state.selectedClusterRelationship.relationship_names.length > 0);
+  return state.selected_code.name !== "" || state.selected_code.tore !== "";
+};
+
+export const tokenListToString = state => listOfTokenIndices => {
+  let ret = "";
+  let names = state.tokens.filter(t => listOfTokenIndices.includes(t.index)).map(t => t.name);
+  for (let name of names){
+    ret += " " +name;
+  }
+  return ret;
 };
