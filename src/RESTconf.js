@@ -11,7 +11,7 @@ export default axios;
 
 // annotation
 
-export const GET_EXAMPLE_ANNOTATION_POST_ENDPOINT = `${BASE_URL}/hitec/orchestration/concepts/annotation/init/`;
+export const GET_EXAMPLE_ANNOTATION_POST_ENDPOINT = `${BASE_URL}/hitec/orchestration/concepts/annotationinit/`;
 
 
 // concept detection
