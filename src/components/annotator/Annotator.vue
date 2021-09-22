@@ -15,8 +15,8 @@
                     class="annotator-toolbar__algo-results"
                     :items="$store.state.algo_results"
                     item-text="name"
-                    item-value="lemmas"
-                    v-model="algo_lemmas"
+                    item-value="index"
+                    v-model="$store.state.selected_algo_result"
                     label="Highlight Algorithm Results"
                     clearable>
             </v-autocomplete>
@@ -30,7 +30,7 @@
                     :items="pos_tags"
                     item-text="name"
                     item-value="tag"
-                    v-model="selected_pos_tags"
+                    v-model="$store.state.selected_pos_tags"
             >
                 <template v-slot:selection="data">
                     <v-chip
@@ -38,8 +38,8 @@
                             :input-value="data.selected"
                             close
                             @click:close="(function(item) {
-                                const index = selected_pos_tags.indexOf(item.tag)
-                                if (index >= 0) selected_pos_tags.splice(index, 1)
+                                const index = $store.state.selected_pos_tags.indexOf(item.tag)
+                                if (index >= 0) $store.state.selected_pos_tags.splice(index, 1)
                             })(data.item)"
                             @click="data.select"
                     >{{ data.item.name }}
@@ -74,9 +74,7 @@
                    v-for="(t, index) in $store.state.tokens.filter(t => t.index >= docs[selected_doc].begin_index && t.index < docs[selected_doc].end_index)"
                    :key="index"
                    v-bind="{
-                       ...t,
-                       show_pos: selected_pos_tags.includes(t.pos) > 0,
-                       algo_lemma: algo_lemmas && algo_lemmas.includes(t.lemma)
+                       ...t
                    }">
             </Token>
             <br v-for="(_, emptyLineIndex) of [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]"
@@ -127,7 +125,6 @@
                 requestAnnotatorInput: false,
                 disambiguatedTokenCode: null,
 
-                selected_pos_tags: [],
                 incompleteNameInput: "",  // workaround to allow the user to type new names within autocomplete, should reflect current input value
 
                 algo_lemmas: null,

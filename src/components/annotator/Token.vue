@@ -49,7 +49,7 @@
                 return this.isLinking && this.isHoveringToken
             },
 
-            isHoveringToken(){  // FIXME not working
+            isHoveringToken(){
                 return this.hoveringToken && this.index === this.hoveringToken.index;
             },
 
@@ -121,6 +121,13 @@
                         return "adjective-token";
                 }
                 return "";
+            },
+            show_pos() {
+                return this.$store.state.selected_pos_tags.includes(this.pos)
+            },
+
+            algo_lemma(){
+                return this.$store.state.selected_algo_result && this.$store.state.algo_results[this.$store.state.selected_algo_result].lemmas.includes(this.lemma)
             }
         },
         methods: {
@@ -157,22 +164,10 @@
             },
             lemma: String,
             pos: String,
-            show_pos : {
-                type: Boolean,
-                required: false,
-                default: false
-            },
             tore: String,
             index: {
                 type: Number,
                 required: true
-            },
-            code: {
-                type: Number
-            },
-            algo_lemma: {
-                type: Boolean,
-                default: false
             }
         }
     }

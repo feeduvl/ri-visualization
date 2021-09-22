@@ -1,5 +1,3 @@
-/* eslint-disable valid-jsdoc */
-
 /**
  * Style guidelines:
  *
@@ -10,6 +8,7 @@
  * Index sets may include null values! (so don't use unchecked .includes(null) type queries)
  */
 
+
 /**
  * Model a Code.
  * Type 1 Code instances have a non-empty name but an empty TORE designator
@@ -18,50 +17,51 @@
  * @constructor
  */
 function Code(index){
-  this.tokens = [];  // contains indices of constituent tokens
-  this.name = "";
-  this.tore = "";
-  this.index = index;  // incremented from 0
-  this.relationship_memberships = [];  // contains indices of relationships it owns
+    this.tokens = []  // contains indices of constituent tokens
+    this.name = ""
+    this.tore = ""
+    this.index = index;  // incremented from 0
+    this.relationship_memberships = []  // contains indices of relationships it owns
 }
 
 function Code_user_display_prompt(code){
-  let hasName = code.name !== "";
-  let hasTore = code.tore !== "";
-  if (hasName && !hasTore){
-    return "Name: "+code.name;
-  } else if (!hasName && hasTore){
-    return "TORE: "+code.tore;
-  } else if (hasName && hasTore){
-    return "Name: "+code.name + " TORE: "+code.tore;
-  } 
-  return `[Code without name or TORE]`;
+    let hasName = code.name !== "";
+    let hasTore = code.tore !== "";
+    if(hasName && !hasTore){
+        return "Name: "+code.name;
+    } else if (!hasName && hasTore){
+        return "TORE: "+code.tore
+    } else if(hasName && hasTore){
+        return "Name: "+code.name + " TORE: "+code.tore;
+    } else {
+        return `[Code without name or TORE]`
+    }
 }
 
 function Code_add_relationship(code, relationship){
-  if (code.relationship_memberships.includes(relationship.index)){
-    console.warn("Attempted to add a relationship to a code which already owns it");
-  } else {
-    code.relationship_memberships.push(relationship.index);
-  }
+    if(code.relationship_memberships.includes(relationship.index)){
+        console.warn("Attempted to add a relationship to a code which already owns it")
+    } else {
+        code.relationship_memberships.push(relationship.index)
+    }
 }
 
 function Code_add_token(code, token){
-  if (!code.tokens.includes(token.index)){
-    token.num_codes++;
-    code.tokens.push(token.index);
-  } else {
-    console.warn("Attempted to add token to Code which already has that token");
-  }
+    if(!code.tokens.includes(token.index)){
+        token.num_codes++;
+        code.tokens.push(token.index);
+    } else {
+        console.warn("Attempted to add token to Code which already has that token")
+    }
 }
 
 function Code_remove_relationship(code, tore_relationship){
-  let ind = tore_relationship.index;
-  if (!code.relationship_memberships.includes(ind)) {
-    console.error("Attempted to remove non-existent relationship: " + ind + " from Code: " + CodeToString(code));
-  } else {
-    code.relationship_memberships.splice(code.relationship_memberships.indexOf(ind), 1);
-  }
+    let ind = tore_relationship.index;
+    if (!code.relationship_memberships.includes(ind)) {
+        console.error("Attempted to remove non-existent relationship: " + ind + " from Code: " + CodeToString(code));
+    } else {
+        code.relationship_memberships.splice(code.relationship_memberships.indexOf(ind), 1);
+    }
 }
 
 /**
@@ -74,27 +74,27 @@ function Code_remove_relationship(code, tore_relationship){
  */
 
 function TORERelationship(toreEntity, target_tokens, index){
-  this.TOREEntity = toreEntity.index;  // just a Code index with tore !== ""
-  this.target_tokens = target_tokens;
-  this.relationship_name = "";
-  this.index = index;  // incremented from 0
+    this.TOREEntity = toreEntity.index  // just a Code index with tore !== ""
+    this.target_tokens = target_tokens
+    this.relationship_name = ""
+    this.index = index;  // incremented from 0
 }
 
 function TORERelationship_set_relationship_name(toreRelationship, relationship_name) {
-  toreRelationship.relationship_name = relationship_name;
+    toreRelationship.relationship_name = relationship_name
 }
 
 function TORERelationship_add_token(toreRelationship, token){
 
-  if (!toreRelationship.target_tokens.includes(token.index)){
-    toreRelationship.target_tokens.push(token.index);
-  } else {
-    console.warn("Attempted to add token to TORERelationship which already has that token");
-  }
+    if(!toreRelationship.target_tokens.includes(token.index)){
+        toreRelationship.target_tokens.push(token.index);
+    } else {
+        console.warn("Attempted to add token to TORERelationship which already has that token")
+    }
 }
 
 function CodeToString(code){
-  return "[Code] Name: "+code.name+", tore: "+code.tore+", index: "+code.index+", relationship memberships: "+code.relationship_memberships;
+    return "[Code] Name: "+code.name+", tore: "+code.tore+", index: "+code.index+", relationship memberships: "+code.relationship_memberships;
 }
 
-export {Code_user_display_prompt, Code_add_relationship, Code_add_token, Code_remove_relationship, CodeToString, TORERelationship_set_relationship_name, TORERelationship_add_token, Code, TORERelationship};
+export {Code_user_display_prompt, Code_add_relationship, Code_add_token, Code_remove_relationship, CodeToString, TORERelationship_set_relationship_name, TORERelationship_add_token, Code, TORERelationship}

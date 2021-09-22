@@ -44,6 +44,7 @@ export const store = new Vuex.Store({
 
     // ANNOTATION STUFF
 
+
     pos_tags: [
       {name: "Verbs", tag: "v", color: VERB_COLOR},
       {name: "Nouns", tag: "n", color: NOUN_COLOR},
@@ -62,18 +63,23 @@ export const store = new Vuex.Store({
 
     selected_tore_relationship: null,
 
-    algo_results: [
-      {name: "Result: Animals", lemmas: ["fox", "dog"]},
-      {name: "Result: Adjectives", lemmas: ["quick", "brown", "lazy"]}
-    ],
-
     all_docs: {index: 0, name: "All Documents", begin_index: 0, end_index: null},
     selected_doc: null, // set it to first when loading
 
     docs: [],  // document indices from the server start at 1!
     tokens: [],
     codes: [],
-    tore_relationships: []
+    tore_relationships: [],
+
+    selected_pos_tags: [],
+    selected_algo_result: null,
+
+    algo_results: [
+      {index: 0, name: "Result: Animals", lemmas: ["fox", "dog"]},
+      {index: 1, name: "Result: Adjectives", lemmas: ["quick", "brown", "lazy"]}
+    ],
+
+
   },
   getters,
   mutations,
