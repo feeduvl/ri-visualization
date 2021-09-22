@@ -31,7 +31,7 @@ export const actionGetExampleAnnotation = ({
   return new Promise(() => {
     axios.post(GET_EXAMPLE_ANNOTATION_POST_ENDPOINT, {
       annotationName: "An example annotation",
-      datasetName: "interview_data_normal"
+      dataset: "interview_data_normal"
     })
       .then(response => {
         console.log("actionGetExampleAnnotation Got good response.");
