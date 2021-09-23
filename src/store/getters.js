@@ -159,3 +159,7 @@ export const tokenListToString = state => listOfTokenIndices => {
   }
   return ret;
 };
+
+export const tokensInSelectedDoc = state => {
+  return state.tokens.filter(t => t.index >= state.docs[state.selected_doc].begin_index && t.index < state.docs[state.selected_doc].end_index)
+};
