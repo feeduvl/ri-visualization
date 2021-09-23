@@ -62,14 +62,13 @@ export const store = new Vuex.Store({
 
     selected_tore_relationship: null,
 
-    all_docs: {index: 0, name: "All Documents", begin_index: 0, end_index: null},
-    selected_doc: null, // set it to first when loading
-
     docs: [],  // document indices from the server start at 1!
     tokens: [],
     codes: [],
     tore_relationships: [],
 
+    all_docs: {index: 0, name: "All Documents", begin_index: 0, end_index: null},
+    selected_doc: null, // set it to first when loading
     selected_pos_tags: [],
     selected_algo_result: null,
 

@@ -244,3 +244,15 @@ export const setAnnotationPayload = (state, {tokens, codes, tore_relationships, 
   state.all_docs.end_index = tokens.length;
   state.selected_doc = docs.length > 0 ? 1: 0;  // document indices from the server start at 1!
 };
+
+export const updateSelectedDoc = (state, value) => {
+  state.selected_doc = value;
+};
+
+export const updateSelectedAlgoResult = (state, value) => {
+  state.selected_algo_result = value;
+};
+
+export const updateSelectedPosTags = (state, value) => {
+  state.selected_pos_tags = value;
+};
