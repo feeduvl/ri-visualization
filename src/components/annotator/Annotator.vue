@@ -275,6 +275,7 @@
 
             expandIncompleteNameKeyDown(evnt){
                 const key = evnt.key;
+                console.log(evnt)
                 if (key === "Enter"){
                     if(this.incompleteNameInput!==""){
                         console.warn("User pressed Enter, persisting new code name: "+this.incompleteNameInput);
@@ -346,7 +347,7 @@
             },
 
             tokenHover(token){
-                this.$store.commit("setHoveringToken", this.token(token.index));
+                //this.$store.commit("setHoveringToken", this.token(token.index));  // FIXME very slow, leave it out for now
             },
 
             tokenUnhover(token){
