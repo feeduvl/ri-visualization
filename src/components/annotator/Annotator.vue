@@ -5,7 +5,7 @@
             <v-autocomplete
                     class="annotator-toolbar__selected-document"
                     :items="$store.state.docs"
-                    v-model="$store.state.selected_doc"
+                    v-model="annotatorSelectedDoc"
                     item-text="name"
                     item-value="index"
                     label="Select a Document">
@@ -16,7 +16,7 @@
                     :items="$store.state.algo_results"
                     item-text="name"
                     item-value="index"
-                    v-model="$store.state.selected_algo_result"
+                    v-model="annotatorAlgoResult"
                     label="Highlight Algorithm Results"
                     clearable>
             </v-autocomplete>
@@ -30,7 +30,7 @@
                     :items="pos_tags"
                     item-text="name"
                     item-value="tag"
-                    v-model="$store.state.selected_pos_tags"
+                    v-model="annotatorPosTags"
             >
                 <template v-slot:selection="data">
                     <v-chip
@@ -39,7 +39,10 @@
                             close
                             @click:close="(function(item) {
                                 const index = $store.state.selected_pos_tags.indexOf(item.tag)
-                                if (index >= 0) $store.state.selected_pos_tags.splice(index, 1)
+                                const tags = $store.state.selected_pos_tags
+
+                                if (index >= 0) tags.splice(index, 1)
+                                $store.commit('updateSelectedPosTags', tags)
                             })(data.item)"
                             @click="data.select"
                     >{{ data.item.name }}
@@ -134,6 +137,34 @@
         },
         components: {AnnotatorInput, Token},
         computed: {
+
+            annotatorSelectedDoc: {
+                get(){
+                    return this.$store.state.selected_doc;
+                },
+                set(value){
+                    this.$store.commit("updateSelectedDoc", value)
+                }
+            },
+
+            annotatorAlgoResult: {
+                get(){
+                    return this.$store.state.selected_algo_result;
+                },
+
+                set(value){
+                    this.$store.commit("updateSelectedAlgoResult", value)
+                }
+            },
+
+            annotatorPosTags: {
+                get(){
+                    return this.$store.state.selected_pos_tags;
+                },
+                set(value){
+                    this.$store.commit("updateSelectedPosTags", value)
+                }
+            },
 
             mustDisambiguateTokenCode(){
                 return this.requestAnnotatorInput && this.multipleCodesPromptList.length > 1 && this.disambiguatedTokenCode === null;
