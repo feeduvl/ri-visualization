@@ -2,17 +2,16 @@ import axios from 'axios';
 import moment from "moment";
 import "moment/locale/de";
 import {
-  ACTION_LOAD_RESULTS, MUTATE_CLUSTER_RELATIONSHIPS,
+  ACTION_LOAD_RESULTS,
   MUTATE_LOADING_RESULTS,
   MUTATE_RESULTS,
-  MUTATE_TOKEN_CLUSTERS,
-  MUTATE_TOKENS
 } from "./types";
 import {
   GET_ALL_DATASETS_ENDPOINT,
   GET_ALL_RESULTS_ENDPOINT,
   GET_ALL_TWEETS_ENDPOINT,
-  GET_EXAMPLE_ANNOTATION_POST_ENDPOINT  
+  GET_EXAMPLE_ANNOTATION_POST_ENDPOINT,
+    
 } from '@/RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -24,23 +23,101 @@ import {
   MUTATE_FOOTER_TEXT,
   MUTATE_TOP_BAR_LINK
 } from '@/store/types';
+import {
+  ANNOTATION_DELETE_ENDPOINT,
+  ANNOTATION_GET_ALL_ENDPOINT,
+  ANNOTATION_GET_ENDPOINT,
+  ANNOTATION_POST_ENDPOINT
+} from "../RESTconf";
 
 export const actionGetExampleAnnotation = ({
   commit
 }) => {
   return new Promise(() => {
+    console.warn("Getting example annotation");
     axios.post(GET_EXAMPLE_ANNOTATION_POST_ENDPOINT, {
-      annotationName: "An example annotation",
-      dataset: "interview_data_normal"
+      //annotationName: "An example annotation",
+      //dataset: "interview_data_normal"
     })
       .then(response => {
         console.log("actionGetExampleAnnotation Got good response.");
-
         const {data} = response;
         commit("setAnnotationPayload", data);
         commit("updateDocTokens");
       })
-      .catch(e => console.log("Error getting tokens: "+e));
+      .catch(e => console.error("Error getting tokens: "+e));
+  });
+};
+
+export const actionGetSelectedAnnotation = ({commit, state}) => {
+  return new Promise(() => {
+    let name = state.selected_annotation;
+    console.log("Getting annotation: "+name);
+    commit("setIsLoadingAnnotation", true);
+    axios.get(ANNOTATION_GET_ENDPOINT(name))
+      .then(response => {
+        console.log("Got response for annotation: "+name);
+        const {data} = response;
+        commit("setAnnotationPayload", data);
+        commit("updateDocTokens");
+      })
+      .catch(e => console.error("Error getting annotation: "+e))
+      .finally(() => {
+        commit("setIsLoadingAnnotation", false);
+      });
+  });
+};
+
+export const actionGetAllAnnotations = ({commit}) => {
+  return new Promise(() => {
+    console.log("Getting all annotations...");
+    commit("setIsLoadingAvailableAnnotations", true);
+    axios.get(ANNOTATION_GET_ALL_ENDPOINT)
+      .then(response => {
+        console.log("Got all annotations");
+        const {data} = response;
+        commit("setAvailableAnnotations", data);
+      })
+      .catch(e => console.error("Error getting all annotations: "+e))
+      .finally(() => {
+        commit("setIsLoadingAvailableAnnotations", false);
+      });
+  });
+};
+
+export const actionPostCurrentAnnotation = ({state, commit}) => {
+  return new Promise(() => {
+    console.log("Posting annotation: "+state.selected_annotation);
+    axios.post(ANNOTATION_POST_ENDPOINT, {
+      name: state.selected_annotation,
+      tokens: state.tokens,
+      tore_relationships: state.tore_relationships,
+      codes: state.codes
+    })
+      .then(() => {
+        console.log("Got annotation POST response");
+        commit("postAnnotationCallback");
+      })
+      .catch(e => console.error("Error POSTing annotation: "+e));
+  });
+};
+
+export const actionDeleteAnnotation = ({dispatch, commit}, name) => {
+  return new Promise(() => {
+    console.log("Deleting annotation: "+name);
+    commit("setIsLoadingAvailableAnnotations", true);
+    axios.delete(ANNOTATION_DELETE_ENDPOINT(name))
+      .then(() => {
+        console.log("Annotation deleted, fetching available...");
+        dispatch("actionGetAllAnnotations").finally(() =>
+          commit("setIsLoadingAvailableAnnotations", false));
+      })
+      .catch(e => {
+        console.error("Error deleting annotation: " + e);
+      })
+      .finally(() => {
+        commit("setIsLoadingAvailableAnnotations", false);
+      });
   });
 };
 

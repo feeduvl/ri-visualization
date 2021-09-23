@@ -241,7 +241,7 @@ export const add_token_to_selected_relationship = (state, token) => {
     state.selected_tore_relationship = relationship;
   };
 
-export const setAnnotationPayload = (state, {tokens, codes, tore_relationships, docs}) => {
+export const setAnnotationPayload = (state, {name, tokens, codes, tore_relationships, docs}) => {
   Object.freeze(tokens);  // performance boost
   state.tokens = tokens;
   state.codes = codes;
@@ -253,6 +253,9 @@ export const setAnnotationPayload = (state, {tokens, codes, tore_relationships, 
   }
   state.docs = newDocs;
   state.selected_doc = docs.length > 0 ? 1: 0;  // document indices from the server start at 1!
+
+  state.selected_annotation = name;
+  this.commit("setIsLoadingAnnotation", false);
 };
 
 export const updateSelectedDoc = (state, value) => {
@@ -272,4 +275,25 @@ export const updateDocTokens = state => {
   let docTokens = state.tokens?state.tokens.slice(state.docs[state.selected_doc].begin_index, state.docs[state.selected_doc].end_index):[];
   Object.freeze(docTokens);
   state.doc_tokens = docTokens;
+};
+
+export const setIsLoadingAnnotation = (state, isLoading) => {
+  state.isLoadingAnnotation = isLoading
+};
+
+export const setIsLoadingAvailableAnnotations = (state, isLoading) => {
+  state.isLoadingAvailableAnnotations = isLoading
+};
+
+export const postAnnotationCallback = (state) => {
+  state.lastAnnotationPostAt = Date.now()
+};
+
+export const setAvailableAnnotations = (state, annotations) => {
+  state.available_annotations = annotations;
+  this.commit("setIsLoadingAvailableAnnotations", false);
+};
+
+export const updateSelectedAnnotation = (state, value) => {
+  state.selected_annotation = value;
 };

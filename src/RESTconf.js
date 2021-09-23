@@ -11,8 +11,18 @@ export default axios;
 
 // annotation
 
-export const GET_EXAMPLE_ANNOTATION_POST_ENDPOINT = `${BASE_URL}/hitec/orchestration/concepts/annotationinit/`;
+export const GET_EXAMPLE_ANNOTATION_POST_ENDPOINT = BASE_URL+`/hitec/annotation/tokenize/`;
 
+export const ANNOTATION_POST_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/annotation/`
+;
+export const ANNOTATION_GET_ENDPOINT = function(name){
+  return `${BASE_URL}/hitec/repository/concepts/annotation/name/${name}`
+};
+export const ANNOTATION_GET_ALL_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/annotation/all`
+
+export const ANNOTATION_DELETE_ENDPOINT = function (name) {
+  return `${BASE_URL}/hitec/repository/concepts/annotation/name/${name}`
+}
 
 // concept detection
 export const GET_DATASET_ENDPOINT = function (dataset) {

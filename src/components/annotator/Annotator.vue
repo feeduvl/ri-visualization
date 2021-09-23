@@ -1,118 +1,137 @@
 <template>
-    <div class="annotator" ref="annotator">
-        <v-card class="annotator-toolbar"
-        :disabled="$store.state.annotatorInputVisible">
+    <div>
+        <div class="annotator-settings"
+        v-if="!$store.state.selected_annotation">
 
             <v-autocomplete
-                    class="annotator-toolbar__selected-document"
-                    :items="$store.state.docs"
-                    v-model="annotatorSelectedDoc"
-                    @change="$store.commit('updateDocTokens')"
+                    class="annotator-string-selection annotator-toolbar__annotation-select"
+                    :items="$store.state.available_annotations"
+                    v-model="annotatorSelectedAnnotation"
+                    @change="$store.dispatch('actionGetSelectedAnnotation')"
                     item-text="name"
-                    item-value="index"
-                    label="Select a Document">
+                    item-value="name"
+                    label="Select an Annotation"
+                    :disabled="$store.state.isLoadingAvailableAnnotations"
+                    :loading="$store.state.isLoadingAvailableAnnotations">
             </v-autocomplete>
+        </div>
+        <div class="annotator" ref="annotator"
+        v-else>
+            <v-card class="annotator-toolbar"
+                    :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation">
 
-            <v-autocomplete
-                    class="annotator-toolbar__algo-results"
-                    :items="$store.state.algo_results"
-                    item-text="name"
-                    item-value="index"
-                    v-model="annotatorAlgoResult"
-                    label="Highlight Algorithm Results"
-                    clearable>
-            </v-autocomplete>
+                <v-autocomplete
+                        class="annotator-string-selection annotator-toolbar__document-select"
+                        :items="$store.state.docs"
+                        v-model="annotatorSelectedDoc"
+                        @change="$store.commit('updateDocTokens')"
+                        item-text="name"
+                        item-value="index"
+                        label="Select a Document"
+                        :loading="$store.state.isLoadingAnnotation">
+                </v-autocomplete>
 
-            <v-autocomplete
-                    chips
-                    multiple
-                    clearable
-                    label="Part of Speech Highlights"
-                    class="annotator-toolbar__pos-select"
-                    :items="pos_tags"
-                    item-text="name"
-                    item-value="tag"
-                    v-model="annotatorPosTags"
-            >
-                <template v-slot:selection="data">
-                    <v-chip
-                            v-bind="{...data.attrs, color: data.item.color}"
-                            :input-value="data.selected"
-                            close
-                            @click:close="(function(item) {
+                <v-autocomplete
+                        class="annotator-string-selection annotator-toolbar__algo-results-select"
+                        :items="$store.state.algo_results"
+                        item-text="name"
+                        item-value="index"
+                        v-model="annotatorAlgoResult"
+                        label="Highlight Algorithm Results"
+                        clearable>
+                </v-autocomplete>
+
+                <v-autocomplete
+                        chips
+                        multiple
+                        clearable
+                        label="Part of Speech Highlights"
+                        class="annotator-toolbar__pos-select"
+                        :items="pos_tags"
+                        item-text="name"
+                        item-value="tag"
+                        v-model="annotatorPosTags"
+                >
+                    <template v-slot:selection="data">
+                        <v-chip
+                                v-bind="{...data.attrs, color: data.item.color}"
+                                :input-value="data.selected"
+                                close
+                                @click:close="(function(item) {
                                 const index = $store.state.selected_pos_tags.indexOf(item.tag)
                                 const tags = $store.state.selected_pos_tags
 
                                 if (index >= 0) tags.splice(index, 1)
                                 $store.commit('updateSelectedPosTags', tags)
                             })(data.item)"
-                            @click="data.select"
-                    >{{ data.item.name }}
-                    </v-chip>
-                </template>
-            </v-autocomplete>
+                                @click="data.select"
+                        >{{ data.item.name }}
+                        </v-chip>
+                    </template>
+                </v-autocomplete>
 
-        </v-card>
-        <v-card v-if="false" class="annotator-debug-panel">
-            <v-textarea v-for="(t, index) in $store.state.codes"
-                        :key="index"
-                        :label="JSON.stringify(t)"
-                        outlined
-                        dense
-                        rows="2"
-            ></v-textarea>
-            <v-textarea v-for="(c, index) in $store.state.tore_relationships"
-                        :key="'relationship'+index"
-                        :label="JSON.stringify(c)"
-                        outlined
-                        dense
-                        rows="2"
-            ></v-textarea>
-        </v-card>
-        <v-card class="annotator-token-area">
-            <Token @annotator-token-click="tokenClicked"
-                   @annotator-token-click-shift="tokenShiftClicked"
-                   @annotator-token-click-ctrl="tokenCtrlClicked"
-                   @annotator-token-mouseover="tokenHover"
-                   @annotator-token-mouseleave="tokenUnhover"
-                   ref="token"
-                   v-for="(t, index) in $store.state.doc_tokens"
-                   :key="index"
-                   v-bind="{
+            </v-card>
+            <v-card v-if="false" class="annotator-debug-panel">
+                <v-textarea v-for="(t, index) in $store.state.codes"
+                            :key="index"
+                            :label="JSON.stringify(t)"
+                            outlined
+                            dense
+                            rows="2"
+                ></v-textarea>
+                <v-textarea v-for="(c, index) in $store.state.tore_relationships"
+                            :key="'relationship'+index"
+                            :label="JSON.stringify(c)"
+                            outlined
+                            dense
+                            rows="2"
+                ></v-textarea>
+            </v-card>
+            <v-card class="annotator-token-area">
+                <Token @annotator-token-click="tokenClicked"
+                       @annotator-token-click-shift="tokenShiftClicked"
+                       @annotator-token-click-ctrl="tokenCtrlClicked"
+                       @annotator-token-mouseover="tokenHover"
+                       @annotator-token-mouseleave="tokenUnhover"
+                       ref="token"
+                       v-for="(t, index) in $store.state.doc_tokens"
+                       :key="index"
+                       v-bind="{
                        ...t
                    }">
-            </Token>
-            <br v-for="(_, emptyLineIndex) of [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]"
-                :key = "'emptyline'+emptyLineIndex">
-            <AnnotatorInput
-                    class="annotator-input"
-                    v-if="showingInput"
-                    :disabled="mustDisambiguateTokenCode"
-                    v-click-outside="annotatorInputFocusOut"
-                    ref="input_panel"
-                    :style="inputFieldPanelLocationStyle"
-                    :panelIsUp="panelIsUp"
-                    :width="annotatorInputWidthPct"
-                    @annotator-input-trash-click="delete_selected_code"
-                    @annotator-input__arrow-icon-click="panelIsUp = !panelIsUp"
-                    @code-name-input-keydown="expandIncompleteNameKeyDown"
-            />
-            <v-card
-                    class="disambiguation-prompt"
-                    :style="inputFieldPanelLocationStyle"
-                    v-if="mustDisambiguateTokenCode">
-                <v-list>
-                    <v-subheader>Do something with this token: </v-subheader>
-                    <v-list-item
-                            v-for="(item, i) in multipleCodesPromptList"
-                            :key="'prompt_'+i"
-                            :style="i===0?'border: green solid 2px':''"
-                            @click="disambiguateTokenCode(item, i, this)()">
-                        {{i > 0 ? `Edit '` + $store.getters.tokenListToString(item.tokens)+`'` : item.name}}
-                    </v-list-item>
-                </v-list>
+                </Token>
+                <br v-for="(_, emptyLineIndex) of [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]"
+                    :key = "'emptyline'+emptyLineIndex">
+                <AnnotatorInput
+                        class="annotator-input"
+                        v-if="showingInput"
+                        :disabled="mustDisambiguateTokenCode"
+                        v-click-outside="annotatorInputFocusOut"
+                        ref="input_panel"
+                        :style="inputFieldPanelLocationStyle"
+                        :panelIsUp="panelIsUp"
+                        :width="annotatorInputWidthPct"
+                        @annotator-input-trash-click="delete_selected_code"
+                        @annotator-input__arrow-icon-click="panelIsUp = !panelIsUp"
+                        @code-name-input-keydown="expandIncompleteNameKeyDown"
+                />
+                <v-card
+                        class="disambiguation-prompt"
+                        :style="inputFieldPanelLocationStyle"
+                        v-if="mustDisambiguateTokenCode">
+                    <v-list>
+                        <v-subheader>Do something with this token: </v-subheader>
+                        <v-list-item
+                                v-for="(item, i) in multipleCodesPromptList"
+                                :key="'prompt_'+i"
+                                :style="i===0?'border: green solid 2px':''"
+                                @click="disambiguateTokenCode(item, i, this)()">
+                            {{i > 0 ? `Edit '` + $store.getters.tokenListToString(item.tokens)+`'` : item.name}}
+                        </v-list-item>
+                    </v-list>
+                </v-card>
             </v-card>
-        </v-card>
+        </div>
     </div>
 </template>
 
@@ -140,6 +159,15 @@
         },
         components: {AnnotatorInput, Token},
         computed: {
+
+            annotatorSelectedAnnotation: {
+                get(){
+                    return this.$store.state.selected_annotation
+                },
+                set(value){
+                    this.$store.commit("updateSelectedAnnotation", value)
+                }
+            },
 
             annotatorSelectedDoc: {
                 get(){
@@ -208,7 +236,7 @@
         },
 
         mounted(){
-            this.$store.dispatch("actionGetExampleAnnotation")
+            this.$store.dispatch("actionGetAllAnnotations")
         },
 
         methods: {   // NOTE: `token` refers to the Vue Component in these methods
@@ -390,7 +418,7 @@
     position: relative;
 }
 
-.annotator-toolbar {
+.annotator-toolbar, .annotator-settings {
     position: sticky;
     top: 0px;
     display: flex;
@@ -398,8 +426,7 @@
     width: 100%;
 }
 
-
-.annotator-toolbar__selected-document , .annotator-toolbar__algo-results {
+.annotator-string-selection {
     margin-top: 14px;
 }
 
@@ -411,13 +438,13 @@
     position: fixed;
 }
 
-.annotator-toolbar__selected-document {
+.annotator-toolbar__document-select {
     width: 300px;
     flex-grow: 1;
     justify-self: flex-start;
 }
 
-.annotator-toolbar__algo-results{
+.annotator-toolbar__algo-results-select{
     width: 300px;
     flex-grow: 1;
     justify-self: flex-end;
