@@ -38,6 +38,7 @@ export const actionGetExampleAnnotation = ({
 
         const {data} = response;
         commit("setAnnotationPayload", data);
+        commit("updateDocTokens");
       })
       .catch(e => console.log("Error getting tokens: "+e));
   });

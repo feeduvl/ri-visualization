@@ -168,7 +168,12 @@ export const add_token_to_selected_relationship = (state, token) => {
     state.selected_code = null;
 
     for(let i of token_indices){
-      state.tokens[i].num_codes--;
+      let newToken = {...state.tokens[i]};
+      let newTokens = {...state.tokens};
+      newToken.num_codes--;
+      newTokens[i] = newToken;
+      Object.freeze(newTokens);
+      state.tokens = newTokens;
     }
     Vue.set(state.codes, index, null);
   }; export const 
@@ -215,7 +220,7 @@ export const add_token_to_selected_relationship = (state, token) => {
   assignToCode =(state, args) => {
     const {token, code, new_code} = args;
     //console.log("Adding token: "+TokenToString(token)+" to code: "+CodeToString(code))
-    Code_add_token(code, token);
+    Code_add_token(state, code, token);
     //console.log("Resulting token: "+TokenToString(token))
     if(new_code){
       state.codes.push(code);
@@ -236,12 +241,16 @@ export const add_token_to_selected_relationship = (state, token) => {
   };
 
 export const setAnnotationPayload = (state, {tokens, codes, tore_relationships, docs}) => {
+  Object.freeze(tokens);  // performance boost
   state.tokens = tokens;
   state.codes = codes;
   state.tore_relationships = tore_relationships;
-  state.docs = [state.all_docs].concat(docs);
-
+  let newDocs = [state.all_docs].concat(docs);
   state.all_docs.end_index = tokens.length;
+  for (let doc of newDocs){
+    Object.freeze(doc);
+  }
+  state.docs = newDocs;
   state.selected_doc = docs.length > 0 ? 1: 0;  // document indices from the server start at 1!
 };
 
@@ -255,4 +264,11 @@ export const updateSelectedAlgoResult = (state, value) => {
 
 export const updateSelectedPosTags = (state, value) => {
   state.selected_pos_tags = value;
+};
+
+export const updateDocTokens = state => {
+  console.log("updateDocTokens");
+  let docTokens = state.tokens.slice(state.docs[state.selected_doc].begin_index, state.docs[state.selected_doc].end_index);
+  Object.freeze(docTokens);
+  state.doc_tokens = docTokens;
 };

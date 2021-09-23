@@ -16,7 +16,6 @@
             <span class="annotator-token-inner"
                   :class="['token-inner-default', {
                     hasCodeHighlighted: hasCode,  // indicates that a token has been assigned to a code
-                    assignedToselected_code: assignedToSelected_code,  // is part of the currently selected code
                     currentlyHoveringCode: currentlyHoveringCode // indicates membership of 'currently hovering' code
             }]">
                 {{this.name}}
@@ -35,8 +34,10 @@
             return {
             }
         },
+        mounted(){
+            //console.log("Token mounted: "+this.name)
+        },
         computed: {
-
 
             ...mapGetters(["isLinking",
                 "selected_tore_relationship",
@@ -53,25 +54,12 @@
                 return this.hoveringToken && this.index === this.hoveringToken.index;
             },
 
-            hoveringCodeIsNonTrivial(){
-                return this.hoveringCodesList.filter(c => c && c.tokens.length > 1).length > 0;
-            },
-
             currentlyHoveringCode(){
-                return this.isHoveringCode && this.hoveringCodeIsNonTrivial && !this.hoveringLinkable;
+                return this.isHoveringCode;
             },
 
-            /*
-            notEligibleForCodeMembership(){
-                return !this.isLinking && this.hasCode && this.isHovering && this.selected_code != null && !this.assignedToselected_code;
-            },*/
-
-            assignedToSelected_code(){
-                return this.selected_code && this.code === this.selected_code.index;
-            },
-
-            assignedToSelected_tore_relationship(){
-                return this.selected_tore_relationship && this.hasCode && this.selected_tore_relationship.codes.includes(this.code)
+            linkedTogether(){
+                return this.isLinking && this.selected_tore_relationship && this.selected_tore_relationship.target_tokens.includes(this.index)
             },
 
             applyPosStyle(){
@@ -82,20 +70,13 @@
                 return this.$store.state.tokens[this.index].num_codes > 0;
             },
 
+
             hoveringCodesList(){
                 return this.hovering_codes.filter(c => c && c.tokens.includes(this.index));
             },
 
             isHoveringCode(){
                 return this.hoveringCodesList.length > 0;
-            },
-
-            isHoveringRelationshipOwner(){  // currently hovering and owns a relationship
-                return this.hoveringCodesList.filter(h => h && h.relationship_memberships.length > 0);
-            },
-
-            linkedTogether(){
-                return this.isLinking && this.selected_tore_relationship && this.selected_tore_relationship.target_tokens.includes(this.index)
             },
 
             posStyle(){

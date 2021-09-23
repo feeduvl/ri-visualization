@@ -1,11 +1,13 @@
 <template>
     <div class="annotator" ref="annotator">
-        <v-card class="annotator-toolbar">
+        <v-card class="annotator-toolbar"
+        :disabled="$store.state.annotatorInputVisible">
 
             <v-autocomplete
                     class="annotator-toolbar__selected-document"
                     :items="$store.state.docs"
                     v-model="annotatorSelectedDoc"
+                    @change="$store.commit('updateDocTokens')"
                     item-text="name"
                     item-value="index"
                     label="Select a Document">
@@ -74,7 +76,7 @@
                    @annotator-token-mouseover="tokenHover"
                    @annotator-token-mouseleave="tokenUnhover"
                    ref="token"
-                   v-for="(t, index) in tokensInSelectedDoc"
+                   v-for="(t, index) in $store.state.doc_tokens"
                    :key="index"
                    v-bind="{
                        ...t
@@ -106,7 +108,7 @@
                             :key="'prompt_'+i"
                             :style="i===0?'border: green solid 2px':''"
                             @click="disambiguateTokenCode(item, i, this)()">
-                        {{i > 0 ? 'Edit ' + _Code_user_display_prompt(item) : item.name}}
+                        {{i > 0 ? `Edit '` + $store.getters.tokenListToString(item.tokens)+`'` : item.name}}
                     </v-list-item>
                 </v-list>
             </v-card>
@@ -181,7 +183,8 @@
                 if(this.$store.state.selectedToken===null){
                     return {}
                 }
-                let tokenBox = this.$refs.token[this.$store.state.selectedToken.index].$el.getBoundingClientRect();
+                let refIndex = this.$store.state.docs[this.$store.state.selected_doc].begin_index
+                let tokenBox = this.$refs.token[this.$store.state.selectedToken.index - refIndex].$el.getBoundingClientRect();
                 let annotatorBox = this.$refs.annotator.getBoundingClientRect();
                 let lowerWidth = annotatorBox.width*((100-this.annotatorInputWidthPct)/100);
                 return {
@@ -200,7 +203,8 @@
                 "token",
                 "docs",
                 "selected_doc",
-                "tokensInSelectedDoc"])
+                "tokensInSelectedDoc," +
+                "tokenListToString"])
         },
 
         mounted(){
@@ -256,6 +260,10 @@
             },
 
             tokenClicked(token){
+                if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
+                    console.log("Missing required input, ignoring focus out")
+                    return;
+                }
                 if(!this.isLinking){
                     this.updateSelectedToken(token);
                     this.requestAnnotatorInput = true;  //  let the panel know we want to open the annotator input
@@ -303,6 +311,10 @@
              * @param token
              */
             tokenShiftClicked(token){
+                /*if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
+                    console.log("Missing required input, ignoring focus out")
+                    return;
+                }*/
                 if(this.showingInput){
                     const clickindex = token.index;
                     let endlim = this.$store.state.selected_code.tokens[this.$store.state.selected_code.tokens.length-1];
@@ -321,6 +333,10 @@
              * @param token
              */
             tokenCtrlClicked(token){
+                /*if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
+                    console.log("Missing required input, ignoring focus out")
+                    return;
+                }*/
                 if(this.showingInput){
                     this.$store.commit('assignToCode', {token: this.token(token.index), code: this.$store.state.selected_code})
                 } else {
@@ -337,6 +353,7 @@
                 }
 
                 if(!this.requiredAnnotationsPresent){  // codes need some kind of label
+                    console.log("Missing required input, ignoring focus out")
                     return;
                 }
 
@@ -347,7 +364,7 @@
             },
 
             tokenHover(token){
-                //this.$store.commit("setHoveringToken", this.token(token.index));  // FIXME very slow, leave it out for now
+                this.$store.commit("setHoveringToken", this.token(token.index));  // FIXME very slow, leave it out for now
             },
 
             tokenUnhover(token){

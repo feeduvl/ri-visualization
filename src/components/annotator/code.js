@@ -46,9 +46,14 @@ function Code_add_relationship(code, relationship){
     }
 }
 
-function Code_add_token(code, token){
+function Code_add_token(state, code, token){
     if(!code.tokens.includes(token.index)){
-        token.num_codes++;
+        let newToken = {...token}
+        let newTokens = [...state.tokens]
+        newToken.num_codes++;
+        newTokens[token.index] = newToken
+        Object.freeze(newTokens)
+        state.tokens = newTokens
         code.tokens.push(token.index);
     } else {
         console.warn("Attempted to add token to Code which already has that token")

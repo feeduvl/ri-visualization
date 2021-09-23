@@ -153,13 +153,17 @@ export const requiredAnnotationsPresent = state => {
 
 export const tokenListToString = state => listOfTokenIndices => {
   let ret = "";
-  let names = state.tokens.filter(t => listOfTokenIndices.includes(t.index)).map(t => t.name);
-  for (let name of names){
-    ret += " " +name;
+  for (let index of [...listOfTokenIndices].sort()){
+    ret += state.tokens[index].name + " ";
   }
   return ret;
 };
 
 export const tokensInSelectedDoc = state => {
-  return state.tokens.filter(t => t.index >= state.docs[state.selected_doc].begin_index && t.index < state.docs[state.selected_doc].end_index)
+  return state.tokens.filter(t => t.index >= state.docs[state.selected_doc].begin_index && t.index < state.docs[state.selected_doc].end_index);
+};
+
+export const tokens = state => {
+  console.log("tokens changed");
+  return state.tokens;
 };

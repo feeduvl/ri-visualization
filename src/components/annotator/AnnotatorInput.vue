@@ -196,7 +196,7 @@
                             @click="setSelectedToreRelationship(item)"
                             v-for="(item, i) in selectedCodeRelationships"
                             :key="'relationships_'+i">
-                        {{(item.relationship_name?item.relationship_name:'[TORE Relationship without name]') +' -> '+tokenListToString(item.target_tokens)}}
+                        {{(item.relationship_name?item.relationship_name:'[TORE Relationship]') +' -> '+tokenListToString(item.target_tokens)}}
                     </v-list-item>
                 </v-list-item>
             </v-list>

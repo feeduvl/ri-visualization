@@ -66,6 +66,7 @@ export const store = new Vuex.Store({
     tokens: [],
     codes: [],
     tore_relationships: [],
+    doc_tokens: [],  // for performance reasons, manually update this array
 
     all_docs: {index: 0, name: "All Documents", begin_index: 0, end_index: null},
     selected_doc: null, // set it to first when loading
