@@ -278,15 +278,15 @@ export const updateDocTokens = state => {
 };
 
 export const setIsLoadingAnnotation = (state, isLoading) => {
-  state.isLoadingAnnotation = isLoading
+  state.isLoadingAnnotation = isLoading;
 };
 
 export const setIsLoadingAvailableAnnotations = (state, isLoading) => {
-  state.isLoadingAvailableAnnotations = isLoading
+  state.isLoadingAvailableAnnotations = isLoading;
 };
 
-export const postAnnotationCallback = (state) => {
-  state.lastAnnotationPostAt = Date.now()
+export const postAnnotationCallback = state => {
+  state.lastAnnotationPostAt = Date.now();
 };
 
 export const setAvailableAnnotations = (state, annotations) => {
