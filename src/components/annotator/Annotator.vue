@@ -71,8 +71,7 @@
                    @annotator-token-mouseover="tokenHover"
                    @annotator-token-mouseleave="tokenUnhover"
                    ref="token"
-                   v-for="(t, index) in $store.state.tokens.filter(t => t.index >= docs[selected_doc].begin_index && t.index < docs[selected_doc].end_index)"
-                   :key="index"
+                   v-for="t in $store.state.tokens.filter(t => t.index >= docs[selected_doc].begin_index && t.index < docs[selected_doc].end_index)"
                    v-bind="{
                        ...t
                    }">

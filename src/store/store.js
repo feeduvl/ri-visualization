@@ -44,7 +44,6 @@ export const store = new Vuex.Store({
 
     // ANNOTATION STUFF
 
-
     pos_tags: [
       {name: "Verbs", tag: "v", color: VERB_COLOR},
       {name: "Nouns", tag: "n", color: NOUN_COLOR},
@@ -78,7 +77,6 @@ export const store = new Vuex.Store({
       {index: 0, name: "Result: Animals", lemmas: ["fox", "dog"]},
       {index: 1, name: "Result: Adjectives", lemmas: ["quick", "brown", "lazy"]}
     ],
-
 
   },
   getters,

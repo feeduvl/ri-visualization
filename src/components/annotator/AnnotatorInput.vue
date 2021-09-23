@@ -15,7 +15,7 @@
                         <v-tooltip bottom>
                             <template v-slot:activator="{on: onTooltip}">
                                 <v-icon v-on="{...onMenu, ...onTooltip}">
-                                    mdi-format-list-bulleted
+                                    list
                                 </v-icon>
                             </template>
                             <span>Show Options</span>
@@ -92,7 +92,7 @@
                     <template #activator="{on}">
                         <v-icon v-on="on"
                                 @click="trashClicked" class="annotator-input__trash">
-                            mdi-trash-can-outline
+                            delete_outline
                         </v-icon>
                     </template>
                     <span>Delete This Concept</span>
@@ -128,7 +128,7 @@
                         <v-icon v-on="on"
                                 :disabled="!selected_code.tore"
                                 @click="startLinking">
-                            mdi-link
+                            link
                         </v-icon>
                     </template>
                     <span>New TORE Relationship</span>
@@ -141,12 +141,12 @@
                         <v-icon v-on="on"
                                 v-if="selected_tore_relationship"
                                 @click="stopLinking">
-                        mdi-check-underline
+                        done
                         </v-icon>
                         <v-icon v-else
                                 v-on="on"
                                 @click="stopLinking">
-                            mdi-window-close
+                            close
                         </v-icon>
                     </template>
                     <span v-if="selected_tore_relationship">Finish Linking</span>
@@ -156,7 +156,7 @@
                     <template #activator="{on}">
                         <v-icon v-on="on"
                                 @click="deleteRelationshipClicked">
-                            mdi-trash-can-outline
+                            delete_outline
                         </v-icon>
                     </template>
                     <span>Delete This Relationship</span>
@@ -175,13 +175,13 @@
                     <v-icon v-on="on"
                             v-if="panelIsUp"
                             @click="arrowIconClicked">
-                        mdi-arrow-down
+                        arrow_downward
                     </v-icon>
                     <v-icon
                             v-on="on"
                             v-else
                             @click="arrowIconClicked">
-                        mdi-arrow-up
+                        arrow_upward
                     </v-icon>
                 </template>
                 <span>Move this box {{directionCueString}}</span>
