@@ -169,11 +169,12 @@ export const add_token_to_selected_relationship = (state, token) => {
 
     for(let i of token_indices){
       let newToken = {...state.tokens[i]};
-      let newTokens = {...state.tokens};
+      let newTokens = [...state.tokens];
       newToken.num_codes--;
       newTokens[i] = newToken;
       Object.freeze(newTokens);
       state.tokens = newTokens;
+      this.commit("updateDocTokens");
     }
     Vue.set(state.codes, index, null);
   }; export const 
@@ -220,7 +221,7 @@ export const add_token_to_selected_relationship = (state, token) => {
   assignToCode =(state, args) => {
     const {token, code, new_code} = args;
     //console.log("Adding token: "+TokenToString(token)+" to code: "+CodeToString(code))
-    Code_add_token(state, code, token);
+    Code_add_token(state, this.commit, code, token);
     //console.log("Resulting token: "+TokenToString(token))
     if(new_code){
       state.codes.push(code);
@@ -268,7 +269,7 @@ export const updateSelectedPosTags = (state, value) => {
 
 export const updateDocTokens = state => {
   console.log("updateDocTokens");
-  let docTokens = state.tokens.slice(state.docs[state.selected_doc].begin_index, state.docs[state.selected_doc].end_index);
+  let docTokens = state.tokens?state.tokens.slice(state.docs[state.selected_doc].begin_index, state.docs[state.selected_doc].end_index):[];
   Object.freeze(docTokens);
   state.doc_tokens = docTokens;
 };
