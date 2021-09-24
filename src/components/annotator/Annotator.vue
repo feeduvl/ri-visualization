@@ -18,8 +18,7 @@
                     class="annotator-string-selection annotator-settings__dataset-select"
                     :items="$store.state.datasets"
                     v-model="createNewAnnotationDataset"
-                    item-text="name"
-                    item-value="name"
+                    @change="console.log('Dataset selected: '+createNewAnnotationDataset)"
                     label="Create a new Annotation from Dataset">
             </v-autocomplete>
             <v-text-field
