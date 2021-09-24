@@ -2,7 +2,6 @@
 import Vue from 'vue';
 import {
   Code_add_relationship,
-  Code_add_token,
   Code_remove_relationship,
   CodeToString, TORERelationship,
   TORERelationship_add_token, TORERelationship_set_relationship_name, TORERelationship_remove_token
@@ -151,33 +150,8 @@ export const add_or_remove_token_selected_relationship = (state, token) => {
       state.selected_tore_relationship = null;
       state.hovering_tore_relationships = [];  // not necessary
     }
-  }; export const 
-
-  delete_selected_code = state => {
-    let token_indices = state.selected_code.tokens;
-    let index = state.selected_code.index;
-
-    if(state.hovering_codes.includes(state.selected_code)){
-      state.hovering_codes.splice(state.hovering_codes.indexOf(state.selected_code, 1));
-    }
-
-    for(let i of state.selected_code.relationship_memberships){
-      this.commit("delete_tore_relationship", state.tore_relationships[i]);  // relationships are dependent upon tore codes
-    }
-
-    state.selected_code = null;
-
-    for(let i of token_indices){
-      let newToken = {...state.tokens[i]};
-      let newTokens = [...state.tokens];
-      newToken.num_codes--;
-      newTokens[i] = newToken;
-      Object.freeze(newTokens);
-      state.tokens = newTokens;
-      this.commit("updateDocTokens");
-    }
-    Vue.set(state.codes, index, null);
-  }; export const 
+  };
+export const
 
   setAnnotatorInputVisible=(state, visible) => {
     state.annotatorInputVisible = visible;
@@ -212,25 +186,11 @@ export const add_or_remove_token_selected_relationship = (state, token) => {
   setSelectedToken = (state, token) => {
   //console.log("Selected token is: "+token)
     state.selectedToken = token;
-  }; export const 
+  };
 
-  /**
- * @param state
- * @param args
- */
-  assignToCode =(state, args) => {
-    const {token, code, new_code} = args;
-    //console.log("Adding token: "+TokenToString(token)+" to code: "+CodeToString(code))
-    Code_add_token(state, this.commit, code, token);
-    //console.log("Resulting token: "+TokenToString(token))
-    if(new_code){
-      state.codes.push(code);
-    }
-  }; export const 
-
-  updateCodeName = (state, note) => {
-    state.selected_code.name = note;
-  }; export const 
+export const updateCodeName = (state, note) => {
+  state.selected_code.name = note;
+}; export const 
 
   updateCodeTore = (state, tore) => {
     state.selected_code.tore = tore;
@@ -240,23 +200,6 @@ export const add_or_remove_token_selected_relationship = (state, token) => {
     console.log("Setting selected relationship: "+relationship.index);
     state.selected_tore_relationship = relationship;
   };
-
-export const setAnnotationPayload = (state, {name, tokens, codes, tore_relationships, docs}) => {
-  Object.freeze(tokens);  // performance boost
-  state.tokens = tokens;
-  state.codes = codes;
-  state.tore_relationships = tore_relationships;
-  let newDocs = [state.all_docs].concat(docs);
-  state.all_docs.end_index = tokens.length;
-  for (let doc of newDocs){
-    Object.freeze(doc);
-  }
-  state.docs = newDocs;
-  state.selected_doc = newDocs[docs.length > 0 ? 1: 0];
-
-  state.selected_annotation = name;
-  this.commit("setIsLoadingAnnotation", false);
-};
 
 export const updateSelectedDoc = (state, value) => {
   state.selected_doc = value;
@@ -287,11 +230,6 @@ export const setIsLoadingAvailableAnnotations = (state, isLoading) => {
 
 export const postAnnotationCallback = state => {
   state.lastAnnotationPostAt = Date.now();
-};
-
-export const setAvailableAnnotations = (state, annotations) => {
-  state.available_annotations = annotations;
-  this.commit("setIsLoadingAvailableAnnotations", false);
 };
 
 export const updateSelectedAnnotation = (state, value) => {
