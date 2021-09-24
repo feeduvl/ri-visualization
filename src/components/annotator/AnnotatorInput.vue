@@ -98,7 +98,7 @@
                     <span>Delete This Concept</span>
                 </v-tooltip>
 
-                <v-autocomplete-new
+                <v-autocomplete
                         required
                         :class="['annotator-input__name']"
                         label="Name"
@@ -113,7 +113,7 @@
                         @keyup="$emit('code-name-input-keyup', $event)"
                         @input="logInput"
                         ref="nameInput"
-                ></v-autocomplete-new>
+                ></v-autocomplete>
 
                 <v-autocomplete
                         class="annotator-input__tore"
@@ -208,15 +208,11 @@
 
 <script>
     import {_tore_codes, _tore_relationship_names} from "./TORE_codes";
-    import {VAutocomplete as newAutocomplete} from "vuetify-new-version/lib"
 
     import {mapGetters} from "vuex";
 
     export default {
         name: "AnnotatorInput",
-        components: {
-            "v-autocomplete-new": newAutocomplete
-        },
         data(){
             return {
                 promptHighlightAll: false,
