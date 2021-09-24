@@ -64,6 +64,8 @@ export const store = new Vuex.Store({
 
     selected_tore_relationship: null,
 
+    annotator_uploaded_at: null,
+    annotator_dataset: null,
     docs: [],  // document indices from the server start at 1!
     tokens: [],
     codes: [],
@@ -131,7 +133,11 @@ export const store = new Vuex.Store({
     },
 
     // eslint-disable-next-line camelcase
-    setAnnotationPayload(state, {name, tokens, codes, tore_relationships, docs}){  // DECLARED HERE TO ACCESS this.commit
+    setAnnotationPayload(state, {name, tokens, codes, tore_relationships, docs, uploaded_at, dataset}){
+      // eslint-disable-next-line camelcase
+      state.annotator_uploaded_at = uploaded_at;
+      state.annotator_dataset = dataset;
+
       Object.freeze(tokens);  // performance boost
       state.tokens = tokens;
       state.codes = codes;

@@ -247,6 +247,8 @@ export const resetAnnotator = state => {
   state.lastAnnotationEditAt = null;
   state.lastAnnotationPostAt = null;
 
+  state.annotator_dataset = null;
+  state.annotator_uploaded_at = null;
   state.selected_annotation = null;
   state.selected_doc = null;
   state.selected_pos_tags = [];

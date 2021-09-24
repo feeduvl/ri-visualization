@@ -89,10 +89,13 @@ export const actionPostCurrentAnnotation = ({state, commit}) => {
     console.log("Posting annotation: "+state.selected_annotation);
     commit("postAnnotationCallback");
     axios.post(ANNOTATION_POST_ENDPOINT, {
+      uploaded_at: state.annotator_uploaded_at,
+      dataset: state.annotator_dataset,
       name: state.selected_annotation,
       tokens: state.tokens,
       tore_relationships: state.tore_relationships,
-      codes: state.codes
+      codes: state.codes,
+      docs: state.docs.slice(1, state.docs.length)
     })
       .then(() => {
         console.log("Got annotation POST response");

@@ -111,6 +111,7 @@
                         @change="updateName"
                         @keydown="$emit('code-name-input-keydown', $event)"
                         @keyup="$emit('code-name-input-keyup', $event)"
+                        @input="logInput"
                         ref="nameInput"
                 ></v-autocomplete-new>
 
@@ -299,6 +300,10 @@
             setSelectedToreRelationship(relationship){
                 this.startLinking()
                 this.$store.commit("setSelectedToreRelationship", relationship)
+            },
+            logInput(event){
+                console.log("Name input")
+                console.log(event)
             }
         },
         props: {
