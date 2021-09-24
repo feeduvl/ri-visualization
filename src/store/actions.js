@@ -32,10 +32,12 @@ export const actionGetNewAnnotation = ({
 }, name, dataset) => {
   return new Promise(() => {
     console.warn("Initializing annotation");
-    axios.post(ANNOTATION_INITIALIIZE_ENDPOINT, {
+    let data = {
       name,
       dataset
-    })
+    };
+    console.log(data);
+    axios.post(ANNOTATION_INITIALIIZE_ENDPOINT, data)
       .then(response => {
         console.log("actionGetExampleAnnotation Got good response.");
         const {data} = response;

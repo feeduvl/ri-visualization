@@ -264,6 +264,7 @@
         methods: {   // NOTE: `token` refers to the Vue Component in these methods
 
             printDataset(){
+                console.log("All Datasets: "+this.$store.state.datasets)
                 console.log('Dataset selected: '+this.createNewAnnotationDataset)
             },
 
