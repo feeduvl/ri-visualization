@@ -42,7 +42,7 @@ export const actionGetNewAnnotation = ({
         commit("setAnnotationPayload", data);
         commit("updateDocTokens");
       })
-      .catch(e => console.error("Error getting tokens: "+e));
+      .catch(e => console.error("Error getting annotation: "+e));
   });
 };
 
