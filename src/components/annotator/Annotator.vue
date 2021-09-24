@@ -18,7 +18,7 @@
                     class="annotator-string-selection annotator-settings__dataset-select"
                     :items="$store.state.datasets"
                     v-model="createNewAnnotationDataset"
-                    @change="console.log('Dataset selected: '+createNewAnnotationDataset)"
+                    @change="printDataset"
                     label="Create a new Annotation from Dataset">
             </v-autocomplete>
             <v-text-field
@@ -262,6 +262,10 @@
         },
 
         methods: {   // NOTE: `token` refers to the Vue Component in these methods
+
+            printDataset(){
+                console.log('Dataset selected: '+this.createNewAnnotationDataset)
+            },
 
             disambiguateTokenCode(item, i){
                 let self = this;
