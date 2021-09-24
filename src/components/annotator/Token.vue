@@ -108,7 +108,7 @@
             },
 
             algo_lemma(){
-                return this.$store.state.selected_algo_result && this.$store.state.selected_algo_result.topics.concepts.includes(this.lemma)
+                return this.$store.state.selected_algo_result && this.$store.getters.lemmasFromSelectedResult.includes(this.lemma)
             }
         },
         methods: {

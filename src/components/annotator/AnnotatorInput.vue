@@ -263,13 +263,16 @@
             updateRelationshipName(value){
                 if(this.$store.state.selected_tore_relationship){
                     this.$store.commit("setRelationshipName", value);
+                    this.$store.commit("updateLastAnnotationEditAt")
                 }
             },
             updateName(value){
                 this.$store.commit("updateCodeName", value);
+                this.$store.commit("updateLastAnnotationEditAt")
             },
             updateTore(value){
                 this.$store.commit("updateCodeTore", value);
+                this.$store.commit("updateLastAnnotationEditAt")
             },
             trashClicked(){
                 this.$emit("annotator-input-trash-click");
@@ -286,6 +289,7 @@
             deleteRelationshipClicked(){
                 if(this.selected_tore_relationship){
                     this.$store.commit('delete_tore_relationship', this.selected_tore_relationship)
+                    this.$store.commit("updateLastAnnotationEditAt")
                 }
                 this.stopLinking()
             },

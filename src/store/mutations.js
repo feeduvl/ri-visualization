@@ -235,3 +235,25 @@ export const postAnnotationCallback = state => {
 export const updateSelectedAnnotation = (state, value) => {
   state.selected_annotation = value;
 };
+
+export const updateLastAnnotationEditAt = state => {
+  state.lastAnnotationEditAt = Date.now();
+};
+
+export const resetAnnotator = state => {
+  state.isLoadingAvailableAnnotations = false;
+  state.isLoadingAnnotation = false;
+  state.selected_algo_result = null;
+  state.lastAnnotationEditAt = null;
+  state.lastAnnotationPostAt = null;
+
+  state.selected_annotation = null;
+  state.selected_doc = null;
+  state.selected_pos_tags = [];
+  state.selected_algo_result = null;
+
+  state.tokens = [];
+  state.docs = [];
+  state.codes = [];
+  state.tore_relationships = [];
+};

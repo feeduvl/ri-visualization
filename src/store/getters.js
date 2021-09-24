@@ -167,3 +167,20 @@ export const tokens = state => {
   console.log("tokens changed");
   return state.tokens;
 };
+
+export const lemmasFromSelectedResult = state => {
+  console.log("lemmasFromSelectedResult recomputing");
+  let frequency_methods = ["frequency-fcic", "frequency-rbai"];
+  if (frequency_methods.includes(state.selected_algo_result.method)){
+    return state.selected_algo_result.topics.concepts;
+  }
+  console.warn("lemmasFromSelectedResult not implemented");
+  return [];
+};
+
+export const annotationAlgoResults = state => {
+  console.log("annotationAlgoResults recomputing");
+  let valid_methods = ["frequency-fcic", "frequency-rbai"];
+  Object.freeze(valid_methods);
+  return state.results.filter(r => valid_methods.includes(r.method));
+};

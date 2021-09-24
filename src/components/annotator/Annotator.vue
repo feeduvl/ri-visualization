@@ -1,5 +1,12 @@
 <template>
     <div>
+        <v-snackbar
+                class="saved-snackbar"
+                v-model="show_saved_snackbar"
+                :timeout="1500"
+        >
+            Annotation saved.
+        </v-snackbar>
         <div class="annotator-settings"
         v-if="!$store.state.selected_annotation">
             <v-autocomplete
@@ -24,7 +31,7 @@
                     class="annotator-text-input annotator-settings__name-input"
                     :disabled="!createNewAnnotationDataset"
                     :rules="[!$store.state.datasets.includes(addingAnnotationName) || 'Name is already in use.']"
-                    label="Enter a Unique annotation name"
+                    label="Enter a unique annotation name"
                     v-model="addingAnnotationName">
             </v-text-field>
             <v-icon
@@ -34,6 +41,7 @@
             >
                 add
             </v-icon>
+
         </div>
         <div class="annotator" ref="annotator"
         v-else>
@@ -53,7 +61,7 @@
 
                 <v-autocomplete
                         class="annotator-string-selection annotator-toolbar__algo-results-select"
-                        :items="$store.state.results"
+                        :items="$store.getters.annotationAlgoResults"
                         item-text="name"
                         return-object
                         v-model="annotatorAlgoResult"
@@ -89,6 +97,28 @@
                         </v-chip>
                     </template>
                 </v-autocomplete>
+
+                <v-tooltip bottom>
+                    <template #activator="{on}">
+                        <v-icon v-on="on"
+                                @click="saveAndClose"
+                        >
+                        exit_to_app
+                    </v-icon>
+                    </template>
+                    <span>Save and exit</span>
+                </v-tooltip>
+
+                <v-tooltip bottom>
+                    <template #activator="{on}">
+                        <v-icon v-on="on"
+                                @click="doSaveAnnotation"
+                        >
+                            save
+                        </v-icon>
+                    </template>
+                    <span>Save</span>
+                </v-tooltip>
 
             </v-card>
             <v-card v-if="false" class="annotator-debug-panel">
@@ -159,7 +189,7 @@
     import Token from "@/components/annotator/Token";
     import AnnotatorInput from "@/components/annotator/AnnotatorInput";
     import {Code, Code_user_display_prompt} from "@/components/annotator/code";
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapState} from "vuex";
 
     export default {
         name: "Annotator",
@@ -172,6 +202,7 @@
 
                 incompleteNameInput: "",  // workaround to allow the user to type new names within autocomplete, should reflect current input value
 
+                show_saved_snackbar: false,
                 algo_lemmas: null,
                 annotatorInputWidthPct: 60,
                 panelIsUp: true,
@@ -253,7 +284,26 @@
                 "docs",
                 "selected_doc",
                 "tokensInSelectedDoc," +
-                "tokenListToString"])
+                "tokenListToString"]),
+
+            ...mapState([
+                "lastAnnotationEditAt",
+                "lastAnnotationPostAt"
+            ])
+        },
+
+        watch: {
+            lastAnnotationEditAt(val){
+                if(this.lastAnnotationPostAt === null){
+                    console.log("Starting save timer after first edit")
+                    this.$store.commit("postAnnotationCallback")
+                } else {
+                    if(val - this.lastAnnotationPostAt > 1000 * 60){
+                        console.info("Auto save")
+                        this.doSaveAnnotation();
+                    }
+                }
+            }
         },
 
         mounted(){
@@ -274,9 +324,6 @@
                     console.log('Code click: '+item)
                     self.addSelectedTokenToCode()
                 }
-            },
-            _Code_user_display_prompt(item){
-                return Code_user_display_prompt(item);
             },
 
             /**
@@ -300,6 +347,7 @@
                     this.$store.commit('assignToCode', {token: this.token(token.index),
                         code: code,
                         new_code:new_code});
+                    this.$store.commit("updateLastAnnotationEditAt")
 
                     this.$store.commit("set_selected_code", code);
 
@@ -352,6 +400,7 @@
                     } else {
                         this.$store.commit("add_or_remove_token_selected_relationship", token)
                     }
+                    this.$store.commit("updateLastAnnotationEditAt")
                 }
             },
 
@@ -370,6 +419,7 @@
                             this.tokenClicked(this.token(i))
                         } else {
                             this.$store.commit('assignToCode', {token: this.token(i), code: this.$store.state.selected_code})
+                            this.$store.commit("updateLastAnnotationEditAt")
                         }
                     }
                 } else {
@@ -387,6 +437,7 @@
                         this.tokenClicked(token)
                     } else {
                         this.$store.commit('assignToCode', {token, code: this.$store.state.selected_code})
+                        this.$store.commit("updateLastAnnotationEditAt")
                     }
                 } else {
                     this.tokenClicked(token)
@@ -413,7 +464,7 @@
             },
 
             tokenHover(token){
-                this.$store.commit("setHoveringToken", this.token(token.index));  // FIXME very slow, leave it out for now
+                this.$store.commit("setHoveringToken", this.token(token.index));  // FIXME very slow
             },
 
             tokenUnhover(token){
@@ -427,14 +478,32 @@
 
             delete_selected_code(){
                 this.$store.commit("delete_selected_code");
+                this.$store.commit("updateLastAnnotationEditAt")
                 this.$store.commit("setAnnotatorInputVisible", false);
+            },
+
+            doSaveAnnotation(){
+                this.$store.dispatch('actionPostCurrentAnnotation')
+                this.show_saved_snackbar = true;
+            },
+
+            saveAndClose(){
+                this.doSaveAnnotation()
+                this.$store.commit("resetAnnotator")
             }
         }
     }
 </script>
 
-<style scoped>
 
+<style>
+
+    .saved-snackbar .v-snack__wrapper{
+        min-width: 0px;
+    }
+</style>
+
+<style scoped>
 .annotator {
     position: relative;
 }
