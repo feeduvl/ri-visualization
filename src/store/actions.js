@@ -30,14 +30,14 @@ import {
   ANNOTATION_POST_ENDPOINT
 } from "../RESTconf";
 
-export const actionGetExampleAnnotation = ({
+export const actionGetNewAnnotation = ({
   commit
-}) => {
+}, name, dataset) => {
   return new Promise(() => {
     console.warn("Getting example annotation");
     axios.post(GET_EXAMPLE_ANNOTATION_POST_ENDPOINT, {
-      //annotationName: "An example annotation",
-      //dataset: "interview_data_normal"
+      name,
+      dataset
     })
       .then(response => {
         console.log("actionGetExampleAnnotation Got good response.");

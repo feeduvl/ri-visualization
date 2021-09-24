@@ -72,7 +72,7 @@
 
 
             hoveringCodesList(){
-                return this.hovering_codes.filter(c => c && c.tokens.includes(this.index));
+                return this.hasCode ? this.hovering_codes.filter(c => c && c.tokens.includes(this.index)): [];
             },
 
             isHoveringCode(){
@@ -104,11 +104,11 @@
                 return "";
             },
             show_pos() {
-                return this.$store.state.selected_pos_tags.includes(this.pos)
+                return this.pos && this.$store.state.selected_pos_tags.includes(this.pos)
             },
 
             algo_lemma(){
-                return this.$store.state.selected_algo_result && this.$store.state.algo_results[this.$store.state.selected_algo_result].lemmas.includes(this.lemma)
+                return this.$store.state.selected_algo_result && this.$store.state.selected_algo_result.topics.concepts.includes(this.lemma)
             }
         },
         methods: {
@@ -126,15 +126,11 @@
             },
 
             onShiftClick(){
-                if(!this.isLinking){
-                    this.$emit('annotator-token-click-shift', this);
-                }
+                this.$emit('annotator-token-click-shift', this);
             },
 
             onCtrlClick(){
-                if(!this.isLinking){
-                    this.$emit('annotator-token-click-ctrl', this);
-                }
+                this.$emit('annotator-token-click-ctrl', this);
             }
 
         },

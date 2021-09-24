@@ -94,8 +94,19 @@ function TORERelationship_add_token(toreRelationship, token){
 
     if(!toreRelationship.target_tokens.includes(token.index)){
         toreRelationship.target_tokens.push(token.index);
+        return true;
     } else {
         console.warn("Attempted to add token to TORERelationship which already has that token")
+        return false;
+    }
+}
+
+function TORERelationship_remove_token(toreRelationship, token){
+    if(!toreRelationship.target_tokens.includes(token.index)){
+        console.warn("Attempted to remove a token from a relationship which doesn't include it")
+    } else {
+        let tokenIndex = toreRelationship.target_tokens.indexOf(token.index)
+        toreRelationship.target_tokens.splice(tokenIndex, 1)
     }
 }
 
@@ -103,4 +114,4 @@ function CodeToString(code){
     return "[Code] Name: "+code.name+", tore: "+code.tore+", index: "+code.index+", relationship memberships: "+code.relationship_memberships;
 }
 
-export {Code_user_display_prompt, Code_add_relationship, Code_add_token, Code_remove_relationship, CodeToString, TORERelationship_set_relationship_name, TORERelationship_add_token, Code, TORERelationship}
+export {Code_user_display_prompt, TORERelationship_remove_token, Code_add_relationship, Code_add_token, Code_remove_relationship, CodeToString, TORERelationship_set_relationship_name, TORERelationship_add_token, Code, TORERelationship}

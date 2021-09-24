@@ -2,9 +2,8 @@
     <div>
         <div class="annotator-settings"
         v-if="!$store.state.selected_annotation">
-
             <v-autocomplete
-                    class="annotator-string-selection annotator-toolbar__annotation-select"
+                    class="annotator-string-selection annotator-settings__annotation-select"
                     :items="$store.state.available_annotations"
                     v-model="annotatorSelectedAnnotation"
                     @change="$store.dispatch('actionGetSelectedAnnotation')"
@@ -14,6 +13,29 @@
                     :disabled="$store.state.isLoadingAvailableAnnotations"
                     :loading="$store.state.isLoadingAvailableAnnotations">
             </v-autocomplete>
+
+            <v-autocomplete
+                    class="annotator-string-selection annotator-settings__dataset-select"
+                    :items="$store.state.datasets"
+                    v-model="createNewAnnotationDataset"
+                    item-text="name"
+                    item-value="name"
+                    label="Create a new Annotation from Dataset">
+            </v-autocomplete>
+            <v-text-field
+                    class="annotator-text-input annotator-settings__name-input"
+                    :disabled="!createNewAnnotationDataset"
+                    :rules="[!$store.state.datasets.includes(addingAnnotationName) || 'Name is already in use.']"
+                    label="Enter a Unique annotation name"
+                    v-model="addingAnnotationName">
+            </v-text-field>
+            <v-icon
+                    :disabled="!addingAnnotationName || $store.state.datasets.includes(addingAnnotationName)"
+                    color="blue"
+                    @click="$store.dispatch('actionGetNewAnnotation', addingAnnotationName, createNewAnnotationDataset)"
+            >
+                add
+            </v-icon>
         </div>
         <div class="annotator" ref="annotator"
         v-else>
@@ -26,16 +48,16 @@
                         v-model="annotatorSelectedDoc"
                         @change="$store.commit('updateDocTokens')"
                         item-text="name"
-                        item-value="index"
+                        return-object
                         label="Select a Document"
                         :loading="$store.state.isLoadingAnnotation">
                 </v-autocomplete>
 
                 <v-autocomplete
                         class="annotator-string-selection annotator-toolbar__algo-results-select"
-                        :items="$store.state.algo_results"
+                        :items="$store.state.results"
                         item-text="name"
-                        item-value="index"
+                        return-object
                         v-model="annotatorAlgoResult"
                         label="Highlight Algorithm Results"
                         clearable>
@@ -145,7 +167,8 @@
         name: "Annotator",
         data: () => {
             return {
-
+                addingAnnotationName: "",
+                createNewAnnotationDataset: null,
                 requestAnnotatorInput: false,
                 disambiguatedTokenCode: null,
 
@@ -211,7 +234,7 @@
                 if(this.$store.state.selectedToken===null){
                     return {}
                 }
-                let refIndex = this.$store.state.docs[this.$store.state.selected_doc].begin_index
+                let refIndex = this.$store.state.selected_doc.begin_index
                 let tokenBox = this.$refs.token[this.$store.state.selectedToken.index - refIndex].$el.getBoundingClientRect();
                 let annotatorBox = this.$refs.annotator.getBoundingClientRect();
                 let lowerWidth = annotatorBox.width*((100-this.annotatorInputWidthPct)/100);
@@ -287,28 +310,6 @@
                 }
             },
 
-            tokenClicked(token){
-                if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
-                    console.log("Missing required input, ignoring focus out")
-                    return;
-                }
-                if(!this.isLinking){
-                    this.updateSelectedToken(token);
-                    this.requestAnnotatorInput = true;  //  let the panel know we want to open the annotator input
-
-                    if(!this.mustDisambiguateTokenCode){  // else the assignment will be performed after user action
-                        this.requestAnnotatorInput = false;
-                        this.addSelectedTokenToCode()
-                    }
-                } else {
-                    if(this.selected_tore_relationship === null){
-                        this.$store.commit("new_tore_relationship", token)
-                    } else {
-                        this.$store.commit("add_token_to_selected_relationship", token)
-                    }
-                }
-            },
-
             expandIncompleteNameKeyDown(evnt){
                 const key = evnt.key;
                 console.log(evnt)
@@ -334,39 +335,61 @@
                 this.$store.commit("setAnnotatorInputVisible", true);
             },
 
-            /**
-             * Should not be called if in linking mode
-             * @param token
-             */
+            tokenClicked(token){
+                if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
+                    console.log("Missing required input, ignoring focus out")
+                    return;
+                }
+                this.updateSelectedToken(token);
+                if(!this.isLinking){
+                    this.requestAnnotatorInput = true;  //  let the panel know we want to open the annotator input
+
+                    if(!this.mustDisambiguateTokenCode){  // else the assignment will be performed after user action
+                        this.requestAnnotatorInput = false;
+                        this.addSelectedTokenToCode()
+                    }
+                } else {
+                    if(this.selected_tore_relationship === null){
+                        this.$store.commit("new_tore_relationship", token)
+                    } else {
+                        this.$store.commit("add_or_remove_token_selected_relationship", token)
+                    }
+                }
+            },
+
             tokenShiftClicked(token){
                 /*if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
                     console.log("Missing required input, ignoring focus out")
                     return;
                 }*/
+
                 if(this.showingInput){
                     const clickindex = token.index;
                     let endlim = this.$store.state.selected_code.tokens[this.$store.state.selected_code.tokens.length-1];
                     let grow = endlim <= clickindex ? 1 : -1;
                     for(let i = endlim; i !== clickindex + grow; endlim <= clickindex ? i++ : i--){
-                        this.$store.commit('assignToCode', {token: this.token(i), code: this.$store.state.selected_code})
+                        if(this.isLinking){
+                            this.tokenClicked(this.token(i))
+                        } else {
+                            this.$store.commit('assignToCode', {token: this.token(i), code: this.$store.state.selected_code})
+                        }
                     }
                 } else {
                     this.tokenClicked(token)
                 }
             },
 
-
-            /**
-             * Should not be called if in linking mode
-             * @param token
-             */
             tokenCtrlClicked(token){
                 /*if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
                     console.log("Missing required input, ignoring focus out")
                     return;
                 }*/
                 if(this.showingInput){
-                    this.$store.commit('assignToCode', {token: this.token(token.index), code: this.$store.state.selected_code})
+                    if(this.isLinking){
+                        this.tokenClicked(token)
+                    } else {
+                        this.$store.commit('assignToCode', {token, code: this.$store.state.selected_code})
+                    }
                 } else {
                     this.tokenClicked(token)
                 }
@@ -448,6 +471,10 @@
     width: 300px;
     flex-grow: 1;
     justify-self: flex-end;
+}
+
+.annotator-settings__name-input {
+    margin-top: 14px;
 }
 
 </style>

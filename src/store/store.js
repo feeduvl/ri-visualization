@@ -62,7 +62,6 @@ export const store = new Vuex.Store({
 
     selected_tore_relationship: null,
 
-
     docs: [],  // document indices from the server start at 1!
     tokens: [],
     codes: [],
@@ -73,11 +72,6 @@ export const store = new Vuex.Store({
     selected_doc: null, // set it to first when loading
     selected_pos_tags: [],
     selected_algo_result: null,
-
-    algo_results: [
-      {index: 0, name: "Result: Animals", lemmas: ["fox", "dog"]},
-      {index: 1, name: "Result: Adjectives", lemmas: ["quick", "brown", "lazy"]}
-    ],
 
     available_annotations: [],
     isLoadingAnnotation: false,  // loading the annotation to be displayed

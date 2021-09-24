@@ -5,7 +5,7 @@ import {
   Code_add_token,
   Code_remove_relationship,
   CodeToString, TORERelationship,
-  TORERelationship_add_token, TORERelationship_set_relationship_name
+  TORERelationship_add_token, TORERelationship_set_relationship_name, TORERelationship_remove_token
 } from "../components/annotator/code";
 
 export const mutateInitialData = (state, initialData) => {
@@ -135,13 +135,13 @@ export const new_tore_relationship = (state, firstToken) => {
   state.tore_relationships.push(relationship);
 }; 
 
-export const add_token_to_selected_relationship = (state, token) => {
-  console.log("Adding token: ... to current relationship: "+state.selected_tore_relationship.index);
+export const add_or_remove_token_selected_relationship = (state, token) => {
+  console.log("Adding/Removing token: ... to current relationship: "+state.selected_tore_relationship.index);
   console.log(token);
   if(state.selected_tore_relationship === null){
-    console.error("add_token_to_selected_relationship called while selected tore relationship is null");
-  } else {
-    TORERelationship_add_token(state.selected_tore_relationship, token);
+    console.error("add_or_remove_token_selected_relationship called while selected tore relationship is null");
+  } else if(!TORERelationship_add_token(state.selected_tore_relationship, token)){
+    TORERelationship_remove_token(state.selected_tore_relationship, token);
   }
 }; export const 
 
@@ -162,7 +162,7 @@ export const add_token_to_selected_relationship = (state, token) => {
     }
 
     for(let i of state.selected_code.relationship_memberships){
-      this.commit("deleteToreRelationship", state.tore_relationships[i]);  // relationships are dependent upon tore codes
+      this.commit("delete_tore_relationship", state.tore_relationships[i]);  // relationships are dependent upon tore codes
     }
 
     state.selected_code = null;
@@ -252,7 +252,7 @@ export const setAnnotationPayload = (state, {name, tokens, codes, tore_relations
     Object.freeze(doc);
   }
   state.docs = newDocs;
-  state.selected_doc = docs.length > 0 ? 1: 0;  // document indices from the server start at 1!
+  state.selected_doc = newDocs[docs.length > 0 ? 1: 0];
 
   state.selected_annotation = name;
   this.commit("setIsLoadingAnnotation", false);
@@ -272,7 +272,7 @@ export const updateSelectedPosTags = (state, value) => {
 
 export const updateDocTokens = state => {
   console.log("updateDocTokens");
-  let docTokens = state.tokens?state.tokens.slice(state.docs[state.selected_doc].begin_index, state.docs[state.selected_doc].end_index):[];
+  let docTokens = state.tokens?state.tokens.slice(state.selected_doc, state.selected_doc.end_index):[];
   Object.freeze(docTokens);
   state.doc_tokens = docTokens;
 };
