@@ -100,7 +100,7 @@ export const store = new Vuex.Store({
 
       for (let i of state.selected_code.relationship_memberships){
         this.commit("delete_tore_relationship", state.tore_relationships[i]);  // relationships are dependent upon tore codes
-        this.$store.commit("updateLastAnnotationEditAt");
+        this.commit("updateLastAnnotationEditAt");
       }
 
       state.selected_code = null;
