@@ -29,7 +29,7 @@ import {
 
 export const actionGetNewAnnotation = ({
   commit
-}, name, dataset) => {
+}, {name, dataset}) => {
   return new Promise(() => {
     console.warn("Initializing annotation");
     let data = {
