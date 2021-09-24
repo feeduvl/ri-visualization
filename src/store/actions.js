@@ -10,9 +10,12 @@ import {
   GET_ALL_DATASETS_ENDPOINT,
   GET_ALL_RESULTS_ENDPOINT,
   GET_ALL_TWEETS_ENDPOINT,
-  GET_EXAMPLE_ANNOTATION_POST_ENDPOINT,
-    
-} from '@/RESTconf';
+  ANNOTATION_INITIALIIZE_ENDPOINT,
+  ANNOTATION_DELETE_ENDPOINT,
+  ANNOTATION_GET_ALL_ENDPOINT,
+  ANNOTATION_GET_ENDPOINT,
+  ANNOTATION_POST_ENDPOINT
+} from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
   MUTATE_FILTERED_TWEETS,
@@ -23,19 +26,13 @@ import {
   MUTATE_FOOTER_TEXT,
   MUTATE_TOP_BAR_LINK
 } from '@/store/types';
-import {
-  ANNOTATION_DELETE_ENDPOINT,
-  ANNOTATION_GET_ALL_ENDPOINT,
-  ANNOTATION_GET_ENDPOINT,
-  ANNOTATION_POST_ENDPOINT
-} from "../RESTconf";
 
 export const actionGetNewAnnotation = ({
   commit
 }, name, dataset) => {
   return new Promise(() => {
-    console.warn("Getting example annotation");
-    axios.post(GET_EXAMPLE_ANNOTATION_POST_ENDPOINT, {
+    console.warn("Initializing annotation");
+    axios.post(ANNOTATION_INITIALIIZE_ENDPOINT, {
       name,
       dataset
     })
