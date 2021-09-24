@@ -30,7 +30,7 @@
             <v-icon
                     :disabled="!addingAnnotationName || !createNewAnnotationDataset || $store.state.datasets.includes(addingAnnotationName)"
                     color="blue"
-                    @click="$store.dispatch('actionGetNewAnnotation', {addingAnnotationName, createNewAnnotationDataset})"
+                    @click="$store.dispatch('actionGetNewAnnotation', {name: addingAnnotationName, dataset: createNewAnnotationDataset})"
             >
                 add
             </v-icon>
