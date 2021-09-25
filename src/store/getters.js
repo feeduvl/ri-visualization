@@ -179,8 +179,11 @@ export const lemmasFromSelectedResult = state => {
 };
 
 export const annotationAlgoResults = state => {
-  console.log("annotationAlgoResults recomputing");
   let valid_methods = ["frequency-fcic", "frequency-rbai"];
   Object.freeze(valid_methods);
   return state.results.filter(r => valid_methods.includes(r.method));
+};
+
+export const showingInput = state => {
+  return state.selected_code && state.annotatorInputVisible;
 };

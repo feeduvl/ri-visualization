@@ -5,7 +5,15 @@
                 v-model="show_saved_snackbar"
                 :timeout="1500"
         >
-            Annotation saved.
+            {{this.saveSnackbarText}}
+        </v-snackbar>
+
+        <v-snackbar
+                class="saved-snackbar"
+                v-model="show_auto_saved_snackbar"
+                :timeout="1500"
+        >
+            {{this.autoSaveSnackbarText}}
         </v-snackbar>
         <div class="annotator-settings"
         v-if="!$store.state.selected_annotation">
@@ -112,7 +120,7 @@
                 <v-tooltip bottom>
                     <template #activator="{on}">
                         <v-icon v-on="on"
-                                @click="doSaveAnnotation"
+                                @click="doSaveAnnotation(false)"
                         >
                             save
                         </v-icon>
@@ -154,16 +162,13 @@
                     :key = "'emptyline'+emptyLineIndex">
                 <AnnotatorInput
                         class="annotator-input"
-                        v-if="showingInput"
                         :disabled="mustDisambiguateTokenCode"
-                        v-click-outside="annotatorInputFocusOut"
                         ref="input_panel"
-                        :style="inputFieldPanelLocationStyle"
+                        :selectedTokenBoundingRect="selectedTokenBoundingRect"
                         :panelIsUp="panelIsUp"
                         :width="annotatorInputWidthPct"
                         @annotator-input-trash-click="delete_selected_code"
                         @annotator-input__arrow-icon-click="panelIsUp = !panelIsUp"
-                        @code-name-input-keydown="expandIncompleteNameKeyDown"
                 />
                 <v-card
                         class="disambiguation-prompt"
@@ -188,21 +193,23 @@
 <script>
     import Token from "@/components/annotator/Token";
     import AnnotatorInput from "@/components/annotator/AnnotatorInput";
-    import {Code, Code_user_display_prompt} from "@/components/annotator/code";
+    import {Code} from "@/components/annotator/code";
     import {mapGetters, mapState} from "vuex";
 
     export default {
         name: "Annotator",
         data: () => {
             return {
+                saveSnackbarText: "Annotation saved.",
+                autoSaveSnackbarText: "Auto-saved.",
                 addingAnnotationName: "",
                 createNewAnnotationDataset: null,
                 requestAnnotatorInput: false,
                 disambiguatedTokenCode: null,
 
-                incompleteNameInput: "",  // workaround to allow the user to type new names within autocomplete, should reflect current input value
-
                 show_saved_snackbar: false,
+                show_auto_saved_snackbar: false,
+
                 algo_lemmas: null,
                 annotatorInputWidthPct: 60,
                 panelIsUp: true,
@@ -256,15 +263,19 @@
                 return [{name: "Create new Code", tore: ""}].concat(this.selectedToken===null?[]:this.getCodesForToken(this.selectedToken))
             },
 
-            showingInput(){
-                return this.selected_code && this.$store.state.annotatorInputVisible;
-            },
-            inputFieldPanelLocationStyle(){
+            selectedTokenBoundingRect(){
                 if(this.$store.state.selectedToken===null){
-                    return {}
+                    return null;
                 }
                 let refIndex = this.$store.state.selected_doc.begin_index
-                let tokenBox = this.$refs.token[this.$store.state.selectedToken.index - refIndex].$el.getBoundingClientRect();
+                return this.$refs.token[this.$store.state.selectedToken.index - refIndex].$el.getBoundingClientRect();
+            },
+
+            inputFieldPanelLocationStyle(){
+                let tokenBox = this.selectedTokenBoundingRect();
+                if(tokenBox===null){
+                    return {}
+                }
                 let annotatorBox = this.$refs.annotator.getBoundingClientRect();
                 let lowerWidth = annotatorBox.width*((100-this.annotatorInputWidthPct)/100);
                 return {
@@ -284,7 +295,8 @@
                 "docs",
                 "selected_doc",
                 "tokensInSelectedDoc," +
-                "tokenListToString"]),
+                "tokenListToString",
+                "showingInput"]),
 
             ...mapState([
                 "lastAnnotationEditAt",
@@ -300,7 +312,7 @@
                 } else {
                     if(val - this.lastAnnotationPostAt > 1000 * 60){
                         console.info("Auto save")
-                        this.doSaveAnnotation();
+                        this.doSaveAnnotation(true);
                     }
                 }
             }
@@ -310,7 +322,7 @@
             this.$store.dispatch("actionGetAllAnnotations")
         },
 
-        methods: {   // NOTE: `token` refers to the Vue Component in these methods
+        methods: {
 
             disambiguateTokenCode(item, i){
                 let self = this;
@@ -353,22 +365,6 @@
 
                 } else {
                     console.error("addTokenToCode called while linker is open")
-                }
-            },
-
-            expandIncompleteNameKeyDown(evnt){
-                const key = evnt.key;
-                console.log(evnt)
-                if (key === "Enter"){
-                    if(this.incompleteNameInput!==""){
-                        console.warn("User pressed Enter, persisting new code name: "+this.incompleteNameInput);
-                        this.$store.commit("updateCodeName", this.incompleteNameInput);
-                        this.incompleteNameInput = "";
-                    }
-                } else if (key === "Backspace"){
-                    this.incompleteNameInput = this.incompleteNameInput.substring(0, Math.max(0, this.incompleteNameInput.length-1))
-                } else if(key.length === 1) {
-                    this.incompleteNameInput += key;
                 }
             },
 
@@ -444,25 +440,6 @@
                 }
             },
 
-            annotatorInputFocusOut(event){
-                for(let listclass of this.dropdownClassValues){
-                    if(event.target.classList.contains(listclass)){
-                        console.log("Annotator::annotatorInputFocusOut got click on dropdown, ignoring hide")
-                        return;
-                    }
-                }
-
-                if(!this.requiredAnnotationsPresent){  // codes need some kind of label
-                    console.log("Missing required input, ignoring focus out")
-                    return;
-                }
-
-                // checking if target was another token
-                if(!event.target.classList.contains("annotator-token-inner") && !event.target.classList.contains("annotator-token-outer")){
-                    this.$store.commit("setAnnotatorInputVisible", false);
-                }
-            },
-
             tokenHover(token){
                 this.$store.commit("setHoveringToken", this.token(token.index));  // FIXME very slow
             },
@@ -482,13 +459,17 @@
                 this.$store.commit("setAnnotatorInputVisible", false);
             },
 
-            doSaveAnnotation(){
+            doSaveAnnotation(autosave){
                 this.$store.dispatch('actionPostCurrentAnnotation')
-                this.show_saved_snackbar = true;
+                if(autosave){
+                    this.show_auto_saved_snackbar = true;
+                } else {
+                    this.show_saved_snackbar = true;
+                }
             },
 
             saveAndClose(){
-                this.doSaveAnnotation()
+                this.doSaveAnnotation(false)
                 this.$store.commit("resetAnnotator")
             }
         }

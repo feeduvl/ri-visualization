@@ -154,6 +154,7 @@ export const add_or_remove_token_selected_relationship = (state, token) => {
 export const
 
   setAnnotatorInputVisible=(state, visible) => {
+    console.log("setAnnotatorInputVisible: "+visible);
     state.annotatorInputVisible = visible;
     if(!visible){
       state.isLinking = false;
@@ -214,7 +215,6 @@ export const updateSelectedPosTags = (state, value) => {
 };
 
 export const updateDocTokens = state => {
-  console.log("updateDocTokens");
   let docTokens = state.tokens?state.tokens.slice(state.selected_doc, state.selected_doc.end_index):[];
   Object.freeze(docTokens);
   state.doc_tokens = docTokens;
