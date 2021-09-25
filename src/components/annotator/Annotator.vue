@@ -74,6 +74,7 @@
                         return-object
                         v-model="annotatorAlgoResult"
                         label="Highlight Algorithm Results"
+                        :loading="$store.state.isLoadingAnnotation"
                         clearable>
                 </v-autocomplete>
 
@@ -86,6 +87,7 @@
                         :items="pos_tags"
                         item-text="name"
                         item-value="tag"
+                        :loading="$store.state.isLoadingAnnotation"
                         v-model="annotatorPosTags"
                 >
                     <template v-slot:selection="data">
@@ -93,14 +95,14 @@
                                 v-bind="{...data.attrs, color: data.item.color}"
                                 :input-value="data.selected"
                                 close
-                                @click:close="(function(item) {
-                                const index = $store.state.selected_pos_tags.indexOf(item.tag)
-                                const tags = $store.state.selected_pos_tags
-
-                                if (index >= 0) tags.splice(index, 1)
-                                $store.commit('updateSelectedPosTags', tags)
-                            })(data.item)"
-                                @click="data.select"
+                                @input="(function(item) {
+                                    const index = $store.state.selected_pos_tags.indexOf(item.tag)
+                                    const tags = $store.state.selected_pos_tags
+                                    if (index >= 0) {
+                                        tags.splice(index, 1)
+                                    }
+                                    $store.commit('updateSelectedPosTags', tags)
+                                })(data.item)"
                         >{{ data.item.name }}
                         </v-chip>
                     </template>
@@ -145,7 +147,8 @@
                             rows="2"
                 ></v-textarea>
             </v-card>
-            <v-card class="annotator-token-area">
+            <v-card class="annotator-token-area"
+            v-if="!$store.state.isLoadingAnnotation">
                 <Token @annotator-token-click="tokenClicked"
                        @annotator-token-click-shift="tokenShiftClicked"
                        @annotator-token-click-ctrl="tokenCtrlClicked"
@@ -440,7 +443,7 @@
             },
 
             tokenHover(token){
-                this.$store.commit("setHoveringToken", this.token(token.index));  // FIXME very slow
+                this.$store.commit("setHoveringToken", this.token(token.index));
             },
 
             tokenUnhover(token){

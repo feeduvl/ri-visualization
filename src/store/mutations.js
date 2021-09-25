@@ -111,9 +111,6 @@ export const delete_tore_relationship = (state, tore_relationship) => {
   Code_remove_relationship(state.codes[tore_relationship.TOREEntity], tore_relationship);
 
   Vue.set(state.tore_relationships, tore_relationship.index, null);
-  if(state.hovering_tore_relationships.includes(tore_relationship)){
-    state.hovering_tore_relationships.splice(state.hovering_tore_relationships.indexOf(tore_relationship), 1);
-  }
 
   if(state.selected_tore_relationship && state.selected_tore_relationship.index === tore_relationship.index){
     state.selected_tore_relationship = null;
@@ -148,7 +145,6 @@ export const add_or_remove_token_selected_relationship = (state, token) => {
     state.isLinking = isLinking;
     if(!isLinking){
       state.selected_tore_relationship = null;
-      state.hovering_tore_relationships = [];  // not necessary
     }
   };
 export const
@@ -172,16 +168,26 @@ export const
   setHoveringToken = (state, token) => {
     state.hoveringToken = token;
     if(token===null){
-      state.hovering_tore_relationships = [];
       state.hovering_codes = [];
       return;
     }
-
     let ind = token.index;
-    state.hovering_codes = state.codes.filter(c => c && c.tokens.includes(ind));
-    state.hovering_tore_relationships =
-      state.tore_relationships.filter(r =>
-        r && (r.target_tokens.includes(ind) || state.codes[r.TOREEntity].tokens.includes(ind)));
+
+    let hovering_codes = [];
+
+    if(token.num_codes > 0){   // better than filtering because we terminate search asap
+      let remaining_codes = token.num_codes;
+      for(let code of state.codes){
+        if(code.tokens.includes(ind)){
+          hovering_codes.push(code);
+          remaining_codes--;
+        }
+        if(remaining_codes <= 0){
+          break;
+        }
+      }
+    }
+    state.hovering_codes = hovering_codes;
   }; export const 
 
   setSelectedToken = (state, token) => {

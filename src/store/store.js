@@ -57,7 +57,6 @@ export const store = new Vuex.Store({
 
     hoveringToken: null,
     hovering_codes: [],
-    hovering_tore_relationships: [],
 
     selectedToken: null,
     isLinking: false,

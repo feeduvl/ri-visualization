@@ -111,6 +111,7 @@ export const docs = state => {
   }; export const 
 
   codeNames = state => {
+    console.log("codeNames");
     let ret = [];
     for (let i = 0; i < state.codes.length; i++){
       if (state.codes[i] && state.codes[i].name){
@@ -126,15 +127,11 @@ export const docs = state => {
 
   selected_tore_relationship = state => {
     return state.selected_tore_relationship;
-  }; export const 
-
-  hovering_tore_relationships = state => {
-    return state.hovering_tore_relationships;
-  }; export const 
-
-  hovering_codes = state => {
-    return state.hovering_codes;
-  }; export const 
+  }; 
+  
+export const hovering_codes = state => {
+  return state.hovering_codes;
+}; export const 
 
   selected_code = state => {
     return state.selected_code;
@@ -170,12 +167,14 @@ export const tokens = state => {
 
 export const lemmasFromSelectedResult = state => {
   console.log("lemmasFromSelectedResult recomputing");
+  let ret = [];
   let frequency_methods = ["frequency-fcic", "frequency-rbai"];
   if (frequency_methods.includes(state.selected_algo_result.method)){
-    return state.selected_algo_result.topics.concepts;
+    ret = state.selected_algo_result.topics.concepts;
+  } else {
+    console.warn("lemmasFromSelectedResult not implemented");
   }
-  console.warn("lemmasFromSelectedResult not implemented");
-  return [];
+  return ret.map(l => (l?l.toLowerCase():l));
 };
 
 export const annotationAlgoResults = state => {

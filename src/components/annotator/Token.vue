@@ -16,7 +16,7 @@
             <span class="annotator-token-inner"
                   :class="['token-inner-default', {
                     hasCodeHighlighted: hasCode,  // indicates that a token has been assigned to a code
-                    currentlyHoveringCode: currentlyHoveringCode // indicates membership of 'currently hovering' code
+                    currentlyHoveringCode: (isLinking && inSelectedCode) || ($store.state.annotatorInputVisible && inSelectedCode) || isHoveringCode // indicates membership of 'currently hovering' code or the origin of ongoing linking
             }]">
                 {{this.name}}
             </span>
@@ -44,7 +44,7 @@
                 "selected_code",
                 "hovering_codes",
                 "hoveringToken",  // used only to prevent token assignment to multiple codes
-                "hovering_tore_relationships"]),
+                ]),
 
             hoveringLinkable(){
                 return this.isLinking && this.isHoveringToken
@@ -54,29 +54,36 @@
                 return this.hoveringToken && this.index === this.hoveringToken.index;
             },
 
-            currentlyHoveringCode(){
-                return this.isHoveringCode;
-            },
-
             linkedTogether(){
                 return this.isLinking && this.selected_tore_relationship && this.selected_tore_relationship.target_tokens.includes(this.index)
             },
 
             applyPosStyle(){
+                console.log("applyPosStyle")
                 return this.show_pos && !this.isLinking && (!this.isHoveringCode || !this.currentlyHoveringCode)
             },
 
             hasCode(){
-                return this.$store.state.tokens[this.index].num_codes > 0;
+                return this.$store.state.tokens[this.index].num_codes > 0;  // need to do it like this because this is the only attribute of token that can change
             },
 
-
-            hoveringCodesList(){
-                return this.hasCode ? this.hovering_codes.filter(c => c && c.tokens.includes(this.index)): [];
+            inSelectedCode(){
+                console.log("inSelectedCode: "+this.name)
+                return this.hasCode && this.selected_code.tokens.includes(this.index)
             },
 
             isHoveringCode(){
-                return this.hoveringCodesList.length > 0;
+                //console.log("isHoveringCode: "+this.name)
+                if(!this.hasCode || this.hovering_codes.length === 0){
+                    return false
+                } else {
+                    for(let code of this.hovering_codes){
+                        if(code.tokens.includes(this.index)){  // more efficient that filtering because we can stop asap
+                            return true;
+                        }
+                    }
+                }
+                return false;
             },
 
             posStyle(){
@@ -108,6 +115,7 @@
             },
 
             algo_lemma(){
+                console.log("algo_lemma")
                 return this.$store.state.selected_algo_result && this.$store.getters.lemmasFromSelectedResult.includes(this.lemma)
             }
         },
