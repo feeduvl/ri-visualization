@@ -88,11 +88,11 @@
                                 </v-card>
 
                                 <template v-slot:activator="{on: onDialog}" >
-                                    <v-list-item
+                                    <v-list-tile
                                             v-on="onDialog"
                                     >
-                                        <v-list-item-title>Highlight all similar</v-list-item-title>
-                                    </v-list-item>
+                                        Highlight all similar
+                                    </v-list-tile>
                                 </template>
                             </v-dialog>
                         </v-list>
@@ -198,14 +198,12 @@
             <div class="annotator-input__relationships" v-if="!isLinking && $store.state.selected_code && $store.state.selected_code.relationship_memberships.length > 0">
                 <v-list class="annotator-input__relationships-list">
                     <v-subheader>Edit a relationship</v-subheader>
-                    <v-list-item>
-                        <v-list-item
+                    <v-list-tile
                                 @click="setSelectedToreRelationship(item)"
                                 v-for="(item, i) in selectedCodeRelationships"
                                 :key="'relationships_'+i">
                             {{(item.relationship_name?item.relationship_name:'[TORE Relationship]') +' -> '+tokenListToString(item.target_tokens)}}
-                        </v-list-item>
-                    </v-list-item>
+                    </v-list-tile>
                 </v-list>
             </div>
         </v-card>
@@ -270,6 +268,7 @@
                     if(!this.requiredAnnotationsPresent){  // codes need some kind of label
                         console.log("Missing required input, ignoring dialog hide")
                     } else {
+                        console.log(this.selected_code)
                         this.$store.commit("setAnnotatorInputVisible", bool);  // should always be false
                     }
                 }
@@ -402,7 +401,7 @@
     }
 </script>
 
-<style scoped>
+<style>
 
     .annotator-input{
         display: flex;
@@ -440,11 +439,14 @@
         flex: 1 1 20em;
     }
 
-    .annotator-input__relationships-list .v-list-item{
-        min-height: 28px;
+    .annotator-input__relationships-list .v-list__tile{
+        display: flex;
+        justify-content: center;
+        height: 28px;
     }
 
     .annotator-input__relationships-list .v-subheader {
+        display: flex;
         justify-content: center;
         height: 14px;
     }

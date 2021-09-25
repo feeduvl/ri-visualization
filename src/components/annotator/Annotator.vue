@@ -176,13 +176,13 @@
                         v-if="mustDisambiguateTokenCode">
                     <v-list>
                         <v-subheader>Do something with this token: </v-subheader>
-                        <v-list-item
+                        <v-list-tile
                                 v-for="(item, i) in multipleCodesPromptList"
                                 :key="'prompt_'+i"
                                 :style="i===0?'border: green solid 2px':''"
                                 @click="disambiguateTokenCode(item, i, this)()">
                             {{i > 0 ? `Edit '` + $store.getters.tokenListToString(item.tokens)+`'` : item.name}}
-                        </v-list-item>
+                        </v-list-tile>
                     </v-list>
                 </v-card>
             </v-card>
@@ -212,8 +212,7 @@
 
                 algo_lemmas: null,
                 annotatorInputWidthPct: 60,
-                panelIsUp: true,
-                dropdownClassValues: ["annotator-input__tore", "v-list-item__content", "v-list-item", "v-list-item__title"]  // these aren't correctly identified as part of v-autocomplete
+                panelIsUp: true
             }
         },
         components: {AnnotatorInput, Token},

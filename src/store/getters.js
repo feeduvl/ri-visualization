@@ -148,7 +148,7 @@ export const token = state => index => state.tokens[index];
 export const getCodesForToken = state => token => (token===null?[]:state.codes.filter(c => c && c.tokens.includes(token.index)));
 
 export const requiredAnnotationsPresent = state => {
-  return state.selected_code.name !== "" || state.selected_code.tore !== "";
+  return (state.selected_code.name !== null && state.selected_code.name !== "") || (state.selected_code.tore !== null && state.selected_code.tore !== "");
 };
 
 export const tokenListToString = state => listOfTokenIndices => {
