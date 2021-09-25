@@ -272,7 +272,7 @@
             },
 
             inputFieldPanelLocationStyle(){
-                let tokenBox = this.selectedTokenBoundingRect();
+                let tokenBox = this.selectedTokenBoundingRect;
                 if(tokenBox===null){
                     return {}
                 }
