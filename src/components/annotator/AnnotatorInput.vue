@@ -200,7 +200,7 @@
                     <v-subheader>Edit a relationship</v-subheader>
                     <v-list-tile
                                 @click="setSelectedToreRelationship(item)"
-                                v-for="(item, i) in selectedCodeRelationships"
+                                v-for="(item, i) in selectedToreRelationships"
                                 :key="'relationships_'+i">
                             {{(item.relationship_name?item.relationship_name:'[TORE Relationship]') +' -> '+tokenListToString(item.target_tokens)}}
                     </v-list-tile>
@@ -243,17 +243,19 @@
                 "showingInput"]),
 
             dialogPositionStyle(){  //  need to do this because the actual dialog DOM object isn't exposed
+                let annotatorBox = this.annotatorBoundingRect;
                 let tokenBox = this.selectedTokenBoundingRect;
                 let panelIsUp = this.panelIsUp;
-                if(tokenBox == null){
+                if(annotatorBox === null || tokenBox === null){
                     return ""
                 } else {
+                    let lowerWidth = annotatorBox.width*((100-this.width)/100);
                     return `.v-dialog{
                                 margin: 5px;
                                 position: absolute;
-                                width: max-content;
+                                width: ${this.width}%;
                                 overflow: hidden;
-                                left: ${tokenBox.left}px;
+                                left: ${Math.min(lowerWidth, tokenBox.left)}px;
                                 top: ${tokenBox.top + tokenBox.height + (panelIsUp?0:200)}px;
                             }`
                 }
@@ -294,7 +296,7 @@
                 return this.panelIsUp?"down":"up";
             },
 
-            selectedCodeRelationships(){
+            selectedToreRelationships(){
                 let r = []
                 for (let rel of this.selected_code.relationship_memberships){
                     r.push(this.$store.state.tore_relationships[rel])
@@ -308,9 +310,16 @@
                 if(this.selectedTokenBoundingRect === null || this.selectedTokenBoundingRect.width === 0){
                     return;
                 }
+
+                let style_ = this.dialogPositionStyle;
+                if(style_===""){
+                    return;
+                }
+
                 let sheet = this.deleteStyleruleIfNecessary()
                 let css_rules_num = sheet.cssRules.length;
-                sheet.insertRule(this.dialogPositionStyle, css_rules_num)
+                //console.log("Inserting style: "+style_)
+                sheet.insertRule(style_, css_rules_num)
                 this.popupPositionStyleRuleIndex = css_rules_num;
             }
         },
@@ -394,6 +403,10 @@
             },
 
             selectedTokenBoundingRect: {
+                type: DOMRect
+            },
+
+            annotatorBoundingRect: {
                 type: DOMRect
             }
         },

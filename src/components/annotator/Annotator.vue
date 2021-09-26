@@ -51,10 +51,10 @@
             </v-icon>
 
         </div>
-        <div class="annotator" ref="annotator"
+        <div class="annotator"
         v-else>
             <v-card class="annotator-toolbar"
-                    :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation">
+                    >
 
                 <v-autocomplete
                         class="annotator-string-selection annotator-toolbar__document-select"
@@ -64,6 +64,7 @@
                         item-text="name"
                         return-object
                         label="Select a Document"
+                        :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
                         :loading="$store.state.isLoadingAnnotation">
                 </v-autocomplete>
 
@@ -74,6 +75,7 @@
                         return-object
                         v-model="annotatorAlgoResult"
                         label="Highlight Algorithm Results"
+                        :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
                         :loading="$store.state.isLoadingAnnotation"
                         clearable>
                 </v-autocomplete>
@@ -88,6 +90,7 @@
                         item-text="name"
                         item-value="tag"
                         :loading="$store.state.isLoadingAnnotation"
+                        :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
                         v-model="annotatorPosTags"
                 >
                     <template v-slot:selection="data">
@@ -131,24 +134,9 @@
                 </v-tooltip>
 
             </v-card>
-            <v-card v-if="false" class="annotator-debug-panel">
-                <v-textarea v-for="(t, index) in $store.state.codes"
-                            :key="index"
-                            :label="JSON.stringify(t)"
-                            outlined
-                            dense
-                            rows="2"
-                ></v-textarea>
-                <v-textarea v-for="(c, index) in $store.state.tore_relationships"
-                            :key="'relationship'+index"
-                            :label="JSON.stringify(c)"
-                            outlined
-                            dense
-                            rows="2"
-                ></v-textarea>
-            </v-card>
             <v-card class="annotator-token-area"
-            v-if="!$store.state.isLoadingAnnotation">
+                    v-if="!$store.state.isLoadingAnnotation"
+                    ref="annotator">
                 <Token @annotator-token-click="tokenClicked"
                        @annotator-token-click-shift="tokenShiftClicked"
                        @annotator-token-click-ctrl="tokenCtrlClicked"
@@ -158,7 +146,17 @@
                        v-for="(t, index) in $store.state.doc_tokens"
                        :key="index"
                        v-bind="{
-                       ...t
+                       ...t,
+                       inSelectedCode: $store.state.token_in_selected_code[t.index],
+                       hasCode: $store.state.tokens[t.index].num_codes > 0,
+                       isHoveringCode: $store.state.token_is_hovering_code[t.index],
+                       linkedTogether: isLinking && $store.state.token_linked_together[t.index],
+                       isHoveringToken: $store.state.token_is_hovering_token[t.index],
+                       isLinking: isLinking,
+                       algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes(t.lemma),
+                       show_pos: t.pos!==null && $store.state.selected_pos_tags.includes(t.pos),
+                       posClass: getPosClass(t.pos),
+                       annotatorInputVisible: $store.state.annotatorInputVisible
                    }">
                 </Token>
                 <br v-for="(_, emptyLineIndex) of [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]"
@@ -168,6 +166,7 @@
                         :disabled="mustDisambiguateTokenCode"
                         ref="input_panel"
                         :selectedTokenBoundingRect="selectedTokenBoundingRect"
+                        :annotatorBoundingRect="annotatorBoundingRect"
                         :panelIsUp="panelIsUp"
                         :width="annotatorInputWidthPct"
                         @annotator-input-trash-click="delete_selected_code"
@@ -184,7 +183,7 @@
                                 :key="'prompt_'+i"
                                 :style="i===0?'border: green solid 2px':''"
                                 @click="disambiguateTokenCode(item, i, this)()">
-                            {{i > 0 ? `Edit '` + $store.getters.tokenListToString(item.tokens)+`'` : item.name}}
+                            {{i > 0 ? `Edit '` + $store.getters.tokenListToString([...item.tokens].sort())+`'` : item.name}}
                         </v-list-tile>
                     </v-list>
                 </v-card>
@@ -214,8 +213,12 @@
                 show_auto_saved_snackbar: false,
 
                 algo_lemmas: null,
-                annotatorInputWidthPct: 60,
-                panelIsUp: true
+                annotatorInputWidthPct: 50,
+                panelIsUp: true,
+
+                hoverDelayMillis: 110,  // time to wait before dispatching hover event
+                currentlyHoveringTokenIndexLocal: null,
+                hoverEnterTime: null,
             }
         },
         components: {AnnotatorInput, Token},
@@ -245,7 +248,7 @@
                 },
 
                 set(value){
-                    this.$store.commit("updateSelectedAlgoResult", value)
+                    this.$store.commit("updateSelectedAlgoResult", value===undefined?null:value)
                 }
             },
 
@@ -265,12 +268,22 @@
                 return [{name: "Create new Code", tore: ""}].concat(this.selectedToken===null?[]:this.getCodesForToken(this.selectedToken))
             },
 
+            annotatorBoundingRect(){
+                if(this.$store.state.selectedToken===null){
+                    return null;
+                }
+
+                let ret = this.$refs.annotator.$el;
+                return ret.getBoundingClientRect();
+            },
+
             selectedTokenBoundingRect(){
                 if(this.$store.state.selectedToken===null){
                     return null;
                 }
-                let refIndex = this.$store.state.selected_doc.begin_index
-                return this.$refs.token[this.$store.state.selectedToken.index - refIndex].$el.getBoundingClientRect();
+                let elem = document.getElementById("token_"+this.$store.state.selectedToken.index).getBoundingClientRect();
+                return elem;
+                //return this.$refs.token[this.$store.state.selectedToken.index - refIndex].$el.getBoundingClientRect();
             },
 
             inputFieldPanelLocationStyle(){
@@ -278,7 +291,7 @@
                 if(tokenBox===null){
                     return {}
                 }
-                let annotatorBox = this.$refs.annotator.getBoundingClientRect();
+                let annotatorBox = this.$refs.annotator.$el.getBoundingClientRect();
                 let lowerWidth = annotatorBox.width*((100-this.annotatorInputWidthPct)/100);
                 return {
                     left: `${Math.min(lowerWidth, tokenBox.left)}px`,
@@ -298,7 +311,8 @@
                 "selected_doc",
                 "tokensInSelectedDoc," +
                 "tokenListToString",
-                "showingInput"]),
+                "showingInput",
+                "hoveringToken"]),
 
             ...mapState([
                 "lastAnnotationEditAt",
@@ -325,6 +339,17 @@
         },
 
         methods: {
+            getPosClass(pos){
+                switch (pos) {
+                    case "v":
+                        return "verb-token";
+                    case "n":
+                        return "noun-token";
+                    case "a":
+                        return "adjective-token";
+                }
+                return "";
+            },
 
             disambiguateTokenCode(item, i){
                 let self = this;
@@ -379,7 +404,8 @@
                 this.$store.commit("setAnnotatorInputVisible", true);
             },
 
-            tokenClicked(token){
+            tokenClicked(index){
+                let token = this.token(index)
                 if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
                     console.log("Missing required input, ignoring focus out")
                     return;
@@ -402,14 +428,15 @@
                 }
             },
 
-            tokenShiftClicked(token){
+            tokenShiftClicked(index){
                 /*if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
                     console.log("Missing required input, ignoring focus out")
                     return;
                 }*/
 
+
                 if(this.showingInput){
-                    const clickindex = token.index;
+                    const clickindex = index;
                     let endlim = this.$store.state.selected_code.tokens[this.$store.state.selected_code.tokens.length-1];
                     let grow = endlim <= clickindex ? 1 : -1;
                     for(let i = endlim; i !== clickindex + grow; endlim <= clickindex ? i++ : i--){
@@ -421,15 +448,18 @@
                         }
                     }
                 } else {
+
+                    let token = this.token(index)
                     this.tokenClicked(token)
                 }
             },
 
-            tokenCtrlClicked(token){
+            tokenCtrlClicked(index){
                 /*if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
                     console.log("Missing required input, ignoring focus out")
                     return;
                 }*/
+                let token = this.token(index)
                 if(this.showingInput){
                     if(this.isLinking){
                         this.tokenClicked(token)
@@ -442,15 +472,32 @@
                 }
             },
 
-            tokenHover(token){
-                this.$store.commit("setHoveringToken", this.token(token.index));
+            getSetHoveringTokenCommit(){
+                let tk = this.token(this.currentlyHoveringTokenIndexLocal);
+                let self = this;
+                return function(){
+                    if(self.currentlyHoveringTokenIndexLocal === tk.index){
+                        //console.log("Setting hovering token: "+tk.name)
+                        self.$store.commit("setHoveringToken", tk)
+                    } /*else {
+                        console.log(tk.name+" hovered out before callback. Currently hovering: "+self.currentlyHoveringTokenIndexLocal)
+                    }*/
+                }
             },
 
-            tokenUnhover(token){
+            tokenHover(token_index){
+                this.hoverEnterTime = Date.now();
+                this.currentlyHoveringTokenIndexLocal = token_index;
+
+                setTimeout(this.getSetHoveringTokenCommit(), this.hoverDelayMillis);
+            },
+
+            tokenUnhover(token_index){
+                this.currentlyHoveringTokenIndexLocal = null;
                 if(this.$store.state.hoveringToken===null){
                     return;
                 }
-                if(this.$store.state.hoveringToken.index === token.index){  //  do this check to account for fast mouse movements that may have already called the onHover method
+                if(this.$store.state.hoveringToken.index === token_index){  //  do this check to account for fast mouse movements that may have already called the onHover method
                     this.$store.commit("setHoveringToken", null);
                 }
             },

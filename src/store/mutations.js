@@ -1,9 +1,6 @@
 /* eslint-disable keyword-spacing,camelcase,no-param-reassign,valid-jsdoc */
 import Vue from 'vue';
 import {
-  Code_add_relationship,
-  Code_remove_relationship,
-  CodeToString, TORERelationship,
   TORERelationship_add_token, TORERelationship_set_relationship_name, TORERelationship_remove_token
 } from "../components/annotator/code";
 
@@ -102,91 +99,72 @@ export const setRelationshipName = (state, name) => {
   TORERelationship_set_relationship_name(state.selected_tore_relationship, name);
 };
 
-/**
- * @param state
- * @param tore_relationship
- */
-export const delete_tore_relationship = (state, tore_relationship) => {
-
-  Code_remove_relationship(state.codes[tore_relationship.TOREEntity], tore_relationship);
-
-  Vue.set(state.tore_relationships, tore_relationship.index, null);
-
-  if(state.selected_tore_relationship && state.selected_tore_relationship.index === tore_relationship.index){
-    state.selected_tore_relationship = null;
-  }
-}; 
-
-/**
- * Created a new code relationship and adds the currently selected code to it
- * linker should already be open and tokens selected
- * @param state
- * @param firstToken initial token, more may follow
- */
-export const new_tore_relationship = (state, firstToken) => {
-  console.log("new_tore_relationship for selected code: "+CodeToString(state.selected_code));
-  let relationship = new TORERelationship(state.selected_code, [firstToken.index], state.tore_relationships.length);
-  Code_add_relationship(state.selected_code, relationship);
-  state.selected_tore_relationship = relationship;
-  state.tore_relationships.push(relationship);
-}; 
-
 export const add_or_remove_token_selected_relationship = (state, token) => {
   console.log("Adding/Removing token: ... to current relationship: "+state.selected_tore_relationship.index);
-  console.log(token);
   if(state.selected_tore_relationship === null){
     console.error("add_or_remove_token_selected_relationship called while selected tore relationship is null");
-  } else if(!TORERelationship_add_token(state.selected_tore_relationship, token)){
-    TORERelationship_remove_token(state.selected_tore_relationship, token);
+  } else {
+    //console.log(state.selected_tore_relationship.target_tokens)
+
+    for(let token_index of state.selected_tore_relationship.target_tokens){
+      Vue.set(state.token_linked_together, token_index, false);
+    }
+
+    if(!TORERelationship_add_token(state.selected_tore_relationship, token)){
+      TORERelationship_remove_token(state.selected_tore_relationship, token);
+    }
+    for(let token_index of state.selected_tore_relationship.target_tokens){
+      Vue.set(state.token_linked_together, token_index, true);
+    }
+    //console.log(state.selected_tore_relationship.target_tokens)
   }
-}; export const 
+}; 
+export const 
 
-  setIsLinking = (state, isLinking) => {
-    state.isLinking = isLinking;
-    if(!isLinking){
-      state.selected_tore_relationship = null;
+  setHoveringToken = (state, token) => {//console.log("vuex setHoveringToken")
+    // notify token changes
+    if(state.hoveringToken !== null){
+      Vue.set(state.token_is_hovering_token, state.hoveringToken.index, false);
     }
-  };
-export const
-
-  setAnnotatorInputVisible=(state, visible) => {
-    console.log("setAnnotatorInputVisible: "+visible);
-    state.annotatorInputVisible = visible;
-    if(!visible){
-      state.isLinking = false;
-      state.selectedToken = null;
-      state.selected_code = null;
-      state.selected_tore_relationship = null;
+    if(token !== null){
+      Vue.set(state.token_is_hovering_token, token.index, true);
     }
-  }; export const 
 
-  set_selected_code = (state, code) => {
-    console.log("Set selected code: "+CodeToString(code));
-    state.selected_code = code;
-  }; export const 
-
-  setHoveringToken = (state, token) => {
     state.hoveringToken = token;
-    if(token===null){
-      state.hovering_codes = [];
-      return;
-    }
-    let ind = token.index;
 
+    // notify hovering code changes
     let hovering_codes = [];
-
-    if(token.num_codes > 0){   // better than filtering because we terminate search asap
-      let remaining_codes = token.num_codes;
-      for(let code of state.codes){
-        if(code.tokens.includes(ind)){
-          hovering_codes.push(code);
-          remaining_codes--;
-        }
-        if(remaining_codes <= 0){
-          break;
+    if(token !== null){
+      let ind = token.index;
+      if(token.num_codes > 0){   // better than filtering because we terminate search asap
+        let remaining_codes = token.num_codes;
+        for(let code of state.codes){
+          if(code === null){
+            // eslint-disable-next-line no-continue
+            continue;
+          }
+          if(code.tokens.includes(ind)){
+            hovering_codes.push(code);
+            remaining_codes--;
+          }
+          if(remaining_codes <= 0){
+            break;
+          }
         }
       }
     }
+
+    for(let code of state.hovering_codes){
+      for(let token_index of code.tokens){
+        Vue.set(state.token_is_hovering_code, token_index, false);  // old tokens no longer in hovering code
+      }
+    }
+    for(let code of hovering_codes){
+      for(let token_index of code.tokens){
+        Vue.set(state.token_is_hovering_code, token_index, true);  // new tokens are in hovering code
+      }
+    }
+
     state.hovering_codes = hovering_codes;
   }; export const 
 
@@ -204,7 +182,19 @@ export const updateCodeName = (state, note) => {
   }; export const 
 
   setSelectedToreRelationship = (state, relationship) => {
-    console.log("Setting selected relationship: "+relationship.index);
+    console.log("Setting selected relationship: "+(relationship===null?'null':relationship.index));
+
+    if(state.selected_tore_relationship !== null){
+      for(let token_index of state.selected_tore_relationship.target_tokens){
+        Vue.set(state.token_linked_together, token_index, false);
+      }
+    }
+
+    if(relationship !== null){
+      for(let token_index of relationship.target_tokens){
+        Vue.set(state.token_linked_together, token_index, true);
+      }
+    }
     state.selected_tore_relationship = relationship;
   };
 
@@ -221,7 +211,10 @@ export const updateSelectedPosTags = (state, value) => {
 };
 
 export const updateDocTokens = state => {
-  let docTokens = state.tokens?state.tokens.slice(state.selected_doc, state.selected_doc.end_index):[];
+  let docTokens = state.tokens?state.tokens.slice(state.selected_doc.begin_index, state.selected_doc.end_index):[];
+  for(let t of docTokens){
+    Object.freeze(t);
+  }
   Object.freeze(docTokens);
   state.doc_tokens = docTokens;
 };
@@ -264,4 +257,50 @@ export const resetAnnotator = state => {
   state.docs = [];
   state.codes = [];
   state.tore_relationships = [];
+
+  this.commit("initTokensEfficiencyStructs", true);
+};
+
+export const initTokensEfficiencyStructs = (state, tear_down) => {
+  console.warn("Initializing token efficiency structs");
+  let token_in_selected_code = [];
+  //let token_pos_selected = [];
+  //let token_is_algo_lemma = [];
+  let token_is_hovering_code = [];
+  let token_linked_together = [];
+  let token_is_hovering_token = [];
+
+  if(!tear_down){
+    // eslint-disable-next-line no-unused-vars
+    for(let t of state.tokens){
+      token_in_selected_code.push(false);
+      //token_pos_selected.push(false)
+      //token_is_algo_lemma.push(false)
+      token_is_hovering_code.push(false);
+      token_linked_together.push(false);
+      token_is_hovering_token.push(false);
+    }
+  }
+  state.token_in_selected_code = token_in_selected_code;
+  //state.token_pos_selected = token_pos_selected;
+  //state.token_is_algo_lemma = token_is_algo_lemma;
+  state.token_is_hovering_code = token_is_hovering_code;
+  state.token_linked_together = token_linked_together;
+  state.token_is_hovering_token = token_is_hovering_token;
+};
+
+export const setTokensInSelectedCode = (state, [lastSelectedCode, selectedCode]) => {
+
+  let lastWasNull = lastSelectedCode=== null;
+  let newIsNull = selectedCode === null;
+
+  let lastSelectedTokens = lastWasNull ? [] : lastSelectedCode.tokens;
+  let newSelectedTokens = newIsNull ? [] : selectedCode.tokens;
+
+  for(let lastToken of lastSelectedTokens){
+    Vue.set(state.token_in_selected_code, lastToken, false);
+  }
+  for(let newToken of newSelectedTokens){
+    Vue.set(state.token_in_selected_code, newToken, true);
+  }
 };

@@ -6,7 +6,12 @@ import sentiment from './modules/sentiment';
 import * as mutations from './mutations';
 import {NOUN_COLOR, VERB_COLOR, ADJECTIVE_COLOR} from "@/components/annotator/resources/color";
 // eslint-disable-next-line camelcase
-import {Code_add_token} from "../components/annotator/code";
+import {
+  // eslint-disable-next-line camelcase
+  Code_add_relationship,Code_remove_relationship,Code_add_token,
+  CodeToString,
+  TORERelationship
+} from "../components/annotator/code";
 
 Vue.use(Vuex);
 
@@ -70,7 +75,14 @@ export const store = new Vuex.Store({
     codes: [],
     tore_relationships: [],
     doc_tokens: [],  // for performance reasons, manually update this array
-
+    
+    token_in_selected_code: [],
+    //token_pos_selected: [],
+    //token_is_algo_lemma: [],
+    token_is_hovering_code: [],
+    token_linked_together: [],
+    token_is_hovering_token: [],
+    
     all_docs: {index: 0, name: "All Documents", begin_index: 0, end_index: null},
     selected_doc: null, // set it to first when loading
     selected_pos_tags: [],
@@ -104,6 +116,7 @@ export const store = new Vuex.Store({
         this.commit("updateLastAnnotationEditAt");
       }
 
+      this.commit("setTokensInSelectedCode", [state.selected_code, null]);
       state.selected_code = null;
 
       // eslint-disable-next-line camelcase
@@ -139,6 +152,7 @@ export const store = new Vuex.Store({
 
       Object.freeze(tokens);  // performance boost
       state.tokens = tokens;
+      this.commit("initTokensEfficiencyStructs", false);
       state.codes = codes;
       // eslint-disable-next-line camelcase
       state.tore_relationships = tore_relationships;
@@ -157,6 +171,50 @@ export const store = new Vuex.Store({
     setAvailableAnnotations(state, annotations){  // DECLARED HERE TO ACCESS this.commit
       state.available_annotations = annotations;
       this.commit("setIsLoadingAvailableAnnotations", false);
+    },
+    
+    // eslint-disable-next-line camelcase
+    delete_tore_relationship(state, tore_relationship){  // DECLARED HERE TO ACCESS this.commit
+
+      Code_remove_relationship(state.codes[tore_relationship.TOREEntity], tore_relationship);
+
+      Vue.set(state.tore_relationships, tore_relationship.index, null);
+
+      if (state.selected_tore_relationship && state.selected_tore_relationship.index === tore_relationship.index){
+        this.commit("setSelectedToreRelationship", null);
+      }
+    },
+    
+    new_tore_relationship(state, firstToken){
+      console.log("new_tore_relationship for selected code: "+CodeToString(state.selected_code));
+      let relationship = new TORERelationship(state.selected_code, [firstToken.index], state.tore_relationships.length);
+      Code_add_relationship(state.selected_code, relationship);
+      this.commit("setSelectedToreRelationship", relationship);
+      state.tore_relationships.push(relationship);
+    },
+
+    setIsLinking(state, isLinking){
+      state.isLinking = isLinking;
+      if (!isLinking){
+        this.commit("setSelectedToreRelationship", null);
+      }
+    },
+
+    setAnnotatorInputVisible(state, visible){
+      //console.log("setAnnotatorInputVisible: "+visible)
+      state.annotatorInputVisible = visible;
+      if (!visible){
+        state.isLinking = false;
+        state.selectedToken = null;
+        this.commit("setTokensInSelectedCode", [state.selected_code, null]);
+        state.selected_code = null;
+        this.commit("setSelectedToreRelationship", null);
+      }
+    },
+    set_selected_code(state, code){
+      console.log("Set selected code: "+CodeToString(code));
+      this.commit("setTokensInSelectedCode", [state.selected_code, code]);
+      state.selected_code = code;
     }
   },
   actions,

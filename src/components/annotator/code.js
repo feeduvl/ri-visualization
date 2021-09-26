@@ -55,6 +55,7 @@ function Code_add_token(state, commit, code, token){
         Object.freeze(newTokens)
         state.tokens = newTokens
         code.tokens.push(token.index);
+
         commit("updateDocTokens")
     } else {
         console.warn("Attempted to add token to Code which already has that token")

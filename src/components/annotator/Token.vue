@@ -1,42 +1,39 @@
-<template>
-    <span class="annotator-token-outer" :class="[applyPosStyle ? posClass:'token-outer-default',
+<template functional>
+    <span   :id="'token_'+props.index"
+            class="annotator-token-outer" :class="[props.show_pos && !props.isLinking ? props.posClass:'token-outer-default', 'whitespace',
     {
         // whitespace after this token
-        whitespace: index < $store.state.tokens.length - 1,
-        hoveringLinkable: hoveringLinkable,
-        linkedTogether: linkedTogether,
-        isAlgoLemma: algo_lemma
+        hoveringLinkable: props.isLinking && props.isHoveringToken,
+        linkedTogether: props.linkedTogether,
+        isAlgoLemma: props.algo_lemma
     }]"
-          :style="applyPosStyle ? posStyle: ''"
-          @mouseover="onMouseover"
-          @mouseleave="onMouseleave"
-          @click.exact="onClick"
-          @click.shift="onShiftClick"
-          @click.ctrl="onCtrlClick">
+
+          @click.exact="listeners['annotator-token-click'](props.index)"
+          @click.shift="listeners['annotator-token-click-shift'](props.index)"
+          @click.ctrl="listeners['annotator-token-click-ctrl'](props.index)">
             <span class="annotator-token-inner"
                   :class="['token-inner-default', {
-                    hasCodeHighlighted: hasCode,  // indicates that a token has been assigned to a code
-                    currentlyHoveringCode: (isLinking && inSelectedCode) || ($store.state.annotatorInputVisible && inSelectedCode) || isHoveringCode // indicates membership of 'currently hovering' code or the origin of ongoing linking
+                    hasCodeHighlighted: props.hasCode,  // indicates that a token has been assigned to a code
+                    currentlyHoveringCode: ((props.isLinking || props.annotatorInputVisible) && props.inSelectedCode) // currently SELECTED code || props.isHoveringCode // indicates membership of 'currently hovering' code or the origin of ongoing linking
             }]">
-                {{this.name}}
+                {{props.name}}
             </span>
     </span>
 </template>
 
 <script>
+    /*
+    @mouseover="listeners['annotator-token-mouseover'](props.index)"  FIXME comment this out to activate hover
+    @mouseleave="listeners['annotator-token-mouseleave'](props.index)"
+    */
 
     import {mapGetters} from "vuex";
     import {NOUN_COLOR, VERB_COLOR, ADJECTIVE_COLOR} from "@/components/annotator/resources/color";
 
     export default {
         name: "Token",
-        data(){
-            return {
-            }
-        },
-        mounted(){
-            //console.log("Token mounted: "+this.name)
-        },
+        functional:true,
+        /*
         computed: {
 
             ...mapGetters(["isLinking",
@@ -50,30 +47,40 @@
                 return this.isLinking && this.isHoveringToken
             },
 
-            isHoveringToken(){
-                return this.hoveringToken && this.index === this.hoveringToken.index;
-            },
 
+            isHoveringToken(){
+                console.log("isHoveringToken: "+this.name)
+                return this.hoveringToken && this.index === this.hoveringToken.index;
+            },*/
+
+            /*
             linkedTogether(){
-                return this.isLinking && this.selected_tore_relationship && this.selected_tore_relationship.target_tokens.includes(this.index)
+                let ret = this.isLinking && this.$store.state.token_linked_together[this.index];
+                console.log("linkedTogether computed: "+ret)
+                return ret
             },
 
             applyPosStyle(){
                 console.log("applyPosStyle")
-                return this.show_pos && !this.isLinking && (!this.isHoveringCode || !this.currentlyHoveringCode)
-            },
+                return this.show_pos && !this.isLinking
+            },*/
 
+            /*
             hasCode(){
+                console.log("hasCode")
                 return this.$store.state.tokens[this.index].num_codes > 0;  // need to do it like this because this is the only attribute of token that can change
-            },
+            },*/
 
+            /*
             inSelectedCode(){
                 console.log("inSelectedCode: "+this.name)
-                return this.hasCode && this.selected_code.tokens.includes(this.index)
-            },
+                //return this.hasCode && this.selected_code.tokens.includes(this.index)
+                return this.$store.state.token_in_selected_code[this.index]
+            },*/
 
+            /*
             isHoveringCode(){
-                //console.log("isHoveringCode: "+this.name)
+                console.log("isHoveringCode")
                 if(!this.hasCode || this.hovering_codes.length === 0){
                     return false
                 } else {
@@ -84,21 +91,8 @@
                     }
                 }
                 return false;
-            },
-
-            posStyle(){
-                let border_color = "border-color: ";
-                switch (this.pos) {
-                    case "v":
-                        return border_color+VERB_COLOR;
-                    case "n":
-                        return border_color+NOUN_COLOR;
-                    case "a":
-                        return border_color+ADJECTIVE_COLOR;
-                }
-                return "";
-            },
-
+            },*/
+/*
             posClass(){
                 switch (this.pos) {
                     case "v":
@@ -110,13 +104,15 @@
                 }
                 return "";
             },
+
             show_pos() {
+                console.log("show_pos")
                 return this.pos && this.$store.state.selected_pos_tags.includes(this.pos)
             },
 
             algo_lemma(){
                 console.log("algo_lemma")
-                return this.$store.state.selected_algo_result && this.$store.getters.lemmasFromSelectedResult.includes(this.lemma)
+                return this.$store.state.selected_algo_result !== null && this.$store.getters.lemmasFromSelectedResult.includes(this.lemma)
             }
         },
         methods: {
@@ -142,6 +138,21 @@
             }
 
         },
+        watch: {
+            inSelectedCode(){
+                console.log("inSelectedCode")
+            },
+            isHoveringCode(){
+                console.log("isHoveringCode")
+            },
+
+            linkedTogether(){
+                console.log("linkedTogether")
+            },
+            isHoveringToken(){
+                console.log("isHoveringToken")
+            }
+        }*/
         props: {
             name: {
                 type: String,
@@ -152,6 +163,46 @@
             tore: String,
             index: {
                 type: Number,
+                required: true
+            },
+            inSelectedCode: {
+                type: Boolean,
+                required: true
+            },
+            hasCode: {
+                type: Boolean,
+                required: true
+            },
+            isHoveringCode: {
+                type: Boolean,
+                required: true
+            },
+            linkedTogether: {
+                type: Boolean,
+                required: true
+            },
+            isHoveringToken: {
+                type: Boolean,
+                required: true
+            },
+            isLinking: {
+                type: Boolean,
+                required: true
+            },
+            algo_lemma: {
+                type: Boolean,
+                required: true
+            },
+            show_pos: {
+                type: Boolean,
+                required: true
+            },
+            posClass: {
+                type: String,
+                required: true
+            },
+            annotatorInputVisible: {
+                type: Boolean,
                 required: true
             }
         }
@@ -173,6 +224,18 @@
 
     .noun-token, .verb-token, .adjective-token{
         border: 2px solid;
+    }
+
+    .noun-token {
+        border-color: green;
+    }
+
+    .verb-token {
+        border-color: #30D5C8;
+    }
+
+    .adjective-token {
+        border-color: blue;
     }
 
     .whitespace {
