@@ -56,6 +56,9 @@
             <v-card class="annotator-toolbar"
                     >
 
+
+                <template
+                v-if="!viewingCodes">
                 <v-autocomplete
                         class="annotator-string-selection annotator-toolbar__document-select"
                         :items="$store.state.docs"
@@ -110,22 +113,33 @@
                         </v-chip>
                     </template>
                 </v-autocomplete>
+                </template>
+                <template
+                v-else>
+                    <span class="view-codes-header"
+                        >
+                        Code View
+                    </span>
+                </template>
 
-                <v-tooltip bottom>
+                <v-tooltip bottom
+                    v-if="!viewingCodes">
                     <template #activator="{on}">
                         <v-icon v-on="on"
                                 @click="saveAndClose"
-                        >
+                                medium>
                         exit_to_app
-                    </v-icon>
+                        </v-icon>
                     </template>
                     <span>Save and exit</span>
                 </v-tooltip>
 
-                <v-tooltip bottom>
+                <v-tooltip bottom
+                           v-if="!viewingCodes">
                     <template #activator="{on}">
                         <v-icon v-on="on"
                                 @click="doSaveAnnotation(false)"
+                                medium
                         >
                             save
                         </v-icon>
@@ -133,9 +147,31 @@
                     <span>Save</span>
                 </v-tooltip>
 
+                <v-tooltip bottom>
+                    <template #activator="{on}">
+                        <v-icon v-if="!viewingCodes"
+                                v-on="on"
+                                @click="viewingCodes = !viewingCodes"
+                                medium
+                        >
+                            visibility
+                        </v-icon>
+                        <v-icon class="annotate-icon"
+                                v-else
+                                v-on="on"
+                                @click="viewingCodes = !viewingCodes"
+                                medium
+                        >
+                            mode
+                        </v-icon>
+                    </template>
+                    <span v-if="!viewingCodes">View Codes</span>
+                    <span v-else>Annotate</span>
+                </v-tooltip>
+
             </v-card>
             <v-card class="annotator-token-area"
-                    v-if="!$store.state.isLoadingAnnotation"
+                    v-if="!$store.state.isLoadingAnnotation && !viewingCodes"
                     ref="annotator">
                 <Token @annotator-token-click="tokenClicked"
                        @annotator-token-click-shift="tokenShiftClicked"
@@ -188,6 +224,10 @@
                     </v-list>
                 </v-card>
             </v-card>
+            <CodeView
+                v-else-if="viewingCodes">
+                Code View :-)
+            </CodeView>
         </div>
     </div>
 </template>
@@ -195,6 +235,7 @@
 <script>
     import Token from "@/components/annotator/Token";
     import AnnotatorInput from "@/components/annotator/AnnotatorInput";
+    import CodeView from "@/components/annotator/CodeView";
     import {Code} from "@/components/annotator/code";
     import {mapGetters, mapState} from "vuex";
 
@@ -209,6 +250,8 @@
                 requestAnnotatorInput: false,
                 disambiguatedTokenCode: null,
 
+                viewingCodes: false,
+
                 show_saved_snackbar: false,
                 show_auto_saved_snackbar: false,
 
@@ -221,7 +264,7 @@
                 hoverEnterTime: null,
             }
         },
-        components: {AnnotatorInput, Token},
+        components: {AnnotatorInput, Token, CodeView},
         computed: {
 
             annotatorSelectedAnnotation: {
@@ -520,6 +563,10 @@
             saveAndClose(){
                 this.doSaveAnnotation(false)
                 this.$store.commit("resetAnnotator")
+            },
+
+            viewCodes(){
+
             }
         }
     }
@@ -539,11 +586,26 @@
 }
 
 .annotator-toolbar, .annotator-settings {
+    justify-content: flex-end;
     position: sticky;
     top: 0px;
     display: flex;
     align-items: center;
     width: 100%;
+    min-height: 78px;
+}
+
+.view-codes-header{
+
+    letter-spacing: normal;
+    font-weight: 300;
+    font-size: 20px;
+    font-family: Roboto, sans-serif;
+    flex-grow: 1;
+}
+
+.annotate-icon {
+    margin-right: 10px;
 }
 
 .annotator-string-selection {

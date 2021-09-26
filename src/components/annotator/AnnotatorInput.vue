@@ -116,9 +116,11 @@
                             v-model="name"
                             item-text="name"
                             item-value="name"
-                            autofocus
                             :rules="[requiredAnnotationsPresent || 'Either a name or a TORE code is required']"
                             ref="nameInput"
+                            v-if="wrapInputVisible"
+                            autofocus
+                            id="annotator-input__name"
                     ></v-combobox>
 
                     <v-autocomplete

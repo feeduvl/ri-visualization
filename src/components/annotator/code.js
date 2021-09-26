@@ -25,14 +25,12 @@ function Code(index){
 }
 
 function Code_user_display_prompt(code){
-    let hasName = code.name !== "";
-    let hasTore = code.tore !== "";
-    if(hasName && !hasTore){
-        return "Name: "+code.name;
-    } else if (!hasName && hasTore){
-        return "TORE: "+code.tore
-    } else if(hasName && hasTore){
-        return "Name: "+code.name + " TORE: "+code.tore;
+    if(code.name && !code.tore){
+        return "Name '"+code.name+"'";
+    } else if (!code.name && code.tore){
+        return "TORE: '"+code.tore+"'"
+    } else if(code.name && code.tore){
+        return "Name: '"+code.name + "' TORE: '"+code.tore+"'";
     } else {
         return `[Code without name or TORE]`
     }
