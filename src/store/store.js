@@ -215,6 +215,28 @@ export const store = new Vuex.Store({
       console.log("Set selected code: "+CodeToString(code));
       this.commit("setTokensInSelectedCode", [state.selected_code, code]);
       state.selected_code = code;
+    },
+
+    resetAnnotator(state){
+      state.isLoadingAvailableAnnotations = false;
+      state.isLoadingAnnotation = false;
+      state.selected_algo_result = null;
+      state.lastAnnotationEditAt = null;
+      state.lastAnnotationPostAt = null;
+
+      state.annotator_dataset = null;
+      state.annotator_uploaded_at = null;
+      state.selected_annotation = null;
+      state.selected_doc = null;
+      state.selected_pos_tags = [];
+      state.selected_algo_result = null;
+
+      state.tokens = [];
+      state.docs = [];
+      state.codes = [];
+      state.tore_relationships = [];
+
+      this.commit("initTokensEfficiencyStructs", true);
     }
   },
   actions,

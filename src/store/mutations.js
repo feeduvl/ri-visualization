@@ -239,28 +239,6 @@ export const updateLastAnnotationEditAt = state => {
   state.lastAnnotationEditAt = Date.now();
 };
 
-export const resetAnnotator = state => {
-  state.isLoadingAvailableAnnotations = false;
-  state.isLoadingAnnotation = false;
-  state.selected_algo_result = null;
-  state.lastAnnotationEditAt = null;
-  state.lastAnnotationPostAt = null;
-
-  state.annotator_dataset = null;
-  state.annotator_uploaded_at = null;
-  state.selected_annotation = null;
-  state.selected_doc = null;
-  state.selected_pos_tags = [];
-  state.selected_algo_result = null;
-
-  state.tokens = [];
-  state.docs = [];
-  state.codes = [];
-  state.tore_relationships = [];
-
-  this.commit("initTokensEfficiencyStructs", true);
-};
-
 export const initTokensEfficiencyStructs = (state, tear_down) => {
   console.warn("Initializing token efficiency structs");
   let token_in_selected_code = [];
