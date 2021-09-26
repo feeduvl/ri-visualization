@@ -126,6 +126,7 @@
                     v-if="!viewingCodes">
                     <template #activator="{on}">
                         <v-icon v-on="on"
+                                :disabled="$store.state.annotatorInputVisible"
                                 @click="saveAndClose"
                                 medium>
                         exit_to_app
@@ -138,6 +139,7 @@
                            v-if="!viewingCodes">
                     <template #activator="{on}">
                         <v-icon v-on="on"
+                                :disabled="$store.state.annotatorInputVisible"
                                 @click="doSaveAnnotation(false)"
                                 medium
                         >
@@ -151,6 +153,7 @@
                     <template #activator="{on}">
                         <v-icon v-if="!viewingCodes"
                                 v-on="on"
+                                :disabled="$store.state.annotatorInputVisible"
                                 @click="viewingCodes = !viewingCodes"
                                 medium
                         >
