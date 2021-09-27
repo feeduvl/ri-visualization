@@ -17,12 +17,12 @@ export const ANNOTATION_INITIALIIZE_ENDPOINT = `${BASE_URL}/hitec/orchestration/
 export const ANNOTATION_POST_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/annotation/`
 ;
 export const ANNOTATION_GET_ENDPOINT = function(name){
-  return `${BASE_URL}/hitec/repository/concepts/annotation/name/${name}`
+  return `${BASE_URL}/hitec/repository/concepts/annotation/name/${encodeURIComponent(name)}`
 };
 export const ANNOTATION_GET_ALL_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/annotation/all`
 
 export const ANNOTATION_DELETE_ENDPOINT = function (name) {
-  return `${BASE_URL}/hitec/repository/concepts/annotation/name/${name}`
+  return `${BASE_URL}/hitec/repository/concepts/annotation/name/${encodeURIComponent(name)}`
 }
 
 export const ANNOTATOR_STATUS_ENDPOINT = `${BASE_URL}/hitec/annotation/status`
