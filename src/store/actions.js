@@ -32,19 +32,21 @@ export const actionGetNewAnnotation = ({
 }, {name, dataset}) => {
   return new Promise(() => {
     console.warn("Initializing annotation");
-    let data = {
+    commit("setIsLoadingAnnotation", true);
+    axios.post(ANNOTATION_INITIALIIZE_ENDPOINT, {
       name,
       dataset
-    };
-    console.log(data);
-    axios.post(ANNOTATION_INITIALIIZE_ENDPOINT, data)
+    })
       .then(response => {
         console.log("actionGetExampleAnnotation Got good response.");
         const {data} = response;
         commit("setAnnotationPayload", data);
         commit("updateDocTokens");
       })
-      .catch(e => console.error("Error getting annotation: "+e));
+      .catch(e => console.error("Error getting annotation: "+e))
+      .finally(() => {
+        commit("setIsLoadingAnnotation", false);
+      });
   });
 };
 

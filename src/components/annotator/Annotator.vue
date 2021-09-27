@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-snackbar
-                class="saved-snackbar"
+                class="saved-annotation-snackbar"
                 v-model="show_saved_snackbar"
                 :timeout="1500"
         >
@@ -9,99 +9,67 @@
         </v-snackbar>
 
         <v-snackbar
-                class="saved-snackbar"
+                class="saved-annotation-snackbar"
                 v-model="show_auto_saved_snackbar"
                 :timeout="1500"
         >
             {{this.autoSaveSnackbarText}}
         </v-snackbar>
-        <div class="annotator-settings"
-        v-if="!$store.state.selected_annotation">
-            <v-autocomplete
-                    class="annotator-string-selection annotator-settings__annotation-select"
-                    :items="$store.state.available_annotations"
-                    v-model="annotatorSelectedAnnotation"
-                    @change="$store.dispatch('actionGetSelectedAnnotation')"
-                    item-text="name"
-                    item-value="name"
-                    label="Select an Annotation"
-                    :disabled="$store.state.isLoadingAvailableAnnotations"
-                    :loading="$store.state.isLoadingAvailableAnnotations">
-            </v-autocomplete>
 
-            <v-autocomplete
-                    class="annotator-string-selection annotator-settings__dataset-select"
-                    :items="$store.state.datasets"
-                    v-model="createNewAnnotationDataset"
-                    label="Create a new Annotation from Dataset">
-            </v-autocomplete>
-            <v-text-field
-                    class="annotator-text-input annotator-settings__name-input"
-                    :disabled="!createNewAnnotationDataset"
-                    :rules="[!$store.state.datasets.includes(addingAnnotationName) || 'Name is already in use.']"
-                    label="Enter a unique annotation name"
-                    v-model="addingAnnotationName">
-            </v-text-field>
-            <v-icon
-                    :disabled="!addingAnnotationName || !createNewAnnotationDataset || $store.state.datasets.includes(addingAnnotationName)"
-                    color="blue"
-                    @click="$store.dispatch('actionGetNewAnnotation', {name: addingAnnotationName, dataset: createNewAnnotationDataset})"
-            >
-                add
-            </v-icon>
+        <AnnotatorSettings
+                v-if="!$store.state.selected_annotation">
+        </AnnotatorSettings>
 
-        </div>
         <div class="annotator"
-        v-else>
+             v-else>
             <v-card class="annotator-toolbar"
-                    >
-
+            >
 
                 <template
-                v-if="!viewingCodes">
-                <v-autocomplete
-                        class="annotator-string-selection annotator-toolbar__document-select"
-                        :items="$store.state.docs"
-                        v-model="annotatorSelectedDoc"
-                        @change="$store.commit('updateDocTokens')"
-                        item-text="name"
-                        return-object
-                        label="Select a Document"
-                        :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
-                        :loading="$store.state.isLoadingAnnotation">
-                </v-autocomplete>
+                        v-if="!viewingCodes">
+                    <v-autocomplete
+                            class="annotator-string-selection annotator-toolbar__document-select"
+                            :items="$store.state.docs"
+                            v-model="annotatorSelectedDoc"
+                            @change="$store.commit('updateDocTokens')"
+                            item-text="name"
+                            return-object
+                            label="Select a Document"
+                            :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
+                            :loading="$store.state.isLoadingAnnotation">
+                    </v-autocomplete>
 
-                <v-autocomplete
-                        class="annotator-string-selection annotator-toolbar__algo-results-select"
-                        :items="$store.getters.annotationAlgoResults"
-                        item-text="name"
-                        return-object
-                        v-model="annotatorAlgoResult"
-                        label="Highlight Algorithm Results"
-                        :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
-                        :loading="$store.state.isLoadingAnnotation"
-                        clearable>
-                </v-autocomplete>
+                    <v-autocomplete
+                            class="annotator-string-selection annotator-toolbar__algo-results-select"
+                            :items="$store.getters.annotationAlgoResults"
+                            item-text="name"
+                            return-object
+                            v-model="annotatorAlgoResult"
+                            label="Highlight Algorithm Results"
+                            :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
+                            :loading="$store.state.isLoadingAnnotation"
+                            clearable>
+                    </v-autocomplete>
 
-                <v-autocomplete
-                        chips
-                        multiple
-                        clearable
-                        label="Part of Speech Highlights"
-                        class="annotator-toolbar__pos-select"
-                        :items="pos_tags"
-                        item-text="name"
-                        item-value="tag"
-                        :loading="$store.state.isLoadingAnnotation"
-                        :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
-                        v-model="annotatorPosTags"
-                >
-                    <template v-slot:selection="data">
-                        <v-chip
-                                v-bind="{...data.attrs, color: data.item.color}"
-                                :input-value="data.selected"
-                                close
-                                @input="(function(item) {
+                    <v-autocomplete
+                            chips
+                            multiple
+                            clearable
+                            label="Part of Speech Highlights"
+                            class="annotator-toolbar__pos-select"
+                            :items="pos_tags"
+                            item-text="name"
+                            item-value="tag"
+                            :loading="$store.state.isLoadingAnnotation"
+                            :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
+                            v-model="annotatorPosTags"
+                    >
+                        <template v-slot:selection="data">
+                            <v-chip
+                                    v-bind="{...data.attrs, color: data.item.color}"
+                                    :input-value="data.selected"
+                                    close
+                                    @input="(function(item) {
                                     const index = $store.state.selected_pos_tags.indexOf(item.tag)
                                     const tags = $store.state.selected_pos_tags
                                     if (index >= 0) {
@@ -109,27 +77,27 @@
                                     }
                                     $store.commit('updateSelectedPosTags', tags)
                                 })(data.item)"
-                        >{{ data.item.name }}
-                        </v-chip>
-                    </template>
-                </v-autocomplete>
+                            >{{ data.item.name }}
+                            </v-chip>
+                        </template>
+                    </v-autocomplete>
                 </template>
                 <template
-                v-else>
+                        v-else>
                     <span class="view-codes-header"
-                        >
+                    >
                         Code View
                     </span>
                 </template>
 
                 <v-tooltip bottom
-                    v-if="!viewingCodes">
+                           v-if="!viewingCodes">
                     <template #activator="{on}">
                         <v-icon v-on="on"
                                 :disabled="$store.state.annotatorInputVisible"
                                 @click="saveAndClose"
                                 medium>
-                        exit_to_app
+                            exit_to_app
                         </v-icon>
                     </template>
                     <span>Save and exit</span>
@@ -228,8 +196,7 @@
                 </v-card>
             </v-card>
             <CodeView
-                v-else-if="viewingCodes">
-                Code View :-)
+                    v-else-if="viewingCodes">
             </CodeView>
         </div>
     </div>
@@ -241,15 +208,16 @@
     import CodeView from "@/components/annotator/CodeView";
     import {Code} from "@/components/annotator/code";
     import {mapGetters, mapState} from "vuex";
+    import AnnotatorSettings from "@/components/annotator/AnnotatorSettings";
 
     export default {
         name: "Annotator",
         data: () => {
             return {
+
                 saveSnackbarText: "Annotation saved.",
                 autoSaveSnackbarText: "Auto-saved.",
-                addingAnnotationName: "",
-                createNewAnnotationDataset: null,
+
                 requestAnnotatorInput: false,
                 disambiguatedTokenCode: null,
 
@@ -267,17 +235,8 @@
                 hoverEnterTime: null,
             }
         },
-        components: {AnnotatorInput, Token, CodeView},
+        components: {AnnotatorSettings, AnnotatorInput, Token, CodeView},
         computed: {
-
-            annotatorSelectedAnnotation: {
-                get(){
-                    return this.$store.state.selected_annotation
-                },
-                set(value){
-                    this.$store.commit("updateSelectedAnnotation", value)
-                }
-            },
 
             annotatorSelectedDoc: {
                 get(){
@@ -566,6 +525,7 @@
             saveAndClose(){
                 this.doSaveAnnotation(false)
                 this.$store.commit("resetAnnotator")
+                this.$store.dispatch("actionGetAllAnnotations")
             },
 
             viewCodes(){
@@ -588,7 +548,7 @@
     position: relative;
 }
 
-.annotator-toolbar, .annotator-settings {
+.annotator-toolbar {
     justify-content: flex-end;
     position: sticky;
     top: 0px;
@@ -635,8 +595,5 @@
     justify-self: flex-end;
 }
 
-.annotator-settings__name-input {
-    margin-top: 14px;
-}
 
 </style>

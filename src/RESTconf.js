@@ -25,6 +25,8 @@ export const ANNOTATION_DELETE_ENDPOINT = function (name) {
   return `${BASE_URL}/hitec/repository/concepts/annotation/name/${name}`
 }
 
+export const ANNOTATOR_STATUS_ENDPOINT = `${BASE_URL}/hitec/annotation/status`
+
 // concept detection
 export const GET_DATASET_ENDPOINT = function (dataset) {
   return `${BASE_URL}/hitec/repository/concepts/dataset/name/${dataset}`;
