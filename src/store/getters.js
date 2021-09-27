@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {METHODS} from "@/methods";
 
 export const getTopBarTitle = state => {
@@ -91,4 +92,97 @@ export const getTopBarLink = state => {
 };
 export const getFooterText = state => {
   return state.footer;
+};
+
+// ANNOTATION STUFF
+
+export const docs = state => {
+  return state.docs;
+}; export const 
+  selected_doc = state => {
+    return state.selected_doc;
+  }; export const 
+
+  selectedToken = state => {
+    return state.selectedToken;
+  }; export const 
+  pos_tags = state => {
+    return state.pos_tags;
+  }; export const 
+
+  codeNames = state => {
+    console.log("codeNames");
+    let ret = [];
+    for (let i = 0; i < state.codes.length; i++){
+      if (state.codes[i] && state.codes[i].name){
+        ret.push(state.codes[i].name);
+      }
+    }
+    return ret;
+  }; export const 
+
+  hoveringToken = state => {
+    return state.hoveringToken;
+  }; export const 
+
+  selected_tore_relationship = state => {
+    return state.selected_tore_relationship;
+  }; 
+  
+export const hovering_codes = state => {
+  return state.hovering_codes;
+}; export const 
+
+  selected_code = state => {
+    return state.selected_code;
+  }; export const 
+  isLinking = state => {
+    return state.isLinking;
+  }; 
+
+export const token = state => index => state.tokens[index];
+
+export const getCodesForToken = state => token => (token===null?[]:state.codes.filter(c => c && c.tokens.includes(token.index)));
+
+export const requiredAnnotationsPresent = state => {
+  return (state.selected_code.name !== null && state.selected_code.name !== "") || (state.selected_code.tore !== null && state.selected_code.tore !== "");
+};
+
+export const tokenListToString = state => listOfTokenIndices => {
+  let ret = "";
+  for (let index of [...listOfTokenIndices].sort()){
+    ret += state.tokens[index].name + " ";
+  }
+  return ret;
+};
+
+export const tokensInSelectedDoc = state => {
+  return state.tokens.filter(t => t.index >= state.docs[state.selected_doc].begin_index && t.index < state.docs[state.selected_doc].end_index);
+};
+
+export const tokens = state => {
+  console.log("tokens changed");
+  return state.tokens;
+};
+
+export const lemmasFromSelectedResult = state => {
+  console.log("lemmasFromSelectedResult recomputing");
+  let ret = [];
+  let frequency_methods = ["frequency-fcic", "frequency-rbai"];
+  if (frequency_methods.includes(state.selected_algo_result.method)){
+    ret = state.selected_algo_result.topics.concepts;
+  } else {
+    console.warn("lemmasFromSelectedResult not implemented");
+  }
+  return ret.map(l => (l?l.toLowerCase():l));
+};
+
+export const annotationAlgoResults = state => {
+  let valid_methods = ["frequency-fcic", "frequency-rbai"];
+  Object.freeze(valid_methods);
+  return state.results.filter(r => valid_methods.includes(r.method));
+};
+
+export const showingInput = state => {
+  return state.selected_code && state.annotatorInputVisible;
 };
