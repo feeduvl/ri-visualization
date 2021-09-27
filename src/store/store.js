@@ -169,7 +169,7 @@ export const store = new Vuex.Store({
     },
 
     setAvailableAnnotations(state, annotations){  // DECLARED HERE TO ACCESS this.commit
-      state.available_annotations = annotations;
+      state.available_annotations = annotations || [];
       this.commit("setIsLoadingAvailableAnnotations", false);
     },
     

@@ -75,8 +75,9 @@ export const actionGetAllAnnotations = ({commit}) => {
     commit("setIsLoadingAvailableAnnotations", true);
     axios.get(ANNOTATION_GET_ALL_ENDPOINT)
       .then(response => {
-        console.log("Got all annotations");
+        console.log("Got all annotations: ");
         const {data} = response;
+        console.log(data);
         commit("setAvailableAnnotations", data);
       })
       .catch(e => console.error("Error getting all annotations: "+e))
