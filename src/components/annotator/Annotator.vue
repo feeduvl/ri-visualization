@@ -160,7 +160,7 @@
                        linkedTogether: isLinking && $store.state.token_linked_together[t.index],
                        isHoveringToken: $store.state.token_is_hovering_token[t.index],
                        isLinking: isLinking,
-                       algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes(t.lemma),
+                       algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes(t.lemma?t.lemma.toLowerCase():''),
                        show_pos: t.pos!==null && $store.state.selected_pos_tags.includes(t.pos),
                        posClass: getPosClass(t.pos),
                        annotatorInputVisible: $store.state.annotatorInputVisible

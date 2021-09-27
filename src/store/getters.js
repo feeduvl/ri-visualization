@@ -180,7 +180,16 @@ export const lemmasFromSelectedResult = state => {
 export const annotationAlgoResults = state => {
   let valid_methods = ["frequency-fcic", "frequency-rbai"];
   Object.freeze(valid_methods);
-  return state.results.filter(r => valid_methods.includes(r.method));
+  let annotationObj = state.available_annotations.find(a => a.name = state.selected_annotation);
+  if (!annotationObj) {
+    console.error("Error getting algo results for this annotation (couldn't find object)");
+    console.log("Annotations: ");
+    console.log(state.available_annotations);
+    console.log("Current annotation: ");
+    console.log(state.selected_annotation);
+    return [];
+  }
+  return state.results.filter(r => r.dataset_name === annotationObj.name && valid_methods.includes(r.method));
 };
 
 export const showingInput = state => {
