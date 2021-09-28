@@ -135,7 +135,7 @@
             },
 
             numOccurencesRename(){
-                return this.$store.state.codes.filter(c => c.name === this.renameCode.name).length;
+                return this.$store.state.codes.filter(c => c && c.name === this.renameCode.name).length;
             }
 
         },
