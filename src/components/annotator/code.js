@@ -46,15 +46,10 @@ function Code_add_relationship(code, relationship){
 
 function Code_add_token(state, commit, code, token){
     if(!code.tokens.includes(token.index)){
-        let newToken = {...token}
-        let newTokens = [...state.tokens]
-        newToken.num_codes++;
-        newTokens[token.index] = newToken
-        Object.freeze(newTokens)
-        state.tokens = newTokens
+        //state.tokens[token.index].num_codes++;  FIXME use helper data structure
+        state.token_num_codes[token.index]++;
         code.tokens.push(token.index);
 
-        commit("updateDocTokens")
     } else {
         console.warn("Attempted to add token to Code which already has that token")
     }

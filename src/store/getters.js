@@ -142,7 +142,12 @@ export const hovering_codes = state => {
 
 export const token = state => index => state.tokens[index];
 
-export const getCodesForToken = state => token => (token===null?[]:state.codes.filter(c => c && c.tokens.includes(token.index)));
+export const getCodesForToken = state => token => {
+
+  console.log("getCodesForToken: "+(token?token.name:"null"));
+  return token===null?[]:state.codes.filter(c => c && c.tokens.includes(token.index));
+
+};
 
 export const requiredAnnotationsPresent = state => {
   return (state.selected_code.name !== null && state.selected_code.name !== "") || (state.selected_code.tore !== null && state.selected_code.tore !== "");
@@ -178,8 +183,7 @@ export const lemmasFromSelectedResult = state => {
 };
 
 export const annotationAlgoResults = state => {
-  let valid_methods = ["frequency-fcic", "frequency-rbai"];
-  Object.freeze(valid_methods);
+  const valid_methods = ["frequency-fcic", "frequency-rbai"];
   let annotationObj = state.available_annotations.find(a => a.name === state.selected_annotation);
   if (!annotationObj) {
     console.error("Error getting algo results for this annotation (couldn't find object)");

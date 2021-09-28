@@ -136,8 +136,8 @@ export const
     let hovering_codes = [];
     if(token !== null){
       let ind = token.index;
-      if(token.num_codes > 0){   // better than filtering because we terminate search asap
-        let remaining_codes = token.num_codes;
+      if(state.token_num_codes > 0){   // better than filtering because we terminate search asap
+        let remaining_codes = state.token_num_codes;
         for(let code of state.codes){
           if(code === null){
             // eslint-disable-next-line no-continue
@@ -210,13 +210,13 @@ export const updateSelectedPosTags = (state, value) => {
   state.selected_pos_tags = value;
 };
 
-export const updateDocTokens = state => {
+export const updateDocTokens = state => {/*
   let docTokens = state.tokens?state.tokens.slice(state.selected_doc.begin_index, state.selected_doc.end_index):[];
   for(let t of docTokens){
     Object.freeze(t);
   }
   Object.freeze(docTokens);
-  state.doc_tokens = docTokens;
+  state.doc_tokens = docTokens;*/
 };
 
 export const setIsLoadingAnnotation = (state, isLoading) => {
@@ -247,6 +247,7 @@ export const initTokensEfficiencyStructs = (state, tear_down) => {
   let token_is_hovering_code = [];
   let token_linked_together = [];
   let token_is_hovering_token = [];
+  let token_num_codes = [];
 
   if(!tear_down){
     // eslint-disable-next-line no-unused-vars
@@ -257,6 +258,7 @@ export const initTokensEfficiencyStructs = (state, tear_down) => {
       token_is_hovering_code.push(false);
       token_linked_together.push(false);
       token_is_hovering_token.push(false);
+      token_num_codes.push(t.num_codes);
     }
   }
   state.token_in_selected_code = token_in_selected_code;
@@ -265,6 +267,8 @@ export const initTokensEfficiencyStructs = (state, tear_down) => {
   state.token_is_hovering_code = token_is_hovering_code;
   state.token_linked_together = token_linked_together;
   state.token_is_hovering_token = token_is_hovering_token;
+  state.token_num_codes = token_num_codes;
+
 };
 
 export const setTokensInSelectedCode = (state, [lastSelectedCode, selectedCode]) => {

@@ -94,7 +94,7 @@
                            v-if="!viewingCodes">
                     <template #activator="{on}">
                         <v-icon v-on="on"
-                                :disabled="$store.state.annotatorInputVisible"
+                                :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
                                 @click="saveAndClose"
                                 medium>
                             exit_to_app
@@ -107,7 +107,7 @@
                            v-if="!viewingCodes">
                     <template #activator="{on}">
                         <v-icon v-on="on"
-                                :disabled="$store.state.annotatorInputVisible"
+                                :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
                                 @click="doSaveAnnotation(false)"
                                 medium
                         >
@@ -121,7 +121,7 @@
                     <template #activator="{on}">
                         <v-icon v-if="!viewingCodes"
                                 v-on="on"
-                                :disabled="$store.state.annotatorInputVisible"
+                                :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
                                 @click="viewingCodes = !viewingCodes"
                                 medium
                         >
@@ -147,22 +147,20 @@
                 <Token @annotator-token-click="tokenClicked"
                        @annotator-token-click-shift="tokenShiftClicked"
                        @annotator-token-click-ctrl="tokenCtrlClicked"
-                       @annotator-token-mouseover="tokenHover"
-                       @annotator-token-mouseleave="tokenUnhover"
                        ref="token"
-                       v-for="(t, index) in $store.state.doc_tokens"
-                       :key="index"
+                       v-for="token_number in $store.state.selected_doc.end_index - $store.state.selected_doc.begin_index"
+                       :key="$store.state.selected_doc.begin_index + token_number - 1"
                        v-bind="{
-                       ...t,
-                       inSelectedCode: $store.state.token_in_selected_code[t.index],
-                       hasCode: $store.state.tokens[t.index].num_codes > 0,
-                       isHoveringCode: $store.state.token_is_hovering_code[t.index],
-                       linkedTogether: isLinking && $store.state.token_linked_together[t.index],
-                       isHoveringToken: $store.state.token_is_hovering_token[t.index],
+                       ...$store.state.tokens[$store.state.selected_doc.begin_index + token_number - 1],
+                       inSelectedCode: $store.state.token_in_selected_code[$store.state.selected_doc.begin_index + token_number - 1],
+                       hasCode: $store.state.token_num_codes[$store.state.selected_doc.begin_index + token_number - 1] > 0,
+                       isHoveringCode: $store.state.token_is_hovering_code[$store.state.selected_doc.begin_index + token_number - 1],
+                       linkedTogether: isLinking && $store.state.token_linked_together[$store.state.selected_doc.begin_index + token_number - 1],
+                       isHoveringToken: $store.state.token_is_hovering_token[$store.state.selected_doc.begin_index + token_number - 1],
                        isLinking: isLinking,
-                       algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes(t.lemma?t.lemma.toLowerCase():''),
-                       show_pos: t.pos!==null && $store.state.selected_pos_tags.includes(t.pos),
-                       posClass: getPosClass(t.pos),
+                       algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes($store.state.tokens[$store.state.selected_doc.begin_index + token_number - 1].lemma?$store.state.tokens[$store.state.selected_doc.begin_index + token_number - 1].lemma.toLowerCase():''),
+                       show_pos: $store.state.tokens[$store.state.selected_doc.begin_index + token_number - 1].pos!==null && $store.state.selected_pos_tags.includes($store.state.tokens[$store.state.selected_doc.begin_index + token_number - 1].pos),
+                       posClass: getPosClass($store.state.tokens[$store.state.selected_doc.begin_index + token_number - 1].pos),
                        annotatorInputVisible: $store.state.annotatorInputVisible
                    }">
                 </Token>
@@ -238,6 +236,14 @@
         components: {AnnotatorSettings, AnnotatorInput, Token, CodeView},
         computed: {
 
+            /*
+            getDebugTokenInfo(){
+                console.log("Recomputing token 0")
+                if(!this.$store.state.tokens[0]){
+                    return "undefined"
+                }
+                return "Name: "+this.$store.state.tokens[0].name + "Num codes: "+this.$store.state.token_num_codes[0]
+            },*/
             annotatorSelectedDoc: {
                 get(){
                     return this.$store.state.selected_doc;
@@ -410,11 +416,11 @@
             },
 
             tokenClicked(index){
-                let token = this.token(index)
                 if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
                     console.log("Missing required input, ignoring focus out")
                     return;
                 }
+                let token = this.token(index)
                 this.updateSelectedToken(token);
                 if(!this.isLinking){
                     this.requestAnnotatorInput = true;  //  let the panel know we want to open the annotator input

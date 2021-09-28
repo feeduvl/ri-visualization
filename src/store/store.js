@@ -74,7 +74,7 @@ export const store = new Vuex.Store({
     tokens: [],
     codes: [],
     tore_relationships: [],
-    doc_tokens: [],  // for performance reasons, manually update this array
+    //doc_tokens: [],  // for performance reasons, manually update this array
     
     token_in_selected_code: [],
     //token_pos_selected: [],
@@ -82,6 +82,7 @@ export const store = new Vuex.Store({
     token_is_hovering_code: [],
     token_linked_together: [],
     token_is_hovering_token: [],
+    token_num_codes: [],
     
     all_docs: {index: 0, name: "All Documents", begin_index: 0, end_index: null},
     selected_doc: null, // set it to first when loading
@@ -121,13 +122,15 @@ export const store = new Vuex.Store({
 
       // eslint-disable-next-line camelcase
       for (let i of token_indices){
-        let newToken = {...state.tokens[i]};
+
+        /*let newToken = {...state.tokens[i]};
         let newTokens = [...state.tokens];
         newToken.num_codes--;
         newTokens[i] = newToken;
         Object.freeze(newTokens);
         state.tokens = newTokens;
-        this.commit("updateDocTokens");
+        this.commit("updateDocTokens");*/                
+        state.token_num_codes[i]--;
       }
       Vue.set(state.codes, index, null);
     },
@@ -150,6 +153,9 @@ export const store = new Vuex.Store({
       state.annotator_uploaded_at = uploaded_at;
       state.annotator_dataset = dataset;
 
+      for (let token of tokens){
+        Object.freeze(token);
+      }
       Object.freeze(tokens);  // performance boost
       state.tokens = tokens;
       this.commit("initTokensEfficiencyStructs", false);
@@ -161,6 +167,7 @@ export const store = new Vuex.Store({
       for (let doc of newDocs){
         Object.freeze(doc);
       }
+      Object.freeze(newDocs);
       state.docs = newDocs;
       state.selected_doc = newDocs[docs.length > 0 ? 1: 0];
 

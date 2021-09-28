@@ -58,15 +58,22 @@
                 findAllCombinations: false,  // treat codes with 'name' and 'tore' fields as two separate codes
                 selectedTab: 0,
                 headers: [
-                    {
-                        text: 'Code',
-                        align: 'left',
-                        sortable: true,
-                        value: 'codeDisplayName'  // can also refer to the TORE category
-                    },
-                    { text: 'Count', value: 'count'},
-                    { text: 'Number of Relationships', value: 'relationship_count' },
-                    { text: 'Num. of Documents with this code', value: 'doc_count'}
+                        [  // Tab view 0
+                            {
+                                text: 'Code',
+                                align: 'left',
+                                sortable: true,
+                                value: 'codeDisplayName'  // can also refer to the TORE category
+                            },
+                            { text: 'Count', value: 'count'},
+                            { text: 'Number of Relationships', value: 'relationship_count' },
+                            { text: 'Num. of Documents with this code', value: 'doc_count'}
+                        ],
+
+                        [
+
+                        ]
+
                 ],
             }
         },
@@ -114,7 +121,53 @@
 
                 }
                 return summaries
-            }
+            },
+
+
+            /**
+             *
+             * @param tableHeadersDef List of headers objects containing the text to be written to the file as well as the attribute name of the items that should be written to the file under this header
+             * @param itemsList List of elements to be transformed into rows
+             */
+            getCSVFileString(tableHeadersDef, itemsList){
+                let out = "";
+
+                let delim = '|';
+                let count = 0;
+                for(let header of tableHeadersDef){
+                    out+=header.text;
+                    if(count < tableHeadersDef.length - 1){
+                        out+=delim;
+                    }
+                }
+                out+='\n'
+
+                for(let item of itemsList){
+                    for(let header of tableHeadersDef){
+                        out+=item[header.value];
+                        if(count < tableHeadersDef.length - 1){
+                            out+=delim;
+                        }
+                    }
+                    out+='\n'
+                }
+
+                return out;
+
+            },
+
+            downloadTextFile(fileName, fileContents){
+                var element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(fileContents));
+                element.setAttribute('download', fileName);
+
+                element.style.display = 'none';
+                document.body.appendChild(element);
+
+                element.click();
+
+                document.body.removeChild(element);
+            },
         }
     }
 </script>
