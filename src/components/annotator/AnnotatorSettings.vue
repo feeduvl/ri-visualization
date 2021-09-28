@@ -143,14 +143,6 @@
                             </template>
             </v-data-table>
         </v-card>
-        <v-card>
-            <v-card flat class="header">
-                <v-card-title>
-                    <h1>Merge Annotations</h1>
-                </v-card-title>
-            </v-card>
-
-        </v-card>
         <v-snackbar
                 v-model="deleteSnackbarVisible"
                 v-if="deleteSnackbarVisible"

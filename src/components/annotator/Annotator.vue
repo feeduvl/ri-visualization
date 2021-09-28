@@ -207,6 +207,7 @@
     import {Code} from "@/components/annotator/code";
     import {mapGetters, mapState} from "vuex";
     import AnnotatorSettings from "@/components/annotator/AnnotatorSettings";
+    import Vue from "vue"
 
     export default {
         name: "Annotator",
@@ -231,6 +232,9 @@
                 hoverDelayMillis: 110,  // time to wait before dispatching hover event
                 currentlyHoveringTokenIndexLocal: null,
                 hoverEnterTime: null,
+
+                last_code: null,
+                last_token: null// used only to prevent unwanted auto-close of dialog on shift+click, ctrl+click
             }
         },
         components: {AnnotatorSettings, AnnotatorInput, Token, CodeView},
@@ -400,6 +404,8 @@
                     this.$store.commit("updateLastAnnotationEditAt")
 
                     this.$store.commit("set_selected_code", code);
+                    this.last_code = code;
+                    this.last_token = this.selectedToken;
 
                 } else {
                     console.error("addTokenToCode called while linker is open")
@@ -458,6 +464,13 @@
                             this.$store.commit("updateLastAnnotationEditAt")
                         }
                     }
+
+                    setTimeout(() => {
+                        console.warn("Simulating original token click to reopen dialog")
+                        this.updateSelectedToken(this.last_token)
+                        this.disambiguatedTokenCode = this.last_code
+                        this.addSelectedTokenToCode()
+                    });
                 } else {
 
                     let token = this.token(index)
@@ -478,6 +491,12 @@
                         this.$store.commit('assignToCode', {token, code: this.$store.state.selected_code})
                         this.$store.commit("updateLastAnnotationEditAt")
                     }
+                    setTimeout(() => {
+                        console.warn("Simulating original token click to reopen dialog")
+                        this.updateSelectedToken(this.last_token)
+                        this.disambiguatedTokenCode = this.last_code
+                        this.addSelectedTokenToCode()
+                    });
                 } else {
                     this.tokenClicked(token)
                 }

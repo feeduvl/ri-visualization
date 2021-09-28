@@ -98,14 +98,26 @@
                         </v-list>
                     </v-menu>
 
-                    <v-tooltip bottom>
+                    <v-btn
+                           @click="trashClicked"
+                           depressed
+                           class="annotator-input__cancel"
+                           v-if="!requiredAnnotationsPresent">
+                        Cancel
+                    </v-btn>
+
+                    <v-tooltip  v-else
+                            bottom>
                         <template #activator="{on}">
                             <v-icon v-on="on"
                                     @click="trashClicked" class="annotator-input__trash">
                                 delete_outline
                             </v-icon>
                         </template>
-                        <span>Delete This Concept</span>
+                        <span
+                        >Delete This Encoding</span>
+
+
                     </v-tooltip>
 
                     <v-combobox
@@ -272,7 +284,6 @@
                     if(!this.requiredAnnotationsPresent){  // codes need some kind of label
                         console.log("Missing required input, ignoring dialog hide")
                     } else {
-                        console.log(this.selected_code)
                         this.$store.commit("setAnnotatorInputVisible", bool);  // should always be false
                     }
                 }
@@ -309,6 +320,15 @@
 
         watch: {
             selectedTokenBoundingRect(){
+                this.positionInput();
+            },
+            panelIsUp(){
+                this.positionInput();
+            }
+        },
+        methods: {
+
+            positionInput(){
                 if(this.selectedTokenBoundingRect === null || this.selectedTokenBoundingRect.width === 0){
                     return;
                 }
@@ -323,9 +343,8 @@
                 //console.log("Inserting style: "+style_)
                 sheet.insertRule(style_, css_rules_num)
                 this.popupPositionStyleRuleIndex = css_rules_num;
-            }
-        },
-        methods: {
+            },
+
             deleteStyleruleIfNecessary(){
                 if(!this.customStyleSheet){
                     this.customStyleSheet = (function() {
@@ -423,6 +442,7 @@
         width: fit-content;
         flex-direction: column;
         align-items: center;
+        border-radius: 20px !important;
     }
 
     .annotator-input__input-fields {
@@ -464,6 +484,9 @@
         display: flex;
         justify-content: center;
         height: 14px;
+    }
+    .annotator-input__cancel{
+        margin-top: 15px !important;
     }
 
 </style>

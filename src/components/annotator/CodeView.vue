@@ -1,39 +1,49 @@
 <template>
     <div>
-        <v-switch
-        v-model="findAllCombinations"
-        :label="`Find unique combinations of 'Name' and 'TORE' fields`">
-
-        </v-switch>
+        <v-container
+                class="new-annotation-params"
+        >
+            <v-layout row justify-left align-center>
+                <v-flex>
+                    <v-btn
+                        @click="downloadSelectedTab">
+                        Download this tab
+                    </v-btn>
+                    <v-btn
+                        @click="downloadAllTabs">
+                        Download All
+                    </v-btn>
+                </v-flex>
+            </v-layout>
+        </v-container>
         <v-tabs
             v-model="selectedTab">
-            <v-tab>
+            <v-tab
+                v-for="(item, index) in tab_titles"
+            :key="'tab_title_'+index">
                 <span>
-                    Code Statistics
-                </span>
-            </v-tab>
-            <v-tab>
-                <span>
-                    Another Tab
+                    {{item}}
                 </span>
             </v-tab>
         </v-tabs>
         <v-tabs-items v-model="selectedTab">
-            <v-tab-item>
+            <v-tab-item
+                    v-for="(this_header, index) in headers"
+                    :key="'tab_header'+index"
+            >
                 <v-data-table
-                    :headers="headers"
-                    :items="code_summaries">
-                    <template v-slot:items="props">
-                        <td>{{ props.item.codeDisplayName }}</td>
-                        <td class="text-xs-right">{{ props.item.count }}</td>
-                        <td class="text-xs-right">{{ props.item.relationship_count }}</td>
-                        <td class="text-xs-right">{{ props.item.doc_count }}</td>
+                    :headers="this_header"
+                    :items="tab_content[index]">
+                    <template v-slot:items="{item}">
+                        <td v-for="(column, column_index) in this_header"
+                            :key="'header_column_'+index+'_'+column_index"
+                            :class="{'text-xs-left': column_index > 0}"
+                        >
+                            {{item[column.value]}}
+                        </td>
                     </template>
 
                 </v-data-table>
-            </v-tab-item>
-            <v-tab-item>
-                Tab 1 content
             </v-tab-item>
         </v-tabs-items>
     </div>
@@ -44,47 +54,172 @@
     export default {
         name: "CodeView",
         computed: {
-            code_summaries(){
-                if(!this.findAllCombinations){
-                    return this.generate_summaries(this.$store.state.codes.filter(c => c && c.name), c => c.name).concat(
-                        this.generate_summaries(this.$store.state.codes.filter(c => c && c.tore), c => c.tore))
-                } else {
-                    return this.generate_summaries(this.$store.state.codes.filter(c => c), Code_user_display_prompt)
-                }
+            code_name_summary(){
+                return this.generate_code_summary(this.$store.state.codes.filter(c => c && c.name), c => c.name);
+            },
+            code_tore_summary(){
+                return this.generate_code_summary(this.$store.state.codes.filter(c => c && c.tore), c => c.tore)
+            },
+            code_combination_summary(){
+                return this.generate_code_summary(this.$store.state.codes.filter(c => c), Code_user_display_prompt)
+            },
+            relationship_summary(){
+                return this.generate_relationship_summary(this.$store.state.tore_relationships.filter(c => c))
+            },
+
+            tab_content(){
+                return [this.code_name_summary, this.code_tore_summary, this.code_combination_summary, this.relationship_summary]
             }
+
         },
         data: () => {
             return {
-                findAllCombinations: false,  // treat codes with 'name' and 'tore' fields as two separate codes
                 selectedTab: 0,
+                tab_titles: ["Name", "TORE Entity", "Combination View", "Relationships"],
                 headers: [
-                        [  // Tab view 0
-                            {
-                                text: 'Code',
-                                align: 'left',
-                                sortable: true,
-                                value: 'codeDisplayName'  // can also refer to the TORE category
-                            },
-                            { text: 'Count', value: 'count'},
-                            { text: 'Number of Relationships', value: 'relationship_count' },
-                            { text: 'Num. of Documents with this code', value: 'doc_count'}
-                        ],
+                            [  // Tab view 0
+                                {
+                                    text: 'Code Name',
+                                    align: 'left',
+                                    sortable: true,
+                                    value: 'name'
+                                },
+                                {
+                                    text: 'Count',
+                                    align: "left",
+                                    sortable: true,
+                                    value: 'count'
+                                },
+                                {
+                                    text: 'Number of Relationships',
+                                    align: "left",
+                                    sortable: true,
+                                    value: 'relationship_count'
+                                },
+                                {
+                                    text: 'Num. of Documents with this code',
+                                    align: "left",
+                                    sortable: true,
+                                    value: 'doc_count'
+                                }
+                            ],
 
-                        [
+                            [
+                                {
+                                    text: "TORE Entity",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "tore"
+                                },
 
-                        ]
+                                {
+                                    text: 'Count',
+                                    align: "left",
+                                    sortable: true,
+                                    value: 'count'
+                                },
+                                {
+                                    text: 'Number of Relationships',
+                                    align: "left",
+                                    sortable: true,
+                                    value: 'relationship_count'
+                                },
+                                {
+                                    text: 'Num. of Documents with this tore entity',
+                                    align: "left",
+                                    sortable: true,
+                                    value: 'doc_count'
+                                }
+                            ],
+                            [
+                                {
+                                    text: "Name",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "name"
+                                },
+                                {
+                                    text: "TORE Entity",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "tore"
+                                },
+                                {
+                                    text: 'Count',
+                                    align: "left",
+                                    sortable: true,
+                                    value: 'count'
+                                },
+                                {
+                                    text: 'Number of Relationships for this combination',
+                                    align: "left",
+                                    sortable: true,
+                                    value: 'relationship_count'
+                                },
+                                {
+                                    text: 'Num. of Documents with this combination',
+                                    align: "left",
+                                    sortable: true,
+                                    value: 'doc_count'
+                                }
+                            ],
+
+                            [
+                                {
+                                    text: "Relationship",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "relationship_name",
+                                },
+                                {
+                                    text: "Owner Name",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "owner_name",
+                                },
+
+                                {
+                                    text: "Owner TORE",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "owner_tore",
+                                },
+                                {
+                                    text: "Target",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "target_string"
+                                }
+                            ]
 
                 ],
             }
         },
         methods: {
+
+            generate_relationship_summary(list_of_relationships){
+                let summaries = []
+
+                for(let relationship of list_of_relationships){
+
+                    let summary = {...relationship}
+                    let owner = this.$store.state.codes[summary.TOREEntity];
+                    summary.owner_name = owner.name;
+                    summary.owner_tore = owner.tore;
+                    summary.target_string = this.$store.getters.tokenListToString(summary.target_tokens)
+                    summaries.push(summary)
+                }
+                return summaries
+            },
+
+
             /**
              *
              * @param list_of_codes
              * @param get_code_name This must be an injective mapping between code instances and strings!!!!
              * @return {[]}
              */
-            generate_summaries(list_of_codes, get_code_name){
+            generate_code_summary(list_of_codes, get_code_name){
                 let summaries = []
                 let found_codes = []
 
@@ -103,7 +238,8 @@
 
                     if (index === -1){
                         let summary = {
-                            codeDisplayName: name,
+                            name: code.name,
+                            tore: code.tore,
                             count: 1,
                             relationship_count,
                             doc_count: found_in_docs.filter(b => b).length - 1,
@@ -139,15 +275,19 @@
                     if(count < tableHeadersDef.length - 1){
                         out+=delim;
                     }
+                    count++;
                 }
                 out+='\n'
 
                 for(let item of itemsList){
+                    count = 0;
                     for(let header of tableHeadersDef){
-                        out+=item[header.value];
+                        let val = item[header.value];
+                        out+= (val===0?"0":(val||""))
                         if(count < tableHeadersDef.length - 1){
                             out+=delim;
                         }
+                        count++;
                     }
                     out+='\n'
                 }
@@ -168,6 +308,22 @@
 
                 document.body.removeChild(element);
             },
+
+            downloadTab(tabIndex, dateString){
+                this.downloadTextFile("annotation_"+this.$store.state.selected_annotation+"_"+dateString+"_"+this.tab_titles[tabIndex].toLowerCase()+".csv", this.getCSVFileString(this.headers[tabIndex], this.tab_content[tabIndex]));
+            },
+
+            downloadSelectedTab(){
+                this.downloadTab(this.selectedTab, new Date(Date.now()).toISOString())
+            },
+
+            downloadAllTabs(){
+                let now = new Date(Date.now()).toISOString();
+                for(let i = 0; i < this.headers.length; i++){
+                    this.downloadTab(i, now)
+                }
+            }
+
         }
     }
 </script>
