@@ -170,10 +170,7 @@
                         class="annotator-input"
                         :disabled="mustDisambiguateTokenCode"
                         ref="input_panel"
-                        :selectedTokenBoundingRect="selectedTokenBoundingRect"
-                        :annotatorBoundingRect="annotatorBoundingRect"
                         :panelIsUp="panelIsUp"
-                        :width="annotatorInputWidthPct"
                         @annotator-input-trash-click="delete_selected_code"
                         @annotator-input__arrow-icon-click="panelIsUp = !panelIsUp"
                 />
@@ -207,12 +204,14 @@
     import {Code} from "@/components/annotator/code";
     import {mapGetters, mapState} from "vuex";
     import AnnotatorSettings from "@/components/annotator/AnnotatorSettings";
-    import Vue from "vue"
 
     export default {
         name: "Annotator",
         data: () => {
             return {
+
+                customStyleSheet: null,
+                popupPositionStyleRuleIndex: null,
 
                 saveSnackbarText: "Annotation saved.",
                 autoSaveSnackbarText: "Auto-saved.",
@@ -239,6 +238,25 @@
         },
         components: {AnnotatorSettings, AnnotatorInput, Token, CodeView},
         computed: {
+
+            dialogPositionStyle(){  //  need to do this because the actual dialog DOM object isn't exposed
+                let annotatorBox = this.annotatorBoundingRect;
+                let tokenBox = this.selectedTokenBoundingRect;
+                let panelIsUp = this.panelIsUp;
+                if(annotatorBox === null || tokenBox === null){
+                    return ""
+                } else {
+                    let lowerWidth = annotatorBox.width*((100-this.annotatorInputWidthPct)/100);
+                    return `.v-dialog{
+                                margin: 5px;
+                                position: absolute;
+                                width: ${this.annotatorInputWidthPct}%;
+                                overflow: hidden;
+                                left: ${Math.min(lowerWidth, tokenBox.left)}px;
+                                top: ${tokenBox.top + tokenBox.height + (panelIsUp?0:200)}px;
+                            }`
+                }
+            },
 
             /*
             getDebugTokenInfo(){
@@ -293,7 +311,7 @@
             },
 
             selectedTokenBoundingRect(){
-                if(this.$store.state.selectedToken===null){
+                if(this.$store.state.selectedToken===null || this.viewingCodes){
                     return null;
                 }
                 let elem = document.getElementById("token_"+this.$store.state.selectedToken.index).getBoundingClientRect();
@@ -336,6 +354,21 @@
         },
 
         watch: {
+
+            viewingCodes(){
+                console.log("Showing Code View, clearing old stylesheet")
+                this.deleteStyleruleIfNecessary();
+                this.popupPositionStyleRuleIndex = null;
+            },
+
+            selectedTokenBoundingRect(){
+                this.positionInput();
+            },
+
+            panelIsUp(){
+                this.positionInput();
+            },
+
             lastAnnotationEditAt(val){
                 if(this.lastAnnotationPostAt === null){
                     console.log("Starting save timer after first edit")
@@ -354,6 +387,50 @@
         },
 
         methods: {
+
+            deleteStyleruleIfNecessary(){
+                if(!this.customStyleSheet){
+                    this.customStyleSheet = (function() {
+                        // Create the <style> tag
+                        let style = document.createElement("style");
+
+                        // Add a media (and/or media query) here if you'd like!
+                        // style.setAttribute("media", "screen")
+                        // style.setAttribute("media", "only screen and (max-width : 1024px)")
+
+                        // WebKit hack :(
+                        style.appendChild(document.createTextNode(""));
+
+                        // Add the <style> element to the page
+                        document.head.appendChild(style);
+
+                        return style.sheet;
+                    })();
+                }
+                let sheet = this.customStyleSheet;
+                if(sheet && this.popupPositionStyleRuleIndex !== null){
+                    sheet.deleteRule(this.popupPositionStyleRuleIndex)
+                }
+                return sheet;
+            },
+
+            positionInput(){
+                if(this.selectedTokenBoundingRect === null || this.selectedTokenBoundingRect.width === 0){
+                    return;
+                }
+
+                let style_ = this.dialogPositionStyle;
+                if(style_===""){
+                    return;
+                }
+
+                let sheet = this.deleteStyleruleIfNecessary()
+                let css_rules_num = sheet.cssRules.length;
+                //console.log("Inserting style: "+style_)
+                sheet.insertRule(style_, css_rules_num)
+                this.popupPositionStyleRuleIndex = css_rules_num;
+            },
+
             getPosClass(pos){
                 switch (pos) {
                     case "v":
@@ -551,10 +628,6 @@
                 this.doSaveAnnotation(false)
                 this.$store.commit("resetAnnotator")
                 this.$store.dispatch("actionGetAllAnnotations")
-            },
-
-            viewCodes(){
-
             }
         }
     }

@@ -1,5 +1,50 @@
 <template>
     <div>
+        <v-dialog
+                v-model="renameCodeDialog"
+                width="500"
+                v-if="renameCodeDialog"
+        >
+            <v-card>
+                <v-card-title
+                        class="headline grey lighten-2"
+                        primary-title
+                >
+                    {{renameCode.name?`Rename Code: '`+renameCode.name+`'`:'Assign Name to all no-name codes?'}}
+                </v-card-title>
+
+                <v-card-text>
+                     {{renameCode.name?('Rename all '+numOccurencesRename+` occurrences of code: '`+renameCode.name+`'?`):'Assign Name to all occurrences of nameless codes?'}}
+                </v-card-text>
+
+                <v-text-field
+                        label="New Code Name"
+                        v-model="renameCodeNewName"
+                    >
+
+                </v-text-field>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                            color="primary"
+                            flat
+                            @click="renameCodeDialog = false">
+                        Cancel
+                    </v-btn>
+                    <v-btn
+                            :disabled="!renameCodeNewName"
+                            color="primary"
+                            flat
+                            @click="doRenameCode"
+                    >
+                        Rename
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
         <v-container
                 class="new-annotation-params"
         >
@@ -32,7 +77,7 @@
                     :key="'tab_header'+index"
             >
                 <v-data-table
-                    :headers="this_header"
+                    :headers="index===0?this_header.concat([{text: 'Actions'}]):this_header"
                     :items="tab_content[index]">
                     <template v-slot:items="{item}">
                         <td v-for="(column, column_index) in this_header"
@@ -41,6 +86,24 @@
                         >
                             {{item[column.value]}}
                         </td>
+                        <td v-show="index===0">
+                            <span class="icon-column">
+                              <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-icon
+                                          small
+                                          @click="showRenameCodeDialog(item)"
+                                          v-bind="attrs"
+                                          v-on="on"
+                                  >
+                                    mode
+                                  </v-icon>
+                                </template>
+                                <span>Change Name</span>
+                              </v-tooltip>
+                            </span>
+                        </td>
+
                     </template>
 
                 </v-data-table>
@@ -55,10 +118,10 @@
         name: "CodeView",
         computed: {
             code_name_summary(){
-                return this.generate_code_summary(this.$store.state.codes.filter(c => c && c.name), c => c.name);
+                return this.generate_code_summary(this.$store.state.codes.filter(c => c), c => c.name);
             },
             code_tore_summary(){
-                return this.generate_code_summary(this.$store.state.codes.filter(c => c && c.tore), c => c.tore)
+                return this.generate_code_summary(this.$store.state.codes.filter(c => c), c => c.tore)
             },
             code_combination_summary(){
                 return this.generate_code_summary(this.$store.state.codes.filter(c => c), Code_user_display_prompt)
@@ -69,11 +132,18 @@
 
             tab_content(){
                 return [this.code_name_summary, this.code_tore_summary, this.code_combination_summary, this.relationship_summary]
+            },
+
+            numOccurencesRename(){
+                return this.$store.state.codes.filter(c => c.name === this.renameCode.name).length;
             }
 
         },
         data: () => {
             return {
+                renameCodeNewName: "",
+                renameCodeDialog: false,
+                renameCode: null,
                 selectedTab: 0,
                 tab_titles: ["Name", "TORE Entity", "Combination View", "Relationships"],
                 headers: [
@@ -196,6 +266,11 @@
             }
         },
         methods: {
+
+            showRenameCodeDialog(code){
+                this.renameCode = code;
+                this.renameCodeDialog = true;
+            },
 
             generate_relationship_summary(list_of_relationships){
                 let summaries = []
@@ -322,6 +397,21 @@
                 for(let i = 0; i < this.headers.length; i++){
                     this.downloadTab(i, now)
                 }
+            },
+
+            doRenameCode(){
+
+                for (let code of this.$store.state.codes) {
+                    if (code.name === this.renameCode.name) {
+                        code.name = this.renameCodeNewName;
+                    }
+                }
+
+                this.renameCodeNewName = "";
+                this.renameCodeDialog = false;
+
+                this.$parent.doSaveAnnotation(false)
+
             }
 
         }

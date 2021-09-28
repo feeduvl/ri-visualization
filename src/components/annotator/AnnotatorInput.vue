@@ -234,9 +234,7 @@
 
         data(){
             return {
-                customStyleSheet: null,
 
-                popupPositionStyleRuleIndex: null,
                 promptHighlightAll: false,
                 tore_codes: Object.keys(_tore_codes).map(function(key) {
                         return _tore_codes[key];
@@ -256,24 +254,6 @@
                 "tokenListToString",
                 "showingInput"]),
 
-            dialogPositionStyle(){  //  need to do this because the actual dialog DOM object isn't exposed
-                let annotatorBox = this.annotatorBoundingRect;
-                let tokenBox = this.selectedTokenBoundingRect;
-                let panelIsUp = this.panelIsUp;
-                if(annotatorBox === null || tokenBox === null){
-                    return ""
-                } else {
-                    let lowerWidth = annotatorBox.width*((100-this.width)/100);
-                    return `.v-dialog{
-                                margin: 5px;
-                                position: absolute;
-                                width: ${this.width}%;
-                                overflow: hidden;
-                                left: ${Math.min(lowerWidth, tokenBox.left)}px;
-                                top: ${tokenBox.top + tokenBox.height + (panelIsUp?0:200)}px;
-                            }`
-                }
-            },
 
             wrapInputVisible: {
                 get(){
@@ -318,58 +298,7 @@
             }
         },
 
-        watch: {
-            selectedTokenBoundingRect(){
-                this.positionInput();
-            },
-            panelIsUp(){
-                this.positionInput();
-            }
-        },
         methods: {
-
-            positionInput(){
-                if(this.selectedTokenBoundingRect === null || this.selectedTokenBoundingRect.width === 0){
-                    return;
-                }
-
-                let style_ = this.dialogPositionStyle;
-                if(style_===""){
-                    return;
-                }
-
-                let sheet = this.deleteStyleruleIfNecessary()
-                let css_rules_num = sheet.cssRules.length;
-                //console.log("Inserting style: "+style_)
-                sheet.insertRule(style_, css_rules_num)
-                this.popupPositionStyleRuleIndex = css_rules_num;
-            },
-
-            deleteStyleruleIfNecessary(){
-                if(!this.customStyleSheet){
-                    this.customStyleSheet = (function() {
-                        // Create the <style> tag
-                        let style = document.createElement("style");
-
-                        // Add a media (and/or media query) here if you'd like!
-                        // style.setAttribute("media", "screen")
-                        // style.setAttribute("media", "only screen and (max-width : 1024px)")
-
-                        // WebKit hack :(
-                        style.appendChild(document.createTextNode(""));
-
-                        // Add the <style> element to the page
-                        document.head.appendChild(style);
-
-                        return style.sheet;
-                    })();
-                }
-                let sheet = this.customStyleSheet;
-                if(sheet && this.popupPositionStyleRuleIndex !== null){
-                    sheet.deleteRule(this.popupPositionStyleRuleIndex)
-                }
-                return sheet;
-            },
 
             getselected_codeString(field){
                 return this.selected_code.tokens.map(t => t==null?null:this.$store.state.tokens[t][field]).filter(t => t != null).toString();
@@ -417,19 +346,6 @@
                 type: Boolean,
                 default: false
             },
-
-            width: {
-                type: Number,
-                required: true
-            },
-
-            selectedTokenBoundingRect: {
-                type: DOMRect
-            },
-
-            annotatorBoundingRect: {
-                type: DOMRect
-            }
         },
 
     }
