@@ -233,6 +233,12 @@
                 </v-list>
             </div>
         </v-card>
+        <v-snackbar
+            :timeout="8000"
+            v-model="showSnackbar"
+        >
+            {{snackbarText}}
+        </v-snackbar>
     </v-dialog>
 </template>
 
@@ -247,7 +253,8 @@
 
         data(){
             return {
-
+                showSnackbar: false,
+                snackbarText: "",
                 promptHighlightAll: false,
                 tore_codes: Object.keys(_tore_codes).map(function(key) {
                         return _tore_codes[key];
@@ -381,8 +388,6 @@
                 }
 
                 console.log("Assigning matches to codes: ")
-                console.log(matching_indices)
-                console.log(matchPatternList)
                 for(let index of matching_indices){
 
                     let code = new Code(this.$store.state.codes.length)
@@ -399,6 +404,8 @@
 
                 this.$store.commit("updateLastAnnotationEditAt")
                 this.promptHighlightAll = false;
+                this.snackbarText = "Added "+matching_indices.length+" new encodings."
+                this.showSnackbar = true;
             },
 
             /**

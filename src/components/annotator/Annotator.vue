@@ -90,8 +90,7 @@
                     </span>
                 </template>
 
-                <v-tooltip bottom
-                           v-if="!annotatorViewingCodeResults">
+                <v-tooltip bottom>
                     <template #activator="{on}">
                         <v-icon v-on="on"
                                 :disabled="showingInput || $store.state.isLoadingAnnotation"
@@ -371,14 +370,26 @@
             },
 
             lastAnnotationEditAt(val){
+                let startTimer = false;
                 if(this.lastAnnotationPostAt === null){
                     console.log("Starting save timer after first edit")
                     this.$store.commit("postAnnotationCallback")
+                    startTimer = true;
                 } else {
                     if(val - this.lastAnnotationPostAt > 1000 * 60){
                         console.info("Auto save")
                         this.doSaveAnnotation(true);
+                        startTimer = true;
                     }
+                }
+                if(startTimer){
+                    let self = this;
+                    setTimeout(function(){
+                        if(Date.now() - self.lastAnnotationPostAt > 1000 * 60){
+                            console.info("Scheduled autosave")
+                            self.doSaveAnnotation(true);
+                        }
+                    },1000 * 61)
                 }
             }
         },

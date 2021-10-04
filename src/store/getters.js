@@ -143,9 +143,26 @@ export const hovering_codes = state => {
 export const token = state => index => state.tokens[index];
 
 export const getCodesForToken = state => token => {
-
   console.log("getCodesForToken: "+(token?token.name:"null"));
-  return token===null || state.token_num_codes[token.index] === 0?[]:state.codes.filter(c => c && c.tokens.includes(token.index));
+  if (token===null || state.token_num_codes[token.index] === 0){
+    return [];
+  } 
+  let ret = [];
+  let left_to_find = state.token_num_codes[token.index];
+  for (let c of state.codes){
+    if (c) {
+      if (c.tokens.includes(token.index)){
+        ret.push(c);
+        left_to_find--;
+        if (left_to_find === 0){
+          return ret;
+        }
+      }
+    }
+  }
+  console.error("getCodesForToken fell through, check implementation");
+  return ret;
+  
 };
 
 export const requiredAnnotationsPresent = state => {

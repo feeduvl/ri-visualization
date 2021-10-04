@@ -52,7 +52,7 @@
                 <v-flex>
                     <v-btn
                         @click="downloadSelectedTab">
-                        Download this tab
+                        Download this table
                     </v-btn>
                     <v-btn
                         @click="downloadAllTabs">
@@ -79,7 +79,8 @@
                 <v-data-table
                     :headers="index===0?this_header.concat([{text: 'Actions'}]):this_header"
                     :items="tab_content[index]"
-                    :loading="$store.state.isLoadingAnnotation">
+                    :loading="$store.state.isLoadingAnnotation"
+                    :pagination="{rowsPerPage: -1}">
                     <template v-slot:items="{item}">
                         <td v-for="(column, column_index) in this_header"
                             :key="'header_column_'+index+'_'+column_index"
@@ -114,7 +115,7 @@
 </template>
 
 <script>
-    import {Code_user_display_prompt} from "./code"
+    import {Code, Code_user_display_prompt} from "./code"
     export default {
         name: "CodeView",
         computed: {
@@ -132,7 +133,11 @@
             },
 
             tab_content(){
-                return [this.code_name_summary, this.code_tore_summary, this.code_combination_summary, this.relationship_summary]
+                return [this.code_name_summary, this.code_tore_summary, this.code_combination_summary, this.relationship_summary,
+                    this.generate_occurrences(this.$store.state.codes, c => c.name),
+                    this.generate_occurrences(this.$store.state.codes, c => c.tore),
+                    this.generate_occurrences(this.$store.state.codes, c => c),
+                    this.generate_relationship_occurrences(this.$store.state.codes)]
             },
 
             numOccurencesRename(){
@@ -146,7 +151,8 @@
                 renameCodeDialog: false,
                 renameCode: null,
                 selectedTab: 0,
-                tab_titles: ["Word Codes", "Category Codes", "Combination View", "Relationships"],
+                tab_titles: ["Word Codes", "Category Codes", "Combination View", "Relationships",
+                    "Word Code Occurrences", "Category Code Occurrences", "Combination Code Occurrences", "Relationship Occurrences"],
                 headers: [
                             [  // Tab view 0
                                 {
@@ -204,16 +210,16 @@
                             ],
                             [
                                 {
-                                    text: "Name",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "name"
-                                },
-                                {
                                     text: "Category",
                                     align: "left",
                                     sortable: true,
                                     value: "tore"
+                                },
+                                {
+                                    text: "Name",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "name"
                                 },
                                 {
                                     text: 'Occurrences',
@@ -234,7 +240,6 @@
                                     value: 'doc_count'
                                 }
                             ],
-
                             [
                                 {
                                     text: "Relationship",
@@ -243,17 +248,16 @@
                                     value: "relationship_name",
                                 },
                                 {
-                                    text: "Owner Name",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "owner_name",
-                                },
-
-                                {
                                     text: "Owning Category",
                                     align: "left",
                                     sortable: true,
                                     value: "owner_tore",
+                                },
+                                {
+                                    text: "Owner Name",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "owner_name",
                                 },
                                 {
                                     text: "Target",
@@ -261,7 +265,111 @@
                                     sortable: true,
                                     value: "target_string"
                                 }
-                            ]
+                            ],[
+                                {
+                                    text: "Code Name",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "name"
+                                },
+                                {
+                                    text: "Document",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "document"
+                                },
+                                {
+                                    text: "Words",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "words_string"
+                                }
+                            ],[
+                                {
+                                    text: "Category",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "tore"
+                                },
+                                {
+                                    text: "Document",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "document"
+                                },
+                                {
+                                    text: "Words",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "words_string"
+                                },
+                                ],
+                                    [
+                                        {
+                                            text: "Category",
+                                            align: "left",
+                                            sortable: true,
+                                            value: "tore"
+                                        },
+                                        {
+                                            text: "Name",
+                                            align: "left",
+                                            sortable: true,
+                                            value: "name"
+                                        },
+                                        {
+                                            text: "Document",
+                                            align: "left",
+                                            sortable: true,
+                                            value: "document"
+                                        },
+                                        {
+                                            text: "Words",
+                                            align: "left",
+                                            sortable: true,
+                                            value: "words_string"
+                                        },
+                                        ],
+                    [
+                        {
+                            text: "Relationship",
+                            align: "left",
+                            sortable: true,
+                            value: "relationship_name"
+                        },
+
+                        {
+                            text: "Owning Category",
+                            align: "left",
+                            sortable: true,
+                            value: "tore"
+                        },
+                        {
+                            text: "Owner Name",
+                            align: "left",
+                            sortable: true,
+                            value: "name"
+                        },
+                        {
+                            text: "Document",
+                            align: "left",
+                            sortable: true,
+                            value: "document"
+                        },
+
+                        {
+                            text: "Owner Words",
+                            align: "left",
+                            sortable: true,
+                            value: "words_string"
+                        },
+                        {
+                            text: "Target Words",
+                            align: "left",
+                            sortable: true,
+                            value: "target_string"
+                        },
+                    ]
 
                 ],
             }
@@ -337,6 +445,62 @@
 
                 }
                 return summaries
+            },
+
+            generate_occurrences(list_of_codes, getName){
+                let ret = [];
+                for(let c of list_of_codes){
+                    if(c && getName(c)){
+                        let code = {...c};
+                        let index = 0;
+                        for(let doc of this.$store.state.docs){
+                            if(index !== 0 && code.tokens.find(t_index => t_index >= doc.begin_index && t_index < doc.end_index) !== undefined){
+                                code.document = doc.name;
+                                code.document_index = index;
+                                break;
+                            }
+                            index++;
+                        }
+                        if(!code.document){
+                            console.error("Didn't find document for code: "+Code_user_display_prompt(code));
+                            console.error(code.tokens);
+                        }
+
+                        code.words_string = this.$store.getters.tokenListToString(code.tokens);
+                        ret.push(code);
+                    }
+                }
+                return ret;
+            },
+
+            generate_relationship_occurrences(list_of_codes){
+                let ret = [];
+                for(let c of list_of_codes){
+                    if(c && c.relationship_memberships.length){
+                        for(let relationship_index of c.relationship_memberships){
+                            let code = {...c};
+                            let index = 0;
+                            for(let doc of this.$store.state.docs){
+                                if(index !== 0 && code.tokens.find(t_index => t_index >= doc.begin_index && t_index < doc.end_index) !== undefined){
+                                    code.document = doc.name;
+                                    code.document_index = index;
+                                    break;
+                                }
+                                index++;
+                            }
+                            if(!code.document){
+                                console.error("Didn't find document for code: "+Code_user_display_prompt(code));
+                                console.error(code.tokens);
+                            }
+
+                            code.relationship_name = this.$store.state.tore_relationships[relationship_index].relationship_name;
+                            code.words_string = this.$store.getters.tokenListToString(code.tokens);
+                            code.target_string = this.$store.getters.tokenListToString(this.$store.state.tore_relationships[relationship_index].target_tokens)
+                            ret.push(code);
+                        }
+                    }
+                }
+                return ret;
             },
 
 
