@@ -78,7 +78,8 @@
             >
                 <v-data-table
                     :headers="index===0?this_header.concat([{text: 'Actions'}]):this_header"
-                    :items="tab_content[index]">
+                    :items="tab_content[index]"
+                    :loading="$store.state.isLoadingAnnotation">
                     <template v-slot:items="{item}">
                         <td v-for="(column, column_index) in this_header"
                             :key="'header_column_'+index+'_'+column_index"
@@ -145,7 +146,7 @@
                 renameCodeDialog: false,
                 renameCode: null,
                 selectedTab: 0,
-                tab_titles: ["Name", "TORE Entity", "Combination View", "Relationships"],
+                tab_titles: ["Word Codes", "Category Codes", "Combination View", "Relationships"],
                 headers: [
                             [  // Tab view 0
                                 {
@@ -176,14 +177,14 @@
 
                             [
                                 {
-                                    text: "TORE Entity",
+                                    text: "Category",
                                     align: "left",
                                     sortable: true,
                                     value: "tore"
                                 },
 
                                 {
-                                    text: 'Count',
+                                    text: 'Occurrences',
                                     align: "left",
                                     sortable: true,
                                     value: 'count'
@@ -195,7 +196,7 @@
                                     value: 'relationship_count'
                                 },
                                 {
-                                    text: 'Num. of Documents with this tore entity',
+                                    text: 'Num. of Documents with this category',
                                     align: "left",
                                     sortable: true,
                                     value: 'doc_count'
@@ -209,13 +210,13 @@
                                     value: "name"
                                 },
                                 {
-                                    text: "TORE Entity",
+                                    text: "Category",
                                     align: "left",
                                     sortable: true,
                                     value: "tore"
                                 },
                                 {
-                                    text: 'Count',
+                                    text: 'Occurrences',
                                     align: "left",
                                     sortable: true,
                                     value: 'count'
@@ -249,7 +250,7 @@
                                 },
 
                                 {
-                                    text: "Owner TORE",
+                                    text: "Owning Category",
                                     align: "left",
                                     sortable: true,
                                     value: "owner_tore",
@@ -300,6 +301,10 @@
 
                 for(let code of list_of_codes){
                     let name = get_code_name(code);
+                    if(!name){
+                        console.warn("generate_code_summary Got empty-name code, skipping: "+Code_user_display_prompt(code));
+                        continue;
+                    }
                     let index = found_codes.indexOf(name)
 
                     // updateable fields

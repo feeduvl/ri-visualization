@@ -26,13 +26,13 @@ function Code(index){
 
 function Code_user_display_prompt(code){
     if(code.name && !code.tore){
-        return "Name '"+code.name+"'";
+        return "Name: '"+code.name+"'";
     } else if (!code.name && code.tore){
-        return "TORE: '"+code.tore+"'"
+        return "Category: '"+code.tore+"'"
     } else if(code.name && code.tore){
-        return "Name: '"+code.name + "' TORE: '"+code.tore+"'";
+        return "Name: '"+code.name + "' Category: '"+code.tore+"'";
     } else {
-        return `[Code without name or TORE]`
+        return `[Code without name or Category]`
     }
 }
 

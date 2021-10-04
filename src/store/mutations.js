@@ -173,13 +173,14 @@ export const
     state.selectedToken = token;
   };
 
-export const updateCodeName = (state, note) => {
-  state.selected_code.name = note;
-}; export const 
+export const updateCodeName = (state, name) => {
+  console.log("Update selected code name: "+name);
+  state.selected_code.name = name;
+};
 
-  updateCodeTore = (state, tore) => {
-    state.selected_code.tore = tore;
-  }; export const 
+export const updateCodeTore = (state, tore) => {
+  state.selected_code.tore = tore;
+}; export const 
 
   setSelectedToreRelationship = (state, relationship) => {
     console.log("Setting selected relationship: "+(relationship===null?'null':relationship.index));
@@ -285,4 +286,9 @@ export const setTokensInSelectedCode = (state, [lastSelectedCode, selectedCode])
   for(let newToken of newSelectedTokens){
     Vue.set(state.token_in_selected_code, newToken, true);
   }
+};
+
+export const toggleAnnotatorViewingCodes = state => {
+  state.annotatorViewingCodeResults = !state.annotatorViewingCodeResults;
+  console.log("Toggled annotator code view to: "+state.annotatorViewingCodeResults);
 };

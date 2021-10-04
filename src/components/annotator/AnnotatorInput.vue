@@ -7,11 +7,13 @@
             v-if="wrapInputVisible"
             id="annotator-input-dialog"
             :scrollable="false"
+            class="annotator-input-dialog"
         >
         <v-card
                 :elevation="0"
                 class="annotator-input"
-                :disabled="disabled">
+                :disabled="disabled"
+                ref="annotator_input">
 
             <div class="annotator-input__input-fields">
                 <template v-if="!isLinking"
@@ -38,16 +40,27 @@
                             >
                                 <v-card>
                                     <v-card-title class="text-h5 grey lighten-2">
-                                        Highlight all similar
+                                        Encode all similar
                                     </v-card-title>
 
                                     <v-card-text
                                     >
                                         Current token: <b>{{selectedToken.name}}</b> Current token lemma: <b>{{selectedToken.lemma}}</b><br>
 
-                                        Current code: <b>[{{getselected_codeString("name")}}]</b> Current code (lemmas): <b>[{{getselected_codeString("lemma")}}]</b>  <br>
+                                        All tokens for this encoding: <b>{{getselected_codeString("name")}}</b> All lemmas for this encoding: <b>{{getselected_codeString("lemma")}}</b>  <br>
+                                    </v-card-text>
 
-                                        Highlighting all similar codes will <b>only</b> find codes with <b>adjacent</b> matching tokens/lemmas.
+                                    <v-divider></v-divider>
+                                    <v-card-text>
+
+                                        Selecting "Token" will encode all other occurrences of the current token with the Name and Category of this encoding.<br>
+
+                                        Selecting "Lemma" will encode all other occurrences of this current token lemma with the Name and Category of this encoding.<br>
+
+                                        Selecting "All Tokens" will encode all sequences of tokens that are <b>adjacent</b> and <b>match the sequence of tokens above</b> with the Name and Category of this encoding.<br>
+
+                                        Selecting "All Lemmas" will encode all sequences of tokens that are <b>adjacent</b> and <b>whose lemmas match the sequence of lemmas above</b> with the Name and Category of this encoding.
+
                                     </v-card-text>
 
                                     <v-text-field></v-text-field>
@@ -57,32 +70,39 @@
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn
-                                                color="primary"
+                                                color="red"
                                                 text
                                                 @click="promptHighlightAll = false"
+                                        >
+                                            cancel
+                                        </v-btn>
+                                        <v-btn
+                                                color="primary"
+                                                text
+                                                @click="encodeAllMatching(true, true)"
                                         >
                                             token
                                         </v-btn>
                                         <v-btn
                                                 color="primary"
                                                 text
-                                                @click="promptHighlightAll = false"
+                                                @click="encodeAllMatching(true, false)"
                                         >
                                             lemma
                                         </v-btn>
                                         <v-btn
                                                 color="primary"
                                                 text
-                                                @click="promptHighlightAll = false"
+                                                @click="encodeAllMatching(false, true)"
                                         >
-                                            code
+                                            all tokens
                                         </v-btn>
                                         <v-btn
                                                 color="primary"
                                                 text
-                                                @click="promptHighlightAll = false"
+                                                @click="encodeAllMatching(false, false)"
                                         >
-                                            code (lemmas)
+                                            all lemmas
                                         </v-btn>
                                     </v-card-actions>
                                 </v-card>
@@ -98,15 +118,7 @@
                         </v-list>
                     </v-menu>
 
-                    <v-btn
-                           @click="trashClicked"
-                           depressed
-                           class="annotator-input__cancel"
-                           v-if="!requiredAnnotationsPresent">
-                        Cancel
-                    </v-btn>
-
-                    <v-tooltip  v-else
+                    <v-tooltip
                             bottom>
                         <template #activator="{on}">
                             <v-icon v-on="on"
@@ -128,7 +140,7 @@
                             v-model="name"
                             item-text="name"
                             item-value="name"
-                            :rules="[requiredAnnotationsPresent || 'Either a name or a TORE code is required']"
+                            :rules="[requiredAnnotationsPresent || 'Either a name or a category is required']"
                             ref="nameInput"
                             v-if="wrapInputVisible"
                             autofocus
@@ -138,10 +150,10 @@
                     <v-autocomplete
                             class="annotator-input__tore"
                             @change="updateTore"
-                            :rules="[requiredAnnotationsPresent || 'Either a name or a TORE code is required']"
+                            :rules="[requiredAnnotationsPresent || 'Either a name or a category is required']"
                             :items="tore_codes"
                             :value="tore"
-                            label="TORE-Code">
+                            label="Category">
                     </v-autocomplete>
 
                     <v-tooltip bottom>
@@ -152,7 +164,7 @@
                                 link
                             </v-icon>
                         </template>
-                        <span>New TORE Relationship</span>
+                        <span>New Relationship</span>
                     </v-tooltip>
                 </template>
                 <template v-else
@@ -228,6 +240,7 @@
     import {_tore_codes, _tore_relationship_names} from "./TORE_codes";
 
     import {mapGetters} from "vuex";
+    import {Code} from "@/components/annotator/code";
 
     export default {
         name: "AnnotatorInput",
@@ -252,7 +265,8 @@
                 "selected_tore_relationship",
                 "selectedToken",
                 "tokenListToString",
-                "showingInput"]),
+                "showingInput",
+                "getCodesForToken"]),
 
 
             wrapInputVisible: {
@@ -298,10 +312,117 @@
             }
         },
 
+        watch: {
+            selected_code(){
+                if(this.selected_code && !this.requiredAnnotationsPresent){
+                    let lemma = this.$store.state.tokens[this.selectedToken.index].lemma;
+                    console.log("Initializing name and tore fields for new code: "+lemma);
+
+                    let foundTore = "";
+                    if(this.selectedToken){
+                        for(let code of this.getCodesForToken(this.selectedToken)){
+                            if(code.tore){
+                                foundTore = code.tore;
+                                break;
+                            }
+                        }
+                    } else {
+                        console.error("watch::selected_code got selected code without selected token");
+                    }
+
+                    setTimeout(t => {
+                        this.$store.commit("updateCodeName", lemma);
+                        if(foundTore){
+                            this.$store.commit("updateCodeTore", foundTore);
+                        }
+                    });
+                }
+            },
+
+            promptHighlightAll(){
+                if(this.promptHighlightAll){
+                    this.$emit('remove-dialog-stylerule', "Showing 'highlight all similar' dialog")
+                } else {
+                    this.$emit('reposition-dialog')
+                }
+            }
+        },
+
         methods: {
 
+            encodeAllMatching(useSelectedToken, tokenName){
+                let searchField = "name"
+                if(!tokenName){
+                    searchField = "lemma"
+                }
+                let matchPatternList = []
+                let thisTokenIndex = null;
+                if(useSelectedToken){
+                    matchPatternList.push(this.selectedToken[searchField])
+                    thisTokenIndex = this.selectedToken.index;
+                } else {
+                    for(let t of [...this.selected_code.tokens].sort()){
+                        if(thisTokenIndex===null){
+                            thisTokenIndex = t;
+                        }
+                        matchPatternList.push(this.$store.state.tokens[t][searchField]);
+                    }
+
+                }
+
+                let matching_indices = []  // indices at which a matching sequence starts
+                for(let t of this.$store.state.tokens){
+                    if(t.index === thisTokenIndex){
+                        continue;
+                    }
+                    if(this.checkIsMatching(t, matchPatternList, tokenName)){
+                        matching_indices.push(t.index);
+                    }
+                }
+
+                console.log("Assigning matches to codes: ")
+                console.log(matching_indices)
+                console.log(matchPatternList)
+                for(let index of matching_indices){
+
+                    let code = new Code(this.$store.state.codes.length)
+                    code.name = this.selected_code.name;
+                    code.tore = this.selected_code.tore;
+                    for(let i of Array(matchPatternList.length).keys()){
+                        this.$store.commit('assignToCode',
+                            {token: this.$store.state.tokens[index+i],
+                                code,
+                                new_code:i===0});
+                    }
+
+                }
+
+                this.$store.commit("updateLastAnnotationEditAt")
+                this.promptHighlightAll = false;
+            },
+
+            /**
+             * Check to see if a matching series of tokens begins at the current token
+             * @param token the whole object
+             * @param matchPatternList field values for tokens, sorted in ascending order
+             * @param tokenName use token name, else use lemma
+             */
+            checkIsMatching(token, matchPatternList, tokenName){
+                let left_to_match = [...matchPatternList].reverse()
+                let field = tokenName?"name":"lemma";
+                while(left_to_match.length > 0){
+                    let check_field = left_to_match.pop();
+                    if(check_field !== token[field]){
+                        return false;
+                    } else {
+                        token = this.$store.state.tokens[token.index+1];
+                    }
+                }
+                return true;
+            },
+
             getselected_codeString(field){
-                return this.selected_code.tokens.map(t => t==null?null:this.$store.state.tokens[t][field]).filter(t => t != null).toString();
+                return [...this.selected_code.tokens].sort().map(t => t==null?null:this.$store.state.tokens[t][field]).filter(t => t != null).join(' ');
             },
             updateRelationshipName(value){
                 if(this.$store.state.selected_tore_relationship){

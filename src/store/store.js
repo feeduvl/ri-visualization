@@ -89,6 +89,7 @@ export const store = new Vuex.Store({
     selected_pos_tags: [],
     selected_algo_result: null,
 
+    annotatorViewingCodeResults: false,
     available_annotations: [],
     isLoadingAnnotation: false,  // loading the annotation to be displayed
     selected_annotation: null,
@@ -138,7 +139,8 @@ export const store = new Vuex.Store({
     assignToCode(state, args){  // DECLARED HERE TO ACCESS this.commit
       // eslint-disable-next-line camelcase
       const {token, code, new_code} = args;
-      //console.log("Adding token: "+TokenToString(token)+" to code: "+CodeToString(code))
+      // eslint-disable-next-line camelcase
+      console.log("Adding token: "+token.name+" with index: "+token.index+" to code: "+CodeToString(code)+". New code: "+new_code);
       Code_add_token(state, this.commit, code, token);
       //console.log("Resulting token: "+TokenToString(token))
       // eslint-disable-next-line camelcase

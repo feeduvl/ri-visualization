@@ -10,12 +10,13 @@
                 <v-container>
                     <v-layout row wrap>
                         <v-flex xs3>
-                            <v-select
+                            <v-autocomplete
                                     v-model="createNewAnnotationDataset"
                                     :items="$store.state.datasets"
                                     label="Dataset"
+                                    :loading="$store.state.isLoadingAnnotation || $store.state.isLoadingAvailableAnnotations"
                             >
-                            </v-select>
+                            </v-autocomplete>
                         </v-flex>
                         <v-flex xs1/>
                         <v-flex xs3 id="service-status">
@@ -44,9 +45,9 @@
                                 <template #activator="{on}">
                                     <v-icon
                                             v-on="on"
-                                            :disabled="!addingAnnotationName || !createNewAnnotationDataset || $store.state.datasets.includes(addingAnnotationName)"
+                                            :disabled="!addingAnnotationName || !createNewAnnotationDataset || $store.state.datasets.includes(addingAnnotationName) || $store.state.isLoadingAnnotation"
                                             color="blue"
-                                            @click="$store.dispatch('actionGetNewAnnotation', {name: addingAnnotationName, dataset: createNewAnnotationDataset})"
+                                            @click="initializeAnnotation"
                                     >
                                         add
                                     </v-icon>
@@ -96,7 +97,7 @@
             <v-data-table
                     :headers="tableHeaders"
                     :items="$store.state.available_annotations"
-                    :loading="$store.state.isLoadingAvailableAnnotations"
+                    :loading="$store.state.isLoadingAnnotation || $store.state.isLoadingAvailableAnnotations"
                     :search="search"
             >
                 <template #items="{item}">
@@ -112,6 +113,19 @@
                         </td>
                         <td>{{ item.dataset}}</td>
                         <td><span class="icon-column">
+                            <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-icon
+                                      small
+                                      @click="viewCodeResults(item)"
+                                      v-bind="attrs"
+                                      v-on="on"
+                              >
+                                visibility
+                              </v-icon>
+                            </template>
+                            <span>View Codes</span>
+                          </v-tooltip>
                           <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
                               <v-icon
@@ -167,6 +181,14 @@
                 Cancel
             </v-btn>
         </v-snackbar>
+        <v-snackbar
+                v-model="initializingNewAnnotation"
+                :timeout="5000"
+                :top="true"
+        >
+            Initializing Annotation, this may take a while...
+
+        </v-snackbar>
     </v-container>
 </template>
 
@@ -181,6 +203,7 @@
                 search: "",
                 serviceStatus: "Checking",
                 serviceColor: GRAY,
+                initializingNewAnnotation: false,
 
                 selectAnnotationLocal: null,
                 addingAnnotationName: "",
@@ -259,11 +282,21 @@
         },
 
         methods: {
+            initializeAnnotation(){
+                this.initializingNewAnnotation = true;
+                this.$store.dispatch('actionGetNewAnnotation', {name: this.addingAnnotationName, dataset: this.createNewAnnotationDataset})
+            },
 
             deleteAnnotation(){
                 console.log(this.annotationToDelete);
                 this.$store.dispatch("actionDeleteAnnotation", this.annotationToDelete.name)
                 this.annotationToDelete = null;
+            },
+
+            viewCodeResults(annotation){
+                this.$store.commit("updateSelectedAnnotation", annotation.name)  // repeat startAnnotating here in case implementation changes
+                this.$store.dispatch('actionGetSelectedAnnotation');
+                this.$store.commit("toggleAnnotatorViewingCodes")
             },
 
             startAnnotating(annotation){

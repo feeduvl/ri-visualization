@@ -26,7 +26,7 @@
             >
 
                 <template
-                        v-if="!viewingCodes">
+                        v-if="!annotatorViewingCodeResults">
                     <v-autocomplete
                             class="annotator-string-selection annotator-toolbar__document-select"
                             :items="$store.state.docs"
@@ -86,12 +86,12 @@
                         v-else>
                     <span class="view-codes-header"
                     >
-                        Code View
+                        Coding Results View
                     </span>
                 </template>
 
                 <v-tooltip bottom
-                           v-if="!viewingCodes">
+                           v-if="!annotatorViewingCodeResults">
                     <template #activator="{on}">
                         <v-icon v-on="on"
                                 :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
@@ -104,7 +104,7 @@
                 </v-tooltip>
 
                 <v-tooltip bottom
-                           v-if="!viewingCodes">
+                           v-if="!annotatorViewingCodeResults">
                     <template #activator="{on}">
                         <v-icon v-on="on"
                                 :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
@@ -119,10 +119,10 @@
 
                 <v-tooltip bottom>
                     <template #activator="{on}">
-                        <v-icon v-if="!viewingCodes"
+                        <v-icon v-if="!annotatorViewingCodeResults"
                                 v-on="on"
                                 :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
-                                @click="viewingCodes = !viewingCodes"
+                                @click="$store.commit('toggleAnnotatorViewingCodes')"
                                 medium
                         >
                             visibility
@@ -130,19 +130,19 @@
                         <v-icon class="annotate-icon"
                                 v-else
                                 v-on="on"
-                                @click="viewingCodes = !viewingCodes"
+                                @click="$store.commit('toggleAnnotatorViewingCodes')"
                                 medium
                         >
                             mode
                         </v-icon>
                     </template>
-                    <span v-if="!viewingCodes">View Codes</span>
+                    <span v-if="!annotatorViewingCodeResults">View Codes</span>
                     <span v-else>Annotate</span>
                 </v-tooltip>
 
             </v-card>
             <v-card class="annotator-token-area"
-                    v-if="!$store.state.isLoadingAnnotation && !viewingCodes"
+                    v-if="!$store.state.isLoadingAnnotation && !annotatorViewingCodeResults"
                     ref="annotator">
                 <Token @annotator-token-click="tokenClicked"
                        @annotator-token-click-shift="tokenShiftClicked"
@@ -173,6 +173,8 @@
                         :panelIsUp="panelIsUp"
                         @annotator-input-trash-click="delete_selected_code"
                         @annotator-input__arrow-icon-click="panelIsUp = !panelIsUp"
+                        @remove-dialog-stylerule="removeDialogStylerule"
+                        @reposition-dialog="positionInput"
                 />
                 <v-card
                         class="disambiguation-prompt"
@@ -183,15 +185,15 @@
                         <v-list-tile
                                 v-for="(item, i) in multipleCodesPromptList"
                                 :key="'prompt_'+i"
-                                :style="i===0?'border: green solid 2px':''"
+                                :style="i===0?'border: red solid 2px':(i===1?'border: green solid 2px':'')"
                                 @click="disambiguateTokenCode(item, i, this)()">
-                            {{i > 0 ? `Edit '` + $store.getters.tokenListToString([...item.tokens].sort())+`'` : item.name}}
+                            {{i>1?`Edit ` +codeDisplayPrompt(item):item.name}}
                         </v-list-tile>
                     </v-list>
                 </v-card>
             </v-card>
             <CodeView
-                    v-else-if="viewingCodes">
+                    v-else-if="annotatorViewingCodeResults">
             </CodeView>
         </div>
     </div>
@@ -201,7 +203,7 @@
     import Token from "@/components/annotator/Token";
     import AnnotatorInput from "@/components/annotator/AnnotatorInput";
     import CodeView from "@/components/annotator/CodeView";
-    import {Code} from "@/components/annotator/code";
+    import {Code, Code_user_display_prompt} from "@/components/annotator/code";
     import {mapGetters, mapState} from "vuex";
     import AnnotatorSettings from "@/components/annotator/AnnotatorSettings";
 
@@ -218,8 +220,6 @@
 
                 requestAnnotatorInput: false,
                 disambiguatedTokenCode: null,
-
-                viewingCodes: false,
 
                 show_saved_snackbar: false,
                 show_auto_saved_snackbar: false,
@@ -295,10 +295,10 @@
             },
 
             mustDisambiguateTokenCode(){
-                return this.requestAnnotatorInput && this.multipleCodesPromptList.length > 1 && this.disambiguatedTokenCode === null;
+                return this.requestAnnotatorInput && this.multipleCodesPromptList.length > 2 && this.disambiguatedTokenCode === null;
             },
             multipleCodesPromptList () {
-                return [{name: "Create new Code", tore: ""}].concat(this.selectedToken===null?[]:this.getCodesForToken(this.selectedToken))
+                return [{name: "Cancel", tore:""},{name: "Create new Code", tore: ""}].concat(this.selectedToken===null?[]:this.getCodesForToken(this.selectedToken))
             },
 
             annotatorBoundingRect(){
@@ -311,7 +311,7 @@
             },
 
             selectedTokenBoundingRect(){
-                if(this.$store.state.selectedToken===null || this.viewingCodes){
+                if(this.$store.state.selectedToken===null || this.annotatorViewingCodeResults){
                     return null;
                 }
                 let elem = document.getElementById("token_"+this.$store.state.selectedToken.index).getBoundingClientRect();
@@ -349,16 +349,17 @@
 
             ...mapState([
                 "lastAnnotationEditAt",
-                "lastAnnotationPostAt"
+                "lastAnnotationPostAt",
+                "annotatorViewingCodeResults"
             ])
         },
 
         watch: {
 
-            viewingCodes(){
-                console.log("Showing Code View, clearing old stylesheet")
-                this.deleteStyleruleIfNecessary();
-                this.popupPositionStyleRuleIndex = null;
+            annotatorViewingCodeResults(){
+                if(this.annotatorViewingCodeResults){
+                    this.removeDialogStylerule("Showing code view results");
+                }
             },
 
             selectedTokenBoundingRect(){
@@ -388,6 +389,16 @@
 
         methods: {
 
+            removeDialogStylerule(reason){
+                console.log(reason+", clearing old stylesheet")
+                this.deleteStyleruleIfNecessary();
+                this.popupPositionStyleRuleIndex = null;
+            },
+
+            codeDisplayPrompt(item){
+                return Code_user_display_prompt(item)
+            },
+
             deleteStyleruleIfNecessary(){
                 if(!this.customStyleSheet){
                     this.customStyleSheet = (function() {
@@ -409,7 +420,13 @@
                 }
                 let sheet = this.customStyleSheet;
                 if(sheet && this.popupPositionStyleRuleIndex !== null){
-                    sheet.deleteRule(this.popupPositionStyleRuleIndex)
+                    try{
+                        sheet.deleteRule(this.popupPositionStyleRuleIndex)
+                    } catch (e) {
+                        console.error("Failed to delete style rule! Sheet and error: ")
+                        console.error(sheet)
+                        console.error(e)
+                    }
                 }
                 return sheet;
             },
@@ -446,7 +463,11 @@
             disambiguateTokenCode(item, i){
                 let self = this;
                 return function(){
-                    if(i === 0){  // create a new code
+                    if(i === 0){  // cancel
+                        self.requestAnnotatorInput = false;
+                        return;
+                    }
+                    else if(i === 1){  // create a new code
                         self.disambiguatedTokenCode = null;
                     } else {
                         self.disambiguatedTokenCode = item

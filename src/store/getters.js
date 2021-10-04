@@ -145,8 +145,7 @@ export const token = state => index => state.tokens[index];
 export const getCodesForToken = state => token => {
 
   console.log("getCodesForToken: "+(token?token.name:"null"));
-  return token===null?[]:state.codes.filter(c => c && c.tokens.includes(token.index));
-
+  return token===null || state.token_num_codes[token.index] === 0?[]:state.codes.filter(c => c && c.tokens.includes(token.index));
 };
 
 export const requiredAnnotationsPresent = state => {
