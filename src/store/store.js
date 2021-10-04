@@ -173,6 +173,9 @@ export const store = new Vuex.Store({
       state.docs = newDocs;
       state.selected_doc = newDocs[docs.length > 0 ? 1: 0];
 
+      if (!state.available_annotations.includes(name)){
+        state.available_annotations.push(name);
+      }
       state.selected_annotation = name;
       this.commit("setIsLoadingAnnotation", false);
     },

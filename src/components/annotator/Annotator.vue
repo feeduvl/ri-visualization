@@ -35,7 +35,7 @@
                             item-text="name"
                             return-object
                             label="Select a Document"
-                            :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
+                            :disabled="showingInput || $store.state.isLoadingAnnotation"
                             :loading="$store.state.isLoadingAnnotation">
                     </v-autocomplete>
 
@@ -46,7 +46,7 @@
                             return-object
                             v-model="annotatorAlgoResult"
                             label="Highlight Algorithm Results"
-                            :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
+                            :disabled="showingInput || $store.state.isLoadingAnnotation"
                             :loading="$store.state.isLoadingAnnotation"
                             clearable>
                     </v-autocomplete>
@@ -94,7 +94,7 @@
                            v-if="!annotatorViewingCodeResults">
                     <template #activator="{on}">
                         <v-icon v-on="on"
-                                :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
+                                :disabled="showingInput || $store.state.isLoadingAnnotation"
                                 @click="saveAndClose"
                                 medium>
                             exit_to_app
@@ -107,7 +107,7 @@
                            v-if="!annotatorViewingCodeResults">
                     <template #activator="{on}">
                         <v-icon v-on="on"
-                                :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
+                                :disabled="showingInput || $store.state.isLoadingAnnotation"
                                 @click="doSaveAnnotation(false)"
                                 medium
                         >
@@ -121,7 +121,7 @@
                     <template #activator="{on}">
                         <v-icon v-if="!annotatorViewingCodeResults"
                                 v-on="on"
-                                :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
+                                :disabled="showingInput || $store.state.isLoadingAnnotation"
                                 @click="$store.commit('toggleAnnotatorViewingCodes')"
                                 medium
                         >
@@ -187,7 +187,7 @@
                                 :key="'prompt_'+i"
                                 :style="i===0?'border: red solid 2px':(i===1?'border: green solid 2px':'')"
                                 @click="disambiguateTokenCode(item, i, this)()">
-                            {{i>1?`Edit ` +codeDisplayPrompt(item):item.name}}
+                            {{i>1?`Edit Code - ` +codeDisplayPrompt(item):item.name}}
                         </v-list-tile>
                     </v-list>
                 </v-card>

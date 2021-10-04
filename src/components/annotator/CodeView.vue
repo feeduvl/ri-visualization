@@ -292,7 +292,7 @@
             /**
              *
              * @param list_of_codes
-             * @param get_code_name This must be an injective mapping between code instances and strings!!!!
+             * @param get_code_name Group encodings by the result of this mapping, i.e. they are considered the same iff this result is the same
              * @return {[]}
              */
             generate_code_summary(list_of_codes, get_code_name){
