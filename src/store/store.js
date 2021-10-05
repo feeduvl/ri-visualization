@@ -82,7 +82,8 @@ export const store = new Vuex.Store({
     token_is_hovering_code: [],
     token_linked_together: [],
     token_is_hovering_token: [],
-    token_num_codes: [],
+    token_num_name_codes: [],
+    token_num_tore_codes: [],
     
     all_docs: {index: 0, name: "All Documents", begin_index: 0, end_index: null},
     selected_doc: null, // set it to first when loading
@@ -118,20 +119,31 @@ export const store = new Vuex.Store({
         this.commit("updateLastAnnotationEditAt");
       }
 
+      let codeName = state.selected_code.name;
+      let codeTore = state.selected_code.tore;
+
       this.commit("setTokensInSelectedCode", [state.selected_code, null]);
       state.selected_code = null;
 
       // eslint-disable-next-line camelcase
       for (let i of token_indices){
 
-        /*let newToken = {...state.tokens[i]};
-        let newTokens = [...state.tokens];
+        /*
+        let newToken = {...state.tokens[i]}
+        let newTokens = [...state.tokens]
         newToken.num_codes--;
-        newTokens[i] = newToken;
-        Object.freeze(newTokens);
-        state.tokens = newTokens;
-        this.commit("updateDocTokens");*/                
-        state.token_num_codes[i]--;
+        newTokens[i] = newToken
+        Object.freeze(newTokens)
+        state.tokens = newTokens
+        this.commit("updateDocTokens")*/
+        // state.tokens[i].num_codes--; FIXME use helper data structure
+        if (codeName){
+          state.token_num_name_codes[i]--;
+        }
+
+        if (codeTore){
+          state.token_num_tore_codes[i]--;
+        }
       }
       Vue.set(state.codes, index, null);
     },

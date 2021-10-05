@@ -46,20 +46,28 @@
                                     <v-card-text
                                     >
                                         Current token: <b>{{selectedToken.name}}</b> Current token lemma: <b>{{selectedToken.lemma}}</b><br>
-
+                                    </v-card-text>
+                                    <v-card-text
+                                            v-if="selected_code.tokens.length > 1"
+                                    >
                                         All tokens for this encoding: <b>{{getselected_codeString("name")}}</b> All lemmas for this encoding: <b>{{getselected_codeString("lemma")}}</b>  <br>
+
                                     </v-card-text>
 
                                     <v-divider></v-divider>
                                     <v-card-text>
 
-                                        Selecting "Token" will encode all other occurrences of the current token with the Name and Category of this encoding.<br>
+                                        Selecting "Token" will encode all other occurrences of the current token with the Name of this encoding.<br>
 
-                                        Selecting "Lemma" will encode all other occurrences of this current token lemma with the Name and Category of this encoding.<br>
+                                        Selecting "Lemma" will encode all other occurrences of this current token lemma with the Name of this encoding.<br>
+                                    </v-card-text>
+                                    <v-card-text
+                                            v-if="selected_code.tokens.length > 1"
+                                    >
 
-                                        Selecting "All Tokens" will encode all sequences of tokens that are <b>adjacent</b> and <b>match the sequence of tokens above</b> with the Name and Category of this encoding.<br>
+                                        Selecting "All Tokens" will encode all sequences of tokens that are <b>adjacent</b> and <b>match the sequence of tokens above</b> with the Name of this encoding.<br>
 
-                                        Selecting "All Lemmas" will encode all sequences of tokens that are <b>adjacent</b> and <b>whose lemmas match the sequence of lemmas above</b> with the Name and Category of this encoding.
+                                        Selecting "All Lemmas" will encode all sequences of tokens that are <b>adjacent</b> and <b>whose lemmas match the sequence of lemmas above</b> with the Name of this encoding.
 
                                     </v-card-text>
 
@@ -90,20 +98,24 @@
                                         >
                                             lemma
                                         </v-btn>
-                                        <v-btn
-                                                color="primary"
-                                                text
-                                                @click="encodeAllMatching(false, true)"
-                                        >
-                                            all tokens
-                                        </v-btn>
-                                        <v-btn
-                                                color="primary"
-                                                text
-                                                @click="encodeAllMatching(false, false)"
-                                        >
-                                            all lemmas
-                                        </v-btn>
+                                        <template
+                                        v-if="selected_code.tokens.length > 1">
+                                            <v-btn
+                                                    color="primary"
+                                                    text
+                                                    @click="encodeAllMatching(false, true)"
+                                            >
+                                                all tokens
+                                            </v-btn>
+                                            <v-btn
+                                                    color="primary"
+                                                    text
+                                                    @click="encodeAllMatching(false, false)"
+                                            >
+                                                all lemmas
+                                            </v-btn>
+                                        </template>
+
                                     </v-card-actions>
                                 </v-card>
 
@@ -392,7 +404,6 @@
 
                     let code = new Code(this.$store.state.codes.length)
                     code.name = this.selected_code.name;
-                    code.tore = this.selected_code.tore;
                     for(let i of Array(matchPatternList.length).keys()){
                         this.$store.commit('assignToCode',
                             {token: this.$store.state.tokens[index+i],

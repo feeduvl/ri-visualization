@@ -136,8 +136,10 @@ export const
     let hovering_codes = [];
     if(token !== null){
       let ind = token.index;
-      if(state.token_num_codes > 0){   // better than filtering because we terminate search asap
-        let remaining_codes = state.token_num_codes;
+      if(state.token_num_name_codes[ind] > 0  || state.token_num_tore_codes[ind] > 0){   // better than filtering because we terminate search asap
+        let remaining_name_codes = state.token_num_name_codes[ind];
+        let remaining_tore_codes = state.token_num_tore_codes[ind];
+
         for(let code of state.codes){
           if(code === null){
             // eslint-disable-next-line no-continue
@@ -145,9 +147,16 @@ export const
           }
           if(code.tokens.includes(ind)){
             hovering_codes.push(code);
-            remaining_codes--;
+            // eslint-disable-next-line max-depth
+            if(code.name){
+              remaining_name_codes--;
+            }
+            // eslint-disable-next-line max-depth
+            if(code.tore){
+              remaining_tore_codes--;
+            }
           }
-          if(remaining_codes <= 0){
+          if(remaining_name_codes <= 0 && remaining_tore_codes <= 0){
             break;
           }
         }
@@ -175,11 +184,31 @@ export const
 
 export const updateCodeName = (state, name) => {
   console.log("Update selected code name: "+name);
+  let beforeName = state.selected_code.name;
   state.selected_code.name = name;
+  if(name && !beforeName){
+    for(let t_index of state.selected_code.tokens){
+      state.token_num_name_codes[t_index]++;
+    }
+  } else if(!name && beforeName){
+    for(let t_index of state.selected_code.tokens){
+      state.token_num_name_codes[t_index]--;
+    }
+  }
 };
 
 export const updateCodeTore = (state, tore) => {
+  let beforeTore = state.selected_code.tore;
   state.selected_code.tore = tore;
+  if(tore && !beforeTore){
+    for(let t_index of state.selected_code.tokens){
+      state.token_num_tore_codes[t_index]++;
+    }
+  } else if(!tore && beforeTore){
+    for(let t_index of state.selected_code.tokens){
+      state.token_num_tore_codes[t_index]--;
+    }
+  }
 }; export const 
 
   setSelectedToreRelationship = (state, relationship) => {
@@ -248,7 +277,8 @@ export const initTokensEfficiencyStructs = (state, tear_down) => {
   let token_is_hovering_code = [];
   let token_linked_together = [];
   let token_is_hovering_token = [];
-  let token_num_codes = [];
+  let token_num_name_codes = [];
+  let token_num_tore_codes = [];
 
   if(!tear_down){
     // eslint-disable-next-line no-unused-vars
@@ -259,7 +289,8 @@ export const initTokensEfficiencyStructs = (state, tear_down) => {
       token_is_hovering_code.push(false);
       token_linked_together.push(false);
       token_is_hovering_token.push(false);
-      token_num_codes.push(t.num_codes);
+      token_num_name_codes.push(t.num_name_codes);
+      token_num_tore_codes.push(t.num_tore_codes);
     }
   }
   state.token_in_selected_code = token_in_selected_code;
@@ -268,7 +299,8 @@ export const initTokensEfficiencyStructs = (state, tear_down) => {
   state.token_is_hovering_code = token_is_hovering_code;
   state.token_linked_together = token_linked_together;
   state.token_is_hovering_token = token_is_hovering_token;
-  state.token_num_codes = token_num_codes;
+  state.token_num_name_codes = token_num_name_codes;
+  state.token_num_tore_codes = token_num_tore_codes;
 
 };
 
@@ -288,7 +320,7 @@ export const setTokensInSelectedCode = (state, [lastSelectedCode, selectedCode])
   }
 };
 
-export const toggleAnnotatorViewingCodes = state => {
-  state.annotatorViewingCodeResults = !state.annotatorViewingCodeResults;
+export const toggleAnnotatorViewingCodes = (state, show) => {
+  state.annotatorViewingCodeResults = show;
   console.log("Toggled annotator code view to: "+state.annotatorViewingCodeResults);
 };

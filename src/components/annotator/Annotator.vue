@@ -121,7 +121,7 @@
                         <v-icon v-if="!annotatorViewingCodeResults"
                                 v-on="on"
                                 :disabled="showingInput || $store.state.isLoadingAnnotation"
-                                @click="$store.commit('toggleAnnotatorViewingCodes')"
+                                @click="$store.commit('toggleAnnotatorViewingCodes', true)"
                                 medium
                         >
                             visibility
@@ -129,7 +129,7 @@
                         <v-icon class="annotate-icon"
                                 v-else
                                 v-on="on"
-                                @click="$store.commit('toggleAnnotatorViewingCodes')"
+                                @click="$store.commit('toggleAnnotatorViewingCodes', false)"
                                 medium
                         >
                             mode
@@ -152,7 +152,9 @@
                        v-bind="{
                        ...$store.state.tokens[$store.state.selected_doc.begin_index + token_number - 1],
                        inSelectedCode: $store.state.token_in_selected_code[$store.state.selected_doc.begin_index + token_number - 1],
-                       hasCode: $store.state.token_num_codes[$store.state.selected_doc.begin_index + token_number - 1] > 0,
+                       hasName: $store.state.token_num_name_codes[$store.state.selected_doc.begin_index + token_number - 1] > 0,
+                       hasTore: $store.state.token_num_tore_codes[$store.state.selected_doc.begin_index + token_number - 1] > 0,
+
                        isHoveringCode: $store.state.token_is_hovering_code[$store.state.selected_doc.begin_index + token_number - 1],
                        linkedTogether: isLinking && $store.state.token_linked_together[$store.state.selected_doc.begin_index + token_number - 1],
                        isHoveringToken: $store.state.token_is_hovering_token[$store.state.selected_doc.begin_index + token_number - 1],

@@ -2,7 +2,6 @@
     <span   :id="'token_'+props.index"
             class="annotator-token-outer" :class="[props.show_pos && !props.isLinking ? props.posClass:'token-outer-default', 'whitespace',
     {
-        // whitespace after this token
         hoveringLinkable: props.isLinking && props.isHoveringToken,
         linkedTogether: props.linkedTogether,
         isAlgoLemma: props.algo_lemma
@@ -13,7 +12,9 @@
           @click.ctrl="listeners['annotator-token-click-ctrl'](props.index)">
             <span class="annotator-token-inner"
                   :class="['token-inner-default', {
-                    hasCodeHighlighted: props.hasCode,  // indicates that a token has been assigned to a code
+                    hasOnlyName: props.hasName && !props.hasTore,  // indicates that a token has been assigned to a code
+                    hasOnlyTore: !props.hasName && props.hasTore,
+                    hasBoth: props.hasName && props.hasTore,
                     currentlyHoveringCode: ((props.isLinking || props.annotatorInputVisible) && props.inSelectedCode) // currently SELECTED code || props.isHoveringCode // indicates membership of 'currently hovering' code or the origin of ongoing linking
             }]">
                 {{props.name}}
@@ -169,10 +170,16 @@
                 type: Boolean,
                 required: true
             },
-            hasCode: {
+
+            hasName: {
                 type: Boolean,
                 required: true
             },
+            hasTore: {
+                type: Boolean,
+                required: true
+            },
+
             isHoveringCode: {
                 type: Boolean,
                 required: true
@@ -246,8 +253,16 @@
         border: black solid 2px;
     }
 
-    .hasCodeHighlighted{
-        background-color: #dbdb30;
+    .hasOnlyName {
+        background-color: #0047AB;
+    }
+
+    .hasOnlyTore {
+        background-color: #fff668;
+    }
+
+    .hasBoth {
+        background-color: #66f877;
     }
 
     .assignedToselected_code{

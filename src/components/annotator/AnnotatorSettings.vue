@@ -35,7 +35,7 @@
                             <v-text-field
                                     class="annotator-text-input annotator-settings__name-input"
                                     :disabled="!createNewAnnotationDataset"
-                                    :rules="[!$store.state.datasets.includes(addingAnnotationName) || 'Name is already in use.']"
+                                    :rules="[!$store.state.available_annotations.filter(a => a.name === addingAnnotationName).length > 0 || 'Name is already in use.']"
                                     label="Enter a unique annotation name"
                                     v-model="addingAnnotationName">
                             </v-text-field>
@@ -296,7 +296,7 @@
             viewCodeResults(annotation){
                 this.$store.commit("updateSelectedAnnotation", annotation.name)  // repeat startAnnotating here in case implementation changes
                 this.$store.dispatch('actionGetSelectedAnnotation');
-                this.$store.commit("toggleAnnotatorViewingCodes")
+                this.$store.commit("toggleAnnotatorViewingCodes", true)
             },
 
             startAnnotating(annotation){

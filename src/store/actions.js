@@ -93,7 +93,9 @@ export const actionPostCurrentAnnotation = ({state, commit}) => {
     commit("postAnnotationCallback");
     let postTokens = [];
     for (let t of state.tokens){
-      postTokens.push({...t, num_codes: state.token_num_codes[t.index]});
+      postTokens.push({...t,
+        num_name_codes: state.token_num_name_codes[t.index],
+        num_tore_codes: state.token_num_tore_codes[t.index]});
     }
     axios.post(ANNOTATION_POST_ENDPOINT, {
       uploaded_at: state.annotator_uploaded_at,
