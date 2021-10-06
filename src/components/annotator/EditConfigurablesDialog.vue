@@ -203,7 +203,6 @@
                 this.awaitingCallback = true;
                 let newRelationships = [...this.relationship_names]
                 newRelationships.push(this.addNewRelationshipValue)
-                newRelationships.sort();
 
                 this.$store.dispatch("actionPostAllRelationships", newRelationships)
                     .then(() => {
@@ -222,7 +221,6 @@
                 this.awaitingCallback = true;
                 let newTores = [...this.tores]
                 newTores.push(this.addNewToreValue)
-                newTores.sort();
 
                 this.$store.dispatch("actionPostAllTores", newTores)
                     .then(() => {

@@ -41,7 +41,6 @@
                     <v-pagination v-if="numberOfAvailablePages > 1"
                             v-model="selectedPage"
                             :length="numberOfAvailablePages"
-                                  @input="displayCurrentPage"
                         :total-visible="Math.min(9, numberOfAvailablePages)">
 
                     </v-pagination>
@@ -218,7 +217,7 @@
                 </v-card>
             </v-card>
             <CodeView
-                    v-else-if="annotatorViewingCodeResults">
+                    v-if="annotatorViewingCodeResults">
             </CodeView>
         </div>
     </div>
@@ -315,6 +314,7 @@
                     return this.$store.state.selected_doc;
                 },
                 set(value){
+                    this.selectedPage = 1;
                     this.$store.commit("updateSelectedDoc", value)
                 }
             },
@@ -719,14 +719,6 @@
                 this.doSaveAnnotation(false)
                 this.$store.commit("resetAnnotator")
                 this.$store.dispatch("actionGetAllAnnotations")
-            },
-
-            displayCurrentPage(){
-                /*if(this.selectedPage > 5){  // FIXME if not visible, show snackbar
-
-                }
-                this.snackbarText = "Current page: "+this.selectedPage
-                this.show_snackbar = true*/
             }
         }
     }
