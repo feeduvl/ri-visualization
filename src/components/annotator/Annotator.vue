@@ -2,18 +2,10 @@
     <div>
         <v-snackbar
                 class="saved-annotation-snackbar"
-                v-model="show_saved_snackbar"
+                v-model="show_snackbar"
                 :timeout="1500"
         >
-            {{this.saveSnackbarText}}
-        </v-snackbar>
-
-        <v-snackbar
-                class="saved-annotation-snackbar"
-                v-model="show_auto_saved_snackbar"
-                :timeout="1500"
-        >
-            {{this.autoSaveSnackbarText}}
+            {{this.snackbarText}}
         </v-snackbar>
 
         <EditConfigurablesDialog
@@ -45,6 +37,14 @@
                             :disabled="showingInput || $store.state.isLoadingAnnotation"
                             :loading="$store.state.isLoadingAnnotation">
                     </v-autocomplete>
+
+                    <v-pagination v-if="numberOfAvailablePages > 1"
+                            v-model="selectedPage"
+                            :length="numberOfAvailablePages"
+                                  @input="displayCurrentPage"
+                        :total-visible="Math.min(9, numberOfAvailablePages)">
+
+                    </v-pagination>
 
                     <v-autocomplete
                             class="annotator-string-selection annotator-toolbar__algo-results-select"
@@ -97,7 +97,8 @@
                     </span>
                 </template>
 
-                <v-tooltip bottom>
+                <v-tooltip bottom
+                           :key="'toolbar_icon'+0">
                     <template #activator="{on}">
                         <v-icon v-on="on"
                                 :disabled="showingInput || $store.state.isLoadingAnnotation"
@@ -109,7 +110,8 @@
                     Edit Categories and Relationships
                 </v-tooltip>
 
-                <v-tooltip bottom>
+                <v-tooltip bottom
+                           :key="'toolbar_icon'+1">
                     <template #activator="{on}">
                         <v-icon v-on="on"
                                 :disabled="showingInput || $store.state.isLoadingAnnotation"
@@ -122,7 +124,8 @@
                 </v-tooltip>
 
                 <v-tooltip bottom
-                           v-if="!annotatorViewingCodeResults">
+                           v-if="!annotatorViewingCodeResults"
+                           :key="'toolbar_icon'+2">
                     <template #activator="{on}">
                         <v-icon v-on="on"
                                 :disabled="showingInput || $store.state.isLoadingAnnotation"
@@ -135,7 +138,8 @@
                     <span>Save</span>
                 </v-tooltip>
 
-                <v-tooltip bottom>
+                <v-tooltip bottom
+                           :key="'toolbar_icon'+3">
                     <template #activator="{on}">
                         <v-icon v-if="!annotatorViewingCodeResults"
                                 v-on="on"
@@ -166,21 +170,21 @@
                        @annotator-token-click-shift="tokenShiftClicked"
                        @annotator-token-click-ctrl="tokenCtrlClicked"
                        ref="token"
-                       v-for="token_number in $store.state.selected_doc.end_index - $store.state.selected_doc.begin_index"
-                       :key="$store.state.selected_doc.begin_index + token_number - 1"
+                       v-for="token_number in tokensThisPage"
+                       :key="selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1"
                        v-bind="{
-                       ...$store.state.tokens[$store.state.selected_doc.begin_index + token_number - 1],
-                       inSelectedCode: $store.state.token_in_selected_code[$store.state.selected_doc.begin_index + token_number - 1],
-                       hasName: $store.state.token_num_name_codes[$store.state.selected_doc.begin_index + token_number - 1] > 0,
-                       hasTore: $store.state.token_num_tore_codes[$store.state.selected_doc.begin_index + token_number - 1] > 0,
+                       ...$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
+                       inSelectedCode: $store.state.token_in_selected_code[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
+                       hasName: $store.state.token_num_name_codes[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1] > 0,
+                       hasTore: $store.state.token_num_tore_codes[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1] > 0,
 
-                       isHoveringCode: $store.state.token_is_hovering_code[$store.state.selected_doc.begin_index + token_number - 1],
-                       linkedTogether: isLinking && $store.state.token_linked_together[$store.state.selected_doc.begin_index + token_number - 1],
-                       isHoveringToken: $store.state.token_is_hovering_token[$store.state.selected_doc.begin_index + token_number - 1],
+                       isHoveringCode: $store.state.token_is_hovering_code[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
+                       linkedTogether: isLinking && $store.state.token_linked_together[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
+                       isHoveringToken: $store.state.token_is_hovering_token[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
                        isLinking: isLinking,
-                       algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes($store.state.tokens[$store.state.selected_doc.begin_index + token_number - 1].lemma?$store.state.tokens[$store.state.selected_doc.begin_index + token_number - 1].lemma.toLowerCase():''),
-                       show_pos: $store.state.tokens[$store.state.selected_doc.begin_index + token_number - 1].pos!==null && $store.state.selected_pos_tags.includes($store.state.tokens[$store.state.selected_doc.begin_index + token_number - 1].pos),
-                       posClass: getPosClass($store.state.tokens[$store.state.selected_doc.begin_index + token_number - 1].pos),
+                       algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma?$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma.toLowerCase():''),
+                       show_pos: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos!==null && $store.state.selected_pos_tags.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos),
+                       posClass: getPosClass($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos),
                        annotatorInputVisible: $store.state.annotatorInputVisible
                    }">
                 </Token>
@@ -234,19 +238,20 @@
         data: () => {
             return {
 
+                tokensPerPage: 350,
+
+                selectedPage: 1,
                 showingEditConfigurablesPopup: false,
 
                 customStyleSheet: null,
                 popupPositionStyleRuleIndex: null,
 
-                saveSnackbarText: "Annotation saved.",
-                autoSaveSnackbarText: "Auto-saved.",
+                snackbarText: "",
 
                 requestAnnotatorInput: false,
                 disambiguatedTokenCode: null,
 
-                show_saved_snackbar: false,
-                show_auto_saved_snackbar: false,
+                show_snackbar: false,
 
                 algo_lemmas: null,
                 annotatorInputWidthPct: 50,
@@ -262,6 +267,21 @@
         },
         components: {AnnotatorSettings, AnnotatorInput, Token, CodeView, EditConfigurablesDialog},
         computed: {
+            
+            tokensThisPage(){
+                if((this.selectedPage * this.tokensPerPage) < this.selected_doc.end_index){
+                    return this.tokensPerPage;
+                } else {
+                    return (this.selected_doc.end_index - this.selected_doc.begin_index) % this.tokensPerPage;
+                }
+            },
+
+            numberOfAvailablePages(){
+                if(!this.selected_doc){
+                    return 1
+                }
+                return Math.floor((this.$store.state.selected_doc.end_index - this.$store.state.selected_doc.begin_index) / this.tokensPerPage) + 1
+            },
 
             dialogPositionStyle(){  //  need to do this because the actual dialog DOM object isn't exposed
                 let annotatorBox = this.annotatorBoundingRect;
@@ -270,13 +290,13 @@
                 if(annotatorBox === null || tokenBox === null){
                     return ""
                 } else {
-                    let lowerWidth = annotatorBox.width*((100-this.annotatorInputWidthPct)/100);
+                    let upperLeft = annotatorBox.width-600;
                     return `.v-dialog{
                                 margin: 5px;
                                 position: absolute;
                                 width: auto;
-                                overflow: hidden;
-                                left: ${Math.min(lowerWidth, tokenBox.left)}px;
+                                overflow: auto;
+                                left: ${Math.min(upperLeft, tokenBox.left)}px;
                                 top: ${tokenBox.top + tokenBox.height + (panelIsUp?0:200)}px;
                             }`
                 }
@@ -374,7 +394,8 @@
             ...mapState([
                 "lastAnnotationEditAt",
                 "lastAnnotationPostAt",
-                "annotatorViewingCodeResults"
+                "annotatorViewingCodeResults",
+                "selected_doc"
             ])
         },
 
@@ -686,10 +707,11 @@
 
             doSaveAnnotation(autosave){
                 this.$store.dispatch('actionPostCurrentAnnotation')
+                this.show_snackbar = true;
                 if(autosave){
-                    this.show_auto_saved_snackbar = true;
+                    this.snackbarText = "Auto-saved."
                 } else {
-                    this.show_saved_snackbar = true;
+                    this.snackbarText = "Annotation saved."
                 }
             },
 
@@ -697,6 +719,14 @@
                 this.doSaveAnnotation(false)
                 this.$store.commit("resetAnnotator")
                 this.$store.dispatch("actionGetAllAnnotations")
+            },
+
+            displayCurrentPage(){
+                /*if(this.selectedPage > 5){  // FIXME if not visible, show snackbar
+
+                }
+                this.snackbarText = "Current page: "+this.selectedPage
+                this.show_snackbar = true*/
             }
         }
     }

@@ -126,7 +126,17 @@
                 return this.generate_code_summary(this.$store.state.codes.filter(c => c), c => c.tore)
             },
             code_combination_summary(){
-                return this.generate_code_summary(this.$store.state.codes.filter(c => c), Code_user_display_prompt)
+                return this.generate_code_summary(this.$store.state.codes.filter(c => c), (code) => {
+                    if(code.name && !code.tore){
+                        return "Name: '"+code.name+"'";
+                    } else if (!code.name && code.tore){
+                        return "Category: '"+code.tore+"'"
+                    } else if(code.name && code.tore){
+                        return "Name: '"+code.name + "' Category: '"+code.tore+"'";
+                    } else {
+                        return ""
+                    }
+                })
             },
             relationship_summary(){
                 return this.generate_relationship_summary(this.$store.state.tore_relationships.filter(r => r))
