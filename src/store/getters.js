@@ -201,14 +201,35 @@ export const lemmasFromSelectedResult = state => {
   if (frequency_methods.includes(state.selected_algo_result.method)){
     ret = state.selected_algo_result.topics.concepts;
   } else {
-    console.warn("lemmasFromSelectedResult not implemented");
+    try {
+      let result = state.selected_algo_result;
+      let list = [];
+      // eslint-disable-next-line guard-for-in
+      for (let topic in result.topics) {
+        // eslint-disable-next-line guard-for-in
+        for (let index in result.topics[topic]) {
+          let word = result.topics[topic][index];
+          // eslint-disable-next-line max-depth
+          if (word.length <= 1) {
+            // eslint-disable-next-line no-continue
+            continue;
+          }
+          // eslint-disable-next-line max-depth
+          if (!(list.indexOf(word) > -1)) {
+            list.push(word);
+          }
+        }
+      }
+      ret.concat(list.sort());
+    } catch (e) {
+      console.error("Failed to get keywords: "+e);
+    }
   }
   return ret.map(l => (l?l.toLowerCase():l));
 };
 
 export const annotationAlgoResults = state => {
-  const valid_methods = ["frequency-fcic", "frequency-rbai"];
-  return state.results.filter(r => r.dataset_name === state.annotator_dataset && valid_methods.includes(r.method));
+  return state.results.filter(r => r.dataset_name === state.annotator_dataset);
 };
 
 export const showingInput = state => {
