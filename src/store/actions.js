@@ -31,12 +31,13 @@ import {
   MUTATE_TOP_BAR_LINK
 } from '@/store/types';
 
-export const actionPostAllRelationships= ({commit}, newRelationships) => {
+export const actionPostAllRelationships= ({commit}, {newRelationships, newOwners}) => {
   return new Promise((resolve, reject) => {
     console.log("Posting all relationships.");
-    axios.post(POST_ALL_RELATIONSHIPS_ENDPOINT, {relationship_names: newRelationships})
+    axios.post(POST_ALL_RELATIONSHIPS_ENDPOINT, {relationship_names: newRelationships, owners: newOwners})
       .then(r => {
         commit("setRelationshipNames", newRelationships);
+        commit("setRelationshipOwners", newOwners);
         resolve(r);
       })
       .catch(e => {
@@ -68,9 +69,10 @@ export const actionGetAllRelationships = ({commit}) => {
     axios.get(GET_ALL_RELATIONSHIPS_ENDPOINT)
       .then(response => {
         // eslint-disable-next-line camelcase
-        const {relationship_names} = response.data;
+        const {relationship_names, owners} = response.data;
         console.log("Got all relationships");
         commit("setRelationshipNames", relationship_names);
+        commit("setRelationshipOwners", owners);
       })
       .catch(e => console.error("Error getting relationships: "+e));
   });

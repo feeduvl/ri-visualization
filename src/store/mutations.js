@@ -257,6 +257,10 @@ export const setRelationshipNames = (state, relationship_names) => {
   state.relationship_names = relationship_names;
 };
 
+export const setRelationshipOwners = (state, owners) => {
+  state.relationship_owners = owners;
+};
+
 export const setIsLoadingAnnotation = (state, isLoading) => {
   state.isLoadingAnnotation = isLoading;
 };

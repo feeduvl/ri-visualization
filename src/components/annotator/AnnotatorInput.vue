@@ -171,7 +171,7 @@
                     <v-tooltip bottom>
                         <template #activator="{on}">
                             <v-icon v-on="on"
-                                    :disabled="!selected_code.tore"
+                                    :disabled="!selected_code.tore || allowedRelationshipNames.length === 0"
                                     @click="startLinking">
                                 link
                             </v-icon>
@@ -209,7 +209,7 @@
 
                     <v-autocomplete  class="annotator-input__relationship-name"
                                      @change="updateRelationshipName"
-                                     :items="relationship_names"
+                                     :items="allowedRelationshipNames"
                                      :value="relationshipName"
                                      :disabled="!selected_tore_relationship"
                                      :label="selected_tore_relationship?'Relationship Name':'Select a target token'">
@@ -291,6 +291,12 @@
                 "getCodesForToken"]),
 
             ...mapState(["relationship_names", "tores"]),
+
+            allowedRelationshipNames(){
+                return this.$store.state.relationship_names.filter((name, index) => {
+                    return !this.$store.state.relationship_owners[index] || this.$store.state.relationship_owners[index] === this.tore;
+                } )
+            },
 
             wrapInputVisible: {
                 get(){

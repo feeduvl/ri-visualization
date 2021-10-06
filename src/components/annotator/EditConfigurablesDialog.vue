@@ -51,6 +51,7 @@
                             <v-icon
                                     :disabled="!addNewToreValue"
                                     v-on="on"
+                                    color="blue"
                                     @click="addNewTore">
                                 add
                             </v-icon>
@@ -69,10 +70,19 @@
                     <v-select
                             label="Delete a Relationship Type"
                             v-model="deleteRelationshipModel"
-                            :items="relationship_names"
+                            :items="relationshipItems"
                             :loading="awaitingCallback"
+                            return-object
+                            item-text="name"
+                            :style="`width: min-content;
+                                    min-width: 230px`"
                     >
                     </v-select>
+                        <v-text-field
+                        :readonly="true"
+                        label="Relationship Owner"
+                        :value="deleteRelationshipModel===null?null:deleteRelationshipModel.owner">
+                        </v-text-field>
                     <v-tooltip
                             bottom>
                         <template #activator="{on}">
@@ -88,17 +98,27 @@
                         >Delete This Relationship</span>
                     </v-tooltip>
                     <v-text-field
-                            v-model="addNewRelationshipValue"
+                            v-model="addNewRelationshipName"
                             label="Add a new Relationship"
                             :loading="awaitingCallback"
                     >
                     </v-text-field>
+
+                    <v-select
+                            v-model="addNewRelationshipOwner"
+                            label="Relationship owner (optional)"
+                            :loading="awaitingCallback"
+                            :items="tores"
+                            clearable
+                    >
+                    </v-select>
                     <v-tooltip
                             bottom>
                         <template #activator="{on}">
                             <v-icon
-                                    :disabled="!addNewRelationshipValue"
+                                    :disabled="!addNewRelationshipName"
                                     v-on="on"
+                                    color="blue"
                                     @click="addNewRelationship">
                                 add
                             </v-icon>
@@ -133,11 +153,21 @@
                 deleteRelationshipModel: null,
                 deleteToreModel: null,
 
-                addNewRelationshipValue: null,
+                addNewRelationshipName: null,
+                addNewRelationshipOwner: null,
                 addNewToreValue: null,
 
                 awaitingCallback: false
 
+            }
+        },
+        computed: {
+            relationshipItems(){
+                let items = []
+                for(let i = 0; i < this.relationship_names.length; i++){
+                    items.push({name: this.relationship_names[i], owner: this.relationship_owners[i]})
+                }
+                return items;
             }
         },
         props: {
@@ -146,6 +176,10 @@
                 required: true
             },
             tores: {
+                type: Array,
+                required: true
+            },
+            relationship_owners: {
                 type: Array,
                 required: true
             },
@@ -180,15 +214,17 @@
             deleteSelectedRelationship(){
                 this.awaitingCallback = true;
                 let newRelationships = [...this.relationship_names]
-                let i = newRelationships.indexOf(this.deleteRelationshipModel)
+                let newOwners = [...this.relationship_owners]
+                let i = newRelationships.indexOf(this.deleteRelationshipModel.name)
                 if(i===-1){
-                    console.error("Couldn't find selected delete relationship value: "+this.deleteRelationshipModel+" in relationship_names: "+this.relationship_names)
+                    console.error("Couldn't find selected delete relationship value: "+this.deleteRelationshipModel.name+" in relationship_names: "+this.relationship_names)
                     this.snackbarText = "Failed to update relationships"
                     this.snackbarVisible = true;
                 } else {
                     newRelationships.splice(i, 1);
-                    this.$store.dispatch("actionPostAllRelationships", newRelationships).then(() => {
-                        this.snackbarText = "Deleted Relationship: " + this.deleteRelationshipModel
+                    newOwners.splice(i, 1);
+                    this.$store.dispatch("actionPostAllRelationships", {newRelationships, newOwners}).then(() => {
+                        this.snackbarText = "Deleted Relationship: " + this.deleteRelationshipModel.name + (this.deleteRelationshipModel.owner?" with owner: "+this.deleteRelationshipModel.owner:"")
                     }).catch(() => {
                         this.snackbarText = "Failed to update relationships"
                     }).finally(() => {
@@ -202,19 +238,20 @@
             addNewRelationship(){
                 this.awaitingCallback = true;
                 let newRelationships = [...this.relationship_names]
-                newRelationships.push(this.addNewRelationshipValue)
-
-                this.$store.dispatch("actionPostAllRelationships", newRelationships)
+                let newOwners = [...this.relationship_owners]
+                newRelationships.push(this.addNewRelationshipName)
+                newOwners.push(!this.addNewRelationshipOwner?"":this.addNewRelationshipOwner)
+                this.$store.dispatch("actionPostAllRelationships", {newRelationships, newOwners})
                     .then(() => {
-                    this.snackbarText = "Added Relationship: " + this.addNewRelationshipValue
+                    this.snackbarText = "Added Relationship: " + this.addNewRelationshipName+(this.addNewRelationshipOwner?" with owner: "+this.addNewRelationshipOwner:"")
                 }).catch(() => {
                     this.snackbarText = "Failed to update relationships"
                 }).finally(() => {
-                    this.addNewRelationshipValue = null;
+                    this.addNewRelationshipName = null;
+                    this.addNewRelationshipOwner = null;
                     this.snackbarVisible = true
                     this.awaitingCallback = false;
                 });
-
             },
 
             addNewTore(){

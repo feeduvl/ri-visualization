@@ -12,6 +12,7 @@
                 @hide-edit-configurables="hideEditConfigurables"
                 :show="showingEditConfigurablesPopup"
                 :relationship_names="[...$store.state.relationship_names]"
+                :relationship_owners="[...$store.state.relationship_owners]"
                 :tores="[...$store.state.tores]">
         </EditConfigurablesDialog>
 
@@ -617,19 +618,18 @@
                     console.log("Missing required input, ignoring focus out")
                     return;
                 }*/
-
+                if(this.isLinking){
+                    this.tokenClicked(index);
+                    return;
+                }
 
                 if(this.showingInput){
                     const clickindex = index;
                     let endlim = this.$store.state.selected_code.tokens[this.$store.state.selected_code.tokens.length-1];
                     let grow = endlim <= clickindex ? 1 : -1;
                     for(let i = endlim; i !== clickindex + grow; endlim <= clickindex ? i++ : i--){
-                        if(this.isLinking){
-                            this.tokenClicked(this.token(i))
-                        } else {
-                            this.$store.commit('assignToCode', {token: this.token(i), code: this.$store.state.selected_code})
-                            this.$store.commit("updateLastAnnotationEditAt")
-                        }
+                        this.$store.commit('assignToCode', {token: this.token(i), code: this.$store.state.selected_code})
+                        this.$store.commit("updateLastAnnotationEditAt")
                     }
 
                     setTimeout(() => {
@@ -639,7 +639,6 @@
                         this.addSelectedTokenToCode()
                     });
                 } else {
-
                     let token = this.token(index)
                     this.tokenClicked(token)
                 }
@@ -650,22 +649,25 @@
                     console.log("Missing required input, ignoring focus out")
                     return;
                 }*/
+                if(this.isLinking){
+                    this.tokenClicked(index);
+                    return;
+                }
+
                 let token = this.token(index)
                 if(this.showingInput){
-                    if(this.isLinking){
-                        this.tokenClicked(token)
-                    } else {
-                        this.$store.commit('assignToCode', {token, code: this.$store.state.selected_code})
-                        this.$store.commit("updateLastAnnotationEditAt")
-                    }
+
+                    this.$store.commit('assignToCode', {token, code: this.$store.state.selected_code})
+                    this.$store.commit("updateLastAnnotationEditAt")
                     setTimeout(() => {
                         console.warn("Simulating original token click to reopen dialog")
                         this.updateSelectedToken(this.last_token)
                         this.disambiguatedTokenCode = this.last_code
                         this.addSelectedTokenToCode()
                     });
+
                 } else {
-                    this.tokenClicked(token)
+                    this.tokenClicked(index)
                 }
             },
 

@@ -57,6 +57,7 @@ export const store = new Vuex.Store({
       {name: "Adjectives", tag: "a", color: ADJECTIVE_COLOR}
     ],
 
+    relationship_owners: [],  // tore at index i owns the relationship name at index i
     relationship_names: [],  // relationship types
     tores: [],  // tore categories
 
