@@ -21,8 +21,8 @@ export const GET_ALL_RELATIONSHIPS_ENDPOINT = `${BASE_URL}/hitec/repository/conc
 export const GET_ALL_TORES_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/annotation/tores`
 
 
-export const POST_ALL_RELATIONSHIPS_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/annotation/relationships`
-export const POST_ALL_TORES_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/annotation/tores`
+export const POST_ALL_RELATIONSHIPS_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/annotation/relationships/`
+export const POST_ALL_TORES_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/annotation/tores/`
 export const ANNOTATION_GET_ENDPOINT = function(name){
   return `${BASE_URL}/hitec/repository/concepts/annotation/name/${encodeURIComponent(name)}`
 };
