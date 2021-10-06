@@ -163,7 +163,7 @@
                             class="annotator-input__tore"
                             @change="updateTore"
                             :rules="[requiredAnnotationsPresent || 'Either a name or a category is required']"
-                            :items="tore_codes"
+                            :items="tores"
                             :value="tore"
                             label="Category">
                     </v-autocomplete>
@@ -209,7 +209,7 @@
 
                     <v-autocomplete  class="annotator-input__relationship-name"
                                      @change="updateRelationshipName"
-                                     :items="relationship_name_options"
+                                     :items="relationship_names"
                                      :value="relationshipName"
                                      :disabled="!selected_tore_relationship"
                                      :label="selected_tore_relationship?'Relationship Name':'Select a target token'">
@@ -255,9 +255,8 @@
 </template>
 
 <script>
-    import {_tore_codes, _tore_relationship_names} from "./TORE_codes";
 
-    import {mapGetters} from "vuex";
+    import {mapGetters, mapState} from "vuex";
     import {Code} from "@/components/annotator/code";
 
     export default {
@@ -267,13 +266,7 @@
             return {
                 showSnackbar: false,
                 snackbarText: "",
-                promptHighlightAll: false,
-                tore_codes: Object.keys(_tore_codes).map(function(key) {
-                        return _tore_codes[key];
-                    }),
-                relationship_name_options: Object.keys(_tore_relationship_names).map(function(key) {
-                    return _tore_relationship_names[key];
-                })
+                promptHighlightAll: false
             }
         },
         computed: {
@@ -287,6 +280,7 @@
                 "showingInput",
                 "getCodesForToken"]),
 
+            ...mapState(["relationship_names", "tores"]),
 
             wrapInputVisible: {
                 get(){

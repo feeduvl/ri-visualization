@@ -249,6 +249,14 @@ export const updateDocTokens = state => {/*
   state.doc_tokens = docTokens;*/
 };
 
+export const setTores = (state, tores) => {
+  state.tores = tores;
+};
+
+export const setRelationshipNames = (state, relationship_names) => {
+  state.relationship_names = relationship_names;
+};
+
 export const setIsLoadingAnnotation = (state, isLoading) => {
   state.isLoadingAnnotation = isLoading;
 };

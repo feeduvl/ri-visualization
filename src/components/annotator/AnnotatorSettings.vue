@@ -45,7 +45,7 @@
                                 <template #activator="{on}">
                                     <v-icon
                                             v-on="on"
-                                            :disabled="!addingAnnotationName || !createNewAnnotationDataset || $store.state.datasets.includes(addingAnnotationName) || $store.state.isLoadingAnnotation"
+                                            :disabled="!addingAnnotationName || !createNewAnnotationDataset || $store.state.available_annotations.filter(a => a.name === addingAnnotationName).length > 0 || $store.state.isLoadingAnnotation"
                                             color="blue"
                                             @click="initializeAnnotation"
                                     >
@@ -278,7 +278,7 @@
         },
 
         mounted(){
-            this.checkServiceStatus();
+            this.reloadFields();
         },
 
         methods: {
@@ -300,12 +300,15 @@
             },
 
             startAnnotating(annotation){
+                this.$store.commit("toggleAnnotatorViewingCodes", false)
                 this.$store.commit("updateSelectedAnnotation", annotation.name)
                 this.$store.dispatch('actionGetSelectedAnnotation');
             },
 
             reloadFields(){
                 this.checkServiceStatus();
+                this.$store.dispatch("actionGetAllRelationships")
+                this.$store.dispatch("actionGetAllTores")
                 this.$store.dispatch("actionLoadResults")
                 this.$store.dispatch("actionGetAllAnnotations")
             },

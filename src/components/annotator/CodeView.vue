@@ -129,7 +129,7 @@
                 return this.generate_code_summary(this.$store.state.codes.filter(c => c), Code_user_display_prompt)
             },
             relationship_summary(){
-                return this.generate_relationship_summary(this.$store.state.tore_relationships.filter(c => c))
+                return this.generate_relationship_summary(this.$store.state.tore_relationships.filter(r => r))
             },
 
             tab_content(){
@@ -410,7 +410,8 @@
                 for(let code of list_of_codes){
                     let name = get_code_name(code);
                     if(!name){
-                        console.warn("generate_code_summary Got empty-name code, skipping: "+Code_user_display_prompt(code));
+                        console.warn("generate_code_summary Got empty-name code, skipping: ");
+                        console.warn(code);
                         continue;
                     }
                     let index = found_codes.indexOf(name)

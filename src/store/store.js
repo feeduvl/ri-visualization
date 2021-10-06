@@ -57,6 +57,9 @@ export const store = new Vuex.Store({
       {name: "Adjectives", tag: "a", color: ADJECTIVE_COLOR}
     ],
 
+    relationship_names: [],  // relationship types
+    tores: [],  // tore categories
+
     annotatorInputVisible: false,
     selected_code: null,
 

@@ -14,7 +14,11 @@ import {
   ANNOTATION_DELETE_ENDPOINT,
   ANNOTATION_GET_ALL_ENDPOINT,
   ANNOTATION_GET_ENDPOINT,
-  ANNOTATION_POST_ENDPOINT
+  ANNOTATION_POST_ENDPOINT,
+  POST_ALL_RELATIONSHIPS_ENDPOINT,
+  POST_ALL_TORES_ENDPOINT,
+  GET_ALL_RELATIONSHIPS_ENDPOINT,
+  GET_ALL_TORES_ENDPOINT
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -26,6 +30,64 @@ import {
   MUTATE_FOOTER_TEXT,
   MUTATE_TOP_BAR_LINK
 } from '@/store/types';
+
+export const actionPostAllRelationships= ({commit}, newRelationships) => {
+  return new Promise((resolve, reject) => {
+    console.log("Posting all relationships.");
+    axios.post(POST_ALL_RELATIONSHIPS_ENDPOINT, {relationship_names: newRelationships})
+      .then(r => {
+        commit("setRelationshipNames", newRelationships);
+        resolve(r);
+      })
+      .catch(e => {
+        console.error("Error posting relationships: "+e);
+        reject(e);
+
+      });
+  });
+};
+
+export const actionPostAllTores = ({commit}, newTores) => {
+  return new Promise((resolve, reject) => {
+    console.log("Posting all tores.");
+    axios.post(POST_ALL_TORES_ENDPOINT, {tores: newTores})
+      .then(r => {
+        commit("setTores", newTores);
+        resolve(r);
+      })
+      .catch(e => {
+        console.error("Error posting tores: "+e);
+        reject(e);
+      });
+  });
+};
+
+export const actionGetAllRelationships = ({commit}) => {
+  return new Promise(() => {
+    console.log("Getting all relationships.");
+    axios.get(GET_ALL_RELATIONSHIPS_ENDPOINT)
+      .then(response => {
+        // eslint-disable-next-line camelcase
+        const {relationship_names} = response.data;
+        console.log("Got all relationships");
+        commit("setRelationshipNames", relationship_names);
+      })
+      .catch(e => console.error("Error getting relationships: "+e));
+  });
+};
+
+export const actionGetAllTores = ({commit}) => {
+  return new Promise(() => {
+    console.log("Getting all tores.");
+    axios.get(GET_ALL_TORES_ENDPOINT)
+      .then(response => {
+        const {tores} = response.data;
+        console.log("Got all tores");
+        commit("setTores", tores);
+      })
+      .catch(e => console.error("Error getting tores: "+e));
+  });
+};
 
 export const actionGetNewAnnotation = ({
   commit

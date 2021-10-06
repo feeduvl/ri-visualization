@@ -16,6 +16,13 @@
             {{this.autoSaveSnackbarText}}
         </v-snackbar>
 
+        <EditConfigurablesDialog
+                @hide-edit-configurables="showingEditConfigurablesPopup = false"
+                :show="showingEditConfigurablesPopup"
+                :relationship_names="[...$store.state.relationship_names]"
+                :tores="[...$store.state.tores]">
+        </EditConfigurablesDialog>
+
         <AnnotatorSettings
                 v-if="!$store.state.selected_annotation">
         </AnnotatorSettings>
@@ -89,6 +96,18 @@
                         Coding Results View
                     </span>
                 </template>
+
+                <v-tooltip bottom>
+                    <template #activator="{on}">
+                        <v-icon v-on="on"
+                                :disabled="showingInput || $store.state.isLoadingAnnotation"
+                                @click="showEditConfigurablesPopup"
+                                medium>
+                            settings
+                        </v-icon>
+                    </template>
+                    Edit Categories and Relationships
+                </v-tooltip>
 
                 <v-tooltip bottom>
                     <template #activator="{on}">
@@ -207,11 +226,14 @@
     import {Code, Code_user_display_prompt} from "@/components/annotator/code";
     import {mapGetters, mapState} from "vuex";
     import AnnotatorSettings from "@/components/annotator/AnnotatorSettings";
+    import EditConfigurablesDialog from "@/components/annotator/EditConfigurablesDialog";
 
     export default {
         name: "Annotator",
         data: () => {
             return {
+
+                showingEditConfigurablesPopup: false,
 
                 customStyleSheet: null,
                 popupPositionStyleRuleIndex: null,
@@ -237,7 +259,7 @@
                 last_token: null// used only to prevent unwanted auto-close of dialog on shift+click, ctrl+click
             }
         },
-        components: {AnnotatorSettings, AnnotatorInput, Token, CodeView},
+        components: {AnnotatorSettings, AnnotatorInput, Token, CodeView, EditConfigurablesDialog},
         computed: {
 
             dialogPositionStyle(){  //  need to do this because the actual dialog DOM object isn't exposed
@@ -397,10 +419,14 @@
         },
 
         mounted(){
-            this.$store.dispatch("actionGetAllAnnotations")
         },
 
         methods: {
+
+            showEditConfigurablesPopup(){
+                this.removeDialogStylerule("Showing 'edit configurables' dialog");
+                this.showingEditConfigurablesPopup = true;
+            },
 
             removeDialogStylerule(reason){
                 console.log(reason+", clearing old stylesheet")
