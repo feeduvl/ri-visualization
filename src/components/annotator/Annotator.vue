@@ -269,7 +269,7 @@
         computed: {
             
             tokensThisPage(){
-                if((this.selectedPage * this.tokensPerPage) < this.selected_doc.end_index){
+                if((this.selectedPage * this.tokensPerPage) <= this.selected_doc.end_index){
                     return this.tokensPerPage;
                 } else {
                     return (this.selected_doc.end_index - this.selected_doc.begin_index) % this.tokensPerPage;
