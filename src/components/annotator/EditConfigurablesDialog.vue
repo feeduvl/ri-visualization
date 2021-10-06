@@ -156,6 +156,7 @@
         },
         methods: {
             deleteSelectedTore(){
+                this.awaitingCallback = true;
                 let newTores = [...this.tores]
                 let i = newTores.indexOf(this.deleteToreModel)
                 if(i===-1){
@@ -177,6 +178,7 @@
             },
 
             deleteSelectedRelationship(){
+                this.awaitingCallback = true;
                 let newRelationships = [...this.relationship_names]
                 let i = newRelationships.indexOf(this.deleteRelationshipModel)
                 if(i===-1){
@@ -198,6 +200,7 @@
             },
 
             addNewRelationship(){
+                this.awaitingCallback = true;
                 let newRelationships = [...this.relationship_names]
                 newRelationships.push(this.addNewRelationshipValue)
                 newRelationships.sort();
@@ -216,6 +219,7 @@
             },
 
             addNewTore(){
+                this.awaitingCallback = true;
                 let newTores = [...this.tores]
                 newTores.push(this.addNewToreValue)
                 newTores.sort();

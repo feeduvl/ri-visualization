@@ -283,7 +283,7 @@
     }
 
     .isAlgoLemma {
-        background-color: lightgreen;
+        background-color: #FFC0CB;
     }
 
 </style>

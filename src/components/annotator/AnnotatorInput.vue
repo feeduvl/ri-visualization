@@ -231,6 +231,16 @@
                     </template>
                     <span>Move this box {{directionCueString}}</span>
                 </v-tooltip>
+
+                <v-tooltip bottom>
+                    <template #activator="{on}">
+                        <v-icon v-on="on"
+                                @click="$emit('show-edit-configurables')">
+                            settings
+                        </v-icon>
+                    </template>
+                    Edit Categories and Relationships
+                </v-tooltip>
             </div>
 
             <div class="annotator-input__relationships" v-if="!isLinking && $store.state.selected_code && $store.state.selected_code.relationship_memberships.length > 0">

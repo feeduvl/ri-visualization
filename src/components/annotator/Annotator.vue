@@ -17,7 +17,7 @@
         </v-snackbar>
 
         <EditConfigurablesDialog
-                @hide-edit-configurables="showingEditConfigurablesPopup = false"
+                @hide-edit-configurables="hideEditConfigurables"
                 :show="showingEditConfigurablesPopup"
                 :relationship_names="[...$store.state.relationship_names]"
                 :tores="[...$store.state.tores]">
@@ -194,6 +194,7 @@
                         @annotator-input-trash-click="delete_selected_code"
                         @annotator-input__arrow-icon-click="panelIsUp = !panelIsUp"
                         @remove-dialog-stylerule="removeDialogStylerule"
+                        @show-edit-configurables="showEditConfigurablesPopup"
                         @reposition-dialog="positionInput"
                 />
                 <v-card
@@ -273,7 +274,7 @@
                     return `.v-dialog{
                                 margin: 5px;
                                 position: absolute;
-                                width: ${this.annotatorInputWidthPct}%;
+                                width: auto;
                                 overflow: hidden;
                                 left: ${Math.min(lowerWidth, tokenBox.left)}px;
                                 top: ${tokenBox.top + tokenBox.height + (panelIsUp?0:200)}px;
@@ -422,6 +423,14 @@
         },
 
         methods: {
+
+            hideEditConfigurables(){
+                this.showingEditConfigurablesPopup = false;
+                if(this.showingInput){
+                    this.positionInput();
+                }
+
+            },
 
             showEditConfigurablesPopup(){
                 this.removeDialogStylerule("Showing 'edit configurables' dialog");
