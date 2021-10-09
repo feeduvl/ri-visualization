@@ -220,9 +220,7 @@ export const lemmasFromSelectedResult = state => {
           }
         }
       }
-      console.log(result);
-      console.log(list);
-      ret.concat(list.sort());
+      ret = list;
 
       console.log("Got non-frequency keywords: ");
       console.log(ret);
