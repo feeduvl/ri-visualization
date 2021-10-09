@@ -221,6 +221,9 @@ export const lemmasFromSelectedResult = state => {
         }
       }
       ret.concat(list.sort());
+
+      console.log("Got non-frequency keywords: ");
+      console.log(ret);
     } catch (e) {
       console.error("Failed to get keywords: "+e);
     }
