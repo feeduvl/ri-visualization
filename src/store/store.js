@@ -107,27 +107,44 @@ export const store = new Vuex.Store({
   },
   getters,
   mutations: {
-    ...mutations, 
+    ...mutations,
 
-    delete_selected_code(state) {  // DECLARED HERE TO ACCESS this.commit
-      // eslint-disable-next-line camelcase
-      let token_indices = state.selected_code.tokens;
-      let index = state.selected_code.index;
-
-      if (state.hovering_codes.includes(state.selected_code)){
-        state.hovering_codes.splice(state.hovering_codes.indexOf(state.selected_code, 1));
+    delete_code(state, code){  // DECLARED HERE TO ACCESS this.commit
+      if (!code){
+        console.error("delete_code attempted to delete null/undefined code");
+        return;
+      }
+      // eslint-disable-next-line no-undefined
+      if (code.index===null || code.index === undefined){
+        console.error("delete_code attempted to delete code without index");
+        return;
       }
 
-      for (let i of state.selected_code.relationship_memberships){
+      // eslint-disable-next-line no-param-reassign
+      code = state.codes[code.index];
+
+      let isSelectedCode = state.selected_code?code.index === state.selected_code.index : false;
+
+      // eslint-disable-next-line camelcase
+      let token_indices = code.tokens;
+      let index = code.index;
+
+      if (state.hovering_codes.includes(code)){
+        state.hovering_codes.splice(state.hovering_codes.indexOf(code, 1));
+      }
+
+      for (let i of code.relationship_memberships){
         this.commit("delete_tore_relationship", state.tore_relationships[i]);  // relationships are dependent upon tore codes
         this.commit("updateLastAnnotationEditAt");
       }
 
-      let codeName = state.selected_code.name;
-      let codeTore = state.selected_code.tore;
+      let codeName = code.name;
+      let codeTore = code.tore;
 
-      this.commit("setTokensInSelectedCode", [state.selected_code, null]);
-      state.selected_code = null;
+      if (isSelectedCode){
+        this.commit("setTokensInSelectedCode", [state.selected_code, null]);
+        state.selected_code = null;
+      }
 
       // eslint-disable-next-line camelcase
       for (let i of token_indices){
@@ -150,6 +167,10 @@ export const store = new Vuex.Store({
         }
       }
       Vue.set(state.codes, index, null);
+    },
+
+    delete_selected_code(state){  // DECLARED HERE TO ACCESS this.commit
+      this.commit("delete_code",state.selected_code);
     },
 
     assignToCode(state, args){  // DECLARED HERE TO ACCESS this.commit

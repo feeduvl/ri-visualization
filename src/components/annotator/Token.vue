@@ -254,7 +254,7 @@
     }
 
     .hasOnlyName {
-        background-color: #0047AB;
+        background-color: lightblue;
     }
 
     .hasOnlyTore {

@@ -3,7 +3,7 @@
         <v-snackbar
                 class="saved-annotation-snackbar"
                 v-model="show_snackbar"
-                :timeout="1500"
+                :timeout="2500"
         >
             {{this.snackbarText}}
         </v-snackbar>
@@ -218,6 +218,7 @@
                 </v-card>
             </v-card>
             <CodeView
+                    @show-snackbar="doShowSnackbar"
                     v-if="annotatorViewingCodeResults">
             </CodeView>
         </div>
@@ -709,12 +710,16 @@
 
             doSaveAnnotation(autosave){
                 this.$store.dispatch('actionPostCurrentAnnotation')
-                this.show_snackbar = true;
                 if(autosave){
-                    this.snackbarText = "Auto-saved."
+                    this.doShowSnackbar({msg:"Auto-saved."})
                 } else {
-                    this.snackbarText = "Annotation saved."
+                    this.doShowSnackbar({msg:"Annotation saved."})
                 }
+            },
+
+            doShowSnackbar({msg}){
+                this.snackbarText = msg;
+                this.show_snackbar = true;
             },
 
             saveAndClose(){

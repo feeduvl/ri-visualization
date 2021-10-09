@@ -73,14 +73,33 @@
         </v-tabs>
         <v-tabs-items v-model="selectedTab">
             <v-tab-item
+                    :style="'background-color: white;'"
                     v-for="(this_header, index) in headers"
                     :key="'tab_header'+index"
             >
+
+                <v-container>
+                    <v-layout>
+                        <v-spacer></v-spacer>
+                        <v-text-field
+                                v-model="search"
+                                append-icon="search"
+                                label="Search"
+                                single-line
+                                hide-details
+                                clearable
+                        ></v-text-field>
+                    </v-layout>
+
+                </v-container>
                 <v-data-table
-                    :headers="index===0?this_header.concat([{text: 'Actions'}]):this_header"
+                    :headers="index===0 || index >= 4?this_header.concat([{text: 'Actions', value: 'placeholder'}]):this_header"
                     :items="tab_content[index]"
+                    :search="search"
                     :loading="$store.state.isLoadingAnnotation"
-                    :pagination="{rowsPerPage: -1}">
+                    :rows-per-page-items="[25, 50, 100, 200, {'text':'$vuetify.dataIterator.rowsPerPageAll','value':-1}]"
+                    :pagination.sync="paginations[index]"
+                    >
                     <template v-slot:items="{item}">
                         <td v-for="(column, column_index) in this_header"
                             :key="'header_column_'+index+'_'+column_index"
@@ -105,6 +124,23 @@
                               </v-tooltip>
                             </span>
                         </td>
+                        <td v-show="index>=4">
+                            <span class="icon-column">
+                              <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-icon
+                                          small
+                                          @click="deleteOccurrence(item, index === headers.length-1)"
+                                          v-bind="attrs"
+                                          v-on="on"
+                                  >
+                                    delete
+                                  </v-icon>
+                                </template>
+                                <span>Delete Occurrence</span>
+                              </v-tooltip>
+                            </span>
+                        </td>
 
                     </template>
 
@@ -119,14 +155,29 @@
     export default {
         name: "CodeView",
         computed: {
+            frozen_codes_copy(){
+                console.warn("frozen_codes_copy")
+                let ret = []
+                for(let c of this.$store.state.codes){
+                    if(!c){
+                        ret.push(c)
+                    } else {
+                        let copy = {...c}
+                        Object.freeze(copy)
+                        ret.push(copy)
+                    }
+                }
+                Object.freeze(ret)
+                return ret;
+            },
             code_name_summary(){
-                return this.generate_code_summary(this.$store.state.codes.filter(c => c), c => c.name);
+                return this.generate_code_summary(this.frozen_codes_copy.filter(c => c), c => c.name);
             },
             code_tore_summary(){
-                return this.generate_code_summary(this.$store.state.codes.filter(c => c), c => c.tore)
+                return this.generate_code_summary(this.frozen_codes_copy.filter(c => c), c => c.tore)
             },
             code_combination_summary(){
-                return this.generate_code_summary(this.$store.state.codes.filter(c => c), (code) => {
+                return this.generate_code_summary(this.frozen_codes_copy.filter(c => c), (code) => {
                     if(code.name && !code.tore){
                         return "Name: '"+code.name+"'";
                     } else if (!code.name && code.tore){
@@ -142,21 +193,63 @@
                 return this.generate_relationship_summary(this.$store.state.tore_relationships.filter(r => r))
             },
 
+            name_occurrences(){
+                return this.generate_occurrences(this.frozen_codes_copy, c => c.name);
+            },
+
             tab_content(){
-                return [this.code_name_summary, this.code_tore_summary, this.code_combination_summary, this.relationship_summary,
-                    this.generate_occurrences(this.$store.state.codes, c => c.name),
-                    this.generate_occurrences(this.$store.state.codes, c => c.tore),
-                    this.generate_occurrences(this.$store.state.codes, c => c),
-                    this.generate_relationship_occurrences(this.$store.state.codes)]
+                console.log("tab_content")
+                let ret = [this.code_name_summary, this.code_tore_summary, this.code_combination_summary, this.relationship_summary,
+                    this.name_occurrences,
+                    this.generate_occurrences(this.frozen_codes_copy, c => c.tore),
+                    this.generate_occurrences(this.frozen_codes_copy, c => c),
+                    this.generate_relationship_occurrences(this.frozen_codes_copy)]
+                Object.freeze(ret)
+                return ret
             },
 
             numOccurencesRename(){
-                return this.$store.state.codes.filter(c => c && c.name === this.renameCode.name).length;
+                console.log("numOccurrencesRename")
+                let count = 0;
+                for(let c of this.name_occurrences){
+                    if(c){
+                        if(c.name === this.renameCode.name){
+                            count++;
+                        }
+                    }
+                }
+                return count;
             }
-
         },
         data: () => {
             return {
+                paginations: [{page: 1,
+                    descending: false,
+                    rowsPerPage: 100,
+                    sortBy: "name"},
+                    {page: 1,
+                    descending: false,
+                    rowsPerPage: 100,
+                    sortBy: "tore"},{page: 1,
+                    descending: false,
+                    rowsPerPage: 100,
+                    sortBy: "tore"},{page: 1,
+                    descending: false,
+                    rowsPerPage: 100,
+                    sortBy: "relationship_name"},{page: 1,
+                    descending: false,
+                    rowsPerPage: 100,
+                    sortBy: "name"},{page: 1,
+                    descending: false,
+                    rowsPerPage: 100,
+                    sortBy: "tore"},{page: 1,
+                    descending: false,
+                    rowsPerPage: 100,
+                    sortBy: "name"},{page: 1,
+                    descending: false,
+                    rowsPerPage: 100,
+                    sortBy: "relationship_name"},],
+                search: "",
                 renameCodeNewName: "",
                 renameCodeDialog: false,
                 renameCode: null,
@@ -167,9 +260,9 @@
                             [  // Tab view 0
                                 {
                                     text: 'Code Name',
+                                    value: 'name',
                                     align: 'left',
-                                    sortable: true,
-                                    value: 'name'
+                                    sortable: true
                                 },
                                 {
                                     text: 'Count',
@@ -190,7 +283,6 @@
                                     value: 'doc_count'
                                 }
                             ],
-
                             [
                                 {
                                     text: "Category",
@@ -275,46 +367,49 @@
                                     sortable: true,
                                     value: "target_string"
                                 }
-                            ],[
-                                {
-                                    text: "Code Name",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "name"
-                                },
-                                {
-                                    text: "Document",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "document"
-                                },
-                                {
-                                    text: "Words",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "words_string"
-                                }
-                            ],[
-                                {
-                                    text: "Category",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "tore"
-                                },
-                                {
-                                    text: "Document",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "document"
-                                },
-                                {
-                                    text: "Words",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "words_string"
-                                },
+                            ],
+
+                            [
+                                        {
+                                            text: "Code Name",
+                                            align: "left",
+                                            sortable: true,
+                                            value: "name"
+                                        },
+                                        {
+                                            text: "Document",
+                                            align: "left",
+                                            sortable: true,
+                                            value: "document"
+                                        },
+                                        {
+                                            text: "Words",
+                                            align: "left",
+                                            sortable: true,
+                                            value: "words_string"
+                                        }
+                                    ],
+                            [
+                                        {
+                                            text: "Category",
+                                            align: "left",
+                                            sortable: true,
+                                            value: "tore"
+                                        },
+                                        {
+                                            text: "Document",
+                                            align: "left",
+                                            sortable: true,
+                                            value: "document"
+                                        },
+                                        {
+                                            text: "Words",
+                                            align: "left",
+                                            sortable: true,
+                                            value: "words_string"
+                                        },
                                 ],
-                                    [
+                            [
                                         {
                                             text: "Category",
                                             align: "left",
@@ -340,51 +435,61 @@
                                             value: "words_string"
                                         },
                                         ],
-                    [
-                        {
-                            text: "Relationship",
-                            align: "left",
-                            sortable: true,
-                            value: "relationship_name"
-                        },
+                            [
+                                {
+                                    text: "Relationship",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "relationship_name"
+                                },
 
-                        {
-                            text: "Owning Category",
-                            align: "left",
-                            sortable: true,
-                            value: "tore"
-                        },
-                        {
-                            text: "Owner Name",
-                            align: "left",
-                            sortable: true,
-                            value: "name"
-                        },
-                        {
-                            text: "Document",
-                            align: "left",
-                            sortable: true,
-                            value: "document"
-                        },
+                                {
+                                    text: "Owning Category",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "tore"
+                                },
+                                {
+                                    text: "Owner Name",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "name"
+                                },
+                                {
+                                    text: "Document",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "document"
+                                },
 
-                        {
-                            text: "Owner Words",
-                            align: "left",
-                            sortable: true,
-                            value: "words_string"
-                        },
-                        {
-                            text: "Target Words",
-                            align: "left",
-                            sortable: true,
-                            value: "target_string"
-                        },
-                    ]
-
+                                {
+                                    text: "Owner Words",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "words_string"
+                                },
+                                {
+                                    text: "Target Words",
+                                    align: "left",
+                                    sortable: true,
+                                    value: "target_string"
+                                },
+                            ]
                 ],
             }
         },
         methods: {
+
+            deleteOccurrence(item, isRelationship){
+                if(isRelationship){
+                    this.$store.commit("delete_tore_relationship", {index: item.relationship_index, TOREEntity: item.index})
+                    setTimeout(()=> this.$emit("show-snackbar", {"msg": "Deleted relationship"}));
+                } else {
+                    this.$store.commit("delete_code", item);
+                    setTimeout(()=> this.$emit("show-snackbar", {"msg":"Deleted code occurrence: "+Code_user_display_prompt(item)}))
+                }
+                this.$store.commit("updateLastAnnotationEditAt")
+            },
 
             showRenameCodeDialog(code){
                 this.renameCode = code;
@@ -392,17 +497,21 @@
             },
 
             generate_relationship_summary(list_of_relationships){
+                console.log("generate_relationship_summary")
                 let summaries = []
 
                 for(let relationship of list_of_relationships){
 
                     let summary = {...relationship}
-                    let owner = this.$store.state.codes[summary.TOREEntity];
+                    let owner = this.frozen_codes_copy[summary.TOREEntity];
                     summary.owner_name = owner.name;
                     summary.owner_tore = owner.tore;
                     summary.target_string = this.$store.getters.tokenListToString(summary.target_tokens)
+                    summary.placeholder = ""
+                    Object.freeze(summary)
                     summaries.push(summary)
                 }
+                Object.freeze(summaries)
                 return summaries
             },
 
@@ -414,14 +523,15 @@
              * @return {[]}
              */
             generate_code_summary(list_of_codes, get_code_name){
+                console.log("generate_code_summary")
                 let summaries = []
                 let found_codes = []
 
                 for(let code of list_of_codes){
                     let name = get_code_name(code);
                     if(!name){
-                        console.warn("generate_code_summary Got empty-name code, skipping: ");
-                        console.warn(code);
+                        //console.warn("generate_code_summary Got empty-name code, skipping: ");
+                        //console.warn(code);
                         continue;
                     }
                     let index = found_codes.indexOf(name)
@@ -442,7 +552,8 @@
                             count: 1,
                             relationship_count,
                             doc_count: found_in_docs.filter(b => b).length - 1,
-                            found_in_docs
+                            found_in_docs,
+                            placeholder: ""
                         }
                         summaries.push(summary)
                         found_codes.push(name);
@@ -453,16 +564,21 @@
                         summaries[index].found_in_docs = summaries[index].found_in_docs.map((b, index) => b || found_in_docs[index])
                         summaries[index].doc_count = summaries[index].found_in_docs.filter(b => b).length - 1
                     }
-
                 }
+                for(let summary of summaries){
+                    Object.freeze(summary)
+                }
+                Object.freeze(summaries)
                 return summaries
             },
 
             generate_occurrences(list_of_codes, getName){
+                console.log("generate_occurrences")
                 let ret = [];
                 for(let c of list_of_codes){
                     if(c && getName(c)){
                         let code = {...c};
+                        code.placeholder = ""
                         let index = 0;
                         for(let doc of this.$store.state.docs){
                             if(index !== 0 && code.tokens.find(t_index => t_index >= doc.begin_index && t_index < doc.end_index) !== undefined){
@@ -478,13 +594,16 @@
                         }
 
                         code.words_string = this.$store.getters.tokenListToString(code.tokens);
+                        Object.freeze(code)
                         ret.push(code);
                     }
                 }
+                Object.freeze(ret)
                 return ret;
             },
 
             generate_relationship_occurrences(list_of_codes){
+                console.log("generate_relationship_occurrences")
                 let ret = [];
                 for(let c of list_of_codes){
                     if(c && c.relationship_memberships.length){
@@ -504,13 +623,17 @@
                                 console.error(code.tokens);
                             }
 
+                            code.placeholder = ""
+                            code.relationship_index = relationship_index;
                             code.relationship_name = this.$store.state.tore_relationships[relationship_index].relationship_name;
                             code.words_string = this.$store.getters.tokenListToString(code.tokens);
                             code.target_string = this.$store.getters.tokenListToString(this.$store.state.tore_relationships[relationship_index].target_tokens)
+                            Object.freeze(code)
                             ret.push(code);
                         }
                     }
                 }
+                Object.freeze(ret)
                 return ret;
             },
 
@@ -582,7 +705,7 @@
             doRenameCode(){
 
                 for (let code of this.$store.state.codes) {
-                    if (code.name === this.renameCode.name) {
+                    if (code && code.name === this.renameCode.name) {
                         code.name = this.renameCodeNewName;
                     }
                 }
@@ -591,7 +714,6 @@
                 this.renameCodeDialog = false;
 
                 this.$parent.doSaveAnnotation(false)
-
             }
 
         }
