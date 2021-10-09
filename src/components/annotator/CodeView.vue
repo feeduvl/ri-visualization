@@ -202,7 +202,7 @@
                 let ret = [this.code_name_summary, this.code_tore_summary, this.code_combination_summary, this.relationship_summary,
                     this.name_occurrences,
                     this.generate_occurrences(this.frozen_codes_copy, c => c.tore),
-                    this.generate_occurrences(this.frozen_codes_copy, c => c),
+                    this.generate_occurrences(this.frozen_codes_copy, c => (c.name || c.tore)),
                     this.generate_relationship_occurrences(this.frozen_codes_copy)]
                 Object.freeze(ret)
                 return ret
@@ -590,7 +590,7 @@
                         }
                         if(!code.document){
                             console.error("Didn't find document for code: "+Code_user_display_prompt(code));
-                            console.error(code.tokens);
+                            console.error(code);
                         }
 
                         code.words_string = this.$store.getters.tokenListToString(code.tokens);
@@ -620,7 +620,7 @@
                             }
                             if(!code.document){
                                 console.error("Didn't find document for code: "+Code_user_display_prompt(code));
-                                console.error(code.tokens);
+                                console.error(code);
                             }
 
                             code.placeholder = ""
