@@ -218,6 +218,7 @@
                 </v-card>
             </v-card>
             <CodeView
+                    @page-to-code="pageToCode"
                     @show-snackbar="doShowSnackbar"
                     v-if="annotatorViewingCodeResults">
             </CodeView>
@@ -270,7 +271,7 @@
         computed: {
             
             tokensThisPage(){
-                if((this.selectedPage * this.tokensPerPage) <= this.selected_doc.end_index){
+                if((this.selectedPage * this.tokensPerPage) <= (this.selected_doc.end_index - this.selected_doc.begin_index)){
                     return this.tokensPerPage;
                 } else {
                     return (this.selected_doc.end_index - this.selected_doc.begin_index) % this.tokensPerPage;
@@ -726,6 +727,33 @@
                 this.doSaveAnnotation(false)
                 this.$store.commit("resetAnnotator")
                 this.$store.dispatch("actionGetAllAnnotations")
+            },
+
+            pageToCode(code){
+                console.log("pageToCode: "+Code_user_display_prompt(code))
+                if(!code){
+                    console.error("pageToCode Cannot page to null/undefined code");
+                }
+                else if (!code.tokens.length > 0){
+                    console.error("pageToCode Code doesn't have any tokens");
+                } else {
+                    let first_token_index = code.tokens[0];
+                    let first_doc = true;
+                    for(let d of this.$store.state.docs){
+                        if(first_doc){
+                            first_doc = false;
+                        } else {
+                            if(d.begin_index <= first_token_index && d.end_index > first_token_index){
+                                let page = 1 + Math.floor((first_token_index - d.begin_index )/this.tokensPerPage);
+                                this.annotatorSelectedDoc = d;
+                                this.selectedPage = page;
+                                this.$store.commit("toggleAnnotatorViewingCodes", false);
+                                return;
+                            }
+                        }
+                    }
+                    console.error("pageToCode didn't find document for code")
+                }
             }
         }
     }

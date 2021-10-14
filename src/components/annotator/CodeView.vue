@@ -139,6 +139,19 @@
                                 </template>
                                 <span>Delete Occurrence</span>
                               </v-tooltip>
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-icon
+                                        small
+                                        @click="$emit('page-to-code', $store.state.codes[item.index])"
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        >
+                                        visibility
+                                        </v-icon>
+                                    </template>
+                                    <span>Go to Occurrence</span>
+                                </v-tooltip>
                             </span>
                         </td>
 
@@ -577,7 +590,8 @@
                 let ret = [];
                 for(let c of list_of_codes){
                     if(c && getName(c)){
-                        let code = {...c};
+                        //let code = {name: c.name, tore: c.tore, index: c.index};
+                        let code = {...c}
                         code.placeholder = ""
                         let index = 0;
                         for(let doc of this.$store.state.docs){
@@ -608,6 +622,7 @@
                 for(let c of list_of_codes){
                     if(c && c.relationship_memberships.length){
                         for(let relationship_index of c.relationship_memberships){
+                            //let code = {name: c.name, tore: c.tore, index: c.index};
                             let code = {...c};
                             let index = 0;
                             for(let doc of this.$store.state.docs){
