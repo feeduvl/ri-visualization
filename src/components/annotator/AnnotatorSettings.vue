@@ -96,7 +96,7 @@
 
             <v-data-table
                     :headers="tableHeaders"
-                    :items="$store.state.available_annotations"
+                    :items="$store.state.available_annotations.filter(a => a && a.name)"
                     :loading="$store.state.isLoadingAnnotation || $store.state.isLoadingAvailableAnnotations"
                     :search="search"
             >
@@ -183,7 +183,7 @@
         </v-snackbar>
         <v-snackbar
                 v-model="initializingNewAnnotation"
-                :timeout="5000"
+                :timeout="7000"
                 :top="true"
         >
             Initializing Annotation, this may take a while...
