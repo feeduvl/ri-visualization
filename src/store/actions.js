@@ -105,7 +105,6 @@ export const actionGetNewAnnotation = ({
         console.log("actionGetExampleAnnotation Got good response.");
         const {data} = response;
         commit("setAnnotationPayload", data);
-        commit("updateDocTokens");
       })
       .catch(e => console.error("Error getting annotation: "+e))
       .finally(() => {
@@ -124,7 +123,6 @@ export const actionGetSelectedAnnotation = ({commit, state}) => {
         console.log("Got response for annotation: "+name);
         const {data} = response;
         commit("setAnnotationPayload", data);
-        commit("updateDocTokens");
       })
       .catch(e => console.error("Error getting annotation: "+e))
       .finally(() => {

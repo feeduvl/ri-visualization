@@ -118,64 +118,7 @@ export const add_or_remove_token_selected_relationship = (state, token) => {
     }
     //console.log(state.selected_tore_relationship.target_tokens)
   }
-}; 
-export const 
-
-  setHoveringToken = (state, token) => {//console.log("vuex setHoveringToken")
-    // notify token changes
-    if(state.hoveringToken !== null){
-      Vue.set(state.token_is_hovering_token, state.hoveringToken.index, false);
-    }
-    if(token !== null){
-      Vue.set(state.token_is_hovering_token, token.index, true);
-    }
-
-    state.hoveringToken = token;
-
-    // notify hovering code changes
-    let hovering_codes = [];
-    if(token !== null){
-      let ind = token.index;
-      if(state.token_num_name_codes[ind] > 0  || state.token_num_tore_codes[ind] > 0){   // better than filtering because we terminate search asap
-        let remaining_name_codes = state.token_num_name_codes[ind];
-        let remaining_tore_codes = state.token_num_tore_codes[ind];
-
-        for(let code of state.codes){
-          if(code === null){
-            // eslint-disable-next-line no-continue
-            continue;
-          }
-          if(code.tokens.includes(ind)){
-            hovering_codes.push(code);
-            // eslint-disable-next-line max-depth
-            if(code.name){
-              remaining_name_codes--;
-            }
-            // eslint-disable-next-line max-depth
-            if(code.tore){
-              remaining_tore_codes--;
-            }
-          }
-          if(remaining_name_codes <= 0 && remaining_tore_codes <= 0){
-            break;
-          }
-        }
-      }
-    }
-
-    for(let code of state.hovering_codes){
-      for(let token_index of code.tokens){
-        Vue.set(state.token_is_hovering_code, token_index, false);  // old tokens no longer in hovering code
-      }
-    }
-    for(let code of hovering_codes){
-      for(let token_index of code.tokens){
-        Vue.set(state.token_is_hovering_code, token_index, true);  // new tokens are in hovering code
-      }
-    }
-
-    state.hovering_codes = hovering_codes;
-  }; export const 
+}; export const
 
   setSelectedToken = (state, token) => {
   //console.log("Selected token is: "+token)
@@ -240,15 +183,6 @@ export const updateSelectedPosTags = (state, value) => {
   state.selected_pos_tags = value;
 };
 
-export const updateDocTokens = state => {/*
-  let docTokens = state.tokens?state.tokens.slice(state.selected_doc.begin_index, state.selected_doc.end_index):[];
-  for(let t of docTokens){
-    Object.freeze(t);
-  }
-  Object.freeze(docTokens);
-  state.doc_tokens = docTokens;*/
-};
-
 export const setTores = (state, tores) => {
   state.tores = tores;
 };
@@ -286,9 +220,7 @@ export const initTokensEfficiencyStructs = (state, tear_down) => {
   let token_in_selected_code = [];
   //let token_pos_selected = [];
   //let token_is_algo_lemma = [];
-  let token_is_hovering_code = [];
   let token_linked_together = [];
-  let token_is_hovering_token = [];
   let token_num_name_codes = [];
   let token_num_tore_codes = [];
 
@@ -298,19 +230,13 @@ export const initTokensEfficiencyStructs = (state, tear_down) => {
       token_in_selected_code.push(false);
       //token_pos_selected.push(false)
       //token_is_algo_lemma.push(false)
-      token_is_hovering_code.push(false);
       token_linked_together.push(false);
-      token_is_hovering_token.push(false);
       token_num_name_codes.push(t.num_name_codes);
       token_num_tore_codes.push(t.num_tore_codes);
     }
   }
   state.token_in_selected_code = token_in_selected_code;
-  //state.token_pos_selected = token_pos_selected;
-  //state.token_is_algo_lemma = token_is_algo_lemma;
-  state.token_is_hovering_code = token_is_hovering_code;
   state.token_linked_together = token_linked_together;
-  state.token_is_hovering_token = token_is_hovering_token;
   state.token_num_name_codes = token_num_name_codes;
   state.token_num_tore_codes = token_num_tore_codes;
 

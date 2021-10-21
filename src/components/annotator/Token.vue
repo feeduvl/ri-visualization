@@ -2,7 +2,6 @@
     <span   :id="'token_'+props.index"
             class="annotator-token-outer" :class="[props.show_pos && !props.isLinking ? props.posClass:'token-outer-default', 'whitespace',
     {
-        hoveringLinkable: props.isLinking && props.isHoveringToken,
         linkedTogether: props.linkedTogether,
         isAlgoLemma: props.algo_lemma
     }]"
@@ -14,9 +13,8 @@
                   :class="['token-inner-default', {
                     hasOnlyName: props.hasName && !props.hasTore,  // indicates that a token has been assigned to a code
                     hasOnlyTore: !props.hasName && props.hasTore,
-                    hasBoth: props.hasName && props.hasTore,
-                    currentlyHoveringCode: ((props.isLinking || props.annotatorInputVisible) && props.inSelectedCode) // currently SELECTED code || props.isHoveringCode // indicates membership of 'currently hovering' code or the origin of ongoing linking
-            }]">
+                    hasBoth: props.hasName && props.hasTore
+                  }]">
                 {{props.name}}
             </span>
     </span>
@@ -180,15 +178,7 @@
                 required: true
             },
 
-            isHoveringCode: {
-                type: Boolean,
-                required: true
-            },
             linkedTogether: {
-                type: Boolean,
-                required: true
-            },
-            isHoveringToken: {
                 type: Boolean,
                 required: true
             },
@@ -249,10 +239,6 @@
         margin-right: 0.7em;
     }
 
-    .currentlyHoveringCode {
-        border: black solid 2px;
-    }
-
     .hasOnlyName {
         background-color: lightblue;
     }
@@ -274,12 +260,8 @@
         opacity: 0.5;
     }
 
-    .hoveringLinkable, .linkedTogether {
+    .linkedTogether {
         border: #0066ff solid 2px;
-    }
-
-    .linkedTogetherHovering{
-        border: red solid 2px;
     }
 
     .isAlgoLemma {

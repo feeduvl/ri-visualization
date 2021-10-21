@@ -31,7 +31,6 @@
                             class="annotator-string-selection annotator-toolbar__document-select"
                             :items="$store.state.docs"
                             v-model="annotatorSelectedDoc"
-                            @change="$store.commit('updateDocTokens')"
                             item-text="name"
                             return-object
                             label="Select a Document"
@@ -177,10 +176,7 @@
                        inSelectedCode: $store.state.token_in_selected_code[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
                        hasName: $store.state.token_num_name_codes[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1] > 0,
                        hasTore: $store.state.token_num_tore_codes[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1] > 0,
-
-                       isHoveringCode: $store.state.token_is_hovering_code[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
                        linkedTogether: isLinking && $store.state.token_linked_together[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
-                       isHoveringToken: $store.state.token_is_hovering_token[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
                        isLinking: isLinking,
                        algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma?$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma.toLowerCase():''),
                        show_pos: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos!==null && $store.state.selected_pos_tags.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos),
@@ -259,10 +255,6 @@
                 annotatorInputWidthPct: 50,
                 panelIsUp: true,
 
-                hoverDelayMillis: 110,  // time to wait before dispatching hover event
-                currentlyHoveringTokenIndexLocal: null,
-                hoverEnterTime: null,
-
                 last_code: null,
                 last_token: null// used only to prevent unwanted auto-close of dialog on shift+click, ctrl+click
             }
@@ -304,14 +296,6 @@
                 }
             },
 
-            /*
-            getDebugTokenInfo(){
-                console.log("Recomputing token 0")
-                if(!this.$store.state.tokens[0]){
-                    return "undefined"
-                }
-                return "Name: "+this.$store.state.tokens[0].name + "Num codes: "+this.$store.state.token_num_codes[0]
-            },*/
             annotatorSelectedDoc: {
                 get(){
                     return this.$store.state.selected_doc;
@@ -391,8 +375,7 @@
                 "selected_doc",
                 "tokensInSelectedDoc," +
                 "tokenListToString",
-                "showingInput",
-                "hoveringToken"]),
+                "showingInput"]),
 
             ...mapState([
                 "lastAnnotationEditAt",
@@ -670,36 +653,6 @@
 
                 } else {
                     this.tokenClicked(index)
-                }
-            },
-
-            getSetHoveringTokenCommit(){
-                let tk = this.token(this.currentlyHoveringTokenIndexLocal);
-                let self = this;
-                return function(){
-                    if(self.currentlyHoveringTokenIndexLocal === tk.index){
-                        //console.log("Setting hovering token: "+tk.name)
-                        self.$store.commit("setHoveringToken", tk)
-                    } /*else {
-                        console.log(tk.name+" hovered out before callback. Currently hovering: "+self.currentlyHoveringTokenIndexLocal)
-                    }*/
-                }
-            },
-
-            tokenHover(token_index){
-                this.hoverEnterTime = Date.now();
-                this.currentlyHoveringTokenIndexLocal = token_index;
-
-                setTimeout(this.getSetHoveringTokenCommit(), this.hoverDelayMillis);
-            },
-
-            tokenUnhover(token_index){
-                this.currentlyHoveringTokenIndexLocal = null;
-                if(this.$store.state.hoveringToken===null){
-                    return;
-                }
-                if(this.$store.state.hoveringToken.index === token_index){  //  do this check to account for fast mouse movements that may have already called the onHover method
-                    this.$store.commit("setHoveringToken", null);
                 }
             },
 

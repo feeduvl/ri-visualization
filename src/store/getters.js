@@ -119,19 +119,12 @@ export const docs = state => {
       }
     }
     return ret;
-  }; export const 
-
-  hoveringToken = state => {
-    return state.hoveringToken;
-  }; export const 
+  }; export const
 
   selected_tore_relationship = state => {
     return state.selected_tore_relationship;
   }; 
-  
-export const hovering_codes = state => {
-  return state.hovering_codes;
-}; export const 
+export const
 
   selected_code = state => {
     return state.selected_code;

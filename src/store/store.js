@@ -64,9 +64,6 @@ export const store = new Vuex.Store({
     annotatorInputVisible: false,
     selected_code: null,
 
-    hoveringToken: null,
-    hovering_codes: [],
-
     selectedToken: null,
     isLinking: false,
 
@@ -81,11 +78,7 @@ export const store = new Vuex.Store({
     //doc_tokens: [],  // for performance reasons, manually update this array
     
     token_in_selected_code: [],
-    //token_pos_selected: [],
-    //token_is_algo_lemma: [],
-    token_is_hovering_code: [],
     token_linked_together: [],
-    token_is_hovering_token: [],
     token_num_name_codes: [],
     token_num_tore_codes: [],
     
@@ -129,10 +122,6 @@ export const store = new Vuex.Store({
       let token_indices = code.tokens;
       let index = code.index;
 
-      if (state.hovering_codes.includes(code)){
-        state.hovering_codes.splice(state.hovering_codes.indexOf(code, 1));
-      }
-
       for (let i of code.relationship_memberships){
         this.commit("delete_tore_relationship", state.tore_relationships[i]);  // relationships are dependent upon tore codes
         this.commit("updateLastAnnotationEditAt");
@@ -148,16 +137,6 @@ export const store = new Vuex.Store({
 
       // eslint-disable-next-line camelcase
       for (let i of token_indices){
-
-        /*
-        let newToken = {...state.tokens[i]}
-        let newTokens = [...state.tokens]
-        newToken.num_codes--;
-        newTokens[i] = newToken
-        Object.freeze(newTokens)
-        state.tokens = newTokens
-        this.commit("updateDocTokens")*/
-        // state.tokens[i].num_codes--; FIXME use helper data structure
         if (codeName){
           state.token_num_name_codes[i]--;
         }
