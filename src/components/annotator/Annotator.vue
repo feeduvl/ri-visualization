@@ -31,6 +31,7 @@
                             class="annotator-string-selection annotator-toolbar__document-select"
                             :items="$store.state.docs"
                             v-model="annotatorSelectedDoc"
+                            @change="$store.commit('updateDocTokens')"
                             item-text="name"
                             return-object
                             label="Select a Document"
@@ -230,6 +231,7 @@
     import {mapGetters, mapState} from "vuex";
     import AnnotatorSettings from "@/components/annotator/AnnotatorSettings";
     import EditConfigurablesDialog from "@/components/annotator/EditConfigurablesDialog";
+    import {RESULT_COLOR} from "./resources/color"
 
     export default {
         name: "Annotator",
@@ -296,6 +298,14 @@
                 }
             },
 
+            /*
+            getDebugTokenInfo(){
+                console.log("Recomputing token 0")
+                if(!this.$store.state.tokens[0]){
+                    return "undefined"
+                }
+                return "Name: "+this.$store.state.tokens[0].name + "Num codes: "+this.$store.state.token_num_codes[0]
+            },*/
             annotatorSelectedDoc: {
                 get(){
                     return this.$store.state.selected_doc;
@@ -347,7 +357,6 @@
                 }
                 let elem = document.getElementById("token_"+this.$store.state.selectedToken.index).getBoundingClientRect();
                 return elem;
-                //return this.$refs.token[this.$store.state.selectedToken.index - refIndex].$el.getBoundingClientRect();
             },
 
             inputFieldPanelLocationStyle(){
@@ -770,6 +779,10 @@
     width: 300px;
     flex-grow: 1;
     justify-self: flex-end;
+}
+
+.annotator-toolbar__algo-results-select input {
+    color: #ff6781;
 }
 
 
