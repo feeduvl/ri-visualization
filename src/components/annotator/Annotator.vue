@@ -445,7 +445,6 @@
                 if(this.showingInput){
                     this.positionInput();
                 }
-
             },
 
             showEditConfigurablesPopup(){
@@ -654,13 +653,15 @@
             },
 
             tokenCtrlClicked(index){
-                /*if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
-                    console.log("Missing required input, ignoring focus out")
-                    return;
-                }*/
                 if(this.isLinking){
                     this.tokenClicked(index);
                     return;
+                }
+                if(!this.isLinking) {
+                  if (this.selected_code && this.selected_code.tokens.includes(index)) {
+                    this.tokenClicked(index);
+                    return;
+                  }
                 }
 
                 let token = this.token(index)
