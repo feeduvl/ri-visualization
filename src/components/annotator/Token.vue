@@ -89,19 +89,19 @@
         border: 2px solid transparent;
     }
 
-    .noun-token, .verb-token, .adjective-token{
+    .n, .v, .a{
         border: 2px solid;
     }
 
-    .noun-token {
+    .n {
         border-color: #bd3518;
     }
 
-    .verb-token {
+    .v {
         border-color: #002aff;
     }
 
-    .adjective-token {
+    .a {
         border-color: #3cff3c;
     }
 

@@ -44,7 +44,21 @@ function Code_add_relationship(code, relationship){
     }
 }
 
-function Code_add_token(state, commit, code, token){
+function Code_remove_token(state, commit, code, token){
+    if(code.tokens.length > 1 && code.tokens.includes(token.index)){
+        if(code.name){
+            state.token_num_name_codes[token.index]--;
+        }
+        if(code.tore){
+            state.token_num_tore_codes[token.index]--;
+        }
+
+        let tokenIndex = code.tokens.indexOf(token.index)
+        code.tokens.splice(tokenIndex, 1)
+    }
+}
+
+function Code_update_token(state, commit, code, token){
     if(!code.tokens.includes(token.index)){
         //state.tokens[token.index].num_codes++;  FIXME use helper data structure
         if(code.name){
@@ -55,8 +69,6 @@ function Code_add_token(state, commit, code, token){
         }
 
         code.tokens.push(token.index);
-    } else {
-        console.warn("Attempted to add token to Code which already has that token")
     }
 }
 
@@ -113,4 +125,4 @@ function CodeToString(code){
     return "[Code] Name: "+code.name+", tore: "+code.tore+", index: "+code.index+", relationship memberships: "+code.relationship_memberships;
 }
 
-export {Code_user_display_prompt, TORERelationship_remove_token, Code_add_relationship, Code_add_token, Code_remove_relationship, CodeToString, TORERelationship_set_relationship_name, TORERelationship_add_token, Code, TORERelationship}
+export {Code_user_display_prompt, Code_remove_token, TORERelationship_remove_token, Code_add_relationship, Code_update_token, Code_remove_relationship, CodeToString, TORERelationship_set_relationship_name, TORERelationship_add_token, Code, TORERelationship}

@@ -172,6 +172,10 @@ export const requiredAnnotationsPresent = state => {
 
 export const tokenListToString = state => listOfTokenIndices => {
   let ret = "";
+  if (listOfTokenIndices === null || listOfTokenIndices === undefined){
+    console.error("tokenListToString got null/undefined input");
+    return "";
+  }
   for (let index of [...listOfTokenIndices].sort()){
     ret += state.tokens[index].name + " ";
   }

@@ -181,7 +181,7 @@
                        isLinking: isLinking,
                        algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma?$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma.toLowerCase():''),
                        show_pos: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos!==null && $store.state.selected_pos_tags.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos),
-                       posClass: getPosClass($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos),
+                       posClass: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos,
                        annotatorInputVisible: $store.state.annotatorInputVisible
                    }">
                 </Token>
@@ -512,18 +512,6 @@
                 this.popupPositionStyleRuleIndex = css_rules_num;
             },
 
-            getPosClass(pos){
-                switch (pos) {
-                    case "v":
-                        return "verb-token";
-                    case "n":
-                        return "noun-token";
-                    case "a":
-                        return "adjective-token";
-                }
-                return "";
-            },
-
             disambiguateTokenCode(item, i){
                 let self = this;
                 return function(){
@@ -591,6 +579,29 @@
                 let token = this.token(index)
                 this.updateSelectedToken(token);
                 if(!this.isLinking){
+                    if(this.selected_code && this.selected_code.tokens.includes(index)){
+                      let code = this.selected_code;
+                      let new_token_index = 0;
+                      if(code.tokens.length > 1){
+                        new_token_index = Math.max(0, code.tokens.indexOf(index)-1)
+                      }
+                      this.$store.commit("removeTokenFromSelectedCode", token)
+                      setTimeout(() => {
+
+                        let newSelectedToken = this.$store.state.tokens[code.tokens[new_token_index]]
+                        console.warn("Setting new selected token: ")
+                        console.warn(newSelectedToken)
+
+
+                        console.warn("Simulating original token click to reopen dialog")
+                        this.updateSelectedToken(newSelectedToken)
+                        this.$store.commit("set_selected_code", code);
+                        this.$store.commit("updateLastAnnotationEditAt")
+                        //this.$store.commit("setAnnotatorInputVisible", true);
+                      });
+                      return;
+                    }
+
                     this.requestAnnotatorInput = true;  //  let the panel know we want to open the annotator input
 
                     if(!this.mustDisambiguateTokenCode){  // else the assignment will be performed after user action
@@ -619,11 +630,15 @@
 
                 if(this.showingInput){
                     const clickindex = index;
-                    let endlim = this.$store.state.selected_code.tokens[this.$store.state.selected_code.tokens.length-1];
-                    let grow = endlim <= clickindex ? 1 : -1;
-                    for(let i = endlim; i !== clickindex + grow; endlim <= clickindex ? i++ : i--){
+                    if(this.$store.state.selected_code.tokens.includes(clickindex)){
+                      console.log("Got click within token codes, returning")
+                    } else {
+                      let endlim = this.$store.state.selected_code.tokens[this.$store.state.selected_code.tokens.length-1];
+                      let grow = endlim <= clickindex ? 1 : -1;
+                      for(let i = endlim + grow; i !== clickindex + grow; i += grow){
                         this.$store.commit('assignToCode', {token: this.token(i), code: this.$store.state.selected_code})
                         this.$store.commit("updateLastAnnotationEditAt")
+                      }
                     }
 
                     setTimeout(() => {

@@ -256,7 +256,7 @@
             </div>
         </v-card>
         <v-snackbar
-            :timeout="8000"
+            :timeout="4000"
             v-model="showSnackbar"
         >
             {{snackbarText}}
