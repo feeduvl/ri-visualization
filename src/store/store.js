@@ -8,7 +8,7 @@ import {NOUN_COLOR, VERB_COLOR, ADJECTIVE_COLOR} from "@/components/annotator/re
 // eslint-disable-next-line camelcase
 import {
   // eslint-disable-next-line camelcase
-  Code_add_relationship,Code_remove_relationship,Code_add_token,
+  Code_add_relationship,Code_remove_relationship,Code_remove_token, Code_update_token,
   CodeToString,
   TORERelationship
 } from "../components/annotator/code";
@@ -152,12 +152,17 @@ export const store = new Vuex.Store({
       this.commit("delete_code",state.selected_code);
     },
 
+    removeTokenFromSelectedCode(state, token){
+      Code_remove_token(state, this.commit, state.selected_code, token);
+      Vue.set(state.token_in_selected_code, token.index, false);
+    },
+
     assignToCode(state, args){  // DECLARED HERE TO ACCESS this.commit
       // eslint-disable-next-line camelcase
       const {token, code, new_code} = args;
       // eslint-disable-next-line camelcase
       console.log("Adding token: "+token.name+" with index: "+token.index+" to code: "+CodeToString(code)+". New code: "+new_code);
-      Code_add_token(state, this.commit, code, token);
+      Code_update_token(state, this.commit, code, token);
       //console.log("Resulting token: "+TokenToString(token))
       // eslint-disable-next-line camelcase
       if (new_code){
