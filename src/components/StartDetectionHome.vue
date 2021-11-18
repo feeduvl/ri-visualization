@@ -242,7 +242,8 @@ export default {
     "lda-parameter": () => import("./form/LdaParameter"),
     "seanmf-parameter": () => import("./form/SeanmfParameter"),
     "frequency-rbai-parameter": () => import("./form/FrequencyRBAIParameter"),
-    "frequency-fcic-parameter": () => import("./form/FrequencyFCICParameter")
+    "frequency-fcic-parameter": () => import("./form/FrequencyFCICParameter"),
+    "acceptance-criteria-parameter": () => import("./form/AcceptanceCriteriaParameter"),
   },
   computed: {
     component() {
