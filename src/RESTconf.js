@@ -48,6 +48,9 @@ export const GET_RESULT_ENDPOINT = function (result) {
 export const GET_ALL_RESULTS_ENDPOINT = `/hitec/repository/concepts/detection/result/all`;
 
 export const GET_SERVICE_STATUS_ENDPOINT = function (service) {
+  if (`${service}` == "acceptance-criteria") {
+    return `${BASE_URL}/hitec/generate/${service}/status`;
+  }
   return `${BASE_URL}/hitec/classify/concepts/${service}/status`;
 };
 
