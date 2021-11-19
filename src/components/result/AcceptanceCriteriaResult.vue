@@ -69,10 +69,10 @@
         >
           <template slot="items" slot-scope="props">
             <tr>
-              <td>{{ props.item.number }}</td>
+              <td>{{ props.item.id }}</td>
               <td>{{ props.item.text }}</td>
               <td>
-                <span v-for="ac in getAC(props)" :key="ac">
+                <span v-for="ac in getAC(props.item.number)" :key="ac">
                   <v-chip>{{ ac }}</v-chip><span> </span>
                 </span>
               </td>
@@ -93,6 +93,7 @@ import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 import axios from "axios";
 import {DELETE_RESULT_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT} from "@/RESTconf";
 import {ACTION_DELETE_RESULT, ACTION_EDIT_RESULT_NAME, MUTATE_SELECTED_RESULT} from "@/store/types";
+import { selectedDataset, selectedResult } from '../../store/getters';
 
 export default {
   name: "AcceptanceCriteriaResult",
@@ -273,7 +274,8 @@ export default {
   },
   methods: {
     getAC: function (usNumber) {
-      console.log(usNumber)
+      console.log(selectedResult.topics)
+      console.log(selectedResult.doc_topic)
       return [
         "some words",
         "some other words",
