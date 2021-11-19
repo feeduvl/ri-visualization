@@ -118,9 +118,9 @@ export default {
         return " " + this.searchProxy;
       }
     },
-    getAC: function (usNumber) {
-      return "someWord";
-    },
+    // getAC: function (usNumber) {
+    //   return "someWord";
+    // },
     // topicWordList() {
     //   let list = [];
     //   for (let topic in this.selectedResult.topics) {
