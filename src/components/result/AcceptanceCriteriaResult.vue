@@ -73,7 +73,7 @@
               <td>{{ props.item.id }}</td>
               <td :inner-html.prop="props.item.text | highlight(search)"></td>
               <td>
-                <span v-for="ac in this.getAC(props.item.id)" :key="ac">
+                <span v-for="ac in getAC(props.item.id)" :key="ac">
                   <v-chip @click="searchProxy = ac">{{ ac }}</v-chip><span> </span>
                 </span>
               </td>
