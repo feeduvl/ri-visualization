@@ -274,8 +274,8 @@ export default {
   },
   methods: {
     getAC: function (usNumber) {
-      console.log(selectedResults.topics)
-      console.log(selectedResults.doc_topic)
+      console.log(selectedResult.topics)
+      console.log(selectedResult.doc_topic)
       return [
         "some words",
         "some other words",
