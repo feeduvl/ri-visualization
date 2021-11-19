@@ -72,14 +72,11 @@
             <tr>
               <td>{{ props.item.id }}</td>
               <td :inner-html.prop="props.item.text | highlight(search)"></td>
-              <td :inner-html.prop="props.item.text | highlight(search)"></td>
-              <!-- <td>
-                <span v-for="word in topicWordlist" :key="word">
-                  <span v-if="props.item.text.toLowerCase().includes(' ' + word)">
-                    <v-chip @click="searchProxy = word">{{ word }}</v-chip><span> </span>
-                  </span>
+              <td>
+                <span v-for="ac in this.getAC(props.item.id)" :key="ac">
+                  <v-chip @click="searchProxy = ac">{{ ac }}</v-chip><span> </span>
                 </span>
-              </td> -->
+              </td>
             </tr>
           </template>
         </v-data-table>
@@ -120,6 +117,9 @@ export default {
       } else {
         return " " + this.searchProxy;
       }
+    },
+    getAC(usNumber) {
+      return "someWord";
     },
     // topicWordList() {
     //   let list = [];
