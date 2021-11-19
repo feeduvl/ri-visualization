@@ -1,5 +1,5 @@
 /* eslint-disable */
-export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic", "acceptance-generator"];
+export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic", "acceptance-criteria"];
 
 export const METHODS = [
     {
@@ -62,7 +62,7 @@ export const METHODS = [
         resultComponentName: "acceptance-criteria-result",
         resultComponentPath: "./components/result/AcceptanceCriteriaResult",
         scoreFunction: getScoreEmpty,
-        showInDocumentView: true
+        showInDocumentView: false
     }
 ]
 
