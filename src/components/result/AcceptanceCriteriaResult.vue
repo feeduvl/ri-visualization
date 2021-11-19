@@ -274,8 +274,11 @@ export default {
   },
   methods: {
     getAC: function (usNumber) {
-      console.log(selectedResult.topics)
-      console.log(selectedResult.doc_topic)
+      console.log(this.selectedResult.topics)
+      console.log(this.selectedResult.doc_topic)
+      if (Object.keys(this.selectedResult.doc_topic).includes(usNumber)) {
+        return this.selectedResult.doc_topic[usNumber]
+      }
       return [
         "some words",
         "some other words",
