@@ -63,7 +63,7 @@
         </v-layout>
         <v-data-table
             :headers="tableHeaders"
-            :items="selectedResult.documents"
+            :items="selectedDataset.documents"
             :pagination.sync="pagination"
             :loading="loadingResults"
             :search="search"
