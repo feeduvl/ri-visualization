@@ -60,14 +60,6 @@
               </v-card-text>
             </v-card>
           </template>
-          <v-card elevation="0" class="param_holder">
-            <v-card-title class="param_header">
-              <span class="grey--text text-uppercase">Count</span>
-            </v-card-title>
-            <v-card-text class="param_content">
-              {{ displayScore(selectedResult) }}
-            </v-card-text>
-          </v-card>
         </v-layout>
       </v-card>
     </v-flex>
