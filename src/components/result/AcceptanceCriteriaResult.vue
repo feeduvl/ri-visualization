@@ -277,6 +277,9 @@ export default {
       if (Object.keys(this.selectedResult.doc_topic).includes(usNumber.toString())) {
         let acs = []
         for (let acIdentifier in this.selectedResult.doc_topic[usNumber.toString()]) {
+          console.log(usNumber.toString())
+          console.log(this.selectedResult.doc_topic[usNumber.toString()])
+          console.log(acIdentifier)
           if (acIdentifier[1] > 0.5) {
             acs.push(this.selectedResult.topics[acIdentifier[0]][0])
           }
