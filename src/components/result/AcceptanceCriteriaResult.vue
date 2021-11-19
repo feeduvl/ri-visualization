@@ -278,7 +278,7 @@ export default {
         let acs = []
         for (let acIdentifier of this.selectedResult.doc_topic[usNumber.toString()]) {
           if (acIdentifier[1] > 0.5) {
-            acs.push(this.selectedResult.topics[acIdentifier[0]][0])
+            acs.push(this.selectedResult.topics[acIdentifier[0].toString()][0])
           }
         }
         return acs;
