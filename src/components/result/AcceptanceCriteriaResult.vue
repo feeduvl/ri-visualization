@@ -66,15 +66,14 @@
             :items="selectedDataset.documents"
             :pagination.sync="pagination"
             :loading="loadingResults"
-            :search="search"
         >
           <template slot="items" slot-scope="props">
             <tr>
               <td>{{ props.item.id }}</td>
-              <td :inner-html.prop="props.item.text | highlight(search)"></td>
+              <td>{{ props.item.text }}</td>
               <td>
                 <span v-for="ac in getAC(props.item.id)" :key="ac">
-                  <v-chip @click="searchProxy = ac">{{ ac }}</v-chip><span> </span>
+                  <v-chip>{{ ac }}</v-chip><span> </span>
                 </span>
               </td>
             </tr>
@@ -111,13 +110,13 @@ export default {
       selectedResult: 'selectedResult',
       selectedDataset: 'selectedDataset',
     }),
-    search() {
-      if (this.searchProxy === null) {
-        return null;
-      } else {
-        return " " + this.searchProxy;
-      }
-    },
+    // search() {
+    //   if (this.searchProxy === null) {
+    //     return null;
+    //   } else {
+    //     return " " + this.searchProxy;
+    //   }
+    // },
     // getAC: function (usNumber) {
     //   return "someWord";
     // },
@@ -189,7 +188,7 @@ export default {
       methods: [],
       // component: "uvl-filter-toolbar",
       documents: [],
-      searchProxy: "",
+      // searchProxy: "",
       itemsPerPage: 25,
       tableHeaders: [
         {
@@ -274,7 +273,10 @@ export default {
   },
   methods: {
     getAC: function (usNumber) {
-      return "someOtherWord";
+      return [
+        "some words",
+        "some other words",
+      ];
     },
     // toggleShowMatching() {
     //   this.showMatching = !this.showMatching;
