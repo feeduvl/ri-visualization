@@ -118,7 +118,7 @@ export default {
         return " " + this.searchProxy;
       }
     },
-    getAC(usNumber) {
+    getAC: function (usNumber) {
       return "someWord";
     },
     // topicWordList() {
@@ -273,6 +273,9 @@ export default {
     }
   },
   methods: {
+    getAC: function (usNumber) {
+      return "someOtherWord";
+    },
     // toggleShowMatching() {
     //   this.showMatching = !this.showMatching;
     // },
