@@ -61,6 +61,28 @@
             </v-card>
           </template>
         </v-layout>
+        <v-data-table
+            :headers="tableHeaders"
+            :items="selectedResult.documents"
+            :pagination.sync="pagination"
+            :loading="loadingResults"
+            :search="search"
+        >
+          <template slot="items" slot-scope="props">
+            <tr>
+              <td>{{ props.item.id }}</td>
+              <td :inner-html.prop="props.item.text | highlight(search)"></td>
+              <td :inner-html.prop="props.item.text | highlight(search)"></td>
+              <!-- <td>
+                <span v-for="word in topicWordlist" :key="word">
+                  <span v-if="props.item.text.toLowerCase().includes(' ' + word)">
+                    <v-chip @click="searchProxy = word">{{ word }}</v-chip><span> </span>
+                  </span>
+                </span>
+              </td> -->
+            </tr>
+          </template>
+        </v-data-table>
       </v-card>
     </v-flex>
   </v-layout>
@@ -92,6 +114,13 @@ export default {
       selectedResult: 'selectedResult',
       selectedDataset: 'selectedDataset',
     }),
+    search() {
+      if (this.searchProxy === null) {
+        return null;
+      } else {
+        return " " + this.searchProxy;
+      }
+    },
     // topicWordList() {
     //   let list = [];
     //   for (let topic in this.selectedResult.topics) {
@@ -157,6 +186,41 @@ export default {
   },
   data: function () {
     return {
+      methods: [],
+      // component: "uvl-filter-toolbar",
+      documents: [],
+      searchProxy: "",
+      itemsPerPage: 25,
+      tableHeaders: [
+        {
+          text: "ID",
+          align: "center",
+          sortable: true,
+          value: "id",
+          width: "10%",
+          filterable: true
+        },
+        {
+          text: "User Story",
+          align: "left",
+          sortable: false,
+          value: "text",
+          width: "45%",
+          filterable: true
+        },
+        {
+          text: "Acceptance Criteria",
+          align: "left",
+          sortable: false,
+          value: "text",
+          width: "45%"
+        },
+      ],
+      pagination: {
+        sortBy: "ID",
+        descending: false,
+        rowsPerPage: 25,
+      },
     //   BLUE_LIGHT: BLUE_LIGHT,
     //   ORANGE_LIGHT: ORANGE_LIGHT,
     //   baseFontsize: 20,

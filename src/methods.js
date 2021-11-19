@@ -62,7 +62,7 @@ export const METHODS = [
         resultComponentName: "acceptance-criteria-result",
         resultComponentPath: "./components/result/AcceptanceCriteriaResult",
         scoreFunction: getCountAcceptanceCriteria,
-        showInDocumentView: true
+        showInDocumentView: false
     }
 ]
 
