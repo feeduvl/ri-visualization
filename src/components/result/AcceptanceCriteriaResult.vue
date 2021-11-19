@@ -274,8 +274,10 @@ export default {
   },
   methods: {
     getAC: function (usNumber) {
+      console.log(usNumber)
       console.log(this.selectedResult.topics)
       console.log(this.selectedResult.doc_topic)
+      console.log(Object.keys(this.selectedResult.doc_topic))
       if (Object.keys(this.selectedResult.doc_topic).includes(usNumber)) {
         return this.selectedResult.doc_topic[usNumber]
       }
