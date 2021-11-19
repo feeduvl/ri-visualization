@@ -61,7 +61,7 @@ export const METHODS = [
         parameterComponentPath: "./form/AcceptanceCriteriaParameter",
         resultComponentName: "acceptance-criteria-result",
         resultComponentPath: "./components/result/AcceptanceCriteriaResult",
-        scoreFunction: getScoreEmpty,
+        scoreFunction: getCountAcceptanceCriteria,
         showInDocumentView: false
     }
 ]
@@ -80,6 +80,16 @@ export function getScoreLDA(result) {
     let metric;
     try {
         metric = result.metrics.total_coherence.toString().substring(0, 6);
+    } catch(e) {
+        metric = "-";
+    }
+    return metric;
+}
+
+export function getCountAcceptanceCriteria(result) {
+    let metric;
+    try {
+        metric = result.metrics.count.toString();
     } catch(e) {
         metric = "-";
     }

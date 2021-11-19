@@ -50,9 +50,19 @@
               </v-card-text>
             </v-card>
           </template>
+          <template v-for="(item, key) in selectedResult.metrics">
+            <v-card :key="key" elevation="0" class="param_holder">
+              <v-card-title class="param_header">
+                <span class="grey--text text-uppercase">{{ key }}</span>
+              </v-card-title>
+              <v-card-text class="param_content">
+                {{ item }}
+              </v-card-text>
+            </v-card>
+          </template>
           <v-card elevation="0" class="param_holder">
             <v-card-title class="param_header">
-              <span class="grey--text text-uppercase">Average Coherence</span>
+              <span class="grey--text text-uppercase">Count</span>
             </v-card-title>
             <v-card-text class="param_content">
               {{ displayScore(selectedResult) }}
@@ -61,96 +71,13 @@
         </v-layout>
       </v-card>
     </v-flex>
-
-    <v-snackbar
-        v-model="snackbarVisible"
-        :timeout="snackbarTimeout"
-        :top=true
-    >
-      {{ snackbarText }}
-
-      <v-btn
-          color="blue"
-          text
-          @click="closeSnackbar"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
-    <v-dialog
-        v-model="editDialogVisible"
-        max-width="290"
-    >
-      <v-card>
-        <v-card-title class="text-h5">
-          Edit Result Name
-        </v-card-title>
-
-        <v-card-text>
-          <v-text-field
-              v-model="newResultName"
-              label="Name"
-              single-line
-              hide-details
-              clearable
-          ></v-text-field>
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-
-          <v-btn
-              color="primary"
-              text
-              @click="editName"
-              :loading="editBtn"
-              :disabled="editBtn"
-          >
-            Edit
-          </v-btn>
-
-          <v-btn
-              color="error"
-              text
-              @click="editDialogVisible = false"
-          >
-            Cancel
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-    <v-snackbar
-        v-model="deleteSnackbarVisible"
-        :timeout="deleteSnackbarTimeout"
-        :top=true
-    >
-      Delete Result {{ resultToDelete.name }}?
-
-      <v-btn
-          color="error"
-          small
-          :loading="deleteBtn"
-          :disabled="deleteBtn"
-          @click="deleteResult"
-      >
-        Confirm
-      </v-btn>
-
-      <v-btn
-          color="primary"
-          small
-          @click="deleteSnackbarVisible = false"
-      >
-        Cancel
-      </v-btn>
-    </v-snackbar>
   </v-layout>
 </template>
 
 <script>
 import {mapGetters} from "vuex";
-import Cloud from 'vue-d3-cloud';
-import {BLUE_LIGHT, CLOUD, ORANGE_LIGHT} from "@/colors";
+// import Cloud from 'vue-d3-cloud';
+// import {BLUE_LIGHT, CLOUD, ORANGE_LIGHT} from "@/colors";
 import {getMethodObj} from "@/methods";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 import axios from "axios";
@@ -160,12 +87,12 @@ import {ACTION_DELETE_RESULT, ACTION_EDIT_RESULT_NAME, MUTATE_SELECTED_RESULT} f
 export default {
   name: "AcceptanceCriteriaResult",
   watch: {
-    selectedResult: function () {
-      this.updateWordMapping();
-    },
-    selectedDataset: function () {
-      this.updateWordMapping();
-    }
+    // selectedResult: function () {
+    //   this.updateWordMapping();
+    // },
+    // selectedDataset: function () {
+    //   this.updateWordMapping();
+    // }
   },
   computed: {
     ...mapGetters({
@@ -173,145 +100,145 @@ export default {
       selectedResult: 'selectedResult',
       selectedDataset: 'selectedDataset',
     }),
-    topicWordList() {
-      let list = [];
-      for (let topic in this.selectedResult.topics) {
-        for (let index in this.selectedResult.topics[topic]) {
-          let word = this.selectedResult.topics[topic][index];
-          if (word.length <= 1) {
-            continue;
-          }
-          if (!(list.indexOf(word) > -1)) {
-            list.push(word);
-          }
-        }
-      }
-      return list.sort();
-    },
-    groundtruthList() {
-      let list = [];
-      if (Object.prototype.hasOwnProperty.call(this.selectedDataset,"ground_truth")) {
-        for (let index in this.selectedDataset.ground_truth) {
-          let gt = this.selectedDataset.ground_truth[index];
-          if (!(list.indexOf(gt.value) > -1)) {
-            list.push(gt.value);
-          }
-        }
-      }
-      return list.sort();
-    },
-    topicWords() {
-      if (this.selectedDataset.documents !== undefined) {
-        let list = [];
-        let tw = [];
-        for (let topic in this.selectedResult.topics) {
-          for (let index in this.selectedResult.topics[topic]) {
-            let word = this.selectedResult.topics[topic][index];
-            if (word.length <= 1) {
-              continue;
-            }
-            if (!(list.indexOf(word) > -1)) {
-              list.push(word);
-            }
-          }
-        }
-        for (const word of list) {
-          let count = 0;
-          for (const document of this.selectedDataset["documents"]) {
-            if ((" " + document.text.toLowerCase()).includes(" " + word)) {
-              count++;
-            }
-          }
-          tw.push({text: word, value: Math.min((count *2) + this.baseFontsize, 100)});
-        }
-        return tw;
-      } else {
-        return [];
-      }
-    }
+    // topicWordList() {
+    //   let list = [];
+    //   for (let topic in this.selectedResult.topics) {
+    //     for (let index in this.selectedResult.topics[topic]) {
+    //       let word = this.selectedResult.topics[topic][index];
+    //       if (word.length <= 1) {
+    //         continue;
+    //       }
+    //       if (!(list.indexOf(word) > -1)) {
+    //         list.push(word);
+    //       }
+    //     }
+    //   }
+    //   return list.sort();
+    // },
+    // groundtruthList() {
+    //   let list = [];
+    //   if (Object.prototype.hasOwnProperty.call(this.selectedDataset,"ground_truth")) {
+    //     for (let index in this.selectedDataset.ground_truth) {
+    //       let gt = this.selectedDataset.ground_truth[index];
+    //       if (!(list.indexOf(gt.value) > -1)) {
+    //         list.push(gt.value);
+    //       }
+    //     }
+    //   }
+    //   return list.sort();
+    // },
+    // topicWords() {
+    //   if (this.selectedDataset.documents !== undefined) {
+    //     let list = [];
+    //     let tw = [];
+    //     for (let topic in this.selectedResult.topics) {
+    //       for (let index in this.selectedResult.topics[topic]) {
+    //         let word = this.selectedResult.topics[topic][index];
+    //         if (word.length <= 1) {
+    //           continue;
+    //         }
+    //         if (!(list.indexOf(word) > -1)) {
+    //           list.push(word);
+    //         }
+    //       }
+    //     }
+    //     for (const word of list) {
+    //       let count = 0;
+    //       for (const document of this.selectedDataset["documents"]) {
+    //         if ((" " + document.text.toLowerCase()).includes(" " + word)) {
+    //           count++;
+    //         }
+    //       }
+    //       tw.push({text: word, value: Math.min((count *2) + this.baseFontsize, 100)});
+    //     }
+    //     return tw;
+    //   } else {
+    //     return [];
+    //   }
+    // }
   },
   components: {
-    Cloud,
-    "heatmap-word-document": () =>
-        import("../widget/heatmap/HeatmapWordDocument"),
-    "groundtruth-comparison": () => import("@/components/widget/table/GroundtruthComparison"),
+    // Cloud,
+    // "heatmap-word-document": () =>
+    //     import("../widget/heatmap/HeatmapWordDocument"),
+    // "groundtruth-comparison": () => import("@/components/widget/table/GroundtruthComparison"),
   },
   data: function () {
     return {
-      BLUE_LIGHT: BLUE_LIGHT,
-      ORANGE_LIGHT: ORANGE_LIGHT,
-      baseFontsize: 20,
-      resultToDelete: {},
-      resultToEdit: {},
-      showMatching: true,
-      showNotMatching: true,
-      deleteSnackbarVisible: false,
-      editDialogVisible: false,
-      conceptWordPositives: [],
-      groundtruthPositives: [],
-      newResultName: "",
-      deleteBtn: false,
-      editBtn: false,
-      snackbarVisible: false,
-      snackbarTimeout: 0,
-      deleteSnackbarTimeout: 0,
-      snackbarText: "",
-      fontSizeMapper: word => word.value,
-      rotate: 0,
-      coloring: "random",
-      colors: CLOUD,
-      width: 1152,
-      height: 400,
-      padding: 5,
-      errors: [],
-      tableHeaders: [
-        {
-          text: "Concept Words",
-          align: "left",
-          sortable: false,
-          value: "text",
-          width: "90%",
-          filterable: false
-        },
-        {
-          text: "Ground Truth",
-          align: "left",
-          sortable: false,
-          value: "text",
-          width: "90%",
-          filterable: false
-        },
-      ],
-      pagination: {
-        sortBy: "Number",
-        descending: false,
-        rowsPerPage: 10,
-      },
+    //   BLUE_LIGHT: BLUE_LIGHT,
+    //   ORANGE_LIGHT: ORANGE_LIGHT,
+    //   baseFontsize: 20,
+    //   resultToDelete: {},
+    //   resultToEdit: {},
+    //   showMatching: true,
+    //   showNotMatching: true,
+    //   deleteSnackbarVisible: false,
+    //   editDialogVisible: false,
+    //   conceptWordPositives: [],
+    //   groundtruthPositives: [],
+    //   newResultName: "",
+    //   deleteBtn: false,
+    //   editBtn: false,
+    //   snackbarVisible: false,
+    //   snackbarTimeout: 0,
+    //   deleteSnackbarTimeout: 0,
+    //   snackbarText: "",
+    //   fontSizeMapper: word => word.value,
+    //   rotate: 0,
+    //   coloring: "random",
+    //   colors: CLOUD,
+    //   width: 1152,
+    //   height: 400,
+    //   padding: 5,
+    //   errors: [],
+    //   tableHeaders: [
+    //     {
+    //       text: "Concept Words",
+    //       align: "left",
+    //       sortable: false,
+    //       value: "text",
+    //       width: "90%",
+    //       filterable: false
+    //     },
+    //     {
+    //       text: "Ground Truth",
+    //       align: "left",
+    //       sortable: false,
+    //       value: "text",
+    //       width: "90%",
+    //       filterable: false
+    //     },
+    //   ],
+    //   pagination: {
+    //     sortBy: "Number",
+    //     descending: false,
+    //     rowsPerPage: 10,
+    //   },
     }
   },
   methods: {
-    toggleShowMatching() {
-      this.showMatching = !this.showMatching;
-    },
-    toggleShowNotMatching() {
-      this.showNotMatching = !this.showNotMatching;
-    },
-    updateWordMapping() {
-      let twPositives = [];
-      let gtPositives = [];
-      for (let index in this.topicWordList) {
-        for (let index2 in this.groundtruthList) {
-          if ((" " + this.groundtruthList[index2].toLowerCase()).includes(" " + this.topicWordList[index])) {
-            twPositives.push(this.topicWordList[index]);
-            if (!(gtPositives.indexOf(this.groundtruthList[index2]) > -1)) {
-              gtPositives.push(this.groundtruthList[index2]);
-            }
-          }
-        }
-      }
-      this.conceptWordPositives = twPositives;
-      this.groundtruthPositives = gtPositives;
-    },
+    // toggleShowMatching() {
+    //   this.showMatching = !this.showMatching;
+    // },
+    // toggleShowNotMatching() {
+    //   this.showNotMatching = !this.showNotMatching;
+    // },
+    // updateWordMapping() {
+    //   let twPositives = [];
+    //   let gtPositives = [];
+    //   for (let index in this.topicWordList) {
+    //     for (let index2 in this.groundtruthList) {
+    //       if ((" " + this.groundtruthList[index2].toLowerCase()).includes(" " + this.topicWordList[index])) {
+    //         twPositives.push(this.topicWordList[index]);
+    //         if (!(gtPositives.indexOf(this.groundtruthList[index2]) > -1)) {
+    //           gtPositives.push(this.groundtruthList[index2]);
+    //         }
+    //       }
+    //     }
+    //   }
+    //   this.conceptWordPositives = twPositives;
+    //   this.groundtruthPositives = gtPositives;
+    // },
     editName() {
       this.editBtn = true;
       this.resultToEdit.name = this.newResultName;
@@ -398,14 +325,14 @@ export default {
     displayScore(item) {
       return getMethodObj(item.method).scoreFunction(item);
     },
-    displaySnackbar(message) {
-      this.snackbarText = message;
-      this.snackbarVisible = true;
-    },
-    closeSnackbar() {
-      this.snackbarVisible = false;
-      this.snackbarText = "";
-    },
+    // displaySnackbar(message) {
+    //   this.snackbarText = message;
+    //   this.snackbarVisible = true;
+    // },
+    // closeSnackbar() {
+    //   this.snackbarVisible = false;
+    //   this.snackbarText = "";
+    // },
     downloadResult() {
       if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
         const data = JSON.stringify(this.selectedResult);
@@ -443,28 +370,28 @@ export default {
     },
   },
   mounted() {
-    this.updateWordMapping();
+    // this.updateWordMapping();
   },
 }
 </script>
 
 <style scoped>
 
-#wordcloud_holder {
+/* #wordcloud_holder {
   margin-bottom: 20px;
 }
 
 #concept_word_holder {
   margin-bottom: 20px;
-}
+} */
 
 #parameter_holder {
   margin-bottom: 20px;
 }
 
-#heatmap-holder {
+/* #heatmap-holder {
   margin-top: 20px;
-}
+} */
 
 .param_content {
   padding-top: 0;
@@ -490,7 +417,7 @@ export default {
   float: right;
 }
 
-#concept_words {
+/* #concept_words {
   margin-left: 20px;
   margin-bottom: 20px;
 }
@@ -498,14 +425,14 @@ export default {
 #groundtruth_words {
   margin-right: 20px;
   align-content: center;
-}
+} */
 
 .grey-headline {
   color: grey;
   font-weight: 450;
 }
 
-#cw_legend {
+/* #cw_legend {
   font-weight: 450;
   float: right;
   margin-top: 6px;
@@ -516,6 +443,6 @@ export default {
   overflow-y: scroll;
   max-height: 500px;
   padding-bottom: 20px;
-}
+} */
 
 </style>
