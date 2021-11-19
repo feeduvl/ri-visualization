@@ -275,7 +275,7 @@ export default {
   methods: {
     getAC: function (usNumber) {
       if (Object.keys(this.selectedResult.doc_topic).includes(usNumber.toString())) {
-        acs = []
+        let acs = []
         for(acIdentifier in this.selectedResult.doc_topic[usNumber.toString()]) {
           if (acIdentifier[1] > 0.5) {
             acs.push(this.selectedResult.topics[acIdentifier[0]][0])
