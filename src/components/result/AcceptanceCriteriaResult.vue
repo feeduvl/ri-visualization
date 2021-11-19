@@ -69,10 +69,10 @@
         >
           <template slot="items" slot-scope="props">
             <tr>
-              <td>{{ props.item.id }}</td>
+              <td>{{ props.item.number }}</td>
               <td>{{ props.item.text }}</td>
               <td>
-                <span v-for="ac in getAC(props.item.id)" :key="ac">
+                <span v-for="ac in getAC(props)" :key="ac">
                   <v-chip>{{ ac }}</v-chip><span> </span>
                 </span>
               </td>
@@ -273,6 +273,7 @@ export default {
   },
   methods: {
     getAC: function (usNumber) {
+      console.log(usNumber)
       return [
         "some words",
         "some other words",
