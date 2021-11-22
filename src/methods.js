@@ -71,7 +71,7 @@ export function getScoreSeaNMF(result) {
     try {
         metric = result.metrics.total_coherence.toString().substring(0, 6);
     } catch(e) {
-        metric = "-";
+        metric = "–";
     }
     return metric;
 }
@@ -81,7 +81,7 @@ export function getScoreLDA(result) {
     try {
         metric = result.metrics.total_coherence.toString().substring(0, 6);
     } catch(e) {
-        metric = "-";
+        metric = "–";
     }
     return metric;
 }
@@ -91,13 +91,13 @@ export function getCountAcceptanceCriteria(result) {
     try {
         metric = result.metrics.count.toString();
     } catch(e) {
-        metric = "-";
+        metric = "–";
     }
     return metric;
 }
 
 export function getScoreEmpty(result) {
-    return "-";
+    return "–";
 }
 
 export function getMethodObj(methodName) {

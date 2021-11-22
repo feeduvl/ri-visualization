@@ -212,7 +212,7 @@ export default {
         });
 
         data = data.map(function(item) {
-          return [item[1], item[0], item[2] || "-"];
+          return [item[1], item[0], item[2] || "–"];
         });
 
         this.option.series[0].data = data;

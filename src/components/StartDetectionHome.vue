@@ -511,7 +511,7 @@ export default {
     },
     displayRunName(name) {
       if (name === "") {
-        return "-";
+        return "–";
       } else {
         return name;
       }

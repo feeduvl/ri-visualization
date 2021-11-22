@@ -166,7 +166,7 @@ export default {
       } else {
         name = this.selectedResult.name;
       }
-      return name + "-" + this.selectedResult.started_at.replace(":","-") + ".json";
+      return name + "–" + this.selectedResult.started_at.replace(":","-") + ".json";
     },
     displayRunDate() {
       if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
