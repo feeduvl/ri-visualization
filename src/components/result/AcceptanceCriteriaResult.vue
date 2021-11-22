@@ -513,11 +513,11 @@ export default {
   padding-bottom: 20px;
 } */
 
-.v-chip {
+::v-deep .v-chip {
   border-radius: 14px;
 }
 
-.v-chip__content {
+::v-deep .v-chip__content {
   height: auto;
   padding: 6px 12px;
   white-space: normal;
