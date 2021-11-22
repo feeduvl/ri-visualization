@@ -513,4 +513,14 @@ export default {
   padding-bottom: 20px;
 } */
 
+.v-chip {
+  border-radius: 14px;
+}
+
+.v-chip__content {
+  height: auto;
+  padding: 6px 12px;
+  white-space: normal;
+}
+
 </style>
