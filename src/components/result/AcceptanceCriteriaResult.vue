@@ -73,8 +73,8 @@
               <td>{{ props.item.text }}</td>
               <td>
                 <span v-for="ac in getAC(props.item.number)" :key="ac">
-                  <v-chip v-if="ac.startsWith('ERROR: ')" color="red" text-color="white"><v-avatar left><v-icon>mdi-alert-circle</v-icon></v-avatar>{{ ac.substring(7) }}</v-chip>
-                  <v-chip v-else-if="ac.startsWith('WARNING: ')" color="orange" text-color="white"><v-avatar left><v-icon>mdi-alert</v-icon></v-avatar>{{ ac.substring(9) }}</v-chip>
+                  <v-chip v-if="ac.startsWith('ERROR: ')" color="red" text-color="white"><v-avatar left><v-icon>warning</v-icon></v-avatar>{{ ac.substring(7) }}</v-chip>
+                  <v-chip v-else-if="ac.startsWith('WARNING: ')" color="orange" text-color="white"><v-avatar left><v-icon>error</v-icon></v-avatar>{{ ac.substring(9) }}</v-chip>
                   <v-chip v-else>{{ ac }}</v-chip>
                   <span> </span>
                 </span>
