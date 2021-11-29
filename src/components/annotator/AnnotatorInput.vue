@@ -314,8 +314,8 @@
 
             name: {
                 get(){
-                    console.log(this.selected_code.pos);
-                    if(this.selected_code.pos.equals("verb")){
+                    console.log(this.selected_code.);
+                    if(this.selected_code.pos.equals("VERBS")){
                         return "to "+ this.selected_code.name;
                     }
                     return this.selected_code.name;
@@ -350,7 +350,7 @@
                 if(this.selected_code && !this.requiredAnnotationsPresent){
                     let lemma = this.$store.state.tokens[this.selectedToken.index].lemma;
                     console.log("Initializing name and tore fields for new code: "+lemma);
-
+                    let pos = "";
                     let foundTore = "";
                     if(this.selectedToken){
                         for(let code of this.getCodesForToken(this.selectedToken)){
@@ -358,6 +358,9 @@
                                 foundTore = code.tore;
                                 break;
                             }
+                        }
+                        if(this.$store.state.tokens[this.selectedToken.index].pos){
+                            pos = this.$store.state.tokens[this.selectedToken.index].pos;
                         }
                     } else {
                         console.error("watch::selected_code got selected code without selected token");
