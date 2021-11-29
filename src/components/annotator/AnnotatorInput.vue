@@ -314,7 +314,7 @@
 
             name: {
                 get(){
-                    if(this.selectedToken.pos == ("v")){
+                    if(this.selectedToken && this.selectedToken.pos && this.selectedToken.pos == ("v")){
                         return "to "+ this.selected_code.name;
                     }
                     return this.selected_code.name;
