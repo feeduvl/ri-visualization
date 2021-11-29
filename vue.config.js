@@ -4,5 +4,4 @@ module.exports = {
   devServer:{
     disableHostCheck: true,
   }
-  Vue.config.devtools = true
 };
