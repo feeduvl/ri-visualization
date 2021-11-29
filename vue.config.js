@@ -1,3 +1,5 @@
+Vue.config.devtools = true
+
 module.exports = {
   publicPath: '/dashboard/',
   productionSourceMap: false,
