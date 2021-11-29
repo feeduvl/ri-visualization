@@ -314,8 +314,8 @@
 
             name: {
                 get(){
-                    console.log(this.selected_code.pos);
-                    if(this.selected_code.pos.equals("VERBS")){
+                    console.log(this.selectedToken.pos);
+                    if(this.selectedToken.pos.equals("VERBS")){
                         return "to "+ this.selected_code.name;
                     }
                     return this.selected_code.name;
