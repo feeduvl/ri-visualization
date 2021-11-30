@@ -224,16 +224,15 @@
 </template>
 
 <script>
-    import Token from "@/components/annotator/Token";
-    import AnnotatorInput from "@/components/annotator/AnnotatorInput";
-    import CodeView from "@/components/annotator/CodeView";
-    import {Code, Code_user_display_prompt} from "@/components/annotator/code";
-    import {mapGetters, mapState} from "vuex";
-    import AnnotatorSettings from "@/components/annotator/AnnotatorSettings";
-    import EditConfigurablesDialog from "@/components/annotator/EditConfigurablesDialog";
-    import {RESULT_COLOR} from "./resources/color"
+import Token from "@/components/annotator/Token";
+import AnnotatorInput from "@/components/annotator/AnnotatorInput";
+import CodeView from "@/components/annotator/CodeView";
+import {Code, Code_user_display_prompt} from "@/components/annotator/code";
+import {mapGetters, mapState} from "vuex";
+import AnnotatorSettings from "@/components/annotator/AnnotatorSettings";
+import EditConfigurablesDialog from "@/components/annotator/EditConfigurablesDialog";
 
-    export default {
+export default {
         name: "Annotator",
         data: () => {
             return {
@@ -355,8 +354,12 @@
                 if(this.$store.state.selectedToken===null || this.annotatorViewingCodeResults){
                     return null;
                 }
-                let elem = document.getElementById("token_"+this.$store.state.selectedToken.index).getBoundingClientRect();
-                return elem;
+                try{
+                  return document.getElementById("token_" + this.$store.state.selectedToken.index).getBoundingClientRect();
+                } catch (e) {
+                  console.error("Annotator::selectedTokenBoundingRect error getting bounding rect")
+                  return null;
+                }
             },
 
             inputFieldPanelLocationStyle(){
@@ -368,7 +371,7 @@
                 let lowerWidth = annotatorBox.width*((100-this.annotatorInputWidthPct)/100);
                 return {
                     left: `${Math.min(lowerWidth, tokenBox.left)}px`,
-                    top: `${tokenBox.top + tokenBox.height + (this.panelIsUp?0:200)}px`
+                    top: `${tokenBox.top + tokenBox.height}px`
                 }
             },
 
@@ -417,7 +420,7 @@
                     this.$store.commit("postAnnotationCallback")
                     startTimer = true;
                 } else {
-                    if(val - this.lastAnnotationPostAt > 1000 * 60){
+                    if(val - this.lastAnnotationPostAt > 1000 * 90){
                         console.info("Auto save")
                         this.doSaveAnnotation(true);
                         startTimer = true;
@@ -426,11 +429,11 @@
                 if(startTimer){
                     let self = this;
                     setTimeout(function(){
-                        if(Date.now() - self.lastAnnotationPostAt > 1000 * 60){
+                        if(Date.now() - self.lastAnnotationPostAt > 1000 * 90){
                             console.info("Scheduled autosave")
                             self.doSaveAnnotation(true);
                         }
-                    },1000 * 61)
+                    },1000 * 91)
                 }
             }
         },
