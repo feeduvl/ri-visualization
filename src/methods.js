@@ -61,7 +61,7 @@ export const METHODS = [
         parameterComponentPath: "./form/AcceptanceCriteriaParameter",
         resultComponentName: "acceptance-criteria-result",
         resultComponentPath: "./components/result/AcceptanceCriteriaResult",
-        scoreFunction: getCountAcceptanceCriteria,
+        scoreFunction: getRuntimeAcceptanceCriteria,
         showInDocumentView: false
     }
 ]
@@ -86,10 +86,10 @@ export function getScoreLDA(result) {
     return metric;
 }
 
-export function getCountAcceptanceCriteria(result) {
+export function getRuntimeAcceptanceCriteria(result) {
     let metric;
     try {
-        metric = result.metrics.count.toString();
+        metric = result.metrics.runtime.toString();
     } catch(e) {
         metric = "–";
     }
