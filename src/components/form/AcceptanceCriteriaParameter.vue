@@ -5,14 +5,10 @@
       v-model="formValid">
     <v-layout row wrap>
       <v-flex xs3>
-      <v-text-field
-              v-model="alpha"
-              hint="Must be between 0 and 1. Default: 0.1"
-              persistent-hint
-              label="Alpha"
-              :rules="alphaRules"
-              clearable
-          ></v-text-field>
+        <v-checkbox
+            v-model="debug"
+            :label="`Whether to include debug information, such as the preprocessed user story.`"
+        ></v-checkbox>
       </v-flex>
       <v-flex xs1/>
       <v-flex xs3>
@@ -64,13 +60,9 @@ export default {
     loading: false,
     snackbarText: "",
     snackbarTimeout: SNACKBAR_DISPLAY_TIME,
-    alpha: 0.1,
+    debug: false,
     run_name: "",
     formValid: true,
-    alphaRules: [
-      v => !!v || 'Alpha is required',
-      v => (v && v > 0 && v <= 1) || 'Must be > 0 and <= 1',
-    ],
   }),
   methods: {
     async startRun() {
@@ -110,7 +102,7 @@ export default {
       let params = {
         method: this.method,
         dataset: this.$props.dataset,
-        alpha: this.alpha,
+        debug: this.debug,
         name: this.run_name,
       };
       return JSON.stringify(params);
@@ -119,7 +111,7 @@ export default {
       return this.$props.dataset !== "";
     },
     resetForm() {
-      this.alpha = 0.1;
+      this.debug = false;
       this.run_name = "";
     },
   },
