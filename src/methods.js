@@ -89,7 +89,8 @@ export function getScoreLDA(result) {
 export function getRuntimeAcceptanceCriteria(result) {
     let metric;
     try {
-        metric = result.metrics.runtime.toString();
+        runtime = parseFloat(result.metrics.runtime) / 1000;
+        metric = runtime.toString();
     } catch(e) {
         metric = "–";
     }
