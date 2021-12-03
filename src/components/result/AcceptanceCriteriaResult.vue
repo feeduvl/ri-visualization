@@ -70,7 +70,7 @@
                   <v-chip v-if="ac.startsWith('ERROR: ')" color="red" text-color="white"><v-avatar left style="margin-left: -8px; margin-right: 4px"><v-icon>error</v-icon></v-avatar>{{ ac.substring(7) }}</v-chip>
                   <v-chip v-else-if="ac.startsWith('WARNING: ')" color="orange" text-color="white"><v-avatar left style="margin-left: -8px; margin-right: 4px"><v-icon>warning</v-icon></v-avatar>{{ ac.substring(9) }}</v-chip>
                   <v-chip v-else-if="ac.startsWith('INFO: ')" color="blue" text-color="white"><v-avatar left style="margin-left: -8px; margin-right: 4px"><v-icon>info</v-icon></v-avatar>{{ ac.substring(6) }}</v-chip>
-                  <v-chip v-else-if="ac.startsWith('DEBUG: ')" text-color="dimgrey"><v-avatar left style="margin-left: -8px; margin-right: 4px"><v-icon>bug_report</v-icon></v-avatar>{{ ac.substring(7) }}</v-chip>
+                  <v-chip v-else-if="ac.startsWith('DEBUG: ')" text-color="grey darken-1"><v-avatar left style="margin-left: -8px; margin-right: 4px"><v-icon>bug_report</v-icon></v-avatar>{{ ac.substring(7) }}</v-chip>
                   <v-chip v-else>{{ ac }}</v-chip>
                   <span> </span>
                 </span>
