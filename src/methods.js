@@ -89,11 +89,11 @@ export function getScoreLDA(result) {
 export function getRuntimeAcceptanceCriteria(result) {
     let metric;
     try {
-        let runtime = parseFloat(result.metrics.runtime) / 1000;
+        let runtime = parseFloat(result.metrics.runtime);
         if (isNaN(runtime)) {
             throw new Error('Object is not a Number');
         }
-        metric = runtime.toString();
+        metric = new Date(runtime).toISOString().substr(11, 12).toString();
     } catch(e) {
         metric = "–";
     }
