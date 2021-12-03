@@ -130,6 +130,7 @@ export default {
       pagination: {
         descending: false,
         rowsPerPage: 25,
+        rowsPerPageItems: [5,10,25,50,100,{"text":"All","value":-1}]
       }
     }
   },
