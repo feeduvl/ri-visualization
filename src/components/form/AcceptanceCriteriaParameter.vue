@@ -7,7 +7,7 @@
       <v-flex xs3>
         <v-checkbox
             v-model="debug"
-            :label="`Whether to include debug information, such as the preprocessed user story.`"
+            :label="`Include debug information`"
         ></v-checkbox>
       </v-flex>
       <v-flex xs1/>
