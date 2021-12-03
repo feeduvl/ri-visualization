@@ -90,6 +90,9 @@ export function getRuntimeAcceptanceCriteria(result) {
     let metric;
     try {
         let runtime = parseFloat(result.metrics.runtime) / 1000;
+        if (isNaN(runtime)) {
+            throw new Error('Object is not a Number');
+        }
         metric = runtime.toString();
     } catch(e) {
         metric = "–";
