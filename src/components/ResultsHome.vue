@@ -23,7 +23,8 @@ export default {
     "topic-detection-result": () => import("./result/TopicDetectionResult"),
     "fcic-result": () => import("./result/FcicResult"),
     "empty-result": () => import("./result/EmptyResult"),
-    "rbai-result": () => import("./result/RbaiResult")
+    "rbai-result": () => import("./result/RbaiResult"),
+    "acceptance-criteria-result": () => import("./result/AcceptanceCriteriaResult"),
   },
   computed: {
     ...mapGetters({

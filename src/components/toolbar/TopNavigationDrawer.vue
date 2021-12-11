@@ -75,7 +75,7 @@ export default {
           theme: THEME_UVL
         },
         {
-          title: "Start Concept Detection",
+          title: "Start Analysis",
           icon: "play_arrow",
           path: "/detection",
           theme: THEME_UVL

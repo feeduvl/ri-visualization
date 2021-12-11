@@ -183,7 +183,7 @@ export default {
       } else {
         n = item.name;
       }
-      return n + " - " + item.started_at.replace("Z", "").replace("T", " ");
+      return n + " – " + item.started_at.replace("Z", "").replace("T", " ");
     },
     displaySnackbar(message) {
       this.snackbarText = message;
