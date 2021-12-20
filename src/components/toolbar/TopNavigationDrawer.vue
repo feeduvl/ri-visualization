@@ -87,6 +87,12 @@ export default {
           theme: THEME_UVL
         },
         {
+          title: "Reddit Crawler",
+          icon: "sync",
+          path: "/reddit_crawler",
+          theme: THEME_UVL
+        },
+        {
           title: "Detection Results",
           icon: "assessment",
           path: "/results",
