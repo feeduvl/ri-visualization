@@ -77,12 +77,13 @@
                         </v-row>
                     </v-card-text>
 
-
+                    <!---
                     <v-date-picker 
                         v-model="datesRange"
                         range
                     >
                     </v-date-picker>
+                    --->
                 </v-card>
 
                 <!-- Comment-depth selection using a rangeslider -->
