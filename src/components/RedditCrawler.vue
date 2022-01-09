@@ -161,7 +161,7 @@
                 :loading="crawlLoading"
                 :disabled="crawlLoading"
                 color="secondary"
-                @click="loader = 'loading'"
+                @click="crawlerRun"
                 >
                 Run
             </v-btn>
@@ -206,24 +206,27 @@
 </template>
 
 <script>
-  export default {
-    name: "RedditCrawler",
-    data: () => ({
-        //subredditNamesChips: [],
-        //subredditNamesItems: [],
-        switchDateSelection: true,
-        timeOptions: ['Today', 'Week', 'Month', 'Year', 'All'],
-        //datesRange: [],
-        commentOptions: ['None', 1, 2, 3, 4, 5, 'All'],
-        replaceSettings: [],
-        minTextLength: '',
-        minCommentLength: '',
-        //blacklistChips: [],
-        //blacklistItems: [],
-        crawlLoading: false,
-        loader: null,
+    import axios from "axios"
+
+    export default {
+        name: "RedditCrawler",
+        data: () => ({
+            //subredditNamesChips: [],
+            //subredditNamesItems: [],
+            switchDateSelection: true,
+            timeOptions: ['Today', 'Week', 'Month', 'Year', 'All'],
+            //datesRange: [],
+            commentOptions: ['None', 1, 2, 3, 4, 5, 'All'],
+            replaceSettings: [],
+            minTextLength: '',
+            minCommentLength: '',
+            //blacklistChips: [],
+            //blacklistItems: [],
+            crawlLoading: false,
+            loader: null,
     }),
 
+    // check if really needed
     watch: {
       loader () {
         const l = this.loader
@@ -234,6 +237,27 @@
         this.loader = null
       },
     },
+
+    methods: {
+        crawlerRun(){
+            // assemble json
+            let crawlerTask = {
+                subreddits : subredditNamesChips,
+                time_selector : timeOptions,
+                date_from : "",
+                date_to : "",
+                replace_settings : replaceSettings,
+                min_length_text : minTextLength,
+                min_length_comment : minCommentLength,
+                // ... complete this list
+            }
+            crawlerTaskString = JSON.stringify(crawlerTask)
+            // logging
+
+            // dispatch
+            this.$store.dispatch("actionCrawlReddit", crawlerTaskString)
+        }
+    }
     
   }
 

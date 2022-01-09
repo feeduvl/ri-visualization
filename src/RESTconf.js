@@ -134,3 +134,6 @@ export const POST_RETRIEVE_ACCESS_KEY_CONFIGURATION_PAYLOAD = function (accessKe
   };
   return JSON.stringify(payload);
 };
+
+// reddit crawler
+export const REDDIT_CRAWLER_ENDPOINT = `${BASE_URL}/hitec/reddit/crawl`
