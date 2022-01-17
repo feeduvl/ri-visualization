@@ -121,8 +121,9 @@ export const actionGetNewAnnotation = ({
 
 export const actionGetNewAgreement = ({
   commit
-}, {name, dataset, annotationNames, completeConcurrences}) => {
+}, {name, dataset, annotations, completeConcurrences}) => {
   return new Promise(() => {
+    var annotationNames = annotations.map(function(item){return item.name;})
     console.warn("Initializing agreement");
     commit("setIsLoadingAgreement", true);
     axios.post(AGREEMENT_INITIALIIZE_ENDPOINT, {
