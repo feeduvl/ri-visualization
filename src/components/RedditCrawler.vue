@@ -50,40 +50,16 @@
                 </v-container>
 
 
-                <!-- Timeframe selection using a rangeslider -->
+                <!-- Timeframe selection using a date selection -->
                 <v-card
                     flat
                     color="transparent"
                 >
                     <v-subheader>Select Time</v-subheader>
-                    <v-switch
-                        v-model="switchDateSelection"
-                        label="Switch to date-based selection"
-                    ></v-switch>
-
-                    <v-card-text>
-                        <v-row>
-                            <v-col class="pa-12">
-                            <v-range-slider
-                                :tick-labels="timeOptions"
-                                :value="[0, 1]"
-                                min="0"
-                                max="4"
-                                ticks="always"
-                                tick-size="4"
-                            >
-                            </v-range-slider>
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
-
-                    <!---
-                    <v-date-picker 
-                        v-model="datesRange"
+                    <v-date-picker
+                        v-model="dates"
                         range
-                    >
-                    </v-date-picker>
-                    --->
+                    ></v-date-picker>
                 </v-card>
 
                 <!-- Comment-depth selection using a rangeslider -->
@@ -141,14 +117,23 @@
                 <!-- Blacklist using chips -->
                 <v-vcard>
                     <v-combobox
-                        v-model="blacklistChips"
-                        :items="blacklistItems"
+                        v-model="blacklistChipsPosts"
+                        :items="blacklistItemsPosts"
                         chips
                         clearable
-                        label="Enter blacklisted words for filtering"
+                        label="Enter blacklisted words for post filtering"
                         multiple
                     >
-                        <!-- Find out how to delete tags -->
+                    </v-combobox>
+
+                    <v-combobox
+                        v-model="blacklistChipsComments"
+                        :items="blacklistItemsComments"
+                        chips
+                        clearable
+                        label="Enter blacklisted words for comment filtering"
+                        multiple
+                    >
                     </v-combobox>
                 </v-vcard>
 
@@ -213,9 +198,8 @@
         data: () => ({
             //subredditNamesChips: [],
             //subredditNamesItems: [],
-            switchDateSelection: true,
             timeOptions: ['Today', 'Week', 'Month', 'Year', 'All'],
-            //datesRange: [],
+            dates: [],
             commentOptions: ['None', 1, 2, 3, 4, 5, 'All'],
             replaceSettings: [],
             minTextLength: '',
