@@ -314,6 +314,9 @@
 
             name: {
                 get(){
+                    if(this.selectedToken && this.selectedToken.pos && this.selectedToken.pos == ("v")){
+                        return "to "+ this.selected_code.name;
+                    }
                     return this.selected_code.name;
                 },
                 set(value){
@@ -346,7 +349,7 @@
                 if(this.selected_code && !this.requiredAnnotationsPresent){
                     let lemma = this.$store.state.tokens[this.selectedToken.index].lemma;
                     console.log("Initializing name and tore fields for new code: "+lemma);
-
+                    let pos = "";
                     let foundTore = "";
                     if(this.selectedToken){
                         for(let code of this.getCodesForToken(this.selectedToken)){
@@ -354,6 +357,9 @@
                                 foundTore = code.tore;
                                 break;
                             }
+                        }
+                        if(this.$store.state.tokens[this.selectedToken.index].pos){
+                            pos = this.$store.state.tokens[this.selectedToken.index].pos;
                         }
                     } else {
                         console.error("watch::selected_code got selected code without selected token");

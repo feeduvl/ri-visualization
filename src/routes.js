@@ -15,6 +15,7 @@ export const ROUTE_AGREEMENT = "/agreement";
 export const ROUTE_RESULTS = "/results";
 export const ROUTE_DOCUMENTS = "/documents";
 export const ROUTE_DATASET = "/dataset";
+export const ROUTE_REDDIT_CRAWLER = "/reddit_crawler";
 
 export const routes = [{
     path: ROUTE_EMPTY,
@@ -71,6 +72,14 @@ export const routes = [{
   {
     path: ROUTE_DATASET,
     component: () => import('./components/DatasetHome.vue')
+  },
+  {
+    path: ROUTE_DATASET,
+    component: () => import('./components/DatasetHome.vue')
+  },
+  {
+    path: ROUTE_REDDIT_CRAWLER,
+    component: () => import('./components/RedditCrawler.vue')
   },
   {
     path: ROUTE_ALL,

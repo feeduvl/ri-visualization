@@ -408,14 +408,14 @@ export default {
       )},
     displayRunName(name) {
       if (name === "" || name === undefined) {
-        return "-";
+        return "–";
       } else {
         return name;
       }
     },
     displayDatasetName(dataset_name) {
       if (dataset_name === "" || dataset_name === undefined) {
-        return "-";
+        return "–";
       } else {
         return dataset_name;
       }
@@ -427,13 +427,13 @@ export default {
       } else {
         name = this.selectedResult.name;
       }
-      return name + "-" + this.selectedResult.started_at.replace(":","-") + ".json";
+      return name + "–" + this.selectedResult.started_at.replace(":","-") + ".json";
     },
     displayRunDate() {
       if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
         return this.selectedResult.started_at.replace("Z", "").replace("T", " ").substring(0, 19);
       } else {
-        return "-";
+        return "–";
       }
     },
     displayScore(item) {

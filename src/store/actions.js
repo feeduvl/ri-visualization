@@ -23,7 +23,8 @@ import {
   POST_ALL_RELATIONSHIPS_ENDPOINT,
   POST_ALL_TORES_ENDPOINT,
   GET_ALL_RELATIONSHIPS_ENDPOINT,
-  GET_ALL_TORES_ENDPOINT
+  GET_ALL_TORES_ENDPOINT,
+  REDDIT_CRAWLER_ENDPOINT
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -491,4 +492,14 @@ export const setFooterText = ({
   commit
 }, text) => {
   commit(MUTATE_FOOTER_TEXT, text);
+};
+
+// reddit crawler
+export const actionCrawlReddit = ({dispatch, commit}, settings) => {
+  return new Promise(() => {
+    console.log("Initialize Reddit Crawl");
+
+    // call API
+    commit(REDDIT_CRAWLER_ENDPOINT, settings);
+  });
 };

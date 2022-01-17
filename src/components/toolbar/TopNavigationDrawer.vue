@@ -75,7 +75,7 @@ export default {
           theme: THEME_UVL
         },
         {
-          title: "Start Concept Detection",
+          title: "Start Analysis",
           icon: "play_arrow",
           path: "/detection",
           theme: THEME_UVL
@@ -90,6 +90,12 @@ export default {
           title: "Agreement",
           icon: "mode",
           path: "/agreement",
+          theme: THEME_UVL
+        },
+        {
+          title: "Reddit Crawler",
+          icon: "sync",
+          path: "/reddit_crawler",
           theme: THEME_UVL
         },
         {

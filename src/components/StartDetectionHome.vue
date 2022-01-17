@@ -3,7 +3,7 @@
     <v-card>
       <v-card flat class="header">
         <v-card-title primary-title>
-          <h1>Start Run</h1>
+          <h1>Start Analysis</h1>
         </v-card-title>
       </v-card>
       <v-container>
@@ -242,7 +242,8 @@ export default {
     "lda-parameter": () => import("./form/LdaParameter"),
     "seanmf-parameter": () => import("./form/SeanmfParameter"),
     "frequency-rbai-parameter": () => import("./form/FrequencyRBAIParameter"),
-    "frequency-fcic-parameter": () => import("./form/FrequencyFCICParameter")
+    "frequency-fcic-parameter": () => import("./form/FrequencyFCICParameter"),
+    "acceptance-criteria-parameter": () => import("./form/AcceptanceCriteriaParameter"),
   },
   computed: {
     component() {
@@ -510,7 +511,7 @@ export default {
     },
     displayRunName(name) {
       if (name === "") {
-        return "-";
+        return "–";
       } else {
         return name;
       }

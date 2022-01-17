@@ -14,7 +14,7 @@ import {
 Vue.config.productionTip = true;
 Vue.use(VueRouter);
 Vue.use(LoadScript);
-
+Vue.config.devtools = true
 const router = new VueRouter({
   base: '/dashboard/',
   mode: 'history',

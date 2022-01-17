@@ -1,5 +1,5 @@
 /* eslint-disable */
-export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic"];
+export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic", "acceptance-criteria"];
 
 export const METHODS = [
     {
@@ -53,6 +53,16 @@ export const METHODS = [
         resultComponentPath: "",
         scoreFunction: getScoreEmpty,
         showInDocumentView: false
+    },
+    {
+        name: "acceptance-criteria",
+        displayName: "Acceptance Criteria",
+        parameterComponentName: "acceptance-criteria-parameter",
+        parameterComponentPath: "./form/AcceptanceCriteriaParameter",
+        resultComponentName: "acceptance-criteria-result",
+        resultComponentPath: "./components/result/AcceptanceCriteriaResult",
+        scoreFunction: getRuntimeAcceptanceCriteria,
+        showInDocumentView: false
     }
 ]
 
@@ -61,7 +71,7 @@ export function getScoreSeaNMF(result) {
     try {
         metric = result.metrics.total_coherence.toString().substring(0, 6);
     } catch(e) {
-        metric = "-";
+        metric = "–";
     }
     return metric;
 }
@@ -71,13 +81,27 @@ export function getScoreLDA(result) {
     try {
         metric = result.metrics.total_coherence.toString().substring(0, 6);
     } catch(e) {
-        metric = "-";
+        metric = "–";
+    }
+    return metric;
+}
+
+export function getRuntimeAcceptanceCriteria(result) {
+    let metric;
+    try {
+        let runtime = parseFloat(result.metrics.runtime);
+        if (isNaN(runtime)) {
+            throw new Error('Object is not a Number');
+        }
+        metric = new Date(runtime).toISOString().substr(11, 12).toString();
+    } catch(e) {
+        metric = "–";
     }
     return metric;
 }
 
 export function getScoreEmpty(result) {
-    return "-";
+    return "–";
 }
 
 export function getMethodObj(methodName) {

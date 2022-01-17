@@ -149,7 +149,7 @@ export default {
           for (const tup of doc_topic[document]) {
             if (tup[0] === index) {
               if (tup[1] === 1e-20 || tup[1] === 0) {
-                val = "-";
+                val = "–";
               } else {
                 val = tup[1] * 100;
                 val = val.toFixed(5)
