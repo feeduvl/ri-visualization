@@ -11,6 +11,7 @@ export const ROUTE_SETTINGS = "/settings";
 export const ROUTE_UPLOAD = "/upload";
 export const ROUTE_START_DETECTION = "/detection";
 export const ROUTE_ANNOTATION = "/annotation";
+export const ROUTE_AGREEMENT = "/agreement";
 export const ROUTE_RESULTS = "/results";
 export const ROUTE_DOCUMENTS = "/documents";
 export const ROUTE_DATASET = "/dataset";
@@ -54,6 +55,10 @@ export const routes = [{
   {
     path: ROUTE_ANNOTATION,
     component: () => import('./components/annotator/Annotator')
+  },
+  {
+    path: ROUTE_AGREEMENT,
+    component: () => import('./components/agreement/Agreement')
   },
   {
     path: ROUTE_RESULTS,

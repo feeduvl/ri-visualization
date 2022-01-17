@@ -215,6 +215,26 @@ export const updateLastAnnotationEditAt = state => {
   state.lastAnnotationEditAt = Date.now();
 };
 
+export const setIsLoadingAgreement = (state, isLoading) => {
+  state.isLoadingAgreement = isLoading;
+};
+
+export const setIsLoadingAvailableAgreements = (state, isLoading) => {
+  state.isLoadingAvailableAgreements = isLoading;
+};
+
+export const postAgreementCallback = state => {
+  state.lastAgreementPostAt = Date.now();
+};
+
+export const updateSelectedAgreement = (state, value) => {
+  state.selected_Agreement = value;
+};
+
+export const updateLastAgreementEditAt = state => {
+  state.lastAgreementEditAt = Date.now();
+};
+
 export const initTokensEfficiencyStructs = (state, tear_down) => {
   console.warn("Initializing token efficiency structs");
   let token_in_selected_code = [];
@@ -261,4 +281,10 @@ export const setTokensInSelectedCode = (state, [lastSelectedCode, selectedCode])
 export const toggleAnnotatorViewingCodes = (state, show) => {
   state.annotatorViewingCodeResults = show;
   console.log("Toggled annotator code view to: "+state.annotatorViewingCodeResults);
+};
+
+
+export const toggleAgreementViewingCodes = (state, show) => {
+  state.agreementViewingCodeResults = show;
+  console.log("Toggled agreement code view to: "+state.agreementViewingCodeResults);
 };

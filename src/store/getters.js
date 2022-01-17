@@ -170,6 +170,10 @@ export const requiredAnnotationsPresent = state => {
   return (state.selected_code.name !== null && state.selected_code.name !== "") || (state.selected_code.tore !== null && state.selected_code.tore !== "");
 };
 
+export const requiredAgreementsPresent = state => {
+  return (state.selected_code.name !== null && state.selected_code.name !== "") || (state.selected_code.tore !== null && state.selected_code.tore !== "");
+};
+
 export const tokenListToString = state => listOfTokenIndices => {
   let ret = "";
   if (listOfTokenIndices === null || listOfTokenIndices === undefined){
@@ -230,6 +234,10 @@ export const lemmasFromSelectedResult = state => {
 
 export const annotationAlgoResults = state => {
   return state.results.filter(r => r.dataset_name === state.annotator_dataset);
+};
+
+export const agreementAlgoResults = state => {
+  return state.results.filter(r => r.dataset_name === state.agreement_dataset);
 };
 
 export const showingInput = state => {

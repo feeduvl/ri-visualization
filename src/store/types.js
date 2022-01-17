@@ -2,6 +2,7 @@
  *  Action types
  */
 export const ACTION_GET_EXAMPLE_ANNOTATION = "actionGetExampleAnnotation";
+export const ACTION_GET_EXAMPLE_AGREEMENT = "actionGetExampleAgreement";
 export const ACTION_FETCH_INITIAL_DATA = 'actionFetchInitialData';
 export const ACTION_FETCH_INITIAL_CONCEPT_DATA = 'actionFetchInitialConceptData';
 export const ACTION_LOAD_DATASETS = 'actionLoadDatasets';
