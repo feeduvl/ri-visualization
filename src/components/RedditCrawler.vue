@@ -35,18 +35,18 @@
                 <!-- Text field for subreddit name -->
                 <v-container class="subreddit-selection">
                     <!-- Blacklist using chips to enter multiple subreddit names -->
-                    <v-vcard>
+                    <v-card>
                         <v-combobox
                             v-model="subredditNamesChips"
                             :items="subredditNamesItems"
                             chips
                             clearable
-                            label="Enter a Subreddit Names for Crawling Jobs"
+                            label="Enter Subreddit Names for Crawling Jobs"
                             multiple
                         >
                             <!-- Find out how to delete tags -->
                         </v-combobox>
-                    </v-vcard>
+                    </v-card>
                 </v-container>
 
 
@@ -55,11 +55,19 @@
                     flat
                     color="transparent"
                 >
-                    <v-subheader>Select Time</v-subheader>
-                    <v-date-picker
-                        v-model="dates"
-                        range
-                    ></v-date-picker>
+                  <v-text-field
+                    v-model="dateFrom"
+                    label="From Date in DDMMYYYY"
+                    prepend-icon="event"
+                    v-on="on"
+                  ></v-text-field>
+                  
+                  <v-text-field
+                    v-model="dateTo"
+                    label="To Date in DDMMYYYY"
+                    prepend-icon="event"
+                    v-on="on"
+                  ></v-text-field>
                 </v-card>
 
                 <!-- Comment-depth selection using a rangeslider -->
@@ -115,7 +123,7 @@
                 </v-card>
 
                 <!-- Blacklist using chips -->
-                <v-vcard>
+                <v-card>
                     <v-combobox
                         v-model="blacklistChipsPosts"
                         :items="blacklistItemsPosts"
@@ -135,7 +143,7 @@
                         multiple
                     >
                     </v-combobox>
-                </v-vcard>
+                </v-card>
 
             </v-container>
         </v-card>
@@ -188,6 +196,10 @@
                 <!--- TODO fill with data from past crawling jobs --> 
             </v-data-table>
     </v-container>
+    
+    
+    
+    
 </template>
 
 <script>
@@ -196,31 +208,22 @@
     export default {
         name: "RedditCrawler",
         data: () => ({
-            //subredditNamesChips: [],
-            //subredditNamesItems: [],
-            timeOptions: ['Today', 'Week', 'Month', 'Year', 'All'],
-            dates: [],
+            subredditNamesChips: [], 
+            subredditNamesItems: [],
+            //timeOptions: ['Today', 'Week', 'Month', 'Year', 'All'],
+            dateTo: '',
+            dateFrom: '', 
             commentOptions: ['None', 1, 2, 3, 4, 5, 'All'],
             replaceSettings: [],
             minTextLength: '',
             minCommentLength: '',
-            //blacklistChips: [],
-            //blacklistItems: [],
-            crawlLoading: false,
-            loader: null,
+            blacklistChipsPosts: [],
+            blacklistItemsPosts: [],
+            blacklistChipsComments: [],
+            blacklistItemsComments: [],
+            replaceURLS: false,
+            replaceEmojis: false,
     }),
-
-    // check if really needed
-    watch: {
-      loader () {
-        const l = this.loader
-        this[l] = !this[l]
-
-        setTimeout(() => (this[l] = false), 3000)
-
-        this.loader = null
-      },
-    },
 
     methods: {
         crawlerRun(){
@@ -228,8 +231,8 @@
             let crawlerTask = {
                 subreddits : subredditNamesChips,
                 time_selector : timeOptions,
-                date_from : "",
-                date_to : "",
+                date_from : dateFrom,
+                date_to : dateTo,
                 replace_settings : replaceSettings,
                 min_length_text : minTextLength,
                 min_length_comment : minCommentLength,
