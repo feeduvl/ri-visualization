@@ -321,7 +321,8 @@ export default {
           {
             name: this.addingAgreementName,
             dataset: this.createNewAgreementDataset,
-            annotations: this.selectedAnnotationsForAgreement
+            annotationNames: this.selectedAnnotationsForAgreement,
+            completeConcurrences: false
           },
       )
     },
@@ -346,6 +347,8 @@ export default {
 
     reloadFields() {
       this.$store.dispatch("actionGetAllAgreements")
+      this.$store.dispatch("actionGetAllAnnotations")
+
     },
 
     updateSelectedAnnotations(selectedAnnotations) {

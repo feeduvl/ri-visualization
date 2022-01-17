@@ -92,7 +92,7 @@ export default {
     availableAnnotations() {
       return this.$store.state.available_annotations.filter( a =>
           a.dataset === this.selectedDataset
-      )
+      ).map(function(item){return item.name;})
     }
   },
 
