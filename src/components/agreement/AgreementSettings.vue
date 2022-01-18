@@ -58,6 +58,14 @@
           </v-layout>
           <v-layout row justify-center align-center>
             <v-flex>
+              <v-checkbox
+                  v-model="doAutomaticCompletion"
+                  :label="`Automatically resolve all inter-rater concurrences`"
+              ></v-checkbox>
+            </v-flex>
+          </v-layout>
+          <v-layout row justify-center align-center>
+            <v-flex>
               <SelectableAnnotations v-bind:selected-dataset="createNewAgreementDataset"
                                      @selectAnnotation="updateSelectedAnnotations"/>
             </v-flex>
@@ -230,6 +238,7 @@ export default {
       selectedAnnotationsForAgreement: [],
 
       addingAgreementName: "",
+      doAutomaticCompletion: true,
 
       createNewAgreementDataset: null,
       agreementToDelete: null,
@@ -322,7 +331,7 @@ export default {
             name: this.addingAgreementName,
             dataset: this.createNewAgreementDataset,
             annotations: this.selectedAnnotationsForAgreement,
-            completeConcurrences: false
+            completeConcurrences: this.doAutomaticCompletion
           },
       )
     },
