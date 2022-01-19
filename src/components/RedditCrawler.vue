@@ -237,7 +237,7 @@
                 blacklist_comments : this.blacklistChipsComments,
                 blacklist_posts : this.blacklistChipsPosts,
             }
-            crawlerTaskString = JSON.stringify(crawlerTask)
+            let crawlerTaskString = JSON.stringify(crawlerTask)
             // logging
 
             // dispatch
