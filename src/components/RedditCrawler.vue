@@ -243,6 +243,10 @@
 
             // dispatch
             this.$store.dispatch("actionCrawlReddit", crawlerTaskString)
+        },
+        
+        reloadFields(){
+            // TODO
         }
     }
     
