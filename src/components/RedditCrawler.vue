@@ -229,14 +229,13 @@
         crawlerRun(){
             // assemble json
             let crawlerTask = {
-                subreddits : subredditNamesChips,
-                time_selector : timeOptions,
-                date_from : dateFrom,
-                date_to : dateTo,
-                replace_settings : replaceSettings,
-                min_length_text : minTextLength,
-                min_length_comment : minCommentLength,
-                // ... complete this list
+                subreddits : this.subredditNamesChips,
+                date_from : this.dateFrom,
+                date_to : this.dateTo,
+                min_length_text : this.minTextLength,
+                min_length_comment : this.minCommentLength,
+                blacklist_comments : this.blacklistChipsComments,
+                blacklist_posts : this.blacklistChipsPosts,
             }
             crawlerTaskString = JSON.stringify(crawlerTask)
             // logging
@@ -244,7 +243,7 @@
             // dispatch
             this.$store.dispatch("actionCrawlReddit", crawlerTaskString)
         },
-        
+
         reloadFields(){
             // TODO
         }
