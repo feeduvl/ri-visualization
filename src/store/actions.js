@@ -11,10 +11,15 @@ import {
   GET_ALL_RESULTS_ENDPOINT,
   GET_ALL_TWEETS_ENDPOINT,
   ANNOTATION_INITIALIIZE_ENDPOINT,
+  AGREEMENT_INITIALIIZE_ENDPOINT,
   ANNOTATION_DELETE_ENDPOINT,
+  AGREEMENT_DELETE_ENDPOINT,
   ANNOTATION_GET_ALL_ENDPOINT,
+  AGREEMENT_GET_ALL_ENDPOINT,
   ANNOTATION_GET_ENDPOINT,
+  AGREEMENT_GET_ENDPOINT,
   ANNOTATION_POST_ENDPOINT,
+  AGREEMENT_POST_ENDPOINT,
   POST_ALL_RELATIONSHIPS_ENDPOINT,
   POST_ALL_TORES_ENDPOINT,
   GET_ALL_RELATIONSHIPS_ENDPOINT,
@@ -114,6 +119,33 @@ export const actionGetNewAnnotation = ({
   });
 };
 
+export const actionGetNewAgreement = ({
+  commit
+}, {name, dataset, annotations, completeConcurrences}) => {
+  return new Promise(() => {
+    const annotationNames = annotations.map(function (item) {
+      return item.name;
+    });
+    console.warn("Initializing agreement");
+    commit("setIsLoadingAgreement", true);
+    axios.post(AGREEMENT_INITIALIIZE_ENDPOINT, {
+      name,
+      dataset,
+      annotationNames,
+      completeConcurrences
+    })
+      .then(response => {
+        console.log("actionGetNewAgreement Got good response.");
+        const {data} = response;
+        commit("setAgreementPayload", data);
+      })
+      .catch(e => console.error("Error getting agreement: "+e))
+      .finally(() => {
+        commit("setIsLoadingAgreement", false);
+      });
+  });
+};
+
 export const actionGetSelectedAnnotation = ({commit, state}) => {
   return new Promise(() => {
     let name = state.selected_annotation;
@@ -132,6 +164,24 @@ export const actionGetSelectedAnnotation = ({commit, state}) => {
   });
 };
 
+export const actionGetSelectedAgreement = ({commit, state}) => {
+  return new Promise(() => {
+    let name = state.selected_agreement;
+    console.log("Getting agreement: "+name);
+    commit("setIsLoadingAgreement", true);
+    axios.get(AGREEMENT_GET_ENDPOINT(name))
+      .then(response => {
+        console.log("Got response for agreement: "+name);
+        const {data} = response;
+        commit("setAgreementPayload", data);
+      })
+      .catch(e => console.error("Error getting agreement: "+e))
+      .finally(() => {
+        commit("setIsLoadingAgreement", false);
+      });
+  });
+};
+
 export const actionGetAllAnnotations = ({commit}) => {
   return new Promise(() => {
     console.log("Getting all annotations...");
@@ -146,6 +196,24 @@ export const actionGetAllAnnotations = ({commit}) => {
       .catch(e => console.error("Error getting all annotations: "+e))
       .finally(() => {
         commit("setIsLoadingAvailableAnnotations", false);
+      });
+  });
+};
+
+export const actionGetAllAgreements = ({commit}) => {
+  return new Promise(() => {
+    console.log("Getting all agreements...");
+    commit("setIsLoadingAvailableAgreements", true);
+    axios.get(AGREEMENT_GET_ALL_ENDPOINT)
+      .then(response => {
+        console.log("Got all agreements: ");
+        const {data} = response;
+        console.log(data);
+        commit("setAvailableAgreements", data);
+      })
+      .catch(e => console.error("Error getting all agreements: "+e))
+      .finally(() => {
+        commit("setIsLoadingAvailableAgreements", false);
       });
   });
 };
@@ -176,6 +244,34 @@ export const actionPostCurrentAnnotation = ({state, commit}) => {
   });
 };
 
+export const actionPostCurrentAgreement = ({state, commit}) => {
+  return new Promise(() => {
+    console.log("Posting agreement: "+state.selected_agreement);
+    commit("postAgreementCallback");
+    let postTokens = [];
+    for (let t of state.tokens){
+      postTokens.push({...t,
+        num_name_codes: state.token_num_name_codes[t.index],
+        num_tore_codes: state.token_num_tore_codes[t.index]});
+    }
+    axios.post(AGREEMENT_POST_ENDPOINT, {
+      created_at: state.agreement_created_at,
+      dataset: state.agreement_dataset,
+      name: state.selected_agreement,
+      annotation_names: state.available_annotations,
+      tokens: postTokens,
+      tore_codes: state.agreement_tore_codes,
+      word_codes: state.agreement_word_codes,
+      tore_relationships: state.agreement_tore_relationships,
+      docs: state.docs.slice(1, state.docs.length)
+    })
+      .then(() => {
+        console.log("Got agreement POST response");
+      })
+      .catch(e => console.error("Error POSTing agreement: "+e));
+  });
+};
+
 export const actionDeleteAnnotation = ({dispatch, commit}, name) => {
   return new Promise(() => {
     console.log("Deleting annotation: "+name);
@@ -191,6 +287,25 @@ export const actionDeleteAnnotation = ({dispatch, commit}, name) => {
       })
       .finally(() => {
         commit("setIsLoadingAvailableAnnotations", false);
+      });
+  });
+};
+
+export const actionDeleteAgreement = ({dispatch, commit}, name) => {
+  return new Promise(() => {
+    console.log("Deleting agreement: "+name);
+    commit("setIsLoadingAvailableAgreements", true);
+    axios.delete(AGREEMENT_DELETE_ENDPOINT(name))
+      .then(() => {
+        console.log("Agreement deleted, fetching available...");
+        dispatch("actionGetAllAgreements").finally(() =>
+          commit("setIsLoadingAvailableAgreements", false));
+      })
+      .catch(e => {
+        console.error("Error deleting agreement: " + e);
+      })
+      .finally(() => {
+        commit("setIsLoadingAvailableAgreements", false);
       });
   });
 };

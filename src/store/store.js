@@ -93,7 +93,29 @@ export const store = new Vuex.Store({
     selected_annotation: null,
     isLoadingAvailableAnnotations: false,
     lastAnnotationEditAt: null,
-    lastAnnotationPostAt: null
+    lastAnnotationPostAt: null,
+
+    // END ANNOTATION STUFF
+
+    // AGREEMENT STUFF
+
+    agreementInputVisible: false,
+
+
+    agreement_uploaded_at: null,
+    agreement_dataset: null,
+
+    agreement_tore_codes: [],
+    agreement_word_codes: [],
+    agreement_tore_relationships: [],
+
+    agreementViewingCodeResults: false,
+    available_agreements: [],
+    isLoadingAgreement: false,  // loading the annotation to be displayed
+    selected_agreement: null,
+    isLoadingAvailableAgreements: false,
+    lastAgreementEditAt: null,
+    lastAgreementPostAt: null
 
     // END ANNOTATION STUFF
 
@@ -201,9 +223,50 @@ export const store = new Vuex.Store({
       this.commit("setIsLoadingAnnotation", false);
     },
 
+    // eslint-disable-next-line camelcase
+    setAgreementPayload(state, {name, tokens, tore_codes, word_codes, tore_relationships, docs, created_at, dataset, isCompleted}){
+      // eslint-disable-next-line camelcase
+      state.agreement_created_at = created_at;
+      state.agreement_dataset = dataset;
+
+      for (let token of tokens){
+        Object.freeze(token);
+      }
+      Object.freeze(tokens);  // performance boost
+      state.tokens = tokens;
+      this.commit("initTokensEfficiencyStructs", false);
+
+      // eslint-disable-next-line camelcase
+      state.agreement_tore_codes = tore_codes;
+      // eslint-disable-next-line camelcase
+      state.agreement_word_codes = word_codes;
+      // eslint-disable-next-line camelcase
+      state.agreement_tore_relationships = tore_relationships;
+
+      let newDocs = [state.all_docs].concat(docs);
+      state.all_docs.end_index = tokens.length;
+      for (let doc of newDocs){
+        Object.freeze(doc);
+      }
+      Object.freeze(newDocs);
+      state.docs = newDocs;
+      state.selected_doc = newDocs[docs.length > 0 ? 1: 0];
+
+      if (!state.available_agreements.includes(name)){
+        state.available_agreements.push(name);
+      }
+      state.selected_agreement = name;
+      this.commit("setIsLoadingAgreement", false);
+    },
+
     setAvailableAnnotations(state, annotations){  // DECLARED HERE TO ACCESS this.commit
       state.available_annotations = annotations || [];
       this.commit("setIsLoadingAvailableAnnotations", false);
+    },
+
+    setAvailableAgreements(state, agreements){  // DECLARED HERE TO ACCESS this.commit
+      state.available_agreements = agreements || [];
+      this.commit("setIsLoadingAvailableAgreements", false);
     },
     
     // eslint-disable-next-line camelcase
@@ -244,6 +307,19 @@ export const store = new Vuex.Store({
         this.commit("setSelectedToreRelationship", null);
       }
     },
+
+    setAgreementInputVisible(state, visible){
+      //console.log("setAgreementInputVisible: "+visible)
+      state.agreementInputVisible = visible;
+      if (!visible){
+        state.isLinking = false;
+        state.selectedToken = null;
+        this.commit("setTokensInSelectedCode", [state.selected_code, null]);
+        state.selected_code = null;
+        this.commit("setSelectedToreRelationship", null);
+      }
+    },
+
     set_selected_code(state, code){
       console.log("Set selected code: "+CodeToString(code));
       this.commit("setTokensInSelectedCode", [state.selected_code, code]);
@@ -270,8 +346,32 @@ export const store = new Vuex.Store({
       state.tore_relationships = [];
 
       this.commit("initTokensEfficiencyStructs", true);
+    },
+
+    resetAgreement(state){
+      state.isLoadingAvailableAgreements = false;
+      state.isLoadingAgreement = false;
+      state.selected_algo_result = null;
+      state.lastAgreementEditAt = null;
+      state.lastAgreementPostAt = null;
+
+      state.agreement_dataset = null;
+      state.agreement_uploaded_at = null;
+      state.selected_agreement = null;
+      state.selected_doc = null;
+      state.selected_pos_tags = [];
+      state.selected_algo_result = null;
+
+      state.tokens = [];
+      state.docs = [];
+      state.agreement_tore_codes = [];
+      state.agreement_word_codes = [];
+      state.agreement_tore_relationships = [];
+
+      this.commit("initTokensEfficiencyStructs", true);
     }
   },
+
   actions,
   modules: {
     sentiment

@@ -87,6 +87,12 @@ export default {
           theme: THEME_UVL
         },
         {
+          title: "Agreement",
+          icon: "mode",
+          path: "/agreement",
+          theme: THEME_UVL
+        },
+        {
           title: "Reddit Crawler",
           icon: "sync",
           path: "/reddit_crawler",

@@ -9,12 +9,14 @@ export default axios;
 
 // feeduvl
 
-// annotation
+// annotation and agreement
 
 export const GET_EXAMPLE_ANNOTATION_POST_ENDPOINT = BASE_URL+`/hitec/annotation/tokenize/`;
 
 export const ANNOTATION_INITIALIIZE_ENDPOINT = `${BASE_URL}/hitec/orchestration/concepts/annotationinit/`;
+export const AGREEMENT_INITIALIIZE_ENDPOINT = `${BASE_URL}/hitec/orchestration/concepts/agreementinit/`;
 export const ANNOTATION_POST_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/annotation/`;
+export const AGREEMENT_POST_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/agreement/`;
 
 export const GET_ALL_RELATIONSHIPS_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/annotation/relationships`
 
@@ -26,10 +28,17 @@ export const POST_ALL_TORES_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/st
 export const ANNOTATION_GET_ENDPOINT = function(name){
   return `${BASE_URL}/hitec/repository/concepts/annotation/name/${encodeURIComponent(name)}`
 };
+export const AGREEMENT_GET_ENDPOINT = function(name){
+  return `${BASE_URL}/hitec/repository/concepts/agreement/name/${encodeURIComponent(name)}`
+};
 export const ANNOTATION_GET_ALL_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/annotation/all`
+export const AGREEMENT_GET_ALL_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/agreement/all`
 
 export const ANNOTATION_DELETE_ENDPOINT = function (name) {
   return `${BASE_URL}/hitec/repository/concepts/annotation/name/${encodeURIComponent(name)}`
+}
+export const AGREEMENT_DELETE_ENDPOINT = function (name) {
+  return `${BASE_URL}/hitec/repository/concepts/agreement/name/${encodeURIComponent(name)}`
 }
 
 export const ANNOTATOR_STATUS_ENDPOINT = `${BASE_URL}/hitec/annotation/status`
