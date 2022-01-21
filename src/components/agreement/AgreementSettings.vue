@@ -127,7 +127,7 @@
           <td>{{ props.item.dataset }}</td>
           <td>
             <ul style="list-style-type: none">
-              <li v-for="annotation in props.item.annotations">
+              <li v-for="annotation in props.item.annotation_names">
                 {{ annotation }}
               </li>
             </ul>

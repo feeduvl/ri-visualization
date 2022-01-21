@@ -109,6 +109,8 @@ export const store = new Vuex.Store({
     agreement_word_codes: [],
     agreement_tore_relationships: [],
 
+    agreement_is_completed: null,
+
     agreementViewingCodeResults: false,
     available_agreements: [],
     isLoadingAgreement: false,  // loading the annotation to be displayed
@@ -228,6 +230,7 @@ export const store = new Vuex.Store({
       // eslint-disable-next-line camelcase
       state.agreement_created_at = created_at;
       state.agreement_dataset = dataset;
+      state.agreement_is_completed = isCompleted;
 
       for (let token of tokens){
         Object.freeze(token);

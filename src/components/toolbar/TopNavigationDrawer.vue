@@ -88,7 +88,7 @@ export default {
         },
         {
           title: "Agreement",
-          icon: "mode",
+          icon: "compare",
           path: "/agreement",
           theme: THEME_UVL
         },
