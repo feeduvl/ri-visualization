@@ -153,8 +153,7 @@
         <v-card>
             <v-btn
                 class="ma-2"
-                :loading="crawlLoading"
-                :disabled="crawlLoading"
+                :loading="isLoading"
                 color="secondary"
                 @click="crawlerRun"
                 >
@@ -205,14 +204,11 @@
 </template>
 
 <script>
-    import axios from "axios"
-
     export default {
         name: "RedditCrawler",
         data: () => ({
             subredditNamesChips: [], 
             subredditNamesItems: [],
-            //timeOptions: ['Today', 'Week', 'Month', 'Year', 'All'],
             dateTo: '',
             dateFrom: '', 
             commentOptions: ['None', 1, 2, 3, 4, 5, 'All'],
@@ -225,11 +221,12 @@
             blacklistItemsComments: [],
             replaceURLS: false,
             replaceEmojis: false,
+            isLoading: false
     }),
 
     methods: {
         crawlerRun(){
-            // assemble json
+            this.isLoading = true
             let crawlerTask = {
                 subreddits : this.subredditNamesChips,
                 date_from : this.dateFrom,
@@ -240,10 +237,11 @@
                 blacklist_posts : this.blacklistChipsPosts,
             }
             let crawlerTaskString = JSON.stringify(crawlerTask)
-            // logging
 
             // dispatch
             this.$store.dispatch("actionCrawlReddit", crawlerTaskString)
+            
+            this.isLoading = false
         },
 
         reloadFields(){
