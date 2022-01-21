@@ -503,6 +503,9 @@ export const actionCrawlReddit = ({dispatch, commit}, settings) => {
     console.log("Initialize Reddit Crawl");
 
     // call API
-    commit(REDDIT_CRAWLER_ENDPOINT, settings);
+    axios
+      .post(REDDIT_CRAWLER_ENDPOINT, settings)
+      .then(() => {console.log("Crawling finished");})
+      .catch(e => console.error("Error: "+e));
   });
 };
