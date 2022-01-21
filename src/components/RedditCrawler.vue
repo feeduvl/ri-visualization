@@ -113,10 +113,12 @@
                 >
                     <v-subheader>Set mininum lengths for contents of submissions</v-subheader>
                     <v-text-field
+                        v-model="minTextLength"
                         label="Minimum Post Length"
                         placeholder="200"
                     ></v-text-field>
                     <v-text-field
+                        v-model="minCommentLength"
                         label="Minimum Comment Length"
                         placeholder="5"
                     ></v-text-field>
@@ -229,20 +231,23 @@
         crawlerRun(){
             // assemble json
             let crawlerTask = {
-                subreddits : subredditNamesChips,
-                time_selector : timeOptions,
-                date_from : dateFrom,
-                date_to : dateTo,
-                replace_settings : replaceSettings,
-                min_length_text : minTextLength,
-                min_length_comment : minCommentLength,
-                // ... complete this list
+                subreddits : this.subredditNamesChips,
+                date_from : this.dateFrom,
+                date_to : this.dateTo,
+                min_length_posts : this.minTextLength,
+                min_length_comments : this.minCommentLength,
+                blacklist_comments : this.blacklistChipsComments,
+                blacklist_posts : this.blacklistChipsPosts,
             }
-            crawlerTaskString = JSON.stringify(crawlerTask)
+            let crawlerTaskString = JSON.stringify(crawlerTask)
             // logging
 
             // dispatch
             this.$store.dispatch("actionCrawlReddit", crawlerTaskString)
+        },
+
+        reloadFields(){
+            // TODO
         }
     }
     
