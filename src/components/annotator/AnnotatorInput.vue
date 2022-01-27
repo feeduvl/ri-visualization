@@ -320,8 +320,14 @@
                     return this.selected_code.name;
                 },
                 set(value){
-                    this.$store.commit("updateCodeName", value);
-                    this.$store.commit("updateLastAnnotationEditAt")
+                    if(this.selectedToken && this.selectedToken.pos && this.selectedToken.pos == ("v")){
+                        this.$store.commit("updateCodeName", "to" + value);
+                        this.$store.commit("updateLastAnnotationEditAt")
+                    }else{
+                        this.$store.commit("updateCodeName", value);
+                        this.$store.commit("updateLastAnnotationEditAt")
+                    }
+
                 },
             },
             tore(){
@@ -349,7 +355,6 @@
                 if(this.selected_code && !this.requiredAnnotationsPresent){
                     let lemma = this.$store.state.tokens[this.selectedToken.index].lemma;
                     console.log("Initializing name and tore fields for new code: "+lemma);
-                    let pos = "";
                     let foundTore = "";
                     if(this.selectedToken){
                         for(let code of this.getCodesForToken(this.selectedToken)){
@@ -358,15 +363,16 @@
                                 break;
                             }
                         }
-                        if(this.$store.state.tokens[this.selectedToken.index].pos){
-                            pos = this.$store.state.tokens[this.selectedToken.index].pos;
-                        }
                     } else {
                         console.error("watch::selected_code got selected code without selected token");
                     }
 
                     setTimeout(t => {
-                        this.$store.commit("updateCodeName", lemma);
+                        if(this.selectedToken && this.selectedToken.pos && this.selectedToken.pos == ("v")){
+                            this.$store.commit("updateCodeName", "to" + lemma);
+                        }else{
+                            this.$store.commit("updateCodeName", lemma);
+                        }
                         if(foundTore){
                             this.$store.commit("updateCodeTore", foundTore);
                         }
