@@ -249,6 +249,8 @@
                 min_length_comments : this.minCommentLength,
                 blacklist_comments : this.blacklistChipsComments,
                 blacklist_posts : this.blacklistChipsPosts,
+                replace_urls : this.replaceURLS,
+                replace_emojis : this.replaceEmojis
             }
             let crawlerTaskString = JSON.stringify(crawlerTask)
 
