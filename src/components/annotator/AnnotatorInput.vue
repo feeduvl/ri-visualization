@@ -314,14 +314,11 @@
 
             name: {
                 get(){
-                    if(this.selectedToken && this.selectedToken.pos && this.selectedToken.pos == ("v")){
-                        return "to "+ this.selected_code.name;
-                    }
                     return this.selected_code.name;
                 },
                 set(value){
                     if(this.selectedToken && this.selectedToken.pos && this.selectedToken.pos == ("v")){
-                        this.$store.commit("updateCodeName", "to" + value);
+                        this.$store.commit("updateCodeName", "to " + value);
                         this.$store.commit("updateLastAnnotationEditAt")
                     }else{
                         this.$store.commit("updateCodeName", value);
@@ -369,7 +366,7 @@
 
                     setTimeout(t => {
                         if(this.selectedToken && this.selectedToken.pos && this.selectedToken.pos == ("v")){
-                            this.$store.commit("updateCodeName", "to" + lemma);
+                            this.$store.commit("updateCodeName", "to " + lemma);
                         }else{
                             this.$store.commit("updateCodeName", lemma);
                         }
