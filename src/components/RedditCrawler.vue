@@ -32,9 +32,9 @@
 
             <v-container class="crawler-settings-input">
 
-                <!-- Text field for subreddit name -->
+                <!-- Text field for subreddit and collection name -->
                 <v-container class="subreddit-selection">
-                    <!-- Blacklist using chips to enter multiple subreddit names -->
+                    <!-- Using chips to enter multiple subreddit names -->
                     <v-card>
                         <v-combobox
                             v-model="subredditNamesChips"
@@ -44,7 +44,18 @@
                             label="Enter Subreddit Names for Crawling Jobs"
                             multiple
                         >
-                            <!-- Find out how to delete tags -->
+                        </v-combobox>
+                    </v-card>
+
+                    <v-card>
+                        <v-combobox
+                            v-model="collectionNamesChips"
+                            :items="collectionNamesItems"
+                            chips
+                            clearable
+                            label="Enter Matching Names for Datasets (Default NAME_DATE1_DATE2)"
+                            multiple
+                        >
                         </v-combobox>
                     </v-card>
                 </v-container>
@@ -57,14 +68,14 @@
                 >
                   <v-text-field
                     v-model="dateFrom"
-                    label="From Date in DDMMYYYY"
+                    label="From Date in DD-MM-YYYY"
                     prepend-icon="event"
                     v-on="on"
                   ></v-text-field>
                   
                   <v-text-field
                     v-model="dateTo"
-                    label="To Date in DDMMYYYY"
+                    label="To Date in DD-MM-YYYY"
                     prepend-icon="event"
                     v-on="on"
                   ></v-text-field>
@@ -209,6 +220,8 @@
         data: () => ({
             subredditNamesChips: [], 
             subredditNamesItems: [],
+            collectionNamesChips: [], 
+            collectionNamesItems: [],
             dateTo: '',
             dateFrom: '', 
             commentOptions: ['None', 1, 2, 3, 4, 5, 'All'],
@@ -229,6 +242,7 @@
             this.isLoading = true
             let crawlerTask = {
                 subreddits : this.subredditNamesChips,
+                collection_names : this.collectionNamesChips,
                 date_from : this.dateFrom,
                 date_to : this.dateTo,
                 min_length_posts : this.minTextLength,
