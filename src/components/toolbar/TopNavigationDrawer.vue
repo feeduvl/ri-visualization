@@ -31,6 +31,7 @@ export default {
     return {
       drawer: false,
       items: [
+          // Icons can be found in the standard google font icon library: https://fonts.google.com/icons
         {
           title: "Dashboard",
           icon: "dashboard",

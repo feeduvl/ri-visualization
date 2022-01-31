@@ -232,8 +232,6 @@ export default {
   data: () => {
     return {
       search: "",
-      serviceStatus: "Checking",
-      serviceColor: GRAY,
       initializingNewAgreement: false,
       selectedAnnotationsForAgreement: [],
 
