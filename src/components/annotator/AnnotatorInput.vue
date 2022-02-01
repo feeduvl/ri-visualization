@@ -317,14 +317,8 @@
                     return this.selected_code.name;
                 },
                 set(value){
-                    if(this.selectedToken && this.selectedToken.pos && this.selectedToken.pos == ("v")){
-                        this.$store.commit("updateCodeName", "to " + value);
-                        this.$store.commit("updateLastAnnotationEditAt")
-                    }else{
                         this.$store.commit("updateCodeName", value);
                         this.$store.commit("updateLastAnnotationEditAt")
-                    }
-
                 },
             },
             tore(){
