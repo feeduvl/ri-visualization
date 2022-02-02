@@ -90,7 +90,7 @@
                     <v-card-text>
                         <v-row>
                             <v-col class="pa-12">
-                            <v-range-slider
+                            <v-slider
                                 :tick-labels="commentDepthLabels"
                                 v-model="commentDepth"
                                 min=0
@@ -98,7 +98,7 @@
                                 ticks="always"
                                 tick-size="4"
                             >
-                            </v-range-slider>
+                            </v-slider>
                             </v-col>
                         </v-row>
                     </v-card-text>
