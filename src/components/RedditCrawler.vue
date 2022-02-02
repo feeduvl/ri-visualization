@@ -91,10 +91,10 @@
                         <v-row>
                             <v-col class="pa-12">
                             <v-range-slider
-                                :tick-labels="commentOptions"
-                                :value="[0, 1]"
-                                min="0"
-                                max="6"
+                                :tick-labels="commentDepthLabels"
+                                v-model="commentDepth"
+                                min=0
+                                max=6   
                                 ticks="always"
                                 tick-size="4"
                             >
@@ -224,7 +224,8 @@
             collectionNamesItems: [],
             dateTo: '',
             dateFrom: '', 
-            commentOptions: ['None', 1, 2, 3, 4, 5, 'All'],
+            commentDepthLabels: ['None', 1, 2, 3, 4, 5, 'All'],
+            commentDepth: 0,
             replaceSettings: [],
             minTextLength: '',
             minCommentLength: '',
@@ -247,6 +248,7 @@
                 date_to : this.dateTo,
                 min_length_posts : this.minTextLength,
                 min_length_comments : this.minCommentLength,
+                comment_depth: this.commentDepth,
                 blacklist_comments : this.blacklistChipsComments,
                 blacklist_posts : this.blacklistChipsPosts,
                 replace_urls : this.replaceURLS,
