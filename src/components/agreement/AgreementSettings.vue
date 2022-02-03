@@ -1,6 +1,6 @@
 <template>
   <v-container
-      class="annotator-settings">
+      class="agreement-settings">
     <v-card>
       <v-card flat class="header">
         <v-card-title primary-title>
@@ -313,6 +313,16 @@ export default {
         }
       }
     },
+
+
+    agreementSelectedAnnotation: {
+      get() {
+        return this.$store.state.selected_agreement
+      },
+      set(value) {
+        this.$store.commit("updateSelectedAgreement", value)
+      }
+    }
 
   },
 
