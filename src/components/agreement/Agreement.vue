@@ -214,11 +214,11 @@
           </v-list>
         </v-card>
       </v-card>
-      <CodeView
+      <AgreementCodeView
           @page-to-code="pageToCode"
           @show-snackbar="doShowSnackbar"
           v-if="agreementViewingCodeResults">
-      </CodeView>
+      </AgreementCodeView>
     </div>
   </div>
 </template>
@@ -226,7 +226,7 @@
 <script>
 import Token from "@/components/agreement/Token";
 import AgreementInput from "@/components/agreement/AgreementInput";
-import CodeView from "@/components/agreement/CodeView";
+import AgreementCodeView from "@/components/agreement/AgreementCodeView";
 import {Code, Code_user_display_prompt} from "@/components/agreement/code";
 import {mapGetters, mapState} from "vuex";
 import AgreementSettings from "@/components/agreement/AgreementSettings";
@@ -260,7 +260,7 @@ export default {
       last_token: null// used only to prevent unwanted auto-close of dialog on shift+click, ctrl+click
     }
   },
-  components: {AgreementSettings: AgreementSettings, AgreementInput, Token, CodeView, EditConfigurablesDialog},
+  components: {AgreementSettings: AgreementSettings, AgreementInput, Token, AgreementCodeView, EditConfigurablesDialog},
   computed: {
 
     tokensThisPage() {

@@ -93,7 +93,7 @@
 
                 </v-container>
                 <v-data-table
-                    :headers="index===0 || index >= 4?this_header.concat([{text: 'Actions', value: 'placeholder'}]):this_header"
+                    :headers="index <= 4?this_header.concat([{text: 'Actions', value: 'placeholder'}]):this_header"
                     :items="tab_content[index]"
                     :search="search"
                     :loading="$store.state.isLoadingAgreement"
@@ -107,38 +107,8 @@
                         >
                             {{item[column.value]}}
                         </td>
-                        <td v-show="index===0">
-                            <span class="icon-column">
-                              <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-icon
-                                          small
-                                          @click="showRenameCodeDialog(item)"
-                                          v-bind="attrs"
-                                          v-on="on"
-                                  >
-                                    mode
-                                  </v-icon>
-                                </template>
-                                <span>Change Name</span>
-                              </v-tooltip>
-                            </span>
-                        </td>
                         <td v-show="index>=4">
                             <span class="icon-column">
-                              <v-tooltip bottom>
-                                <template v-slot:activator="{ on, attrs }">
-                                  <v-icon
-                                          small
-                                          @click="deleteOccurrence(item, index === headers.length-1)"
-                                          v-bind="attrs"
-                                          v-on="on"
-                                  >
-                                    delete
-                                  </v-icon>
-                                </template>
-                                <span>Delete Occurrence</span>
-                              </v-tooltip>
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-icon
@@ -166,7 +136,7 @@
 <script>
     import {Code, Code_user_display_prompt} from "./code"
     export default {
-        name: "CodeView",
+        name: "AgreementCodeView",
         computed: {
             frozen_codes_copy(){
                 console.warn("frozen_codes_copy")
@@ -236,259 +206,173 @@
         },
         data: () => {
             return {
-                paginations: [{page: 1,
-                    descending: false,
-                    rowsPerPage: 100,
-                    sortBy: "name"},
-                    {page: 1,
-                    descending: false,
-                    rowsPerPage: 100,
-                    sortBy: "tore"},{page: 1,
-                    descending: false,
-                    rowsPerPage: 100,
-                    sortBy: "tore"},{page: 1,
-                    descending: false,
-                    rowsPerPage: 100,
-                    sortBy: "relationship_name"},{page: 1,
-                    descending: false,
-                    rowsPerPage: 100,
-                    sortBy: "name"},{page: 1,
-                    descending: false,
-                    rowsPerPage: 100,
-                    sortBy: "tore"},{page: 1,
-                    descending: false,
-                    rowsPerPage: 100,
-                    sortBy: "name"},{page: 1,
-                    descending: false,
-                    rowsPerPage: 100,
-                    sortBy: "relationship_name"},],
-                search: "",
-                renameCodeNewName: "",
-                renameCodeDialog: false,
-                renameCode: null,
-                selectedTab: 0,
-                tab_titles: ["Word Codes", "Category Codes", "Combination View", "Relationships",
-                    "Word Code Occurrences", "Category Code Occurrences", "Combination Code Occurrences", "Relationship Occurrences"],
-                headers: [
-                            [  // Tab view 0
-                                {
-                                    text: 'Code Name',
-                                    value: 'name',
-                                    align: 'left',
-                                    sortable: true
-                                },
-                                {
-                                    text: 'Count',
-                                    align: "left",
-                                    sortable: true,
-                                    value: 'count'
-                                },
-                                {
-                                    text: 'Number of Relationships',
-                                    align: "left",
-                                    sortable: true,
-                                    value: 'relationship_count'
-                                },
-                                {
-                                    text: 'Num. of Documents with this code',
-                                    align: "left",
-                                    sortable: true,
-                                    value: 'doc_count'
-                                }
-                            ],
-                            [
-                                {
-                                    text: "Category",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "tore"
-                                },
-
-                                {
-                                    text: 'Occurrences',
-                                    align: "left",
-                                    sortable: true,
-                                    value: 'count'
-                                },
-                                {
-                                    text: 'Number of Relationships',
-                                    align: "left",
-                                    sortable: true,
-                                    value: 'relationship_count'
-                                },
-                                {
-                                    text: 'Num. of Documents with this category',
-                                    align: "left",
-                                    sortable: true,
-                                    value: 'doc_count'
-                                }
-                            ],
-                            [
-                                {
-                                    text: "Category",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "tore"
-                                },
-                                {
-                                    text: "Name",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "name"
-                                },
-                                {
-                                    text: 'Occurrences',
-                                    align: "left",
-                                    sortable: true,
-                                    value: 'count'
-                                },
-                                {
-                                    text: 'Number of Relationships for this combination',
-                                    align: "left",
-                                    sortable: true,
-                                    value: 'relationship_count'
-                                },
-                                {
-                                    text: 'Num. of Documents with this combination',
-                                    align: "left",
-                                    sortable: true,
-                                    value: 'doc_count'
-                                }
-                            ],
-                            [
-                                {
-                                    text: "Relationship",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "relationship_name",
-                                },
-                                {
-                                    text: "Owning Category",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "owner_tore",
-                                },
-                                {
-                                    text: "Owner Name",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "owner_name",
-                                },
-                                {
-                                    text: "Target",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "target_string"
-                                }
-                            ],
-
-                            [
-                                        {
-                                            text: "Code Name",
-                                            align: "left",
-                                            sortable: true,
-                                            value: "name"
-                                        },
-                                        {
-                                            text: "Document",
-                                            align: "left",
-                                            sortable: true,
-                                            value: "document"
-                                        },
-                                        {
-                                            text: "Words",
-                                            align: "left",
-                                            sortable: true,
-                                            value: "words_string"
-                                        }
-                                    ],
-                            [
-                                        {
-                                            text: "Category",
-                                            align: "left",
-                                            sortable: true,
-                                            value: "tore"
-                                        },
-                                        {
-                                            text: "Document",
-                                            align: "left",
-                                            sortable: true,
-                                            value: "document"
-                                        },
-                                        {
-                                            text: "Words",
-                                            align: "left",
-                                            sortable: true,
-                                            value: "words_string"
-                                        },
-                                ],
-                            [
-                                        {
-                                            text: "Category",
-                                            align: "left",
-                                            sortable: true,
-                                            value: "tore"
-                                        },
-                                        {
-                                            text: "Name",
-                                            align: "left",
-                                            sortable: true,
-                                            value: "name"
-                                        },
-                                        {
-                                            text: "Document",
-                                            align: "left",
-                                            sortable: true,
-                                            value: "document"
-                                        },
-                                        {
-                                            text: "Words",
-                                            align: "left",
-                                            sortable: true,
-                                            value: "words_string"
-                                        },
-                                        ],
-                            [
-                                {
-                                    text: "Relationship",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "relationship_name"
-                                },
-
-                                {
-                                    text: "Owning Category",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "tore"
-                                },
-                                {
-                                    text: "Owner Name",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "name"
-                                },
-                                {
-                                    text: "Document",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "document"
-                                },
-
-                                {
-                                    text: "Owner Words",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "words_string"
-                                },
-                                {
-                                    text: "Target Words",
-                                    align: "left",
-                                    sortable: true,
-                                    value: "target_string"
-                                },
-                            ]
+              paginations: [{page: 1,
+                descending: false,
+                rowsPerPage: 100,
+                sortBy: "document"},
+                {page: 1,
+                  descending: false,
+                  rowsPerPage: 100,
+                  sortBy: "document"},{page: 1,
+                  descending: false,
+                  rowsPerPage: 100,
+                  sortBy: "document"},{page: 1,
+                  descending: false,
+                  rowsPerPage: 100,
+                  sortBy: "document"},{page: 1,
+                  descending: false,
+                  rowsPerPage: 100,
+                  sortBy: "document"}],
+              search: "",
+              renameCodeNewName: "",
+              renameCodeDialog: false,
+              renameCode: null,
+              selectedTab: 0,
+              tab_titles: ["Word Codes", "Category Codes", "Relationship Codes", "Overlapping Tokens", "Statistics"],
+              headers: [
+                [  // Tab view 0
+                  {
+                    text: 'Document',
+                    value: 'document',
+                    align: 'left',
+                    sortable: true
+                  },
+                  {
+                    text: 'Token',
+                    align: "left",
+                    sortable: true,
+                    value: 'token'
+                  },
+                  {
+                    text: 'Annotation',
+                    align: "left",
+                    sortable: true,
+                    value: 'annotation_names'
+                  },
+                  {
+                    text: 'Word Code',
+                    align: "left",
+                    sortable: true,
+                    value: 'word_codes'
+                  }
                 ],
+                [
+                  {
+                    text: 'Document',
+                    value: 'document',
+                    align: 'left',
+                    sortable: true
+                  },
+                  {
+                    text: 'Token',
+                    align: "left",
+                    sortable: true,
+                    value: 'token'
+                  },
+                  {
+                    text: 'Annotation',
+                    align: "left",
+                    sortable: true,
+                    value: 'annotation_names'
+                  },
+                  {
+                    text: 'Category',
+                    align: "left",
+                    sortable: true,
+                    value: 'categories'
+                  }
+                ],
+                [
+                  {
+                    text: 'Document',
+                    value: 'document',
+                    align: 'left',
+                    sortable: true
+                  },
+                  {
+                    text: 'Token',
+                    align: "left",
+                    sortable: true,
+                    value: 'token'
+                  },
+                  {
+                    text: 'Annotation',
+                    align: "left",
+                    sortable: true,
+                    value: 'annotation_names'
+                  },
+                  {
+                    text: 'Relationship',
+                    align: "left",
+                    sortable: true,
+                    value: 'relationships'
+                  }
+                ],
+                [
+                  {
+                    text: 'Document',
+                    value: 'document',
+                    align: 'left',
+                    sortable: true
+                  },
+                  {
+                    text: 'Tokens',
+                    align: "left",
+                    sortable: true,
+                    value: 'token'
+                  },
+                  {
+                    text: 'Annotation',
+                    align: "left",
+                    sortable: true,
+                    value: 'annotation_names'
+                  },
+                  {
+                    text: 'Word Code',
+                    align: "left",
+                    sortable: true,
+                    value: 'word_codes'
+                  },
+                  {
+                    text: 'Category',
+                    align: "left",
+                    sortable: true,
+                    value: 'categories'
+                  },
+                  {
+                    text: 'Relationship',
+                    align: "left",
+                    sortable: true,
+                    value: 'relationships'
+                  }
+                ],
+                [
+                  {
+                    text: 'Document',
+                    value: 'document',
+                    align: 'left',
+                    sortable: true
+                  },
+                  {
+                    text: 'Initial Kappa',
+                    align: "left",
+                    sortable: true,
+                    value: 'initial_kappa'
+                  },
+                  {
+                    text: 'Current Kappa',
+                    align: "left",
+                    sortable: true,
+                    value: 'current_kappa'
+                  },
+                  {
+                    text: 'Percentage of Initial agreements',
+                    align: "left",
+                    sortable: true,
+                    value: 'initial_agreements'
+                  }
+                ],
+              ],
             }
         },
         methods: {
