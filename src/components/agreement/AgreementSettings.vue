@@ -351,6 +351,7 @@ export default {
     },
 
     viewCodeResults(agreement) {
+      console.log(agreement);
       this.$store.commit("updateSelectedAgreement", agreement.name)
       this.$store.dispatch('actionGetSelectedAgreement');
       this.$store.commit("toggleAgreementViewingCodes", true)
