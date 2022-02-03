@@ -228,7 +228,7 @@ export const postAgreementCallback = state => {
 };
 
 export const updateSelectedAgreement = (state, value) => {
-  state.selected_Agreement = value;
+  state.selected_agreement = value;
 };
 
 export const updateLastAgreementEditAt = state => {
