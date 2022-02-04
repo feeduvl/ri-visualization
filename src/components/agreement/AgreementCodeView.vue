@@ -97,6 +97,7 @@
                 console.warn("frozen_word_codes_copy")
                 let ret = []
                 for(let c of this.$store.state.agreement_word_codes){
+                    console.log(c)
                     if(!c){
                         ret.push(c)
                     } else {
