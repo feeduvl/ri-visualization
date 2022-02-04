@@ -97,7 +97,6 @@
                 console.warn("frozen_word_codes_copy")
                 let ret = []
                 for(let c of this.$store.state.agreement_word_codes){
-                    console.log(c)
                     if(!c){
                         ret.push(c)
                     } else {
@@ -107,7 +106,6 @@
                     }
                 }
                 Object.freeze(ret)
-                console.log(ret)
                 return ret;
             },
 
@@ -402,7 +400,7 @@
                 let found_codes = []
 
                 for(let code of list_of_word_codes){
-
+                    console.log(code)
                     let docName = ""
                     for(let doc of this.$store.state.docs){
                         let tokenIndex = code.tokens.first()
@@ -416,6 +414,8 @@
                         annotationName: code.annotation_name,
                         wordCode: code.name
                     }
+                    console.log("Summary:")
+                    console.log(summary)
                     summaries.push(summary)
                     found_codes.push(name);
                 }
@@ -423,6 +423,8 @@
                     Object.freeze(summary)
                 }
                 Object.freeze(summaries)
+                console.log("Summaries:")
+                console.log(summaries)
                 return summaries
             },
 
