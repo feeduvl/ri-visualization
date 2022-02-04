@@ -108,15 +108,65 @@
                 Object.freeze(ret)
                 return ret;
             },
+            frozen_tore_codes_copy(){
+                console.warn("frozen_tore_codes_copy")
+                let ret = []
+                for(let c of this.$store.state.agreement_tore_codes){
+                    if(!c){
+                        ret.push(c)
+                    } else {
+                        let copy = {...c}
+                        Object.freeze(copy)
+                        ret.push(copy)
+                    }
+                }
+                Object.freeze(ret)
+                return ret;
+            },
+            frozen_relationship_copy(){
+                console.warn("frozen_relationship_copy")
+                let ret = []
+                for(let c of this.$store.state.agreement_tore_relationships){
+                    if(!c){
+                        ret.push(c)
+                    } else {
+                        let copy = {...c}
+                        Object.freeze(copy)
+                        ret.push(copy)
+                    }
+                }
+                Object.freeze(ret)
+                return ret;
+            },
 
             word_codes(){
                 console.log("Calculating word codes")
                 return this.generate_word_codes_summary(this.frozen_word_codes_copy.filter(c => c));
             },
 
+            tore_codes(){
+                console.log("Calculating tore codes")
+                return this.generate_tore_codes_summary(this.frozen_tore_codes_copy.filter(c => c));
+            },
+
+            relationship_codes(){
+                console.log("Calculating relationship codes")
+                return this.generate_relationship_codes_summary(this.frozen_relationship_copy.filter(c => c));
+            },
+
+            overlapping_tokens(){
+                console.log("Calculating Overlapping tokens")
+                return this.generate_overlapping_tokens_summary();
+            },
+
+            statistics(){
+                console.log("Calculating Statistics")
+                return this.generate_statistics_summary();
+            },
+
             tab_content(){
                 console.log("tab_content")
-                let ret = [this.word_codes, this.word_codes, this.word_codes, this.word_codes, this.word_codes]
+                let ret = [this.word_codes, this.tore_codes, this.relationship_codes, this.overlapping_tokens, this.statistics]
                 console.log(ret)
                 Object.freeze(ret)
                 return ret
@@ -311,88 +361,33 @@
                 this.renameCodeDialog = true;
             },
 
-            generate_relationship_summary(list_of_relationships){
-                console.log("generate_relationship_summary")
-                let summaries = []
-
-                for(let relationship of list_of_relationships){
-                    let summary = {...relationship}
-                    if(summary.TOREEntity){
-                      let owner = this.frozen_codes_copy[summary.TOREEntity];
-                      summary.owner_name = owner.name;
-                      summary.owner_tore = owner.tore;
-                    } else {
-                      console.error("Got undefined TOREEntity for relationship")
-                      console.error(relationship)
-                      summary.owner_name = "";
-                      summary.owner_tore = "";
-                    }
-                    summary.target_string = this.$store.getters.tokenListToString(summary.target_tokens)
-                    summary.placeholder = ""
-                    Object.freeze(summary)
-                    summaries.push(summary)
+            generate_overlapping_tokens_summary(){
+                let summary = {
+                    document: "Docname",
+                    tokens: "token",
+                    annotation_names: "Annonames",
+                    word_codes: "wordcode",
+                    categories: "torecode",
+                    relationships: "Relname"
                 }
+                Object.freeze(summary)
+                let summaries = [summary]
                 Object.freeze(summaries)
                 return summaries
             },
 
-
-            /**
-             *
-             * @param list_of_codes
-             * @param get_code_name Group encodings by the result of this mapping, i.e. they are considered the same iff this result is the same
-             * @return {[]}
-             */
-            generate_code_summary(list_of_codes, get_code_name){
-                console.log("generate_code_summary")
-                let summaries = []
-                let found_codes = []
-
-                for(let code of list_of_codes){
-                    let name = get_code_name(code);
-                    if(!name){
-                        //console.warn("generate_code_summary Got empty-name code, skipping: ");
-                        //console.warn(code);
-                        continue;
-                    }
-                    let index = found_codes.indexOf(name)
-
-                    // updateable fields
-
-                    let found_in_docs = []  // first doc is "all"
-                    for(let doc of this.$store.state.docs){
-                        found_in_docs.push(code.tokens.find(t_index => t_index >= doc.begin_index && t_index < doc.end_index) !== undefined)
-                    }
-
-                    let relationship_count = code.relationship_memberships.length;
-
-                    if (index === -1){
-                        let summary = {
-                            name: code.name,
-                            tore: code.tore,
-                            count: 1,
-                            relationship_count,
-                            doc_count: found_in_docs.filter(b => b).length - 1,
-                            found_in_docs,
-                            placeholder: ""
-                        }
-                        summaries.push(summary)
-                        found_codes.push(name);
-
-                    } else {  // update information if necessary
-                        summaries[index].relationship_count += relationship_count;
-                        summaries[index].count++;
-                        summaries[index].found_in_docs = summaries[index].found_in_docs.map((b, index) => b || found_in_docs[index])
-                        summaries[index].doc_count = summaries[index].found_in_docs.filter(b => b).length - 1
-                    }
+            generate_statistics_summary(){
+                let summary = {
+                    document: "document",
+                    initial_kappa: "initialkappa",
+                    current_kappa: "currentKappa",
+                    initial_agreements: "percentage"
                 }
-                for(let summary of summaries){
-                    Object.freeze(summary)
-                }
+                Object.freeze(summary)
+                let summaries = [summary]
                 Object.freeze(summaries)
                 return summaries
             },
-
 
             generate_word_codes_summary(list_of_word_codes){
                 console.log("generate_word_code_summary")
@@ -409,13 +404,11 @@
                         }
                     }
                     let summary = {
-                        documentName: docName,
-                        tokens: code.tokens,
-                        annotationName: code.annotation_name,
-                        wordCode: code.name
+                        document: docName,
+                        token: code.tokens,
+                        annotation_names: code.annotation_name,
+                        word_codes: code.name
                     }
-                    console.log("Summary:")
-                    console.log(summary)
                     summaries.push(summary)
                     found_codes.push(name);
                 }
@@ -428,73 +421,69 @@
                 return summaries
             },
 
-            generate_occurrences(list_of_codes, getName){
-                console.log("generate_occurrences")
-                let ret = [];
-                for(let c of list_of_codes){
-                    if(c && getName(c)){
-                        //let code = {name: c.name, tore: c.tore, index: c.index};
-                        let code = {...c}
-                        code.placeholder = ""
-                        let index = 0;
-                        for(let doc of this.$store.state.docs){
-                            if(index !== 0 && code.tokens.find(t_index => t_index >= doc.begin_index && t_index < doc.end_index) !== undefined){
-                                code.document = doc.name;
-                                code.document_index = index;
-                                break;
-                            }
-                            index++;
-                        }
-                        if(!code.document){
-                            console.error("Didn't find document for code: "+Code_user_display_prompt(code));
-                            console.error(code);
-                        }
+            generate_relationship_codes_summary(list_of_relationships){
+                console.log("generate_word_code_summary")
+                let summaries = []
+                let found_codes = []
 
-                        code.words_string = this.$store.getters.tokenListToString(code.tokens);
-                        Object.freeze(code)
-                        ret.push(code);
-                    }
-                }
-                Object.freeze(ret)
-                return ret;
-            },
-
-            generate_relationship_occurrences(list_of_codes){
-                console.log("generate_relationship_occurrences")
-                let ret = [];
-                for(let c of list_of_codes){
-                    if(c && c.relationship_memberships.length){
-                        for(let relationship_index of c.relationship_memberships){
-                            //let code = {name: c.name, tore: c.tore, index: c.index};
-                            let code = {...c};
-                            let index = 0;
-                            for(let doc of this.$store.state.docs){
-                                if(index !== 0 && code.tokens.find(t_index => t_index >= doc.begin_index && t_index < doc.end_index) !== undefined){
-                                    code.document = doc.name;
-                                    code.document_index = index;
-                                    break;
-                                }
-                                index++;
-                            }
-                            if(!code.document){
-                                console.error("Didn't find document for code: "+Code_user_display_prompt(code));
-                                console.error(code);
-                            }
-
-                            code.placeholder = ""
-                            code.relationship_index = relationship_index;
-                            code.relationship_name = this.$store.state.tore_relationships[relationship_index].relationship_name;
-                            code.words_string = this.$store.getters.tokenListToString(code.tokens);
-                            code.target_string = this.$store.getters.tokenListToString(this.$store.state.tore_relationships[relationship_index].target_tokens)
-                            Object.freeze(code)
-                            ret.push(code);
+                for(let code of list_of_relationships){
+                    console.log(code)
+                    let docName = ""
+                    for(let doc of this.$store.state.docs){
+                        let tokenIndex = code.tokens[0]
+                        if (tokenIndex >= doc.begin_index && tokenIndex < doc.end_index) {
+                           docName = doc.name
                         }
                     }
+                    let summary = {
+                        document: docName,
+                        token: code.tokens,
+                        annotation_names: code.annotation_name,
+                        relationships: "Should be RelName"
+                    }
+                    summaries.push(summary)
+                    found_codes.push(name);
                 }
-                Object.freeze(ret)
-                return ret;
+                for(let summary of summaries){
+                    Object.freeze(summary)
+                }
+                Object.freeze(summaries)
+                console.log("Summaries:")
+                console.log(summaries)
+                return summaries
             },
 
+            generate_tore_codes_summary(list_of_tore_codes){
+                console.log("generate_word_code_summary")
+                let summaries = []
+                let found_codes = []
+
+                for(let code of list_of_tore_codes){
+                    console.log(code)
+                    let docName = ""
+                    for(let doc of this.$store.state.docs){
+                        let tokenIndex = code.tokens[0]
+                        if (tokenIndex >= doc.begin_index && tokenIndex < doc.end_index) {
+                           docName = doc.name
+                        }
+                    }
+                    let summary = {
+                        document: docName,
+                        token: code.tokens,
+                        annotation_names: code.annotation_name,
+                        categories: code.tore
+                    }
+                    summaries.push(summary)
+                    found_codes.push(name);
+                }
+                for(let summary of summaries){
+                    Object.freeze(summary)
+                }
+                Object.freeze(summaries)
+                console.log("Summaries:")
+                console.log(summaries)
+                return summaries
+            },
 
             /**
              *
