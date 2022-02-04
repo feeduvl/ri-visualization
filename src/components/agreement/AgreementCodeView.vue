@@ -403,7 +403,11 @@
                     console.log(code)
                     let docName = ""
                     for(let doc of this.$store.state.docs){
+                        console.log("doc:")
+                        console.log(doc)
                         let tokenIndex = code.tokens.first()
+                        console.log("tokenIndex")
+                        console.log(tokenIndex)
                         if (tokenIndex >= doc.begin_index && tokenIndex < doc.end_index) {
                            docName = doc.name
                         }
