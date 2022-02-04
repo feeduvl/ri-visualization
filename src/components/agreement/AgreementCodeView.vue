@@ -1,52 +1,7 @@
 <template>
     <div>
-        <v-dialog
-                v-model="renameCodeDialog"
-                width="500"
-                v-if="renameCodeDialog"
-        >
-            <v-card>
-                <v-card-title
-                        class="headline grey lighten-2"
-                        primary-title
-                >
-                    {{renameCode.name?`Rename Code: '`+renameCode.name+`'`:'Assign Name to all no-name codes?'}}
-                </v-card-title>
-
-                <v-card-text>
-                     {{renameCode.name?('Rename all '+numOccurencesRename+` occurrences of code: '`+renameCode.name+`'?`):'Assign Name to all occurrences of nameless codes?'}}
-                </v-card-text>
-
-                <v-text-field
-                        label="New Code Name"
-                        v-model="renameCodeNewName"
-                    >
-
-                </v-text-field>
-
-                <v-divider></v-divider>
-
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn
-                            color="primary"
-                            flat
-                            @click="renameCodeDialog = false">
-                        Cancel
-                    </v-btn>
-                    <v-btn
-                            :disabled="!renameCodeNewName"
-                            color="primary"
-                            flat
-                            @click="doRenameCode"
-                    >
-                        Rename
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
         <v-container
-                class="new-agreement-params"
+                class="agreement-downloads"
         >
             <v-layout row justify-left align-center>
                 <v-flex>
@@ -138,10 +93,10 @@
     export default {
         name: "AgreementCodeView",
         computed: {
-            frozen_codes_copy(){
-                console.warn("frozen_codes_copy")
+            frozen_word_codes_copy(){
+                console.warn("frozen_word_codes_copy")
                 let ret = []
-                for(let c of this.$store.state.codes){
+                for(let c of this.$store.state.agreement_word_codes){
                     if(!c){
                         ret.push(c)
                     } else {
@@ -153,55 +108,16 @@
                 Object.freeze(ret)
                 return ret;
             },
-            code_name_summary(){
-                return this.generate_code_summary(this.frozen_codes_copy.filter(c => c), c => c.name);
-            },
-            code_tore_summary(){
-                return this.generate_code_summary(this.frozen_codes_copy.filter(c => c), c => c.tore)
-            },
-            code_combination_summary(){
-                return this.generate_code_summary(this.frozen_codes_copy.filter(c => c), (code) => {
-                    if(code.name && !code.tore){
-                        return "Name: '"+code.name+"'";
-                    } else if (!code.name && code.tore){
-                        return "Category: '"+code.tore+"'"
-                    } else if(code.name && code.tore){
-                        return "Name: '"+code.name + "' Category: '"+code.tore+"'";
-                    } else {
-                        return ""
-                    }
-                })
-            },
-            relationship_summary(){
-                return this.generate_relationship_summary(this.$store.state.tore_relationships.filter(r => r))
-            },
 
-            name_occurrences(){
-                return this.generate_occurrences(this.frozen_codes_copy, c => c.name);
+            word_codes(){
+                return this.generate_word_codes_summary(this.frozen_word_codes_copy.filter(c => c));
             },
 
             tab_content(){
                 console.log("tab_content")
-                let ret = [this.code_name_summary, this.code_tore_summary, this.code_combination_summary, this.relationship_summary,
-                    this.name_occurrences,
-                    this.generate_occurrences(this.frozen_codes_copy, c => c.tore),
-                    this.generate_occurrences(this.frozen_codes_copy, c => (c.name || c.tore)),
-                    this.generate_relationship_occurrences(this.frozen_codes_copy)]
+                let ret = [this.word_codes, this.word_codes, this.word_codes, this.word_codes, this.word_codes]
                 Object.freeze(ret)
                 return ret
-            },
-
-            numOccurencesRename(){
-                console.log("numOccurrencesRename")
-                let count = 0;
-                for(let c of this.name_occurrences){
-                    if(c){
-                        if(c.name === this.renameCode.name){
-                            count++;
-                        }
-                    }
-                }
-                return count;
             }
         },
         data: () => {
@@ -238,7 +154,7 @@
                     sortable: true
                   },
                   {
-                    text: 'Token',
+                    text: 'Tokens',
                     align: "left",
                     sortable: true,
                     value: 'token'
@@ -264,7 +180,7 @@
                     sortable: true
                   },
                   {
-                    text: 'Token',
+                    text: 'Tokens',
                     align: "left",
                     sortable: true,
                     value: 'token'
@@ -290,7 +206,7 @@
                     sortable: true
                   },
                   {
-                    text: 'Token',
+                    text: 'Tokens',
                     align: "left",
                     sortable: true,
                     value: 'token'
@@ -467,6 +383,37 @@
                         summaries[index].found_in_docs = summaries[index].found_in_docs.map((b, index) => b || found_in_docs[index])
                         summaries[index].doc_count = summaries[index].found_in_docs.filter(b => b).length - 1
                     }
+                }
+                for(let summary of summaries){
+                    Object.freeze(summary)
+                }
+                Object.freeze(summaries)
+                return summaries
+            },
+
+
+            generate_word_codes_summary(list_of_word_codes){
+                console.log("generate_word_code_summary")
+                let summaries = []
+                let found_codes = []
+
+                for(let code of list_of_word_codes){
+
+                    let docName = ""
+                    for(let doc of this.$store.state.docs){
+                        let tokenIndex = code.tokens.first()
+                        if (tokenIndex >= doc.begin_index && tokenIndex < doc.end_index) {
+                           docName = doc.name
+                        }
+                    }
+                    let summary = {
+                        documentName: docName,
+                        tokens: code.tokens,
+                        annotationName: code.annotation_name,
+                        wordCode: code.name
+                    }
+                    summaries.push(summary)
+                    found_codes.push(name);
                 }
                 for(let summary of summaries){
                     Object.freeze(summary)

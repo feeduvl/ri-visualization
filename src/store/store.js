@@ -101,7 +101,6 @@ export const store = new Vuex.Store({
 
     agreementInputVisible: false,
 
-
     agreement_uploaded_at: null,
     agreement_dataset: null,
 
