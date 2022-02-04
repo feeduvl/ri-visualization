@@ -109,11 +109,11 @@
                 <v-container fluid>
                     <v-checkbox
                         v-model="replaceURLS"
-                        :label="`Replace URLs with placeholder`"
+                        :label="`Remove URLs`"
                     ></v-checkbox>
                     <v-checkbox
                         v-model="replaceEmojis"
-                        :label="`Replace emojis with placeholder`"
+                        :label="`Remove emojis`"
                     ></v-checkbox>
                 </v-container>
 
