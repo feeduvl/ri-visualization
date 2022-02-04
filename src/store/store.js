@@ -225,7 +225,7 @@ export const store = new Vuex.Store({
     },
 
     // eslint-disable-next-line camelcase
-    setAgreementPayload(state, {name, tokens, tore_codes, word_codes, tore_relationships, docs, created_at, dataset, isCompleted}){
+    setAgreementPayload(state, {name, tokens, tore_code_alternatives, word_code_alternatives, relationship_alternatives, docs, created_at, dataset, isCompleted}){
       // eslint-disable-next-line camelcase
       state.agreement_created_at = created_at;
       state.agreement_dataset = dataset;
@@ -239,11 +239,11 @@ export const store = new Vuex.Store({
       this.commit("initTokensEfficiencyStructs", false);
 
       // eslint-disable-next-line camelcase
-      state.agreement_tore_codes = tore_codes;
+      state.agreement_tore_codes = tore_code_alternatives;
       // eslint-disable-next-line camelcase
-      state.agreement_word_codes = word_codes;
+      state.agreement_word_codes = word_code_alternatives;
       // eslint-disable-next-line camelcase
-      state.agreement_tore_relationships = tore_relationships;
+      state.agreement_tore_relationships = relationship_alternatives;
 
       let newDocs = [state.all_docs].concat(docs);
       state.all_docs.end_index = tokens.length;
