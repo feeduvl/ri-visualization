@@ -106,16 +106,19 @@
                     }
                 }
                 Object.freeze(ret)
+                console.log(ret)
                 return ret;
             },
 
             word_codes(){
+                console.log("Calculating word codes")
                 return this.generate_word_codes_summary(this.frozen_word_codes_copy.filter(c => c));
             },
 
             tab_content(){
                 console.log("tab_content")
                 let ret = [this.word_codes, this.word_codes, this.word_codes, this.word_codes, this.word_codes]
+                console.log(ret)
                 Object.freeze(ret)
                 return ret
             }
