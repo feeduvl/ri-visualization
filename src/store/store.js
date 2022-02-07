@@ -104,15 +104,13 @@ export const store = new Vuex.Store({
     agreement_uploaded_at: null,
     agreement_dataset: null,
 
-    agreement_tore_codes: [],
-    agreement_word_codes: [],
-    agreement_tore_relationships: [],
+    agreement_code_alternatives: [],
 
     agreement_is_completed: null,
 
     agreementViewingCodeResults: false,
     available_agreements: [],
-    isLoadingAgreement: false,  // loading the annotation to be displayed
+    isLoadingAgreement: false,
     selected_agreement: null,
     isLoadingAvailableAgreements: false,
     lastAgreementEditAt: null,
@@ -225,7 +223,7 @@ export const store = new Vuex.Store({
     },
 
     // eslint-disable-next-line camelcase
-    setAgreementPayload(state, {name, tokens, tore_code_alternatives, word_code_alternatives, relationship_alternatives, docs, created_at, dataset, isCompleted}){
+    setAgreementPayload(state, {name, tokens, code_alternatives, docs, created_at, dataset, isCompleted}){
       // eslint-disable-next-line camelcase
       state.agreement_created_at = created_at;
       state.agreement_dataset = dataset;
@@ -239,11 +237,7 @@ export const store = new Vuex.Store({
       this.commit("initTokensEfficiencyStructs", false);
 
       // eslint-disable-next-line camelcase
-      state.agreement_tore_codes = tore_code_alternatives;
-      // eslint-disable-next-line camelcase
-      state.agreement_word_codes = word_code_alternatives;
-      // eslint-disable-next-line camelcase
-      state.agreement_tore_relationships = relationship_alternatives;
+      state.agreement_code_alternatives = code_alternatives;
 
       let newDocs = [state.all_docs].concat(docs);
       state.all_docs.end_index = tokens.length;
@@ -366,9 +360,7 @@ export const store = new Vuex.Store({
 
       state.tokens = [];
       state.docs = [];
-      state.agreement_tore_codes = [];
-      state.agreement_word_codes = [];
-      state.agreement_tore_relationships = [];
+      state.agreement_code_alternatives = [];
 
       this.commit("initTokensEfficiencyStructs", true);
     }
