@@ -258,7 +258,7 @@ export const actionPostCurrentAgreement = ({state, commit}) => {
       created_at: state.agreement_created_at,
       dataset: state.agreement_dataset,
       name: state.selected_agreement,
-      annotation_names: state.available_annotations,
+      annotation_names: state.agreement_annotation_names,
       tokens: postTokens,
       code_alternatives: state.agreement_code_alternatives,
       docs: state.docs.slice(1, state.docs.length)

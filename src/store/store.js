@@ -103,6 +103,7 @@ export const store = new Vuex.Store({
 
     agreement_uploaded_at: null,
     agreement_dataset: null,
+    agreement_annotation_names: [],
 
     agreement_code_alternatives: [],
 
@@ -223,11 +224,13 @@ export const store = new Vuex.Store({
     },
 
     // eslint-disable-next-line camelcase
-    setAgreementPayload(state, {name, tokens, code_alternatives, docs, created_at, dataset, isCompleted}){
+    setAgreementPayload(state, {name, tokens, code_alternatives, docs, created_at, dataset, annotation_names, isCompleted}){
       // eslint-disable-next-line camelcase
       state.agreement_created_at = created_at;
       state.agreement_dataset = dataset;
       state.agreement_is_completed = isCompleted;
+      // eslint-disable-next-line camelcase
+      state.agreement_annotation_names = annotation_names;
 
       for (let token of tokens){
         Object.freeze(token);
@@ -353,6 +356,7 @@ export const store = new Vuex.Store({
 
       state.agreement_dataset = null;
       state.agreement_uploaded_at = null;
+      state.agreement_annotation_names = [];
       state.selected_agreement = null;
       state.selected_doc = null;
       state.selected_pos_tags = [];
