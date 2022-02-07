@@ -260,9 +260,7 @@ export const actionPostCurrentAgreement = ({state, commit}) => {
       name: state.selected_agreement,
       annotation_names: state.available_annotations,
       tokens: postTokens,
-      tore_codes: state.agreement_tore_codes,
-      word_codes: state.agreement_word_codes,
-      tore_relationships: state.agreement_tore_relationships,
+      code_alternatives: state.agreement_code_alternatives,
       docs: state.docs.slice(1, state.docs.length)
     })
       .then(() => {
