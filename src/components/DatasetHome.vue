@@ -40,7 +40,7 @@
         <template slot="items" slot-scope="props">
           <tr>
             <td>{{ props.item.id }}</td>
-            <td style="white-space: pre;"><text-highlight
+            <td style="white-space: pre-wrap;"><text-highlight
                 :highlightStyle="'background-color: #2196f3 !important;'"
                 :queries="queries"
                 :diacriticsSensitive="false"
