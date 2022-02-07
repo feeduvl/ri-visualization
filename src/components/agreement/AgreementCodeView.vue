@@ -308,10 +308,16 @@
                     value: 'categories'
                   },
                   {
-                    text: 'Relationship',
+                    text: 'RelationshipName',
                     align: "left",
                     sortable: true,
-                    value: 'relationships'
+                    value: 'relationship_name'
+                  },
+                  {
+                    text: 'Relationship Target Token',
+                    align: "left",
+                    sortable: true,
+                    value: 'relationship_target'
                   }
                 ],
                 [
@@ -437,9 +443,10 @@
                     }
                     let summary = {
                         document: docName,
-                        token: code.tokens,
+                        token: this.$store.getters.tokenListToString(code.tokens),
                         annotation_names: code.annotation_name,
-                        relationships: "Should be RelName"
+                        relationship_name: "Should be RelName",
+                        relationship_target: "Should be RelTargetTokenName"
                     }
                     summaries.push(summary)
                     found_codes.push(name);
@@ -469,7 +476,7 @@
                     }
                     let summary = {
                         document: docName,
-                        token: code.tokens,
+                        token: this.$store.getters.tokenListToString(code.tokens),
                         annotation_names: code.annotation_name,
                         categories: code.tore
                     }
