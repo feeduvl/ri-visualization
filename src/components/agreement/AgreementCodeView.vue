@@ -405,7 +405,7 @@
                     }
                     let summary = {
                         document: docName,
-                        token: code.tokens,
+                        token: this.$store.getters.tokenListToString(code.tokens),
                         annotation_names: code.annotation_name,
                         word_codes: code.name
                     }
