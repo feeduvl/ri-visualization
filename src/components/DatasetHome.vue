@@ -340,8 +340,13 @@ export default {
   text-align: center;
 }
 
-table.v-table tbody tr,
-table.v-table tbody td,
+table.v-table tbody tr {
+  white-space: pre-wrap;
+}
+table.v-table tbody td {
+  white-space: pre-wrap;
+}
+
 table.v-table tbody th {
   min-height: 50px;
   height: 50px;
