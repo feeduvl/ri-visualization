@@ -175,16 +175,10 @@ export default {
                         value: 'categories'
                     },
                     {
-                        text: 'Relationship Name',
+                        text: 'Relationships',
                         align: "left",
                         sortable: true,
-                        value: 'relationship_names'
-                    },
-                    {
-                        text: 'Relationship Partner Token',
-                        align: "left",
-                        sortable: true,
-                        value: 'relationship_target_tokens'
+                        value: 'relationships'
                     },
                     {
                         text: 'Annotation Name',
@@ -219,16 +213,10 @@ export default {
                         value: 'categories'
                     },
                     {
-                        text: 'Relationship Name',
+                        text: 'Relationships',
                         align: "left",
                         sortable: true,
-                        value: 'relationship_names'
-                    },
-                    {
-                        text: 'Relationship Partner Token',
-                        align: "left",
-                        sortable: true,
-                        value: 'relationship_target_tokens'
+                        value: 'relationships'
                     },
                     {
                         text: 'Annotation Name',
@@ -312,14 +300,31 @@ export default {
                         docName = doc.name
                     }
                 }
+                let relationships = []
+                let toreRelationships = codeAlternative.tore_relationships
+                let relationshipReferences = codeAlternative.code.relationship_memberships
+                for (let relationshipRef of relationshipReferences) {
+                    for (let toreRel of toreRelationships) {
+                        if (toreRel.index === relationshipRef) {
+                            let targetTokenString = ""
+                            for (let targetToken of toreRel.target_tokens) {
+                                targetTokenString = targetTokenString + targetToken.toString()
+                            }
+                            let relationship = "${toreRel.relationship_name} -> ${targetTokenString}"
+                            relationships.push(relationship)
+                            break
+                        }
+                    }
+                }
+                // TODO: Schaue nach Relationship nach, lade name und target token
+                // Dann generiere Einen string mit "RelName -> TargetTokenname"
                 let summary = {
                     document: docName,
                     token: this.$store.getters.tokenListToString(codeAlternative.code.tokens),
                     annotation_names: codeAlternative.annotation_name,
                     word_codes: codeAlternative.code.name,
                     categories: codeAlternative.code.tore,
-                    relationship_names: "someRelName",
-                    relationship_target_tokens: "someTargetToken"
+                    relationships: relationships,
                 }
                 if (codeAlternative.merge_status === "Pending"){
                     unresolved_summaries.push(summary)
