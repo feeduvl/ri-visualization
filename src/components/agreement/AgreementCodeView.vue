@@ -48,7 +48,7 @@
 
                 </v-container>
                 <v-data-table
-                    :headers="index <= 1?this_header.concat([{text: 'Actions', value: 'placeholder'}]):this_header"
+                    :headers="index <= 2?this_header.concat([{text: 'Actions', value: 'placeholder'}]):this_header"
                     :items="tab_content[index]"
                     :search="search"
                     :loading="$store.state.isLoadingAgreement"
@@ -122,7 +122,7 @@ export default {
 
         tab_content() {
             console.log("tab_content")
-            let ret = [this.code_alternatives, this.statistics]
+            let ret = [this.code_alternatives[0], this.code_alternatives[1], this.statistics]
             console.log(ret)
             Object.freeze(ret)
             return ret
@@ -147,8 +147,52 @@ export default {
             renameCodeDialog: false,
             renameCode: null,
             selectedTab: 0,
-            tab_titles: ["Codes", "Statistics"],
+            tab_titles: ["Unresolved Codes", "Resolved Codes", "Statistics"],
             headers: [
+                [  // Tab view 0
+                    {
+                        text: 'Document',
+                        value: 'document',
+                        align: 'left',
+                        sortable: true
+                    },
+                    {
+                        text: 'Token Names',
+                        align: "left",
+                        sortable: true,
+                        value: 'token'
+                    },
+                    {
+                        text: 'Word Code',
+                        align: "left",
+                        sortable: true,
+                        value: 'word_codes'
+                    },
+                    {
+                        text: 'Category',
+                        align: "left",
+                        sortable: true,
+                        value: 'categories'
+                    },
+                    {
+                        text: 'Relationship Name',
+                        align: "left",
+                        sortable: true,
+                        value: 'relationship_names'
+                    },
+                    {
+                        text: 'Relationship Partner Token',
+                        align: "left",
+                        sortable: true,
+                        value: 'relationship_target_tokens'
+                    },
+                    {
+                        text: 'Annotation Name',
+                        align: "left",
+                        sortable: true,
+                        value: 'annotation_names'
+                    },
+                ],
                 [  // Tab view 0
                     {
                         text: 'Document',
@@ -255,7 +299,8 @@ export default {
 
         generate_code_alternatives_summary(list_of_code_alternatives) {
             console.log("generate_code_alternatives_summary")
-            let summaries = []
+            let resolved_summaries = []
+            let unresolved_summaries = []
             let found_codes = []
 
             for (let codeAlternative of list_of_code_alternatives) {
@@ -276,16 +321,25 @@ export default {
                     relationship_names: "someRelName",
                     relationship_target_tokens: "someTargetToken"
                 }
-                summaries.push(summary)
+                if (codeAlternative.merge_status === "Pending"){
+                    unresolved_summaries.push(summary)
+                } else {
+                    resolved_summaries.push(summary)
+                }
                 found_codes.push(name);
             }
-            for (let summary of summaries) {
+            for (let summary of resolved_summaries) {
                 Object.freeze(summary)
             }
-            Object.freeze(summaries)
+            for (let summary of unresolved_summaries) {
+                Object.freeze(summary)
+            }
+            Object.freeze(unresolved_summaries)
+            Object.freeze(resolved_summaries)
             console.log("Summaries:")
-            console.log(summaries)
-            return summaries
+            console.log(unresolved_summaries)
+            console.log(resolved_summaries)
+            return [unresolved_summaries, resolved_summaries]
         },
 
         /**
