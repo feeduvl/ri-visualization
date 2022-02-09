@@ -781,7 +781,6 @@ export default {
 }
 
 .annotator-token-area {
-    white-space: pre-wrap;
     display: block;
 }
 
