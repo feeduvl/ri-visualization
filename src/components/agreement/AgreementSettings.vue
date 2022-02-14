@@ -353,15 +353,15 @@ export default {
     viewCodeResults(agreement) {
       this.$store.commit("updateSelectedAgreement", agreement.name)
       this.$store.dispatch('actionGetSelectedAgreement');
-      this.$store.commit("toggleAgreementViewingCodes", true)
+        setTimeout(function() {
+            this.$store.commit("toggleAgreementViewingCodes", true)
+        }, 2000)
     },
 
     startComparison(agreement) {
       this.$store.commit("toggleAgreementViewingCodes", false)
       this.$store.commit("updateSelectedAgreement", agreement.name)
-        setTimeout(function() {
-            this.$store.dispatch('actionGetSelectedAgreement');
-        }, 2000)
+      this.$store.dispatch('actionGetSelectedAgreement');
     },
 
     reloadFields() {
