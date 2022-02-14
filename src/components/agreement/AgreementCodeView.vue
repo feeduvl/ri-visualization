@@ -529,6 +529,8 @@ export default {
             }
 
             for (let summary of unresolved_summaries) {
+                let token = summary.token
+                summary.token = this.$store.getters.tokenListToString(token)
                 Object.freeze(summary)
             }
             Object.freeze(unresolved_summaries)
