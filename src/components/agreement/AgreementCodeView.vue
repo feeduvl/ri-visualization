@@ -475,7 +475,7 @@ export default {
                             for (let targetToken of toreRel.target_tokens) {
                                 targetTokenString = targetTokenString + targetToken.toString()
                             }
-                            let relationship = toreRel.relationship_name + "->" + targetTokenString
+                            let relationship = toreRel.relationship_name + "->" + this.$store.getters.tokenListToString(targetTokenString)
                             relationships.push(relationship)
                             break
                         }
@@ -498,6 +498,8 @@ export default {
                 found_codes.push(name);
             }
             for (let summary of resolved_summaries) {
+                let token = summary.token
+                summary.token = this.$store.getters.tokenListToString(token)
                 Object.freeze(summary)
             }
 

@@ -283,7 +283,6 @@ export const toggleAnnotatorViewingCodes = (state, show) => {
   console.log("Toggled annotator code view to: "+state.annotatorViewingCodeResults);
 };
 
-
 export const toggleAgreementViewingCodes = (state, show) => {
   state.agreementViewingCodeResults = show;
   console.log("Toggled agreement code view to: "+state.agreementViewingCodeResults);

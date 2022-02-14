@@ -395,6 +395,7 @@ export default {
   watch: {
 
     agreementViewingCodeResults() {
+        console.log("Watching agreement code results")
       if (this.agreementViewingCodeResults) {
         this.removeDialogStylerule("Showing code view results");
       }
