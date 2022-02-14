@@ -313,32 +313,6 @@ export default {
             renameCode: null,
             selectedTab: 0,
             tab_titles: ["Unresolved Codes", "Resolved Codes", "Statistics"],
-            subheaders: [[
-                {
-                    text: 'Word Code',
-                    align: "left",
-                    sortable: true,
-                    value: 'word_codes'
-                },
-                {
-                    text: 'Category',
-                    align: "left",
-                    sortable: true,
-                    value: 'categories'
-                },
-                {
-                    text: 'Relationships',
-                    align: "left",
-                    sortable: true,
-                    value: 'relationships'
-                },
-                {
-                    text: 'Annotation Name',
-                    align: "left",
-                    sortable: true,
-                    value: 'annotation_name'
-                },]
-            ],
             headers: [
                 [  // Tab view 0
                     {
@@ -511,7 +485,7 @@ export default {
                 let summary = {
                     document: docName,
                     token: codeAlternative.code.tokens,
-                    annotation_name: codeAlternative.annotation_name,
+                    annotation_names: codeAlternative.annotation_name,
                     word_codes: codeAlternative.code.name,
                     categories: codeAlternative.code.tore,
                     relationships: relationships,
