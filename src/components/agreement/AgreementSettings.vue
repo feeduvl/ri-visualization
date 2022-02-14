@@ -359,7 +359,9 @@ export default {
     startComparison(agreement) {
       this.$store.commit("toggleAgreementViewingCodes", false)
       this.$store.commit("updateSelectedAgreement", agreement.name)
-      this.$store.dispatch('actionGetSelectedAgreement');
+        setTimeout(function() {
+            this.$store.dispatch('actionGetSelectedAgreement');
+        }, 2000)
     },
 
     reloadFields() {
