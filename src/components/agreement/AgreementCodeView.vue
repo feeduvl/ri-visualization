@@ -29,8 +29,7 @@
         <v-tabs-items v-model="selectedTab">
             <v-tab-item
                 :style="'background-color: white;'"
-                v-for="(this_header, index) in headers"
-                :key="'tab_header'+index"
+                :key="'tab_header0'"
             >
 
                 <v-container>
@@ -48,38 +47,202 @@
 
                 </v-container>
                 <v-data-table
-                    :headers="index <= 2?this_header.concat([{text: 'Actions', value: 'placeholder'}]):this_header"
-                    :items="tab_content[index]"
+                    :headers="headers[0]"
+                    :items="tab_content[0]"
                     :search="search"
                     :loading="$store.state.isLoadingAgreement"
                     :rows-per-page-items="[25, 50, 100, 200, {'text':'$vuetify.dataIterator.rowsPerPageAll','value':-1}]"
-                    :pagination.sync="paginations[index]"
+                    :pagination.sync="paginations[0]"
+                >
+                    <template v-slot:items="props">
+                        <tr v-bind:class="{'trBeginning': props.item.isFirst}">
+                            <td :key="'header_column_0_0'"
+                                :class="{'text-xs-left': 0 > 0}"
+                                v-if="props.item.isFirst"
+                                :rowspan="props.item.numPossibilities"
+                            >{{ props.item.document }}</td>
+                            <td :key="'header_column_0_1'"
+                                :class="{'text-xs-left': 1 > 0}"
+                                v-if="props.item.isFirst"
+                                :rowspan="props.item.numPossibilities"
+                            >{{ props.item.token }}</td>
+                            <td :key="'header_column_0_2'"
+                                :class="{'text-xs-left': 2 > 0}"
+                            >{{ props.item.word_codes }}</td>
+                            <td :key="'header_column_0_3'"
+                                :class="{'text-xs-left': 3 > 0}"
+                            >{{ props.item.categories }}</td>
+                            <td :key="'header_column_0_5'"
+                                :class="{'text-xs-left': 5 > 0}"
+                            >
+                                <ul style="list-style-type: none">
+                                    <li v-for="relationship in props.item.relationships">
+                                        {{ relationship }}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td :key="'header_column_0_6'"
+                                :class="{'text-xs-left': 6 > 0}"
+                            >{{ props.item.annotation_name }}</td>
+                            <td>
+                                <span class="icon-column">
+                                    <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-icon
+                                          small
+                                          @click="AcceptCode(item, index === headers.length-1)"
+                                          v-bind="attrs"
+                                          v-on="on"
+                                      >
+                                        check
+                                      </v-icon>
+                                    </template>
+                                    <span>Accept</span>
+                                  </v-tooltip>
+                                    <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-icon
+                                          small
+                                          @click="RejectCode(item, index === headers.length-1)"
+                                          v-bind="attrs"
+                                          v-on="on"
+                                      >
+                                        close
+                                      </v-icon>
+                                    </template>
+                                    <span>Reject</span>
+                                  </v-tooltip>
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-icon
+                                                small
+                                                @click="$emit('page-to-code', $store.state.codes[item.index])"
+                                                v-bind="attrs"
+                                                v-on="on"
+                                            >
+                                            visibility
+                                            </v-icon>
+                                        </template>
+                                        <span>Go to Occurrence</span>
+                                    </v-tooltip>
+                                </span>
+                            </td>
+                        </tr>
+
+                    </template>
+
+                </v-data-table>
+            </v-tab-item>
+            <v-tab-item
+                :style="'background-color: white;'"
+                :key="'tab_header1'"
+            >
+
+                <v-container>
+                    <v-layout>
+                        <v-spacer></v-spacer>
+                        <v-text-field
+                            v-model="search"
+                            append-icon="search"
+                            label="Search"
+                            single-line
+                            hide-details
+                            clearable
+                        ></v-text-field>
+                    </v-layout>
+
+                </v-container>
+                <v-data-table
+                    :headers="headers[1].concat([{text: 'Actions', value: 'placeholder'}])"
+                    :items="tab_content[1]"
+                    :search="search"
+                    :loading="$store.state.isLoadingAgreement"
+                    :rows-per-page-items="[25, 50, 100, 200, {'text':'$vuetify.dataIterator.rowsPerPageAll','value':-1}]"
+                    :pagination.sync="paginations[1]"
+                >
+                    <template v-slot:items="props">
+                        <tr>
+                            <td :key="'header_column_0_0'"
+                                :class="{'text-xs-left': 0 > 0}"
+                            >{{ props.item.document }}</td>
+                            <td :key="'header_column_0_1'"
+                                :class="{'text-xs-left': 1 > 0}"
+                            >{{ props.item.token }}</td>
+                            <td :key="'header_column_0_2'"
+                                :class="{'text-xs-left': 2 > 0}"
+                            >{{ props.item.word_codes }}</td>
+                            <td :key="'header_column_0_3'"
+                                :class="{'text-xs-left': 3 > 0}"
+                            >{{ props.item.categories }}</td>
+                            <td :key="'header_column_0_5'"
+                                :class="{'text-xs-left': 5 > 0}"
+                            >
+                                <ul style="list-style-type: none">
+                                    <li v-for="relationship in props.item.relationships">
+                                        {{ relationship }}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td :key="'header_column_0_6'"
+                                :class="{'text-xs-left': 6 > 0}"
+                            >{{ props.item.annotation_name }}</td>
+                            <td>
+                                <span class="icon-column">
+                                    <v-tooltip bottom>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-icon
+                                                small
+                                                @click="$emit('page-to-code', $store.state.codes[item.index])"
+                                                v-bind="attrs"
+                                                v-on="on"
+                                            >
+                                            visibility
+                                            </v-icon>
+                                        </template>
+                                        <span>Go to Occurrence</span>
+                                    </v-tooltip>
+                                </span>
+                            </td>
+                        </tr>
+
+                    </template>
+
+                </v-data-table>
+            </v-tab-item>
+            <v-tab-item
+                :style="'background-color: white;'"
+                :key="'tab_header2'"
+            >
+
+                <v-container>
+                    <v-layout>
+                        <v-spacer></v-spacer>
+                        <v-text-field
+                            v-model="search"
+                            append-icon="search"
+                            label="Search"
+                            single-line
+                            hide-details
+                            clearable
+                        ></v-text-field>
+                    </v-layout>
+
+                </v-container>
+                <v-data-table
+                    :headers="headers[2]"
+                    :items="tab_content[2]"
+                    :search="search"
+                    :loading="$store.state.isLoadingAgreement"
+                    :rows-per-page-items="[25, 50, 100, 200, {'text':'$vuetify.dataIterator.rowsPerPageAll','value':-1}]"
+                    :pagination.sync="paginations[2]"
                 >
                     <template v-slot:items="{item}">
-                        <td v-for="(column, column_index) in this_header"
-                            :key="'header_column_'+index+'_'+column_index"
+                        <td v-for="(column, column_index) in headers[2]"
+                            :key="'header_column_2_'+column_index"
                             :class="{'text-xs-left': column_index > 0}"
                         >
                             {{ item[column.value] }}
                         </td>
-                        <td v-show="index>=4">
-                            <span class="icon-column">
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-icon
-                                            small
-                                            @click="$emit('page-to-code', $store.state.codes[item.index])"
-                                            v-bind="attrs"
-                                            v-on="on"
-                                        >
-                                        visibility
-                                        </v-icon>
-                                    </template>
-                                    <span>Go to Occurrence</span>
-                                </v-tooltip>
-                            </span>
-                        </td>
-
                     </template>
 
                 </v-data-table>
@@ -89,6 +252,8 @@
 </template>
 
 <script>
+import {arrayOfIntSort} from "./ArrayUtils"
+import {arraysEqual} from "./ArrayUtils"
 import {Code_user_display_prompt} from "./code"
 
 export default {
@@ -148,6 +313,32 @@ export default {
             renameCode: null,
             selectedTab: 0,
             tab_titles: ["Unresolved Codes", "Resolved Codes", "Statistics"],
+            subheaders: [[
+                {
+                    text: 'Word Code',
+                    align: "left",
+                    sortable: true,
+                    value: 'word_codes'
+                },
+                {
+                    text: 'Category',
+                    align: "left",
+                    sortable: true,
+                    value: 'categories'
+                },
+                {
+                    text: 'Relationships',
+                    align: "left",
+                    sortable: true,
+                    value: 'relationships'
+                },
+                {
+                    text: 'Annotation Name',
+                    align: "left",
+                    sortable: true,
+                    value: 'annotation_name'
+                },]
+            ],
             headers: [
                 [  // Tab view 0
                     {
@@ -184,10 +375,10 @@ export default {
                         text: 'Annotation Name',
                         align: "left",
                         sortable: true,
-                        value: 'annotation_names'
+                        value: 'annotation_name'
                     },
                 ],
-                [  // Tab view 0
+                [  // Tab view 1
                     {
                         text: 'Document',
                         value: 'document',
@@ -222,10 +413,10 @@ export default {
                         text: 'Annotation Name',
                         align: "left",
                         sortable: true,
-                        value: 'annotation_names'
+                        value: 'annotation_name'
                     },
                 ],
-                [
+                [// Tab view 2
                     {
                         text: 'Document',
                         value: 'document',
@@ -310,25 +501,24 @@ export default {
                             for (let targetToken of toreRel.target_tokens) {
                                 targetTokenString = targetTokenString + targetToken.toString()
                             }
-                            let relationship = "${toreRel.relationship_name} -> ${targetTokenString}"
+                            let relationship = toreRel.relationship_name + "->" + targetTokenString
                             relationships.push(relationship)
                             break
                         }
                     }
                 }
-                // TODO: Schaue nach Relationship nach, lade name und target token
-                // Dann generiere Einen string mit "RelName -> TargetTokenname"
+
                 let summary = {
                     document: docName,
-                    token: this.$store.getters.tokenListToString(codeAlternative.code.tokens),
-                    annotation_names: codeAlternative.annotation_name,
+                    token: codeAlternative.code.tokens,
+                    annotation_name: codeAlternative.annotation_name,
                     word_codes: codeAlternative.code.name,
                     categories: codeAlternative.code.tore,
                     relationships: relationships,
                 }
                 if (codeAlternative.merge_status === "Pending"){
                     unresolved_summaries.push(summary)
-                } else {
+                } else if (codeAlternative.merge_status === "Accepted") {
                     resolved_summaries.push(summary)
                 }
                 found_codes.push(name);
@@ -336,6 +526,34 @@ export default {
             for (let summary of resolved_summaries) {
                 Object.freeze(summary)
             }
+
+            unresolved_summaries.sort((a, b) => arrayOfIntSort(a, b));
+
+            let lastToken = unresolved_summaries[0].token
+            let numPossibilities = 0
+
+// Handle index 0
+            unresolved_summaries[0].isFirst = true
+            numPossibilities++
+
+            for (let idx = 1; idx <= unresolved_summaries.length; idx++) {
+                if(typeof unresolved_summaries[idx] === 'undefined') {
+                    unresolved_summaries[idx-1].numPossibilities = numPossibilities
+                } else {
+                    if (arraysEqual(unresolved_summaries[idx].token, lastToken)) {
+                        unresolved_summaries[idx].isFirst = false
+                        numPossibilities++
+                    } else {
+                        for (let j = 1; j <= numPossibilities; j++){
+                            unresolved_summaries[idx-j].numPossibilities = numPossibilities
+                        }
+                        numPossibilities = 1
+                        unresolved_summaries[idx].isFirst = true
+                        lastToken = unresolved_summaries[idx].token
+                    }
+                }
+            }
+
             for (let summary of unresolved_summaries) {
                 Object.freeze(summary)
             }
@@ -429,6 +647,23 @@ export default {
 }
 </script>
 
-<style scoped>
 
+<style lang="scss">
+tbody {
+    tr:hover {
+        background-color: transparent !important;
+    }
+}
+
+
+table.v-table tbody tr,
+table.v-table tbody th {
+    min-height: 50px;
+    height: 50px;
+    max-height: 50px;
+}
+
+.trBeginning {
+    border-top: 1px solid #404040 !important;
+}
 </style>
