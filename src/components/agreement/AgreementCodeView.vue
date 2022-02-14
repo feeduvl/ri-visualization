@@ -485,7 +485,7 @@ export default {
                 let summary = {
                     document: docName,
                     token: codeAlternative.code.tokens,
-                    annotation_names: codeAlternative.annotation_name,
+                    annotation_name: codeAlternative.annotation_name,
                     word_codes: codeAlternative.code.name,
                     categories: codeAlternative.code.tore,
                     relationships: relationships,
