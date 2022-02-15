@@ -355,7 +355,7 @@ export default {
       this.$store.dispatch('actionGetSelectedAgreement');
         setTimeout(function() {
             this.$store.commit("toggleAgreementViewingCodes", true)
-        }, 2000)
+        }, 5000)
     },
 
     startComparison(agreement) {
