@@ -8,14 +8,6 @@
       {{ this.snackbarText }}
     </v-snackbar>
 
-    <EditConfigurablesDialog
-        @hide-edit-configurables="hideEditConfigurables"
-        :show="showingEditConfigurablesPopup"
-        :relationship_names="[...$store.state.relationship_names]"
-        :relationship_owners="[...$store.state.relationship_owners]"
-        :tores="[...$store.state.tores]">
-    </EditConfigurablesDialog>
-
     <AgreementSettings
         v-if="!$store.state.selected_agreement">
     </AgreementSettings>
@@ -96,19 +88,6 @@
                         Coding Results View
                     </span>
         </template>
-
-        <v-tooltip bottom
-                   :key="'toolbar_icon'+0">
-          <template #activator="{on}">
-            <v-icon v-on="on"
-                    :disabled="showingInput || $store.state.isLoadingAgreement"
-                    @click="showEditConfigurablesPopup"
-                    medium>
-              settings
-            </v-icon>
-          </template>
-          Edit Categories and Relationships
-        </v-tooltip>
 
         <v-tooltip bottom
                    :key="'toolbar_icon'+1">
@@ -195,7 +174,6 @@
             @agreement-input-trash-click="delete_selected_code"
             @agreement-input__arrow-icon-click="panelIsUp = !panelIsUp"
             @remove-dialog-stylerule="removeDialogStylerule"
-            @show-edit-configurables="showEditConfigurablesPopup"
             @reposition-dialog="positionInput"
         />
         <v-card
@@ -230,7 +208,6 @@ import AgreementCodeView from "@/components/agreement/AgreementCodeView";
 import {Code, Code_user_display_prompt} from "@/components/agreement/code";
 import {mapGetters, mapState} from "vuex";
 import AgreementSettings from "@/components/agreement/AgreementSettings";
-import EditConfigurablesDialog from "@/components/agreement/EditConfigurablesDialog";
 
 export default {
   name: "Agreement",
@@ -240,7 +217,6 @@ export default {
       tokensPerPage: 350,
 
       selectedPage: 1,
-      showingEditConfigurablesPopup: false,
 
       customStyleSheet: null,
       popupPositionStyleRuleIndex: null,
@@ -260,7 +236,7 @@ export default {
       last_token: null// used only to prevent unwanted auto-close of dialog on shift+click, ctrl+click
     }
   },
-  components: {AgreementSettings: AgreementSettings, AgreementInput, Token, AgreementCodeView, EditConfigurablesDialog},
+  components: {AgreementSettings: AgreementSettings, AgreementInput, Token, AgreementCodeView},
   computed: {
 
     tokensThisPage() {
@@ -438,18 +414,6 @@ export default {
   },
 
   methods: {
-
-    hideEditConfigurables() {
-      this.showingEditConfigurablesPopup = false;
-      if (this.showingInput) {
-        this.positionInput();
-      }
-    },
-
-    showEditConfigurablesPopup() {
-      this.removeDialogStylerule("Showing 'edit configurables' dialog");
-      this.showingEditConfigurablesPopup = true;
-    },
 
     removeDialogStylerule(reason) {
       console.log(reason + ", clearing old stylesheet")
