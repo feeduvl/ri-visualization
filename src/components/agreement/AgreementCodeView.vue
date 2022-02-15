@@ -65,7 +65,7 @@
                                 :class="{'text-xs-left': 1 > 0}"
                                 v-if="props.item.isFirst"
                                 :rowspan="props.item.numPossibilities"
-                            >{{ props.item.token }}</td>
+                            >{{ props.item.token_names }}</td>
                             <td :key="'header_column_0_2'"
                                 :class="{'text-xs-left': 2 > 0}"
                             >{{ props.item.word_codes }}</td>
@@ -90,7 +90,7 @@
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-icon
                                           small
-                                          @click="AcceptCode(item, index === headers.length-1)"
+                                          @click="acceptCode(props.item)"
                                           v-bind="attrs"
                                           v-on="on"
                                       >
@@ -103,7 +103,7 @@
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-icon
                                           small
-                                          @click="RejectCode(item, index === headers.length-1)"
+                                          @click="rejectCode(props.item)"
                                           v-bind="attrs"
                                           v-on="on"
                                       >
@@ -167,7 +167,7 @@
                             >{{ props.item.document }}</td>
                             <td :key="'header_column_0_1'"
                                 :class="{'text-xs-left': 1 > 0}"
-                            >{{ props.item.token }}</td>
+                            >{{ props.item.token_names }}</td>
                             <td :key="'header_column_0_2'"
                                 :class="{'text-xs-left': 2 > 0}"
                             >{{ props.item.word_codes }}</td>
@@ -259,25 +259,9 @@ import {Code_user_display_prompt} from "./code"
 export default {
     name: "AgreementCodeView",
     computed: {
-        frozen_code_alternatives_copy() {
-            console.warn("frozen_word_codes_copy")
-            let ret = []
-            for (let c of this.$store.state.agreement_code_alternatives) {
-                if (!c) {
-                    ret.push(c)
-                } else {
-                    let copy = {...c}
-                    Object.freeze(copy)
-                    ret.push(copy)
-                }
-            }
-            Object.freeze(ret)
-            return ret;
-        },
-
         code_alternatives() {
             console.log("Calculating code alternatives")
-            return this.generate_code_alternatives_summary(this.frozen_code_alternatives_copy.filter(c => c));
+            return this.generate_code_alternatives_summary(this.$store.state.agreement_code_alternatives);
         },
 
         statistics() {
@@ -289,7 +273,6 @@ export default {
             console.log("tab_content")
             let ret = [this.code_alternatives[0], this.code_alternatives[1], this.statistics]
             console.log(ret)
-            Object.freeze(ret)
             return ret
         }
     },
@@ -325,7 +308,7 @@ export default {
                         text: 'Token Names',
                         align: "left",
                         sortable: true,
-                        value: 'token'
+                        value: 'token_names'
                     },
                     {
                         text: 'Word Code',
@@ -363,7 +346,7 @@ export default {
                         text: 'Token Names',
                         align: "left",
                         sortable: true,
-                        value: 'token'
+                        value: 'token_names'
                     },
                     {
                         text: 'Word Code',
@@ -421,6 +404,14 @@ export default {
     },
     methods: {
 
+        // acceptCode(codeAlternativeSummary) {
+        //
+        // },
+        //
+        // rejectCode(codeAlternativeSummary) {
+        //
+        // },
+
         deleteOccurrence(item, isRelationship) {
             if (isRelationship) {
                 this.$store.commit("delete_tore_relationship", {index: item.relationship_index, TOREEntity: item.index})
@@ -448,6 +439,37 @@ export default {
             let summaries = [summary]
             Object.freeze(summaries)
             return summaries
+        },
+
+        transformUnresolvedSummaries(unresolved_summaries) {
+
+            unresolved_summaries.sort((a, b) => arrayOfIntSort(a, b));
+
+            let lastToken = unresolved_summaries[0].token
+            let numPossibilities = 0
+
+// Handle index 0
+            unresolved_summaries[0].isFirst = true
+            numPossibilities++
+
+            for (let idx = 1; idx <= unresolved_summaries.length; idx++) {
+                if(typeof unresolved_summaries[idx] === 'undefined') {
+                    unresolved_summaries[idx-1].numPossibilities = numPossibilities
+                } else {
+                    if (arraysEqual(unresolved_summaries[idx].token, lastToken)) {
+                        unresolved_summaries[idx].isFirst = false
+                        numPossibilities++
+                    } else {
+                        for (let j = 1; j <= numPossibilities; j++){
+                            unresolved_summaries[idx-j].numPossibilities = numPossibilities
+                        }
+                        numPossibilities = 1
+                        unresolved_summaries[idx].isFirst = true
+                        lastToken = unresolved_summaries[idx].token
+                    }
+                }
+            }
+            return unresolved_summaries
         },
 
         generate_code_alternatives_summary(list_of_code_alternatives) {
@@ -499,47 +521,15 @@ export default {
             }
             for (let summary of resolved_summaries) {
                 let token = summary.token
-                summary.token = this.$store.getters.tokenListToString(token)
-                Object.freeze(summary)
+                summary.token_names = this.$store.getters.tokenListToString(token)
             }
+            let transformedUnresolvedSummaries = this.transformUnresolvedSummaries(unresolved_summaries)
 
-            unresolved_summaries.sort((a, b) => arrayOfIntSort(a, b));
-
-            let lastToken = unresolved_summaries[0].token
-            let numPossibilities = 0
-
-// Handle index 0
-            unresolved_summaries[0].isFirst = true
-            numPossibilities++
-
-            for (let idx = 1; idx <= unresolved_summaries.length; idx++) {
-                if(typeof unresolved_summaries[idx] === 'undefined') {
-                    unresolved_summaries[idx-1].numPossibilities = numPossibilities
-                } else {
-                    if (arraysEqual(unresolved_summaries[idx].token, lastToken)) {
-                        unresolved_summaries[idx].isFirst = false
-                        numPossibilities++
-                    } else {
-                        for (let j = 1; j <= numPossibilities; j++){
-                            unresolved_summaries[idx-j].numPossibilities = numPossibilities
-                        }
-                        numPossibilities = 1
-                        unresolved_summaries[idx].isFirst = true
-                        lastToken = unresolved_summaries[idx].token
-                    }
-                }
-            }
-
-            for (let summary of unresolved_summaries) {
+            for (let summary of transformedUnresolvedSummaries) {
                 let token = summary.token
                 summary.token = this.$store.getters.tokenListToString(token)
-                Object.freeze(summary)
             }
-            Object.freeze(unresolved_summaries)
-            Object.freeze(resolved_summaries)
-            console.log("Summaries:")
-            console.log(unresolved_summaries)
-            console.log(resolved_summaries)
+
             return [unresolved_summaries, resolved_summaries]
         },
 

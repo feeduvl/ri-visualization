@@ -5,19 +5,19 @@
             :no-click-animation="isLinking"
             v-model="wrapInputVisible"
             v-if="wrapInputVisible"
-            id="annotator-input-dialog"
+            id="agreement-input-dialog"
             :scrollable="false"
-            class="annotator-input-dialog"
+            class="agreement-input-dialog"
         >
         <v-card
                 :elevation="0"
-                class="annotator-input"
+                class="agreement-input"
                 :disabled="disabled"
-                ref="annotator_input">
+                ref="agreement_input">
 
-            <div class="annotator-input__input-fields">
+            <div class="agreement-input__input-fields">
                 <template v-if="!isLinking"
-                          class="annotator-input-no-link">
+                          class="agreement-input-no-link">
                     <v-menu
                             bottom
                             left
@@ -134,7 +134,7 @@
                             bottom>
                         <template #activator="{on}">
                             <v-icon v-on="on"
-                                    @click="trashClicked" class="annotator-input__trash">
+                                    @click="trashClicked" class="agreement-input__trash">
                                 delete_outline
                             </v-icon>
                         </template>
@@ -146,7 +146,7 @@
 
                     <v-combobox
                             required
-                            :class="['annotator-input__name']"
+                            :class="['agreement-input__name']"
                             label="Name"
                             :items="codeNames"
                             v-model="name"
@@ -156,11 +156,11 @@
                             ref="nameInput"
                             v-if="wrapInputVisible"
                             autofocus
-                            id="annotator-input__name"
+                            id="agreement-input__name"
                     ></v-combobox>
 
                     <v-autocomplete
-                            class="annotator-input__tore"
+                            class="agreement-input__tore"
                             @change="updateTore"
                             :rules="[requiredAgreementsPresent || 'Either a name or a category is required']"
                             :items="tores"
@@ -180,7 +180,7 @@
                     </v-tooltip>
                 </template>
                 <template v-else
-                          class="annotator-input-link">
+                          class="agreement-input-link">
                     <v-tooltip bottom>
                         <template #activator="{on}">
                             <v-icon v-on="on"
@@ -207,7 +207,7 @@
                         <span>Delete This Relationship</span>
                     </v-tooltip>
 
-                    <v-autocomplete  class="annotator-input__relationship-name"
+                    <v-autocomplete  class="agreement-input__relationship-name"
                                      @change="updateRelationshipName"
                                      :items="allowedRelationshipNames"
                                      :value="relationshipName"
@@ -243,8 +243,8 @@
                 </v-tooltip>
             </div>
 
-            <div class="annotator-input__relationships" v-if="!isLinking && $store.state.selected_code && $store.state.selected_code.relationship_memberships.length > 0">
-                <v-list class="annotator-input__relationships-list">
+            <div class="agreement-input__relationships" v-if="!isLinking && $store.state.selected_code && $store.state.selected_code.relationship_memberships.length > 0">
+                <v-list class="agreement-input__relationships-list">
                     <v-subheader>Edit a relationship</v-subheader>
                     <v-list-tile
                                 @click="setSelectedToreRelationship(item)"
@@ -463,7 +463,7 @@
                 this.$store.commit("updateLastAgreementEditAt")
             },
             trashClicked(){
-                this.$emit("annotator-input-trash-click");
+                this.$emit("agreement-input-trash-click");
             },
             startLinking(){
                 this.$store.commit("setIsLinking", true);
@@ -472,7 +472,7 @@
                 this.$store.commit("setIsLinking", false);
             },
             arrowIconClicked(){
-                this.$emit("annotator-input__arrow-icon-click");
+                this.$emit("agreement-input__arrow-icon-click");
             },
             deleteRelationshipClicked(){
                 if(this.selected_tore_relationship){
@@ -502,7 +502,7 @@
 
 <style>
 
-    .annotator-input{
+    .agreement-input{
         display: flex;
         width: fit-content;
         flex-direction: column;
@@ -510,13 +510,13 @@
         border-radius: 20px !important;
     }
 
-    .annotator-input__input-fields {
+    .agreement-input__input-fields {
         display: flex;
         width: 100%;
         flex-direction: row;
     }
 
-    .annotator-input-no-link{
+    .agreement-input-no-link{
         display: flex;
         align-items: center;
         justify-content: flex-start;
@@ -524,33 +524,33 @@
         margin: 10px;
     }
 
-    .annotator-input__trash {
+    .agreement-input__trash {
         float: left;
         margin-right: 10px;
     }
 
-    .annotator-input__relationship-name {
+    .agreement-input__relationship-name {
         float: left;
         flex: 1 1 20em;
     }
 
-    .annotator-input__tore {
+    .agreement-input__tore {
         float: left;
         flex: 1 1 20em;
     }
 
-    .annotator-input__relationships-list .v-list__tile{
+    .agreement-input__relationships-list .v-list__tile{
         display: flex;
         justify-content: center;
         height: 28px;
     }
 
-    .annotator-input__relationships-list .v-subheader {
+    .agreement-input__relationships-list .v-subheader {
         display: flex;
         justify-content: center;
         height: 14px;
     }
-    .annotator-input__cancel{
+    .agreement-input__cancel{
         margin-top: 15px !important;
     }
 
