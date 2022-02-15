@@ -223,6 +223,7 @@ import axios from "axios"
 import {GRAY, GREEN_FILL, RED_FILL} from "@/colors";
 import {AGREEMENT_STATUS_ENDPOINT} from "@/RESTconf"
 import SelectableAnnotations from "@/components/agreement/SelectableAnnotations";
+import {mapState} from "vuex";
 
 export default {
   name: "AgreementSettings",
@@ -300,6 +301,10 @@ export default {
   },
 
   computed: {
+
+      ...mapState([
+          "agreementViewingCodeResults",
+      ]),
 
     deleteSnackbarVisible: {
       get() {
