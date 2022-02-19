@@ -192,7 +192,7 @@
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-icon
                                                 small
-                                                @click="$emit('page-to-code', $store.state.codes[item.index])"
+                                                @click="$emit('page-to-code', $store.state.agreement_code_alternatives[item.index])"
                                                 v-bind="attrs"
                                                 v-on="on"
                                             >
@@ -404,13 +404,13 @@ export default {
     },
     methods: {
 
-        // acceptCode(codeAlternativeSummary) {
-        //
-        // },
-        //
-        // rejectCode(codeAlternativeSummary) {
-        //
-        // },
+        acceptCode(codeAlternativeSummary) {
+            //update values of state, then reload values of tables
+        },
+
+        rejectCode(codeAlternativeSummary) {
+
+        },
 
         deleteOccurrence(item, isRelationship) {
             if (isRelationship) {
