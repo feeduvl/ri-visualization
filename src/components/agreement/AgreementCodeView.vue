@@ -260,8 +260,8 @@ export default {
     name: "AgreementCodeView",
     computed: {
         code_alternatives() {
-            console.log("Calculating code alternatives")
-            console.log("These are the agreement codes")
+            // console.log("Calculating code alternatives")
+            // console.log("These are the agreement codes")
             console.log(this.$store.state.agreement_code_alternatives)
             return this.generate_code_alternatives_summary(this.$store.state.agreement_code_alternatives);
         },
