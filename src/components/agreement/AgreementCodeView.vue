@@ -116,7 +116,7 @@
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-icon
                                                 small
-                                                @click="$emit('page-to-code', $store.state.agreement_code_alternatives.code)"
+                                                @click="$emit('page-to-code', $store.state.agreement_code_alternatives[props.item.index].code)"
                                                 v-bind="attrs"
                                                 v-on="on"
                                             >
@@ -192,7 +192,7 @@
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-icon
                                                 small
-                                                @click="$emit('page-to-code', $store.state.agreement_code_alternatives[props.index].code)"
+                                                @click="$emit('page-to-code', $store.state.agreement_code_alternatives[props.item.index].code)"
                                                 v-bind="attrs"
                                                 v-on="on"
                                             >
@@ -261,7 +261,7 @@ export default {
     computed: {
         code_alternatives() {
             console.log("Calculating code alternatives")
-            return this.generate_code_alternatives_summary(alternatives.filter(c => c));
+            return this.generate_code_alternatives_summary(this.$store.state.agreement_code_alternatives.filter(c => c));
         },
 
         statistics() {
@@ -511,6 +511,7 @@ export default {
                     word_codes: codeAlternative.code.name,
                     categories: codeAlternative.code.tore,
                     relationships: relationships,
+                    index: codeAlternative.index
                 }
                 if (codeAlternative.merge_status === "Pending"){
                     unresolved_summaries.push(summary)
