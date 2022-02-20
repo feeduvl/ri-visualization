@@ -192,7 +192,7 @@
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-icon
                                                 small
-                                                @click="$emit('page-to-code', $store.state.agreement_code_alternatives.code)"
+                                                @click="$emit('page-to-code', $store.state.agreement_code_alternatives[item.index].code)"
                                                 v-bind="attrs"
                                                 v-on="on"
                                             >
@@ -260,9 +260,7 @@ export default {
     name: "AgreementCodeView",
     computed: {
         code_alternatives() {
-            // console.log("Calculating code alternatives")
-            // console.log("These are the agreement codes")
-            let alternatives = this.$store.state.agreement_code_alternatives
+            console.log("Calculating code alternatives")
             return this.generate_code_alternatives_summary(alternatives.filter(c => c));
         },
 
@@ -480,9 +478,6 @@ export default {
             let unresolved_summaries = []
             let found_codes = []
 
-            console.log("Show list of code alternatives")
-            console.log(list_of_code_alternatives)
-
             for (let codeAlternative of list_of_code_alternatives) {
                 console.log(codeAlternative)
                 let docName = ""
@@ -528,8 +523,6 @@ export default {
                 let token = summary.token
                 summary.token_names = this.$store.getters.tokenListToString(token)
             }
-            console.log("Show unresolvedSummaries")
-            console.log(unresolved_summaries)
             if (unresolved_summaries.length !== 0){
                 unresolved_summaries = this.transformUnresolvedSummaries(unresolved_summaries)
             }

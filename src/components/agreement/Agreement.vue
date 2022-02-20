@@ -145,7 +145,7 @@
       <v-card class="agreement-token-area"
               v-if="!$store.state.isLoadingAgreement && !agreementViewingCodeResults"
               ref="agreement">
-        <Token @agreement-token-click="tokenClicked"
+        <TokenAlternative @agreement-token-click="tokenClicked"
                @agreement-token-click-shift="tokenShiftClicked"
                @agreement-token-click-ctrl="tokenCtrlClicked"
                ref="token"
@@ -163,7 +163,7 @@
                        posClass: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos,
                        agreementInputVisible: $store.state.agreementInputVisible
                    }">
-        </Token>
+        </TokenAlternative>
         <br v-for="(_, emptyLineIndex) of [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]"
             :key="'emptyline'+emptyLineIndex">
         <AgreementInput
@@ -202,7 +202,7 @@
 </template>
 
 <script>
-import Token from "@/components/agreement/Token";
+import TokenAlternative from "@/components/agreement/TokenAlternative";
 import AgreementInput from "@/components/agreement/AgreementInput";
 import AgreementCodeView from "@/components/agreement/AgreementCodeView";
 import {Code, Code_user_display_prompt} from "@/components/agreement/code";
@@ -236,7 +236,7 @@ export default {
       last_token: null// used only to prevent unwanted auto-close of dialog on shift+click, ctrl+click
     }
   },
-  components: {AgreementSettings: AgreementSettings, AgreementInput, Token, AgreementCodeView},
+  components: {TokenAlternative, AgreementSettings: AgreementSettings, AgreementInput, AgreementCodeView},
   computed: {
 
     tokensThisPage() {

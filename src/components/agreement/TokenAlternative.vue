@@ -23,7 +23,7 @@
 <script>
 
     export default {
-        name: "Token",
+        name: "TokenAlternative",
         functional:true,
 
         props: {
