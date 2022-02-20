@@ -530,9 +530,11 @@ export default {
             }
             console.log("Show unresolvedSummaries")
             console.log(unresolved_summaries)
-            let transformedUnresolvedSummaries = this.transformUnresolvedSummaries(unresolved_summaries)
+            if (unresolved_summaries.length !== 0){
+                unresolved_summaries = this.transformUnresolvedSummaries(unresolved_summaries)
+            }
 
-            for (let summary of transformedUnresolvedSummaries) {
+            for (let summary of unresolved_summaries) {
                 let token = summary.token
                 summary.token = this.$store.getters.tokenListToString(token)
             }
