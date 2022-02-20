@@ -261,6 +261,8 @@ export default {
     computed: {
         code_alternatives() {
             console.log("Calculating code alternatives")
+            console.log("These are the agreement codes")
+            console.log(this.$store.state.agreement_code_alternatives)
             return this.generate_code_alternatives_summary(this.$store.state.agreement_code_alternatives);
         },
 
@@ -477,6 +479,9 @@ export default {
             let resolved_summaries = []
             let unresolved_summaries = []
             let found_codes = []
+
+            console.log("Show list of code alternatives")
+            console.log(list_of_code_alternatives)
 
             for (let codeAlternative of list_of_code_alternatives) {
                 console.log(codeAlternative)
