@@ -192,7 +192,7 @@
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-icon
                                                 small
-                                                @click="$emit('page-to-code', $store.state.agreement_code_alternatives[item.index].code)"
+                                                @click="$emit('page-to-code', $store.state.agreement_code_alternatives[props.index].code)"
                                                 v-bind="attrs"
                                                 v-on="on"
                                             >
