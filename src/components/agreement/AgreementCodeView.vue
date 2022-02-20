@@ -90,7 +90,7 @@
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-icon
                                           small
-                                          @click="acceptCode(props.item)"
+                                          @click="acceptCode(props.item.index)"
                                           v-bind="attrs"
                                           v-on="on"
                                       >
@@ -103,7 +103,7 @@
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-icon
                                           small
-                                          @click="rejectCode(props.item)"
+                                          @click="rejectCode(props.item.index)"
                                           v-bind="attrs"
                                           v-on="on"
                                       >
@@ -404,12 +404,18 @@ export default {
     },
     methods: {
 
-        acceptCode(codeAlternativeSummary) {
-            //update values of state, then reload values of tables
+        acceptCode(index) {
+            this.$store.commit('changeStatusOfCodeAlternative', {
+                status: "Accepted",
+                index: index
+            })
         },
 
-        rejectCode(codeAlternativeSummary) {
-
+        rejectCode(index) {
+            this.$store.commit('changeStatusOfCodeAlternative', {
+                status: "Declined",
+                index: index
+            })
         },
 
         deleteOccurrence(item, isRelationship) {
