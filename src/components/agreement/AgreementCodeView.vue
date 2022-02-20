@@ -2,6 +2,7 @@
     <div>
         <v-container
             class="agreement-downloads"
+            v-if="$store.state.agreement_is_completed"
         >
             <v-layout row justify-left align-center>
                 <v-flex>
