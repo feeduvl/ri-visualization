@@ -109,7 +109,7 @@
 
       <v-data-table
           :headers="tableHeaders"
-          :items="$store.state.available_agreements"
+          :items="availableAgreements"
           :search="search"
       >
         <template v-slot:items="props">
@@ -299,6 +299,10 @@ export default {
   },
 
   computed: {
+
+      availableAgreements() {
+          return this.$store.state.available_agreements
+      },
 
     deleteSnackbarVisible: {
       get() {
