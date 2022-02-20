@@ -405,6 +405,7 @@ export default {
     methods: {
 
         acceptCode(index) {
+            console.log("This is the index: "+index)
             this.$store.commit('changeStatusOfCodeAlternative', {
                 status: "Accepted",
                 index: index

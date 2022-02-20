@@ -289,5 +289,6 @@ export const toggleAgreementViewingCodes = (state, show) => {
 };
 
 export const changeStatusOfCodeAlternative = (state, change) => {
+  console.log("Status of index "+change.index + " changed to: "+change.status);
   state.agreement_code_alternatives[change.index] = change.status;
 };
