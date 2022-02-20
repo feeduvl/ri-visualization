@@ -224,11 +224,12 @@ export const store = new Vuex.Store({
     },
 
     // eslint-disable-next-line camelcase
-    setAgreementPayload(state, {name, tokens, code_alternatives, docs, created_at, dataset, annotation_names, isCompleted}){
+    setAgreementPayload(state, {name, tokens, code_alternatives, docs, created_at, dataset, annotation_names, is_completed}){
       // eslint-disable-next-line camelcase
       state.agreement_created_at = created_at;
       state.agreement_dataset = dataset;
-      state.agreement_is_completed = isCompleted;
+      // eslint-disable-next-line camelcase
+      state.agreement_is_completed = is_completed;
       // eslint-disable-next-line camelcase
       state.agreement_annotation_names = annotation_names;
 
