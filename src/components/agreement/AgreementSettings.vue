@@ -352,11 +352,7 @@ export default {
     viewCodeResults(agreement) {
       this.$store.commit("updateSelectedAgreement", agreement.name)
       this.$store.dispatch('actionGetSelectedAgreement');
-      console.log("Next step would be to toggle agreement codes")
-      console.log(this.$store.state.agreementViewingCodeResults)
       this.$store.commit("toggleAgreementViewingCodes", true)
-        console.log("Afterwards")
-        console.log(this.$store.state.agreementViewingCodeResults)
     },
 
     startComparison(agreement) {
