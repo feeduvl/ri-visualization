@@ -532,7 +532,7 @@ export default {
                     }
                 }
                 let relationships = []
-                let toreRelationships = codeAlternative.tore_relationships
+                let toreRelationships = this.$store.state.agreement_tore_relationships
                 let relationshipReferences = codeAlternative.code.relationship_memberships
                 for (let relationshipRef of relationshipReferences) {
                     for (let toreRel of toreRelationships) {

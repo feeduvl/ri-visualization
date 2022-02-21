@@ -104,6 +104,7 @@ export const store = new Vuex.Store({
     agreement_uploaded_at: null,
     agreement_dataset: null,
     agreement_annotation_names: [],
+    agreement_tore_relationships: [],
 
     agreement_code_alternatives: [],
 
@@ -229,10 +230,12 @@ export const store = new Vuex.Store({
     },
 
     // eslint-disable-next-line camelcase
-    setAgreementPayload(state, {name, tokens, code_alternatives, docs, created_at, dataset, annotation_names, is_completed}){
+    setAgreementPayload(state, {name, tokens, code_alternatives, tore_relationships, docs, created_at, dataset, annotation_names, is_completed}){
       // eslint-disable-next-line camelcase
       state.agreement_created_at = created_at;
       state.agreement_dataset = dataset;
+      // eslint-disable-next-line camelcase
+      state.agreement_tore_relationships = tore_relationships;
       // eslint-disable-next-line camelcase
       state.agreement_is_completed = is_completed;
       // eslint-disable-next-line camelcase
@@ -360,6 +363,7 @@ export const store = new Vuex.Store({
       state.lastAgreementEditAt = null;
       state.lastAgreementPostAt = null;
 
+      state.agreement_tore_relationships = [];
       state.agreement_dataset = null;
       state.agreement_uploaded_at = null;
       state.agreement_annotation_names = [];
