@@ -30,20 +30,11 @@
                     </v-text-field>
                 </v-flex>
                 <v-flex>
-                    <v-tooltip bottom>
-                        <template #activator="{on}">
-                            <v-btn
-                                v-on="on"
-                                :disabled="!addingAnnotationName || $store.state.available_annotations.filter(a => a.name === addingAnnotationName).length > 0"
-                                @click="exportAnnotation"
-                            >
-                                Export As Annotation
-                            </v-btn>
-                        </template>
-                        <span>
-                            Create new Agreement
-                        </span>
-                    </v-tooltip>
+                    <v-btn
+                        :disabled="!addingAnnotationName || $store.state.available_annotations.filter(a => a.name === addingAnnotationName).length > 0"
+                        @click="exportAnnotation">
+                        Export As Annotation
+                    </v-btn>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -452,6 +443,7 @@ export default {
         },
 
         exportAnnotation(){
+            console.log("Start export")
             this.$store.commit("prepareParametersForAnnotationExport", this.addingAnnotationName)
             this.$store.dispatch('actionExportCurrentAgreementAsAnnotation');
         },

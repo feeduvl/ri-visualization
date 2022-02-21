@@ -305,6 +305,8 @@ export const updateIsCompleted = state => {
 };
 
 export const prepareParametersForAnnotationExport = (state, annotationName) => {
+  console.log("Setting name to:");
+  console.log(annotationName);
   state.exportedAnnotationName = annotationName;
   if (state.agreement_is_completed){
     let acceptedAlternatives = state.agreement_code_alternatives.filter(obj => {
@@ -347,5 +349,9 @@ export const prepareParametersForAnnotationExport = (state, annotationName) => {
 
     state.exportedAnnotationTORERelationships = usedToreRelationships;
     state.exportedAnnotationCodes = acceptedAlternatives;
+    console.log("usedToreRelationships: ");
+    console.log(usedToreRelationships);
+    console.log("acceptedAlternatives: ");
+    console.log(acceptedAlternatives);
   }
 };
