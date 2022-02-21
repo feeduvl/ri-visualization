@@ -537,9 +537,9 @@ export default {
                 for (let relationshipRef of relationshipReferences) {
                     for (let toreRel of toreRelationships) {
                         if (toreRel.index === relationshipRef) {
-                            let targetTokenString = ""
+                            let targetTokenString = []
                             for (let targetToken of toreRel.target_tokens) {
-                                targetTokenString = targetTokenString + targetToken.toString()
+                                targetTokenString.push(targetToken)
                             }
                             let relationship = toreRel.relationship_name + "->" + this.$store.getters.tokenListToString(targetTokenString)
                             relationships.push(relationship)
