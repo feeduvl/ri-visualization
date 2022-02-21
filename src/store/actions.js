@@ -252,7 +252,7 @@ export const actionExportCurrentAgreementAsAnnotation = ({state, commit}) => {
       uploaded_at: Date.now(),
       dataset: state.agreement_dataset,
       name: state.exportedAnnotationName,
-      tokens: state.tokens,
+      tokens: state.exportedAnnotationTokens,
       tore_relationships: state.exportedAnnotationTORERelationships,
       codes: state.exportedAnnotationCodes,
       docs: state.docs.slice(1, state.docs.length)
