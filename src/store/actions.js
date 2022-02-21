@@ -248,8 +248,10 @@ export const actionExportCurrentAgreementAsAnnotation = ({state, commit}) => {
   return new Promise(() => {
     console.log("Exporting agreement as annotation: "+state.selected_agreement);
     commit("postAnnotationCallback");
+    let date = new Date();
+    let dateString = date.toISOString();
     axios.post(ANNOTATION_POST_ENDPOINT, {
-      uploaded_at: Date.now(),
+      uploaded_at: dateString,
       dataset: state.agreement_dataset,
       name: state.exportedAnnotationName,
       tokens: state.exportedAnnotationTokens,
