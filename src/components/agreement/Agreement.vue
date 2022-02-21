@@ -103,7 +103,6 @@
         </v-tooltip>
 
         <v-tooltip bottom
-                   v-if="!agreementViewingCodeResults"
                    :key="'toolbar_icon'+2">
           <template #activator="{on}">
             <v-icon v-on="on"
