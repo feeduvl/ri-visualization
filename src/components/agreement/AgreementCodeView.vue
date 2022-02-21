@@ -1,5 +1,13 @@
 <template>
     <div>
+        <v-snackbar
+            class="exported-agreement-snackbar"
+            v-model="show_snackbar"
+            :timeout="2500"
+        >
+            {{this.snackbarText}}
+        </v-snackbar>
+
         <v-container
             class="agreement-downloads"
         >
@@ -301,6 +309,8 @@ export default {
     data: () => {
         return {
             addingAnnotationName: "",
+            snackbarText: "",
+            show_snackbar: false,
             paginations: [{
                 page: 1,
                 descending: false,
@@ -446,6 +456,12 @@ export default {
             console.log("Start export")
             this.$store.commit("prepareParametersForAnnotationExport", this.addingAnnotationName)
             this.$store.dispatch('actionExportCurrentAgreementAsAnnotation');
+            this.doShowSnackbar({msg:"Agreement exported as annotation."})
+        },
+
+        doShowSnackbar({msg}){
+            this.snackbarText = msg;
+            this.show_snackbar = true;
         },
 
         deleteOccurrence(item, isRelationship) {
