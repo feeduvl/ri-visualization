@@ -293,6 +293,17 @@ export const changeStatusOfCodeAlternative = (state, change) => {
   state.agreement_code_alternatives[change.index].merge_status = change.status;
 };
 
+export const updateIsCompleted = state => {
+  console.log("Check completion status of agreement");
+  let isComplete = true;
+  state.agreement_code_alternatives.forEach(function (item, index) {
+    if(item.merge_status === "Pending") {
+      isComplete = false;
+    }
+  });
+  state.agreement_is_completed = isComplete;
+};
+
 export const prepareParametersForAnnotationExport = (state, annotationName) => {
   state.exportedAnnotationName = annotationName;
 

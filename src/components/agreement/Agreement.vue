@@ -652,6 +652,7 @@ export default {
 
     doSaveAgreement(autosave) {
       this.$store.dispatch('actionPostCurrentAgreement')
+        this.$store.commit("updateIsCompleted");
       if (autosave) {
         this.doShowSnackbar({msg: "Auto-saved."})
       } else {
