@@ -244,6 +244,26 @@ export const actionPostCurrentAnnotation = ({state, commit}) => {
   });
 };
 
+export const actionExportCurrentAgreementAsAnnotation = ({state, commit}) => {
+  return new Promise(() => {
+    console.log("Exporting agreement as annotation: "+state.selected_agreement);
+    commit("postAnnotationCallback");
+    axios.post(ANNOTATION_POST_ENDPOINT, {
+      uploaded_at: Date.now(),
+      dataset: state.agreement_dataset,
+      name: state.exportedAnnotationName,
+      tokens: state.tokens,
+      tore_relationships: state.exportedAnnotationTORERelationships,
+      codes: state.exportedAnnotationCodes,
+      docs: state.docs.slice(1, state.docs.length)
+    })
+      .then(() => {
+        console.log("Got annotation POST response");
+      })
+      .catch(e => console.error("Error POSTing annotation: "+e));
+  });
+};
+
 export const actionPostCurrentAgreement = ({state, commit}) => {
   return new Promise(() => {
     console.log("Posting agreement: "+state.selected_agreement);

@@ -115,7 +115,12 @@ export const store = new Vuex.Store({
     selected_agreement: null,
     isLoadingAvailableAgreements: false,
     lastAgreementEditAt: null,
-    lastAgreementPostAt: null
+    lastAgreementPostAt: null,
+
+    exportedAnnotationName: null,
+    exportedAnnotationTORERelationships: [],
+    exportedAnnotationCodes: [],
+    exportedAnnotationTokens: []
 
     // END ANNOTATION STUFF
 
@@ -366,6 +371,10 @@ export const store = new Vuex.Store({
       state.tokens = [];
       state.docs = [];
       state.agreement_code_alternatives = [];
+      state.exportedAnnotationName = null;
+      state.exportedAnnotationTORERelationships = [];
+      state.exportedAnnotationCodes = [];
+      state.exportedAnnotationTokens = [];
 
       this.commit("initTokensEfficiencyStructs", true);
     }

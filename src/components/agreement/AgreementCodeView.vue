@@ -2,7 +2,6 @@
     <div>
         <v-container
             class="agreement-downloads"
-            v-if="$store.state.agreement_is_completed"
         >
             <v-layout row justify-left align-center>
                 <v-flex>
@@ -14,6 +13,37 @@
                         @click="downloadAllTabs">
                         Download All
                     </v-btn>
+                </v-flex>
+            </v-layout>
+        </v-container>
+        <v-container
+            class="agreement-downloads"
+            v-if="$store.state.agreement_is_completed"
+        >
+            <v-layout row justify-center align-center>
+                <v-flex>
+                    <v-text-field
+                        class="annotator-agreement-text-input annotator-agreement-settings__name-input"
+                        :rules="[!$store.state.available_annotations.filter(a => a.name === addingAnnotationName).length > 0 || 'Name is already in use.']"
+                        label="Enter a unique annotation name"
+                        v-model="addingAnnotationName">
+                    </v-text-field>
+                </v-flex>
+                <v-flex>
+                    <v-tooltip bottom>
+                        <template #activator="{on}">
+                            <v-btn
+                                v-on="on"
+                                :disabled="!addingAnnotationName || $store.state.available_annotations.filter(a => a.name === addingAnnotationName).length > 0"
+                                @click="exportAnnotation"
+                            >
+                                Export As Annotation
+                            </v-btn>
+                        </template>
+                        <span>
+                            Create new Agreement
+                        </span>
+                    </v-tooltip>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -279,6 +309,7 @@ export default {
     },
     data: () => {
         return {
+            addingAnnotationName: "",
             paginations: [{
                 page: 1,
                 descending: false,
@@ -418,6 +449,11 @@ export default {
                 status: "Declined",
                 index: index
             })
+        },
+
+        exportAnnotation(){
+            this.$store.commit("prepareParametersForAnnotationExport", this.addingAnnotationName)
+            // this.$store.dispatch('actionExportCurrentAgreementAsAnnotation');
         },
 
         deleteOccurrence(item, isRelationship) {
