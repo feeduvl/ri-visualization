@@ -330,6 +330,8 @@ export const prepareParametersForAnnotationExport = (state, annotationName) => {
       return isFound;
     });
 
+    let newTokens = [];
+
     state.tokens.forEach(function (item, index){
       let numNameCodes = 0;
       let numToreCodes = 0;
@@ -343,15 +345,19 @@ export const prepareParametersForAnnotationExport = (state, annotationName) => {
           }
         }
       });
-      item.num_tore_codes = numToreCodes;
-      item.num_name_codes = numNameCodes;
+      let newToken = {
+        index: item.index,
+        name: item.name,
+        lemma: item.lemma,
+        pos: item.pos,
+        num_name_codes: numNameCodes,
+        num_tore_codes: numToreCodes
+      };
+      newTokens.push(newToken);
     });
 
     state.exportedAnnotationTORERelationships = usedToreRelationships;
     state.exportedAnnotationCodes = acceptedAlternatives;
-    console.log("usedToreRelationships: ");
-    console.log(usedToreRelationships);
-    console.log("acceptedAlternatives: ");
-    console.log(acceptedAlternatives);
+    state.exportedAnnotationTokens = newTokens;
   }
 };
