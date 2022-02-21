@@ -375,6 +375,7 @@ export const store = new Vuex.Store({
       state.tokens = [];
       state.docs = [];
       state.agreement_code_alternatives = [];
+
       state.exportedAnnotationName = null;
       state.exportedAnnotationTORERelationships = [];
       state.exportedAnnotationCodes = [];

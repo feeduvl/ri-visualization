@@ -306,5 +306,46 @@ export const updateIsCompleted = state => {
 
 export const prepareParametersForAnnotationExport = (state, annotationName) => {
   state.exportedAnnotationName = annotationName;
+  if (state.agreement_is_completed){
+    let acceptedAlternatives = state.agreement_code_alternatives.filter(obj => {
+      return obj.merge_status === "Accepted";
+    }).map(acc => acc.code);
 
+    let usedRelationshipIndices = new Set([]);
+    acceptedAlternatives.forEach(function (item) {
+      item.relationship_memberships.forEach(function (item1){
+        usedRelationshipIndices.add(item1);
+      });
+    });
+
+    let usedToreRelationships = state.agreement_tore_relationships.filter(obj => {
+      let isFound = false;
+      usedRelationshipIndices.forEach(function (item) {
+        if (item === obj.index) {
+          isFound = true;
+        }
+      });
+      return isFound;
+    });
+
+    state.tokens.forEach(function (item, index){
+      let numNameCodes = 0;
+      let numToreCodes = 0;
+      acceptedAlternatives.forEach(function (item1){
+        if (item1.tokens.includes(item.index)){
+          if (item1.tore !== ""){
+            numToreCodes++;
+          }
+          if (item1.name !== ""){
+            numNameCodes++;
+          }
+        }
+      });
+      item.num_tore_codes = numToreCodes;
+      item.num_name_codes = numNameCodes;
+    });
+
+    state.exportedAnnotationTORERelationships = usedToreRelationships;
+    state.exportedAnnotationCodes = acceptedAlternatives;
+  }
 };

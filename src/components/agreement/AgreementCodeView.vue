@@ -453,7 +453,7 @@ export default {
 
         exportAnnotation(){
             this.$store.commit("prepareParametersForAnnotationExport", this.addingAnnotationName)
-            // this.$store.dispatch('actionExportCurrentAgreementAsAnnotation');
+            this.$store.dispatch('actionExportCurrentAgreementAsAnnotation');
         },
 
         deleteOccurrence(item, isRelationship) {
