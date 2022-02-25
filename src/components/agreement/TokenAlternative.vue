@@ -8,7 +8,7 @@
             props.show_pos ? props.posClass:'token-outer-default', 'whitespace',
             {
               isResolved: props.isResolved,
-              isUnresolved: !props.isResolved,
+              isUnresolved: props.isResolved === false,
               isAlgoLemma: props.algo_lemma,
               highlightInSelectedCode: (( props.agreementInputVisible) && props.inSelectedCode), // currently SELECTED code
               linkedTogether: props.linkedTogether
