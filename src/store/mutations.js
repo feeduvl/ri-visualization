@@ -337,8 +337,8 @@ export const initResolvedStatusOfTokens = state => {
 };
 
 export const updateResolvedStatusOfTokens = (state, codeAlternative) => {
-  codeAlternative.code.tokens.forEach(function (token) {
-    state.unResolvedCodesPerToken[token.index] = state.unResolvedCodesPerToken[token.index].filter(obj => {
+  codeAlternative.token.forEach(function (tokenIndex) {
+    state.unResolvedCodesPerToken[tokenIndex] = state.unResolvedCodesPerToken[tokenIndex].filter(obj => {
       return obj !== codeAlternative.index;
     });
   });
