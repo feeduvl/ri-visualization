@@ -236,7 +236,11 @@ export default {
 
       tokenIsResolved() {
           return this.unResolvedCodesPerToken.map(obj => {
-              return obj.length === 0
+              if (obj[0] === null) {
+                  return null
+              } else {
+                  return obj.length === 0
+              }
           })
       },
 
