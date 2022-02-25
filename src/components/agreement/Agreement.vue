@@ -418,7 +418,13 @@ export default {
     methods: {
 
         updateIsResolved() {
+            console.log("update was called from childcomponent")
+            console.log("output of method:")
+            console.log(this.calculateIsResolved())
             this.tokenIsResolved = this.calculateIsResolved()
+
+            console.log("TokenIsResolvedChangedTo:")
+            console.log(this.tokenIsResolved)
         },
 
         calculateIsResolved() {
