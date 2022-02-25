@@ -107,6 +107,8 @@ export const store = new Vuex.Store({
     agreement_tore_relationships: [],
 
     agreement_code_alternatives: [],
+    //List of equal size as tokens, each position contains all unresolved codeAlternatives connected to that token
+    unResolvedCodesPerToken: [],
 
     agreement_is_completed: null,
 
@@ -247,6 +249,7 @@ export const store = new Vuex.Store({
       Object.freeze(tokens);  // performance boost
       state.tokens = tokens;
       this.commit("initTokensEfficiencyStructs", false);
+      this.commit("initResolvedStatusOfTokens");
 
       // eslint-disable-next-line camelcase
       state.agreement_code_alternatives = code_alternatives;
@@ -373,6 +376,7 @@ export const store = new Vuex.Store({
       state.selected_algo_result = null;
 
       state.tokens = [];
+      state.unResolvedCodesPerToken = [];
       state.docs = [];
       state.agreement_code_alternatives = [];
 

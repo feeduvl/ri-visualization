@@ -1,19 +1,16 @@
 <template functional>
         <span
             @click.exact="listeners['agreement-token-click'](props.index)"
-            @click.shift="listeners['agreement-token-click-shift'](props.index)"
-            @click.ctrl="listeners['agreement-token-click-ctrl'](props.index)"
 
             :id="'token_'+props.index"
             class="agreement-token-inner"
             :class="['token-inner-default',
-            props.show_pos && !props.isLinking ? props.posClass:'token-outer-default', 'whitespace',
+            props.show_pos ? props.posClass:'token-outer-default', 'whitespace',
             {
-              hasOnlyName: props.hasName && !props.hasTore,  // indicates that a token has been assigned to a code
-              hasOnlyTore: !props.hasName && props.hasTore,
-              hasBoth: props.hasName && props.hasTore,
+              isResolved: props.isResolved,
+              isUnresolved: !props.isResolved,
               isAlgoLemma: props.algo_lemma,
-              highlightInSelectedCode: ((props.isLinking || props.agreementInputVisible) && props.inSelectedCode), // currently SELECTED code
+              highlightInSelectedCode: (( props.agreementInputVisible) && props.inSelectedCode), // currently SELECTED code
               linkedTogether: props.linkedTogether
             }]">
           {{props.name}}
@@ -43,20 +40,12 @@
                 required: true
             },
 
-            hasName: {
-                type: Boolean,
-                required: true
-            },
-            hasTore: {
+            isResolved: {
                 type: Boolean,
                 required: true
             },
 
             linkedTogether: {
-                type: Boolean,
-                required: true
-            },
-            isLinking: {
                 type: Boolean,
                 required: true
             },
@@ -109,16 +98,11 @@
         margin-right: 0.7em;
     }
 
-    .hasOnlyName {
-        background-color: lightblue;
+    .isUnresolved {
+        background-color: #bd3518;
     }
 
-    .hasOnlyTore {
-        background-color: #fff668;
-    }
-
-
-    .hasBoth {
+    .isResolved {
         background-color: #66f877;
     }
 

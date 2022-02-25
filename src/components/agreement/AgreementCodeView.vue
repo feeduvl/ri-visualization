@@ -120,7 +120,7 @@
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-icon
                                           small
-                                          @click="acceptCode(props.item.index)"
+                                          @click="acceptCode(props.item)"
                                           v-bind="attrs"
                                           v-on="on"
                                       >
@@ -133,7 +133,7 @@
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-icon
                                           small
-                                          @click="rejectCode(props.item.index)"
+                                          @click="rejectCode(props.item)"
                                           v-bind="attrs"
                                           v-on="on"
                                       >
@@ -437,19 +437,20 @@ export default {
     },
     methods: {
 
-        acceptCode(index) {
-            console.log("This is the index: "+index)
+        acceptCode(alternative) {
             this.$store.commit('changeStatusOfCodeAlternative', {
                 status: "Accepted",
-                index: index
+                index: alternative.index
             })
+            this.$store.commit("updateResolvedStatusOfTokens", alternative)
         },
 
-        rejectCode(index) {
+        rejectCode(alternative) {
             this.$store.commit('changeStatusOfCodeAlternative', {
                 status: "Declined",
-                index: index
+                index: alternative.index
             })
+            this.$store.commit("updateResolvedStatusOfTokens", alternative)
         },
 
         exportAnnotation(){

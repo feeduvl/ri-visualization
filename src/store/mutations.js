@@ -1,7 +1,9 @@
 /* eslint-disable keyword-spacing,camelcase,no-param-reassign,valid-jsdoc */
 import Vue from 'vue';
 import {
-  TORERelationship_add_token, TORERelationship_set_relationship_name, TORERelationship_remove_token
+  TORERelationship_add_token,
+  TORERelationship_remove_token,
+  TORERelationship_set_relationship_name
 } from "../components/annotator/code";
 
 export const mutateInitialData = (state, initialData) => {
@@ -302,6 +304,33 @@ export const updateIsCompleted = state => {
     }
   });
   state.agreement_is_completed = isComplete;
+};
+
+export const initResolvedStatusOfTokens = state => {
+  let unResolvedCodesPerToken = [];
+
+  state.tokens.forEach(function (item, index){
+    let unresolvedAlternatives = [];
+    state.agreement_code_alternatives.forEach(function (item1){
+      let alternatives = item1.map(acc => acc.code);
+      if (alternatives.tokens.includes(item.index)){
+        if (alternatives.merge_status === "Pending"){
+          unresolvedAlternatives.push(item1.index);
+        }
+      }
+    });
+    unResolvedCodesPerToken.push(unresolvedAlternatives);
+  });
+
+  state.unResolvedCodesPerToken = unResolvedCodesPerToken;
+};
+
+export const updateResolvedStatusOfTokens = (state, codeAlternative) => {
+  codeAlternative.code.tokens.forEach(function (token) {
+    state.unResolvedCodesPerToken[token.index] = state.unResolvedCodesPerToken[token.index].filter(obj => {
+      return obj !== codeAlternative.index;
+    });
+  });
 };
 
 export const prepareParametersForAnnotationExport = (state, annotationName) => {

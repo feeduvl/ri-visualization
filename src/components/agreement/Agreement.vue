@@ -145,18 +145,14 @@
               v-if="!$store.state.isLoadingAgreement && !agreementViewingCodeResults"
               ref="agreement">
         <TokenAlternative @agreement-token-click="tokenClicked"
-               @agreement-token-click-shift="tokenShiftClicked"
-               @agreement-token-click-ctrl="tokenCtrlClicked"
                ref="token"
                v-for="token_number in tokensThisPage"
                :key="selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1"
                v-bind="{
                        ...$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
                        inSelectedCode: $store.state.token_in_selected_code[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
-                       hasName: $store.state.token_num_name_codes[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1] > 0,
-                       hasTore: $store.state.token_num_tore_codes[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1] > 0,
                        linkedTogether: isLinking && $store.state.token_linked_together[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
-                       isLinking: isLinking,
+                       isResolved: tokenIsResolved[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
                        algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma?$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma.toLowerCase():''),
                        show_pos: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos!==null && $store.state.selected_pos_tags.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos),
                        posClass: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos,
@@ -237,6 +233,12 @@ export default {
   },
   components: {TokenAlternative, AgreementSettings: AgreementSettings, AgreementInput, AgreementCodeView},
   computed: {
+
+      tokenIsResolved() {
+          return this.unResolvedCodesPerToken.map(obj => {
+              return obj.length === 0
+          })
+      },
 
     tokensThisPage() {
       if ((this.selectedPage * this.tokensPerPage) <= (this.selected_doc.end_index - this.selected_doc.begin_index)) {
@@ -363,7 +365,8 @@ export default {
       "lastAgreementEditAt",
       "lastAgreementPostAt",
       "agreementViewingCodeResults",
-      "selected_doc"
+      "selected_doc",
+        "unResolvedCodesPerToken"
     ])
   },
 
