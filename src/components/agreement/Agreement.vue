@@ -377,7 +377,13 @@ export default {
   watch: {
 
       unResolvedCodesPerToken() {
-          this.tokenIsResolved()
+          this.tokenIsResolved = this.unResolvedCodesPerToken.map(obj => {
+              if (obj[0] === null) {
+                  return null
+              } else {
+                  return obj.length === 0
+              }
+          })
       },
 
     agreementViewingCodeResults() {
