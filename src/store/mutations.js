@@ -307,6 +307,7 @@ export const updateIsCompleted = state => {
 };
 
 export const initResolvedStatusOfTokens = state => {
+  console.log("Initializing resolved status of agreement");
   let unResolvedCodesPerToken = [];
 
   state.tokens.forEach(function (item, index){

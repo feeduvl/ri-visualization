@@ -249,10 +249,11 @@ export const store = new Vuex.Store({
       Object.freeze(tokens);  // performance boost
       state.tokens = tokens;
       this.commit("initTokensEfficiencyStructs", false);
-      this.commit("initResolvedStatusOfTokens");
 
       // eslint-disable-next-line camelcase
       state.agreement_code_alternatives = code_alternatives;
+
+      this.commit("initResolvedStatusOfTokens");
 
       let newDocs = [state.all_docs].concat(docs);
       state.all_docs.end_index = tokens.length;
