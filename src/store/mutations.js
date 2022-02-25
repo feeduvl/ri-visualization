@@ -318,9 +318,6 @@ export const initResolvedStatusOfTokens = state => {
       if (alternativeCode.tokens.includes(item.index)){
         hasSomeAlternativeCode = true;
         if (item1.merge_status === "Pending"){
-          console.log("Found a pending one!");
-          console.log("item1 index");
-          console.log(item1.index);
           unresolvedAlternatives.push(item1.index);
           console.log(unresolvedAlternatives);
         }

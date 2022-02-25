@@ -190,6 +190,7 @@
             <AgreementCodeView
                 @page-to-code="pageToCode"
                 @show-snackbar="doShowSnackbar"
+                @resolved-status-of-tokens-updated="updateIsResolved"
                 v-if="agreementViewingCodeResults">
             </AgreementCodeView>
         </div>
@@ -364,7 +365,8 @@ export default {
             "lastAgreementEditAt",
             "lastAgreementPostAt",
             "agreementViewingCodeResults",
-            "selected_doc"
+            "selected_doc",
+            "unResolvedCodesPerToken"
         ])
     },
 
@@ -415,9 +417,13 @@ export default {
 
     methods: {
 
+        updateIsResolved() {
+            this.tokenIsResolved = this.calculateIsResolved()
+        },
+
         calculateIsResolved() {
             console.log("Method reacted")
-            return this.$store.state.unResolvedCodesPerToken.map(obj => {
+            return this.unResolvedCodesPerToken.map(obj => {
                 if (obj[0] === null) {
                     return null
                 } else {

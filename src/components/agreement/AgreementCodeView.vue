@@ -443,6 +443,7 @@ export default {
                 index: alternative.index
             })
             this.$store.commit("updateResolvedStatusOfTokens", alternative)
+            this.$emit('resolved-status-of-tokens-updated')
         },
 
         rejectCode(alternative) {
@@ -451,6 +452,7 @@ export default {
                 index: alternative.index
             })
             this.$store.commit("updateResolvedStatusOfTokens", alternative)
+            this.$emit('resolvedStatusOfTokensUpdated')
         },
 
         exportAnnotation(){
