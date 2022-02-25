@@ -235,6 +235,7 @@ export default {
     computed: {
 
         tokenIsResolved() {
+            console.log("Computed property reacted")
             return this.calculateIsResolved()
         },
 
@@ -371,6 +372,7 @@ export default {
     watch: {
 
         unResolvedCodesPerToken() {
+            console.log("Watcher reacted")
             this.tokenIsResolved = this.calculateIsResolved()
         },
 
@@ -420,6 +422,7 @@ export default {
     methods: {
 
         calculateIsResolved() {
+            console.log("Method reacted")
             return this.unResolvedCodesPerToken.map(obj => {
                 if (obj[0] === null) {
                     return null
