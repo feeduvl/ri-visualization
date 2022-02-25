@@ -364,17 +364,11 @@ export default {
             "lastAgreementEditAt",
             "lastAgreementPostAt",
             "agreementViewingCodeResults",
-            "selected_doc",
-            "unResolvedCodesPerToken"
+            "selected_doc"
         ])
     },
 
     watch: {
-
-        unResolvedCodesPerToken() {
-            console.log("Watcher reacted")
-            this.tokenIsResolved = this.calculateIsResolved()
-        },
 
         agreementViewingCodeResults() {
             console.log("Watching agreement code results")
@@ -423,7 +417,7 @@ export default {
 
         calculateIsResolved() {
             console.log("Method reacted")
-            return this.unResolvedCodesPerToken.map(obj => {
+            return this.$store.state.unResolvedCodesPerToken.map(obj => {
                 if (obj[0] === null) {
                     return null
                 } else {
