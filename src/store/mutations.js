@@ -310,17 +310,12 @@ export const initResolvedStatusOfTokens = state => {
   console.log("Initializing resolved status of agreement");
   let unResolvedCodesPerToken = [];
 
-  console.log("agreement alternatives:");
-  console.log(state.agreement_code_alternatives);
-
   state.tokens.forEach(function (item, index){
     let unresolvedAlternatives = [];
     state.agreement_code_alternatives.forEach(function (item1){
-      console.log("item1:");
-      console.log(item1);
-      let alternatives = item1.map(acc => acc.code);
-      if (alternatives.tokens.includes(item.index)){
-        if (alternatives.merge_status === "Pending"){
+      let alternativeCode = item1.code;
+      if (alternativeCode.tokens.includes(item.index)){
+        if (alternativeCode.merge_status === "Pending"){
           unresolvedAlternatives.push(item1.index);
         }
       }
