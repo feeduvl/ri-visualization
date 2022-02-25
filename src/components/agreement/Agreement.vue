@@ -376,6 +376,10 @@ export default {
 
   watch: {
 
+      unResolvedCodesPerToken() {
+          this.tokenIsResolved()
+      },
+
     agreementViewingCodeResults() {
         console.log("Watching agreement code results")
       if (this.agreementViewingCodeResults) {
