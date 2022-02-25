@@ -314,6 +314,10 @@ export const initResolvedStatusOfTokens = state => {
     let unresolvedAlternatives = [];
     state.agreement_code_alternatives.forEach(function (item1){
       let alternativeCode = item1.code;
+      console.log("alternativeCode:");
+      console.log(alternativeCode);
+      console.log("item.index:");
+      console.log(item.index);
       if (alternativeCode.tokens.includes(item.index)){
         if (alternativeCode.merge_status === "Pending"){
           unresolvedAlternatives.push(item1.index);

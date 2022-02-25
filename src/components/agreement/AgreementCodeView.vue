@@ -532,7 +532,6 @@ export default {
             let found_codes = []
 
             for (let codeAlternative of list_of_code_alternatives) {
-                console.log(codeAlternative)
                 let docName = ""
                 for (let doc of this.$store.state.docs) {
                     let tokenIndex = codeAlternative.code.tokens[0]
