@@ -253,8 +253,6 @@ export const store = new Vuex.Store({
       // eslint-disable-next-line camelcase
       state.agreement_code_alternatives = code_alternatives;
 
-      this.commit("initResolvedStatusOfTokens");
-
       let newDocs = [state.all_docs].concat(docs);
       state.all_docs.end_index = tokens.length;
       for (let doc of newDocs){
@@ -268,6 +266,8 @@ export const store = new Vuex.Store({
         state.available_agreements.push(name);
       }
       state.selected_agreement = name;
+
+      this.commit("initResolvedStatusOfTokens");
       this.commit("setIsLoadingAgreement", false);
     },
 
