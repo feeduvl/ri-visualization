@@ -99,7 +99,7 @@
     }
 
     .isUnresolved {
-        background-color: #bd3518;
+        background-color: #e16144;
     }
 
     .isResolved {

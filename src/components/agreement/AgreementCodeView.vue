@@ -582,7 +582,7 @@ export default {
 
             for (let summary of unresolved_summaries) {
                 let token = summary.token
-                summary.token = this.$store.getters.tokenListToString(token)
+                summary.token_names = this.$store.getters.tokenListToString(token)
             }
 
             return [unresolved_summaries, resolved_summaries]
