@@ -235,9 +235,14 @@ export default {
     components: {TokenAlternative, AgreementSettings: AgreementSettings, AgreementInput, AgreementCodeView},
     computed: {
 
-        tokenIsResolved() {
-            console.log("Computed property reacted")
-            return this.calculateIsResolved()
+        tokenIsResolved: {
+            get() {
+                console.log("Computed property reacted")
+                return this.calculateIsResolved()
+            },
+            set(value) {
+                return value
+            }
         },
 
         tokensThisPage() {
@@ -420,8 +425,8 @@ export default {
         updateIsResolved() {
             console.log("update was called from childcomponent")
             console.log("output of method:")
-            console.log(this.calculateIsResolved())
-            this.tokenIsResolved = this.calculateIsResolved()
+            console.log(this.calculateIsResolved()) //TODO: Does not work for some reason?
+            this.tokenIsResolved.set(this.calculateIsResolved())
 
             console.log("TokenIsResolvedChangedTo:")
             console.log(this.tokenIsResolved)
