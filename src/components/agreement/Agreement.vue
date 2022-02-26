@@ -426,7 +426,7 @@ export default {
             console.log("update was called from childcomponent")
             console.log("output of method:")
             console.log(this.calculateIsResolved()) //TODO: Does not work for some reason?
-            this.tokenIsResolved.set(this.calculateIsResolved())
+            this.tokenIsResolved = this.calculateIsResolved()
 
             console.log("TokenIsResolvedChangedTo:")
             console.log(this.tokenIsResolved)
