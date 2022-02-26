@@ -161,31 +161,16 @@
                 </TokenAlternative>
                 <br v-for="(_, emptyLineIndex) of [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]"
                     :key="'emptyline'+emptyLineIndex">
-                <AgreementInput
-                    class="agreement-input"
+                <AgreementAlternativeSelection
+                    class="agreement-alternative-selection"
                     :disabled="mustDisambiguateTokenCode"
-                    ref="input_panel"
+                    ref="alternative-selection_panel"
                     :panelIsUp="panelIsUp"
-                    @agreement-input-trash-click="delete_selected_code"
                     @agreement-input__arrow-icon-click="panelIsUp = !panelIsUp"
                     @remove-dialog-stylerule="removeDialogStylerule"
                     @reposition-dialog="positionInput"
+                    v-bind:token-index="selectedToken.index"
                 />
-                <v-card
-                    class="disambiguation-prompt"
-                    :style="inputFieldPanelLocationStyle"
-                    v-if="mustDisambiguateTokenCode">
-                    <v-list>
-                        <v-subheader>Do something with this token:</v-subheader>
-                        <v-list-tile
-                            v-for="(item, i) in multipleCodesPromptList"
-                            :key="'prompt_'+i"
-                            :style="i===0?'border: red solid 2px':(i===1?'border: green solid 2px':'')"
-                            @click="disambiguateTokenCode(item, i, this)()">
-                            {{ i > 1 ? `Edit Code - ` + codeDisplayPrompt(item) : item.name }}
-                        </v-list-tile>
-                    </v-list>
-                </v-card>
             </v-card>
             <AgreementCodeView
                 @page-to-code="pageToCode"
@@ -200,6 +185,7 @@
 <script>
 import TokenAlternative from "@/components/agreement/TokenAlternative";
 import AgreementInput from "@/components/agreement/AgreementInput";
+import AgreementAlternativeSelection from "@/components/agreement/AgreementAlternativeSelection";
 import AgreementCodeView from "@/components/agreement/AgreementCodeView";
 import {Code, Code_user_display_prompt} from "@/components/agreement/code";
 import {mapGetters, mapState} from "vuex";
@@ -231,9 +217,10 @@ export default {
             last_code: null,
             last_token: null,// used only to prevent unwanted auto-close of dialog on shift+click, ctrl+click
             tokenIsResolved: []
+
         }
     },
-    components: {TokenAlternative, AgreementSettings: AgreementSettings, AgreementInput, AgreementCodeView},
+    components: {TokenAlternative, AgreementSettings: AgreementSettings, AgreementAlternativeSelection, AgreementInput, AgreementCodeView},
     computed: {
 
         tokensThisPage() {

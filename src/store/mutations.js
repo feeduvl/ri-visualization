@@ -342,6 +342,19 @@ export const updateResolvedStatusOfTokens = (state, codeAlternative) => {
   });
 };
 
+// Verschiebe an andere Stelle! Vielleicht in Agreement berechnen, an selection weitergeben?
+export const getAllAlternativesOfToken = (state, tokenIndex) => {
+  console.log("Getting all alternatives for token" + tokenIndex);
+  let alternatives = [];
+  state.agreement_code_alternatives.forEach(function (item1){
+    let alternativeCode = item1.code;
+    if (alternativeCode.tokens.includes(tokenIndex)){
+      alternatives.push(item1);
+    }
+  });
+  return alternatives;
+};
+
 export const prepareParametersForAnnotationExport = (state, annotationName) => {
   console.log("Setting name to:");
   console.log(annotationName);
