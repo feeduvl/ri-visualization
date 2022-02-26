@@ -77,7 +77,7 @@
 
                 </v-container>
                 <v-data-table
-                    :headers="headers[0]"
+                    :headers="headers[0].concat([{text: 'Actions', value: 'placeholder'}])"
                     :items="tab_content[0]"
                     :search="search"
                     :loading="$store.state.isLoadingAgreement"
@@ -191,12 +191,16 @@
                     :pagination.sync="paginations[1]"
                 >
                     <template v-slot:items="props">
-                        <tr>
+                        <tr v-bind:class="{'trBeginning': props.item.isFirst}">
                             <td :key="'header_column_0_0'"
                                 :class="{'text-xs-left': 0 > 0}"
+                                v-if="props.item.isFirst"
+                                :rowspan="props.item.numPossibilities"
                             >{{ props.item.document }}</td>
                             <td :key="'header_column_0_1'"
                                 :class="{'text-xs-left': 1 > 0}"
+                                v-if="props.item.isFirst"
+                                :rowspan="props.item.numPossibilities"
                             >{{ props.item.token_names }}</td>
                             <td :key="'header_column_0_2'"
                                 :class="{'text-xs-left': 2 > 0}"
@@ -496,35 +500,35 @@ export default {
             return summaries
         },
 
-        transformUnresolvedSummaries(unresolved_summaries) {
+        transformSummariesForDisplaying(summaries) {
 
-            unresolved_summaries.sort((a, b) => arrayOfIntSort(a, b));
+            summaries.sort((a, b) => arrayOfIntSort(a, b));
 
-            let lastToken = unresolved_summaries[0].token
+            let lastToken = summaries[0].token
             let numPossibilities = 0
 
 // Handle index 0
-            unresolved_summaries[0].isFirst = true
+            summaries[0].isFirst = true
             numPossibilities++
 
-            for (let idx = 1; idx <= unresolved_summaries.length; idx++) {
-                if(typeof unresolved_summaries[idx] === 'undefined') {
-                    unresolved_summaries[idx-1].numPossibilities = numPossibilities
+            for (let idx = 1; idx <= summaries.length; idx++) {
+                if(typeof summaries[idx] === 'undefined') {
+                    summaries[idx-1].numPossibilities = numPossibilities
                 } else {
-                    if (arraysEqual(unresolved_summaries[idx].token, lastToken)) {
-                        unresolved_summaries[idx].isFirst = false
+                    if (arraysEqual(summaries[idx].token, lastToken)) {
+                        summaries[idx].isFirst = false
                         numPossibilities++
                     } else {
                         for (let j = 1; j <= numPossibilities; j++){
-                            unresolved_summaries[idx-j].numPossibilities = numPossibilities
+                            summaries[idx-j].numPossibilities = numPossibilities
                         }
                         numPossibilities = 1
-                        unresolved_summaries[idx].isFirst = true
-                        lastToken = unresolved_summaries[idx].token
+                        summaries[idx].isFirst = true
+                        lastToken = summaries[idx].token
                     }
                 }
             }
-            return unresolved_summaries
+            return summaries
         },
 
         generate_code_alternatives_summary(list_of_code_alternatives) {
@@ -574,14 +578,18 @@ export default {
                 }
                 found_codes.push(name);
             }
+
+            if (resolved_summaries.length !== 0){
+                resolved_summaries = this.transformSummariesForDisplaying(resolved_summaries)
+            }
             for (let summary of resolved_summaries) {
                 let token = summary.token
                 summary.token_names = this.$store.getters.tokenListToString(token)
             }
-            if (unresolved_summaries.length !== 0){
-                unresolved_summaries = this.transformUnresolvedSummaries(unresolved_summaries)
-            }
 
+            if (unresolved_summaries.length !== 0){
+                unresolved_summaries = this.transformSummariesForDisplaying(unresolved_summaries)
+            }
             for (let summary of unresolved_summaries) {
                 let token = summary.token
                 summary.token_names = this.$store.getters.tokenListToString(token)
