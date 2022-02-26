@@ -222,6 +222,7 @@
 import axios from "axios"
 import {GRAY, GREEN_FILL, RED_FILL} from "@/colors";
 import SelectableAnnotations from "@/components/agreement/SelectableAnnotations";
+import {mapState} from "vuex";
 
 export default {
   name: "AgreementSettings",
@@ -239,6 +240,7 @@ export default {
 
       createNewAgreementDataset: null,
       agreementToDelete: null,
+        agreements: [],
 
       tableHeaders: [
         {
@@ -300,10 +302,6 @@ export default {
 
   computed: {
 
-      availableAgreements() {
-          return this.$store.state.available_agreements
-      },
-
     deleteSnackbarVisible: {
       get() {
         return this.agreementToDelete !== null;
@@ -325,7 +323,11 @@ export default {
       set(value) {
         this.$store.commit("updateSelectedAgreement", value)
       }
-    }
+    },
+
+      ...mapState([
+          "available_agreements"
+      ])
 
   },
 
@@ -333,7 +335,18 @@ export default {
     this.reloadFields();
   },
 
+    watch: {
+        available_agreements() {
+            this.setAgreements()
+        }
+    },
+
   methods: {
+
+      setAgreements() {
+          this.agreements = this.available_agreements
+      },
+
     initializeAgreement() {
       this.initializingNewAgreement = true;
       this.$store.dispatch(
