@@ -163,8 +163,7 @@
                     :key="'emptyline'+emptyLineIndex">
                 <AgreementAlternativeSelection
                     class="agreement-alternative-selection"
-                    :disabled="mustDisambiguateTokenCode"
-                    ref="alternative-selection_panel"
+                    ref="alternative-selection-panel"
                     :panelIsUp="panelIsUp"
                     @agreement-input__arrow-icon-click="panelIsUp = !panelIsUp"
                     @remove-dialog-stylerule="removeDialogStylerule"
@@ -474,57 +473,6 @@ export default {
             this.popupPositionStyleRuleIndex = css_rules_num;
         },
 
-        disambiguateTokenCode(item, i) {
-            let self = this;
-            return function () {
-                if (i === 0) {  // cancel
-                    self.requestAgreementInput = false;
-                    return;
-                } else if (i === 1) {  // create a new code
-                    self.disambiguatedTokenCode = null;
-                } else {
-                    self.disambiguatedTokenCode = item
-                }
-                self.requestAgreementInput = false;  // decision has been made, hide the panel
-                console.log('Code click: ' + item)
-                self.addSelectedTokenToCode()
-            }
-        },
-
-        /**
-         * perform the assignment of the selected token to a Code
-         * Create a new Core if necessary, else use user selected one
-         */
-        addSelectedTokenToCode() {
-            let token = this.selectedToken;
-            if (!this.isLinking) {
-                let code = null;
-                let new_code = false;
-
-                if (this.disambiguatedTokenCode === null) {
-                    new_code = true;
-                } else {
-                    code = this.disambiguatedTokenCode;
-                    this.disambiguatedTokenCode = null;
-                }
-                code = new_code ? new Code(this.$store.state.codes.length) : code;
-
-                this.$store.commit('assignToCode', {
-                    token: this.token(token.index),
-                    code: code,
-                    new_code: new_code
-                });
-                this.$store.commit("updateLastAgreementEditAt")
-
-                this.$store.commit("set_selected_code", code);
-                this.last_code = code;
-                this.last_token = this.selectedToken;
-
-            } else {
-                console.error("addTokenToCode called while linker is open")
-            }
-        },
-
         /**
          * Set the selected token and show the agreement
          * @param token
@@ -578,73 +526,6 @@ export default {
                     this.$store.commit("add_or_remove_token_selected_relationship", token)
                 }
                 this.$store.commit("updateLastAgreementEditAt")
-            }
-        },
-
-        tokenShiftClicked(index) {
-            /*if(this.selected_code && !this.requiredAgreementsPresent){  // codes need some kind of label
-                console.log("Missing required input, ignoring focus out")
-                return;
-            }*/
-            if (this.isLinking) {
-                this.tokenClicked(index);
-                return;
-            }
-
-            if (this.showingInput) {
-                const clickindex = index;
-                if (this.$store.state.selected_code.tokens.includes(clickindex)) {
-                    console.log("Got click within token codes, returning")
-                } else {
-                    let endlim = this.$store.state.selected_code.tokens[this.$store.state.selected_code.tokens.length - 1];
-                    let grow = endlim <= clickindex ? 1 : -1;
-                    for (let i = endlim + grow; i !== clickindex + grow; i += grow) {
-                        this.$store.commit('assignToCode', {
-                            token: this.token(i),
-                            code: this.$store.state.selected_code
-                        })
-                        this.$store.commit("updateLastAgreementEditAt")
-                    }
-                }
-
-                setTimeout(() => {
-                    console.warn("Simulating original token click to reopen dialog")
-                    this.updateSelectedToken(this.last_token)
-                    this.disambiguatedTokenCode = this.last_code
-                    this.addSelectedTokenToCode()
-                });
-            } else {
-                let token = this.token(index)
-                this.tokenClicked(token)
-            }
-        },
-
-        tokenCtrlClicked(index) {
-            if (this.isLinking) {
-                this.tokenClicked(index);
-                return;
-            }
-            if (!this.isLinking) {
-                if (this.selected_code && this.selected_code.tokens.includes(index)) {
-                    this.tokenClicked(index);
-                    return;
-                }
-            }
-
-            let token = this.token(index)
-            if (this.showingInput) {
-
-                this.$store.commit('assignToCode', {token, code: this.$store.state.selected_code})
-                this.$store.commit("updateLastAgreementEditAt")
-                setTimeout(() => {
-                    console.warn("Simulating original token click to reopen dialog")
-                    this.updateSelectedToken(this.last_token)
-                    this.disambiguatedTokenCode = this.last_code
-                    this.addSelectedTokenToCode()
-                });
-
-            } else {
-                this.tokenClicked(index)
             }
         },
 
