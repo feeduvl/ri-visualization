@@ -190,7 +190,7 @@
             <AgreementCodeView
                 @page-to-code="pageToCode"
                 @show-snackbar="doShowSnackbar"
-                @resolved-status-of-tokens-updated="updateIsResolved"
+                @resolved-status-of-tokens-updated="calculateIsResolved"
                 v-if="agreementViewingCodeResults">
             </AgreementCodeView>
         </div>
@@ -230,7 +230,7 @@ export default {
 
             last_code: null,
             last_token: null,// used only to prevent unwanted auto-close of dialog on shift+click, ctrl+click
-            tokenIsResolved: this.calculateIsResolved()
+            tokenIsResolved: []
         }
     },
     components: {TokenAlternative, AgreementSettings: AgreementSettings, AgreementInput, AgreementCodeView},
@@ -367,6 +367,10 @@ export default {
     },
 
     watch: {
+        unResolvedCodesPerToken() {
+            console.log("Watching unresolved Codes per Token")
+            this.calculateIsResolved()
+        },
 
         agreementViewingCodeResults() {
             console.log("Watching agreement code results")
@@ -413,19 +417,9 @@ export default {
 
     methods: {
 
-        updateIsResolved() {
-            console.log("update was called from childcomponent")
-            console.log("output of method:")
-            console.log(this.calculateIsResolved()) //TODO: Does not work for some reason?
-            this.tokenIsResolved = this.calculateIsResolved()
-
-            console.log("TokenIsResolvedChangedTo:")
-            console.log(this.tokenIsResolved)
-        },
-
         calculateIsResolved() {
-            console.log("Method reacted")
-            return this.unResolvedCodesPerToken.map(obj => {
+            console.log("Calculating isResolved")
+            this.tokenIsResolved = this.unResolvedCodesPerToken.map(obj => {
                 if (obj[0] === null) {
                     return null
                 } else {
