@@ -229,21 +229,12 @@ export default {
             panelIsUp: true,
 
             last_code: null,
-            last_token: null// used only to prevent unwanted auto-close of dialog on shift+click, ctrl+click
+            last_token: null,// used only to prevent unwanted auto-close of dialog on shift+click, ctrl+click
+            tokenIsResolved: this.calculateIsResolved()
         }
     },
     components: {TokenAlternative, AgreementSettings: AgreementSettings, AgreementInput, AgreementCodeView},
     computed: {
-
-        tokenIsResolved: {
-            get() {
-                console.log("Computed property reacted")
-                return this.calculateIsResolved()
-            },
-            set(value) {
-                return value
-            }
-        },
 
         tokensThisPage() {
             if ((this.selectedPage * this.tokensPerPage) <= (this.selected_doc.end_index - this.selected_doc.begin_index)) {
