@@ -169,7 +169,7 @@
                     @agreement-input__arrow-icon-click="panelIsUp = !panelIsUp"
                     @remove-dialog-stylerule="removeDialogStylerule"
                     @reposition-dialog="positionInput"
-                    v-bind:token-index="selectedToken.index"
+                    v-bind:token-index="selectedToken"
                 />
             </v-card>
             <AgreementCodeView
