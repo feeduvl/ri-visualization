@@ -150,7 +150,7 @@
                                   :key="selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1"
                                   v-bind="{
                        ...$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
-                       inSelectedCode: $store.state.token_in_selected_code[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
+                       isClicked: isClicked,
                        isResolved: tokenIsResolved[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
                        agreementInputVisible: $store.state.agreementInputVisible
                    }">
@@ -189,6 +189,7 @@ export default {
     name: "Agreement",
     data: () => {
         return {
+            isClicked: null,
             alternativeSelectionEnabled: false,
             tokensPerPage: 350,
 
@@ -468,6 +469,7 @@ export default {
 
         tokenClicked(index) {
             let token = this.token(index)
+            this.isClicked = this.token.index
             this.updateSelectedToken(token);
         },
 

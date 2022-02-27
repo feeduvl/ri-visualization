@@ -9,7 +9,7 @@
             {
               isResolved: props.isResolved,
               isUnresolved: props.isResolved === false,
-              highlightInSelectedCode: (( props.agreementInputVisible) && props.inSelectedCode), // currently SELECTED code
+              highlightClickedToken: (( props.agreementInputVisible) && (props.isClicked===props.index)), // currently SELECTED code
             }]">
           {{props.name}}
         </span>
@@ -34,8 +34,8 @@
                 required: true
             },
 
-            inSelectedCode: {
-                type: Boolean,
+            isClicked: {
+                type: Number,
                 required: true
             },
 
