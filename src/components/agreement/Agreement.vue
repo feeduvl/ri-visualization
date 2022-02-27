@@ -161,7 +161,7 @@
                     class="agreement-alternative-selection"
                     v-if="!$store.state.selected_agreement"
                     ref="input_panel"
-                    @agreement-input__arrow-icon-click="panelIsUp = !panelIsUp"
+                    @agreement-input__arrow-icon-click="panelIsUpAgreement = !panelIsUpAgreement"
                     @remove-dialog-stylerule="removeDialogStylerule"
                     @reposition-dialog="positionInput"
                     v-bind="{token:selectedToken, isEnabled:alternativeSelectionEnabled}">
@@ -207,7 +207,7 @@ export default {
 
             algo_lemmas: null,
             agreementInputWidthPct: 50,
-            panelIsUp: true,
+            panelIsUpAgreement: true,
 
             last_code: null,
             last_token: null,// used only to prevent unwanted auto-close of dialog on shift+click, ctrl+click
@@ -235,8 +235,8 @@ export default {
 
         dialogPositionStyle() {  //  need to do this because the actual dialog DOM object isn't exposed
             let agreementBox = this.agreementBoundingRect;
-            let tokenBox = this.selectedTokenBoundingRect;
-            let panelIsUp = this.panelIsUp;
+            let tokenBox = this.selectedTokenBoundingRectAgreement;
+            let panelIsUpAgreement = this.panelIsUpAgreement;
             if (agreementBox === null || tokenBox === null) {
                 return ""
             } else {
@@ -247,7 +247,7 @@ export default {
                                 width: auto;
                                 overflow: auto;
                                 left: ${Math.min(upperLeft, tokenBox.left)}px;
-                                top: ${tokenBox.top + tokenBox.height + (panelIsUp ? 0 : 200)}px;
+                                top: ${tokenBox.top + tokenBox.height + (panelIsUpAgreement ? 0 : 200)}px;
                             }`
             }
         },
@@ -290,20 +290,20 @@ export default {
             return ret.getBoundingClientRect();
         },
 
-        selectedTokenBoundingRect() {
+        selectedTokenBoundingRectAgreement() {
             if (this.$store.state.selectedToken === null || this.agreementViewingCodeResults) {
                 return null;
             }
             try {
                 return document.getElementById("token_" + this.$store.state.selectedToken.index).getBoundingClientRect();
             } catch (e) {
-                console.error("Agreement::selectedTokenBoundingRect error getting bounding rect")
+                console.error("Agreement::selectedTokenBoundingRectAgreement error getting bounding rect")
                 return null;
             }
         },
 
         inputFieldPanelLocationStyle() {
-            let tokenBox = this.selectedTokenBoundingRect;
+            let tokenBox = this.selectedTokenBoundingRectAgreement;
             if (tokenBox === null) {
                 return {}
             }
@@ -350,11 +350,11 @@ export default {
             }
         },
 
-        selectedTokenBoundingRect() {
+        selectedTokenBoundingRectAgreement() {
             this.positionInput();
         },
 
-        panelIsUp() {
+        panelIsUpAgreement() {
             this.positionInput();
         },
 
@@ -442,7 +442,7 @@ export default {
         },
 
         positionInput() {
-            if (this.selectedTokenBoundingRect === null || this.selectedTokenBoundingRect.width === 0) {
+            if (this.selectedTokenBoundingRectAgreement === null || this.selectedTokenBoundingRectAgreement.width === 0) {
                 return;
             }
 
