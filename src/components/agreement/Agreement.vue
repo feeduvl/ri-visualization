@@ -161,16 +161,14 @@
                 </TokenAlternative>
                 <br v-for="(_, emptyLineIndex) of [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]"
                     :key="'emptyline'+emptyLineIndex">
-<!--                <AgreementAlternativeSelection-->
-<!--                    class="agreement-alternative-selection"-->
-<!--                    :disabled="mustDisambiguateTokenCode"-->
-<!--                    ref="alternative-selection_panel"-->
-<!--                    :panelIsUp="panelIsUp"-->
-<!--                    @agreement-input__arrow-icon-click="panelIsUp = !panelIsUp"-->
-<!--                    @remove-dialog-stylerule="removeDialogStylerule"-->
-<!--                    @reposition-dialog="positionInput"-->
-<!--                    v-bind:token-index="selectedToken"-->
-<!--                />-->
+                <AgreementAlternatives
+                    class="agreement-alternative-selection"
+                    v-if="!$store.state.selected_agreement"
+                    @agreement-input__arrow-icon-click="panelIsUp = !panelIsUp"
+                    @remove-dialog-stylerule="removeDialogStylerule"
+                    @reposition-dialog="positionInput"
+                    v-bind="{token:selectedToken, isEnabled:alternativeSelectionEnabled}">
+                </AgreementAlternatives>
             </v-card>
             <AgreementCodeView
                 @page-to-code="pageToCode"
@@ -185,7 +183,7 @@
 <script>
 import TokenAlternative from "@/components/agreement/TokenAlternative";
 import AgreementInput from "@/components/agreement/AgreementInput";
-import AgreementAlternativeSelection from "@/components/agreement/AgreementAlternativeSelection";
+import AgreementAlternatives from "@/components/agreement/AgreementAlternatives";
 import AgreementCodeView from "@/components/agreement/AgreementCodeView";
 import {Code, Code_user_display_prompt} from "@/components/agreement/code";
 import {mapGetters, mapState} from "vuex";
@@ -195,7 +193,7 @@ export default {
     name: "Agreement",
     data: () => {
         return {
-
+            alternativeSelectionEnabled: false,
             tokensPerPage: 350,
 
             selectedPage: 1,
@@ -220,7 +218,7 @@ export default {
 
         }
     },
-    components: {TokenAlternative, AgreementSettings: AgreementSettings, AgreementAlternativeSelection, AgreementInput, AgreementCodeView},
+    components: {TokenAlternative, AgreementSettings: AgreementSettings, AgreementAlternatives, AgreementInput, AgreementCodeView},
     computed: {
 
         tokensThisPage() {
@@ -531,54 +529,13 @@ export default {
          */
         updateSelectedToken(token) {
             this.$store.commit("setSelectedToken", token);
-            this.$store.commit("setAgreementInputVisible", true);
+            this.alternativeSelectionEnabled = false;
+            // this.$store.commit("setAgreementInputVisible", true);
         },
 
         tokenClicked(index) {
-            if (this.selected_code && !this.requiredAgreementsPresent) {  // codes need some kind of label
-                console.log("Missing required input, ignoring focus out")
-                return;
-            }
             let token = this.token(index)
             this.updateSelectedToken(token);
-            if (!this.isLinking) {
-                if (this.selected_code && this.selected_code.tokens.includes(index)) {
-                    let code = this.selected_code;
-                    let new_token_index = 0;
-                    if (code.tokens.length > 1) {
-                        new_token_index = Math.max(0, code.tokens.indexOf(index) - 1)
-                    }
-                    this.$store.commit("removeTokenFromSelectedCode", token)
-                    setTimeout(() => {
-
-                        let newSelectedToken = this.$store.state.tokens[code.tokens[new_token_index]]
-                        console.warn("Setting new selected token: ")
-                        console.warn(newSelectedToken)
-
-
-                        console.warn("Simulating original token click to reopen dialog")
-                        this.updateSelectedToken(newSelectedToken)
-                        this.$store.commit("set_selected_code", code);
-                        this.$store.commit("updateLastAgreementEditAt")
-                        //this.$store.commit("setAgreementInputVisible", true);
-                    });
-                    return;
-                }
-
-                this.requestAgreementInput = true;  //  let the panel know we want to open the agreement input
-
-                if (!this.mustDisambiguateTokenCode) {  // else the assignment will be performed after user action
-                    this.requestAgreementInput = false;
-                    this.addSelectedTokenToCode()
-                }
-            } else {
-                if (this.selected_tore_relationship === null) {
-                    this.$store.commit("new_tore_relationship", token)
-                } else {
-                    this.$store.commit("add_or_remove_token_selected_relationship", token)
-                }
-                this.$store.commit("updateLastAgreementEditAt")
-            }
         },
 
         tokenShiftClicked(index) {
