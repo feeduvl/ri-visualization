@@ -9,7 +9,7 @@
             {
               isResolved: props.isResolved,
               isUnresolved: props.isResolved === false,
-              highlightInSelectedCode: (( props.agreementInputVisible)), // currently SELECTED code
+              highlightInSelectedCode: (( props.agreementInputVisible) && props.inSelectedCode), // currently SELECTED code
             }]">
           {{props.name}}
         </span>
