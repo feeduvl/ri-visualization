@@ -233,7 +233,7 @@ export default {
         },
 
         dialogPositionStyle() {  //  need to do this because the actual dialog DOM object isn't exposed
-            let agreementBox = this.agreementBoundingRect;
+            // let agreementBox = this.agreementBoundingRect;
             let tokenBox = this.selectedTokenBoundingRect;
             let panelIsUp = this.panelIsUp;
             if (agreementBox === null || tokenBox === null) {
