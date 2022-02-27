@@ -9,9 +9,7 @@
             {
               isResolved: props.isResolved,
               isUnresolved: props.isResolved === false,
-              isAlgoLemma: props.algo_lemma,
-              highlightInSelectedCode: (( props.agreementInputVisible) && props.inSelectedCode), // currently SELECTED code
-              linkedTogether: props.linkedTogether
+              highlightInSelectedCode: (( props.agreementInputVisible)), // currently SELECTED code
             }]">
           {{props.name}}
         </span>
@@ -35,6 +33,7 @@
                 type: Number,
                 required: true
             },
+
             inSelectedCode: {
                 type: Boolean,
                 required: true
@@ -45,22 +44,6 @@
                 required: true
             },
 
-            linkedTogether: {
-                type: Boolean,
-                required: true
-            },
-            algo_lemma: {
-                type: Boolean,
-                required: true
-            },
-            show_pos: {
-                type: Boolean,
-                required: true
-            },
-            posClass: {
-                type: String,
-                required: true
-            },
             agreementInputVisible: {
                 type: Boolean,
                 required: true
