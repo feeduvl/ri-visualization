@@ -200,7 +200,6 @@ export default {
             snackbarText: "",
 
             requestAgreementInput: false,
-            disambiguatedTokenCode: null,
 
             show_snackbar: false,
 
@@ -280,16 +279,6 @@ export default {
             }
         },
 
-        mustDisambiguateTokenCode() {
-            return this.requestAgreementInput && this.multipleCodesPromptList.length > 2 && this.disambiguatedTokenCode === null;
-        },
-        multipleCodesPromptList() {
-            return [{name: "Cancel", tore: ""}, {
-                name: "Create new Code",
-                tore: ""
-            }].concat(this.selectedToken === null ? [] : this.getCodesForToken(this.selectedToken))
-        },
-
         agreementBoundingRect() {
             if (this.$store.state.selectedToken === null) {
                 return null;
@@ -325,7 +314,6 @@ export default {
         },
 
         ...mapGetters(["requiredAgreementsPresent",
-            "getCodesForToken",
             "selectedToken",
             "pos_tags",
             "selected_code",
@@ -468,23 +456,6 @@ export default {
             this.popupPositionStyleRuleIndex = css_rules_num;
         },
 
-        disambiguateTokenCode(item, i) {
-            let self = this;
-            return function () {
-                if (i === 0) {  // cancel
-                    self.requestAgreementInput = false;
-                    return;
-                } else if (i === 1) {  // create a new code
-                    self.disambiguatedTokenCode = null;
-                } else {
-                    self.disambiguatedTokenCode = item
-                }
-                self.requestAgreementInput = false;  // decision has been made, hide the panel
-                console.log('Code click: ' + item)
-                // self.addSelectedTokenToCode()
-            }
-        },
-
         /**
          * Set the selected token and show the agreement
          * @param token
@@ -600,7 +571,7 @@ export default {
     display: block;
 }
 
-.agreement-input, .disambiguation-prompt {
+.agreement-alternative-selection {
     position: fixed;
 }
 
