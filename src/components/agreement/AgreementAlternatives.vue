@@ -113,9 +113,6 @@ export default {
         token: {
             type: Object
         },
-        isEnabled: {
-            type: Boolean,
-        },
     },
     data: () => {
         return {

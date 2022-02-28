@@ -160,10 +160,11 @@
                 <AgreementAlternatives
                     class="agreement-alternative-selection"
                     ref="input_panel"
+                    :disabled="!alternativeSelectionEnabled"
                     @agreement-input__arrow-icon-click="panelIsUpAgreement = !panelIsUpAgreement"
                     @remove-dialog-stylerule="removeDialogStylerule"
                     @reposition-dialog="positionInput"
-                    v-bind="{token:selectedToken, isEnabled:alternativeSelectionEnabled}">
+                    v-bind="{token:selectedToken}">
                 </AgreementAlternatives>
             </v-card>
             <AgreementCodeView
@@ -464,7 +465,7 @@ export default {
          */
         updateSelectedToken(token) {
             this.$store.commit("setSelectedToken", token);
-            this.alternativeSelectionEnabled = true;
+            this.alternativeSelectionEnabled = this.tokenIsResolved[token.index] === null;
             this.$store.commit("setAgreementInputVisible", true);
         },
 
