@@ -62,6 +62,15 @@
                         <td :key="'header_column_0_3'"
                             :class="{'text-xs-left': 1 > 0}"
                         >{{ props.item.annotation_name }}</td>
+                        <td :key="'header_column_0_5'"
+                            :class="{'text-xs-left': 6 > 0}"
+                        >
+                            <ul style="list-style-type: none">
+                                <li v-for="alternativeToken in props.item.code.tokens">
+                                    {{ this.$store.getters.tokenListToString([alternativeToken]) }}
+                                </li>
+                            </ul>
+                        </td>
                         <td>
                             <span class="icon-column"
                                   v-if="props.item.merge_status ==='Pending'">
@@ -143,6 +152,11 @@ export default {
                     width: "10%"
                 },
                 {
+                    text: 'All Tokens in Code',
+                    align: "left",
+                    width: "10%"
+                },
+                {
                     text: '',
                     align: "right",
                     width: "5%"
@@ -213,6 +227,7 @@ export default {
                     alternatives.push(item1);
                 }
             });
+            console.log("alternatives for token: " + alternatives)
             return alternatives.sort(this.myCustomSort());
         },
 
