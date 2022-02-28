@@ -471,7 +471,7 @@ export default {
         tokenClicked(index) {
             console.log("Token is clicked")
             let token = this.token(index)
-            this.isClicked = this.token.index
+            this.isClicked = index
             this.updateSelectedToken(token);
         },
 
