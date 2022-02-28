@@ -179,7 +179,6 @@
 
 <script>
 import TokenAlternative from "@/components/agreement/TokenAlternative";
-import AgreementInput from "@/components/agreement/AgreementInput";
 import AgreementAlternatives from "@/components/agreement/AgreementAlternatives";
 import AgreementCodeView from "@/components/agreement/AgreementCodeView";
 import {mapGetters, mapState} from "vuex";
@@ -214,7 +213,7 @@ export default {
 
         }
     },
-    components: {TokenAlternative, AgreementSettings: AgreementSettings, AgreementAlternatives, AgreementInput, AgreementCodeView},
+    components: {TokenAlternative, AgreementSettings: AgreementSettings, AgreementAlternatives, AgreementCodeView},
     computed: {
 
         tokensThisPage() {
