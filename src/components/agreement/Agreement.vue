@@ -159,7 +159,6 @@
                     :key="'emptyline'+emptyLineIndex">
                 <AgreementAlternatives
                     class="agreement-alternative-selection"
-                    v-if="!$store.state.selected_agreement"
                     ref="input_panel"
                     @agreement-input__arrow-icon-click="panelIsUpAgreement = !panelIsUpAgreement"
                     @remove-dialog-stylerule="removeDialogStylerule"
