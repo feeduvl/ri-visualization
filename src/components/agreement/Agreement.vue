@@ -497,7 +497,7 @@ export default {
         },
 
         pageToCode(code) {
-            console.log("pageToCode: " + Code_user_display_prompt(code))
+            console.log("pageToCode: ")
             if (!code) {
                 console.error("pageToCode Cannot page to null/undefined code");
             } else if (!code.tokens.length > 0) {
