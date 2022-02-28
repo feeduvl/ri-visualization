@@ -460,7 +460,7 @@ export default {
             this.$store.commit("updateResolvedStatusOfTokens", {
                 tokens: alternative.token,
                 codeIndex: alternative.index
-            )}
+            })
             this.$emit('resolvedStatusOfTokensUpdated')
         },
 
