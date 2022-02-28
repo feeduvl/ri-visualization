@@ -182,7 +182,6 @@ import TokenAlternative from "@/components/agreement/TokenAlternative";
 import AgreementInput from "@/components/agreement/AgreementInput";
 import AgreementAlternatives from "@/components/agreement/AgreementAlternatives";
 import AgreementCodeView from "@/components/agreement/AgreementCodeView";
-import {Code, Code_user_display_prompt} from "@/components/agreement/code";
 import {mapGetters, mapState} from "vuex";
 import AgreementSettings from "@/components/agreement/AgreementSettings";
 
@@ -234,10 +233,12 @@ export default {
         },
 
         dialogPositionStyle() {  //  need to do this because the actual dialog DOM object isn't exposed
+            console.log("Reched DialogPositionStyle, directly before Rect calculation")
             let agreementBox = this.agreementBoundingRect;
             let tokenBox = this.selectedTokenBoundingRectAgreement;
             let panelIsUpAgreement = this.panelIsUpAgreement;
             if (agreementBox === null || tokenBox === null) {
+                console.log("Returned an empty string")
                 return ""
             } else {
                 let upperLeft = agreementBox.width - 600;
@@ -285,6 +286,7 @@ export default {
             if (this.$store.state.selectedToken === null) {
                 return null;
             }
+            console.log("Directly in agreementBoundingRect")
 
             let ret = this.$refs.agreement.$el;
             return ret.getBoundingClientRect();
@@ -318,7 +320,6 @@ export default {
         ...mapGetters(["requiredAgreementsPresent",
             "selectedToken",
             "pos_tags",
-            "selected_code",
             "selected_tore_relationship",
             "isLinking",
             "token",
@@ -442,6 +443,7 @@ export default {
         },
 
         positionInput() {
+            console.log("Reached positionInput")
             if (this.selectedTokenBoundingRectAgreement === null || this.selectedTokenBoundingRectAgreement.width === 0) {
                 return;
             }
@@ -469,15 +471,10 @@ export default {
         },
 
         tokenClicked(index) {
+            console.log("Token is clicked")
             let token = this.token(index)
             this.isClicked = this.token.index
             this.updateSelectedToken(token);
-        },
-
-        delete_selected_code() {
-            this.$store.commit("delete_selected_code");
-            this.$store.commit("updateLastAgreementEditAt")
-            this.$store.commit("setAgreementInputVisible", false);
         },
 
         doSaveAgreement(autosave) {
@@ -564,6 +561,10 @@ export default {
 
 .agreement-icon {
     margin-right: 10px;
+}
+
+.annotator-input, .disambiguation-prompt {
+    position: fixed;
 }
 
 .agreement-string-selection {
