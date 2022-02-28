@@ -50,18 +50,18 @@
                         <td :key="'header_column_0_1'"
                             :class="{'text-xs-left': 1 > 0}"
                         >{{ props.item.code.tore }}</td>
+                        <td :key="'header_column_0_5'"
+                            :class="{'text-xs-left': 5 > 0}"
+                        >
+                            <ul style="list-style-type: none">
+                                <li v-for="relationship in props.item.relationship_memberships">
+                                    {{ getRelationshipString(relationship) }}
+                                </li>
+                            </ul>
+                        </td>
                         <td :key="'header_column_0_1'"
                             :class="{'text-xs-left': 1 > 0}"
                         >{{ props.item.annotation_name }}</td>
-                        <!--                        <td :key="'header_column_0_5'"-->
-                        <!--                            :class="{'text-xs-left': 5 > 0}"-->
-                        <!--                        >-->
-                        <!--                            <ul style="list-style-type: none">-->
-                        <!--                                <li v-for="relationship in props.item.relationships">-->
-                        <!--                                    {{ relationship }}-->
-                        <!--                                </li>-->
-                        <!--                            </ul>-->
-                        <!--                        </td>-->
                         <td>
                             <span class="icon-column"
                                   v-if="props.item.merge_status ==='Pending'">
@@ -121,20 +121,19 @@ export default {
                 {
                     text: 'Word Code',
                     align: "left",
-                    width: "40%"
+                    width: "30%"
 
                 },
                 {
                     text: 'Category',
                     align: "left",
-                    width: "40%"
+                    width: "25%"
                 },
-                // {
-                //     text: 'Category',
-                //     align: "left",
-                //     sortable: true,
-                //     value: 'category'
-                // },
+                {
+                    text: 'Category',
+                    align: "left",
+                    width: "25%"
+                },
                 {
                     text: 'Annotation Name',
                     align: "left",
@@ -165,10 +164,20 @@ export default {
         },
         ...mapState([
             "agreement_code_alternatives",
-            "agreementInputVisible"
+            "agreementInputVisible",
+            "agreement_tore_relationships"
         ])
     },
     methods: {
+        getRelationshipString(relIndex) {
+            let toreRelationships = this.agreement_tore_relationships
+            for (let toreRel of toreRelationships) {
+                if (toreRel.index === relIndex) {
+                    return toreRel.relationship_name + "->" + this.$store.getters.tokenListToString(targetTokenString)
+                }
+            }
+        }
+
         myCustomSort() {
             return function(a, b) {
                 if (a.merge_status === "Pending") {
@@ -198,7 +207,25 @@ export default {
                 }
             });
             return alternatives.sort(this.myCustomSort());
-        }
+        },
+
+        acceptCode(alternative) {
+            this.$store.commit('changeStatusOfCodeAlternative', {
+                status: "Accepted",
+                index: alternative.index
+            })
+            this.$store.commit("updateResolvedStatusOfTokens", alternative)
+            this.$emit('resolved-status-of-tokens-updated')
+        },
+
+        rejectCode(alternative) {
+            this.$store.commit('changeStatusOfCodeAlternative', {
+                status: "Declined",
+                index: alternative.index
+            })
+            this.$store.commit("updateResolvedStatusOfTokens", alternative)
+            this.$emit('resolvedStatusOfTokensUpdated')
+        },
     },
 }
 </script>
