@@ -96,7 +96,7 @@
         border: #0066ff solid 2px;
     }
 
-    .highlightInSelectedCode {
+    .highlightClickedToken {
       border: black solid 2px;
     }
 
