@@ -333,11 +333,11 @@ export const initResolvedStatusOfTokens = state => {
   state.unResolvedCodesPerToken = unResolvedCodesPerToken;
 };
 
-export const updateResolvedStatusOfTokens = (state, codeAlternative) => {
+export const updateResolvedStatusOfTokens = (state, tokens, codeIndex) => {
   console.log("Updating resolved status of agreement");
-  codeAlternative.token.forEach(function (tokenIndex) {
+  tokens.forEach(function (tokenIndex) {
     state.unResolvedCodesPerToken[tokenIndex] = state.unResolvedCodesPerToken[tokenIndex].filter(obj => {
-      return obj !== codeAlternative.index;
+      return obj !== codeIndex;
     });
   });
 };

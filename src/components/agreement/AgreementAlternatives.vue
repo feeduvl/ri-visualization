@@ -54,8 +54,8 @@
                             :class="{'text-xs-left': 5 > 0}"
                         >
                             <ul style="list-style-type: none">
-                                <li v-for="relationship in props.item.relationship_memberships">
-                                    {{ relationship }}
+                                <li v-for="relationship in props.item.code.relationship_memberships">
+                                    {{ getRelationshipString(relationship) }}
                                 </li>
                             </ul>
                         </td>
@@ -214,7 +214,7 @@ export default {
                 status: "Accepted",
                 index: alternative.index
             })
-            this.$store.commit("updateResolvedStatusOfTokens", alternative)
+            this.$store.commit("updateResolvedStatusOfTokens", alternative.code.tokens, alternative.index)
             this.$emit('resolved-status-of-tokens-updated')
         },
 
@@ -223,7 +223,7 @@ export default {
                 status: "Declined",
                 index: alternative.index
             })
-            this.$store.commit("updateResolvedStatusOfTokens", alternative)
+            this.$store.commit("updateResolvedStatusOfTokens", alternative.code.tokens, alternative.index)
             this.$emit('resolvedStatusOfTokensUpdated')
         },
     },
