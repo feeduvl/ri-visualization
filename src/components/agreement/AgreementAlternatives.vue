@@ -67,7 +67,7 @@
                         >
                             <ul style="list-style-type: none">
                                 <li v-for="alternativeToken in props.item.code.tokens">
-                                    {{ this.$store.getters.tokenListToString([alternativeToken]) }}
+                                    {{ getTokenString(alternativeToken) }}
                                 </li>
                             </ul>
                         </td>
@@ -179,6 +179,10 @@ export default {
         alternativesForToken() {
             return this.getAllAlternativesOfToken()
         },
+
+        ...mapGetters([
+            "tokenListToString"
+        ]),
         ...mapState([
             "agreement_code_alternatives",
             "agreementInputVisible",
@@ -194,9 +198,13 @@ export default {
                     for (let targetToken of toreRel.target_tokens) {
                         targetTokenString.push(targetToken)
                     }
-                    return toreRel.relationship_name + "->" + this.$store.getters.tokenListToString(targetTokenString)
+                    return toreRel.relationship_name + "->" + this.tokenListToString(targetTokenString)
                 }
             }
+        },
+
+        getTokenString(token) {
+            return this.tokenListToString([token])
         },
 
         myCustomSort() {
