@@ -321,14 +321,11 @@ export const store = new Vuex.Store({
     },
 
     setAgreementInputVisible(state, visible){
-      //console.log("setAgreementInputVisible: "+visible)
+      console.log("setAgreementInputVisible: "+visible)
       state.agreementInputVisible = visible;
       if (!visible){
         state.isLinking = false;
         state.selectedToken = null;
-        this.commit("setTokensInSelectedCode", [state.selected_code, null]);
-        state.selected_code = null;
-        this.commit("setSelectedToreRelationship", null);
       }
     },
 

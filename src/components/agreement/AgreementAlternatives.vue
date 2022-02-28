@@ -1,7 +1,8 @@
 <template>
     <v-dialog
         :hide-overlay="true"
-        v-model="isEnabled"
+        v-model="wrapInputVisible"
+        v-if="wrapInputVisible"
         id="agreement-alternatives-dialog"
         class="agreement-alternatives-dialog"
         :scrollable="true"
@@ -151,11 +152,23 @@ export default {
         }
     },
     computed: {
+
+        wrapInputVisible: {
+            get(){
+                return this.agreementInputVisible;
+            },
+
+            set(bool){
+                this.$store.commit("setAgreementInputVisible", bool);  // should always be false
+            }
+        },
+
         alternativesForToken() {
             return this.getAllAlternativesOfToken()
         },
         ...mapState([
-            "agreement_code_alternatives"
+            "agreement_code_alternatives",
+            "agreementInputVisible"
         ])
     },
     methods: {
