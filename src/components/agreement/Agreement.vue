@@ -163,14 +163,14 @@
                     @agreement-input__arrow-icon-click="panelIsUpAgreement = !panelIsUpAgreement"
                     @remove-dialog-stylerule="removeDialogStylerule"
                     @reposition-dialog="positionInput"
-                    @resolved-status-of-tokens-updated="calculateIsResolved"
+                    @resolvedStatusOfTokensUpdated="calculateIsResolved"
                     v-bind="{token:selectedToken}">
                 </AgreementAlternatives>
             </v-card>
             <AgreementCodeView
                 @page-to-code="pageToCode"
                 @show-snackbar="doShowSnackbar"
-                @resolved-status-of-tokens-updated="calculateIsResolved"
+                @resolvedStatusOfTokensUpdated="calculateIsResolved"
                 v-if="agreementViewingCodeResults">
             </AgreementCodeView>
         </div>

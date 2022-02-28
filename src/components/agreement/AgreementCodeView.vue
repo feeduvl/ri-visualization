@@ -445,8 +445,11 @@ export default {
                 status: "Accepted",
                 index: alternative.index
             })
-            this.$store.commit("updateResolvedStatusOfTokens", alternative.token, alternative.index)
-            this.$emit('resolved-status-of-tokens-updated')
+            this.$store.commit("updateResolvedStatusOfTokens", {
+                tokens: alternative.token,
+                codeIndex: alternative.index
+            })
+            this.$emit('resolvedStatusOfTokensUpdated')
         },
 
         rejectCode(alternative) {
@@ -454,7 +457,10 @@ export default {
                 status: "Declined",
                 index: alternative.index
             })
-            this.$store.commit("updateResolvedStatusOfTokens", alternative.token, alternative.index)
+            this.$store.commit("updateResolvedStatusOfTokens", {
+                tokens: alternative.token,
+                codeIndex: alternative.index
+            )}
             this.$emit('resolvedStatusOfTokensUpdated')
         },
 

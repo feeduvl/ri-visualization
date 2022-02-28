@@ -173,6 +173,10 @@ export default {
             let toreRelationships = this.agreement_tore_relationships
             for (let toreRel of toreRelationships) {
                 if (toreRel.index === relRef) {
+                    let targetTokenString = []
+                    for (let targetToken of toreRel.target_tokens) {
+                        targetTokenString.push(targetToken)
+                    }
                     return toreRel.relationship_name + "->" + this.$store.getters.tokenListToString(targetTokenString)
                 }
             }
@@ -214,8 +218,11 @@ export default {
                 status: "Accepted",
                 index: alternative.index
             })
-            this.$store.commit("updateResolvedStatusOfTokens", alternative.code.tokens, alternative.index)
-            this.$emit('resolved-status-of-tokens-updated')
+            this.$store.commit("updateResolvedStatusOfTokens", {
+                tokens: alternative.code.tokens,
+                codeIndex: alternative.index
+            })
+            this.$emit('resolvedStatusOfTokensUpdated')
         },
 
         rejectCode(alternative) {
@@ -223,7 +230,10 @@ export default {
                 status: "Declined",
                 index: alternative.index
             })
-            this.$store.commit("updateResolvedStatusOfTokens", alternative.code.tokens, alternative.index)
+            this.$store.commit("updateResolvedStatusOfTokens", {
+                tokens: alternative.code.tokens,
+                codeIndex: alternative.index
+            })
             this.$emit('resolvedStatusOfTokensUpdated')
         },
     },

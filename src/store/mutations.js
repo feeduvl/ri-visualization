@@ -333,7 +333,7 @@ export const initResolvedStatusOfTokens = state => {
   state.unResolvedCodesPerToken = unResolvedCodesPerToken;
 };
 
-export const updateResolvedStatusOfTokens = (state, tokens, codeIndex) => {
+export const updateResolvedStatusOfTokens = (state, {tokens, codeIndex}) => {
   console.log("Updating resolved status of agreement");
   tokens.forEach(function (tokenIndex) {
     state.unResolvedCodesPerToken[tokenIndex] = state.unResolvedCodesPerToken[tokenIndex].filter(obj => {
