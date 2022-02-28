@@ -321,7 +321,7 @@ export const store = new Vuex.Store({
     },
 
     setAgreementInputVisible(state, visible){
-      console.log("setAgreementInputVisible: "+visible)
+      console.log("setAgreementInputVisible: "+visible);
       state.agreementInputVisible = visible;
       if (!visible){
         state.isLinking = false;

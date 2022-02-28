@@ -152,7 +152,7 @@ export default {
 
         wrapInputVisible: {
             get(){
-                return this.agreementInputVisible;
+                return this.agreementInputVisible && this.isEnabled;
             },
 
             set(bool){
