@@ -50,7 +50,7 @@
                         <td :key="'header_column_0_1'"
                             :class="{'text-xs-left': 1 > 0}"
                         >{{ props.item.code.tore }}</td>
-                        <td :key="'header_column_0_5'"
+                        <td :key="'header_column_0_2'"
                             :class="{'text-xs-left': 5 > 0}"
                         >
                             <ul style="list-style-type: none">
@@ -59,18 +59,9 @@
                                 </li>
                             </ul>
                         </td>
-                        <td :key="'header_column_0_1'"
+                        <td :key="'header_column_0_3'"
                             :class="{'text-xs-left': 1 > 0}"
                         >{{ props.item.annotation_name }}</td>
-                        <td :key="'header_column_0_5'"
-                            :class="{'text-xs-left': 6 > 0}"
-                        >
-                            <ul style="list-style-type: none">
-                                <li v-for="alternativeToken in props.item.code.tokens">
-                                    {{ this.$store.getters.tokenListToString(alternativeToken) }}
-                                </li>
-                            </ul>
-                        </td>
                         <td>
                             <span class="icon-column"
                                   v-if="props.item.merge_status ==='Pending'">
@@ -122,6 +113,9 @@ export default {
         token: {
             type: Object
         },
+        panelIsUp: {
+            type: Boolean
+        },
     },
     data: () => {
         return {
@@ -145,11 +139,6 @@ export default {
                 },
                 {
                     text: 'Annotation Name',
-                    align: "left",
-                    width: "10%"
-                },
-                {
-                    text: 'All Tokens in Code',
                     align: "left",
                     width: "10%"
                 },
@@ -225,6 +214,14 @@ export default {
                 }
             });
             return alternatives.sort(this.myCustomSort());
+        },
+
+        directionCueString(){
+            return this.panelIsUp?"down":"up";
+        },
+
+        arrowIconClicked(){
+            this.$emit("agreement-input__arrow-icon-click");
         },
 
         acceptCode(alternative) {

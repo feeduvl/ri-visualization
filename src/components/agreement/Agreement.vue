@@ -160,11 +160,11 @@
                 <AgreementAlternatives
                     class="agreement-alternative-selection"
                     ref="input_panel"
-                    @agreement-input__arrow-icon-click="panelIsUpAgreement = !panelIsUpAgreement"
+                    @agreement-input__arrow-icon-click="panelIsUp = !panelIsUp"
                     @remove-dialog-stylerule="removeDialogStylerule"
                     @reposition-dialog="positionInput"
                     @resolvedStatusOfTokensUpdated="calculateIsResolved"
-                    v-bind="{token:selectedToken}">
+                    v-bind="{token:selectedToken, panelIsUp:panelIsUp}">
                 </AgreementAlternatives>
             </v-card>
             <AgreementCodeView
@@ -204,7 +204,7 @@ export default {
 
             algo_lemmas: null,
             agreementInputWidthPct: 50,
-            panelIsUpAgreement: true,
+            panelIsUp: true,
 
             last_code: null,
             last_token: null,// used only to prevent unwanted auto-close of dialog on shift+click, ctrl+click
@@ -231,22 +231,20 @@ export default {
         },
 
         dialogPositionStyle() {  //  need to do this because the actual dialog DOM object isn't exposed
-            console.log("Reched DialogPositionStyle, directly before Rect calculation")
             let agreementBox = this.agreementBoundingRect;
             let tokenBox = this.selectedTokenBoundingRectAgreement;
-            let panelIsUpAgreement = this.panelIsUpAgreement;
+            let panelIsUp = this.panelIsUp;
             if (agreementBox === null || tokenBox === null) {
-                console.log("Returned an empty string")
                 return ""
             } else {
-                let upperLeft = agreementBox.width - 600;
+                let upperLeft = agreementBox.width - 1000;
                 return `.v-dialog{
                                 margin: 5px;
                                 position: absolute;
                                 width: auto;
                                 overflow: auto;
                                 left: ${Math.min(upperLeft, tokenBox.left)}px;
-                                top: ${tokenBox.top + tokenBox.height + (panelIsUpAgreement ? 0 : 200)}px;
+                                top: ${tokenBox.top + tokenBox.height + (panelIsUp ? 0 : 200)}px;
                             }`
             }
         },
@@ -353,7 +351,7 @@ export default {
             this.positionInput();
         },
 
-        panelIsUpAgreement() {
+        panelIsUp() {
             this.positionInput();
         },
 
@@ -441,7 +439,6 @@ export default {
         },
 
         positionInput() {
-            console.log("Reached positionInput")
             if (this.selectedTokenBoundingRectAgreement === null || this.selectedTokenBoundingRectAgreement.width === 0) {
                 return;
             }
@@ -470,7 +467,6 @@ export default {
         },
 
         tokenClicked(index) {
-            console.log("Token is clicked")
             let token = this.token(index)
             this.isClicked = index
             this.updateSelectedToken(token);
