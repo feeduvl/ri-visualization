@@ -558,14 +558,6 @@ export default {
     flex-grow: 1;
 }
 
-.agreement-icon {
-    margin-right: 10px;
-}
-
-.annotator-input, .disambiguation-prompt {
-    position: fixed;
-}
-
 .agreement-string-selection {
     margin-top: 14px;
 }
