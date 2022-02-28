@@ -55,7 +55,7 @@
                         >
                             <ul style="list-style-type: none">
                                 <li v-for="relationship in props.item.relationship_memberships">
-                                    {{ getRelationshipString(relationship) }}
+                                    {{ relationship }}
                                 </li>
                             </ul>
                         </td>
@@ -130,7 +130,7 @@ export default {
                     width: "25%"
                 },
                 {
-                    text: 'Category',
+                    text: 'Relationships',
                     align: "left",
                     width: "25%"
                 },
@@ -169,10 +169,10 @@ export default {
         ])
     },
     methods: {
-        getRelationshipString(relIndex) {
+        getRelationshipString(relRef) {
             let toreRelationships = this.agreement_tore_relationships
             for (let toreRel of toreRelationships) {
-                if (toreRel.index === relIndex) {
+                if (toreRel.index === relRef) {
                     return toreRel.relationship_name + "->" + this.$store.getters.tokenListToString(targetTokenString)
                 }
             }
