@@ -288,7 +288,6 @@
 <script>
 import {arrayOfIntSort} from "./ArrayUtils"
 import {arraysEqual} from "./ArrayUtils"
-import {Code_user_display_prompt} from "./code"
 
 export default {
     name: "AgreementCodeView",
@@ -469,17 +468,6 @@ export default {
         doShowSnackbar({msg}){
             this.snackbarText = msg;
             this.show_snackbar = true;
-        },
-
-        deleteOccurrence(item, isRelationship) {
-            if (isRelationship) {
-                this.$store.commit("delete_tore_relationship", {index: item.relationship_index, TOREEntity: item.index})
-                setTimeout(() => this.$emit("show-snackbar", {"msg": "Deleted relationship"}));
-            } else {
-                this.$store.commit("delete_code", item);
-                setTimeout(() => this.$emit("show-snackbar", {"msg": "Deleted code occurrence: " + Code_user_display_prompt(item)}))
-            }
-            this.$store.commit("updateLastAgreementEditAt")
         },
 
         showRenameCodeDialog(code) {
