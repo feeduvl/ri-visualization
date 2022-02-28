@@ -176,7 +176,7 @@ export default {
                     return toreRel.relationship_name + "->" + this.$store.getters.tokenListToString(targetTokenString)
                 }
             }
-        }
+        },
 
         myCustomSort() {
             return function(a, b) {
