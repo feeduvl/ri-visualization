@@ -114,7 +114,7 @@
 
 <script>
 
-import {mapState} from "vuex";
+import {mapGetters, mapState} from "vuex";
 
 export default {
     name: "AgreementAlternatives",
