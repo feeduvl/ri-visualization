@@ -311,11 +311,10 @@ export default {
         codeNames() {
           let wordCodes = []
             this.alternativesForToken.forEach(function (value) {
-                if (value.code.name !== "") {
+                if (value.code.name !== "" && !wordCodes.find(value1 => value.code.name === value1)) {
                     wordCodes.push(value.code.name)
                 }
             })
-            wordCodes =  new Set(wordCodes)
             return wordCodes
         },
 
