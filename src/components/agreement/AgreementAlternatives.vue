@@ -66,7 +66,7 @@
                             :class="{'text-xs-left': 6 > 0}"
                         >
                             <ul style="list-style-type: none">
-                                <li v-for="alternativeToken in props.item.code.tokens.filter(value => value !== props.item.index)">
+                                <li v-for="alternativeToken in props.item.code.tokens.filter(value => value !== token.index)">
                                     {{ getTokenString(alternativeToken) }}
                                 </li>
                             </ul>
