@@ -308,6 +308,17 @@ export default {
     },
     computed: {
 
+        codeNames() {
+          let wordCodes = []
+            this.alternativesForToken.forEach(function (value) {
+                if (value.code.name !== "") {
+                    wordCodes.push(value.code.name)
+                }
+            })
+            wordCodes =  new Set(wordCodes)
+            return wordCodes
+        },
+
         requiredAgreementsPresent() {
             return (this.newWordCode !== null && this.newWordCode !== "") || (this.newCategory !== null && this.newCategory !== "")
         },
@@ -328,7 +339,6 @@ export default {
 
         ...mapGetters([
             "tokenListToString",
-            "codeNames",
             "isLinking"
         ]),
         ...mapState([
