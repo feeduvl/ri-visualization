@@ -144,7 +144,7 @@
                         :class="['agreement-input__name']"
                         label="Name"
                         :items="codeNames"
-                        v-model="name"
+                        v-model="newWordCode"
                         item-text="name"
                         item-value="name"
                         :rules="[requiredAgreementsPresent || 'Either a name or a category is required']"
@@ -156,10 +156,9 @@
 
                     <v-autocomplete
                         class="agreement-input__tore"
-                        @change="updateTore"
                         :rules="[requiredAgreementsPresent || 'Either a name or a category is required']"
                         :items="tores"
-                        :value="tore"
+                        :value="newCategory"
                         label="Category">
                     </v-autocomplete>
 
@@ -264,6 +263,13 @@ export default {
         return {
             createNewClicked: false,
 
+            newWordCode: "",
+            newCategory: "",
+            newRelationships: [],
+            newConnectedTokens: [],
+            newRelationshipTargetToken: "",
+            newRelationshipName: "",
+
             visible: true,
             headers: [
                 {
@@ -302,6 +308,10 @@ export default {
     },
     computed: {
 
+        requiredAgreementsPresent() {
+            return (this.newWordCode !== null && this.newWordCode !== "") || (this.newCategory !== null && this.newCategory !== "")
+        },
+
         wrapInputVisible: {
             get(){
                 return this.agreementInputVisible;
@@ -317,12 +327,15 @@ export default {
         },
 
         ...mapGetters([
-            "tokenListToString"
+            "tokenListToString",
+            "codeNames",
+            "isLinking"
         ]),
         ...mapState([
             "agreement_code_alternatives",
             "agreementInputVisible",
-            "agreement_tore_relationships"
+            "agreement_tore_relationships",
+            "tores"
         ])
     },
     methods: {
