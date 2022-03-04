@@ -8,7 +8,7 @@
         :scrollable="true"
         :max-width="1300"
     >
-        <v-card>
+        <v-card v-if="!createNewClicked" key="input">
             <v-layout row justify-left align-center>
                 <v-flex>
                     <v-btn
@@ -109,6 +109,142 @@
             </v-data-table>
 
         </v-card>
+        <v-card
+            class="agreement-input"
+            ref="agreement_input">
+
+            <v-layout row justify-left align-center>
+                <v-flex>
+                    <v-btn
+                        @click="goBackToList">
+                        Cancel
+                    </v-btn>
+                </v-flex>
+                <v-tooltip bottom>
+                    <template #activator="{on}">
+                        <v-icon v-on="on"
+                                v-if="panelIsUp"
+                                @click="arrowIconClicked">
+                            arrow_downward
+                        </v-icon>
+                        <v-icon
+                            v-on="on"
+                            v-else
+                            @click="arrowIconClicked">
+                            arrow_upward
+                        </v-icon>
+                    </template>
+                    <span>Move this box {{directionCueString}}</span>
+                </v-tooltip>
+            </v-layout>
+
+            <div class="agreement-input__input-fields">
+                <template v-if="!isLinking"
+                          class="agreement-input-no-link">
+                    <v-combobox
+                        required
+                        :class="['agreement-input__name']"
+                        label="Name"
+                        :items="codeNames"
+                        v-model="name"
+                        item-text="name"
+                        item-value="name"
+                        :rules="[requiredAgreementsPresent || 'Either a name or a category is required']"
+                        ref="nameInput"
+                        v-if="wrapInputVisible"
+                        autofocus
+                        id="agreement-input__name"
+                    ></v-combobox>
+
+                    <v-autocomplete
+                        class="agreement-input__tore"
+                        @change="updateTore"
+                        :rules="[requiredAgreementsPresent || 'Either a name or a category is required']"
+                        :items="tores"
+                        :value="tore"
+                        label="Category">
+                    </v-autocomplete>
+
+                    <v-tooltip bottom>
+                        <template #activator="{on}">
+                            <v-icon v-on="on"
+                                    :disabled="!selected_code.tore || allowedRelationshipNames.length === 0"
+                                    @click="startLinking">
+                                link
+                            </v-icon>
+                        </template>
+                        <span>New Relationship</span>
+                    </v-tooltip>
+
+                    <v-tooltip bottom>
+                        <template #activator="{on}">
+                            <v-icon v-on="on"
+                                    @click="addOtherTokens">
+                                add
+                            </v-icon>
+                        </template>
+                        <span>Add other Tokens</span>
+                    </v-tooltip>
+                </template>
+                <template v-else
+                          class="agreement-input-link">
+                    <v-tooltip bottom>
+                        <template #activator="{on}"
+                                  v-if="selected_tore_relationship">
+                            <v-icon v-on="on"
+                                    @click="stopLinking">
+                                done
+                            </v-icon>
+                        </template>
+                        <span v-if="selected_tore_relationship">Finish Linking</span>
+                        <template #activator="{on}">
+                            <v-icon v-on="on"
+                                    @click="stopLinking">
+                                close
+                            </v-icon>
+                        </template>
+                        <span v-else>Stop Linking</span>
+                    </v-tooltip>
+
+                    <v-autocomplete  class="agreement-input__relationship-name"
+                                     @change="updateRelationshipName"
+                                     :items="allowedRelationshipNames"
+                                     :value="relationshipName"
+                                     :disabled="!selected_tore_relationship"
+                                     :label="selected_tore_relationship?'Relationship Name':'Select a target token'">
+                    </v-autocomplete>
+                </template>
+                <v-tooltip bottom>
+                    <template #activator="{on}">
+                        <v-icon v-on="on"
+                                v-if="panelIsUp"
+                                @click="arrowIconClicked">
+                            arrow_downward
+                        </v-icon>
+                        <v-icon
+                            v-on="on"
+                            v-else
+                            @click="arrowIconClicked">
+                            arrow_upward
+                        </v-icon>
+                    </template>
+                    <span>Move this box {{directionCueString}}</span>
+                </v-tooltip>
+
+            </div>
+
+            <div class="agreement-input__relationships" v-if="!isLinking && $store.state.selected_code && $store.state.selected_code.relationship_memberships.length > 0">
+                <v-list class="agreement-input__relationships-list">
+                    <v-subheader>Edit a relationship</v-subheader>
+                    <v-list-tile
+                        @click="setSelectedToreRelationship(item)"
+                        v-for="(item, i) in selectedToreRelationships"
+                        :key="'relationships_'+i">
+                        {{(item.relationship_name?item.relationship_name:'[TORE Relationship]') +' -> '+tokenListToString(item.target_tokens)}}
+                    </v-list-tile>
+                </v-list>
+            </div>
+        </v-card>
     </v-dialog>
 </template>
 
@@ -128,6 +264,8 @@ export default {
     },
     data: () => {
         return {
+            createNewClicked: false,
+
             visible: true,
             headers: [
                 {
@@ -152,9 +290,9 @@ export default {
                     width: "10%"
                 },
                 {
-                    text: 'All Tokens in Code',
+                    text: 'Linked tokens',
                     align: "left",
-                    width: "10%"
+                    width: "8%"
                 },
                 {
                     text: '',
@@ -190,6 +328,12 @@ export default {
         ])
     },
     methods: {
+        goToInputPanel() {
+            this.createNewClicked = true
+        },
+        goBackToList() {
+            this.createNewClicked = false
+        },
         getRelationshipString(relRef) {
             let toreRelationships = this.agreement_tore_relationships
             for (let toreRel of toreRelationships) {
