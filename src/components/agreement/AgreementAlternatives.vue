@@ -111,7 +111,8 @@
         </v-card>
         <v-card
             class="agreement-input"
-            ref="agreement_input">
+            ref="agreement_input"
+            v-else-if="createNewClicked" key="creation">
 
             <v-layout row justify-left align-center>
                 <v-flex>
@@ -432,5 +433,58 @@ export default {
 .Pending{
     border-left: 20px solid white;
 }
+
+.agreement-input{
+    display: flex;
+    width: fit-content;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px !important;
+}
+
+.agreement-input__input-fields {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+}
+
+.agreement-input-no-link{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+    margin: 10px;
+}
+
+.agreement-input__trash {
+    float: left;
+    margin-right: 10px;
+}
+
+.agreement-input__relationship-name {
+    float: left;
+    flex: 1 1 20em;
+}
+
+.agreement-input__tore {
+    float: left;
+    flex: 1 1 20em;
+}
+
+.agreement-input__relationships-list .v-list__tile{
+    display: flex;
+    justify-content: center;
+    height: 28px;
+}
+
+.agreement-input__relationships-list .v-subheader {
+    display: flex;
+    justify-content: center;
+    height: 14px;
+}
+.agreement-input__cancel{
+    margin-top: 15px !important;
+}
+
 
 </style>
