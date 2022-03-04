@@ -6,7 +6,7 @@
         id="agreement-alternatives-dialog"
         class="agreement-alternatives-dialog"
         :scrollable="true"
-        :max-width="1000"
+        :max-width="1300"
     >
         <v-card>
             <v-layout row justify-left align-center>
@@ -66,7 +66,7 @@
                             :class="{'text-xs-left': 6 > 0}"
                         >
                             <ul style="list-style-type: none">
-                                <li v-for="alternativeToken in props.item.code.tokens">
+                                <li v-for="alternativeToken in props.item.code.tokens.filter(value => value !== props.item.index)">
                                     {{ getTokenString(alternativeToken) }}
                                 </li>
                             </ul>
