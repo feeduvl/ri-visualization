@@ -109,10 +109,7 @@
             </v-data-table>
 
         </v-card>
-        <v-card
-            class="agreement-input"
-            ref="agreement_input"
-            v-else-if="createNewClicked" key="creation">
+        <v-card v-else-if="createNewClicked" key="creation">
 
             <v-layout row justify-left align-center>
                 <v-flex>
