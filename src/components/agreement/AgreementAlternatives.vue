@@ -208,22 +208,18 @@
 <!--                    </v-autocomplete>-->
 <!--                </template>-->
                 <v-tooltip bottom>
-                    <template #activator="{on}">
-                        <v-icon v-on="on"
-                                v-if="panelIsUp"
-                                @click="arrowIconClicked">
-                            arrow_downward
-                        </v-icon>
+                    <template v-slot:activator="{ on, attrs }">
                         <v-icon
+                            small
+                            @click="createCode"
+                            v-bind="attrs"
                             v-on="on"
-                            v-else
-                            @click="arrowIconClicked">
-                            arrow_upward
+                        >
+                            add
                         </v-icon>
                     </template>
-                    <span>Move this box {{directionCueString}}</span>
+                    <span>Accept</span>
                 </v-tooltip>
-
             </div>
 
 <!--            <div class="agreement-input__relationships" v-if="!isLinking && $store.state.selected_code && $store.state.selected_code.relationship_memberships.length > 0">-->
@@ -345,10 +341,29 @@ export default {
             "agreement_code_alternatives",
             "agreementInputVisible",
             "agreement_tore_relationships",
-            "tores"
+            "tores",
+            "maxIndexCodeAlternatives",
+            "maxIndexCodes"
         ])
     },
     methods: {
+        createCode() {
+            let newCode = {
+                tokens: [this.token.index],
+                name: this.newWordCode,
+                tore: this.newCategory,
+                index: this.maxIndexCodes + 1,
+                relationship_memberships: []
+            }
+            let newCodeAlternative = {
+                annotation_name: "",
+                merge_status: "Accepted",
+                index: this.maxIndexCodeAlternatives + 1,
+                code: newCode
+            }
+            this.$store.commit("incrementMaxCodeIndices")
+            this.$store.commit("addNewCodeAlternative", newCodeAlternative)
+        },
         goToInputPanel() {
             this.createNewClicked = true
         },

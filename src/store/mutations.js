@@ -333,6 +333,15 @@ export const initResolvedStatusOfTokens = state => {
   state.unResolvedCodesPerToken = unResolvedCodesPerToken;
 };
 
+export const incrementMaxCodeIndices = state => {
+  state.maxIndexCodes++;
+  state.maxIndexCodeAlternatives++;
+};
+
+export const addNewCodeAlternative = (state, newCodeAlternative) => {
+  state.agreement_code_alternatives.push(newCodeAlternative);
+};
+
 export const updateResolvedStatusOfTokens = (state, {tokens, codeIndex}) => {
   console.log("Updating resolved status of agreement");
   tokens.forEach(function (tokenIndex) {

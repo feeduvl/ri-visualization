@@ -123,9 +123,11 @@ export const store = new Vuex.Store({
     exportedAnnotationName: null,
     exportedAnnotationTORERelationships: [],
     exportedAnnotationCodes: [],
-    exportedAnnotationTokens: []
+    exportedAnnotationTokens: [],
 
-    // END ANNOTATION STUFF
+    maxIndexCodes: null,
+    maxIndexCodeAlternatives: null
+    // END AGREEMENT STUFF
 
   },
   getters,
@@ -266,6 +268,13 @@ export const store = new Vuex.Store({
         state.available_agreements.push(name);
       }
       state.selected_agreement = name;
+
+      state.maxIndexCodeAlternatives = Math.max.apply(
+        null, state.agreement_code_alternatives.map(value => value.index)
+      );
+      state.maxIndexCodes = Math.max.apply(
+        null, state.agreement_code_alternatives.map(value => value.code.index)
+      );
 
       this.commit("initResolvedStatusOfTokens");
       this.commit("setIsLoadingAgreement", false);
