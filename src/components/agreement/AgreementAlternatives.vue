@@ -36,7 +36,6 @@
             <v-data-table
                 :headers="headers"
                 :items="alternativesForToken"
-                :sort-icon="false"
                 disable-pagination
                 class="elevation-1"
                 :hide-default-footer="true"
@@ -51,7 +50,7 @@
                             :class="{'text-xs-left': 1 > 0}"
                         >{{ props.item.code.tore }}</td>
                         <td :key="'header_column_0_2'"
-                            :class="{'text-xs-left': 5 > 0}"
+                            :class="{'text-xs-left': 2 > 0}"
                         >
                             <ul style="list-style-type: none">
                                 <li v-for="relationship in props.item.code.relationship_memberships">
@@ -60,10 +59,10 @@
                             </ul>
                         </td>
                         <td :key="'header_column_0_3'"
-                            :class="{'text-xs-left': 1 > 0}"
+                            :class="{'text-xs-left': 3 > 0}"
                         >{{ props.item.annotation_name }}</td>
-                        <td :key="'header_column_0_5'"
-                            :class="{'text-xs-left': 6 > 0}"
+                        <td :key="'header_column_0_4'"
+                            :class="{'text-xs-left': 4 > 0}"
                         >
                             <ul style="list-style-type: none">
                                 <li v-for="alternativeToken in props.item.code.tokens.filter(value => value !== token.index)">
@@ -145,11 +144,8 @@
                         label="Name"
                         :items="codeNames"
                         v-model="newWordCode"
-                        item-text="name"
-                        item-value="name"
                         :rules="[requiredAgreementsPresent || 'Either a name or a category is required']"
                         ref="nameInput"
-                        v-if="wrapInputVisible"
                         autofocus
                         id="agreement-input__name"
                     ></v-combobox>
@@ -162,55 +158,55 @@
                         label="Category">
                     </v-autocomplete>
 
-                    <v-tooltip bottom>
-                        <template #activator="{on}">
-                            <v-icon v-on="on"
-                                    :disabled="!selected_code.tore || allowedRelationshipNames.length === 0"
-                                    @click="startLinking">
-                                link
-                            </v-icon>
-                        </template>
-                        <span>New Relationship</span>
-                    </v-tooltip>
+<!--                    <v-tooltip bottom>-->
+<!--                        <template #activator="{on}">-->
+<!--                            <v-icon v-on="on"-->
+<!--                                    :disabled="!selected_code.tore || allowedRelationshipNames.length === 0"-->
+<!--                                    @click="startLinking">-->
+<!--                                link-->
+<!--                            </v-icon>-->
+<!--                        </template>-->
+<!--                        <span>New Relationship</span>-->
+<!--                    </v-tooltip>-->
 
-                    <v-tooltip bottom>
-                        <template #activator="{on}">
-                            <v-icon v-on="on"
-                                    @click="addOtherTokens">
-                                add
-                            </v-icon>
-                        </template>
-                        <span>Add other Tokens</span>
-                    </v-tooltip>
+<!--                    <v-tooltip bottom>-->
+<!--                        <template #activator="{on}">-->
+<!--                            <v-icon v-on="on"-->
+<!--                                    @click="addOtherTokens">-->
+<!--                                add-->
+<!--                            </v-icon>-->
+<!--                        </template>-->
+<!--                        <span>Add other Tokens</span>-->
+<!--                    </v-tooltip>-->
                 </template>
-                <template v-else
-                          class="agreement-input-link">
-                    <v-tooltip bottom>
-                        <template #activator="{on}"
-                                  v-if="selected_tore_relationship">
-                            <v-icon v-on="on"
-                                    @click="stopLinking">
-                                done
-                            </v-icon>
-                        </template>
-                        <span v-if="selected_tore_relationship">Finish Linking</span>
-                        <template #activator="{on}">
-                            <v-icon v-on="on"
-                                    @click="stopLinking">
-                                close
-                            </v-icon>
-                        </template>
-                        <span v-else>Stop Linking</span>
-                    </v-tooltip>
+<!--                <template v-else-->
+<!--                          class="agreement-input-link">-->
+<!--                    <v-tooltip bottom>-->
+<!--                        <template #activator="{on}"-->
+<!--                                  v-if="selected_tore_relationship">-->
+<!--                            <v-icon v-on="on"-->
+<!--                                    @click="stopLinking">-->
+<!--                                done-->
+<!--                            </v-icon>-->
+<!--                        </template>-->
+<!--                        <span v-if="selected_tore_relationship">Finish Linking</span>-->
+<!--                        <template #activator="{on}">-->
+<!--                            <v-icon v-on="on"-->
+<!--                                    @click="stopLinking">-->
+<!--                                close-->
+<!--                            </v-icon>-->
+<!--                        </template>-->
+<!--                        <span v-else>Stop Linking</span>-->
+<!--                    </v-tooltip>-->
 
-                    <v-autocomplete  class="agreement-input__relationship-name"
-                                     @change="updateRelationshipName"
-                                     :items="allowedRelationshipNames"
-                                     :value="relationshipName"
-                                     :disabled="!selected_tore_relationship"
-                                     :label="selected_tore_relationship?'Relationship Name':'Select a target token'">
-                    </v-autocomplete>
-                </template>
+<!--                    <v-autocomplete  class="agreement-input__relationship-name"-->
+<!--                                     @change="updateRelationshipName"-->
+<!--                                     :items="allowedRelationshipNames"-->
+<!--                                     :value="relationshipName"-->
+<!--                                     :disabled="!selected_tore_relationship"-->
+<!--                                     :label="selected_tore_relationship?'Relationship Name':'Select a target token'">-->
+<!--                    </v-autocomplete>-->
+<!--                </template>-->
                 <v-tooltip bottom>
                     <template #activator="{on}">
                         <v-icon v-on="on"
@@ -230,17 +226,17 @@
 
             </div>
 
-            <div class="agreement-input__relationships" v-if="!isLinking && $store.state.selected_code && $store.state.selected_code.relationship_memberships.length > 0">
-                <v-list class="agreement-input__relationships-list">
-                    <v-subheader>Edit a relationship</v-subheader>
-                    <v-list-tile
-                        @click="setSelectedToreRelationship(item)"
-                        v-for="(item, i) in selectedToreRelationships"
-                        :key="'relationships_'+i">
-                        {{(item.relationship_name?item.relationship_name:'[TORE Relationship]') +' -> '+tokenListToString(item.target_tokens)}}
-                    </v-list-tile>
-                </v-list>
-            </div>
+<!--            <div class="agreement-input__relationships" v-if="!isLinking && $store.state.selected_code && $store.state.selected_code.relationship_memberships.length > 0">-->
+<!--                <v-list class="agreement-input__relationships-list">-->
+<!--                    <v-subheader>Edit a relationship</v-subheader>-->
+<!--                    <v-list-tile-->
+<!--                        @click="setSelectedToreRelationship(item)"-->
+<!--                        v-for="(item, i) in selectedToreRelationships"-->
+<!--                        :key="'relationships_'+i">-->
+<!--                        {{(item.relationship_name?item.relationship_name:'[TORE Relationship]') +' -> '+tokenListToString(item.target_tokens)}}-->
+<!--                    </v-list-tile>-->
+<!--                </v-list>-->
+<!--            </div>-->
         </v-card>
     </v-dialog>
 </template>
@@ -275,39 +271,44 @@ export default {
                 {
                     text: 'Word Code',
                     align: "left",
-                    width: "30%"
+                    width: "30%",
+                    sortable: false
 
                 },
                 {
                     text: 'Category',
                     align: "left",
-                    width: "25%"
+                    width: "25%",
+                    sortable: false
                 },
                 {
                     text: 'Relationships',
                     align: "left",
-                    width: "25%"
+                    width: "25%",
+                    sortable: false
                 },
                 {
                     text: 'Annotation Name',
                     align: "left",
-                    width: "10%"
+                    width: "10%",
+                    sortable: false
                 },
                 {
                     text: 'Linked tokens',
                     align: "left",
-                    width: "8%"
+                    width: "8%",
+                    sortable: false
                 },
                 {
                     text: '',
                     align: "right",
-                    width: "5%"
+                    width: "5%",
+                    sortable: false
                 },
             ]
         }
     },
     computed: {
-
         codeNames() {
           let wordCodes = []
             this.alternativesForToken.forEach(function (value) {
