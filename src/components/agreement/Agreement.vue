@@ -323,6 +323,7 @@ export default {
             "selected_doc",
             "tokensInSelectedDoc," +
             "tokenListToString",
+            "new_tore_relationship",
             "showingInput"]),
 
         ...mapState([
@@ -330,7 +331,7 @@ export default {
             "lastAgreementPostAt",
             "agreementViewingCodeResults",
             "selected_doc",
-            "unResolvedCodesPerToken"
+            "unResolvedCodesPerToken",
         ])
     },
 
@@ -469,7 +470,15 @@ export default {
         tokenClicked(index) {
             let token = this.token(index)
             this.isClicked = index
-            this.updateSelectedToken(token);
+            if(!this.isLinking) {
+                this.updateSelectedToken(token);
+            } else {
+                if(this.newToreRelationship === null){
+                    this.$store.commit("new_tore_relationship_in_agreement", token)
+                } else {
+                    this.$store.commit("add_or_remove_token_selected_relationship_in_agreement", token)
+                }
+            }
         },
 
         doSaveAgreement(autosave) {

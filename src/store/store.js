@@ -126,7 +126,10 @@ export const store = new Vuex.Store({
     exportedAnnotationTokens: [],
 
     maxIndexCodes: null,
-    maxIndexCodeAlternatives: null
+    maxIndexCodeAlternatives: null,
+    maxIndexToreRelationships: null,
+    newToreRelationship: null,
+    newToreRelationships: []
     // END AGREEMENT STUFF
 
   },
@@ -275,6 +278,9 @@ export const store = new Vuex.Store({
       state.maxIndexCodes = Math.max.apply(
         null, state.agreement_code_alternatives.map(value => value.code.index)
       );
+      state.maxIndexToreRelationships = Math.max.apply(
+        null, state.agreement_tore_relationships.map(value => value.index)
+      );
 
       this.commit("initResolvedStatusOfTokens");
       this.commit("setIsLoadingAgreement", false);
@@ -308,6 +314,13 @@ export const store = new Vuex.Store({
       Code_add_relationship(state.selected_code, relationship);
       this.commit("setSelectedToreRelationship", relationship);
       state.tore_relationships.push(relationship);
+    },
+
+    new_tore_relationship_in_agreement(state, firstToken){
+      // Use placeholder for TOREEntity
+      let relationship = new TORERelationship(0, [firstToken.index], this.maxIndexToreRelationships);
+      this.commit("setSelectedToreRelationship", relationship);
+      state.newToreRelationships.push(relationship);
     },
 
     setIsLinking(state, isLinking){

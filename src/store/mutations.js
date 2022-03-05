@@ -100,6 +100,9 @@ export const mutateFooterText = (state, title) => {
 export const setRelationshipName = (state, name) => {
   TORERelationship_set_relationship_name(state.selected_tore_relationship, name);
 };
+export const setNewRelationshipName = (state, name) => {
+  TORERelationship_set_relationship_name(state.selected_tore_relationship, name);
+};
 
 export const add_or_remove_token_selected_relationship = (state, token) => {
   console.log("Adding/Removing token: ... to current relationship: "+state.selected_tore_relationship.index);
@@ -120,9 +123,28 @@ export const add_or_remove_token_selected_relationship = (state, token) => {
     }
     //console.log(state.selected_tore_relationship.target_tokens)
   }
-}; export const
+};
 
-  setSelectedToken = (state, token) => {
+export const add_or_remove_token_selected_relationship_in_agreement = (state, token) => {
+  console.log("Adding/Removing token: ... to current relationship: "+state.newToreRelationship.index);
+  if(state.newToreRelationship === null){
+    console.error("add_or_remove_token_selected_relationship called while selected tore relationship is null");
+  } else {
+
+    for(let token_index of state.newToreRelationship.target_tokens){
+      Vue.set(state.token_linked_together, token_index, false);
+    }
+
+    if(!TORERelationship_add_token(state.newToreRelationship, token)){
+      TORERelationship_remove_token(state.newToreRelationship, token);
+    }
+    for(let token_index of state.newToreRelationship.target_tokens){
+      Vue.set(state.token_linked_together, token_index, true);
+    }
+  }
+};
+
+export const setSelectedToken = (state, token) => {
   //console.log("Selected token is: "+token)
     state.selectedToken = token;
   };

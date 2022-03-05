@@ -159,16 +159,16 @@
                         label="Category">
                     </v-autocomplete>
 
-<!--                    <v-tooltip bottom>-->
-<!--                        <template #activator="{on}">-->
-<!--                            <v-icon v-on="on"-->
-<!--                                    :disabled="!selected_code.tore || allowedRelationshipNames.length === 0"-->
-<!--                                    @click="startLinking">-->
-<!--                                link-->
-<!--                            </v-icon>-->
-<!--                        </template>-->
-<!--                        <span>New Relationship</span>-->
-<!--                    </v-tooltip>-->
+                    <v-tooltip bottom>
+                        <template #activator="{on}">
+                            <v-icon v-on="on"
+                                    :disabled="!newCategory || allowedRelationshipNames.length === 0"
+                                    @click="startLinking">
+                                link
+                            </v-icon>
+                        </template>
+                        <span>New Relationship</span>
+                    </v-tooltip>
 
 <!--                    <v-tooltip bottom>-->
 <!--                        <template #activator="{on}">-->
@@ -180,34 +180,34 @@
 <!--                        <span>Add other Tokens</span>-->
 <!--                    </v-tooltip>-->
                 </template>
-<!--                <template v-else-->
-<!--                          class="agreement-input-link">-->
-<!--                    <v-tooltip bottom>-->
-<!--                        <template #activator="{on}"-->
-<!--                                  v-if="selected_tore_relationship">-->
-<!--                            <v-icon v-on="on"-->
-<!--                                    @click="stopLinking">-->
-<!--                                done-->
-<!--                            </v-icon>-->
-<!--                        </template>-->
-<!--                        <span v-if="selected_tore_relationship">Finish Linking</span>-->
-<!--                        <template #activator="{on}">-->
-<!--                            <v-icon v-on="on"-->
-<!--                                    @click="stopLinking">-->
-<!--                                close-->
-<!--                            </v-icon>-->
-<!--                        </template>-->
-<!--                        <span v-else>Stop Linking</span>-->
-<!--                    </v-tooltip>-->
+                <template v-else
+                          class="agreement-input-link">
+                    <v-tooltip bottom>
+                        <template #activator="{on}"
+                                  v-if="new_tore_relationship">
+                            <v-icon v-on="on"
+                                    @click="stopLinking">
+                                done
+                            </v-icon>
+                        </template>
+                        <span v-if="new_tore_relationship">Finish Linking</span>
+                        <template #activator="{on}">
+                            <v-icon v-on="on"
+                                    @click="stopLinking">
+                                close
+                            </v-icon>
+                        </template>
+                        <span v-else>Stop Linking</span>
+                    </v-tooltip>
 
-<!--                    <v-autocomplete  class="agreement-input__relationship-name"-->
-<!--                                     @change="updateRelationshipName"-->
-<!--                                     :items="allowedRelationshipNames"-->
-<!--                                     :value="relationshipName"-->
-<!--                                     :disabled="!selected_tore_relationship"-->
-<!--                                     :label="selected_tore_relationship?'Relationship Name':'Select a target token'">-->
-<!--                    </v-autocomplete>-->
-<!--                </template>-->
+                    <v-autocomplete  class="agreement-input__relationship-name"
+                                     @change="updateRelationshipName"
+                                     :items="allowedRelationshipNames"
+                                     :value="relationshipName"
+                                     :disabled="!new_tore_relationship"
+                                     :label="new_tore_relationship?'Relationship Name':'Select a target token'">
+                    </v-autocomplete>
+                </template>
                 <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                         <v-icon
@@ -219,21 +219,21 @@
                             add
                         </v-icon>
                     </template>
-                    <span>Accept</span>
+                    <span>Add and Accept</span>
                 </v-tooltip>
             </div>
 
-<!--            <div class="agreement-input__relationships" v-if="!isLinking && $store.state.selected_code && $store.state.selected_code.relationship_memberships.length > 0">-->
-<!--                <v-list class="agreement-input__relationships-list">-->
-<!--                    <v-subheader>Edit a relationship</v-subheader>-->
-<!--                    <v-list-tile-->
-<!--                        @click="setSelectedToreRelationship(item)"-->
-<!--                        v-for="(item, i) in selectedToreRelationships"-->
-<!--                        :key="'relationships_'+i">-->
-<!--                        {{(item.relationship_name?item.relationship_name:'[TORE Relationship]') +' -> '+tokenListToString(item.target_tokens)}}-->
-<!--                    </v-list-tile>-->
-<!--                </v-list>-->
-<!--            </div>-->
+            <div class="agreement-input__relationships" v-if="!isLinking && $store.state.newToreRelationships.length > 0">
+                <v-list class="agreement-input__relationships-list">
+                    <v-subheader>Edit a relationship</v-subheader>
+                    <v-list-tile
+                        @click="setSelectedToreRelationship(item)"
+                        v-for="(item, i) in newToreRelationships"
+                        :key="'relationships_'+i">
+                        {{(item.relationship_name?item.relationship_name:'[TORE Relationship]') +' -> '+tokenListToString(item.target_tokens)}}
+                    </v-list-tile>
+                </v-list>
+            </div>
         </v-card>
     </v-dialog>
 </template>
@@ -306,6 +306,16 @@ export default {
         }
     },
     computed: {
+        relationshipName(){
+            let r = this.$store.state.newToreRelationship
+            return r ? r.relationship_name : ""
+        },
+        allowedRelationshipNames(){
+            return this.$store.state.relationship_names.filter((name, index) => {
+                return !this.$store.state.relationship_owners[index] || this.$store.state.relationship_owners[index] === this.tore;
+            } )
+        },
+
         codeNames() {
           let wordCodes = []
             this.alternativesForToken.forEach(function (value) {
@@ -336,7 +346,8 @@ export default {
 
         ...mapGetters([
             "tokenListToString",
-            "isLinking"
+            "isLinking",
+            "new_tore_relationship"
         ]),
         ...mapState([
             "agreement_code_alternatives",
@@ -344,10 +355,31 @@ export default {
             "agreement_tore_relationships",
             "tores",
             "maxIndexCodeAlternatives",
-            "maxIndexCodes"
-        ])
+            "maxIndexCodes",
+            "relationship_names",
+            "newToreRelationships"
+        ]),
     },
     methods: {
+
+        setSelectedToreRelationship(relationship){
+            this.startLinking()
+            this.$store.commit("setSelectedToreRelationship", relationship)
+        },
+        updateRelationshipName(value){
+            if(this.$store.state.newToreRelationship){
+                this.$store.commit("setNewRelationshipName", value);
+                this.$store.commit("updateLastAgreementEditAt")
+            }
+        },
+
+        startLinking(){
+            this.$store.commit("setIsLinking", true);
+        },
+        stopLinking(){
+            this.$store.commit("setIsLinking", false);
+        },
+
         updateTore(value) {
             this.newCategory = value
         },
@@ -368,6 +400,7 @@ export default {
             }
             this.$store.commit("incrementMaxCodeIndices")
             this.$store.commit("addNewCodeAlternative", newCodeAlternative)
+            this.createNewClicked = false
         },
         goToInputPanel() {
             this.createNewClicked = true

@@ -123,7 +123,11 @@ export const docs = state => {
 
   selected_tore_relationship = state => {
     return state.selected_tore_relationship;
-  }; 
+  }; export const
+
+  new_tore_relationship = state => {
+    return state.newToreRelationship;
+  };
 export const
 
   selected_code = state => {
