@@ -152,6 +152,7 @@
 
                     <v-autocomplete
                         class="agreement-input__tore"
+                        @change="updateTore"
                         :rules="[requiredAgreementsPresent || 'Either a name or a category is required']"
                         :items="tores"
                         :value="newCategory"
@@ -347,6 +348,10 @@ export default {
         ])
     },
     methods: {
+        updateTore(value) {
+            this.newCategory = value
+        },
+
         createCode() {
             let newCode = {
                 tokens: [this.token.index],
