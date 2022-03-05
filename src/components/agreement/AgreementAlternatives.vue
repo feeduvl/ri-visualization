@@ -302,7 +302,7 @@ export default {
                 {
                     text: '',
                     align: "right",
-                    width: "5%",
+                    width: "9%",
                     sortable: false
                 },
             ]

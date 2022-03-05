@@ -368,6 +368,8 @@ export default {
     reloadFields() {
       this.$store.dispatch("actionGetAllAgreements")
       this.$store.dispatch("actionGetAllAnnotations")
+        this.$store.dispatch("actionGetAllRelationships")
+        this.$store.dispatch("actionGetAllTores")
 
     },
 
