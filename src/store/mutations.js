@@ -146,8 +146,8 @@ export const add_or_remove_token_selected_relationship_in_agreement = (state, to
 
 export const setSelectedToken = (state, token) => {
   //console.log("Selected token is: "+token)
-    state.selectedToken = token;
-  };
+  state.selectedToken = token;
+};
 
 export const updateCodeName = (state, name) => {
   console.log("Update selected code name: "+name);

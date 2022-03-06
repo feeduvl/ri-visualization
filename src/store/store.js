@@ -319,14 +319,14 @@ export const store = new Vuex.Store({
     new_tore_relationship_in_agreement(state, firstToken){
       // Use placeholder for TOREEntity
       let relationship = new TORERelationship(0, [firstToken.index], this.maxIndexToreRelationships);
-      this.commit("setSelectedToreRelationship", relationship);
+      this.commit("setNewToreRelationship", relationship);
       state.newToreRelationships.push(relationship);
     },
 
     setIsLinking(state, isLinking){
       state.isLinking = isLinking;
       if (!isLinking){
-        this.commit("setSelectedToreRelationship", null);
+        this.commit("setNewToreRelationship", null);
       }
     },
 
