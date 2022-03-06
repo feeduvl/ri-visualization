@@ -474,7 +474,7 @@ export default {
             if(!this.isLinking) {
                 this.updateSelectedToken(token);
             } else {
-                if(this.newToreRelationship === null){
+                if(this.new_tore_relationship === null){
                     this.$store.commit("new_tore_relationship_in_agreement", token)
                 } else {
                     this.$store.commit("add_or_remove_token_selected_relationship_in_agreement", token)
