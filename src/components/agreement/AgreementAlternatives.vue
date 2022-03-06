@@ -365,6 +365,8 @@ export default {
     methods: {
 
         setNewToreRelationship(relationship){
+            console.log("Set new tore relationship frontend");
+            console.log("relationship: " + relationship);
             this.startLinking()
             this.$store.commit("setNewToreRelationship", relationship)
         },
