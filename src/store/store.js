@@ -281,6 +281,7 @@ export const store = new Vuex.Store({
       state.maxIndexToreRelationships = Math.max.apply(
         null, state.agreement_tore_relationships.map(value => value.index)
       );
+      console.log("maxIndexToreRelationships: " + state.maxIndexToreRelationships);
 
       this.commit("initResolvedStatusOfTokens");
       this.commit("setIsLoadingAgreement", false);
@@ -324,7 +325,7 @@ export const store = new Vuex.Store({
         TOREEntity: 1,
         target_tokens: [firstToken.index],
         relationship_name: "",
-        index: this.maxIndexToreRelationships,
+        index: state.maxIndexToreRelationships + 1,
       };
       console.log("relationship index: " + relationship.index);
       console.log("relationship Toreentity: " + relationship.TOREEntity);
