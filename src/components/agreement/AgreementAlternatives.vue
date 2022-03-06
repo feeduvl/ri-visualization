@@ -229,7 +229,7 @@
                 <v-list class="agreement-input__relationships-list">
                     <v-subheader>Edit a relationship</v-subheader>
                     <v-list-tile
-                        @click="setSelectedToreRelationship(item)"
+                        @click="setNewToreRelationship(item)"
                         v-for="(item, i) in newToreRelationships"
                         :key="'relationships_'+i">
                         {{(item.relationship_name?item.relationship_name:'[TORE Relationship]') +' -> '+tokenListToString(item.target_tokens)}}
@@ -364,9 +364,9 @@ export default {
     },
     methods: {
 
-        setSelectedToreRelationship(relationship){
+        setNewToreRelationship(relationship){
             this.startLinking()
-            this.$store.commit("setSelectedToreRelationship", relationship)
+            this.$store.commit("setNewToreRelationship", relationship)
         },
         updateRelationshipName(value){
             if(this.$store.state.newToreRelationship){

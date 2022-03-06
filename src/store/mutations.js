@@ -193,6 +193,23 @@ export const updateCodeTore = (state, tore) => {
       }
     }
     state.selected_tore_relationship = relationship;
+  };export const
+
+  setNewToreRelationship = (state, relationship) => {
+    console.log("Setting new relationship: "+(relationship===null?'null':relationship.index));
+
+    if(state.newToreRelationship !== null){
+      for(let token_index of state.newToreRelationship.target_tokens){
+        Vue.set(state.token_linked_together, token_index, false);
+      }
+    }
+
+    if(relationship !== null){
+      for(let token_index of relationship.target_tokens){
+        Vue.set(state.token_linked_together, token_index, true);
+      }
+    }
+    state.newToreRelationship = relationship;
   };
 
 export const updateSelectedDoc = (state, value) => {
