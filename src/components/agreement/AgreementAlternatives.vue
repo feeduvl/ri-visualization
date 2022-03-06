@@ -164,7 +164,7 @@
                     <v-tooltip bottom>
                         <template #activator="{on}">
                             <v-icon v-on="on"
-                                    :disabled="!newCategory || allowedRelationshipNames.length === 0"
+                                    :disabled="!newCategory || (newCategory !== '') || allowedRelationshipNames.length === 0"
                                     @click="startLinking">
                                 link
                             </v-icon>
