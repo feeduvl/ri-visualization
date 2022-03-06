@@ -3,7 +3,7 @@
         :hide-overlay="true"
         v-model="wrapInputVisible"
         v-if="wrapInputVisible"
-        @click:outside="closeDialog"
+        v-click-outside="onClickOutside"
         id="agreement-alternatives-dialog"
         class="agreement-alternatives-dialog"
         :scrollable="true"
@@ -363,7 +363,8 @@ export default {
     },
     methods: {
 
-        closeDialog() {
+        onClickOutside() {
+            console.log("Clicked off, parameters are reset")
             this.newWordCode = ""
             this.newCategory = ""
             this.newRelationships = []
@@ -373,6 +374,7 @@ export default {
             this.$store.commit("setIsLinking", false);
             this.newToreRelationships = []
             this.new_tore_relationship = null
+            this.createNewClicked = false
         },
 
         setSelectedToreRelationship(relationship){
