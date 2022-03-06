@@ -3,8 +3,6 @@
         :hide-overlay="true"
         v-model="wrapInputVisible"
         v-if="wrapInputVisible"
-        v-click-outside="goBackToList"
-        oncancel="goBackToList()"
         id="agreement-alternatives-dialog"
         class="agreement-alternatives-dialog"
         :scrollable="true"
@@ -417,7 +415,7 @@ export default {
             this.newConnectedTokens = []
             this.newRelationshipTargetToken = ""
             this.newRelationshipName = ""
-            this.$store.commit("setIsLinking", false);
+            // this.$store.commit("setIsLinking", false);
             this.newToreRelationships = []
             this.new_tore_relationship = null
         },
