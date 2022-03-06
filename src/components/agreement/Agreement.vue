@@ -321,7 +321,7 @@ export default {
             "token",
             "docs",
             "selected_doc",
-            "tokensInSelectedDoc," +
+            "tokensInSelectedDoc",
             "tokenListToString",
             "new_tore_relationship",
             "showingInput"]),

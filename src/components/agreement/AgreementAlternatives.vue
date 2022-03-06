@@ -3,6 +3,7 @@
         :hide-overlay="true"
         v-model="wrapInputVisible"
         v-if="wrapInputVisible"
+        @click:outside="closeDialog"
         id="agreement-alternatives-dialog"
         class="agreement-alternatives-dialog"
         :scrollable="true"
@@ -361,6 +362,18 @@ export default {
         ]),
     },
     methods: {
+
+        closeDialog() {
+            this.newWordCode = ""
+            this.newCategory = ""
+            this.newRelationships = []
+            this.newConnectedTokens = []
+            this.newRelationshipTargetToken = ""
+            this.newRelationshipName = ""
+            this.$store.commit("setIsLinking", false);
+            this.newToreRelationships = []
+            this.new_tore_relationship = null
+        },
 
         setSelectedToreRelationship(relationship){
             this.startLinking()
