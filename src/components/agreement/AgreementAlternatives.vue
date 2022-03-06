@@ -3,7 +3,8 @@
         :hide-overlay="true"
         v-model="wrapInputVisible"
         v-if="wrapInputVisible"
-        v-click-outside="onClickOutside"
+        v-click-outside="goBackToList"
+        oncancel="goBackToList()"
         id="agreement-alternatives-dialog"
         class="agreement-alternatives-dialog"
         :scrollable="true"
@@ -363,20 +364,6 @@ export default {
     },
     methods: {
 
-        onClickOutside() {
-            console.log("Clicked off, parameters are reset")
-            this.newWordCode = ""
-            this.newCategory = ""
-            this.newRelationships = []
-            this.newConnectedTokens = []
-            this.newRelationshipTargetToken = ""
-            this.newRelationshipName = ""
-            this.$store.commit("setIsLinking", false);
-            this.newToreRelationships = []
-            this.new_tore_relationship = null
-            this.createNewClicked = false
-        },
-
         setSelectedToreRelationship(relationship){
             this.startLinking()
             this.$store.commit("setSelectedToreRelationship", relationship)
@@ -422,6 +409,15 @@ export default {
         },
         goBackToList() {
             this.createNewClicked = false
+            this.newWordCode = ""
+            this.newCategory = ""
+            this.newRelationships = []
+            this.newConnectedTokens = []
+            this.newRelationshipTargetToken = ""
+            this.newRelationshipName = ""
+            this.$store.commit("setIsLinking", false);
+            this.newToreRelationships = []
+            this.new_tore_relationship = null
         },
         getRelationshipString(relRef) {
             let toreRelationships = this.agreement_tore_relationships

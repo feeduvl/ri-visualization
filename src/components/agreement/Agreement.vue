@@ -465,6 +465,7 @@ export default {
             if (this.tokenIsResolved[token.index] !== null) {
                 this.$store.commit("setAgreementInputVisible", true);
             }
+            this.$refs.input_panel.goBackToList()
         },
 
         tokenClicked(index) {
