@@ -1,6 +1,7 @@
 <template>
     <v-dialog
         :hide-overlay="true"
+        :persistent="!requiredAgreementsPresent || isLinking"
         v-model="wrapInputVisible"
         v-if="wrapInputVisible"
         id="agreement-alternatives-dialog"
