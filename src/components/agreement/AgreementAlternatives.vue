@@ -258,10 +258,7 @@ export default {
 
             newWordCode: "",
             newCategory: "",
-            newRelationships: [],
             newConnectedTokens: [],
-            newRelationshipTargetToken: "",
-            newRelationshipName: "",
 
             visible: true,
             headers: [
@@ -336,6 +333,7 @@ export default {
             },
 
             set(bool){
+                console.log("setAgreementInputVisible is set in AgreementAlternatives")
                 this.$store.commit("setAgreementInputVisible", bool);  // should always be false
             }
         },
@@ -369,7 +367,7 @@ export default {
             this.$store.commit("setNewToreRelationship", relationship)
         },
         updateRelationshipName(value){
-            if(this.$store.state.newToreRelationship){
+            if(this.new_tore_relationship){
                 this.$store.commit("setNewRelationshipName", value);
                 this.$store.commit("updateLastAgreementEditAt")
             }
@@ -403,6 +401,7 @@ export default {
             this.$store.commit("incrementMaxCodeIndices")
             this.$store.commit("addNewCodeAlternative", newCodeAlternative)
             this.createNewClicked = false
+            this.goBackToList()
         },
         goToInputPanel() {
             this.createNewClicked = true
