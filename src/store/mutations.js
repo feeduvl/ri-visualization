@@ -101,7 +101,7 @@ export const setRelationshipName = (state, name) => {
   TORERelationship_set_relationship_name(state.selected_tore_relationship, name);
 };
 export const setNewRelationshipName = (state, name) => {
-  TORERelationship_set_relationship_name(state.selected_tore_relationship, name);
+  state.newToreRelationship.relationship_name = name;
 };
 
 export const add_or_remove_token_selected_relationship = (state, token) => {
