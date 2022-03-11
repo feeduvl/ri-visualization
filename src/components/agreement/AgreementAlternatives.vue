@@ -1,7 +1,7 @@
 <template>
     <v-dialog
         :hide-overlay="true"
-        :persistent="!requiredAgreementsPresent || isLinking"
+        :persistent="isLinking"
         v-model="wrapInputVisible"
         v-if="wrapInputVisible"
         id="agreement-alternatives-dialog"
@@ -334,7 +334,6 @@ export default {
             },
 
             set(bool){
-                console.log("setAgreementInputVisible is set in AgreementAlternatives")
                 this.$store.commit("setAgreementInputVisible", bool);  // should always be false
             }
         },
