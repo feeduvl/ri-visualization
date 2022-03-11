@@ -381,8 +381,10 @@ export const addNewCodeAlternative = (state, newCodeAlternative) => {
   state.agreement_code_alternatives.push(newCodeAlternative);
 };
 
-export const addNewToreRelationship = (state, newToreRelationship) => {
-  state.agreement_tore_relationships.push(newToreRelationship);
+export const addNewToreRelationships = (state, newToreRelationships) => {
+  newToreRelationships.forEach(function (value) {
+    state.agreement_tore_relationships.push(value);
+  });
 };
 
 export const updateResolvedStatusOfTokens = (state, {tokens, codeIndex}) => {
