@@ -389,9 +389,12 @@ export default {
         createCode() {
             let increment = 1
             let newMaxIndexCode = this.maxIndexCodes + 1
+            let maxIndexRel = this.maxIndexToreRelationships
+            let newRelIndicesToAdd = []
             this.newToreRelationships.forEach(function (value) {
                 value.TOREEntity = newMaxIndexCode
-                value.index = this.maxIndexToreRelationships + increment
+                value.index = maxIndexRel + increment
+                newRelIndicesToAdd.push(value.index)
                 increment++
             })
             let newCode = {
@@ -399,7 +402,7 @@ export default {
                 name: this.newWordCode,
                 tore: this.newCategory,
                 index: newMaxIndexCode,
-                relationship_memberships: this.newToreRelationships
+                relationship_memberships: newRelIndicesToAdd
             }
             let newCodeAlternative = {
                 annotation_name: "",
