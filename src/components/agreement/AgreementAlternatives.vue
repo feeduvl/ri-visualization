@@ -242,6 +242,7 @@
 <script>
 
 import {mapGetters, mapState} from "vuex";
+import {resetNewRelationships} from "../../store/mutations";
 
 export default {
     name: "AgreementAlternatives",
@@ -410,6 +411,7 @@ export default {
                 code: newCode
             }
             this.$store.commit("incrementMaxCodeIndices")
+            this.$store.commit("incrementMaxRelationshipIndices", increment - 1)
             this.$store.commit("addNewCodeAlternative", newCodeAlternative)
             this.$store.commit("addNewToreRelationships", this.newToreRelationships)
             this.createNewClicked = false
@@ -422,13 +424,8 @@ export default {
             this.createNewClicked = false
             this.newWordCode = ""
             this.newCategory = ""
-            this.newRelationships = []
             this.newConnectedTokens = []
-            this.newRelationshipTargetToken = ""
-            this.newRelationshipName = ""
-            // this.$store.commit("setIsLinking", false);
-            this.newToreRelationships = []
-            this.new_tore_relationship = null
+            this.$store.commit("resetNewRelationships")
         },
         getRelationshipString(relRef) {
             let toreRelationships = this.agreement_tore_relationships
