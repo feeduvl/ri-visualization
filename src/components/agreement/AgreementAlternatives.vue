@@ -412,6 +412,7 @@ export default {
             }
             this.$store.commit("incrementMaxCodeIndices")
             this.$store.commit("addNewCodeAlternative", newCodeAlternative)
+            this.$store.commit("addNewToreRelationship", this.newToreRelationships)
             this.createNewClicked = false
             this.goBackToList()
         },

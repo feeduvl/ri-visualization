@@ -381,6 +381,10 @@ export const addNewCodeAlternative = (state, newCodeAlternative) => {
   state.agreement_code_alternatives.push(newCodeAlternative);
 };
 
+export const addNewToreRelationship = (state, newToreRelationship) => {
+  state.agreement_tore_relationships.push(newToreRelationship);
+};
+
 export const updateResolvedStatusOfTokens = (state, {tokens, codeIndex}) => {
   console.log("Updating resolved status of agreement");
   tokens.forEach(function (tokenIndex) {
