@@ -318,12 +318,12 @@ export const store = new Vuex.Store({
     },
 
     new_tore_relationship_in_agreement(state, firstToken){
-      // Use placeholder for TOREEntity
+      // Use placeholder for TOREEntity and index
       let relationship = {
         TOREEntity: 1,
         target_tokens: [firstToken.index],
         relationship_name: "",
-        index: state.maxIndexToreRelationships + 1,
+        index: -1,
       };
       this.commit("setNewToreRelationship", relationship);
       state.newToreRelationships.push(relationship);

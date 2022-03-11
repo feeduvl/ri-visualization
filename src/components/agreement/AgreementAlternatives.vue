@@ -191,13 +191,13 @@
                                 done
                             </v-icon>
                         </template>
-                        <span v-if="new_tore_relationship">Finish Linking</span>
-                        <template #activator="{on}">
+                        <template #activator="{on}" v-else>
                             <v-icon v-on="on"
                                     @click="stopLinking">
                                 close
                             </v-icon>
                         </template>
+                        <span v-if="new_tore_relationship">Finish Linking</span>
                         <span v-else>Stop Linking</span>
                     </v-tooltip>
 
@@ -355,6 +355,7 @@ export default {
             "tores",
             "maxIndexCodeAlternatives",
             "maxIndexCodes",
+            "maxIndexToreRelationships",
             "relationship_names",
             "newToreRelationships"
         ]),
@@ -386,12 +387,19 @@ export default {
         },
 
         createCode() {
+            let increment = 1
+            let newMaxIndexCode = this.maxIndexCodes + 1
+            this.newToreRelationships.forEach(function (value) {
+                value.TOREEntity = newMaxIndexCode
+                value.index = this.maxIndexToreRelationships + increment
+                increment++
+            })
             let newCode = {
                 tokens: [this.token.index],
                 name: this.newWordCode,
                 tore: this.newCategory,
-                index: this.maxIndexCodes + 1,
-                relationship_memberships: []
+                index: newMaxIndexCode,
+                relationship_memberships: this.newToreRelationships
             }
             let newCodeAlternative = {
                 annotation_name: "",
