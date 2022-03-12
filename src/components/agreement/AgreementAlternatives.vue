@@ -325,8 +325,9 @@ export default {
     computed: {
         otherTokenNames(){
             let tokenNames = []
+            let allTokens = this.$store.state.tokens
             this.new_added_tokens.forEach(function (value) {
-                tokenNames.push(this.$store.state.tokens[value].name)
+                tokenNames.push(allTokens[value].name)
             })
             return tokenNames
         },
