@@ -213,6 +213,7 @@
                     <template v-slot:activator="{ on, attrs }">
                         <v-icon
                             small
+                            :disabled="newWordCode || newCategory"
                             @click="createCode"
                             v-bind="attrs"
                             v-on="on"
