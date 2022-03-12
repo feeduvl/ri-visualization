@@ -191,6 +191,8 @@
                             </v-icon>
                         </template>
                         <span>Stop Linking</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
                         <template #activator="{on}"
                                   v-if="new_tore_relationship">
                             <v-icon v-on="on"
