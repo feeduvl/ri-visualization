@@ -209,11 +209,10 @@
                                      :label="new_tore_relationship?'Relationship Name':'Select a target token'">
                     </v-autocomplete>
                 </template>
-                <v-tooltip bottom>
+                <v-tooltip bottom v-if="!requiredAgreementsPresent || isLinking">
                     <template v-slot:activator="{ on, attrs }">
                         <v-icon
                             small
-                            :disabled="!requiredAgreementsPresent || isLinking"
                             @click="createCode"
                             v-bind="attrs"
                             v-on="on"
