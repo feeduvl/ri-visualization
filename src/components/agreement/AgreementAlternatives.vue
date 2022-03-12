@@ -231,7 +231,7 @@
                 </v-tooltip>
             </div>
 
-            <div class="agreement-input__other_tokens" v-if="!isLinking && $store.state.newTokensToAdd.length > 0">
+            <div class="agreement-input__other_tokens" v-if="!isLinking && !isAddingToken && $store.state.newTokensToAdd.length > 0">
                 <v-list class="agreement-input__other_tokens-list">
                     <v-subheader>Added Tokens</v-subheader>
                     <v-list-tile
@@ -241,7 +241,9 @@
                     </v-list-tile>
                 </v-list>
             </div>
-            <div class="agreement-input__relationships" v-if="!isLinking && $store.state.newToreRelationships.length > 0">
+            <div class="agreement-input__relationships" v-if="
+import {isAddingToken} from '../../store/getters';
+!isLinking && !isAddingToken && $store.state.newToreRelationships.length > 0">
                 <v-list class="agreement-input__relationships-list">
                     <v-subheader>Edit a relationship</v-subheader>
                     <v-list-tile
