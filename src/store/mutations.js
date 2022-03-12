@@ -381,6 +381,10 @@ export const resetNewRelationship = state => {
   state.newToreRelationship = null;
 };
 
+export const resetNewTokensToAdd = state => {
+  state.newTokensToAdd = [];
+};
+
 export const resetNewRelationships = state => {
   state.newToreRelationships = [];
   state.newToreRelationship = null;

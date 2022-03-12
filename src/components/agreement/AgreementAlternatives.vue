@@ -251,6 +251,7 @@
 <script>
 
 import {mapGetters, mapState} from "vuex";
+import {resetNewTokensToAdd} from "../../store/mutations";
 
 export default {
     name: "AgreementAlternatives",
@@ -444,6 +445,7 @@ export default {
             this.newCategory = ""
             this.newConnectedTokens = []
             this.$store.commit("resetNewRelationships")
+            this.$store.commit("resetNewTokensToAdd")
         },
         getRelationshipString(relRef) {
             let toreRelationships = this.agreement_tore_relationships
