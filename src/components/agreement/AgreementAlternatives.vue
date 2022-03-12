@@ -211,7 +211,6 @@
                 </template>
                 <template v-else-if="!isLinking && isAddingToken">
                     <v-text-field
-                        label="Outlined"
                         :disabled="true"
                         placeholder="Select a target token"
                         outlined
@@ -463,6 +462,8 @@ export default {
             this.newConnectedTokens = []
             this.$store.commit("resetNewRelationships")
             this.$store.commit("resetNewTokensToAdd")
+            this.$store.commit("setIsLinking", false)
+            this.$store.commit("setIsAddingToken", false)
         },
         getRelationshipString(relRef) {
             let toreRelationships = this.agreement_tore_relationships
