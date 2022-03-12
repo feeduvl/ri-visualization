@@ -612,6 +612,18 @@ export default {
     height: 14px;
 }
 
+.agreement-input__other_tokens-list .v-list__tile{
+    display: flex;
+    justify-content: center;
+    height: 28px;
+}
+
+.agreement-input__other_tokens-list .v-subheader {
+    display: flex;
+    justify-content: center;
+    height: 14px;
+}
+
 .agreement-input__cancel{
     margin-top: 15px !important;
 }
