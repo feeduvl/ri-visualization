@@ -233,6 +233,16 @@
                 </v-tooltip>
             </div>
 
+            <div class="agreement-input__other_tokens" v-if="!isLinking && $store.state.newTokensToAdd.length > 0">
+                <v-list class="agreement-input__other_tokens-list">
+                    <v-subheader>Added Tokens</v-subheader>
+                    <v-list-tile
+                        v-for="(item, i) in new_added_tokens"
+                        :key="'other_tokens'+i">
+                        {{this.$store.state.tokens[item].name}}
+                    </v-list-tile>
+                </v-list>
+            </div>
             <div class="agreement-input__relationships" v-if="!isLinking && $store.state.newToreRelationships.length > 0">
                 <v-list class="agreement-input__relationships-list">
                     <v-subheader>Edit a relationship</v-subheader>
@@ -373,8 +383,6 @@ export default {
     methods: {
 
         setNewToreRelationship(relationship){
-            console.log("Set new tore relationship frontend");
-            console.log("relationship: " + relationship);
             this.startLinking()
             this.$store.commit("setNewToreRelationship", relationship)
         },
@@ -594,6 +602,7 @@ export default {
     justify-content: center;
     height: 14px;
 }
+
 .agreement-input__cancel{
     margin-top: 15px !important;
 }
