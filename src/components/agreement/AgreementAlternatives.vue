@@ -114,8 +114,7 @@
             <v-layout row justify-left align-center>
                 <v-flex>
                     <v-btn
-                        @click="goBackToList"
-                    :disabled="isLinking">
+                        @click="goBackToList">
                         Cancel
                     </v-btn>
                 </v-flex>
@@ -185,23 +184,21 @@
                 <template v-else
                           class="agreement-input-link">
                     <v-tooltip bottom>
-                        <template #activator="{on}">
-                            <v-icon v-on="on"
-                                    @click="stopLinking(true)">
-                                close
-                            </v-icon>
-                        </template>
-                        <span>Stop Linking</span>
-                    </v-tooltip>
-                    <v-tooltip bottom>
                         <template #activator="{on}"
                                   v-if="new_tore_relationship">
                             <v-icon v-on="on"
-                                    @click="stopLinking(false)">
+                                    @click="stopLinking">
                                 done
                             </v-icon>
                         </template>
+                        <template #activator="{on}" v-else>
+                            <v-icon v-on="on"
+                                    @click="stopLinking">
+                                close
+                            </v-icon>
+                        </template>
                         <span v-if="new_tore_relationship">Finish Linking</span>
+                        <span v-else>Stop Linking</span>
                     </v-tooltip>
 
                     <v-autocomplete  class="agreement-input__relationship-name"
@@ -322,7 +319,7 @@ export default {
         codeNames() {
           let wordCodes = []
             this.alternativesForToken.forEach(function (value) {
-                if (value.code.name !== "" && !wordCodes.find(value1 => value.code.name === value1)) {
+                if (value.code.name !== "" && value.code.name !== null && !wordCodes.find(value1 => value.code.name === value1)) {
                     wordCodes.push(value.code.name)
                 }
             })
@@ -382,10 +379,7 @@ export default {
         startLinking(){
             this.$store.commit("setIsLinking", true);
         },
-        stopLinking(isCancelled){
-            if (isCancelled){
-                this.$store.commit("resetNewRelationship")
-            }
+        stopLinking{
             this.$store.commit("setIsLinking", false);
         },
 
