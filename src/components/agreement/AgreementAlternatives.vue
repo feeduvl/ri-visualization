@@ -411,7 +411,7 @@ export default {
                 newRelIndicesToAdd.push(value.index)
                 increment++
             })
-            let allConnectedTokens = [this.tokens.index]
+            let allConnectedTokens = [this.token.index]
             for (let i = 0; i < this.new_added_tokens.length ; i++) {
                 allConnectedTokens.push(this.new_added_tokens[i])
             }
