@@ -411,8 +411,11 @@ export default {
                 newRelIndicesToAdd.push(value.index)
                 increment++
             })
-            let allConnectedTokens = this.new_added_tokens.push(this.token.index)
-            let newCode = {
+            let allConnectedTokens = [this.tokens.index]
+            for (let i = 0; i < this.new_added_tokens.length ; i++) {
+                allConnectedTokens.push(this.new_added_tokens[i])
+            }
+                 let newCode = {
                 tokens: allConnectedTokens,
                 name: this.newWordCode,
                 tore: this.newCategory,
