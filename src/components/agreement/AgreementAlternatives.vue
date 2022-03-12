@@ -209,35 +209,13 @@
                                      :label="new_tore_relationship?'Relationship Name':'Select a target token'">
                     </v-autocomplete>
                 </template>
-                <template v-else-if="!isLinking && isAddingToken"
-                          class="agreement-input-link">
-                    <v-tooltip bottom>
-                        <template #activator="{on}">
-                            <v-icon v-on="on"
-                                    :disabled="new_added_token"
-                                    @click="addToken">
-                                done
-                            </v-icon>
-                        </template>
-                        <span>Add Token</span>
-                    </v-tooltip>
-                    <v-tooltip bottom>
-                        <template #activator="{on}" v-else>
-                            <v-icon v-on="on"
-                                    @click="stopAddingToken">
-                                close
-                            </v-icon>
-                        </template>
-                        <span>Cancel</span>
-                    </v-tooltip>
-
-                    <v-autocomplete  class="agreement-input__relationship-name"
-                                     @change="updateRelationshipName"
-                                     :items="allowedRelationshipNames"
-                                     :value="relationshipName"
-                                     :disabled="!new_tore_relationship"
-                                     :label="new_tore_relationship?'Relationship Name':'Select a target token'">
-                    </v-autocomplete>
+                <template v-else-if="!isLinking && isAddingToken">
+                    <v-text-field
+                        label="Outlined"
+                        :disabled="true"
+                        placeholder="Select a target token"
+                        outlined
+                    ></v-text-field>
                 </template>
                 <v-tooltip bottom v-if="!isLinking">
                     <template v-slot:activator="{ on, attrs }">
@@ -378,7 +356,7 @@ export default {
             "isLinking",
             "isAddingToken",
             "new_tore_relationship",
-            "new_added_token"
+            "new_added_tokens"
         ]),
         ...mapState([
             "agreement_code_alternatives",

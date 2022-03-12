@@ -130,7 +130,6 @@ export const store = new Vuex.Store({
     maxIndexToreRelationships: null,
     newToreRelationship: null,
     newToreRelationships: [],
-    newTokenToAdd: null,
     newTokensToAdd: [],
 
     isAddingToken: false
@@ -335,8 +334,7 @@ export const store = new Vuex.Store({
 
     new_added_token_in_agreement(state, tokenIndex){
       // Use placeholder for TOREEntity and index
-      state.newTokenToAdd = tokenIndex;
-      // state.newToreRelationships.push(tokenIndex);
+      state.newTokensToAdd.push(tokenIndex);
     },
 
     setIsLinking(state, isLinking){

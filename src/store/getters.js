@@ -129,8 +129,8 @@ export const docs = state => {
     return state.newToreRelationship;
   };export const
 
-  new_added_token = state => {
-    return state.newTokenToAdd;
+  new_added_tokens = state => {
+    return state.newTokensToAdd;
   };
 export const
 
