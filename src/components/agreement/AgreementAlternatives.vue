@@ -114,7 +114,8 @@
             <v-layout row justify-left align-center>
                 <v-flex>
                     <v-btn
-                        @click="goBackToList">
+                        @click="goBackToList"
+                    :disabled="isLinking">
                         Cancel
                     </v-btn>
                 </v-flex>
