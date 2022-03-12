@@ -171,34 +171,34 @@
                         <span>New Relationship</span>
                     </v-tooltip>
 
-<!--                    <v-tooltip bottom>-->
-<!--                        <template #activator="{on}">-->
-<!--                            <v-icon v-on="on"-->
-<!--                                    @click="addOtherTokens">-->
-<!--                                add-->
-<!--                            </v-icon>-->
-<!--                        </template>-->
-<!--                        <span>Add other Tokens</span>-->
-<!--                    </v-tooltip>-->
+                    <v-tooltip bottom>
+                        <template #activator="{on}">
+                            <v-icon v-on="on"
+                                    @click="addOtherTokens">
+                                add
+                            </v-icon>
+                        </template>
+                        <span>Add other Tokens</span>
+                    </v-tooltip>
                 </template>
                 <template v-else
                           class="agreement-input-link">
                     <v-tooltip bottom>
-                        <template #activator="{on}"
-                                  v-if="new_tore_relationship">
+                        <template #activator="{on}">
                             <v-icon v-on="on"
-                                    @click="stopLinking">
-                                done
-                            </v-icon>
-                        </template>
-                        <template #activator="{on}" v-else>
-                            <v-icon v-on="on"
-                                    @click="stopLinking">
+                                    @click="stopLinking(true)">
                                 close
                             </v-icon>
                         </template>
+                        <span>Stop Linking</span>
+                        <template #activator="{on}"
+                                  v-if="new_tore_relationship">
+                            <v-icon v-on="on"
+                                    @click="stopLinking(false)">
+                                done
+                            </v-icon>
+                        </template>
                         <span v-if="new_tore_relationship">Finish Linking</span>
-                        <span v-else>Stop Linking</span>
                     </v-tooltip>
 
                     <v-autocomplete  class="agreement-input__relationship-name"
@@ -213,12 +213,12 @@
                     <template v-slot:activator="{ on, attrs }">
                         <v-icon
                             small
-                            :disabled="!requiredAgreementsPresent"
+                            :disabled="!requiredAgreementsPresent || isLinking"
                             @click="createCode"
                             v-bind="attrs"
                             v-on="on"
                         >
-                            add
+                            done
                         </v-icon>
                     </template>
                     <span>Add and Accept</span>
@@ -379,8 +379,15 @@ export default {
         startLinking(){
             this.$store.commit("setIsLinking", true);
         },
-        stopLinking(){
+        stopLinking(isCancelled){
+            if (isCancelled){
+                this.$store.commit("resetNewRelationship")
+            }
             this.$store.commit("setIsLinking", false);
+        },
+
+        addOtherTokens(){
+          console.log("Add other tokens clicked")
         },
 
         updateTore(value) {

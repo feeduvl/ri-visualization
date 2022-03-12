@@ -377,6 +377,10 @@ export const incrementMaxCodeIndices = state => {
   state.maxIndexCodeAlternatives++;
 };
 
+export const resetNewRelationship = state => {
+  state.newToreRelationship = null;
+};
+
 export const resetNewRelationships = state => {
   state.newToreRelationships = [];
   state.newToreRelationship = null;
