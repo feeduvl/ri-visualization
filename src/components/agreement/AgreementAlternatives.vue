@@ -213,10 +213,9 @@
                     <v-text-field
                         :disabled="true"
                         placeholder="Select a target token"
-                        outlined
                     ></v-text-field>
                 </template>
-                <v-tooltip bottom v-if="!isLinking">
+                <v-tooltip bottom v-if="!isLinking && !isAddingToken">
                     <template v-slot:activator="{ on, attrs }">
                         <v-icon
                             small
