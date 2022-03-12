@@ -129,7 +129,11 @@ export const store = new Vuex.Store({
     maxIndexCodeAlternatives: null,
     maxIndexToreRelationships: null,
     newToreRelationship: null,
-    newToreRelationships: []
+    newToreRelationships: [],
+    newTokenToAdd: null,
+    newTokensToAdd: [],
+
+    isAddingToken: false
     // END AGREEMENT STUFF
 
   },
@@ -329,11 +333,24 @@ export const store = new Vuex.Store({
       state.newToreRelationships.push(relationship);
     },
 
+    new_added_token_in_agreement(state, tokenIndex){
+      // Use placeholder for TOREEntity and index
+      state.newTokenToAdd = tokenIndex;
+      // state.newToreRelationships.push(tokenIndex);
+    },
+
     setIsLinking(state, isLinking){
       state.isLinking = isLinking;
       if (!isLinking){
         console.log("set is linking");
         this.commit("setNewToreRelationship", null);
+      }
+    },
+
+    setIsAddingToken(state, isAddingToken){
+      state.isAddingToken = isAddingToken;
+      if (!isAddingToken){
+        console.log("set is adding other token");
       }
     },
 
@@ -354,6 +371,7 @@ export const store = new Vuex.Store({
       state.agreementInputVisible = visible;
       if (!visible){
         state.isLinking = false;
+        state.isAddingToken = false;
         state.selectedToken = null;
       }
     },

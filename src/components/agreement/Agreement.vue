@@ -318,6 +318,7 @@ export default {
             "pos_tags",
             "selected_tore_relationship",
             "isLinking",
+            "isAddingToken",
             "token",
             "docs",
             "selected_doc",
@@ -471,14 +472,17 @@ export default {
         tokenClicked(index) {
             let token = this.token(index)
             this.isClicked = index
-            if(!this.isLinking) {
+            if(!this.isLinking && !this.isAddingToken) {
                 this.updateSelectedToken(token);
-            } else {
+            } else if (this.isLinking && !this.isAddingToken) {
                 if(this.new_tore_relationship === null){
                     this.$store.commit("new_tore_relationship_in_agreement", token)
                 } else {
                     this.$store.commit("add_or_remove_token_selected_relationship_in_agreement", token)
                 }
+            } else {
+                console.log("Token clicked to add to code")
+                this.$store.commit("new_added_token_in_agreement", index)
             }
         },
 

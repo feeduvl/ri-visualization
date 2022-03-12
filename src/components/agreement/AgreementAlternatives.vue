@@ -1,7 +1,7 @@
 <template>
     <v-dialog
         :hide-overlay="true"
-        :persistent="isLinking"
+        :persistent="isLinking || isAddingToken"
         v-model="wrapInputVisible"
         v-if="wrapInputVisible"
         id="agreement-alternatives-dialog"
@@ -137,7 +137,7 @@
             </v-layout>
 
             <div class="agreement-input__input-fields">
-                <template v-if="!isLinking"
+                <template v-if="!isLinking && !isAddingToken"
                           class="agreement-input-no-link">
                     <v-combobox
                         required
@@ -181,7 +181,7 @@
                         <span>Add other Tokens</span>
                     </v-tooltip>
                 </template>
-                <template v-else
+                <template v-else-if="isLinking && !isAddingToken"
                           class="agreement-input-link">
                     <v-tooltip bottom>
                         <template #activator="{on}"
@@ -199,6 +199,36 @@
                         </template>
                         <span v-if="new_tore_relationship">Finish Linking</span>
                         <span v-else>Stop Linking</span>
+                    </v-tooltip>
+
+                    <v-autocomplete  class="agreement-input__relationship-name"
+                                     @change="updateRelationshipName"
+                                     :items="allowedRelationshipNames"
+                                     :value="relationshipName"
+                                     :disabled="!new_tore_relationship"
+                                     :label="new_tore_relationship?'Relationship Name':'Select a target token'">
+                    </v-autocomplete>
+                </template>
+                <template v-else-if="!isLinking && isAddingToken"
+                          class="agreement-input-link">
+                    <v-tooltip bottom>
+                        <template #activator="{on}">
+                            <v-icon v-on="on"
+                                    :disabled="new_added_token"
+                                    @click="addToken">
+                                done
+                            </v-icon>
+                        </template>
+                        <span>Add Token</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                        <template #activator="{on}" v-else>
+                            <v-icon v-on="on"
+                                    @click="stopAddingToken">
+                                close
+                            </v-icon>
+                        </template>
+                        <span>Cancel</span>
                     </v-tooltip>
 
                     <v-autocomplete  class="agreement-input__relationship-name"
@@ -243,7 +273,6 @@
 <script>
 
 import {mapGetters, mapState} from "vuex";
-import {resetNewRelationships} from "../../store/mutations";
 
 export default {
     name: "AgreementAlternatives",
@@ -347,7 +376,9 @@ export default {
         ...mapGetters([
             "tokenListToString",
             "isLinking",
-            "new_tore_relationship"
+            "isAddingToken",
+            "new_tore_relationship",
+            "new_added_token"
         ]),
         ...mapState([
             "agreement_code_alternatives",
@@ -385,6 +416,7 @@ export default {
 
         addOtherTokens(){
           console.log("Add other tokens clicked")
+            this.$store.commit("setIsAddingToken", true);
         },
 
         updateTore(value) {

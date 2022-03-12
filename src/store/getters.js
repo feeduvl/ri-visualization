@@ -127,6 +127,10 @@ export const docs = state => {
 
   new_tore_relationship = state => {
     return state.newToreRelationship;
+  };export const
+
+  new_added_token = state => {
+    return state.newTokenToAdd;
   };
 export const
 
@@ -135,7 +139,10 @@ export const
   }; export const 
   isLinking = state => {
     return state.isLinking;
-  }; 
+  };  export const
+  isAddingToken = state => {
+    return state.isAddingToken;
+  };
 
 export const token = state => index => state.tokens[index];
 
