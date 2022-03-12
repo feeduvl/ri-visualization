@@ -268,7 +268,6 @@ export default {
 
             newWordCode: "",
             newCategory: "",
-            newConnectedTokens: [],
 
             visible: true,
             headers: [
@@ -412,8 +411,9 @@ export default {
                 newRelIndicesToAdd.push(value.index)
                 increment++
             })
+            let allConnectedTokens = this.new_added_tokens.push(this.token.index)
             let newCode = {
-                tokens: [this.token.index],
+                tokens: allConnectedTokens,
                 name: this.newWordCode,
                 tore: this.newCategory,
                 index: newMaxIndexCode,
