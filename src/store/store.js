@@ -335,6 +335,7 @@ export const store = new Vuex.Store({
     new_added_token_in_agreement(state, tokenIndex){
       // Use placeholder for TOREEntity and index
       state.newTokensToAdd.push(tokenIndex);
+      state.isAddingToken = false;
     },
 
     setIsLinking(state, isLinking){
