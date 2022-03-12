@@ -237,9 +237,9 @@
                 <v-list class="agreement-input__other_tokens-list">
                     <v-subheader>Added Tokens</v-subheader>
                     <v-list-tile
-                        v-for="(item, i) in new_added_tokens"
+                        v-for="(item, i) in otherTokenNames"
                         :key="'other_tokens'+i">
-                        {{this.$store.state.tokens[item].name}}
+                        {{item}}
                     </v-list-tile>
                 </v-list>
             </div>
@@ -323,6 +323,14 @@ export default {
         }
     },
     computed: {
+        otherTokenNames(){
+            let tokenNames = []
+            this.new_added_tokens.forEach(function (value) {
+                tokenNames.push(this.$store.state.tokens[value].name)
+            })
+            return tokenNames
+        },
+
         relationshipName(){
             let r = this.$store.state.newToreRelationship
             return r ? r.relationship_name : ""
