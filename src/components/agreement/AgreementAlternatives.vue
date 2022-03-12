@@ -379,7 +379,7 @@ export default {
         startLinking(){
             this.$store.commit("setIsLinking", true);
         },
-        stopLinking{
+        stopLinking(){
             this.$store.commit("setIsLinking", false);
         },
 
