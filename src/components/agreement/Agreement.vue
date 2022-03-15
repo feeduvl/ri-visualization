@@ -189,6 +189,8 @@ export default {
     data: () => {
         return {
             isClicked: null,
+            primaryIsClicked: null,
+
             tokensPerPage: 350,
 
             selectedPage: 1,
@@ -472,17 +474,21 @@ export default {
         tokenClicked(index) {
             let token = this.token(index)
             this.isClicked = index
+            let primaryClicked = this.primaryIsClicked
             if(!this.isLinking && !this.isAddingToken) {
                 this.updateSelectedToken(token);
+                this.primaryIsClicked = index
             } else if (this.isLinking && !this.isAddingToken) {
                 if(this.new_tore_relationship === null){
                     this.$store.commit("new_tore_relationship_in_agreement", token)
                 } else {
                     this.$store.commit("add_or_remove_token_selected_relationship_in_agreement", token)
                 }
+                this.isClicked = primaryClicked
             } else {
                 console.log("Token clicked to add to code")
                 this.$store.commit("new_added_token_in_agreement", index)
+                this.isClicked = primaryClicked
             }
         },
 
