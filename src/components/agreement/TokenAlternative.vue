@@ -10,7 +10,7 @@
               isResolved: props.isResolved,
               isUnresolved: props.isResolved === false,
               isAlgoLemma: props.algo_lemma,
-              highlightClickedToken: (( props.agreementInputVisible) && (props.isClicked===props.index)), // currently SELECTED code
+              highlightClickedToken: (( props.agreementInputVisible) && (props.isClicked===props.index || props.isPrimaryClicked===props.index)), // currently SELECTED code
             }]">
           {{props.name}}
         </span>
@@ -36,6 +36,11 @@
             },
 
             isClicked: {
+                type: Number,
+                required: true
+            },
+
+            isPrimaryClicked: {
                 type: Number,
                 required: true
             },

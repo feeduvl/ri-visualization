@@ -150,7 +150,8 @@
                                   :key="selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1"
                                   v-bind="{
                        ...$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
-                       isClicked: isClicked || primaryIsClicked,
+                       isClicked: isClicked,
+                       isPrimaryClicked: primaryIsClicked,
                        isResolved: tokenIsResolved[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
                        algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma?$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma.toLowerCase():''),
                        show_pos: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos!==null && $store.state.selected_pos_tags.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos),
