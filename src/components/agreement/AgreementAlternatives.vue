@@ -261,7 +261,6 @@
 <script>
 
 import {mapGetters, mapState} from "vuex";
-import {resetNewTokensToAdd} from "../../store/mutations";
 
 export default {
     name: "AgreementAlternatives",
@@ -433,7 +432,7 @@ export default {
             for (let i = 0; i < this.new_added_tokens.length ; i++) {
                 allConnectedTokens.push(this.new_added_tokens[i])
             }
-                 let newCode = {
+            let newCode = {
                 tokens: allConnectedTokens,
                 name: this.newWordCode,
                 tore: this.newCategory,

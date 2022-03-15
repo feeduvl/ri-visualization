@@ -90,7 +90,7 @@ export const mutateFooterText = (state, title) => {
   state.footer = title;
 };
 
-// ANNOTATOR STUFF
+// ANNOTATOR AND AGREEMENT STUFF
 
 /**
 * @param state
@@ -391,9 +391,7 @@ export const resetNewRelationships = state => {
 };
 
 export const incrementMaxRelationshipIndices = (state, numberOfNewRelationships) => {
-  state.maxIndexCodes++;
-  state.maxIndexCodeAlternatives++;
-  state.maxIndexToreRelationships += numberOfNewRelationships
+  state.maxIndexToreRelationships += numberOfNewRelationships;
 };
 
 export const addNewCodeAlternative = (state, newCodeAlternative) => {

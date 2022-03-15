@@ -219,8 +219,6 @@
 </template>
 
 <script>
-import axios from "axios"
-import {GRAY, GREEN_FILL, RED_FILL} from "@/colors";
 import SelectableAnnotations from "@/components/agreement/SelectableAnnotations";
 
 export default {

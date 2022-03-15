@@ -94,7 +94,7 @@ export const getFooterText = state => {
   return state.footer;
 };
 
-// ANNOTATION STUFF
+// ANNOTATION AND AGREEMENT STUFF
 
 export const docs = state => {
   return state.docs;

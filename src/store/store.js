@@ -130,8 +130,8 @@ export const store = new Vuex.Store({
     maxIndexToreRelationships: null,
     newToreRelationship: null,
     newToreRelationships: [],
-    newTokensToAdd: [],
 
+    newTokensToAdd: [],
     isAddingToken: false
     // END AGREEMENT STUFF
 
@@ -284,7 +284,6 @@ export const store = new Vuex.Store({
       state.maxIndexToreRelationships = Math.max.apply(
         null, state.agreement_tore_relationships.map(value => value.index)
       );
-      console.log("maxIndexToreRelationships: " + state.maxIndexToreRelationships);
 
       this.commit("initResolvedStatusOfTokens");
       this.commit("setIsLoadingAgreement", false);
@@ -321,7 +320,7 @@ export const store = new Vuex.Store({
     },
 
     new_tore_relationship_in_agreement(state, firstToken){
-      // Use placeholder for TOREEntity and index
+      // Use placeholder for TOREEntity and index, those are set when saving
       let relationship = {
         TOREEntity: 1,
         target_tokens: [firstToken.index],
@@ -333,7 +332,6 @@ export const store = new Vuex.Store({
     },
 
     new_added_token_in_agreement(state, tokenIndex){
-      // Use placeholder for TOREEntity and index
       state.newTokensToAdd.push(tokenIndex);
       state.isAddingToken = false;
     },
@@ -341,16 +339,12 @@ export const store = new Vuex.Store({
     setIsLinking(state, isLinking){
       state.isLinking = isLinking;
       if (!isLinking){
-        console.log("set is linking");
         this.commit("setNewToreRelationship", null);
       }
     },
 
     setIsAddingToken(state, isAddingToken){
       state.isAddingToken = isAddingToken;
-      if (!isAddingToken){
-        console.log("set is adding other token");
-      }
     },
 
     setAnnotatorInputVisible(state, visible){
@@ -366,7 +360,6 @@ export const store = new Vuex.Store({
     },
 
     setAgreementInputVisible(state, visible){
-      console.log("setAgreementInputVisible: "+visible);
       state.agreementInputVisible = visible;
       if (!visible){
         state.isLinking = false;

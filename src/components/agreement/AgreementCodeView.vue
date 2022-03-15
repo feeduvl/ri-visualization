@@ -325,7 +325,8 @@ export default {
                     descending: false,
                     rowsPerPage: 100,
                     sortBy: "document"
-                }],
+                }
+            ],
             search: "",
             renameCodeNewName: "",
             renameCodeDialog: false,
@@ -494,6 +495,7 @@ export default {
             return summaries
         },
 
+        // Transform summaries into a format that can be displayed as a grouped table
         transformSummariesForDisplaying(summaries) {
 
             summaries.sort((a, b) => arrayOfIntSort(a, b));
@@ -501,7 +503,7 @@ export default {
             let lastToken = summaries[0].token
             let numPossibilities = 0
 
-// Handle index 0
+            // Handle index 0
             summaries[0].isFirst = true
             numPossibilities++
 
@@ -525,6 +527,37 @@ export default {
             return summaries
         },
 
+        getDocNames: function (codeAlternative) {
+            let docName = ""
+            for (let doc of this.$store.state.docs) {
+                let tokenIndex = codeAlternative.code.tokens[0]
+                if (tokenIndex >= doc.begin_index && tokenIndex < doc.end_index) {
+                    docName = doc.name
+                }
+            }
+            return docName;
+        },
+
+        getRelationshipsForDisplay: function (codeAlternative) {
+            let relationships = []
+            let toreRelationships = this.$store.state.agreement_tore_relationships
+            let relationshipReferences = codeAlternative.code.relationship_memberships
+            for (let relationshipRef of relationshipReferences) {
+                for (let toreRel of toreRelationships) {
+                    if (toreRel.index === relationshipRef) {
+                        let targetTokenString = []
+                        for (let targetToken of toreRel.target_tokens) {
+                            targetTokenString.push(targetToken)
+                        }
+                        let relationship = toreRel.relationship_name + "->" + this.$store.getters.tokenListToString(targetTokenString)
+                        relationships.push(relationship)
+                        break
+                    }
+                }
+            }
+            return relationships;
+        },
+
         generate_code_alternatives_summary(list_of_code_alternatives) {
             console.log("generate_code_alternatives_summary")
             let resolved_summaries = []
@@ -532,29 +565,8 @@ export default {
             let found_codes = []
 
             for (let codeAlternative of list_of_code_alternatives) {
-                let docName = ""
-                for (let doc of this.$store.state.docs) {
-                    let tokenIndex = codeAlternative.code.tokens[0]
-                    if (tokenIndex >= doc.begin_index && tokenIndex < doc.end_index) {
-                        docName = doc.name
-                    }
-                }
-                let relationships = []
-                let toreRelationships = this.$store.state.agreement_tore_relationships
-                let relationshipReferences = codeAlternative.code.relationship_memberships
-                for (let relationshipRef of relationshipReferences) {
-                    for (let toreRel of toreRelationships) {
-                        if (toreRel.index === relationshipRef) {
-                            let targetTokenString = []
-                            for (let targetToken of toreRel.target_tokens) {
-                                targetTokenString.push(targetToken)
-                            }
-                            let relationship = toreRel.relationship_name + "->" + this.$store.getters.tokenListToString(targetTokenString)
-                            relationships.push(relationship)
-                            break
-                        }
-                    }
-                }
+                let docName = this.getDocNames(codeAlternative);
+                let relationships = this.getRelationshipsForDisplay(codeAlternative);
 
                 let summary = {
                     document: docName,
