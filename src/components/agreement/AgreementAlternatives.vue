@@ -450,10 +450,7 @@ export default {
             this.$store.commit("incrementMaxRelationshipIndices", increment - 1)
             this.$store.commit("addNewCodeAlternative", newCodeAlternative)
             this.$store.commit("addNewToreRelationships", this.newToreRelationships)
-            this.$store.commit("updateResolvedStatusOfTokens", {
-                tokens: allConnectedTokens,
-                codeIndex: newMaxIndexAlternative
-            })
+            this.$store.commit("updateResolvedStatusOfTokensAfterTokenAdd", newCodeAlternative)
             this.createNewClicked = false
             this.goBackToList()
         },

@@ -372,16 +372,16 @@ export const initResolvedStatusOfTokens = state => {
   state.unResolvedCodesPerToken = unResolvedCodesPerToken;
 };
 
-// export const updateResolvedStatusOfTokens = (state, newCodeAlternative) => {
-//   console.log("Updating resolved status of agreement");
-//   let listOfTokensToUpdate = newCodeAlternative.code.tokens;
-//   listOfTokensToUpdate.forEach(function (value) {
-//     let currentState = state.unResolvedCodesPerToken[value]
-//     if (currentState[0] === null){
-//       state.unResolvedCodesPerToken[value] = []
-//     }
-//   })
-// };
+export const updateResolvedStatusOfTokensAfterTokenAdd = (state, newCodeAlternative) => {
+  console.log("Updating resolved status of agreement");
+  let listOfTokensToUpdate = newCodeAlternative.code.tokens;
+  listOfTokensToUpdate.forEach(function (value) {
+    let currentState = state.unResolvedCodesPerToken[value]
+    if (currentState[0] === null){
+      state.unResolvedCodesPerToken[value] = []
+    }
+  })
+};
 
 export const incrementMaxCodeIndices = state => {
   state.maxIndexCodes++;
