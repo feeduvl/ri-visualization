@@ -451,6 +451,7 @@ export default {
             this.$store.commit("addNewCodeAlternative", newCodeAlternative)
             this.$store.commit("addNewToreRelationships", this.newToreRelationships)
             this.$store.commit("updateResolvedStatusOfTokensAfterTokenAdd", newCodeAlternative)
+            this.$emit('resolvedStatusOfTokensUpdated')
             this.createNewClicked = false
             this.goBackToList()
         },
