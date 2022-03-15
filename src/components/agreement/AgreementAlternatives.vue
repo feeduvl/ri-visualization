@@ -420,6 +420,7 @@ export default {
         createCode() {
             let increment = 1
             let newMaxIndexCode = this.maxIndexCodes + 1
+            let newMaxIndexAlternative = this.maxIndexCodeAlternatives + 1
             let maxIndexRel = this.maxIndexToreRelationships
             let newRelIndicesToAdd = []
             this.newToreRelationships.forEach(function (value) {
@@ -442,13 +443,17 @@ export default {
             let newCodeAlternative = {
                 annotation_name: "",
                 merge_status: "Accepted",
-                index: this.maxIndexCodeAlternatives + 1,
+                index: newMaxIndexAlternative,
                 code: newCode
             }
             this.$store.commit("incrementMaxCodeIndices")
             this.$store.commit("incrementMaxRelationshipIndices", increment - 1)
             this.$store.commit("addNewCodeAlternative", newCodeAlternative)
             this.$store.commit("addNewToreRelationships", this.newToreRelationships)
+            this.$store.commit("updateResolvedStatusOfTokens", {
+                tokens: allConnectedTokens,
+                codeIndex: newMaxIndexAlternative
+            })
             this.createNewClicked = false
             this.goBackToList()
         },
