@@ -9,6 +9,7 @@
             {
               isResolved: props.isResolved,
               isUnresolved: props.isResolved === false,
+              isAlgoLemma: props.algo_lemma,
               highlightClickedToken: (( props.agreementInputVisible) && (props.isClicked===props.index)), // currently SELECTED code
             }]">
           {{props.name}}
@@ -41,6 +42,19 @@
 
             isResolved: {
                 type: Boolean,
+                required: true
+            },
+
+            algo_lemma: {
+                type: Boolean,
+                required: true
+            },
+            show_pos: {
+                type: Boolean,
+                required: true
+            },
+            posClass: {
+                type: String,
                 required: true
             },
 
@@ -86,7 +100,7 @@
     }
 
     .isResolved {
-        background-color: #66f877;
+        background-color: #299135;
     }
 
     .isAlgoLemma {
