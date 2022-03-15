@@ -150,7 +150,7 @@
                                   :key="selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1"
                                   v-bind="{
                        ...$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
-                       isClicked: isClicked,
+                       isClicked: isClicked || primaryIsClicked,
                        isResolved: tokenIsResolved[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
                        algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma?$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma.toLowerCase():''),
                        show_pos: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos!==null && $store.state.selected_pos_tags.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos),
@@ -477,7 +477,6 @@ export default {
         tokenClicked(index) {
             let token = this.token(index)
             this.isClicked = index
-            let primaryClicked = this.primaryIsClicked
             if(!this.isLinking && !this.isAddingToken) {
                 this.updateSelectedToken(token);
                 this.primaryIsClicked = index
@@ -487,11 +486,8 @@ export default {
                 } else {
                     this.$store.commit("add_or_remove_token_selected_relationship_in_agreement", token)
                 }
-                this.isClicked = primaryClicked
             } else {
-                console.log("Token clicked to add to code")
                 this.$store.commit("new_added_token_in_agreement", index)
-                this.isClicked = primaryClicked
             }
         },
 
