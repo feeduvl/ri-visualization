@@ -12,6 +12,7 @@ import {
   GET_ALL_TWEETS_ENDPOINT,
   ANNOTATION_INITIALIIZE_ENDPOINT,
   AGREEMENT_INITIALIIZE_ENDPOINT,
+  AGREEMENT_EXPORT_ENDPOINT,
   ANNOTATION_DELETE_ENDPOINT,
   AGREEMENT_DELETE_ENDPOINT,
   ANNOTATION_GET_ALL_ENDPOINT,
@@ -146,6 +147,22 @@ export const actionGetNewAgreement = ({
   });
 };
 
+export const actionExportAgreement = ({
+  commit
+}, {agreementName, newAnnotationName}) => {
+  return new Promise(() => {
+    console.warn("Exporting agreement as annotation");
+    axios.post(AGREEMENT_EXPORT_ENDPOINT, {
+      agreementName,
+      newAnnotationName,
+    })
+      .then(() => {
+        console.log("actionExportAgreement responded");
+      })
+      .catch(e => console.error("Error exporting agreement: "+e));
+  });
+};
+
 export const actionGetSelectedAnnotation = ({commit, state}) => {
   return new Promise(() => {
     let name = state.selected_annotation;
@@ -235,28 +252,6 @@ export const actionPostCurrentAnnotation = ({state, commit}) => {
       tokens: postTokens,
       tore_relationships: state.tore_relationships,
       codes: state.codes,
-      docs: state.docs.slice(1, state.docs.length)
-    })
-      .then(() => {
-        console.log("Got annotation POST response");
-      })
-      .catch(e => console.error("Error POSTing annotation: "+e));
-  });
-};
-
-export const actionExportCurrentAgreementAsAnnotation = ({state, commit}) => {
-  return new Promise(() => {
-    console.log("Exporting agreement as annotation: "+state.selected_agreement);
-    commit("postAnnotationCallback");
-    let date = new Date();
-    let dateString = date.toISOString();
-    axios.post(ANNOTATION_POST_ENDPOINT, {
-      uploaded_at: dateString,
-      dataset: state.agreement_dataset,
-      name: state.exportedAnnotationName,
-      tokens: state.exportedAnnotationTokens,
-      tore_relationships: state.exportedAnnotationTORERelationships,
-      codes: state.exportedAnnotationCodes,
       docs: state.docs.slice(1, state.docs.length)
     })
       .then(() => {

@@ -288,6 +288,7 @@
 <script>
 import {arrayOfIntSort} from "./ArrayUtils"
 import {arraysEqual} from "./ArrayUtils"
+import {store} from "../../store/store";
 
 export default {
     name: "AgreementCodeView",
@@ -467,8 +468,12 @@ export default {
 
         exportAnnotation(){
             console.log("Start export")
-            this.$store.commit("prepareParametersForAnnotationExport", this.addingAnnotationName)
-            this.$store.dispatch('actionExportCurrentAgreementAsAnnotation');
+            let agreementName = this.$store.state.selected_agreement
+            this.$store.dispatch('actionExportAgreement',
+                {
+                    agreementName: agreementName,
+                    newAnnotationName: this.addingAnnotationName
+                });
             this.doShowSnackbar({msg:"Agreement exported as annotation."})
         },
 

@@ -15,6 +15,7 @@ export const GET_EXAMPLE_ANNOTATION_POST_ENDPOINT = BASE_URL+`/hitec/annotation/
 
 export const ANNOTATION_INITIALIIZE_ENDPOINT = `${BASE_URL}/hitec/orchestration/concepts/annotationinit/`;
 export const AGREEMENT_INITIALIIZE_ENDPOINT = `${BASE_URL}/hitec/orchestration/concepts/agreementinit/`;
+export const AGREEMENT_EXPORT_ENDPOINT = `${BASE_URL}/hitec/orchestration/concepts/agreementexport/`;
 export const ANNOTATION_POST_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/annotation/`;
 export const AGREEMENT_POST_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/agreement/`;
 
