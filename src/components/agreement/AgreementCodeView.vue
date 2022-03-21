@@ -520,7 +520,7 @@ export default {
                         summaries[idx].isFirst = false
                         numPossibilities++
                         if (idx === summaries.length) {
-                            for (let j = 0; j < numPossibilities; j++){
+                            for (let j = 1; j <= numPossibilities; j++){
                                 summaries[idx-j].numPossibilities = numPossibilities
                             }
                         }
