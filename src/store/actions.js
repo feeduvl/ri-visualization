@@ -263,22 +263,24 @@ export const actionPostCurrentAnnotation = ({state, commit}) => {
 
 export const actionPostCurrentAgreement = ({state, commit}) => {
   return new Promise(() => {
-    console.log("Posting agreement: "+state.selected_agreement);
-    commit("postAgreementCallback");
-    axios.post(AGREEMENT_POST_ENDPOINT, {
-      created_at: state.agreement_created_at,
-      dataset: state.agreement_dataset,
-      name: state.selected_agreement,
-      annotation_names: state.agreement_annotation_names,
-      tokens: state.tokens,
-      tore_relationships: state.agreement_tore_relationships,
-      code_alternatives: state.agreement_code_alternatives,
-      docs: state.docs.slice(1, state.docs.length)
-    })
-      .then(() => {
-        console.log("Got agreement POST response");
+    if (state.selected_agreement !== "") {
+      console.log("Posting agreement: "+state.selected_agreement);
+      commit("postAgreementCallback");
+      axios.post(AGREEMENT_POST_ENDPOINT, {
+        created_at: state.agreement_created_at,
+        dataset: state.agreement_dataset,
+        name: state.selected_agreement,
+        annotation_names: state.agreement_annotation_names,
+        tokens: state.tokens,
+        tore_relationships: state.agreement_tore_relationships,
+        code_alternatives: state.agreement_code_alternatives,
+        docs: state.docs.slice(1, state.docs.length)
       })
-      .catch(e => console.error("Error POSTing agreement: "+e));
+        .then(() => {
+          console.log("Got agreement POST response");
+        })
+        .catch(e => console.error("Error POSTing agreement: "+e));
+    }
   });
 };
 

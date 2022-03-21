@@ -514,16 +514,13 @@ export default {
 
             for (let idx = 1; idx <= summaries.length; idx++) {
                 if(typeof summaries[idx] === 'undefined') {
-                    summaries[idx-1].numPossibilities = numPossibilities
+                    for (let j = 1; j <= numPossibilities; j++){
+                        summaries[idx-j].numPossibilities = numPossibilities
+                    }
                 } else {
                     if (arraysEqual(summaries[idx].token, lastToken)) {
                         summaries[idx].isFirst = false
                         numPossibilities++
-                        if (idx === summaries.length) {
-                            for (let j = 1; j <= numPossibilities; j++){
-                                summaries[idx-j].numPossibilities = numPossibilities
-                            }
-                        }
                     } else {
                         for (let j = 1; j <= numPossibilities; j++){
                             summaries[idx-j].numPossibilities = numPossibilities
