@@ -519,6 +519,11 @@ export default {
                     if (arraysEqual(summaries[idx].token, lastToken)) {
                         summaries[idx].isFirst = false
                         numPossibilities++
+                        if (idx === summaries.length) {
+                            for (let j = 0; j < numPossibilities; j++){
+                                summaries[idx-j].numPossibilities = numPossibilities
+                            }
+                        }
                     } else {
                         for (let j = 1; j <= numPossibilities; j++){
                             summaries[idx-j].numPossibilities = numPossibilities
