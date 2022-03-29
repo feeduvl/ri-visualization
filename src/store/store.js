@@ -304,7 +304,7 @@ export const store = new Vuex.Store({
 
       Code_remove_relationship(state.codes[tore_relationship.TOREEntity], tore_relationship);
 
-      Vue.set(state.tore_relationships, tore_relationship.index, null);
+      state.tore_relationships = state.tore_relationships.filter(value => value.index !== tore_relationship.index);
 
       if (state.selected_tore_relationship && state.selected_tore_relationship.index === tore_relationship.index){
         this.commit("setSelectedToreRelationship", null);
