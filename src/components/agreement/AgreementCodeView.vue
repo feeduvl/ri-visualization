@@ -247,6 +247,18 @@
                 :style="'background-color: white;'"
                 :key="'tab_header2'"
             >
+                <v-container
+                    class="agreement-statistics"
+                >
+                    <v-layout row justify-left align-center>
+                        <v-flex>
+                            <v-btn
+                                @click="refreshKappas">
+                                Refresh current Kappa values
+                            </v-btn>
+                        </v-flex>
+                    </v-layout>
+                </v-container>
 
                 <v-container>
                     <v-layout>
@@ -662,6 +674,10 @@ export default {
 
         downloadSelectedTab() {
             this.downloadTab(this.selectedTab, new Date(Date.now()).toISOString())
+        },
+
+        refreshKappas() {
+            this.$store.dispatch("actionGetAllAgreements")
         },
 
         downloadAllTabs() {

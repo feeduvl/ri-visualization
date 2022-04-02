@@ -13,6 +13,7 @@ import {
   ANNOTATION_INITIALIIZE_ENDPOINT,
   AGREEMENT_INITIALIIZE_ENDPOINT,
   AGREEMENT_EXPORT_ENDPOINT,
+  AGREEMENT_REFRESH_STATISTICS_ENDPOINT,
   ANNOTATION_DELETE_ENDPOINT,
   AGREEMENT_DELETE_ENDPOINT,
   ANNOTATION_GET_ALL_ENDPOINT,
@@ -195,6 +196,24 @@ export const actionGetSelectedAgreement = ({commit, state}) => {
       .catch(e => console.error("Error getting agreement: "+e))
       .finally(() => {
         commit("setIsLoadingAgreement", false);
+      });
+  });
+};
+
+export const actionRefreshStatisticsOfAgreement = ({commit, state}) => {
+  return new Promise(() => {
+    let name = state.selected_agreement;
+    console.log("Getting refreshed statistics of agreement: "+name);
+    commit("setIsRefreshingAgreement", true);
+    axios.get(AGREEMENT_REFRESH_STATISTICS_ENDPOINT(name))
+      .then(response => {
+        console.log("Got response for agreement: "+name);
+        const {data} = response;
+        commit("setStatisticsForAgreement", data);
+      })
+      .catch(e => console.error("Error updating statistics of agreement: "+e))
+      .finally(() => {
+        commit("setIsRefreshingAgreement", false);
       });
   });
 };

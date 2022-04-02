@@ -260,6 +260,10 @@ export const setIsLoadingAgreement = (state, isLoading) => {
   state.isLoadingAgreement = isLoading;
 };
 
+export const setIsRefreshingAgreement = (state, isLoading) => {
+  state.setIsRefreshingAgreement = isLoading;
+};
+
 export const setIsLoadingAvailableAgreements = (state, isLoading) => {
   state.isLoadingAvailableAgreements = isLoading;
 };

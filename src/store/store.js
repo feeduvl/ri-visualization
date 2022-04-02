@@ -108,6 +108,7 @@ export const store = new Vuex.Store({
 
     agreement_code_alternatives: [],
     agreement_statistics: [],
+    setIsRefreshingAgreement: false,
     //List of equal size as tokens, each position contains all unresolved codeAlternatives connected to that token
     unResolvedCodesPerToken: [],
 
@@ -351,6 +352,12 @@ export const store = new Vuex.Store({
       state.isAddingToken = isAddingToken;
     },
 
+    // eslint-disable-next-line camelcase
+    setStatisticsForAgreement(state, agreement_statistics){
+      // eslint-disable-next-line camelcase
+      state.agreement_statistics = agreement_statistics;
+    },
+
     setAnnotatorInputVisible(state, visible){
       //console.log("setAnnotatorInputVisible: "+visible)
       state.annotatorInputVisible = visible;
@@ -403,6 +410,7 @@ export const store = new Vuex.Store({
     resetAgreement(state){
       state.isLoadingAvailableAgreements = false;
       state.isLoadingAgreement = false;
+      state.setIsRefreshingAgreement = false;
       state.selected_algo_result = null;
       state.lastAgreementEditAt = null;
       state.lastAgreementPostAt = null;
