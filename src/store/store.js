@@ -107,6 +107,7 @@ export const store = new Vuex.Store({
     agreement_tore_relationships: [],
 
     agreement_code_alternatives: [],
+    agreement_statistics: null,
     //List of equal size as tokens, each position contains all unresolved codeAlternatives connected to that token
     unResolvedCodesPerToken: [],
 
@@ -240,7 +241,7 @@ export const store = new Vuex.Store({
     },
 
     // eslint-disable-next-line camelcase
-    setAgreementPayload(state, {name, tokens, code_alternatives, tore_relationships, docs, created_at, dataset, annotation_names, is_completed}){
+    setAgreementPayload(state, {name, tokens, code_alternatives, tore_relationships, docs, created_at, dataset, annotation_names, agreement_statistics, is_completed}){
       // eslint-disable-next-line camelcase
       state.agreement_created_at = created_at;
       state.agreement_dataset = dataset;
@@ -250,6 +251,9 @@ export const store = new Vuex.Store({
       state.agreement_is_completed = is_completed;
       // eslint-disable-next-line camelcase
       state.agreement_annotation_names = annotation_names;
+      // eslint-disable-next-line camelcase
+      state.agreement_statistics = agreement_statistics;
+      console.log(agreement_statistics);
 
       for (let token of tokens){
         Object.freeze(token);
@@ -416,6 +420,7 @@ export const store = new Vuex.Store({
       state.unResolvedCodesPerToken = [];
       state.docs = [];
       state.agreement_code_alternatives = [];
+      state.agreement_statistics = null;
 
       state.exportedAnnotationName = null;
       state.exportedAnnotationTORERelationships = [];

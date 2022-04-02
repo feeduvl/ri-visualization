@@ -413,29 +413,20 @@ export default {
                 ],
                 [// Tab view 2
                     {
-                        text: 'Document',
-                        value: 'document',
+                        text: 'Kappa Name',
+                        value: 'kappa_name',
                         align: 'left',
-                        sortable: true
                     },
                     {
-                        text: 'Initial Kappa',
+                        text: 'Initial/Current',
                         align: "left",
-                        sortable: true,
-                        value: 'initial_kappa'
+                        value: 'kappa_state'
                     },
                     {
-                        text: 'Current Kappa',
+                        text: 'Value',
                         align: "left",
-                        sortable: true,
-                        value: 'current_kappa'
+                        value: 'kappa_value'
                     },
-                    {
-                        text: 'Percentage of Initial agreements',
-                        align: "left",
-                        sortable: true,
-                        value: 'initial_agreements'
-                    }
                 ],
             ],
         }
