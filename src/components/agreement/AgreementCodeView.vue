@@ -250,7 +250,8 @@
                 <v-container
                     class="agreement-statistics"
                 >
-                    <v-layout row justify-left align-center>
+                    <v-layout>
+                        <v-spacer></v-spacer>
                         <v-flex>
                             <v-btn
                                 @click="refreshKappas">
@@ -278,7 +279,7 @@
                     :headers="headers[2]"
                     :items="tab_content[2]"
                     :search="search"
-                    :loading="$store.state.isLoadingAgreement"
+                    :loading="$store.state.isLoadingAgreement || $store.state.setIsRefreshingAgreement"
                     :rows-per-page-items="[25, 50, 100, 200, {'text':'$vuetify.dataIterator.rowsPerPageAll','value':-1}]"
                     :pagination.sync="paginations[2]"
                 >
