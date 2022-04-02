@@ -18,9 +18,7 @@ export const AGREEMENT_INITIALIIZE_ENDPOINT = `${BASE_URL}/hitec/orchestration/c
 export const AGREEMENT_EXPORT_ENDPOINT = `${BASE_URL}/hitec/orchestration/concepts/agreementexport/`;
 export const ANNOTATION_POST_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/annotation/`;
 export const AGREEMENT_POST_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/agreement/`;
-export const AGREEMENT_REFRESH_STATISTICS_ENDPOINT = function (name) {
-  return `${BASE_URL}/hitec/repository/concepts/store/agreement/statistics/refresh/name/${encodeURIComponent(name)}`
-}
+export const AGREEMENT_REFRESH_STATISTICS_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/agreement/statistics/refresh`;
 
 export const GET_ALL_RELATIONSHIPS_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/annotation/relationships`
 

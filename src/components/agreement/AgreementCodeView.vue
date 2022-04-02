@@ -250,9 +250,9 @@
                 <v-container
                     class="agreement-statistics"
                 >
-                    <v-layout>
+                    <v-layout row justify-left align-center>
                         <v-spacer></v-spacer>
-                        <v-flex>
+                        <v-flex class="text-right">
                             <v-btn
                                 @click="refreshKappas">
                                 Refresh current Kappa values
@@ -678,7 +678,7 @@ export default {
         },
 
         refreshKappas() {
-            this.$store.dispatch("actionGetAllAgreements")
+            this.$store.dispatch("actionRefreshStatisticsOfAgreement")
         },
 
         downloadAllTabs() {

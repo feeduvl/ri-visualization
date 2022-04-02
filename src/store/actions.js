@@ -202,19 +202,30 @@ export const actionGetSelectedAgreement = ({commit, state}) => {
 
 export const actionRefreshStatisticsOfAgreement = ({commit, state}) => {
   return new Promise(() => {
-    let name = state.selected_agreement;
-    console.log("Getting refreshed statistics of agreement: "+name);
-    commit("setIsRefreshingAgreement", true);
-    axios.get(AGREEMENT_REFRESH_STATISTICS_ENDPOINT(name))
-      .then(response => {
-        console.log("Got response for agreement: "+name);
-        const {data} = response;
-        commit("setStatisticsForAgreement", data);
+    if (state.selected_agreement !== "") {
+      console.log("Getting refreshed statistics of agreement: " + state.selected_agreement);
+      commit("setIsRefreshingAgreement", true);
+      axios.get(AGREEMENT_REFRESH_STATISTICS_ENDPOINT, {
+        created_at: state.agreement_created_at,
+        dataset: state.agreement_dataset,
+        name: state.selected_agreement,
+        annotation_names: state.agreement_annotation_names,
+        tokens: state.tokens,
+        tore_relationships: state.agreement_tore_relationships,
+        code_alternatives: state.agreement_code_alternatives,
+        docs: state.docs.slice(1, state.docs.length),
+        agreement_statistics: state.agreement_statistics
       })
-      .catch(e => console.error("Error updating statistics of agreement: "+e))
-      .finally(() => {
-        commit("setIsRefreshingAgreement", false);
-      });
+        .then(response => {
+          console.log("Got response for agreement statistics");
+          const {data} = response;
+          commit("setStatisticsForAgreement", data);
+        })
+        .catch(e => console.error("Error updating statistics of agreement: " + e))
+        .finally(() => {
+          commit("setIsRefreshingAgreement", false);
+        });
+    }
   });
 };
 
@@ -293,7 +304,8 @@ export const actionPostCurrentAgreement = ({state, commit}) => {
         tokens: state.tokens,
         tore_relationships: state.agreement_tore_relationships,
         code_alternatives: state.agreement_code_alternatives,
-        docs: state.docs.slice(1, state.docs.length)
+        docs: state.docs.slice(1, state.docs.length),
+        agreement_statistics: state.agreement_statistics
       })
         .then(() => {
           console.log("Got agreement POST response");
