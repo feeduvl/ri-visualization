@@ -107,7 +107,7 @@ export const store = new Vuex.Store({
     agreement_tore_relationships: [],
 
     agreement_code_alternatives: [],
-    agreement_statistics: null,
+    agreement_statistics: [],
     //List of equal size as tokens, each position contains all unresolved codeAlternatives connected to that token
     unResolvedCodesPerToken: [],
 
@@ -420,7 +420,7 @@ export const store = new Vuex.Store({
       state.unResolvedCodesPerToken = [];
       state.docs = [];
       state.agreement_code_alternatives = [];
-      state.agreement_statistics = null;
+      state.agreement_statistics = [];
 
       state.exportedAnnotationName = null;
       state.exportedAnnotationTORERelationships = [];

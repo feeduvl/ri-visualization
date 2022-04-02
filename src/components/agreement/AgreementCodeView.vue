@@ -418,14 +418,14 @@ export default {
                         align: 'left',
                     },
                     {
-                        text: 'Initial/Current',
+                        text: 'Initial Value',
                         align: "left",
-                        value: 'kappa_state'
+                        value: 'kappa_initial'
                     },
                     {
-                        text: 'Value',
+                        text: 'Current Value',
                         align: "left",
-                        value: 'kappa_value'
+                        value: 'kappa_current'
                     },
                 ],
             ],
@@ -479,14 +479,19 @@ export default {
         },
 
         generate_statistics_summary() {
-            let summary = {
-                document: "document",
-                initial_kappa: "initialkappa",
-                current_kappa: "currentKappa",
-                initial_agreements: "percentage"
-            }
-            Object.freeze(summary)
-            let summaries = [summary]
+            let agreementStatistics = this.$store.state.agreement_statistics
+            let summaries = []
+
+            agreementStatistics.forEach(function (value) {
+                let summary = {
+                    kappa_name: value.kappa_name,
+                    kappa_initial: value.initial_kappa,
+                    kappa_current: value.current_kappa
+                }
+                Object.freeze(summary)
+                summaries.push(summary)
+            })
+
             Object.freeze(summaries)
             return summaries
         },
