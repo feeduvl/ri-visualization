@@ -251,8 +251,7 @@
                     class="agreement-statistics"
                 >
                     <v-layout row justify-left align-center>
-                        <v-spacer></v-spacer>
-                        <v-flex class="text-right">
+                        <v-flex>
                             <v-btn
                                 @click="refreshKappas">
                                 Refresh current Kappa values

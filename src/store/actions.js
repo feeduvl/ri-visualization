@@ -205,7 +205,7 @@ export const actionRefreshStatisticsOfAgreement = ({commit, state}) => {
     if (state.selected_agreement !== "") {
       console.log("Getting refreshed statistics of agreement: " + state.selected_agreement);
       commit("setIsRefreshingAgreement", true);
-      axios.get(AGREEMENT_REFRESH_STATISTICS_ENDPOINT, {
+      axios.post(AGREEMENT_REFRESH_STATISTICS_ENDPOINT, {
         created_at: state.agreement_created_at,
         dataset: state.agreement_dataset,
         name: state.selected_agreement,
