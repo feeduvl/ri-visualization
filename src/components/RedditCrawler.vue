@@ -280,6 +280,8 @@
                 collection_names : this.collectionNamesChips,
                 date_from : this.dateFrom,
                 date_to : this.dateTo,
+                post_selection: this.postSelection,
+                new_limit: this.postNewLimit,
                 min_length_posts : this.minTextLength,
                 min_length_comments : this.minCommentLength,
                 comment_depth: this.commentDepth,
