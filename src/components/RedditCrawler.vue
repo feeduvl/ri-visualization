@@ -60,6 +60,38 @@
                     </v-card>
                 </v-container>
 
+                <!-- Switch selection method for posts -->
+                <v-card
+                    flat
+                    color="transparent"
+                >
+                    <v-radio-group
+                    v-model="postSelection"
+                    column
+                    >
+                        <v-radio
+                            label="Sort by New"
+                            value="new"
+                        ></v-radio>
+                        <v-radio
+                            label="Sort by Top"
+                            value="top"
+                        ></v-radio>
+                    </v-radio-group>
+                </v-card>
+
+                <!-- Set limit for number of posts -->
+                <v-card
+                    flat
+                    color="transparent"
+                >
+                    <v-text-field
+                        :disabled="postSelection == 'top'"
+                        v-model="postNewLimit"
+                        label="Maximum Number of Posts"
+                        placeholder="100"
+                    ></v-text-field>
+                </v-card>
 
                 <!-- Timeframe selection using a date selection -->
                 <v-card
@@ -222,6 +254,8 @@
             subredditNamesItems: [],
             collectionNamesChips: [], 
             collectionNamesItems: [],
+            postSelection: '',
+            postNewLimit: 100,
             dateTo: '',
             dateFrom: '', 
             commentDepthLabels: ['None', 1, 2, 3, 4, 5, 'All'],
