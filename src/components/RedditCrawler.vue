@@ -236,7 +236,7 @@
             </v-card>
 
             <v-data-table
-                :headers="tableHeader"
+                :headers="tableHeaders"
                 :items="testJobs"
                 :items-per-page="5" >
             </v-data-table>
