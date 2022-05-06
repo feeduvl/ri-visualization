@@ -263,8 +263,8 @@
             commentDepthLabels: ['None', 1, 2, 3, 4, 5, 'All'],
             commentDepth: 0,
             replaceSettings: [],
-            minTextLength: '',
-            minCommentLength: '',
+            minTextLength: 200,
+            minCommentLength: 5,
             blacklistChipsPosts: [],
             blacklistItemsPosts: [],
             blacklistChipsComments: [],
@@ -313,7 +313,7 @@
                     },
                 ],
         // dummy table
-        testJobs: [{subreddit_name: 'chrome', date: '01012022', number_posts: '1', dataset_name: 'chrome_data'}]
+        testJobs: [{subreddit_name: 'chrome',date: '01012022', number_posts: '1', dataset_name: 'chrome_data'}]
     }),
 
     methods: {
