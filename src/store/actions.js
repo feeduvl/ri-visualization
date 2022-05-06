@@ -26,7 +26,8 @@ import {
   POST_ALL_TORES_ENDPOINT,
   GET_ALL_RELATIONSHIPS_ENDPOINT,
   GET_ALL_TORES_ENDPOINT,
-  REDDIT_CRAWLER_ENDPOINT
+  REDDIT_CRAWLER_ENDPOINT,
+  REDDIT_CRAWLER_GET_JOBS_ENDPOINT
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -550,5 +551,23 @@ export const actionCrawlReddit = ({dispatch, commit}, settings) => {
       .post(REDDIT_CRAWLER_ENDPOINT, settings)
       .then(() => {console.log("Crawling finished");})
       .catch(e => console.error("Error: "+e));
+  });
+};
+
+export const actionGetCrawlerJobs = ({commit}) => {
+  return new Promise(() => {
+    console.log("Getting all crawler jobs");
+    commit("initCrawlerJobStructs", true);
+    axios.get(REDDIT_CRAWLER_GET_JOBS_ENDPOINT)
+      .then(response => {
+        console.log("Got all crawler jobs: ");
+        const {data} = response;
+        console.log(data);
+        commit("setAvailableCrawlerJobs", data);
+      })
+      .catch(e => console.error("Error: "+e))
+      .finally(() => {
+        commit("initCrawlerJobStructs", false);
+      });
   });
 };

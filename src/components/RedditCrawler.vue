@@ -237,7 +237,7 @@
 
         </v-card>
             <v-data-table>
-                <!--- TODO fill with data from past crawling jobs --> 
+                :headers="tableHeader"
             </v-data-table>
     </v-container>
     
@@ -269,7 +269,47 @@
             blacklistItemsComments: [],
             replaceURLS: false,
             replaceEmojis: false,
-            isLoading: false
+            isLoading: false,
+
+            tableHeaders: [
+                    {
+                        text: "Subreddit",
+                        sortable: true,
+                        width: "10%",
+                        value: "subreddit_name"
+                    },
+                    {
+                        text: "Date",
+                        align: "center",
+                        sortable: true,
+                        width: "10%",
+                        value: "date",
+                        filterable: false,
+                    },
+                    {
+                        text: "Number of Posts",
+                        align: "center",
+                        sortable: true,
+                        width: "10%",
+                        value: "number_posts",
+                        filterable: false,
+                    },
+                    {
+                        text: "Dataset",
+                        align: "left",
+                        sortable: false,
+                        value: "dataset_name",
+                        width: "9%",
+                        filterable: false,
+                    },
+                    {
+                        text: "Actions",
+                        align: "center",
+                        sortable: false,
+                        value: 'actions',
+                        width: "12%",
+                    },
+                ],
     }),
 
     methods: {

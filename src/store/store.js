@@ -134,8 +134,11 @@ export const store = new Vuex.Store({
     newToreRelationships: [],
 
     newTokensToAdd: [],
-    isAddingToken: false
+    isAddingToken: false,
     // END AGREEMENT STUFF
+
+    // REDDIT CRAWLER
+    finishedCrawlerJobs: []
 
   },
   getters,
@@ -436,8 +439,14 @@ export const store = new Vuex.Store({
       state.exportedAnnotationTokens = [];
 
       this.commit("initTokensEfficiencyStructs", true);
+    },
+    
+    getCrawlingJobs(state, crawlingJobs){
+      state.finishedCrawlerJobs = crawlingJobs || [];
+      this.commit("initCrawlerJobStructs", false);
     }
   },
+
 
   actions,
   modules: {
