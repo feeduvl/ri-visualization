@@ -235,10 +235,12 @@
                 </v-card-title>
             </v-card>
 
-        </v-card>
             <v-data-table>
                 :headers="tableHeader"
+                :items="testJobs"
+                :items-per-page="5"
             </v-data-table>
+        </v-card>
     </v-container>
     
     
@@ -310,6 +312,7 @@
                         width: "12%",
                     },
                 ],
+        testJobs: [{subreddit: 'chrome',date: '01012022', post_number: '1', dataset: 'chrome_data'}]
     }),
 
     methods: {
