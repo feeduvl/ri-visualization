@@ -73,7 +73,8 @@
                         </td>
                         <td>
                             <span class="icon-column">
-                                <v-tooltip bottom>
+                                <v-tooltip bottom
+                                           v-if="props.item.merge_status !=='Accepted'">
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-icon
                                       small
@@ -86,7 +87,8 @@
                                 </template>
                                 <span>Accept</span>
                               </v-tooltip>
-                                <v-tooltip bottom>
+                                <v-tooltip bottom
+                                           v-if="props.item.merge_status !=='Declined'">
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-icon
                                       small
