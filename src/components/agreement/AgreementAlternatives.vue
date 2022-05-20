@@ -72,8 +72,7 @@
                             </ul>
                         </td>
                         <td>
-                            <span class="icon-column"
-                                  v-if="props.item.merge_status ==='Pending'">
+                            <span class="icon-column">
                                 <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-icon
