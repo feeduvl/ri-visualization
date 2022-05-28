@@ -426,7 +426,11 @@ export default {
             let newRelIndicesToAdd = []
             this.newToreRelationships.forEach(function (value) {
                 value.TOREEntity = newMaxIndexCode
-                value.index = maxIndexRel + increment
+                if (maxIndexRel === null) {
+                    value.index = 0
+                } else {
+                    value.index = maxIndexRel + increment
+                }
                 newRelIndicesToAdd.push(value.index)
                 increment++
             })

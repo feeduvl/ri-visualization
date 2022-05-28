@@ -406,7 +406,11 @@ export const resetNewRelationships = state => {
 };
 
 export const incrementMaxRelationshipIndices = (state, numberOfNewRelationships) => {
-  state.maxIndexToreRelationships += numberOfNewRelationships;
+  if (state.maxIndexToreRelationships === null) {
+    state.maxIndexToreRelationships = 0;
+  } else {
+    state.maxIndexToreRelationships += numberOfNewRelationships;
+  }
 };
 
 export const addNewCodeAlternative = (state, newCodeAlternative) => {

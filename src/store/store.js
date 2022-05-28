@@ -250,7 +250,12 @@ export const store = new Vuex.Store({
       state.agreement_created_at = created_at;
       state.agreement_dataset = dataset;
       // eslint-disable-next-line camelcase
-      state.agreement_tore_relationships = tore_relationships;
+      if (tore_relationships === null) {
+        state.agreement_tore_relationships = [];
+      } else {
+        // eslint-disable-next-line camelcase
+        state.agreement_tore_relationships = tore_relationships;
+      }
       // eslint-disable-next-line camelcase
       state.agreement_is_completed = is_completed;
       // eslint-disable-next-line camelcase
@@ -289,9 +294,14 @@ export const store = new Vuex.Store({
       state.maxIndexCodes = Math.max.apply(
         null, state.agreement_code_alternatives.map(value => value.code.index)
       );
-      state.maxIndexToreRelationships = Math.max.apply(
-        null, state.agreement_tore_relationships.map(value => value.index)
-      );
+      // eslint-disable-next-line camelcase
+      if (state.agreement_tore_relationships.length === 0) {
+        state.maxIndexToreRelationships = null;
+      } else {
+        state.maxIndexToreRelationships = Math.max.apply(
+          null, state.agreement_tore_relationships.map(value => value.index)
+        );
+      }
 
       this.commit("initResolvedStatusOfTokens");
       this.commit("setIsLoadingAgreement", false);
