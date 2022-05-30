@@ -244,6 +244,7 @@ export default {
     "frequency-rbai-parameter": () => import("./form/FrequencyRBAIParameter"),
     "frequency-fcic-parameter": () => import("./form/FrequencyFCICParameter"),
     "acceptance-criteria-parameter": () => import("./form/AcceptanceCriteriaParameter"),
+    "stanford-ner-parameter": () => import("./form/StanfordNERParameter"),
   },
   computed: {
     component() {

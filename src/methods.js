@@ -63,6 +63,16 @@ export const METHODS = [
         resultComponentPath: "./components/result/AcceptanceCriteriaResult",
         scoreFunction: getRuntimeAcceptanceCriteria,
         showInDocumentView: false
+    },
+    {
+        name: "stanford-ner",
+        displayName: "Stanford NER",
+        parameterComponentName: "stanford-ner-parameter",
+        parameterComponentPath: "./form/StanfordNERParameter",
+        resultComponentName: "stanford-ner-result",
+        resultComponentPath: "",
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: false
     }
 ]
 
