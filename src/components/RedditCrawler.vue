@@ -237,7 +237,7 @@
 
             <v-data-table
                 :headers="tableHeaders"
-                :items="testJobs"
+                :items="crawlerJobs"
                 :items-per-page="5" >
             </v-data-table>
         </v-card>
@@ -312,9 +312,15 @@
                         width: "12%",
                     },
                 ],
-        // dummy table
-        testJobs: [{subreddit_name: 'chrome',date: '01012022', number_posts: '1', dataset_name: 'chrome_data'}]
     }),
+
+    computed: {
+        
+        crawlerJobs() {
+            return this.$store.state.finishedCrawlerJobs
+        }
+
+    },
 
     methods: {
         crawlerRun(){

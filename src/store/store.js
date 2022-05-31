@@ -453,7 +453,7 @@ export const store = new Vuex.Store({
     
     getCrawlingJobs(state, crawlingJobs){
       state.finishedCrawlerJobs = crawlingJobs || [];
-      this.commit("initCrawlerJobStructs", false);
+      this.commit("setIsLoadingCrawlingJobs", false);
     }
   },
 

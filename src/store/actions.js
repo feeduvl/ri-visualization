@@ -557,7 +557,7 @@ export const actionCrawlReddit = ({dispatch, commit}, settings) => {
 export const actionGetCrawlerJobs = ({commit}) => {
   return new Promise(() => {
     console.log("Getting all crawler jobs");
-    commit("initCrawlerJobStructs", true);
+    commit("setIsLoadingCrawlingJobs", true);
     axios.get(REDDIT_CRAWLER_GET_JOBS_ENDPOINT)
       .then(response => {
         console.log("Got all crawler jobs: ");
@@ -567,7 +567,8 @@ export const actionGetCrawlerJobs = ({commit}) => {
       })
       .catch(e => console.error("Error: "+e))
       .finally(() => {
-        commit("initCrawlerJobStructs", false);
+        commit("setIsLoadingCrawlingJobs", false);
       });
   });
 };
+
