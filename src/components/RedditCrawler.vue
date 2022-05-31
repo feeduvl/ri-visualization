@@ -322,6 +322,10 @@
 
     },
 
+    mounted() {
+        this.reloadFields();
+    }
+
     methods: {
         crawlerRun(){
             this.isLoading = true
@@ -349,7 +353,7 @@
         },
 
         reloadFields(){
-            // TODO
+            this.$store.dispatch("actionGetCrawlerJobs")
         }
     }
     
