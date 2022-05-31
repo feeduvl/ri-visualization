@@ -317,6 +317,8 @@
     computed: {
         
         crawlerJobs() {
+            // debugging
+            console.log(JSON.stringify(this.$store.state.finishedCrawlerJobs))
             return this.$store.state.finishedCrawlerJobs
         }
 
