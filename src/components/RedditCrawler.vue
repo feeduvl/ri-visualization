@@ -237,7 +237,7 @@
 
             <v-data-table
                 :headers="tableHeaders"
-                :items="crawlerJobsDummy"
+                :items="crawlerJobs"
                 :items-per-page="5"
             >
                 <template v-slot:items="props">
@@ -279,7 +279,6 @@
             replaceURLS: false,
             replaceEmojis: false,
             isLoading: false,
-            crawlerJobsDummy: [{subreddit_name: 'chrome',date: '01012022', number_posts: '1', dataset_name: 'chrome_data'}],
 
             tableHeaders: [
                     {
