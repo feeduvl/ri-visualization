@@ -451,9 +451,8 @@ export const store = new Vuex.Store({
       this.commit("initTokensEfficiencyStructs", true);
     },
     
-    getCrawlingJobs(state, crawlingJobs){
+    setAvailableCrawlerJobs(state, crawlingJobs){
       state.finishedCrawlerJobs = crawlingJobs || [];
-      this.commit("setIsLoadingCrawlingJobs", false);
     }
   },
 
