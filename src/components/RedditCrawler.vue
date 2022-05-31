@@ -238,7 +238,14 @@
             <v-data-table
                 :headers="tableHeaders"
                 :items="crawlerJobs"
-                :items-per-page="5" >
+                :items-per-page="5"
+            >
+                <template v-slot:items="props">
+                    <td>{{ props.item.subreddit_name }}</td>
+                    <td>{{ props.item.date }}</td>
+                    <td>{{ props.item.number_posts }}</td>
+                    <td>{{ props.item.dataset_name }}</td>
+                </template>
             </v-data-table>
         </v-card>
     </v-container>
@@ -317,8 +324,6 @@
     computed: {
         
         crawlerJobs() {
-            // debugging
-            console.log(JSON.stringify(this.$store.state.finishedCrawlerJobs))
             return this.$store.state.finishedCrawlerJobs
         }
 
