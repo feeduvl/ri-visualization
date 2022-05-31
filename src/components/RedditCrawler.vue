@@ -324,7 +324,7 @@
 
     mounted() {
         this.reloadFields();
-    }
+    },
 
     methods: {
         crawlerRun(){
