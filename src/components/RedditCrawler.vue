@@ -294,7 +294,7 @@
             collectionNamesItems: [],
             postSelection: '',
             postNewLimit: 100,
-            dates: [],
+            dates: [new Date(Date.now()).toISOString().substr(0, 10),new Date(Date.now()).toISOString().substr(0, 10)],
             dateTo: '',
             dateFrom: '', 
             commentDepthLabels: ['None', 1, 2, 3, 4, 5, 'All'],
