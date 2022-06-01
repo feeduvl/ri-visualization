@@ -27,7 +27,8 @@ import {
   GET_ALL_RELATIONSHIPS_ENDPOINT,
   GET_ALL_TORES_ENDPOINT,
   REDDIT_CRAWLER_ENDPOINT,
-  REDDIT_CRAWLER_GET_JOBS_ENDPOINT
+  REDDIT_CRAWLER_GET_JOBS_ENDPOINT,
+  POST_CRAWLER_DATA_ENDPOINT
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -568,6 +569,21 @@ export const actionGetCrawlerJobs = ({commit}) => {
       .catch(e => console.error("Error: "+e))
       .finally(() => {
         commit("setIsLoadingCrawlingJobs", false);
+      });
+  });
+};
+
+export const ActionPostCrawlerJobData = ({commit}, crawlerData) => {
+  return new Promise((resolve, reject) => {
+    console.log("Posting crawler data");
+    axios.post(POST_CRAWLER_DATA_ENDPOINT, {data: crawlerData})
+      .then(r => {
+        commit("setCrawlerData", crawlerData);
+        resolve(r);
+      })
+      .catch(e => {
+        console.error("Error posting data: "+e);
+        reject(e);
       });
   });
 };

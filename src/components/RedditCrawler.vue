@@ -100,20 +100,20 @@
                 >
                   <v-text-field
                     v-model="dateFrom"
-                    label="From Date in DD-MM-YYYY"
+                    label="From Date in MM/DD/YYYY"
                     prepend-icon="event"
                     v-on="on"
                   ></v-text-field>
                   
                   <v-text-field
                     v-model="dateTo"
-                    label="To Date in DD-MM-YYYY"
+                    label="To Date in MM/DD/YYYY"
                     prepend-icon="event"
                     v-on="on"
                   ></v-text-field>
                 </v-card>
 
-                <!-- Alt Date Selection -->
+                <!-- Alt Date Selection
                 <v-card
                     flat
                     color="transparent"
@@ -123,6 +123,7 @@
                         range
                     ></v-date-picker>
                 </v-card>
+                 -->
 
                 <!-- Comment-depth selection using a rangeslider -->
                 <v-card
@@ -294,7 +295,6 @@
             collectionNamesItems: [],
             postSelection: '',
             postNewLimit: 100,
-            dates: [new Date().toISOString().substr(0, 10),new Date().toISOString().substr(0, 10)],
             dateTo: '',
             dateFrom: '', 
             commentDepthLabels: ['None', 1, 2, 3, 4, 5, 'All'],
@@ -389,15 +389,32 @@
                 blacklist_posts : this.blacklistChipsPosts,
                 replace_urls : this.replaceURLS,
                 replace_emojis : this.replaceEmojis,
-                date_from_alt: this.dates[0],
-                date_to_alt: this.dates[1]
             }
             let crawlerTaskString = JSON.stringify(crawlerTask)
 
-            // dispatch
-            this.$store.dispatch("actionCrawlReddit", crawlerTaskString)
-            
-            this.isLoading = false
+            // dispatch crawler task
+            this.$store.dispatch("actionCrawlReddit", crawlerTaskString).then(() => {
+                this.isLoading = false
+            })
+
+            // store crawler job
+            if (this.schedule) {
+                const diffTime = Math.abs(this.dateTo - this.dateFrom);
+                let reoccurance_days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            } else {
+                let reoccuranc_days = 0;
+            }
+
+            let crawlerTaskInDB = {
+                subreddit_names: this.subredditNamesChips.join(','),
+                date: new Date(),
+                reoccurance: reoccuranc_days,
+                number_posts: 0,
+                dataset_name: this.collectionNamesChips[0],
+                request: crawlerTaskString
+            }
+
+            this.$store.dispatch("ActionPostCrawlerJobData", JSON.stringify(crawlerTaskInDB))
         },
 
         reloadFields(){
