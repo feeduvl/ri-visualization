@@ -565,6 +565,7 @@ export const actionGetCrawlerJobs = ({commit}) => {
         const {data} = response;
         console.log(data);
         commit("setAvailableCrawlerJobs", data);
+        return response;
       })
       .catch(e => console.error("Error: "+e))
       .finally(() => {
