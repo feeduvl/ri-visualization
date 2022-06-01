@@ -113,6 +113,17 @@
                   ></v-text-field>
                 </v-card>
 
+                <!-- Alt Date Selection -->
+                <v-card
+                    flat
+                    color="transparent"
+                >
+                    <v-date-picker
+                        v-model="dates"
+                        range
+                    ></v-date-picker>
+                </v-card>
+
                 <!-- Comment-depth selection using a rangeslider -->
                 <v-card
                     flat
@@ -283,6 +294,7 @@
             collectionNamesItems: [],
             postSelection: '',
             postNewLimit: 100,
+            dates: [],
             dateTo: '',
             dateFrom: '', 
             commentDepthLabels: ['None', 1, 2, 3, 4, 5, 'All'],
@@ -376,7 +388,9 @@
                 blacklist_comments : this.blacklistChipsComments,
                 blacklist_posts : this.blacklistChipsPosts,
                 replace_urls : this.replaceURLS,
-                replace_emojis : this.replaceEmojis
+                replace_emojis : this.replaceEmojis,
+                date_from_alt: this.dates[0],
+                date_to_alt: this.dates[1]
             }
             let crawlerTaskString = JSON.stringify(crawlerTask)
 
