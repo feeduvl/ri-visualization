@@ -249,6 +249,7 @@
                 <template v-slot:items="props">
                     <td>{{ props.item.subreddit_name }}</td>
                     <td>{{ props.item.date }}</td>
+                    <td>None</td>
                     <td>{{ props.item.number_posts }}</td>
                     <td>{{ props.item.dataset_name }}</td>
                     <td><span class="icon-column">
@@ -260,7 +261,7 @@
                                       v-bind="attrs"
                                       v-on="on"
                               >
-                                delete
+                                cancel
                               </v-icon>
                             </template>
                             <span>Stop Reoccurance</span>
