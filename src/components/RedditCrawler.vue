@@ -413,7 +413,7 @@
                 request: crawlerTaskString
             }
 
-            this.$store.dispatch("ActionPostCrawlerJobData", JSON.stringify(crawlerTaskInDB))
+            this.$store.dispatch("ActionPostCrawlerJobData", crawlerTaskInDB)
         },
 
         reloadFields(){
