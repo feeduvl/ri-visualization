@@ -310,6 +310,7 @@
             replaceEmojis: false,
             isLoading: false,
             schedule: false,
+            reoccurance_days: 0,
 
             tableHeaders: [
                     {
@@ -388,7 +389,7 @@
                 blacklist_comments : this.blacklistChipsComments,
                 blacklist_posts : this.blacklistChipsPosts,
                 replace_urls : this.replaceURLS,
-                replace_emojis : this.replaceEmojis,
+                replace_emojis : this.replaceEmojis
             }
             let crawlerTaskString = JSON.stringify(crawlerTask)
 
@@ -400,15 +401,13 @@
             // store crawler job
             if (this.schedule) {
                 const diffTime = Math.abs(this.dateTo - this.dateFrom);
-                let reoccurance_days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-            } else {
-                let reoccuranc_days = 0;
+                this.reoccurance_days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
             }
 
             let crawlerTaskInDB = {
                 subreddit_names: this.subredditNamesChips.join(','),
                 date: new Date(),
-                reoccurance: reoccuranc_days,
+                reoccurance: this.reoccurance_days,
                 number_posts: 0,
                 dataset_name: this.collectionNamesChips[0],
                 request: crawlerTaskString
