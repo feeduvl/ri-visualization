@@ -159,11 +159,13 @@
                         v-model="minTextLength"
                         label="Minimum Post Length"
                         placeholder="200"
+                        type="number"
                     ></v-text-field>
                     <v-text-field
                         v-model="minCommentLength"
                         label="Minimum Comment Length"
                         placeholder="5"
+                        type="number"
                     ></v-text-field>
                 </v-card>
 
@@ -194,6 +196,10 @@
         </v-card>
 
         <v-card>
+            <v-checkbox
+                v-model="schedule"
+                label="Make crawler run reoccur according to time window specified above"
+            ></v-checkbox>
             <v-btn
                 class="ma-2"
                 :loading="isLoading"
@@ -245,14 +251,25 @@
                     <td>{{ props.item.date }}</td>
                     <td>{{ props.item.number_posts }}</td>
                     <td>{{ props.item.dataset_name }}</td>
+                    <td><span class="icon-column">
+                            <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-icon
+                                      small
+                                      @click="stopJobReoccurance(item)"
+                                      v-bind="attrs"
+                                      v-on="on"
+                              >
+                                delete
+                              </v-icon>
+                            </template>
+                            <span>Stop Reoccurance</span>
+                          </v-tooltip>
+                        </span></td>
                 </template>
             </v-data-table>
         </v-card>
     </v-container>
-    
-    
-    
-    
 </template>
 
 <script>
@@ -279,6 +296,7 @@
             replaceURLS: false,
             replaceEmojis: false,
             isLoading: false,
+            schedule: false,
 
             tableHeaders: [
                     {
@@ -289,6 +307,14 @@
                     },
                     {
                         text: "Date",
+                        align: "center",
+                        sortable: true,
+                        width: "10%",
+                        value: "date",
+                        filterable: false,
+                    },
+                    {
+                        text: "Next Job",
                         align: "center",
                         sortable: true,
                         width: "10%",
