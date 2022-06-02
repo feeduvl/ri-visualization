@@ -259,7 +259,7 @@
                 :items-per-page="5"
             >
                 <template v-slot:items="props">
-                    <td>{{ props.item.subreddit_name }}</td>
+                    <td>{{ props.item.subreddit_names }}</td>
                     <td>{{ props.item.date }}</td>
                     <td>{{ props.item.occurrence }}</td>
                     <td>{{ props.item.number_posts }}</td>
