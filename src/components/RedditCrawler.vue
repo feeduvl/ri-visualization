@@ -397,7 +397,7 @@
             // store crawler job
             console.log("occurrence: "+this.schedule)
             if (this.schedule) {
-                const diffTime = Math.abs(this.dateTo - this.dateFrom);
+                const diffTime = Math.abs(new Date(this.dateTo) - new Date(this.dateFrom));
                 this.occurrence_days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
                 console.log(this.occurrence_days)
             }
