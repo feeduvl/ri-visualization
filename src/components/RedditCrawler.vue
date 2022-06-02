@@ -214,7 +214,7 @@
             ></v-checkbox>
             <v-btn
                 class="ma-2"
-                :loading="isLoading"
+                :loading="$store.state.isLoadingRedditCrawler"
                 color="secondary"
                 @click="crawlerRun"
                 >
@@ -261,7 +261,7 @@
                 <template v-slot:items="props">
                     <td>{{ props.item.subreddit_name }}</td>
                     <td>{{ props.item.date }}</td>
-                    <td>None</td>
+                    <td>{{ props.item.occurrence }}</td>
                     <td>{{ props.item.number_posts }}</td>
                     <td>{{ props.item.dataset_name }}</td>
                     <td><span class="icon-column">
@@ -308,7 +308,6 @@
             blacklistItemsComments: [],
             replaceURLS: false,
             replaceEmojis: false,
-            isLoading: false,
             schedule: false,
             reoccurance_days: 0,
 
@@ -317,7 +316,7 @@
                         text: "Subreddit",
                         sortable: true,
                         width: "10%",
-                        value: "subreddit_name"
+                        value: "subreddit_names"
                     },
                     {
                         text: "Date",
@@ -328,11 +327,11 @@
                         filterable: false,
                     },
                     {
-                        text: "Next Job",
+                        text: "Occurrence",
                         align: "center",
                         sortable: true,
                         width: "10%",
-                        value: "date",
+                        value: "occurrence",
                         filterable: false,
                     },
                     {
@@ -375,7 +374,6 @@
 
     methods: {
         crawlerRun(){
-            this.isLoading = true
             let crawlerTask = {
                 subreddits : this.subredditNamesChips,
                 collection_names : this.collectionNamesChips,
@@ -394,9 +392,7 @@
             let crawlerTaskString = JSON.stringify(crawlerTask)
 
             // dispatch crawler task
-            this.$store.dispatch("actionCrawlReddit", crawlerTaskString).then(() => {
-                this.isLoading = false
-            })
+            this.$store.dispatch("actionCrawlReddit", crawlerTaskString)
 
             // store crawler job
             if (this.schedule) {

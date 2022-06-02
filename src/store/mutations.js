@@ -444,3 +444,7 @@ export const getAllAlternativesOfToken = (state, tokenIndex) => {
   });
   return alternatives;
 };
+
+export const setIsLoadingRedditCrawler = (state, isLoading) => {
+  state.isLoadingRedditCrawler = isLoading;
+};

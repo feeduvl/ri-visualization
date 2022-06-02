@@ -546,11 +546,14 @@ export const setFooterText = ({
 export const actionCrawlReddit = ({dispatch, commit}, settings) => {
   return new Promise(() => {
     console.log("Initialize Reddit Crawl");
+    commit("setIsLoadingRedditCrawler", true);
 
-    // call API
     axios
       .post(REDDIT_CRAWLER_ENDPOINT, settings)
-      .then(() => {console.log("Crawling finished");})
+      .then(() => {
+        console.log("Crawling finished");
+        commit("setIsLoadingRedditCrawler", false);
+      })
       .catch(e => console.error("Error: "+e));
   });
 };

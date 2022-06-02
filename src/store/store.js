@@ -138,7 +138,8 @@ export const store = new Vuex.Store({
     // END AGREEMENT STUFF
 
     // REDDIT CRAWLER
-    finishedCrawlerJobs: []
+    finishedCrawlerJobs: [],
+    isLoadingRedditCrawler: false
 
   },
   getters,
