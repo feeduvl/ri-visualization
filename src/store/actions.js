@@ -577,7 +577,7 @@ export const actionGetCrawlerJobs = ({commit}) => {
 export const ActionPostCrawlerJobData = ({commit}, crawlerData) => {
   return new Promise((resolve, reject) => {
     console.log("Posting crawler data");
-    axios.post(POST_CRAWLER_DATA_ENDPOINT, {data: crawlerData})
+    axios.post(POST_CRAWLER_DATA_ENDPOINT, crawlerData)
       .then(r => {
         commit("setCrawlerData", crawlerData);
         resolve(r);
