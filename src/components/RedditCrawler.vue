@@ -309,7 +309,7 @@
             replaceURLS: false,
             replaceEmojis: false,
             schedule: false,
-            reoccurance_days: 0,
+            occurrence_days: 0,
 
             tableHeaders: [
                     {
@@ -395,15 +395,17 @@
             this.$store.dispatch("actionCrawlReddit", crawlerTaskString)
 
             // store crawler job
+            console.log("occurrence: "+this.schedule)
             if (this.schedule) {
                 const diffTime = Math.abs(this.dateTo - this.dateFrom);
-                this.reoccurance_days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                this.occurrence_days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                console.log(this.occurrence_days)
             }
 
             let crawlerTaskInDB = {
                 subreddit_names: this.subredditNamesChips.join(','),
                 date: new Date(),
-                occurrence: this.reoccurance_days,
+                occurrence: this.occurrence_days,
                 number_posts: 0,
                 dataset_name: this.collectionNamesChips[0],
                 request: crawlerTaskString
