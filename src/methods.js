@@ -73,6 +73,16 @@ export const METHODS = [
         resultComponentPath: "",
         scoreFunction: getScoreEmpty,
         showInDocumentView: false
+    },
+    {
+        name: "deep-ner",
+        displayName: "Deep NER",
+        parameterComponentName: "deep-ner-parameter",
+        parameterComponentPath: "./form/DeepNERParameter",
+        resultComponentName: "deep-ner-result",
+        resultComponentPath: "",
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: false
     }
 ]
 

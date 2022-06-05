@@ -245,6 +245,7 @@ export default {
     "frequency-fcic-parameter": () => import("./form/FrequencyFCICParameter"),
     "acceptance-criteria-parameter": () => import("./form/AcceptanceCriteriaParameter"),
     "stanford-ner-parameter": () => import("./form/StanfordNERParameter"),
+    "deep-ner-parameter": () => import("./form/DeepNERParameter"),
   },
   computed: {
     component() {
