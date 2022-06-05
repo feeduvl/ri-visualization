@@ -78,7 +78,7 @@ export default {
         availableAnnotations() {
             return this.$store.state.available_annotations.filter( a =>
                 a.dataset === this.dataset
-            )
+            ).map(a => a.name)
         }
     },
     methods: {
@@ -138,6 +138,9 @@ export default {
             this.run_name = "";
             this.selected_annotation = null;
         },
+    },
+    mounted() {
+        this.$store.dispatch("actionGetAllAnnotations");
     },
 }
 </script>
