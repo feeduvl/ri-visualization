@@ -5,14 +5,6 @@
             v-model="formValid">
             <v-layout row wrap>
                 <v-flex xs3>
-                    <v-autocomplete
-                        v-model="selected_annotation"
-                        :items="availableAnnotations"
-                        label="Annotation for Algorithm"
-                    >
-                    </v-autocomplete>
-                </v-flex>
-                <v-flex xs3>
                     <v-checkbox
                         v-model="debug"
                         :label="`Include debug information`"
@@ -72,21 +64,11 @@ export default {
         debug: false,
         run_name: "",
         formValid: true,
-        selected_annotation: null,
     }),
-    computed: {
-        availableAnnotations() {
-            return this.$store.state.available_annotations.filter( a =>
-                a.dataset === this.dataset
-            ).map(a => a.name)
-        }
-    },
     methods: {
         async startRun() {
             if (!(this.validateDatasetInput())) {
                 this.displaySnackbar("Please select a dataset!");
-            } else if (!(this.validateAnnotation())) {
-                this.displaySnackbar("Please select an annotation!");
             } else if (!(this.formValid)) {
                 this.displaySnackbar("Please validate your parameter inputs!");
             } else {
@@ -123,24 +105,16 @@ export default {
                 dataset: this.$props.dataset,
                 debug: this.debug,
                 name: this.run_name,
-                annotation: this.selected_annotation,
             };
             return JSON.stringify(params);
         },
         validateDatasetInput() {
             return this.$props.dataset !== "";
         },
-        validateAnnotation() {
-            return this.selected_annotation !== null;
-        },
         resetForm() {
             this.debug = false;
             this.run_name = "";
-            this.selected_annotation = null;
         },
-    },
-    mounted() {
-        this.$store.dispatch("actionGetAllAnnotations");
     },
 }
 </script>
