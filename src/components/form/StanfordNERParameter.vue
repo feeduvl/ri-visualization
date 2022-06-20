@@ -10,6 +10,15 @@
             :label="`Include debug information`"
         ></v-checkbox>
       </v-flex>
+      <v-flex xs3>
+        <v-text-field
+            v-model="annotation_name"
+            hint="Name for the new annotation"
+            label="Annotation Name"
+            clearable
+            persistent-hint
+        ></v-text-field>
+      </v-flex>
       <v-flex xs1/>
       <v-flex xs3>
         <v-text-field
@@ -19,6 +28,7 @@
             clearable
             persistent-hint
         ></v-text-field>
+      </v-flex>
     </v-layout>
     <v-layout row wrap>
       <v-flex xs9/>
@@ -62,6 +72,7 @@ export default {
     snackbarTimeout: SNACKBAR_DISPLAY_TIME,
     debug: false,
     run_name: "",
+    annotation_name: "",
     formValid: true,
   }),
   methods: {
@@ -104,6 +115,7 @@ export default {
         dataset: this.$props.dataset,
         debug: this.debug,
         name: this.run_name,
+        annotation_name: this.annotation_name,
       };
       return JSON.stringify(params);
     },
@@ -113,6 +125,7 @@ export default {
     resetForm() {
       this.debug = false;
       this.run_name = "";
+      this.annotation_name = "";
     },
   },
 }
