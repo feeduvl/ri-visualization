@@ -485,6 +485,7 @@
                 this.stopLinking()
             },
             setSelectedToreRelationship(relationship){
+                console.log(Setting a relationship:)
                 console.log(relationship)
                 this.startLinking()
                 this.$store.commit("setSelectedToreRelationship", relationship)
