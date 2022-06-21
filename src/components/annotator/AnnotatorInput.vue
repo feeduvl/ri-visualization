@@ -485,8 +485,10 @@
                 this.stopLinking()
             },
             setSelectedToreRelationship(relationship){
+                console.log(relationship)
                 this.startLinking()
                 this.$store.commit("setSelectedToreRelationship", relationship)
+                console.log("Relationship set")
             }
         },
         props: {
