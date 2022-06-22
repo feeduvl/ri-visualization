@@ -74,8 +74,12 @@ function Code_update_token(state, commit, code, token){
 
 function Code_remove_relationship(code, tore_relationship){
     let ind = tore_relationship.index;
+    console.log("ReL:" + tore_relationship);
+    console.log("Index: " + ind);
+    console.log(code.relationship_memberships)
     if (!code.relationship_memberships.includes(ind)) {
         console.error("Attempted to remove non-existent relationship: " + ind + " from Code: " + CodeToString(code));
+
     } else {
         code.relationship_memberships.splice(code.relationship_memberships.indexOf(ind), 1);
     }
