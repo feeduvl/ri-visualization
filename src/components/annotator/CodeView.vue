@@ -648,7 +648,7 @@
 
                             code.placeholder = ""
                             code.relationship_index = relationship_index;
-                            if(this.$store.state.tore_relationships[relationship_index].relationship_name){
+                            if(this.$store.state.tore_relationships[relationship_index]){
                                 code.relationship_name = this.$store.state.tore_relationships[relationship_index].relationship_name;
                                 code.words_string = this.$store.getters.tokenListToString(code.tokens);
                                 code.target_string = this.$store.getters.tokenListToString(this.$store.state.tore_relationships[relationship_index].target_tokens)
