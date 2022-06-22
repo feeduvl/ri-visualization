@@ -290,7 +290,7 @@
                                     value: 'relationship_count'
                                 },
                                 {
-                                    text: 'Num. of Documents with this code',
+                                    text: 'Appearances',
                                     align: "left",
                                     sortable: true,
                                     value: 'doc_count'
@@ -317,7 +317,7 @@
                                     value: 'relationship_count'
                                 },
                                 {
-                                    text: 'Num. of Documents with this category',
+                                    text: 'Appearances',
                                     align: "left",
                                     sortable: true,
                                     value: 'doc_count'
@@ -349,7 +349,7 @@
                                     value: 'relationship_count'
                                 },
                                 {
-                                    text: 'Num. of Documents with this combination',
+                                    text: 'Appearances',
                                     align: "left",
                                     sortable: true,
                                     value: 'doc_count'
