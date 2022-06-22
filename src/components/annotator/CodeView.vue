@@ -656,8 +656,8 @@
                                 ret.push(code);
                             }
                             else{
-                                console.log("Purging code "+ c + "because of faulty relationship");
-                                this.$store.commit("delete_code", c);
+                                console.log("Purging all relationships from code "+ c + " because of faulty relationship");
+                                Code_remove_all_relationships(c);
                             }
                         }
                     }

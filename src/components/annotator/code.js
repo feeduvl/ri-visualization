@@ -84,6 +84,10 @@ function Code_remove_relationship(code, tore_relationship){
     }
 }
 
+function Code_remove_all_relationships(code){
+    code.relationship_memberships.splice(0,code.relationship_memberships.length);
+}
+
 /**
  * Create a new TORE Relationship from required, non-falsy attributes
  * Does not add this relationship to the code!
@@ -128,4 +132,4 @@ function CodeToString(code){
     return "[Code] Name: "+code.name+", tore: "+code.tore+", index: "+code.index+", relationship memberships: "+code.relationship_memberships;
 }
 
-export {Code_user_display_prompt, Code_remove_token, TORERelationship_remove_token, Code_add_relationship, Code_update_token, Code_remove_relationship, CodeToString, TORERelationship_set_relationship_name, TORERelationship_add_token, Code, TORERelationship}
+export {Code_user_display_prompt, Code_remove_token, TORERelationship_remove_token, Code_add_relationship, Code_update_token, Code_remove_relationship, Code_remove_all_relationships, CodeToString, TORERelationship_set_relationship_name, TORERelationship_add_token, Code, TORERelationship}
