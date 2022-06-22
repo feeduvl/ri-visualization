@@ -79,7 +79,6 @@ function Code_remove_relationship(code, tore_relationship){
     console.log(code.relationship_memberships)
     if (!code.relationship_memberships.includes(ind)) {
         console.error("Attempted to remove non-existent relationship: " + ind + " from Code: " + CodeToString(code));
-
     } else {
         code.relationship_memberships.splice(code.relationship_memberships.indexOf(ind), 1);
     }

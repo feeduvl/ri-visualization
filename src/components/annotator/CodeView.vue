@@ -512,22 +512,18 @@
             generate_relationship_summary(list_of_relationships){
                 console.log("generate_relationship_summary")
                 let summaries = []
-                let rel = this.$store.state.tore_relationships
-                console.log(rel)
                 for(let relationship of list_of_relationships){
                     let summary = {...relationship}
                     if(summary.TOREEntity){
                       let owner = this.frozen_codes_copy[summary.TOREEntity];
                       summary.owner_name = owner.name;
                       summary.owner_tore = owner.tore;
-
                     } else {
                       console.error("Got undefined TOREEntity for relationship")
                       console.error(relationship)
                       summary.owner_name = "";
                       summary.owner_tore = "";
-                      this.$store.commit("delete_tore_relationship", {index: relationship.relationship_index, TOREEntity: relationship.index});
-                      setTimeout(()=> this.$emit("show-snackbar", {"msg": "Deleted relationship"}));
+                      this.$store.commit('delete_tore_relationship', relationship);
                     }
                     summary.target_string = this.$store.getters.tokenListToString(summary.target_tokens)
                     summary.placeholder = ""
