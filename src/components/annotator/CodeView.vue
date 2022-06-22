@@ -526,6 +526,8 @@
                       console.error(relationship)
                       summary.owner_name = "";
                       summary.owner_tore = "";
+                      this.$store.commit("delete_tore_relationship", {index: relationship.relationship_index, TOREEntity: relationship.index});
+                      setTimeout(()=> this.$emit("show-snackbar", {"msg": "Deleted relationship"}));
                     }
                     summary.target_string = this.$store.getters.tokenListToString(summary.target_tokens)
                     summary.placeholder = ""
