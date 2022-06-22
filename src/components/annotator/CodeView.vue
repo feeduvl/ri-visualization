@@ -648,11 +648,17 @@
 
                             code.placeholder = ""
                             code.relationship_index = relationship_index;
-                            code.relationship_name = this.$store.state.tore_relationships[relationship_index].relationship_name;
-                            code.words_string = this.$store.getters.tokenListToString(code.tokens);
-                            code.target_string = this.$store.getters.tokenListToString(this.$store.state.tore_relationships[relationship_index].target_tokens)
-                            Object.freeze(code)
-                            ret.push(code);
+                            if(this.$store.state.tore_relationships[relationship_index].relationship_name){
+                                code.relationship_name = this.$store.state.tore_relationships[relationship_index].relationship_name;
+                                code.words_string = this.$store.getters.tokenListToString(code.tokens);
+                                code.target_string = this.$store.getters.tokenListToString(this.$store.state.tore_relationships[relationship_index].target_tokens)
+                                Object.freeze(code)
+                                ret.push(code);
+                            }
+                            else{
+                                console.log("Purging code "+ c + "because of faulty relationship");
+                                this.$store.commit("delete_code", c);
+                            }
                         }
                     }
                 }
