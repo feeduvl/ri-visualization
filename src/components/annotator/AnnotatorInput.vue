@@ -247,7 +247,6 @@
                 <v-list class="annotator-input__relationships-list">
                     <v-subheader>Edit a relationship</v-subheader>
                     <v-list-tile
-                                console.log("Editing a relationship")
                                 @click="setSelectedToreRelationship(item)"
                                 v-for="(item, i) in selectedToreRelationships"
                                 :key="'relationships_'+i">
