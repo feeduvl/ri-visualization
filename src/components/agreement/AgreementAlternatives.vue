@@ -338,7 +338,7 @@ export default {
         },
         allowedRelationshipNames(){
             return this.$store.state.relationship_names.filter((name, index) => {
-                return !this.$store.state.relationship_owners[index] || this.$store.state.relationship_owners[index] === this.tore;
+                return !this.$store.state.relationship_owners[index] || this.$store.state.relationship_owners[index] === this.newCategory;
             } )
         },
 
