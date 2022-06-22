@@ -657,7 +657,8 @@
                             }
                             else{
                                 console.log("Purging all relationships from code "+ c + " because of faulty relationship");
-                                Code_remove_all_relationships(c);
+                                this.$store.commit('delete_all_relationships_from_code', c);
+
                             }
                         }
                     }

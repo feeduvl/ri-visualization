@@ -8,7 +8,7 @@ import {NOUN_COLOR, VERB_COLOR, ADJECTIVE_COLOR} from "@/components/annotator/re
 // eslint-disable-next-line camelcase
 import {
   // eslint-disable-next-line camelcase
-  Code_add_relationship,Code_remove_relationship,Code_remove_token, Code_update_token,
+  Code_add_relationship, Code_remove_all_relationships, Code_remove_relationship, Code_remove_token, Code_update_token,
   CodeToString,
   TORERelationship
 } from "../components/annotator/code";
@@ -328,6 +328,10 @@ export const store = new Vuex.Store({
       if (state.selected_tore_relationship && state.selected_tore_relationship.index === tore_relationship.index){
         this.commit("setSelectedToreRelationship", null);
       }
+    },
+
+    delete_all_relationships_from_code(state,code){
+      Code_remove_all_relationships(code);
     },
     
     new_tore_relationship(state, firstToken){
