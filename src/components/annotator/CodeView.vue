@@ -512,13 +512,15 @@
             generate_relationship_summary(list_of_relationships){
                 console.log("generate_relationship_summary")
                 let summaries = []
-
+                let rel = this.$store.state.tore_relationships
+                console.log(rel)
                 for(let relationship of list_of_relationships){
                     let summary = {...relationship}
                     if(summary.TOREEntity){
                       let owner = this.frozen_codes_copy[summary.TOREEntity];
                       summary.owner_name = owner.name;
                       summary.owner_tore = owner.tore;
+
                     } else {
                       console.error("Got undefined TOREEntity for relationship")
                       console.error(relationship)
@@ -529,8 +531,10 @@
                     summary.placeholder = ""
                     Object.freeze(summary)
                     summaries.push(summary)
+                    console.log(summary)
                 }
                 Object.freeze(summaries)
+                console.log(summaries)
                 return summaries
             },
 
