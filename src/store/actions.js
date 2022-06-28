@@ -202,22 +202,27 @@ export const actionGetSelectedAgreement = ({commit, state}) => {
   });
 };
 
+// eslint-disable-next-line func-style
+function getDataForAgreementStatisticsRefresh(state) {
+  return {
+    created_at: state.agreement_created_at,
+    dataset: state.agreement_dataset,
+    name: state.selected_agreement,
+    annotation_names: state.agreement_annotation_names,
+    tokens: state.tokens,
+    tore_relationships: state.agreement_tore_relationships,
+    code_alternatives: state.agreement_code_alternatives,
+    docs: state.docs.slice(1, state.docs.length),
+    agreement_statistics: state.agreement_statistics
+  };
+}
+
 export const actionRefreshStatisticsOfAgreement = ({commit, state}) => {
   return new Promise(() => {
     if (state.selected_agreement !== "") {
       console.log("Getting refreshed statistics of agreement: " + state.selected_agreement);
       commit("setIsRefreshingAgreement", true);
-      axios.post(AGREEMENT_REFRESH_STATISTICS_ENDPOINT, {
-        created_at: state.agreement_created_at,
-        dataset: state.agreement_dataset,
-        name: state.selected_agreement,
-        annotation_names: state.agreement_annotation_names,
-        tokens: state.tokens,
-        tore_relationships: state.agreement_tore_relationships,
-        code_alternatives: state.agreement_code_alternatives,
-        docs: state.docs.slice(1, state.docs.length),
-        agreement_statistics: state.agreement_statistics
-      })
+      axios.post(AGREEMENT_REFRESH_STATISTICS_ENDPOINT, getDataForAgreementStatisticsRefresh(state))
         .then(response => {
           console.log("Got response for agreement statistics");
           const {data} = response;
