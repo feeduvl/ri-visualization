@@ -48,15 +48,10 @@
                     </v-card>
 
                     <v-card>
-                        <v-combobox
-                            v-model="collectionNamesChips"
-                            :items="collectionNamesItems"
-                            chips
-                            clearable
-                            label="Enter Matching Names for Datasets (Default NAME_DATE1_DATE2)"
-                            multiple
-                        >
-                        </v-combobox>
+                        <v-text-field
+                            v-model="datasetName"
+                            label="Enter name of new dataset"
+                    ></v-text-field>
                     </v-card>
                 </v-container>
 
@@ -291,7 +286,7 @@
         data: () => ({
             subredditNamesChips: [], 
             subredditNamesItems: [],
-            collectionNamesChips: [], 
+            datasetName: '',
             collectionNamesItems: [],
             postSelection: '',
             postNewLimit: 100,
@@ -376,7 +371,7 @@
         crawlerRun(){
             let crawlerTask = {
                 subreddits : this.subredditNamesChips,
-                collection_names : this.collectionNamesChips,
+                dataset_name : this.datasetName,
                 date_from : this.dateFrom,
                 date_to : this.dateTo,
                 post_selection: this.postSelection,
@@ -407,7 +402,7 @@
                 date: new Date(),
                 occurrence: this.occurrence_days,
                 number_posts: 0,
-                dataset_name: this.collectionNamesChips[0],
+                dataset_name: this.datasetName,
                 request: crawlerTaskString
             }
 
