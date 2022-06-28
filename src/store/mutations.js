@@ -341,7 +341,7 @@ export const changeStatusOfCodeAlternative = (state, change) => {
 export const updateIsCompleted = state => {
   console.log("Check completion status of agreement");
   let isComplete = true;
-  state.agreement_code_alternatives.forEach(function (item, index) {
+  state.agreement_code_alternatives.forEach(function (item) {
     if(item.merge_status === "Pending") {
       isComplete = false;
     }
@@ -353,7 +353,7 @@ export const initResolvedStatusOfTokens = state => {
   console.log("Initializing resolved status of agreement");
   let unResolvedCodesPerToken = [];
 
-  state.tokens.forEach(function (item, index){
+  state.tokens.forEach(function (item){
     let unresolvedAlternatives = [];
     let hasSomeAlternativeCode = false;
     state.agreement_code_alternatives.forEach(function (item1){

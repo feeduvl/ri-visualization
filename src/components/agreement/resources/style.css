@@ -21,11 +21,11 @@ table.v-table tbody th {
 }
 
 .row-item {
-    margin: 15px 10px 15px 10px;
+    margin: 15px 10px;
 }
 
 .row-header {
-    margin: 15px 10px 35px 10px;
+    margin: 15px 10px 35px;
     position: fixed;
 }
 
