@@ -8,22 +8,6 @@
             </v-card>
         </v-card>
 
-        <!--
-        <v-row>
-            <v-col cols="12" sm="6" md="3">
-                <v-card>
-                    <h1> left </h1>
-                </v-card>
-            </v-col>
-            <v-col cols="12" sm="6" md="3">
-                <v-card>
-                    <h1> right </h1>
-
-                </v-card>
-            </v-col>
-        </v-row>
-        -->
-        
 
         <v-card>
             <v-card-title primary-title>
@@ -354,9 +338,13 @@
                         width: "12%",
                     },
                 ],
-                
+
             rules: {
-                limit: value => value.length >= 0 || 'Enter non-zero limit',
+                limit: value => value.length >= 0 || 'Numeric non-zero input required',
+                date: value => {
+                    const pattern = /(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/
+                    return pattern.test(value) || 'Invalid date.'
+                },
             }
     }),
 
