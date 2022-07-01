@@ -82,6 +82,7 @@
                 >
                     <v-text-field
                         :disabled="postSelection == 'top'"
+                        :rules="[rules.limit]"
                         v-model="postNewLimit"
                         label="Maximum Number of Posts"
                         placeholder="100"
@@ -353,6 +354,10 @@
                         width: "12%",
                     },
                 ],
+                
+            rules: {
+                limit: value => value.length >= 0 || 'Enter non-zero limit',
+            }
     }),
 
     computed: {
