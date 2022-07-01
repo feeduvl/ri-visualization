@@ -66,7 +66,7 @@
                 >
                     <v-text-field
                         :disabled="postSelection == 'top'"
-                        :rules="[rules.limit]"
+                        :rules="[rules.limit, rules.required]"
                         v-model="postNewLimit"
                         label="Maximum Number of Posts"
                         placeholder="100"
@@ -81,6 +81,7 @@
                   <v-text-field
                     v-model="dateFrom"
                     label="From Date in MM/DD/YYYY"
+                    :rules="[rules.limit, rules.required]"
                     prepend-icon="event"
                     v-on="on"
                   ></v-text-field>
@@ -88,6 +89,7 @@
                   <v-text-field
                     v-model="dateTo"
                     label="To Date in MM/DD/YYYY"
+                    :rules="[rules.date, rules.required]"
                     prepend-icon="event"
                     v-on="on"
                   ></v-text-field>
@@ -340,6 +342,7 @@
                 ],
 
             rules: {
+                required: value => !!value || 'Required.',
                 limit: value => value.length >= 0 || 'Numeric non-zero input required',
                 date: value => {
                     const pattern = /(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/
