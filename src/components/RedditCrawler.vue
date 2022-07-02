@@ -81,7 +81,7 @@
                   <v-text-field
                     v-model="dateFrom"
                     label="From Date in MM/DD/YYYY"
-                    :rules="[rules.limit, rules.required]"
+                    :rules="[rules.date, rules.required]"
                     prepend-icon="event"
                     v-on="on"
                   ></v-text-field>
@@ -343,7 +343,7 @@
 
             rules: {
                 required: value => !!value || 'Required.',
-                limit: value => value.length >= 0 || 'Numeric non-zero input required',
+                limit: value => value >= 0 || 'Numeric non-zero input required',
                 date: value => {
                     const pattern = /(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/
                     return pattern.test(value) || 'Invalid date.'
