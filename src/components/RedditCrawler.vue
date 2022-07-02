@@ -151,14 +151,14 @@
                     <v-subheader>Set mininum lengths for contents of submissions</v-subheader>
                     <v-text-field
                         v-model="minTextLength"
-                        :rules="[rules.date, rules.required]"
+                        :rules="[rules.limit, rules.required]"
                         label="Minimum Post Length"
                         placeholder="200"
                         type="number"
                     ></v-text-field>
                     <v-text-field
                         v-model="minCommentLength"
-                        :rules="[rules.date, rules.required]"
+                        :rules="[rules.limit, rules.required]"
                         label="Minimum Comment Length"
                         placeholder="5"
                         type="number"
