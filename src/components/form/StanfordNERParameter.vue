@@ -9,6 +9,10 @@
             v-model="debug"
             :label="`Include debug information`"
         ></v-checkbox>
+        <v-checkbox
+            v-model="persist"
+            :label="`Create new annotation from result`"
+        ></v-checkbox>
       </v-flex>
       <v-flex xs3>
         <v-text-field
@@ -71,6 +75,7 @@ export default {
     snackbarText: "",
     snackbarTimeout: SNACKBAR_DISPLAY_TIME,
     debug: false,
+    persist: false,
     run_name: "",
     annotation_name: "",
     formValid: true,
@@ -114,6 +119,7 @@ export default {
         method: this.method,
         dataset: this.$props.dataset,
         debug: this.debug,
+        persist: this.persist,
         name: this.run_name,
         annotation_name: this.annotation_name,
       };
@@ -124,6 +130,7 @@ export default {
     },
     resetForm() {
       this.debug = false;
+      this.persist = false;
       this.run_name = "";
       this.annotation_name = "";
     },
