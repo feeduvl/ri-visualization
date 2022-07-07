@@ -40,28 +40,10 @@ export default {
         }),
 
         getSummary() {
-            const codes = [
-            {
-            token: 'Chrome',
-            code: 'Software',
-            },
-            {
-            token: 'open',
-            code: 'Interaction',
-            },
-            {
-            token: 'Window',
-            code: 'Workspace',
-            },
-            {
-            token: 'Tab',
-            code: 'Workspace',
-            }];
-
             var array = [];
             var evluation = [];
 
-            for (let index in codes) {
+            for (let index in selectedResult.codes) {
                 array.push(codes[index].code);
             }
 
