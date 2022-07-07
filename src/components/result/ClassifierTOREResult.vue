@@ -3,17 +3,31 @@
         <v-container>
             <v-data-table
                 :headers="headers"
-                :items="codes"
+                :items="selectedResult.codes"
                 :items-per-page="10"
-                class="elevation-1"
-            ></v-data-table>
+            >
+                <template v-slot:items="props">
+                    <td>{{ props.item.name }}</td>
+                    <td>{{ props.item.tore }}</td>
+                    <td>{{ props.item.index }}</td>
+                </template>
+            </v-data-table>
       </v-container>
     </v-card>
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
     name: "ClassifierTOREResult",
+
+    computed: {
+        ...mapGetters({
+            selectedResult: 'selectedResult'
+        })
+    },
+
     data: () => ({
         headers: [
             {
@@ -28,20 +42,12 @@ export default {
                 sortable: true,
                 value: 'code',
             },        
-        ],
-        codes: [
             {
-            token: 'Chrome',
-            code: 'Software',
-            },
-            {
-            token: 'open',
-            code: 'Interaction',
-            },
-            {
-            token: 'Window',
-            code: 'Workspace',
-            },
+                text: 'Index',
+                align: 'start',
+                sortable: true,
+                value: 'index',
+            },        
         ],
     }),
 
