@@ -2,6 +2,18 @@
     <v-card>
         <v-container>
             <v-data-table
+                :headers="headersSummary"
+                :items="getSummary"
+                :items-per-page="10"
+            >
+                <template v-slot:items="props">
+                    <td>{{ props.item.code }}</td>
+                    <td>{{ props.item.count }}</td>
+                </template>
+            </v-data-table>
+       </v-container>
+        <v-container>
+            <v-data-table
                 :headers="headers"
                 :items="selectedResult.codes"
                 :items-per-page="10"
@@ -25,7 +37,45 @@ export default {
     computed: {
         ...mapGetters({
             selectedResult: 'selectedResult'
-        })
+        }),
+
+        getSummary() {
+            const codes = [
+            {
+            token: 'Chrome',
+            code: 'Software',
+            },
+            {
+            token: 'open',
+            code: 'Interaction',
+            },
+            {
+            token: 'Window',
+            code: 'Workspace',
+            },
+            {
+            token: 'Tab',
+            code: 'Workspace',
+            }];
+
+            var array = [];
+            var evluation = [];
+
+            for (let index in codes) {
+                array.push(codes[index].code);
+            }
+
+            const counts = {};
+            for (const num of array) {
+                counts[num] = counts[num] ? counts[num] + 1 : 1;
+            }
+
+            for(const code of [...new Set(array)]) {
+                evluation.push({"code": code, "count":counts[code]});
+            }
+
+            return evluation;
+        }
     },
 
     data: () => ({
@@ -33,20 +83,29 @@ export default {
             {
                 text: 'Token',
                 align: 'start',
-                sortable: true,
                 value: 'token',
             },
             {
                 text: 'Code',
                 align: 'start',
-                sortable: true,
                 value: 'code',
             },        
             {
                 text: 'Index',
                 align: 'start',
-                sortable: true,
                 value: 'index',
+            },        
+        ],
+        headersSummary: [
+            {
+                text: 'Code',
+                align: 'start',
+                value: 'count',
+            },
+            {
+                text: 'Occurrences',
+                align: 'start',
+                value: 'count',
             },        
         ],
     }),
