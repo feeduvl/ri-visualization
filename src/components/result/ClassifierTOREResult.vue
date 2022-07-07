@@ -41,10 +41,10 @@ export default {
 
         getSummary() {
             var array = [];
-            var evluation = [];
+            var summary = [];
 
             for (let index in this.selectedResult.codes) {
-                array.push(codes[index].code);
+                array.push(this.selectedResult.codes[index].code);
             }
 
             const counts = {};
@@ -53,10 +53,10 @@ export default {
             }
 
             for(const code of [...new Set(array)]) {
-                evluation.push({"code": code, "count":counts[code]});
+                summary.push({"code": code, "count":counts[code]});
             }
 
-            return evluation;
+            return summary;
         }
     },
 
