@@ -69,8 +69,8 @@ export const METHODS = [
         displayName: "Stanford NER",
         parameterComponentName: "stanford-ner-parameter",
         parameterComponentPath: "./form/StanfordNERParameter",
-        resultComponentName: "stanford-ner-result",
-        resultComponentPath: "",
+        resultComponentName: "classifier-tore-result",
+        resultComponentPath: "./components/result/ClassifierTOREResult",
         scoreFunction: getScoreEmpty,
         showInDocumentView: false
     },
