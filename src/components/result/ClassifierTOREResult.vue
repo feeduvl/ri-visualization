@@ -43,11 +43,13 @@ export default {
             var array = [];
             var summary = [];
 
+            console.log(this.selectedResult.codes)
+
             for (let index in this.selectedResult.codes) {
                 array.push(this.selectedResult.codes[index].code);
             }
 
-            console.log(arrary)
+            console.log(array)
 
             const counts = {};
             for (const num of array) {
