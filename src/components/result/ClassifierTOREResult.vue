@@ -3,7 +3,7 @@
         <v-container>
             <v-data-table
                 :headers="headersSummary"
-                :items="getSummary"
+                :items="getSummary()"
                 :items-per-page="10"
             >
                 <template v-slot:items="props">
@@ -38,26 +38,6 @@ export default {
         ...mapGetters({
             selectedResult: 'selectedResult'
         }),
-
-        getSummary() {
-            var array = [];
-            var evluation = [];
-
-            for (let index in selectedResult.codes) {
-                array.push(codes[index].code);
-            }
-
-            const counts = {};
-            for (const num of array) {
-                counts[num] = counts[num] ? counts[num] + 1 : 1;
-            }
-
-            for(const code of [...new Set(array)]) {
-                evluation.push({"code": code, "count":counts[code]});
-            }
-
-            return evluation;
-        }
     },
 
     data: () => ({
@@ -91,6 +71,28 @@ export default {
             },        
         ],
     }),
+
+    methods: {
+        getSummary() {
+            var array = [];
+            var evluation = [];
+
+            for (let index in selectedResult.codes) {
+                array.push(codes[index].code);
+            }
+
+            const counts = {};
+            for (const num of array) {
+                counts[num] = counts[num] ? counts[num] + 1 : 1;
+            }
+
+            for(const code of [...new Set(array)]) {
+                evluation.push({"code": code, "count":counts[code]});
+            }
+
+            return evluation;
+        }
+    }
 
 }
 </script>
