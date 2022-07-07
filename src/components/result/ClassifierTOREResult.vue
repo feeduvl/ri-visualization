@@ -46,7 +46,7 @@ export default {
             console.log(this.selectedResult.codes)
 
             for (let index in this.selectedResult.codes) {
-                array.push(this.selectedResult.codes[index].code);
+                array.push(this.selectedResult.codes[index].tore);
             }
 
             console.log(array)
