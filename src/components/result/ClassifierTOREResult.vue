@@ -47,6 +47,8 @@ export default {
                 array.push(this.selectedResult.codes[index].code);
             }
 
+            console.log(arrary)
+
             const counts = {};
             for (const num of array) {
                 counts[num] = counts[num] ? counts[num] + 1 : 1;
