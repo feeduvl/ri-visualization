@@ -1,5 +1,49 @@
 <template>
     <v-card>
+        <!--- Display General Infos -->
+        <v-card-title>
+            <h2>Method Parameter</h2>
+        </v-card-title>
+
+        <v-layout row wrap id="parameter_layout">
+            <v-card elevation="0" class="param_holder">
+                <v-card-title class="param_header">
+                    <span class="grey--text text-uppercase">Run Name</span>
+                </v-card-title>
+                <v-card-text class="param_content">
+                    {{ displayRunName(selectedResult.name) }}
+                </v-card-text>
+                </v-card>
+                <v-card elevation="0" class="param_holder">
+                    <v-card-title class="param_header">
+                        <span class="grey--text text-uppercase">Dataset</span>
+                    </v-card-title>
+                    <v-card-text class="param_content">
+                        {{ displayDatasetName(selectedResult.dataset_name) }}
+                    </v-card-text>
+                </v-card>
+                <v-card elevation="0" class="param_holder">
+                    <v-card-title class="param_header">
+                        <span class="grey--text text-uppercase">Run Date</span>
+                    </v-card-title>
+                    <v-card-text class="param_content">
+                        {{ displayRunDate() }}
+                    </v-card-text>
+                </v-card>
+                <template v-for="(item, key) in selectedResult.params">
+                    <v-card :key="key" elevation="0" class="param_holder">
+                        <v-card-title class="param_header">
+                        <span class="grey--text text-uppercase">{{ key }}</span>
+                    </v-card-title>
+                        <v-card-text class="param_content">
+                            {{ item }}
+                        </v-card-text>
+                    </v-card>
+                </template>
+        </v-layout>
+
+
+        <!-- Summary -->
         <v-container>
             <v-data-table
                 :headers="headersSummary"
@@ -12,7 +56,11 @@
                 </template>
             </v-data-table>
        </v-container>
+       <!--- Display Table that contains all codees -->
         <v-container>
+            <v-card-title>
+                <h2>Detection Results</h2>
+            </v-card-title>
             <v-data-table
                 :headers="headers"
                 :items="selectedResult.codes"
@@ -100,5 +148,20 @@ export default {
 </script>
 
 <style scoped>
+
+.param_content {
+  padding-top: 0;
+  padding-left: 25px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.param_header {
+  padding-bottom: 5px;
+}
+
+.param_holder {
+  min-width: 360px;
+}
 
 </style>
