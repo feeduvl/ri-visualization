@@ -144,6 +144,31 @@ export default {
         ],
     }),
 
+    methods: {
+        displayRunName(name) {
+            if (name === "" || name === undefined) {
+                return "–";
+            } else {
+                return name;
+            }
+        },
+        displayDatasetName(dataset_name) {
+            if (dataset_name === "" || dataset_name === undefined) {
+                return "–";
+            } else {
+                return dataset_name;
+            }
+        },
+        displayRunDate() {
+            if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
+                return this.selectedResult.started_at.replace("Z", "").replace("T", " ").substring(0, 19);
+            } else {
+                return "–";
+            }
+        },
+    },
+
+
 }
 </script>
 
