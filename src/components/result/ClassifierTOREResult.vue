@@ -45,16 +45,21 @@
 
         <!-- Summary -->
         <v-container>
-            <v-data-table
-                :headers="headersSummary"
-                :items="getSummary"
-                :items-per-page="10"
-            >
-                <template v-slot:items="props">
-                    <td>{{ props.item.code }}</td>
-                    <td>{{ props.item.count }}</td>
-                </template>
-            </v-data-table>
+            <v-card>
+            <v-card-title>
+                <h4>Detection Summary</h4>
+            </v-card-title>
+                <v-data-table
+                    :headers="headersSummary"
+                    :items="getSummary"
+                    :items-per-page="10"
+                >
+                    <template v-slot:items="props">
+                        <td>{{ props.item.code }}</td>
+                        <td>{{ props.item.count }}</td>
+                    </template>
+                </v-data-table>
+            </v-card>
        </v-container>
        <!--- Display Table that contains all codees -->
         <v-container>
