@@ -262,6 +262,19 @@
                             </template>
                             <span>Stop Reoccurance</span>
                           </v-tooltip>
+                          <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-icon
+                                      small
+                                      @click="deleteEntry(item)"
+                                      v-bind="attrs"
+                                      v-on="on"
+                              >
+                                delete
+                              </v-icon>
+                            </template>
+                            <span>Delete Entry</span>
+                          </v-tooltip>
                         </span></td>
                 </template>
             </v-data-table>
