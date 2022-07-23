@@ -253,7 +253,7 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-icon
                                       small
-                                      @click="stopJobReoccurance(item)"
+                                      @click="stopJobReoccurance(props.item)"
                                       v-bind="attrs"
                                       v-on="on"
                               >
@@ -266,7 +266,7 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-icon
                                       small
-                                      @click="deleteCrawlerJob(item)"
+                                      @click="deleteCrawlerJob(props.item)"
                                       v-bind="attrs"
                                       v-on="on"
                               >
