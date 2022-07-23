@@ -266,7 +266,7 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-icon
                                       small
-                                      @click="deleteEntry(item)"
+                                      @click="deleteCrawlerJob(item)"
                                       v-bind="attrs"
                                       v-on="on"
                               >
