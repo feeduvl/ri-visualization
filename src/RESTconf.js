@@ -151,5 +151,5 @@ export const REDDIT_CRAWLER_ENDPOINT = `${BASE_URL}/hitec/reddit/crawl`
 export const REDDIT_CRAWLER_GET_JOBS_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/crawler_jobs/all`
 export const POST_CRAWLER_DATA_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/reddit_crawler/jobs`
 export const DELETE_CRAWLER_JOB_ENDPOINT = function(name){
-  return `${BASE_URL}/hitec/repository/concepts/store/reddit_crawler/jobs${encodeURIComponent(name)}`
+  return `${BASE_URL}/hitec/repository/concepts/store/reddit_crawler/jobs/${encodeURIComponent(name)}`
 };
