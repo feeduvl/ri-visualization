@@ -420,6 +420,13 @@
             this.$store.dispatch("ActionPostCrawlerJobData", crawlerTaskInDB)
         },
 
+        deleteCrawlerJob(job){
+                console.log(job);
+                this.$store.dispatch("actionDeleteCrawlerJobs", job.date)
+                //this.crawlerJobDelete = null;
+                this.reloadFields()
+        },
+
         reloadFields(){
             this.$store.dispatch("actionGetCrawlerJobs")
         }

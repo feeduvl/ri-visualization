@@ -28,7 +28,8 @@ import {
   GET_ALL_TORES_ENDPOINT,
   REDDIT_CRAWLER_ENDPOINT,
   REDDIT_CRAWLER_GET_JOBS_ENDPOINT,
-  POST_CRAWLER_DATA_ENDPOINT
+  POST_CRAWLER_DATA_ENDPOINT,
+  DELETE_CRAWLER_JOB_ENDPOINT
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -597,3 +598,15 @@ export const ActionPostCrawlerJobData = ({commit}, crawlerData) => {
   });
 };
 
+export const actionDeleteCrawlerJobs = ({dispatch, commit}, date) => {
+  return new Promise(() => {
+    console.log("Deleting Crawler Job");
+    axios.delete(DELETE_CRAWLER_JOB_ENDPOINT(date))
+      .then(() => {
+        console.log("Crawler Job deleted");
+      })
+      .catch(e => {
+        console.error("Error deleting crawler job: " + e);
+      })
+  });
+};
