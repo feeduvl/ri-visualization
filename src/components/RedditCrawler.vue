@@ -15,179 +15,167 @@
                 </v-card-title>
 
             <v-container class="crawler-settings-input">
+                <v-form v-model="isFormValid">
+                    <!-- Text field for subreddit and collection name -->
+                    <v-container class="subreddit-selection">
+                        <!-- Using chips to enter multiple subreddit names -->
+                        <v-card>
+                            <v-combobox
+                                v-model="subredditNamesChips"
+                                :items="subredditNamesItems"
+                                chips
+                                clearable
+                                label="Enter Subreddit Names for Crawling Jobs"
+                                multiple
+                            >
+                            </v-combobox>
+                        </v-card>
 
-                <!-- Text field for subreddit and collection name -->
-                <v-container class="subreddit-selection">
-                    <!-- Using chips to enter multiple subreddit names -->
+                        <v-card>
+                            <v-text-field
+                                v-model="datasetName"
+                                label="Enter name of new dataset"
+                        ></v-text-field>
+                        </v-card>
+                    </v-container>
+
+                    <!-- Switch selection method for posts -->
+                    <v-card
+                        flat
+                        color="transparent"
+                    >
+                        <v-radio-group
+                        v-model="postSelection"
+                        column
+                        >
+                            <v-radio
+                                label="Sort by New"
+                                value="new"
+                            ></v-radio>
+                            <v-radio
+                                label="Sort by Top"
+                                value="top"
+                            ></v-radio>
+                        </v-radio-group>
+                    </v-card>
+
+                    <!-- Set limit for number of posts -->
+                    <v-card
+                        flat
+                        color="transparent"
+                    >
+                        <v-text-field
+                            :disabled="postSelection == 'top'"
+                            :rules="[rules.limit, rules.required]"
+                            v-model="postNewLimit"
+                            label="Maximum Number of Posts"
+                            placeholder="100"
+                        ></v-text-field>
+                    </v-card>
+
+                    <!-- Timeframe selection using a date selection -->
+                    <v-card
+                        flat
+                        color="transparent"
+                    >
+                    <v-text-field
+                        v-model="dateFrom"
+                        label="From Date in MM/DD/YYYY"
+                        :rules="[rules.date, rules.required]"
+                        prepend-icon="event"
+                        v-on="on"
+                    ></v-text-field>
+                    
+                    <v-text-field
+                        v-model="dateTo"
+                        label="To Date in MM/DD/YYYY"
+                        :rules="[rules.date, rules.required]"
+                        prepend-icon="event"
+                        v-on="on"
+                    ></v-text-field>
+                    </v-card>
+
+                    <!-- Comment-depth selection using a rangeslider -->
+                    <v-card
+                        flat
+                        color="transparent"
+                    >
+                        <v-subheader>Select Comment Extraction Depth</v-subheader>
+                        <v-card-text>
+                            <v-row>
+                                <v-col class="pa-12">
+                                <v-slider
+                                    :tick-labels="commentDepthLabels"
+                                    v-model="commentDepth"
+                                    min=0
+                                    max=6   
+                                    ticks="always"
+                                    tick-size="4"
+                                >
+                                </v-slider>
+                                </v-col>
+                            </v-row>
+                        </v-card-text>
+                    </v-card>
+                    
+
+                    <!-- Selection of emoji/URL handling -->
+                    <v-container fluid>
+                        <v-checkbox
+                            v-model="replaceURLS"
+                            :label="`Remove URLs`"
+                        ></v-checkbox>
+                        <v-checkbox
+                            v-model="replaceEmojis"
+                            :label="`Remove emojis`"
+                        ></v-checkbox>
+                    </v-container>
+
+                    <!-- Selection of minimum lengths for text bodies -->
+                    <v-card
+                        flat
+                        color="transparent"
+                    >
+                        <v-subheader>Set mininum lengths for contents of submissions</v-subheader>
+                        <v-text-field
+                            v-model="minTextLength"
+                            :rules="[rules.limit, rules.required]"
+                            label="Minimum Post Length"
+                            placeholder="200"
+                            type="number"
+                        ></v-text-field>
+                        <v-text-field
+                            v-model="minCommentLength"
+                            :rules="[rules.limit, rules.required]"
+                            label="Minimum Comment Length"
+                            placeholder="5"
+                            type="number"
+                        ></v-text-field>
+                    </v-card>
+
+                    <!-- Blacklist using chips -->
                     <v-card>
                         <v-combobox
-                            v-model="subredditNamesChips"
-                            :items="subredditNamesItems"
+                            v-model="blacklistChipsPosts"
+                            :items="blacklistItemsPosts"
                             chips
                             clearable
-                            label="Enter Subreddit Names for Crawling Jobs"
+                            label="Enter blacklisted words for post filtering"
+                            multiple
+                        >
+                        </v-combobox>
+
+                        <v-combobox
+                            v-model="blacklistChipsComments"
+                            :items="blacklistItemsComments"
+                            chips
+                            clearable
+                            label="Enter blacklisted words for comment filtering"
                             multiple
                         >
                         </v-combobox>
                     </v-card>
-
-                    <v-card>
-                        <v-text-field
-                            v-model="datasetName"
-                            label="Enter name of new dataset"
-                    ></v-text-field>
-                    </v-card>
-                </v-container>
-
-                <!-- Switch selection method for posts -->
-                <v-card
-                    flat
-                    color="transparent"
-                >
-                    <v-radio-group
-                    v-model="postSelection"
-                    column
-                    >
-                        <v-radio
-                            label="Sort by New"
-                            value="new"
-                        ></v-radio>
-                        <v-radio
-                            label="Sort by Top"
-                            value="top"
-                        ></v-radio>
-                    </v-radio-group>
-                </v-card>
-
-                <!-- Set limit for number of posts -->
-                <v-card
-                    flat
-                    color="transparent"
-                >
-                    <v-text-field
-                        :disabled="postSelection == 'top'"
-                        :rules="[rules.limit, rules.required]"
-                        v-model="postNewLimit"
-                        label="Maximum Number of Posts"
-                        placeholder="100"
-                    ></v-text-field>
-                </v-card>
-
-                <!-- Timeframe selection using a date selection -->
-                <v-card
-                    flat
-                    color="transparent"
-                >
-                  <v-text-field
-                    v-model="dateFrom"
-                    label="From Date in MM/DD/YYYY"
-                    :rules="[rules.date, rules.required]"
-                    prepend-icon="event"
-                    v-on="on"
-                  ></v-text-field>
-                  
-                  <v-text-field
-                    v-model="dateTo"
-                    label="To Date in MM/DD/YYYY"
-                    :rules="[rules.date, rules.required]"
-                    prepend-icon="event"
-                    v-on="on"
-                  ></v-text-field>
-                </v-card>
-
-                <!-- Alt Date Selection
-                <v-card
-                    flat
-                    color="transparent"
-                >
-                    <v-date-picker
-                        v-model="dates"
-                        range
-                    ></v-date-picker>
-                </v-card>
-                 -->
-
-                <!-- Comment-depth selection using a rangeslider -->
-                <v-card
-                    flat
-                    color="transparent"
-                >
-                    <v-subheader>Select Comment Extraction Depth</v-subheader>
-                    <v-card-text>
-                        <v-row>
-                            <v-col class="pa-12">
-                            <v-slider
-                                :tick-labels="commentDepthLabels"
-                                v-model="commentDepth"
-                                min=0
-                                max=6   
-                                ticks="always"
-                                tick-size="4"
-                            >
-                            </v-slider>
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
-                
-
-                <!-- Selection of emoji/URL handling -->
-                <v-container fluid>
-                    <v-checkbox
-                        v-model="replaceURLS"
-                        :label="`Remove URLs`"
-                    ></v-checkbox>
-                    <v-checkbox
-                        v-model="replaceEmojis"
-                        :label="`Remove emojis`"
-                    ></v-checkbox>
-                </v-container>
-
-                <!-- Selection of minimum lengths for text bodies -->
-                <v-card
-                    flat
-                    color="transparent"
-                >
-                    <v-subheader>Set mininum lengths for contents of submissions</v-subheader>
-                    <v-text-field
-                        v-model="minTextLength"
-                        :rules="[rules.limit, rules.required]"
-                        label="Minimum Post Length"
-                        placeholder="200"
-                        type="number"
-                    ></v-text-field>
-                    <v-text-field
-                        v-model="minCommentLength"
-                        :rules="[rules.limit, rules.required]"
-                        label="Minimum Comment Length"
-                        placeholder="5"
-                        type="number"
-                    ></v-text-field>
-                </v-card>
-
-                <!-- Blacklist using chips -->
-                <v-card>
-                    <v-combobox
-                        v-model="blacklistChipsPosts"
-                        :items="blacklistItemsPosts"
-                        chips
-                        clearable
-                        label="Enter blacklisted words for post filtering"
-                        multiple
-                    >
-                    </v-combobox>
-
-                    <v-combobox
-                        v-model="blacklistChipsComments"
-                        :items="blacklistItemsComments"
-                        chips
-                        clearable
-                        label="Enter blacklisted words for comment filtering"
-                        multiple
-                    >
-                    </v-combobox>
-                </v-card>
-
+                </v-form>
             </v-container>
         </v-card>
 
@@ -198,6 +186,7 @@
             ></v-checkbox>
             <v-btn
                 class="ma-2"
+                :disabled="!isFormValid"
                 :loading="$store.state.isLoadingRedditCrawler"
                 color="secondary"
                 @click="crawlerRun"
@@ -290,7 +279,7 @@
             subredditNamesItems: [],
             datasetName: '',
             collectionNamesItems: [],
-            postSelection: '',
+            postSelection: 'new',
             postNewLimit: 100,
             dateTo: '',
             dateFrom: '', 
@@ -409,12 +398,12 @@
             }
 
             let crawlerTaskInDB = {
-                subreddit_names: this.subredditNamesChips.join(','),
+                subreddit_names: this.subredditNamesChips.join(', '),
                 date: new Date(),
                 occurrence: this.occurrence_days,
                 number_posts: 0,
                 dataset_name: this.datasetName,
-                request: crawlerTaskString
+                request: crawlerTask
             }
 
             this.$store.dispatch("ActionPostCrawlerJobData", crawlerTaskInDB)
