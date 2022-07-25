@@ -302,7 +302,7 @@
                         text: "Subreddit",
                         sortable: true,
                         width: "10%",
-                        value: "subreddit_names"
+                        value: "subreddit_names",
                     },
                     {
                         text: "Date",
@@ -402,8 +402,20 @@
                 date: new Date(),
                 occurrence: this.occurrence_days,
                 number_posts: 0,
-                dataset_name: this.datasetName,
-                request: crawlerTask
+                // request data
+                subreddits : this.subredditNamesChips,
+                dataset_name : this.datasetName,
+                date_from : this.dateFrom,
+                date_to : this.dateTo,
+                post_selection: this.postSelection,
+                new_limit: this.postNewLimit,
+                min_length_posts : this.minTextLength,
+                min_length_comments : this.minCommentLength,
+                comment_depth: this.commentDepth,
+                blacklist_comments : this.blacklistChipsComments,
+                blacklist_posts : this.blacklistChipsPosts,
+                replace_urls : this.replaceURLS,
+                replace_emojis : this.replaceEmojis
             }
 
             this.$store.dispatch("ActionPostCrawlerJobData", crawlerTaskInDB)
