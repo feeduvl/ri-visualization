@@ -408,7 +408,7 @@
             }
 
             let crawlerTaskInDBString = JSON.stringify(crawlerTaskInDB)
-            this.$store.dispatch("actionPostCrawlerJobData", crawlerTaskInDB)
+            this.$store.dispatch("actionPostCrawlerJobData", crawlerTaskInDBString)
         },
 
         deleteCrawlerJob(job){
