@@ -583,7 +583,7 @@ export const actionGetCrawlerJobs = ({commit}) => {
   });
 };
 
-export const ActionPostCrawlerJobData = ({commit}, crawlerData) => {
+export const actionPostCrawlerJobData = ({commit}, crawlerData) => {
   return new Promise((resolve, reject) => {
     console.log("Posting crawler data");
     axios.post(POST_CRAWLER_DATA_ENDPOINT, crawlerData)

@@ -402,11 +402,13 @@
                 date: new Date(),
                 occurrence: this.occurrence_days,
                 number_posts: 0,
+                dataset_name: this.datasetName,
                 // request data
                 request: crawlerTask,
             }
 
-            this.$store.dispatch("ActionPostCrawlerJobData", crawlerTaskInDB)
+            let crawlerTaskInDBString = JSON.stringify(crawlerTaskInDB)
+            this.$store.dispatch("actionPostCrawlerJobData", crawlerTaskInDB)
         },
 
         deleteCrawlerJob(job){
