@@ -51,12 +51,12 @@ import axios from "axios";
 import {POST_START_DETECTION_ENDPOINT} from "@/RESTconf";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 export default {
-    name: "DeepNERParameter",
+    name: "BiLSTMParameter",
     props: {
         dataset: String,
     },
     data: () => ({
-        method: "deep-ner",
+        method: "bi-lstm-classifier",
         snackbarVisible: false,
         loading: false,
         snackbarText: "",

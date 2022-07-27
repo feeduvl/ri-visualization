@@ -490,7 +490,7 @@ export default {
             return this.tokenListToString([token])
         },
 
-        myCustomSort() {
+        sortCodesByStatus() {
             return function(a, b) {
                 if (a.merge_status === "Pending") {
                     return false
@@ -519,7 +519,7 @@ export default {
                 }
             });
             console.log("alternatives for token: " + alternatives)
-            return alternatives.sort(this.myCustomSort());
+            return alternatives.sort(this.sortCodesByStatus());
         },
 
         directionCueString(){

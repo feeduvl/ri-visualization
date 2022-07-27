@@ -75,11 +75,11 @@ export const METHODS = [
         showInDocumentView: false
     },
     {
-        name: "deep-ner",
-        displayName: "Deep NER",
-        parameterComponentName: "deep-ner-parameter",
-        parameterComponentPath: "./form/DeepNERParameter",
-        resultComponentName: "deep-ner-result",
+        name: "bi-lstm-classifier",
+        displayName: "Bi-LSTM",
+        parameterComponentName: "bi-lstm-parameter",
+        parameterComponentPath: "./form/BiLSTMParameter",
+        resultComponentName: "bi-lstm-result",
         resultComponentPath: "",
         scoreFunction: getScoreEmpty,
         showInDocumentView: false
