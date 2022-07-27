@@ -22,6 +22,25 @@
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
+                <v-flex xs3>
+                    <v-checkbox
+                        v-model="persist"
+                        :label="`Create new annotation from result`"
+                    ></v-checkbox>
+                </v-flex>
+                <v-flex xs1/>
+                <v-flex xs3>
+                    <v-text-field
+                        v-model="annotation_name"
+                        hint="Name for the new annotation"
+                        label="Annotation Name"
+                        clearable
+                        persistent-hint
+                        :disabled="persist"
+                    ></v-text-field>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
                 <v-flex xs9/>
                 <v-btn small color="primary" @click="resetForm">Reset</v-btn>
                 <v-btn small color="primary" :loading="loading" :disabled="loading" @click="startRun">Start</v-btn>
@@ -64,6 +83,8 @@ export default {
         debug: false,
         run_name: "",
         formValid: true,
+        persist: false,
+        annotation_name: "",
     }),
     methods: {
         async startRun() {
