@@ -36,7 +36,7 @@
                         label="Annotation Name"
                         clearable
                         persistent-hint
-                        :disabled="persist"
+                        :disabled="!persist"
                     ></v-text-field>
                 </v-flex>
             </v-layout>
@@ -125,7 +125,9 @@ export default {
                 method: this.method,
                 dataset: this.$props.dataset,
                 debug: this.debug,
+                persist: this.persist,
                 name: this.run_name,
+                annotation_name: this.annotation_name,
             };
             return JSON.stringify(params);
         },
@@ -134,7 +136,9 @@ export default {
         },
         resetForm() {
             this.debug = false;
+            this.persist = false;
             this.run_name = "";
+            this.annotation_name = "";
         },
     },
 }
