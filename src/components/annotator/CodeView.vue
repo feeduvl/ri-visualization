@@ -159,6 +159,14 @@
 
                 </v-data-table>
             </v-tab-item>
+            <v-tab-item
+            :style="'background-color: white;'"
+            >
+                <ModelView 
+                    :tore_code_frequency = "this.tore_code_frequency" 
+                    :tore_relationship_frequency = "this.tore_relationship_frequency"
+                />
+            </v-tab-item>
         </v-tabs-items>
     </div>
 </template>
@@ -189,6 +197,13 @@
             code_tore_summary(){
                 return this.generate_code_summary(this.frozen_codes_copy.filter(c => c), c => c.tore)
             },
+            tore_code_frequency() {
+                var frequencies = {};
+                for(let code of this.code_tore_summary) {
+                    frequencies[code.tore] = [code.count, code.doc_count];
+                }
+                return frequencies;
+            },
             code_combination_summary(){
                 return this.generate_code_summary(this.frozen_codes_copy.filter(c => c), (code) => {
                     if(code.name && !code.tore){
@@ -205,7 +220,16 @@
             relationship_summary(){
                 return this.generate_relationship_summary(this.$store.state.tore_relationships.filter(r => r))
             },
-
+            relationship_frequency() {
+                return this.generate_relationship_frequency(this.$store.state.tore_relationships.filter(r => r))
+            },
+            tore_relationship_frequency() {
+                var frequencies = {};
+                for(let frequency of this.relationship_frequency) {
+                    frequencies[frequency.name] = [frequency.count, frequency.doc_count];
+                }
+                return frequencies;
+            },
             name_occurrences(){
                 return this.generate_occurrences(this.frozen_codes_copy, c => c.name);
             },
@@ -535,7 +559,42 @@
                 console.log(summaries)
                 return summaries
             },
+            generate_relationship_frequency(list_of_relationships) {
+                let frequency = [];
+                let found_relations = [];
 
+                for(let relationship of list_of_relationships) {
+                    let name = relationship.TOREEntity;
+                    let index = found_relations.indexOf(name);
+
+                    let found_in_docs = [] 
+                    for(let doc of this.$store.state.docs){
+                        found_in_docs.push(relationship.tokens.find(t_index => t_index >= doc.begin_index && t_index < doc.end_index) !== undefined)
+                    }
+
+                    if (index === -1){
+                        let frequencies = {
+                            name: name,
+                            count: 1,
+                            doc_count: found_in_docs.filter(b => b).length - 1,
+                            found_in_docs
+                        }
+                        frequency.push(frequencies);
+                        found_relations.push(name);
+
+                    } else { 
+                        frequency[index].relationship_count += relationship_count;
+                        frequency[index].count++;
+                        frequency[index].found_in_docs = frequency[index].found_in_docs.map((b, index) => b || found_in_docs[index])
+                        frequency[index].doc_count = frequency[index].found_in_docs.filter(b => b).length - 1
+                    }
+                }
+                for(let frequencies of frequency){
+                    Object.freeze(frequencies)
+                }
+                Object.freeze(frequency)
+                return frequency
+            },
 
             /**
              *
@@ -592,7 +651,7 @@
                 Object.freeze(summaries)
                 return summaries
             },
-
+            
             generate_occurrences(list_of_codes, getName){
                 console.log("generate_occurrences")
                 let ret = [];
