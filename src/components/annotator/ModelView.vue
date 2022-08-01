@@ -1,262 +1,216 @@
 <template>
-    <v-app >
-        <v-container 
-        style="height:80%; min-height:650px"
-        fluid 
-        > 
-            <v-row
-                class="fill-height"
-                no-gutters
-                style="flex-wrap: nowrap"
-            >
-                <v-col
-                    cols="auto"
-                    style="min-width: 100px; max-width: 100%;"
-                    class="flex-grow-1 flex-shrink-0"
-                >
-                <baklava-editor 
-                :plugin="viewPlugin" /> 
-                </v-col>
-                <v-col
-                    cols="auto"
-                    style="min-width: 100px;"
-                    class="flex-grow-0 flex-shrink-1"
-                >
-                    <v-card
-                    class="fill-height"
-                    >
-                        <v-card-title> 
-                            Options
-                        </v-card-title>
-                        <v-card-actions>
-                            <v-btn @click="saveGraph()">Save Graph</v-btn>
-                        </v-card-actions>
-                        <v-card-actions>
-                            <v-btn @click="resetGraph()">Reset Graph</v-btn>
-                        </v-card-actions>
-                        <v-card-actions>
-                            <v-switch
-                            v-model="heatmap"
-                            label="Toggle Heatmap"
-                            :input-value="true"
-                            @change="repaintGraph()"
-                            ></v-switch>
-                        </v-card-actions>
-                        <v-card-actions>
-                            <v-switch
-                            v-model="displayMode"
-                            :input-value="true"
-                            false-value="Appearances"
-                            true-value="Occurences"
-                            @change="repaintGraph()"
-                            >
-                                <template v-slot:label>
-                                    Display Mode: <br>
-                                    {{displayMode=="Appearances" ? 'Appearances' : 'Occurences' }}
-                                </template>
-                            </v-switch>
-                        </v-card-actions>
-                        <v-text-field 
-                        placeholder="Category Node Color"
-                        hide-details 
-                        class="ma-0 pa-0" 
-                        readonly 
-                        solo>
-                            <template v-slot:append>
-                                <v-menu v-model="categoryMenu" top nudge-bottom="105" nudge-left="16" :close-on-content-click="false">
-                                    <template v-slot:activator="{ on }">
-                                        <div :style="swatchStyleCategory" v-on="on" />
-                                    </template>
-                                    <v-card>
-                                        <v-card-text class="pa-0">
-                                            <v-color-picker v-model="categoryColor" flat hide-inputs/>
-                                        </v-card-text>
-                                    </v-card>
-                                </v-menu>
-                            </template>
-                        </v-text-field>
-                        <v-text-field 
-                        placeholder="Relationship Node Color"
-                        hide-details 
-                        class="ma-0 pa-0" 
-                        readonly 
-                        solo>
-                            <template v-slot:append>
-                                <v-menu v-model="relationMenu" top nudge-bottom="105" nudge-left="16" :close-on-content-click="false">
-                                    <template v-slot:activator="{ on }">
-                                        <div :style="swatchStyleRelation" v-on="on" />
-                                    </template>
-                                    <v-card>
-                                        <v-card-text class="pa-0">
-                                            <v-color-picker v-model="relationColor" flat hide-inputs/>
-                                        </v-card-text>
-                                    </v-card>
-                                </v-menu>
-                            </template>
-                        </v-text-field>
-                    </v-card>
-                </v-col>
-            </v-row>
-        </v-container>
-        <v-container
-        style="height:20%; min-height: 150px;"
-        fluid 
+<v-app>
+    <v-container 
+    fluid
+    fill-height
+    > 
+    <v-layout
+    style="width: 100vw; height: 80vh"
+    >
+        <v-flex
+        style="width: 80%; min-width: 650px; height:100%; min-height: 650px;"
         >
-            <v-row
-                class="fill-height"
-                no-gutters
-                style="flex-wrap: nowrap"
+            <baklava-editor
+                :plugin="viewPlugin" /> 
+        </v-flex>
+        <v-flex>
+            <v-card 
+            style="height:80vh; min-height: 200px;"
             >
-                <v-col
-                    cols="auto"
-                    style="min-width: 100px; max-width: 50%; min-height: 50px;"
-                    class="flex-grow-1 flex-shrink-0 fill-height"
-                >   
-                    <v-card class="fill-height">           
-                        <v-card-title>
-                            Category Nodes
-                        </v-card-title>
-                        <v-row
-                            class=""
-                            no-gutters
-                            style="flex-wrap: nowrap; height: 50% "
-                        >
-                            <v-col
-                                cols="auto"
-                                style="min-width: 20px; max-width: 20%;"
-                                class="flex-grow-1 flex-shrink-0 fill-height"
-                            > 
-                                <v-card 
-                                class="fill-height"
-                                >
-                                    <div class="legendCategory0">
-                                        {{maximumCategory*0}} - {{Math.floor(maximumCategory*0.2)}}
-                                    </div>
+                <v-card-title> 
+                    Options
+                </v-card-title>
+                <v-card-actions>
+                    <v-btn @click="saveGraph()">Save Graph</v-btn>
+                </v-card-actions>
+                <v-card-actions>
+                    <v-btn @click="resetGraph()">Reset Graph</v-btn>
+                </v-card-actions>
+                <v-card-actions>
+                    <v-switch
+                    v-model="heatmap"
+                    label="Toggle Heatmap"
+                    :input-value="true"
+                    @change="repaintGraph()"
+                    ></v-switch>
+                </v-card-actions>
+                <v-card-actions>
+                    <v-switch
+                    v-model="displayMode"
+                    :input-value="true"
+                    false-value="Appearances"
+                    true-value="Occurences"
+                    @change="repaintGraph()"
+                    >
+                        <template v-slot:label>
+                            Display Mode: <br>
+                            {{displayMode=="Appearances" ? 'Appearances' : 'Occurences' }}
+                        </template>
+                    </v-switch>
+                </v-card-actions>
+                    <v-text-field 
+                    placeholder="Category Node Color"
+                    hide-details 
+                    class="ma-0 pa-0" 
+                    readonly 
+                    solo>
+                        <template v-slot:append>
+                            <v-menu v-model="categoryMenu" top nudge-bottom="105" nudge-left="16" :close-on-content-click="false">
+                                <template v-slot:activator="{ on }">
+                                    <div :style="swatchStyleCategory" v-on="on" />
+                                </template>
+                                <v-card>
+                                    <v-card-text class="pa-0">
+                                                    <color-panel
+                                                    v-model="categoryColor">
+                                                    </color-panel>
+                                    </v-card-text>
                                 </v-card>
-                            </v-col>
-                            <v-col
-                                cols="auto"
-                                style="min-width: 20px; max-width: 20%;"
-                                class="flex-grow-1 flex-shrink-0 fill-height"
-                            > 
-                                <v-card class="fill-height">
-                                    <div class="legendCategory20">
-                                     {{Math.floor(maximumCategory*0.2)+1}} - {{Math.floor(maximumCategory*0.4)}}
-                                    </div>
+                            </v-menu>
+                        </template>
+                    </v-text-field>
+                    <v-text-field 
+                    placeholder="Relationship Node Color"
+                    hide-details 
+                    class="ma-0 pa-0" 
+                    readonly 
+                    solo>
+                        <template v-slot:append>
+                            <v-menu v-model="relationMenu" top nudge-bottom="105" nudge-left="16" :close-on-content-click="false">
+                                <template v-slot:activator="{ on }">
+                                    <div :style="swatchStyleRelation" v-on="on" />
+                                </template>
+                                <v-card>
+                                    <v-card-text class="pa-0">
+                                                    <color-panel
+                                                    v-model="relationColor">
+                                                    </color-panel>
+                                    </v-card-text>
                                 </v-card>
-                            </v-col>
-                            <v-col
-                                cols="auto"
-                                style="min-width: 20px; max-width: 20%;"
-                                class="flex-grow-1 flex-shrink-0 fill-height"
-                            > 
-                                <v-card class="fill-height">
-                                    <div class="legendCategory40">
-                                        {{Math.floor(maximumCategory*0.4)+1}} - {{Math.floor(maximumCategory*0.6)}}
-                                    </div>
-                                </v-card>
-                            </v-col>
-                            <v-col
-                                cols="auto"
-                                style="min-width: 20px; max-width: 20%;"
-                                class="flex-grow-1 flex-shrink-0 fill-height"
-                            > 
-                                <v-card class="fill-height">
-                                    <div class="legendCategory60">
-                                        {{Math.floor(maximumCategory*0.6)+1}} - {{Math.floor(maximumCategory*0.8)}}
-                                    </div>
-                                </v-card>
-                            </v-col>
-                            <v-col
-                                cols="auto"
-                                style="min-width: 20px; max-width: 20%;"
-                                class="flex-grow-1 flex-shrink-0 fill-height"
-                            > 
-                                <v-card class="fill-height">
-                                    <div class="legendCategory80">
-                                        {{Math.floor(maximumCategory*0.8)+1}} - {{Math.floor(maximumCategory)}}
-                                    </div>
-                                </v-card>
-                            </v-col>
-                        </v-row>
+                            </v-menu>
+                        </template>
+                    </v-text-field>
+                </v-card>
+            </v-flex>
+        </v-layout>
+    </v-container>
+    <v-container
+    style="height:20vh; min-height: 150px;"
+    fluid 
+    > 
+        <v-layout
+            justify-center
+        >
+            <v-card
+            style=" min-height: 100px; width: 50vw; min-width: 400px"
+            >           
+                <v-card-title>
+                    Category Nodes
+                </v-card-title>
+                <v-layout>
+                    <v-flex
+                    style="width: 100%; height:100%;"
+                    >
+                        <v-card>
+                            <div class="legendCategory0">
+                                {{maximumCategory*0}} - {{Math.floor(maximumCategory*0.2)}}
+                            </div>
+                        </v-card>
+                    </v-flex>
+                    <v-flex
+                    style="width: 100%; height:100%;"
+                    >
+                    <v-card>
+                        <div class="legendCategory20">
+                            {{Math.floor(maximumCategory*0.2)+1}} - {{Math.floor(maximumCategory*0.4)}}
+                        </div>
                     </v-card>
-                </v-col>            
-                <v-col
-                    cols="auto"
-                    style="min-width: 100px; max-width: 50%;min-height: 50px;"
-                    class="flex-grow-1 flex-shrink-0 fill-height"
-                >   
-                    <v-card class="fill-height">           
-                        <v-card-title>
-                            Relationship Nodes
-                        </v-card-title>
-                        <v-row
-                            class=""
-                            no-gutters
-                            style="flex-wrap: nowrap; height: 50% "
-                        >
-                            <v-col
-                                cols="auto"
-                                style="min-width: 20px; max-width: 20%;"
-                                class="flex-grow-1 flex-shrink-0 fill-height"
-                            > 
-                                <v-card 
-                                class="fill-height"
-                                >
-                                    <div class="legendRelation0">
-                                        {{maximumRelation*0}} - {{Math.floor(maximumRelation*0.2)}}
-                                    </div>
-                                </v-card>
-                            </v-col>
-                            <v-col
-                                cols="auto"
-                                style="min-width: 20px; max-width: 20%;"
-                                class="flex-grow-1 flex-shrink-0 fill-height"
-                            > 
-                                <v-card class="fill-height">
-                                    <div class="legendRelation20">
-                                     {{Math.floor(maximumRelation*0.2)+1}} - {{Math.floor(maximumRelation*0.4)}}
-                                    </div>
-                                </v-card>
-                            </v-col>
-                            <v-col
-                                cols="auto"
-                                style="min-width: 20px; max-width: 20%;"
-                                class="flex-grow-1 flex-shrink-0 fill-height"
-                            > 
-                                <v-card class="fill-height">
-                                    <div class="legendRelation40">
-                                        {{Math.floor(maximumRelation*0.4)+1}} - {{Math.floor(maximumRelation*0.6)}}
-                                    </div>
-                                </v-card>
-                            </v-col>
-                            <v-col
-                                cols="auto"
-                                style="min-width: 20px; max-width: 20%;"
-                                class="flex-grow-1 flex-shrink-0 fill-height"
-                            > 
-                                <v-card class="fill-height">
-                                    <div class="legendRelation60">
-                                        {{Math.floor(maximumRelation*0.6)+1}} - {{Math.floor(maximumRelation*0.8)}}
-                                    </div>
-                                </v-card>
-                            </v-col>
-                            <v-col
-                                cols="auto"
-                                style="min-width: 20px; max-width: 20%;"
-                                class="flex-grow-1 flex-shrink-0 fill-height"
-                            > 
-                                <v-card class="fill-height">
-                                    <div class="legendRelation80">
-                                        {{Math.floor(maximumRelation*0.8)+1}} - {{Math.floor(maximumRelation)}}
-                                    </div>
-                                </v-card>
-                            </v-col>
-                        </v-row>
+                    </v-flex>
+                    <v-flex
+                    style="width: 100%; height:100%;"
+                    >
+                    <v-card>
+                        <div class="legendCategory40">
+                            {{Math.floor(maximumCategory*0.4)+1}} - {{Math.floor(maximumCategory*0.6)}}
+                        </div>
                     </v-card>
-                </v-col>
-            </v-row>
-        </v-container>                    
+                    </v-flex>
+                    <v-flex
+                    style="width: 100%; height:100%;"
+                    >
+                    <v-card>
+                        <div class="legendCategory60">
+                            {{Math.floor(maximumCategory*0.6)+1}} - {{Math.floor(maximumCategory*0.8)}}
+                        </div>
+                    </v-card>
+                    </v-flex>
+                    <v-flex
+                    style="width: 100%; height:100%;"
+                    >
+                    <v-card >
+                        <div class="legendCategory80">
+                            {{Math.floor(maximumCategory*0.8)+1}} - {{Math.floor(maximumCategory)}}
+                        </div>
+                    </v-card>
+                    </v-flex>
+                </v-layout>
+            </v-card>
+            <v-card
+            style=" min-height: 100px; width: 50vw; min-width: 400px"
+            >       
+                <v-card-title>
+                    Relationship Nodes
+                </v-card-title>
+                <v-layout >   
+                    <v-flex
+                    style="width: 100%; height:100%;"
+                    > 
+                    <v-card >
+                        <div class="legendRelation0">
+                            {{maximumRelation*0}} - {{Math.floor(maximumRelation*0.2)}}
+                        </div>
+                    </v-card>
+                    </v-flex>
+                    <v-flex
+                    style="width: 100%; height:100%;"
+                    >
+                    <v-card>
+                        <div class="legendRelation20">
+                            {{Math.floor(maximumRelation*0.2)+1}} - {{Math.floor(maximumRelation*0.4)}}
+                        </div>
+                    </v-card>
+                    </v-flex>
+                    <v-flex
+                    style="width: 100%; height:100%;"
+                    >
+                    <v-card >
+                        <div class="legendRelation40">
+                            {{Math.floor(maximumRelation*0.4)+1}} - {{Math.floor(maximumRelation*0.6)}}
+                        </div>
+                    </v-card>
+                    </v-flex>
+                    <v-flex
+                    style="width: 100%; height:100%;"
+                    >
+                    <v-card >
+                        <div class="legendRelation60">
+                            {{Math.floor(maximumRelation*0.6)+1}} - {{Math.floor(maximumRelation*0.8)}}
+                        </div>
+                    </v-card>
+                    </v-flex>
+                    <v-flex
+                    style="width: 100%; height:100%;"
+                    >
+                    <v-card>
+                        <div class="legendRelation80">
+                            {{Math.floor(maximumRelation*0.8)+1}} - {{Math.floor(maximumRelation)}}
+                        </div>
+                    </v-card>
+                    </v-flex>
+                </v-layout>
+            </v-card>
+        </v-layout>
+    </v-container>   
     </v-app>
 </template>
 
@@ -269,6 +223,7 @@ import { RelationNode} from "./RelationNode"
 import { Token } from "./token";
 import { Relation } from "./relation";
 import { tore_codes, tore_relationships } from "./TORE";
+import { ColorPanel } from 'one-colorpicker'
 import "@baklavajs/plugin-renderer-vue/dist/styles.css";
 
 export default {
@@ -279,6 +234,9 @@ export default {
         tore_relationship_frequency: {
             required: true
         }
+    },
+    components: {
+        ColorPanel
     },
     data() {
         return {
@@ -344,6 +302,7 @@ export default {
     },
     methods: {
         createTokens() {
+            console.log(this.tore_code_frequency)
             var tokenList = {};
             for (const [code,frequencies] of Object.entries(this.tore_code_frequency)) {
                 tore_codes.forEach(acceptableCode => {
@@ -356,6 +315,7 @@ export default {
             return tokenList;
         },
         createRelations() {
+            console.log(this.tore_relationship_frequency)
             var relationList = {};
             for (const [code,frequencies] of Object.entries(this.tore_relationship_frequency)) {
                 var start = this.tokenList[tore_relationships[code][0]];

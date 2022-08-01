@@ -20,6 +20,7 @@
     "mathjs": "^5.9.0",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",
+    "one-colorpicker": "^1.0.12",
     "sass-loader": "^7.1.0",
     "simple-statistics": "^7.0.2",
     "stylus": "^0.54.5",

@@ -232,8 +232,6 @@
                 for(let frequency of this.relationship_frequency) {
                     frequencies[frequency.name] = [frequency.count, frequency.doc_count];
                 }
-                console.log("Frequencies when passed to visualization view:")
-                console.log(frequencies)
                 return frequencies;
             },
             name_occurrences(){
@@ -570,8 +568,6 @@
                 let found_relations = [];
 
                 for(let relationship of list_of_relationships) {
-                    console.log("Relationship Object from storage: ")
-                    console.log(relationship);
                     let name = relationship.relationship_name;
                     let index = found_relations.indexOf(name);
 
@@ -592,9 +588,6 @@
                     Object.freeze(frequencies)
                 }
                 Object.freeze(frequency)
-                
-                console.log("Frequencies when first created:")
-                console.log(frequency)
                 return frequency
             },
 
