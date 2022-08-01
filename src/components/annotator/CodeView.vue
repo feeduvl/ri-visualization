@@ -578,7 +578,7 @@
                     if (index === -1){
                         let frequencies = {
                             name: name,
-                            count: 1,
+                            relationship_count: 1,
                             doc_count: 1
                         }
                         frequency.push(frequencies);
