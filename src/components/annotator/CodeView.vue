@@ -578,14 +578,13 @@
                     if (index === -1){
                         let frequencies = {
                             name: name,
-                            relationship_count: 1,
+                            count: 1,
                             doc_count: 1
                         }
                         frequency.push(frequencies);
                         found_relations.push(name);
 
                     } else { 
-                        frequency[index].relationship_count += relationship_count;
                         frequency[index].count++;
                     }
                 }
