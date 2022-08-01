@@ -228,6 +228,8 @@
                 for(let frequency of this.relationship_frequency) {
                     frequencies[frequency.name] = [frequency.count, frequency.doc_count];
                 }
+                console.log("Frequencies when passed to visualization view:")
+                console.log(frequencies)
                 return frequencies;
             },
             name_occurrences(){
@@ -564,20 +566,16 @@
                 let found_relations = [];
 
                 for(let relationship of list_of_relationships) {
+                    console.log("Relationship Object from storage: ")
+                    console.log(relationship);
                     let name = relationship.TOREEntity;
                     let index = found_relations.indexOf(name);
-
-                    let found_in_docs = [] 
-                    for(let doc of this.$store.state.docs){
-                        found_in_docs.push(relationship.tokens.find(t_index => t_index >= doc.begin_index && t_index < doc.end_index) !== undefined)
-                    }
 
                     if (index === -1){
                         let frequencies = {
                             name: name,
                             count: 1,
-                            doc_count: found_in_docs.filter(b => b).length - 1,
-                            found_in_docs
+                            doc_count: 1
                         }
                         frequency.push(frequencies);
                         found_relations.push(name);
@@ -585,14 +583,15 @@
                     } else { 
                         frequency[index].relationship_count += relationship_count;
                         frequency[index].count++;
-                        frequency[index].found_in_docs = frequency[index].found_in_docs.map((b, index) => b || found_in_docs[index])
-                        frequency[index].doc_count = frequency[index].found_in_docs.filter(b => b).length - 1
                     }
                 }
                 for(let frequencies of frequency){
                     Object.freeze(frequencies)
                 }
                 Object.freeze(frequency)
+                
+                console.log("Frequencies when first created:")
+                console.log(frequency)
                 return frequency
             },
 
