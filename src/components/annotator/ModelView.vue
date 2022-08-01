@@ -284,6 +284,7 @@ export default {
         }
     },
     created() {
+        console.log("Started ModelView");
         this.editor.use(this.viewPlugin);
 
         this.editor.registerNodeType("ColorNode", ColorNode);
@@ -292,6 +293,11 @@ export default {
         this.intfTypePlugin.addType("input", "rgba(255, 255, 255, 1)");
         this.intfTypePlugin.addType("output", "rgba(255, 255, 255, 0)");
         this.intfTypePlugin.addConversion("input", "output");
+
+        console.log("TORE Categories: ");
+        console.log(this.tore_code_frequency);
+        console.log("TORE Relationships: ");
+        console.log(this.tore_relationship_frequency);
 
         this.editor.use(this.intfTypePlugin);
 
@@ -302,7 +308,6 @@ export default {
     },
     methods: {
         createTokens() {
-            console.log(this.tore_code_frequency)
             var tokenList = {};
             for (const [code,frequencies] of Object.entries(this.tore_code_frequency)) {
                 tore_codes.forEach(acceptableCode => {
@@ -315,7 +320,6 @@ export default {
             return tokenList;
         },
         createRelations() {
-            console.log(this.tore_relationship_frequency)
             var relationList = {};
             for (const [code,frequencies] of Object.entries(this.tore_relationship_frequency)) {
                 var start = this.tokenList[tore_relationships[code][0]];
@@ -328,6 +332,7 @@ export default {
             return relationList;
         },
         initializeGraph() {
+            console.log("Initializing Graph...")
             var nodeList = this.createNodeListFromData();
             this.partitionNodes(nodeList);
             this.paintNodes(nodeList);
@@ -358,6 +363,8 @@ export default {
                 }
             }
 
+            console.log("List of all Nodes:  ");
+            console.log(nodeList);
             return nodeList
         },
         createNode(nodeType, name, absValue, relValue) {
