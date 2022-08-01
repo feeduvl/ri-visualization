@@ -292,7 +292,7 @@
                 renameCode: null,
                 selectedTab: 0,
                 tab_titles: ["Word Codes", "Category Codes", "Combination View", "Relationships",
-                    "Word Code Occurrences", "Category Code Occurrences", "Combination Code Occurrences", "Relationship Occurrences"],
+                    "Word Code Occurrences", "Category Code Occurrences", "Combination Code Occurrences", "Relationship Occurrences", "Visualization View"],
                 headers: [
                             [  // Tab view 0
                                 {
