@@ -173,8 +173,12 @@
 
 <script>
     import {Code, Code_user_display_prompt} from "./code"
+    import ModelView from "./ModelView"
     export default {
         name: "CodeView",
+        components: {
+            ModelView
+        },
         computed: {
             frozen_codes_copy(){
                 console.warn("frozen_codes_copy")
@@ -568,7 +572,7 @@
                 for(let relationship of list_of_relationships) {
                     console.log("Relationship Object from storage: ")
                     console.log(relationship);
-                    let name = relationship.TOREEntity;
+                    let name = relationship.relationship_name;
                     let index = found_relations.indexOf(name);
 
                     if (index === -1){
