@@ -22,6 +22,25 @@
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
+                <v-flex xs3>
+                    <v-checkbox
+                        v-model="persist"
+                        :label="`Create new annotation from result`"
+                    ></v-checkbox>
+                </v-flex>
+                <v-flex xs1/>
+                <v-flex xs3>
+                    <v-text-field
+                        v-model="annotation_name"
+                        hint="Name for the new annotation"
+                        label="Annotation Name"
+                        clearable
+                        persistent-hint
+                        :disabled="!persist"
+                    ></v-text-field>
+                </v-flex>
+            </v-layout>
+            <v-layout row wrap>
                 <v-flex xs9/>
                 <v-btn small color="primary" @click="resetForm">Reset</v-btn>
                 <v-btn small color="primary" :loading="loading" :disabled="loading" @click="startRun">Start</v-btn>
@@ -51,12 +70,12 @@ import axios from "axios";
 import {POST_START_DETECTION_ENDPOINT} from "@/RESTconf";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 export default {
-    name: "DeepNERParameter",
+    name: "BiLSTMParameter",
     props: {
         dataset: String,
     },
     data: () => ({
-        method: "deep-ner",
+        method: "bi-lstm-classifier",
         snackbarVisible: false,
         loading: false,
         snackbarText: "",
@@ -64,6 +83,8 @@ export default {
         debug: false,
         run_name: "",
         formValid: true,
+        persist: false,
+        annotation_name: "",
     }),
     methods: {
         async startRun() {
@@ -104,7 +125,9 @@ export default {
                 method: this.method,
                 dataset: this.$props.dataset,
                 debug: this.debug,
+                persist: this.persist,
                 name: this.run_name,
+                annotation_name: this.annotation_name,
             };
             return JSON.stringify(params);
         },
@@ -113,7 +136,9 @@ export default {
         },
         resetForm() {
             this.debug = false;
+            this.persist = false;
             this.run_name = "";
+            this.annotation_name = "";
         },
     },
 }

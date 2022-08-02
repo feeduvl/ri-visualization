@@ -26,6 +26,7 @@ export default {
     "rbai-result": () => import("./result/RbaiResult"),
     "acceptance-criteria-result": () => import("./result/AcceptanceCriteriaResult"),
     "classifier-tore-result": () => import("./result/ClassifierTOREResult"),
+    "bi-lstm-tore-result": () => import("./result/ClassifierTOREResult"),
   },
   computed: {
     ...mapGetters({

@@ -159,14 +159,26 @@
 
                 </v-data-table>
             </v-tab-item>
+            <v-tab-item
+            :style="'background-color: white;'"
+            >
+                <ModelView 
+                    :tore_code_frequency = "this.tore_code_frequency" 
+                    :tore_relationship_frequency = "this.tore_relationship_frequency"
+                />
+            </v-tab-item>
         </v-tabs-items>
     </div>
 </template>
 
 <script>
     import {Code, Code_user_display_prompt} from "./code"
+    import ModelView from "./ModelView"
     export default {
         name: "CodeView",
+        components: {
+            ModelView
+        },
         computed: {
             frozen_codes_copy(){
                 console.warn("frozen_codes_copy")
@@ -189,6 +201,13 @@
             code_tore_summary(){
                 return this.generate_code_summary(this.frozen_codes_copy.filter(c => c), c => c.tore)
             },
+            tore_code_frequency() {
+                var frequencies = {};
+                for(let code of this.code_tore_summary) {
+                    frequencies[code.tore] = [code.count, code.doc_count];
+                }
+                return frequencies;
+            },
             code_combination_summary(){
                 return this.generate_code_summary(this.frozen_codes_copy.filter(c => c), (code) => {
                     if(code.name && !code.tore){
@@ -205,13 +224,22 @@
             relationship_summary(){
                 return this.generate_relationship_summary(this.$store.state.tore_relationships.filter(r => r))
             },
-
+            relationship_frequency() {
+                return this.generate_relationship_frequency(this.$store.state.tore_relationships.filter(r => r))
+            },
+            tore_relationship_frequency() {
+                var frequencies = {};
+                for(let frequency of this.relationship_frequency) {
+                    frequencies[frequency.name] = [frequency.count, frequency.doc_count];
+                }
+                return frequencies;
+            },
             name_occurrences(){
                 return this.generate_occurrences(this.frozen_codes_copy, c => c.name);
             },
 
             tab_content(){
-                console.log("tab_content")
+                //console.log("tab_content")
                 let ret = [this.code_name_summary, this.code_tore_summary, this.code_combination_summary, this.relationship_summary,
                     this.name_occurrences,
                     this.generate_occurrences(this.frozen_codes_copy, c => c.tore),
@@ -222,7 +250,7 @@
             },
 
             numOccurencesRename(){
-                console.log("numOccurrencesRename")
+                //console.log("numOccurrencesRename")
                 let count = 0;
                 for(let c of this.name_occurrences){
                     if(c){
@@ -234,6 +262,13 @@
                 return count;
             }
         },
+        created() {
+            console.log("Calculated TORE Code frequencies: ")
+            console.log(this.tore_code_frequency);
+            console.log("Calculated TORE Relationship frequencies: ");
+            console.log(this.tore_relationship_frequency);
+        }
+        ,
         data: () => {
             return {
                 paginations: [{page: 1,
@@ -268,7 +303,7 @@
                 renameCode: null,
                 selectedTab: 0,
                 tab_titles: ["Word Codes", "Category Codes", "Combination View", "Relationships",
-                    "Word Code Occurrences", "Category Code Occurrences", "Combination Code Occurrences", "Relationship Occurrences"],
+                    "Word Code Occurrences", "Category Code Occurrences", "Combination Code Occurrences", "Relationship Occurrences", "Visualization View"],
                 headers: [
                             [  // Tab view 0
                                 {
@@ -510,7 +545,7 @@
             },
 
             generate_relationship_summary(list_of_relationships){
-                console.log("generate_relationship_summary")
+                //console.log("generate_relationship_summary")
                 let summaries = []
                 for(let relationship of list_of_relationships){
                     let summary = {...relationship}
@@ -529,13 +564,40 @@
                     summary.placeholder = ""
                     Object.freeze(summary)
                     summaries.push(summary)
-                    console.log(summary)
+                    //console.log(summary)
                 }
                 Object.freeze(summaries)
-                console.log(summaries)
+                //console.log(summaries)
                 return summaries
             },
+            generate_relationship_frequency(list_of_relationships) {
+                let frequency = [];
+                let found_relations = [];
 
+                for(let relationship of list_of_relationships) {
+                    console.log(relationship)
+                    let name = relationship.relationship_name;
+                    let index = found_relations.indexOf(name);
+
+                    if (index === -1){
+                        let frequencies = {
+                            name: name,
+                            count: 1,
+                            doc_count: 1
+                        }
+                        frequency.push(frequencies);
+                        found_relations.push(name);
+
+                    } else { 
+                        frequency[index].count++;
+                    }
+                }
+                for(let frequencies of frequency){
+                    Object.freeze(frequencies)
+                }
+                Object.freeze(frequency)
+                return frequency
+            },
 
             /**
              *
@@ -544,7 +606,7 @@
              * @return {[]}
              */
             generate_code_summary(list_of_codes, get_code_name){
-                console.log("generate_code_summary")
+                //console.log("generate_code_summary")
                 let summaries = []
                 let found_codes = []
 
@@ -592,9 +654,9 @@
                 Object.freeze(summaries)
                 return summaries
             },
-
+            
             generate_occurrences(list_of_codes, getName){
-                console.log("generate_occurrences")
+                //console.log("generate_occurrences")
                 let ret = [];
                 for(let c of list_of_codes){
                     if(c && getName(c)){
@@ -625,7 +687,7 @@
             },
 
             generate_relationship_occurrences(list_of_codes){
-                console.log("generate_relationship_occurrences")
+                //console.log("generate_relationship_occurrences")
                 let ret = [];
                 for(let c of list_of_codes){
                     if(c && c.relationship_memberships.length){
@@ -656,7 +718,7 @@
                                 ret.push(code);
                             }
                             else{
-                                console.log("Purging all relationships from code "+ c + " because of faulty relationship");
+                                //console.log("Purging all relationships from code "+ c + " because of faulty relationship");
                                 this.$store.commit('delete_all_relationships_from_code', c);
 
                             }
