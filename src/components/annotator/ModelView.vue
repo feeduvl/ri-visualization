@@ -294,9 +294,9 @@ export default {
         this.intfTypePlugin.addType("output", "rgba(255, 255, 255, 0)");
         this.intfTypePlugin.addConversion("input", "output");
 
-        console.log("TORE Categories: ");
+        console.log("Visualized TORE Categories: ");
         console.log(this.tore_code_frequency);
-        console.log("TORE Relationships: ");
+        console.log("Visualized TORE Relationships: ");
         console.log(this.tore_relationship_frequency);
 
         this.editor.use(this.intfTypePlugin);
@@ -622,6 +622,10 @@ export default {
             }
         },
         resetGraph(){
+            console.log("TORE Code frequencies before resetting: ")
+            console.log(this.tore_code_frequency);
+            console.log("TORE relationship frequencies before resetting: ")
+            console.log(this.tore_relationship_frequency);
             this.removeAllNodes();
             this.initializeGraph();
         },
