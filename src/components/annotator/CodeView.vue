@@ -575,6 +575,7 @@
                 let found_relations = [];
 
                 for(let relationship of list_of_relationships) {
+                    console.log(relationship)
                     let name = relationship.relationship_name;
                     let index = found_relations.indexOf(name);
 

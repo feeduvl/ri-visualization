@@ -237,10 +237,10 @@ export default {
     },
     watch: { 
             tore_code_frequency(new_frequencies, old_frequencies) {
-                this.initializeGraph()
+                this.resetGraph()
             },
             tore_relationship_frequency(new_frequencies, old_frequencies) {
-                this.initializeGraph()
+                this.resetGraph()
             }  
     },
     components: {
