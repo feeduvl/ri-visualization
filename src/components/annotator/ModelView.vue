@@ -513,11 +513,9 @@ export default {
                             node.absRank = Math.floor(i*step*100);
                         }
                         var upperLimitRel = relMax*((i+1)*step);
-                        var lowerLimitRel = relMax*i;
+                        var lowerLimitRel = relMax*i*step;
                         if(upperLimitRel >= relVal && relVal > lowerLimitRel) {
                             node.relRank = Math.floor(i*step*100);
-                            console.log(node.name)
-                            console.log(node.relRank)
                         }
                     }
                 }
