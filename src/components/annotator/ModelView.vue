@@ -235,6 +235,10 @@ export default {
             required: true
         }
     },
+    watch: { 
+            tore_code_frequency: this.initializeGraph(),
+            tore_relationship_frequency: this.initializeGraph()
+    },
     components: {
         ColorPanel
     },
@@ -354,9 +358,6 @@ export default {
                     nodeList.push(node);
                 }
             }
-
-            console.log("List of all Nodes:  ");
-            console.log(nodeList);
             return nodeList
         },
         createNode(nodeType, name, absValue, relValue) {
