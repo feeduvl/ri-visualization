@@ -610,3 +610,16 @@ export const actionDeleteCrawlerJobs = ({dispatch, commit}, date) => {
       })
   });
 };
+
+export const actionStopOccurrence = ({dispatch, commit}, date) => {
+  return new Promise(() => {
+    console.log("Stop Job Occurrence");
+    axios.put(DELETE_CRAWLER_JOB_ENDPOINT(date))
+      .then(() => {
+        console.log("Crawler Job Occurrence stopped");
+      })
+      .catch(e => {
+        console.error("Error stopping crawler job occurrence: " + e);
+      })
+  });
+};

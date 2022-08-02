@@ -418,6 +418,11 @@
                 this.reloadFields()
         },
 
+        stopJobReoccurance(job){
+            this.$store.dispatch("actionStopOccurrence", job.date)
+            this.reloadFields()
+        },
+
         reloadFields(){
             this.$store.dispatch("actionGetCrawlerJobs")
         }
