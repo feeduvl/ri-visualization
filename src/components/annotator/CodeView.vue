@@ -612,7 +612,7 @@
                         let frequencies = {
                             name: name,
                             count: 1,
-                            doc_count: found_documents[name].length()
+                            doc_count: found_documents[name].length
                         }
                         frequency.push(frequencies);
                         found_relations.push(name);
