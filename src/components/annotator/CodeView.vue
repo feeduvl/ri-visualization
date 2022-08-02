@@ -225,7 +225,7 @@
                 return this.generate_relationship_summary(this.$store.state.tore_relationships.filter(r => r))
             },
             relationship_frequency() {
-                return this.generate_relationship_frequency(this.$store.state.tore_relationships.filter(r => r))
+                return this.generate_relationship_frequency(this.$store.state.tore_relationships.filter(r => r), this.frozen_codes_copy)
             },
             tore_relationship_frequency() {
                 var frequencies = {};
@@ -570,9 +570,38 @@
                 //console.log(summaries)
                 return summaries
             },
-            generate_relationship_frequency(list_of_relationships) {
+            generate_relationship_frequency(list_of_relationships, list_of_codes) {
                 let frequency = [];
                 let found_relations = [];
+                let found_documents = {};
+
+                for(let c of list_of_codes){
+                    if(c && c.relationship_memberships.length){
+                        for(let relationship_index of c.relationship_memberships){
+                            //let code = {name: c.name, tore: c.tore, index: c.index};
+                            let code = {...c};
+                            let index = 0;
+                            for(let doc of this.$store.state.docs){
+                                if(index !== 0 && code.tokens.find(t_index => t_index >= doc.begin_index && t_index < doc.end_index) !== undefined){
+                                    code.document = doc.name;
+                                    code.document_index = index;
+                                    break;
+                                }
+                                index++;
+                            }
+                            code.relationship_index = relationship_index;
+                            if(this.$store.state.tore_relationships[relationship_index]){
+                                code.relationship_name = this.$store.state.tore_relationships[relationship_index].relationship_name;
+                            }
+                            if(!(code.relationship_name in found_documents)) {
+                                found_documents[code.relationship_name] = [];
+                            }
+                            if(!(found_documents[code.relationship_name].includes(code.document))) {
+                                found_documents[code.relationship_name].push(code.document);
+                            }
+                        }
+                    }
+                }
 
                 for(let relationship of list_of_relationships) {
                     console.log(relationship)
@@ -583,11 +612,10 @@
                         let frequencies = {
                             name: name,
                             count: 1,
-                            doc_count: 1
+                            doc_count: found_documents[name].length()
                         }
                         frequency.push(frequencies);
                         found_relations.push(name);
-
                     } else { 
                         frequency[index].count++;
                     }

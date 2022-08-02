@@ -5,10 +5,10 @@
     fill-height
     > 
     <v-layout
-    style="width: 100vw; height: 80vh"
+    style="width: 100vw; height: 70vh"
     >
         <v-flex
-        style="width: 80%; min-width: 650px; height:100%; min-height: 650px;"
+        style="width: 80%; min-width: 650px; height:100%; min-height: 550px;"
         >
             <baklava-editor
                 :plugin="viewPlugin" /> 
