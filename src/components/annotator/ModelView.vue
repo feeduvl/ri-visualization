@@ -284,7 +284,6 @@ export default {
         }
     },
     created() {
-        console.log("Started ModelView");
         this.editor.use(this.viewPlugin);
 
         this.editor.registerNodeType("ColorNode", ColorNode);
@@ -294,15 +293,7 @@ export default {
         this.intfTypePlugin.addType("output", "rgba(255, 255, 255, 0)");
         this.intfTypePlugin.addConversion("input", "output");
 
-        console.log("Visualized TORE Categories: ");
-        console.log(this.tore_code_frequency);
-        console.log("Visualized TORE Relationships: ");
-        console.log(this.tore_relationship_frequency);
-
         this.editor.use(this.intfTypePlugin);
-
-        this.tokenList = this.createTokens();
-        this.relationList = this.createRelations();
 
         this.initializeGraph();
     },
@@ -332,7 +323,8 @@ export default {
             return relationList;
         },
         initializeGraph() {
-            console.log("Initializing Graph...")
+            this.tokenList = this.createTokens();
+            this.relationList = this.createRelations();
             var nodeList = this.createNodeListFromData();
             this.partitionNodes(nodeList);
             this.paintNodes(nodeList);
@@ -622,10 +614,6 @@ export default {
             }
         },
         resetGraph(){
-            console.log("TORE Code frequencies before resetting: ")
-            console.log(this.tore_code_frequency);
-            console.log("TORE relationship frequencies before resetting: ")
-            console.log(this.tore_relationship_frequency);
             this.removeAllNodes();
             this.initializeGraph();
         },
