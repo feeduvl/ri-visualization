@@ -595,8 +595,6 @@
                         }
                     }
                 }
-                console.log("Found Documents for each relationship: ")
-                console.log(found_documents)
                 for(let relationship of list_of_relationships) {
                     let name = relationship.relationship_name;
                     let index = found_relations.indexOf(name);
@@ -617,8 +615,6 @@
                     Object.freeze(frequencies)
                 }
                 Object.freeze(frequency)
-                console.log("Relationship Frequencies: ")
-                console.log(frequency)
                 return frequency
             },
 

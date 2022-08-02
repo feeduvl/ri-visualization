@@ -516,6 +516,8 @@ export default {
                         var lowerLimitRel = relMax*i;
                         if(upperLimitRel >= relVal && relVal > lowerLimitRel) {
                             node.relRank = Math.floor(i*step*100);
+                            console.log(node.name)
+                            console.log(node.relRank)
                         }
                     }
                 }
