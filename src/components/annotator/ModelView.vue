@@ -236,8 +236,12 @@ export default {
         }
     },
     watch: { 
-            tore_code_frequency: this.initializeGraph(),
-            tore_relationship_frequency: this.initializeGraph()
+            tore_code_frequency(new_frequencies, old_frequencies) {
+                this.initializeGraph()
+            },
+            tore_relationship_frequency(new_frequencies, old_frequencies) {
+                this.initializeGraph()
+            }  
     },
     components: {
         ColorPanel
