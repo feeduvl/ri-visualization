@@ -159,14 +159,26 @@
 
                 </v-data-table>
             </v-tab-item>
+            <v-tab-item
+            :style="'background-color: white;'"
+            >
+                <ModelView 
+                    :tore_code_frequency = "this.tore_code_frequency" 
+                    :tore_relationship_frequency = "this.tore_relationship_frequency"
+                />
+            </v-tab-item>
         </v-tabs-items>
     </div>
 </template>
 
 <script>
     import {Code, Code_user_display_prompt} from "./code"
+    import ModelView from "./ModelView"
     export default {
         name: "CodeView",
+        components: {
+            ModelView
+        },
         computed: {
             frozen_codes_copy(){
                 console.warn("frozen_codes_copy")
@@ -189,6 +201,13 @@
             code_tore_summary(){
                 return this.generate_code_summary(this.frozen_codes_copy.filter(c => c), c => c.tore)
             },
+            tore_code_frequency() {
+                var frequencies = {};
+                for(let code of this.code_tore_summary) {
+                    frequencies[code.tore] = [code.count, code.doc_count];
+                }
+                return frequencies;
+            },
             code_combination_summary(){
                 return this.generate_code_summary(this.frozen_codes_copy.filter(c => c), (code) => {
                     if(code.name && !code.tore){
@@ -205,7 +224,16 @@
             relationship_summary(){
                 return this.generate_relationship_summary(this.$store.state.tore_relationships.filter(r => r))
             },
-
+            relationship_frequency() {
+                return this.generate_relationship_frequency(this.$store.state.tore_relationships.filter(r => r))
+            },
+            tore_relationship_frequency() {
+                var frequencies = {};
+                for(let frequency of this.relationship_frequency) {
+                    frequencies[frequency.name] = [frequency.count, frequency.doc_count];
+                }
+                return frequencies;
+            },
             name_occurrences(){
                 return this.generate_occurrences(this.frozen_codes_copy, c => c.name);
             },
@@ -268,7 +296,7 @@
                 renameCode: null,
                 selectedTab: 0,
                 tab_titles: ["Word Codes", "Category Codes", "Combination View", "Relationships",
-                    "Word Code Occurrences", "Category Code Occurrences", "Combination Code Occurrences", "Relationship Occurrences"],
+                    "Word Code Occurrences", "Category Code Occurrences", "Combination Code Occurrences", "Relationship Occurrences", "Visualization View"],
                 headers: [
                             [  // Tab view 0
                                 {
@@ -535,7 +563,33 @@
                 console.log(summaries)
                 return summaries
             },
+            generate_relationship_frequency(list_of_relationships) {
+                let frequency = [];
+                let found_relations = [];
 
+                for(let relationship of list_of_relationships) {
+                    let name = relationship.relationship_name;
+                    let index = found_relations.indexOf(name);
+
+                    if (index === -1){
+                        let frequencies = {
+                            name: name,
+                            count: 1,
+                            doc_count: 1
+                        }
+                        frequency.push(frequencies);
+                        found_relations.push(name);
+
+                    } else { 
+                        frequency[index].count++;
+                    }
+                }
+                for(let frequencies of frequency){
+                    Object.freeze(frequencies)
+                }
+                Object.freeze(frequency)
+                return frequency
+            },
 
             /**
              *
@@ -592,7 +646,7 @@
                 Object.freeze(summaries)
                 return summaries
             },
-
+            
             generate_occurrences(list_of_codes, getName){
                 console.log("generate_occurrences")
                 let ret = [];
