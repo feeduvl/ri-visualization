@@ -79,8 +79,8 @@ export const METHODS = [
         displayName: "Bi-LSTM",
         parameterComponentName: "bi-lstm-parameter",
         parameterComponentPath: "./form/BiLSTMParameter",
-        resultComponentName: "bi-lstm-result",
-        resultComponentPath: "",
+        resultComponentName: "bi-lstm-tore-result",
+        resultComponentPath: "./components/result/ClassifierTOREResult",
         scoreFunction: getScoreEmpty,
         showInDocumentView: false
     }
