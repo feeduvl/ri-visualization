@@ -187,11 +187,14 @@ export const requiredAgreementsPresent = state => {
 
 export const tokenListToString = state => listOfTokenIndices => {
   let ret = "";
-  if (listOfTokenIndices === null || listOfTokenIndices === undefined || state === null || state === undefined){
+  if (listOfTokenIndices === null || listOfTokenIndices === undefined){
     console.error("tokenListToString got null/undefined input");
     return "";
   }
   for (let index of [...listOfTokenIndices].sort()){
+    if(state.tokens[index] === undefined ||state.tokens[index] === null){
+      return "";
+    }
     ret += state.tokens[index].name + " ";
   }
   return ret;
