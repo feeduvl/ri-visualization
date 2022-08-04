@@ -546,14 +546,18 @@
                       let owner = this.frozen_codes_copy[summary.TOREEntity];
                       summary.owner_name = owner.name;
                       summary.owner_tore = owner.tore;
-                      summary.target_string = this.$store.getters.tokenListToString(summary.target_tokens)
                     } else {
                       console.error("Got undefined TOREEntity for relationship")
                       console.error(relationship)
                       summary.owner_name = "";
                       summary.owner_tore = "";
-                      summary.target_string = "";
                       this.$store.commit('delete_tore_relationship', relationship);
+                    }
+                    if(summary.target_tokens === null || summary.target_tokes === undefined){
+                        summary.target_string = "";
+                    }
+                    else{
+                        summary.target_string = this.$store.getters.tokenListToString(summary.target_tokens)
                     }
                     summary.placeholder = ""
                     Object.freeze(summary)
