@@ -688,8 +688,12 @@
                         let code = {...c}
                         code.placeholder = ""
                         let index = 0;
+                        console.log("Documentlist: " + this.$store.state.docs)
                         for(let doc of this.$store.state.docs){
+                            console.log("Doc Name: "+ doc.name)
+                            console.log("Code Token: " + code.tokens)
                             if(index !== 0 && code.tokens.find(t_index => t_index >= doc.begin_index && t_index < doc.end_index) !== undefined){
+                                console.log("Index: "+ index )
                                 code.document = doc.name;
                                 code.document_index = index;
                                 break;
