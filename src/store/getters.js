@@ -192,7 +192,7 @@ export const tokenListToString = state => listOfTokenIndices => {
     return "";
   }
   for (let index of [...listOfTokenIndices].sort()){
-    console.log("State is: "+ state + " and Index is: " + index);
+    console.log("State is: "+ state.name + " and Index is: " + index);
     ret += state.tokens[index].name + " ";
   }
   return ret;
