@@ -36,6 +36,14 @@
                 </v-card-actions>
                 <v-card-actions>
                     <v-switch
+                    v-model="relationsOn"
+                    label="Toggle Relations"
+                    :input-value="true"
+                    @change="resetGraph()"
+                    ></v-switch>
+                </v-card-actions>
+                <v-card-actions>
+                    <v-switch
                     v-model="displayMode"
                     :input-value="true"
                     false-value="Appearances"
@@ -264,7 +272,8 @@ export default {
             absMaxRelation: 0,
             relMaxRelation: 0,
             categoryMenu: false,
-            relationMenu: false
+            relationMenu: false,
+            relationsOn: true
         };
     },
     computed: {
@@ -376,10 +385,16 @@ export default {
             return new nodeType(name, absValue, relValue);
         },     
         placeNodesInEditor(nodeList) {
-            nodeList.forEach(node => {
-                this.editor.addNode(node);
-                node.position.x = node.xValue;
-                node.position.y = node.yValue;
+            nodeList.forEach(node => {                
+                if(node.type=="RelationNode" && this.relationsOn) {
+                    this.editor.addNode(node);
+                    node.position.x = node.xValue;
+                    node.position.y = node.yValue;
+                } else if (node.type == "CategoryNode") {
+                    this.editor.addNode(node);
+                    node.position.x = node.xValue;
+                    node.position.y = node.yValue;
+                }
 
             });
         },  
