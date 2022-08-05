@@ -229,6 +229,9 @@ export const store = new Vuex.Store({
       state.codes = codes;
       // eslint-disable-next-line camelcase
       state.tore_relationships = tore_relationships;
+      for (let documents in state.all_docs){
+        console.log("Document found: "+ documents);
+      }
       let newDocs = [state.all_docs].concat(docs);
       state.all_docs.end_index = tokens.length;
       for (let doc of newDocs){

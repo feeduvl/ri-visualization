@@ -283,6 +283,9 @@ export const actionPostCurrentAnnotation = ({state, commit}) => {
         num_name_codes: state.token_num_name_codes[t.index],
         num_tore_codes: state.token_num_tore_codes[t.index]});
     }
+    for (let documents in state.docs){
+      console.log("Docs in Anno: " + documents)
+    }
     axios.post(ANNOTATION_POST_ENDPOINT, {
       uploaded_at: state.annotator_uploaded_at,
       dataset: state.annotator_dataset,
