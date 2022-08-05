@@ -3,5 +3,7 @@ export class Token {
         this.name = name;
         this.absValue = absValue;
         this.relValue = relValue;
+        this.xValue = 0;
+        this.yValue = 0;
     }
 }

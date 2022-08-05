@@ -218,11 +218,11 @@
 import { Editor } from "@baklavajs/core";
 import { ViewPlugin } from "@baklavajs/plugin-renderer-vue";
 import { InterfaceTypePlugin } from '@baklavajs/plugin-interface-types'
-import { ColorNode } from "./ColorNode";
+import { CategoryNode } from "./CategoryNode";
 import { RelationNode} from "./RelationNode"
 import { Token } from "./token";
 import { Relation } from "./relation";
-import { tore_codes, tore_relationships } from "./TORE";
+import { tore_codes, tore_relationships, tore_locations } from "./TORE_visualization_codes";
 import { ColorPanel } from 'one-colorpicker'
 import "@baklavajs/plugin-renderer-vue/dist/styles.css";
 
@@ -294,7 +294,7 @@ export default {
     created() {
         this.editor.use(this.viewPlugin);
 
-        this.editor.registerNodeType("ColorNode", ColorNode);
+        this.editor.registerNodeType("CategoryNode", CategoryNode);
         this.editor.registerNodeType("RelationNode", RelationNode);
 
         this.intfTypePlugin.addType("input", "rgba(255, 255, 255, 1)");
@@ -312,6 +312,8 @@ export default {
                 tore_codes.forEach(acceptableCode => {
                     if(code == acceptableCode) {
                         var element = new Token(code, frequencies[0], frequencies[1]);
+                        element.xValue = tore_locations[code][0];
+                        element.yValue = tore_locations[code][1];
                         tokenList[code] = element;
                     }
                 });
@@ -325,6 +327,8 @@ export default {
                 var end = this.tokenList[tore_relationships[code][1]];
                 if( start != undefined && end != undefined) {
                     var relation = new Relation(code, frequencies[0], frequencies[1], start, end);
+                    relation.xValue = tore_locations[code][0];
+                    relation.yValue = tore_locations[code][1];
                     relationList[code] = relation;
                 }
             }
@@ -342,7 +346,9 @@ export default {
         createNodeListFromData() {
             var nodeList = [];
             for (const [name,token] of Object.entries(this.tokenList)) {
-                    var node = this.createNode(ColorNode, name, token.absValue, token.relValue);
+                    var node = this.createNode(CategoryNode, name, token.absValue, token.relValue);
+                    node.xValue = token.xValue;
+                    node.yValue = token.yValue;
                     nodeList.push(node);
             }
             for (const [name, relation] of Object.entries(this.relationList)) {
@@ -359,6 +365,8 @@ export default {
                 )
                 if(start != 0 && end != 0) {
                     node = new RelationNode(name, start, end, relation.absValue, relation.relValue)
+                    node.xValue = token.xValue;
+                    node.yValue = token.yValue;
                     nodeList.push(node);
                 }
             }
@@ -367,19 +375,12 @@ export default {
         createNode(nodeType, name, absValue, relValue) {
             return new nodeType(name, absValue, relValue);
         },     
-        placeNodesInEditor(nodeList, xStart, yStart, step, max) {
-            var x = xStart;
-            var y = yStart;
+        placeNodesInEditor(nodeList) {
             nodeList.forEach(node => {
                 this.editor.addNode(node);
-                node.position.x = x;
-                node.position.y = y;
-                if(x <= max){
-                    x = x + step;
-                } else {
-                    y = y + step;
-                    x = xStart;
-                }
+                node.position.x = node.xValue;
+                node.position.y = node.yValue;
+
             });
         },  
         connectNodes() {
@@ -460,7 +461,7 @@ export default {
             }
         },
         partitionNodes(nodeList) {
-            var maximums = this.getMaximums(nodeList, "ColorNode");
+            var maximums = this.getMaximums(nodeList, "CategoryNode");
             this.absMaxCategory = maximums[0];
             this.relMaxCategory = maximums[1];
 
@@ -468,7 +469,7 @@ export default {
             this.absMaxRelation = maximums[0];
             this.relMaxRelation = maximums[1];
 
-            this.setNodeRanks(nodeList, "ColorNode");
+            this.setNodeRanks(nodeList, "CategoryNode");
             this.setNodeRanks(nodeList, "RelationNode");
         },
         getMaximums(nodeList, NodeType) {
@@ -498,7 +499,7 @@ export default {
             if(NodeType == "RelationNode"){
                 absMax = this.absMaxRelation
                 relMax = this.relMaxRelation
-            } else if(NodeType == "ColorNode") {
+            } else if(NodeType == "CategoryNode") {
                 absMax = this.absMaxCategory
                 relMax = this.relMaxCategory
             }

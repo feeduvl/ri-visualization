@@ -49,3 +49,27 @@ export const tore_relationships = {
     [PROVIDES]: [SOFTWARE, SYSTEM_FUNCTION],
     [PROCESSES]: [SOFTWARE,INTERNAL_DATA]
 }
+
+export const tore_locations = {
+    [STAKEHOLDER_GOAL]: [0,0],
+    [STAKEHOLDER_TASK]: [300,0],
+    [SUPPORTED_STAKEHOLDER]: [0,400],
+    [DOMAIN_DATA]: [800, 200],
+    [INTERACTION_DATA]: [1400, 800],
+    [SYSTEM_FUNCTION]: [1400, 1000],
+    [WORKSPACE]: [1400, 600],
+    [SOFTWARE]: [800, 600],
+    [INTERNAL_DATA]: [1400, 400],
+    [COMMUNICATES_WITH]: [-200, 300],
+    [EXCHANGES_WITH]: [-200, 550],
+    [WORKS_WITH]: [450, 250],
+    [INPUTS]: [450, 700],
+    [ACCESSES]: [450, 850],
+    [SELECTS]: [450, 400],
+    [UTILIZES]: [450, 1000],
+    [USES]: [450, 550],
+    [OUTPUTS]: [1150, 800],
+    [ARRANGES]: [1150, 650],
+    [PROVIDES]: [1150, 950],
+    [PROCESSES]: [1150, 500]
+}

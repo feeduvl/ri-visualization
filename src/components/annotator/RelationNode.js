@@ -11,5 +11,7 @@ export class RelationNode extends Node {
         this.relValue = relValue;
         this.absRank = 80;
         this.relRank = 80;
+        this.xValue = 0;
+        this.yValue = 0;
     }
 }
