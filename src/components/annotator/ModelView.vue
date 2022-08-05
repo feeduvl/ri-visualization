@@ -699,7 +699,8 @@ export default {
     color: rgb(255, 255, 255);
 }
 .node-editor .background {
-    background-color: #ffffffd8; 
+    background-color: #ffffffd8;
+    background: none;
 }
 .connection {
     stroke: rgb(138, 130, 130);
