@@ -219,7 +219,7 @@ export const store = new Vuex.Store({
       // eslint-disable-next-line camelcase
       state.annotator_uploaded_at = uploaded_at;
       state.annotator_dataset = dataset;
-
+      console.log(docs);
       for (let token of tokens){
         Object.freeze(token);
       }
