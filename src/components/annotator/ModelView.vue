@@ -365,8 +365,8 @@ export default {
                 )
                 if(start != 0 && end != 0) {
                     node = new RelationNode(name, start, end, relation.absValue, relation.relValue)
-                    node.xValue = token.xValue;
-                    node.yValue = token.yValue;
+                    node.xValue = relation.xValue;
+                    node.yValue = relation.yValue;
                     nodeList.push(node);
                 }
             }
