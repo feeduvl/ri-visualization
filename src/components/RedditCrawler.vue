@@ -35,6 +35,7 @@
                             <v-text-field
                                 v-model="datasetName"
                                 label="Enter name of new dataset"
+                                :rules="[rules.required]"
                         ></v-text-field>
                         </v-card>
                     </v-container>
@@ -332,7 +333,7 @@
                         align: "center",
                         sortable: false,
                         value: 'actions',
-                        width: "15%",
+                        width: "20%",
                     },
                 ],
 
