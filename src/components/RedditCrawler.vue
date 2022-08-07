@@ -362,8 +362,8 @@
         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
         var yyyy = today.getFullYear();
 
-        this.date_from = mm + '/' + dd + '/' + yyyy;
-        this.date_to = this.date_from;
+        this.dateTo = mm + '/' + dd + '/' + yyyy;
+        this.dateFrom = this.dateTo;
     },
 
     methods: {
