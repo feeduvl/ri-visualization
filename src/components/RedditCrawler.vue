@@ -321,14 +321,6 @@
                         filterable: false,
                     },
                     {
-                        text: "Number of Posts",
-                        align: "center",
-                        sortable: true,
-                        width: "10%",
-                        value: "number_posts",
-                        filterable: false,
-                    },
-                    {
                         text: "Dataset",
                         align: "left",
                         sortable: false,
@@ -365,6 +357,14 @@
 
     mounted() {
         this.reloadFields();
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        this.date_from = mm + '/' + dd + '/' + yyyy;
+        this.date_to = this.date_from;
     },
 
     methods: {
