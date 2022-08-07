@@ -235,7 +235,6 @@
                     <td>{{ props.item.subreddit_names }}</td>
                     <td>{{ props.item.date }}</td>
                     <td>{{ props.item.occurrence }}</td>
-                    <td>{{ props.item.number_posts }}</td>
                     <td>{{ props.item.dataset_name }}</td>
                     <td><span class="icon-column">
                             <v-tooltip bottom>
@@ -301,14 +300,14 @@
                     {
                         text: "Subreddit",
                         sortable: true,
-                        width: "10%",
+                        width: "25%",
                         value: "subreddit_names",
                     },
                     {
                         text: "Date",
                         align: "center",
                         sortable: true,
-                        width: "10%",
+                        width: "20%",
                         value: "date",
                         filterable: false,
                     },
@@ -325,7 +324,7 @@
                         align: "left",
                         sortable: false,
                         value: "dataset_name",
-                        width: "9%",
+                        width: "25%",
                         filterable: false,
                     },
                     {
@@ -333,7 +332,7 @@
                         align: "center",
                         sortable: false,
                         value: 'actions',
-                        width: "12%",
+                        width: "15%",
                     },
                 ],
 
