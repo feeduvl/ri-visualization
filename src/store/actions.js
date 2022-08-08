@@ -552,7 +552,7 @@ export const setFooterText = ({
 };
 
 // reddit crawler
-export const actionCrawlReddit = ({dispatch, commit}, settings) => {
+export const actionCrawlReddit = ({commit}, settings) => {
   return new Promise(() => {
     console.log("Initialize Reddit Crawl");
     commit("setIsLoadingRedditCrawler", true);
@@ -601,7 +601,7 @@ export const actionPostCrawlerJobData = ({commit}, crawlerData) => {
   });
 };
 
-export const actionDeleteCrawlerJobs = ({dispatch, commit}, date) => {
+export const actionDeleteCrawlerJobs = (date) => {
   return new Promise(() => {
     console.log("Deleting Crawler Job");
     axios.delete(DELETE_CRAWLER_JOB_ENDPOINT(date))
@@ -614,7 +614,7 @@ export const actionDeleteCrawlerJobs = ({dispatch, commit}, date) => {
   });
 };
 
-export const actionStopOccurrence = ({dispatch, commit}, date) => {
+export const actionStopOccurrence = (date) => {
   return new Promise(() => {
     console.log("Stop Job Occurrence");
     axios.put(DELETE_CRAWLER_JOB_ENDPOINT(date))

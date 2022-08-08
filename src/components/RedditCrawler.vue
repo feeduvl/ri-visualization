@@ -341,7 +341,7 @@
                 required: value => !!value || 'Required.',
                 limit: value => value >= 0 || 'Numeric non-zero input required',
                 date: value => {
-                    const pattern = /(0[1-9]|1[012])[- \/.](0[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d/
+                    const pattern = /(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d/
                     return pattern.test(value) || 'Invalid date.'
                 },
             }
