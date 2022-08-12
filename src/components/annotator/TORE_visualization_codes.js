@@ -1,5 +1,5 @@
 //TORE Categories
-const STAKEHOLDER_GOAL = "Goal";
+const STAKEHOLDER_GOAL = "Goals";
 const STAKEHOLDER_TASK = "Task";
 const SUPPORTED_STAKEHOLDER = "Stakeholder";
 const DOMAIN_DATA = "Domain Data";
