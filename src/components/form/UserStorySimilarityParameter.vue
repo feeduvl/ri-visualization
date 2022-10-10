@@ -6,7 +6,7 @@
       <v-layout row wrap>
           <v-flex xs3>
           <v-text-field
-              v-model="focusedId"
+              v-model="focused_document_ids"
               hint="Optional string; use comma as delimiter"
               persistent-hint
               label="Focused User Story IDs"
@@ -88,7 +88,7 @@
       loading: false,
       snackbarText: "",
       snackbarTimeout: SNACKBAR_DISPLAY_TIME,
-      focusedId: "",
+      focused_document_ids: "",
       threshold: 0.7,
       selected_technique: { displayName: "VSM + TF-IDF + Cosine", name: "vsm" },
       techniqueItems: [
@@ -141,7 +141,7 @@
         let params = {
           method: this.method,
           dataset: this.$props.dataset,
-          focusedId: this.focusedId,
+          focused_document_ids: this.focused_document_ids,
           threshold: this.threshold,
           selected_technique: this.selected_technique,
           name: this.run_name,
@@ -152,7 +152,7 @@
         return this.$props.dataset !== "";
       },
       resetForm() {
-        this.focusedId = "";
+        this.focused_document_ids = "";
         this.threshold = 0.7;
         this.selected_technique = { displayName: "VSM + TF-IDF + Cosine", name: "vsm" };
         this.run_name = "";
