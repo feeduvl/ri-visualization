@@ -33,6 +33,7 @@
               item-value="name"
               label="Similarity Technique"
               persistent-hint
+              return-object
           >
           </v-select>
           </v-flex>
@@ -90,7 +91,7 @@
       snackbarTimeout: SNACKBAR_DISPLAY_TIME,
       focused_document_ids: "",
       threshold: 0.7,
-      selected_technique: { displayName: "VSM + TF-IDF + Cosine", name: "vsm" },
+      selected_technique: { name: "vsm" },
       techniqueItems: [
         { displayName: "VSM + TF-IDF + Cosine", name: "vsm" },
         { displayName: "WordNet + WuP", name: "wordnet" },
@@ -143,7 +144,7 @@
           dataset: this.$props.dataset,
           focused_document_ids: this.focused_document_ids,
           threshold: this.threshold,
-          selected_technique: this.selected_technique,
+          selected_technique: this.selected_technique.name,
           name: this.run_name,
         };
         return JSON.stringify(params);
