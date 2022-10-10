@@ -1,5 +1,5 @@
 /* eslint-disable */
-export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic", "acceptance-criteria"];
+export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic", "acceptance-criteria", "us-similarity"];
 
 export const METHODS = [
     {
@@ -83,6 +83,16 @@ export const METHODS = [
         resultComponentPath: "./components/result/ClassifierTOREResult",
         scoreFunction: getScoreEmpty,
         showInDocumentView: false
+    },
+    {
+        name: "us-similarity",
+        displayName: "User Story Similarity",
+        parameterComponentName: "us-similarity-parameter",
+        parameterComponentPath: "./form/UserStorySimilarityParameter",
+        resultComponentName: "us-similarity-result",
+        resultComponentPath: "./components/result/UserStorySimilarityResult",
+        scoreFunction: getSimilarUsCount,
+        showInDocumentView: false
     }
 ]
 
@@ -118,6 +128,16 @@ export function getRuntimeAcceptanceCriteria(result) {
         metric = "–";
     }
     return metric;
+}
+
+export function getSimilarUsCount(result) {
+    let metric;
+    try {
+        metric = result.metrics.similar_user_stories;
+    } catch(e) {
+        metric = "–"
+    }
+    return metric
 }
 
 export function getScoreEmpty(result) {
