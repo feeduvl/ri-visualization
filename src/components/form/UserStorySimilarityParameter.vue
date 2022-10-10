@@ -143,7 +143,7 @@
           dataset: this.$props.dataset,
           focused_document_ids: this.focused_document_ids,
           threshold: this.threshold,
-          selected_technique: this.selected_technique,
+          selected_technique: this.selected_technique.name,
           name: this.run_name,
         };
         return JSON.stringify(params);
