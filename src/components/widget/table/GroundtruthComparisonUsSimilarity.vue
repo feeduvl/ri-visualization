@@ -9,7 +9,7 @@
       <v-layout row wrap>
         <v-card elevation="0" class="param_holder">
           <v-card-title class="param_header">
-            <span class="grey--text text-uppercase">Number of Results</span>
+            <span class="grey--text text-uppercase">Result Length</span>
           </v-card-title>
           <v-card-text class="param_content">
             {{ resultsCount }}
@@ -18,7 +18,7 @@
         <v-divider vertical inset/>
         <v-card elevation="0" class="param_holder">
           <v-card-title class="param_header">
-            <span class="grey--text text-uppercase">Number of Groundtruth Elements</span>
+            <span class="grey--text text-uppercase">Groundtruth Length</span>
           </v-card-title>
           <v-card-text class="param_content">
             {{ groundtruthCount }}
