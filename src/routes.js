@@ -20,7 +20,7 @@ export const ROUTE_APP_REVIEW_CRAWLER = "/app_review_crawler";
 
 export const routes = [{
     path: ROUTE_EMPTY,
-    redirect: ROUTE_DASHBOARDROUTE_APP_REVIEW_CRAWLER
+    redirect: ROUTE_DASHBOARD
   },
   {
     path: ROUTE_DASHBOARD,
