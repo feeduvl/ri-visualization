@@ -82,6 +82,10 @@ export const routes = [{
     component: () => import('./components/RedditCrawler.vue')
   },
   {
+    path: ROUTE_APP_REVIEW_CRAWLER,
+    component: () => import('./components/AppReviewCrawler.vue')
+  },
+  {
     path: ROUTE_ALL,
     redirect: ROUTE_DASHBOARD
   }
