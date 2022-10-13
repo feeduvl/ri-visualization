@@ -16,7 +16,7 @@ export const ROUTE_RESULTS = "/results";
 export const ROUTE_DOCUMENTS = "/documents";
 export const ROUTE_DATASET = "/dataset";
 export const ROUTE_REDDIT_CRAWLER = "/reddit_crawler";
-export const ROUTE_APP_REVIEW_CRAWLER = "/app_review_crawler"
+export const ROUTE_APP_REVIEW_CRAWLER = "/app_review_crawler";
 
 export const routes = [{
     path: ROUTE_EMPTY,

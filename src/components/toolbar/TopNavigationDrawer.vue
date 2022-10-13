@@ -100,6 +100,12 @@ export default {
           theme: THEME_UVL
         },
         {
+          title: "App Review Crawler",
+          icon: "sync",
+          path: "/app_review_crawler",
+          theme: THEME_UVL
+        },
+        {
           title: "Detection Results",
           icon: "assessment",
           path: "/results",
