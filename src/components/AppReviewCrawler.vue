@@ -17,7 +17,7 @@
             <v-container class="crawler-settings-input">
                 <v-form v-model="isFormValid">
                     <!-- Text field for subreddit and collection name -->
-                    <v-container class="subreddit-selection">
+                    <v-container class="App-selection">
                         <!-- Using chips to enter multiple subreddit names -->
                         <v-card>
                             <v-combobox
@@ -242,10 +242,10 @@
 
 <script>
     export default {
-        name: "RedditCrawler",
+        name: "AppReviewCrawler",
         data: () => ({
             appIdChips: [], 
-            appIdNamesItems: [],
+            appIdItems: [],
             datasetName: '',
             collectionNamesItems: [],
             postSelection: 'new',
@@ -363,7 +363,7 @@
             }
 
             let crawlerTaskInDB = {
-                subreddit_names: this.subredditNamesChips.join(', '),
+                appIds: this.appIdChips.join(', '),
                 date: new Date(),
                 occurrence: this.occurrence_days,
                 number_posts: 0,
