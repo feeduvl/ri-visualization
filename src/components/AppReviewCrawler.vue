@@ -20,15 +20,11 @@
                     <v-container class="App-selection">
                         <!-- Using chips to enter multiple subreddit names -->
                         <v-card>
-                            <v-combobox
-                                v-model="appIdChips"
-                                :items="appIdItems"
-                                chips
-                                clearable
-                                label="Enter App Ids from Google Play Store for Crawling Jobs"
-                                multiple
-                            >
-                            </v-combobox>
+                            <v-text-field
+                                v-model="appURL"
+                                label="Enter url of the respective app"
+                                :rules="[rules.required]"
+                            ></v-text-field>
                         </v-card>
 
                         <v-card>
@@ -202,7 +198,7 @@
                 :items-per-page="5"
             >
                 <template v-slot:items="props">
-                    <td>{{ props.item.appId }}</td>
+                    <td>{{ props.item.app_url }}</td>
                     <td>{{ props.item.date }}</td>
                     <td>{{ props.item.occurrence }}</td>
                     <td>{{ props.item.dataset_name }}</td>
@@ -244,8 +240,7 @@
     export default {
         name: "AppReviewCrawler",
         data: () => ({
-            appIdChips: [], 
-            appIdItems: [],
+            appURL: '',
             datasetName: '',
             collectionNamesItems: [],
             postSelection: 'new',
@@ -266,10 +261,10 @@
 
             tableHeaders: [
                     {
-                        text: "App Id",
+                        text: "App URL",
                         sortable: true,
                         width: "25%",
-                        value: "appId",
+                        value: "app_url",
                     },
                     {
                         text: "Date",
@@ -337,7 +332,7 @@
     methods: {
         crawlerRun(){
             let crawlerTask = {
-                appIds : this.appIdChips,
+                app_url: this.appURL,
                 dataset_name : this.datasetName,
                 date_from : this.dateFrom,
                 date_to : this.dateTo,
@@ -363,7 +358,7 @@
             }
 
             let crawlerTaskInDB = {
-                appIds: this.appIdChips.join(', '),
+                appUrl: this.appURL.join(', '),
                 date: new Date(),
                 occurrence: this.occurrence_days,
                 number_posts: 0,
