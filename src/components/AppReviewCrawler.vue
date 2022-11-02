@@ -130,16 +130,6 @@
                             multiple
                         >
                         </v-combobox>
-
-                        <v-combobox
-                            v-model="blacklistChipsComments"
-                            :items="blacklistItemsComments"
-                            chips
-                            clearable
-                            label="Enter blacklisted words for comment filtering"
-                            multiple
-                        >
-                        </v-combobox>
                     </v-card>
                 </v-form>
             </v-container>
@@ -252,8 +242,6 @@
             minCommentLength: 5,
             blacklistChipsPosts: [],
             blacklistItemsPosts: [],
-            blacklistChipsComments: [],
-            blacklistItemsComments: [],
             replaceURLS: false,
             replaceEmojis: false,
             schedule: false,
@@ -339,7 +327,6 @@
                 post_selection: this.postSelection,
                 new_limit: Number(this.postNewLimit),
                 min_length_posts : Number(this.minTextLength),
-                blacklist_comments : this.blacklistChipsComments,
                 blacklist_posts : this.blacklistChipsPosts,
                 replace_urls : this.replaceURLS,
                 replace_emojis : this.replaceEmojis
