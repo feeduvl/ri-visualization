@@ -11,6 +11,7 @@
               persistent-hint
               label="Focused User Story IDs"
               clearable
+              @input="focused_document_ids= focused_document_ids || ''"
           ></v-text-field>
           </v-flex>
           <v-flex xs1/>
@@ -45,6 +46,7 @@
               label="Run Name"
               clearable
               persistent-hint
+              @input="run_name= run_name || ''"
           ></v-text-field>
           </v-flex>
       </v-layout>

@@ -72,6 +72,7 @@
           :headers="tableHeaders"
           :items="tableResults"
           class="elevation-1"
+          id="resultTable"
           :rowsPerPageItems="[5,10,25,50,100,{'text':'$vuetify.dataIterator.rowsPerPageAll','value':-1}]"
           :pagination.sync="pagination"
           :loading="loadingResults"
@@ -262,7 +263,7 @@ export default {
         {
           text: "ID 1",
           align: "left",
-          sortable: false,
+          sortable: true,
           value: "id_1"
         },
         {
@@ -280,7 +281,7 @@ export default {
         {
           text: "ID 2",
           align: "left",
-          sortable: false,
+          sortable: true,
           value: "id_2"
         },
         {
@@ -463,6 +464,10 @@ function isNotContained(set, arr){
 
 #us-similarity-result-table {
   margin-bottom: 20px;
+}
+
+#resultTable tr td{
+  white-space: pre-line;
 }
 
 .param_header {
