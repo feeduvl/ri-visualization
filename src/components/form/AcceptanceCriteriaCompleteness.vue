@@ -105,7 +105,7 @@ export default {
         ],
         thresholdRulesFloat: [
             v => !!v || 'Threshold is required',
-            v => (v && v > 1 && v < 11) || 'Must be greater than 0 and smaller than 1',
+            v => (v && v < 1 && v > 0) || 'Must be greater than 0 and smaller than 1',
         ],
     }),
     methods: {
