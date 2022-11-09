@@ -1,5 +1,5 @@
 /* eslint-disable */
-export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic", "acceptance-criteria", "us-similarity"];
+export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic", "acceptance-criteria", "us-similarity", "acceptance-criteria-completeness"];
 
 export const METHODS = [
     {
@@ -93,6 +93,16 @@ export const METHODS = [
         resultComponentPath: "./components/result/UserStorySimilarityResult",
         scoreFunction: getSimilarUsCount,
         showInDocumentView: false
+    },
+    {
+        name: "acceptance-criteria-completeness",
+        displayName: "Acceptance Criteria Completeness",
+        parameterComponentName: "ac-completeness-parameter",
+        parameterComponentPath: "./form/AcceptanceCriteriaCompleteness",
+        resultComponentName: "acceptance-criteria-completeness-result",
+        resultComponentPath: "./components/result/AcceptanceCriteriaCompletenessResult",
+        scoreFunction: getSimilarAcC,
+        showInDocumentView: false
     }
 ]
 
@@ -134,6 +144,16 @@ export function getSimilarUsCount(result) {
     let metric;
     try {
         metric = result.metrics.similar_user_stories;
+    } catch(e) {
+        metric = "–"
+    }
+    return metric
+}
+
+export function getSimilarAcC(result) {
+    let metric;
+    try {
+        metric = result.metrics.avg_completeness;
     } catch(e) {
         metric = "–"
     }

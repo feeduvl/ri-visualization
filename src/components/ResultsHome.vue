@@ -28,6 +28,7 @@ export default {
     "classifier-tore-result": () => import("./result/ClassifierTOREResult"),
     "bi-lstm-tore-result": () => import("./result/ClassifierTOREResult"),
     "us-similarity-result": () => import("./result/UserStorySimilarityResult"),
+    "acceptance-criteria-completeness-result": () => import("./result/AcceptanceCriteriaCompletenessResult"),
   },
   computed: {
     ...mapGetters({
