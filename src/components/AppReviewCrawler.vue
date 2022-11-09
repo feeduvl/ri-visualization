@@ -46,12 +46,12 @@
                         column
                         >
                             <v-radio
-                                label="Sort by New"
-                                value="new"
+                                label="German"
+                                value="de"
                             ></v-radio>
                             <v-radio
-                                label="Sort by Top"
-                                value="top"
+                                label="English"
+                                value="en"
                             ></v-radio>
                         </v-radio-group>
                     </v-card>
@@ -62,7 +62,6 @@
                         color="transparent"
                     >
                         <v-text-field
-                            :disabled="postSelection == 'top'"
                             :rules="[rules.limit, rules.required]"
                             v-model="postNewLimit"
                             label="Maximum Number of Posts"
