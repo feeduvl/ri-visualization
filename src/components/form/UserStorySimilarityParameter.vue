@@ -1,33 +1,31 @@
 <template>
   <v-container>
-    <v-form
-        ref="form"
-        v-model="formValid">
+    <v-form ref="form" v-model="formValid">
       <v-layout row wrap>
           <v-flex xs3>
-          <v-text-field
+            <v-text-field
               v-model="focused_document_ids"
               hint="Optional string; use comma as delimiter"
               persistent-hint
               label="Focused User Story IDs"
               clearable
               @input="focused_document_ids= focused_document_ids || ''"
-          ></v-text-field>
+            ></v-text-field>
           </v-flex>
           <v-flex xs1/>
           <v-flex xs3>
-          <v-text-field
+            <v-text-field
               v-model="threshold"
               hint="Float between 0 and 1"
               label="Similarity Threshold"
               clearable
               :rules="thresholdRules"
               persistent-hint
-          ></v-text-field>
+            ></v-text-field>
           </v-flex>
           <v-flex xs1/>
           <v-flex xs3>
-          <v-select
+            <v-select
               v-model="selected_technique"
               :items="techniqueItems"
               item-text="displayName"
@@ -35,41 +33,38 @@
               label="Similarity Technique"
               persistent-hint
               return-object
-          >
-          </v-select>
+            >
+            </v-select>
           </v-flex>
           <v-flex xs1/>
           <v-flex xs3>
-          <v-text-field
+            <v-checkbox v-model="without_us_skeleton" :label="`Remove the us template words`"></v-checkbox>
+          </v-flex>
+          <v-flex xs1/>
+          <v-flex xs3>
+            <v-checkbox v-model="only_us_action" :label="`Use only acion part of us`"></v-checkbox>
+          </v-flex>
+          <v-flex xs1/>
+          <v-flex xs3>
+            <v-text-field
               v-model="run_name"
               hint="Optional string to name this run."
               label="Run Name"
               clearable
               persistent-hint
               @input="run_name= run_name || ''"
-          ></v-text-field>
+            ></v-text-field>
           </v-flex>
       </v-layout>
       <v-layout row wrap>
-          <v-flex xs9/>
-          <v-btn small color="primary" @click="resetForm">Reset</v-btn>
-          <v-btn small color="primary" :loading="loading" :disabled="loading" @click="startRun">Start</v-btn>
+        <v-flex xs9/>
+        <v-btn small color="primary" @click="resetForm">Reset</v-btn>
+        <v-btn small color="primary" :loading="loading" :disabled="loading" @click="startRun">Start</v-btn>
       </v-layout>
-      <v-snackbar
-          v-model="snackbarVisible"
-          :timeout="snackbarTimeout"
-          :top=true
-      >
+      <v-snackbar v-model="snackbarVisible" :timeout="snackbarTimeout" :top=true>
         {{ snackbarText }}
 
-        <v-btn
-            small
-            color="primary"
-            text
-            @click="closeSnackbar"
-        >
-          Close
-        </v-btn>
+        <v-btn small color="primary" text @click="closeSnackbar">Close</v-btn>
       </v-snackbar>
     </v-form>
   </v-container>
@@ -99,6 +94,8 @@
         { displayName: "WordNet + WuP", name: "wordnet" },
         { displayName: "Word2vec + Cosine", name: "word2vec" }
       ],
+      without_us_skeleton: false,
+      only_us_action: false,
       run_name: "",
       formValid: true,
       thresholdRules: [
@@ -147,6 +144,8 @@
           focused_document_ids: this.focused_document_ids,
           threshold: this.threshold,
           selected_technique: this.selected_technique.name,
+          without_us_skeleton: this.without_us_skeleton,
+          only_us_action: this.only_us_action,
           name: this.run_name,
         };
         return JSON.stringify(params);
@@ -158,6 +157,8 @@
         this.focused_document_ids = "";
         this.threshold = 0.7;
         this.selected_technique = { displayName: "VSM + TF-IDF + Cosine", name: "vsm" };
+        this.without_us_skeleton = false;
+        this.only_us_action = false;
         this.run_name = "";
       },
     },
