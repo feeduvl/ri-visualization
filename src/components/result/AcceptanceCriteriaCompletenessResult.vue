@@ -22,6 +22,19 @@
                 </v-data-table>
             </v-card>
         </v-flex>
+        <v-flex xs12>
+            <v-card id="Download_Data">
+                <v-card-title>
+                    <h2>Download Result</h2>
+                    <v-spacer />
+                    <v-btn small color="primary" @click="downloadResult" class="btnAlign">
+                        Download
+                    </v-btn>
+                </v-card-title>
+                <v-layout row wrap id="parameter_layout">
+                </v-layout>
+            </v-card>
+        </v-flex>
     </v-layout>
 </template>
   
@@ -110,6 +123,36 @@ export default {
                 return "–";
             } else {
                 return dataset_name;
+            }
+        },
+        downloadResult() {
+            if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
+                const data = JSON.stringify(this.selectedResult);
+                const blob = new Blob([data], { type: 'text/plain' });
+                const e = document.createEvent('MouseEvents'),
+                    a = document.createElement('a');
+                a.download = this.getNameForFile();
+                a.href = window.URL.createObjectURL(blob);
+                a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
+                e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                a.dispatchEvent(e);
+            } else {
+            }
+        },
+        getNameForFile() {
+            let name = "";
+            if (this.selectedResult.name === "") {
+                name = this.selectedResult.method;
+            } else {
+                name = this.selectedResult.name;
+            }
+            return name + "–" + this.selectedResult.started_at.replace(":", "-") + ".json";
+        },
+        displayRunDate() {
+            if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
+                return this.selectedResult.started_at.replace("Z", "").replace("T", " ").substring(0, 19);
+            } else {
+                return "–";
             }
         },
     },
