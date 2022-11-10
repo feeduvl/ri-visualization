@@ -98,7 +98,7 @@ export const METHODS = [
         name: "acceptance-criteria-completeness",
         displayName: "Acceptance Criteria Completeness",
         parameterComponentName: "ac-completeness-parameter",
-        parameterComponentPath: "./form/AcceptanceCriteriaCompleteness",
+        parameterComponentPath: "./form/AcceptanceCriteriaCompletenessParameter",
         resultComponentName: "acceptance-criteria-completeness-result",
         resultComponentPath: "./components/result/AcceptanceCriteriaCompletenessResult",
         scoreFunction: getSimilarAcC,
