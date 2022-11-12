@@ -1,5 +1,8 @@
 <template>
     <v-layout row wrap>
+        <v-flex xs12 id="similar-us-groundtruth-comparison-holder">
+            <groundtruth-comparison-ac-completeness v-bind:result="tableResults" v-bind:groundtruth="groundtruth" />
+        </v-flex>
         <v-flex xs12>
             <v-card id="ac-completeness-result-table">
                 <v-card-title>
@@ -56,7 +59,14 @@ export default {
             }
             return []
         },
+        groundtruth() {
+            if (!this.selectedDataset.ground_truth) {
+                return []
+            }
+            return this.selectedDataset.ground_truth;
+        },
     },
+    components: { "groundtruth-comparison-ac-completeness": () => import("@/components/widget/table/GroundtruthComparisonACCompleteness"), },
     data: function () {
         return {
             errors: [],
