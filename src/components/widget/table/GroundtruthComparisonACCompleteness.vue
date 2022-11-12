@@ -123,15 +123,15 @@ export default {
       this.trueNegatives = 0;
       for (let resultItem in this.result) {
         for (let gtItem in this.groundtruth) {
-          if (gtItem.id == resultItem.id) {
-            if (resultItem.completeness < 0.1) {
-              if (parseInt(gtItem.value) < 0.5) {
+          if (this.groundtruth[gtItem].id == this.result[resultItem].id) {
+            if (this.result[resultItem].completeness < 0.1) {
+              if (parseInt(this.groundtruth[gtItem].value) < 0.5) {
                 this.trueNegatives++;
               } else {
                 this.falseNegatives++;
               }
             } else {
-              if (parseInt(gtItem.value) < 0.5) {
+              if (parseInt(this.groundtruth[gtItem].value) < 0.5) {
                 this.falsePositives++;
               } else {
                 this.truePositives++;
