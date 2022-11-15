@@ -1,7 +1,70 @@
 <template>
     <v-layout row wrap>
+        <v-flex xs12>
+            <v-card id="parameter_holder">
+                <v-layout row wrap id="parameter_layout">
+                    <v-card elevation="0" class="param_holder">
+                        <v-card-title class="param_header">
+                            <span class="grey--text text-uppercase">Run Name</span>
+                        </v-card-title>
+                        <v-card-text class="param_content">
+                            {{ displayRunName(selectedResult.name) }}
+                        </v-card-text>
+                    </v-card>
+                    <v-card elevation="0" class="param_holder">
+                        <v-card-title class="param_header">
+                            <span class="grey--text text-uppercase">Dataset</span>
+                        </v-card-title>
+                        <v-card-text class="param_content">
+                            {{ displayDatasetName(selectedResult.dataset_name) }}
+                        </v-card-text>
+                    </v-card>
+                    <v-card elevation="0" class="param_holder">
+                        <v-card-title class="param_header">
+                            <span class="grey--text text-uppercase">Run Date</span>
+                        </v-card-title>
+                        <v-card-text class="param_content">
+                            {{ displayRunDate() }}
+                        </v-card-text>
+                    </v-card>
+                    <template>
+                        <v-card v-for="(item, key) in selectedResult.params" :key="key" elevation="0"
+                            class="param_holder">
+                            <v-card-title class="param_header">
+                                <span class="grey--text text-uppercase">{{ key }}</span>
+                            </v-card-title>
+                            <v-card-text class="param_content">
+                                {{ item }}
+                            </v-card-text>
+                        </v-card>
+                    </template>
+                    <template>
+                        <v-card v-for="(item, key) in selectedResult.metrics" :key="key" elevation="0"
+                            class="param_holder">
+                            <v-card-title class="param_header">
+                                <span class="grey--text text-uppercase">{{ key }}</span>
+                            </v-card-title>
+                            <v-card-text class="param_content">
+                                {{ item }}
+                            </v-card-text>
+                        </v-card>
+                    </template>
+                </v-layout>
+            </v-card>
+        </v-flex>
+        <v-flex>
+            <v-card>
+                <v-layout row wrap>
+                    <v-flex xs3>
+                        <v-text-field v-model="comparisonThreshold" hint="Float between 0 and 1"
+                            label="Threshold to calculate performance" clearable :rules="thresholdRulesFloat"
+                            persistent-hint></v-text-field>
+                    </v-flex>
+                </v-layout>
+            </v-card>
+        </v-flex>
         <v-flex xs12 id="similar-us-groundtruth-comparison-holder">
-            <groundtruth-comparison-ac-completeness v-bind:result="tableResults" v-bind:groundtruth="groundtruth" />
+            <groundtruth-comparison-ac-completeness v-bind:comparisonThreshold="comparisonThreshold" v-bind:result="tableResults" v-bind:groundtruth="groundtruth" />
         </v-flex>
         <v-flex xs12>
             <v-card id="ac-completeness-result-table">
@@ -59,6 +122,12 @@ export default {
             }
             return []
         },
+        comparisonThreshold() {
+            if (!this.comparisonThreshold) {
+                return 0.1;
+            }
+            return this.comparisonThreshold;
+        },
         groundtruth() {
             if (!this.selectedDataset.ground_truth) {
                 return []
@@ -70,6 +139,7 @@ export default {
     data: function () {
         return {
             errors: [],
+            comparisonThreshold: 0.1,
             tableHeaders: [
                 {
                     text: "ID",
@@ -118,6 +188,10 @@ export default {
                 descending: false,
                 rowsPerPage: 25
             },
+            thresholdRulesFloat: [
+                v => !!v || 'Threshold is required',
+                v => (v && v < 1 && v > 0) || 'Must be greater than 0 and smaller than 1',
+            ],
         }
     },
     methods: {

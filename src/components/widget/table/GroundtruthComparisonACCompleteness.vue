@@ -94,6 +94,7 @@ export default {
   props: {
     result: Array,
     groundtruth: Array,
+    comparisonThreshold: Number,
   },
   data: function () {
     return {
@@ -124,7 +125,7 @@ export default {
       for (let resultItem in this.result) {
         for (let gtItem in this.groundtruth) {
           if (this.groundtruth[gtItem].id == this.result[resultItem].id) {
-            if (this.result[resultItem].completeness < 0.1) {
+            if (this.result[resultItem].completeness < this.comparisonThreshold) {
               if (parseInt(this.groundtruth[gtItem].value) < 0.5) {
                 this.trueNegatives++;
               } else {
