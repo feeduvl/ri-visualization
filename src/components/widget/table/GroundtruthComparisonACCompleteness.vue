@@ -7,6 +7,13 @@
     </v-card-title>
     <v-card-text>
       <v-layout row wrap>
+        <v-card>
+          <v-flex xs3>
+            <v-text-field v-model="comparisonThreshold" hint="Float between 0 and 1"
+              label="Threshold to calculate performance" clearable :rules="thresholdRulesFloat" persistent-hint>
+            </v-text-field>
+          </v-flex>
+        </v-card>
         <v-card elevation="0" class="param_holder">
           <v-card-title class="param_header">
             <span class="grey--text text-uppercase">Result Length</span>
@@ -15,7 +22,7 @@
             {{ resultsCount }}
           </v-card-text>
         </v-card>
-        <v-divider vertical inset/>
+        <v-divider vertical inset />
         <v-card elevation="0" class="param_holder">
           <v-card-title class="param_header">
             <span class="grey--text text-uppercase">Groundtruth Length</span>
@@ -24,7 +31,7 @@
             {{ groundtruthCount }}
           </v-card-text>
         </v-card>
-        <v-divider vertical inset/>
+        <v-divider vertical inset />
         <v-card elevation="0" class="param_holder">
           <v-card-title class="param_header">
             <span class="grey--text text-uppercase">True Positives</span>
@@ -33,7 +40,7 @@
             {{ truePositives }}
           </v-card-text>
         </v-card>
-        <v-divider vertical inset/>
+        <v-divider vertical inset />
         <v-card elevation="0" class="param_holder">
           <v-card-title class="param_header">
             <span class="grey--text text-uppercase">False Positives</span>
@@ -42,7 +49,7 @@
             {{ falsePositives }}
           </v-card-text>
         </v-card>
-        <v-divider vertical inset/>
+        <v-divider vertical inset />
         <v-card elevation="0" class="param_holder">
           <v-card-title class="param_header">
             <span class="grey--text text-uppercase">False Negatives</span>
@@ -57,27 +64,27 @@
           </v-card-title>
           <v-card-text class="param_content">
             {{ precision.toString().substring(0, 6) }}
-            <score-gauge v-bind:value="precision"/>
+            <score-gauge v-bind:value="precision" />
           </v-card-text>
         </v-card>
-        <v-divider vertical inset/>
+        <v-divider vertical inset />
         <v-card elevation="0" class="param_holder_gauge">
           <v-card-title class="param_header">
             <span class="grey--text text-uppercase">Recall</span>
           </v-card-title>
           <v-card-text class="param_content">
             {{ recall.toString().substring(0, 6) }}
-            <score-gauge v-bind:value="recall"/>
+            <score-gauge v-bind:value="recall" />
           </v-card-text>
         </v-card>
-        <v-divider vertical inset/>
+        <v-divider vertical inset />
         <v-card elevation="0" class="param_holder_gauge">
           <v-card-title class="param_header">
             <span class="grey--text text-uppercase">F1-Score</span>
           </v-card-title>
           <v-card-text class="param_content">
             {{ fOneScore.toString().substring(0, 6) }}
-            <score-gauge v-bind:value="fOneScore"/>
+            <score-gauge v-bind:value="fOneScore" />
           </v-card-text>
         </v-card>
       </v-layout>
@@ -94,7 +101,6 @@ export default {
   props: {
     result: Array,
     groundtruth: Array,
-    comparisonThreshold: Number,
   },
   data: function () {
     return {
@@ -106,6 +112,11 @@ export default {
       precision: 0.0,
       recall: 0.0,
       fOneScore: 0.0,
+      comparisonThreshold: 0.1,
+      thresholdRulesFloat: [
+        v => !!v || 'Threshold is required',
+        v => (v && v < 1 && v > 0) || 'Must be greater than 0 and smaller than 1',
+      ],
     }
   },
   watch: {
@@ -113,6 +124,9 @@ export default {
       this.updateScores();
     },
     groundtruth: function () {
+      this.updateScores();
+    },
+    comparisonThreshold: function () {
       this.updateScores();
     }
   },
@@ -143,18 +157,18 @@ export default {
         }
       }
       // precision
-      this.precision = this.truePositives/(this.truePositives+this.falsePositives);
-      if(isNaN(this.precision)) {
+      this.precision = this.truePositives / (this.truePositives + this.falsePositives);
+      if (isNaN(this.precision)) {
         this.precision = 0;
       }
       // recall
-      this.recall = this.truePositives/(this.truePositives+this.falseNegatives);
-      if(isNaN(this.recall)) {
+      this.recall = this.truePositives / (this.truePositives + this.falseNegatives);
+      if (isNaN(this.recall)) {
         this.recall = 0;
       }
       // f1-score
-      this.fOneScore = this.truePositives/(this.truePositives + (0.5 * (this.falsePositives + this.falseNegatives)));
-      if(isNaN(this.fOneScore)) {
+      this.fOneScore = this.truePositives / (this.truePositives + (0.5 * (this.falsePositives + this.falseNegatives)));
+      if (isNaN(this.fOneScore)) {
         this.fOneScore = 0;
       }
     },

@@ -52,19 +52,8 @@
                 </v-layout>
             </v-card>
         </v-flex>
-        <v-flex>
-            <v-card>
-                <v-layout row wrap>
-                    <v-flex xs3>
-                        <v-text-field v-model="comparisonThreshold" hint="Float between 0 and 1"
-                            label="Threshold to calculate performance" clearable :rules="thresholdRulesFloat"
-                            persistent-hint></v-text-field>
-                    </v-flex>
-                </v-layout>
-            </v-card>
-        </v-flex>
         <v-flex xs12 id="similar-us-groundtruth-comparison-holder">
-            <groundtruth-comparison-ac-completeness v-bind:comparisonThreshold="comparisonThreshold" v-bind:result="tableResults" v-bind:groundtruth="groundtruth" />
+            <groundtruth-comparison-ac-completeness v-bind:result="tableResults" v-bind:groundtruth="groundtruth" />
         </v-flex>
         <v-flex xs12>
             <v-card id="ac-completeness-result-table">
@@ -122,12 +111,6 @@ export default {
             }
             return []
         },
-        comparisonThreshold() {
-            if (!this.comparisonThreshold) {
-                return 0.1;
-            }
-            return this.comparisonThreshold;
-        },
         groundtruth() {
             if (!this.selectedDataset.ground_truth) {
                 return []
@@ -139,7 +122,6 @@ export default {
     data: function () {
         return {
             errors: [],
-            comparisonThreshold: 0.1,
             tableHeaders: [
                 {
                     text: "ID",
