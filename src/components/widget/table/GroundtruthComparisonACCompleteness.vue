@@ -8,27 +8,12 @@
     <v-card-text>
       <v-layout row wrap>
         <v-card>
-          <v-flex xs3>
-            <v-text-field v-model="comparisonThreshold" hint="Float between 0 and 1"
-              label="Threshold to calculate performance" clearable :rules="thresholdRulesFloat" persistent-hint>
+          <v-card-title class="param_header">
+            Threshold to calculate performance
+          </v-card-title>
+          <v-card-text class="param_content">
+            <v-text-field v-model="comparisonThreshold" clearable :rules="thresholdRulesFloat">
             </v-text-field>
-          </v-flex>
-        </v-card>
-        <v-card elevation="0" class="param_holder">
-          <v-card-title class="param_header">
-            <span class="grey--text text-uppercase">Result Length</span>
-          </v-card-title>
-          <v-card-text class="param_content">
-            {{ resultsCount }}
-          </v-card-text>
-        </v-card>
-        <v-divider vertical inset />
-        <v-card elevation="0" class="param_holder">
-          <v-card-title class="param_header">
-            <span class="grey--text text-uppercase">Groundtruth Length</span>
-          </v-card-title>
-          <v-card-text class="param_content">
-            {{ groundtruthCount }}
           </v-card-text>
         </v-card>
         <v-divider vertical inset />
