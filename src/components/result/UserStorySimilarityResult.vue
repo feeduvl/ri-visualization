@@ -240,14 +240,18 @@ export default {
         return []
       }
       let simResult = this.selectedResult.topics.similarity_results;
-      let resultArrOfSets = [];
+      let resultArrOfSetsWithScores = [];
       for (let result of simResult) {
         let tempSet = new Set([result.id_1, result.id_2]);
+        let resultArrOfSets = resultArrOfSetsWithScores.map(a => a.set);
         if (isNotContained(tempSet, resultArrOfSets)) {
-          resultArrOfSets.push(tempSet);
+          resultArrOfSetsWithScores.push({
+            score: result.score,
+            set: tempSet
+          });
         }
       }
-      return resultArrOfSets;
+      return resultArrOfSetsWithScores;
     },
   },
   components: {"groundtruth-comparison-us-similarity": () => import("@/components/widget/table/GroundtruthComparisonUsSimilarity"),},
