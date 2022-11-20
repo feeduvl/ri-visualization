@@ -143,7 +143,7 @@ export function getRuntimeAcceptanceCriteria(result) {
 export function getSimilarUsCount(result) {
     let metric;
     try {
-        metric = result.metrics.similar_user_stories;
+        metric = result.metrics.similar_us_pairs;
     } catch(e) {
         metric = "–"
     }
