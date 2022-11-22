@@ -1,6 +1,61 @@
 <template>
     <v-layout row wrap>
         <v-flex xs12>
+            <v-card id="parameter_holder">
+                <v-layout row wrap id="parameter_layout">
+                    <v-card elevation="0" class="param_holder">
+                        <v-card-title class="param_header">
+                            <span class="grey--text text-uppercase">Run Name</span>
+                        </v-card-title>
+                        <v-card-text class="param_content">
+                            {{ displayRunName(selectedResult.name) }}
+                        </v-card-text>
+                    </v-card>
+                    <v-card elevation="0" class="param_holder">
+                        <v-card-title class="param_header">
+                            <span class="grey--text text-uppercase">Dataset</span>
+                        </v-card-title>
+                        <v-card-text class="param_content">
+                            {{ displayDatasetName(selectedResult.dataset_name) }}
+                        </v-card-text>
+                    </v-card>
+                    <v-card elevation="0" class="param_holder">
+                        <v-card-title class="param_header">
+                            <span class="grey--text text-uppercase">Run Date</span>
+                        </v-card-title>
+                        <v-card-text class="param_content">
+                            {{ displayRunDate() }}
+                        </v-card-text>
+                    </v-card>
+                    <template>
+                        <v-card v-for="(item, key) in selectedResult.params" :key="key" elevation="0"
+                            class="param_holder">
+                            <v-card-title class="param_header">
+                                <span class="grey--text text-uppercase">{{ key }}</span>
+                            </v-card-title>
+                            <v-card-text class="param_content">
+                                {{ item }}
+                            </v-card-text>
+                        </v-card>
+                    </template>
+                    <template>
+                        <v-card v-for="(item, key) in selectedResult.metrics" :key="key" elevation="0"
+                            class="param_holder">
+                            <v-card-title class="param_header">
+                                <span class="grey--text text-uppercase">{{ key }}</span>
+                            </v-card-title>
+                            <v-card-text class="param_content">
+                                {{ item }}
+                            </v-card-text>
+                        </v-card>
+                    </template>
+                </v-layout>
+            </v-card>
+        </v-flex>
+        <v-flex xs12 id="similar-us-groundtruth-comparison-holder">
+            <groundtruth-comparison-ac-completeness v-bind:result="tableResults" v-bind:groundtruth="groundtruth" />
+        </v-flex>
+        <v-flex xs12>
             <v-card id="ac-completeness-result-table">
                 <v-card-title>
                     <h3>Similarity Results</h3>
@@ -20,6 +75,19 @@
                         </tr>
                     </template>
                 </v-data-table>
+            </v-card>
+        </v-flex>
+        <v-flex xs12>
+            <v-card id="Download_Data">
+                <v-card-title>
+                    <h2>Download Result</h2>
+                    <v-spacer />
+                    <v-btn small color="primary" @click="downloadResult" class="btnAlign">
+                        Download
+                    </v-btn>
+                </v-card-title>
+                <v-layout row wrap id="parameter_layout">
+                </v-layout>
             </v-card>
         </v-flex>
     </v-layout>
@@ -43,7 +111,14 @@ export default {
             }
             return []
         },
+        groundtruth() {
+            if (!this.selectedDataset.ground_truth) {
+                return []
+            }
+            return this.selectedDataset.ground_truth;
+        },
     },
+    components: { "groundtruth-comparison-ac-completeness": () => import("@/components/widget/table/GroundtruthComparisonACCompleteness"), },
     data: function () {
         return {
             errors: [],
@@ -95,6 +170,10 @@ export default {
                 descending: false,
                 rowsPerPage: 25
             },
+            thresholdRulesFloat: [
+                v => !!v || 'Threshold is required',
+                v => (v && v < 1 && v > 0) || 'Must be greater than 0 and smaller than 1',
+            ],
         }
     },
     methods: {
@@ -110,6 +189,36 @@ export default {
                 return "–";
             } else {
                 return dataset_name;
+            }
+        },
+        downloadResult() {
+            if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
+                const data = JSON.stringify(this.selectedResult);
+                const blob = new Blob([data], { type: 'text/plain' });
+                const e = document.createEvent('MouseEvents'),
+                    a = document.createElement('a');
+                a.download = this.getNameForFile();
+                a.href = window.URL.createObjectURL(blob);
+                a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
+                e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                a.dispatchEvent(e);
+            } else {
+            }
+        },
+        getNameForFile() {
+            let name = "";
+            if (this.selectedResult.name === "") {
+                name = this.selectedResult.method;
+            } else {
+                name = this.selectedResult.name;
+            }
+            return name + "–" + this.selectedResult.started_at.replace(":", "-") + ".json";
+        },
+        displayRunDate() {
+            if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
+                return this.selectedResult.started_at.replace("Z", "").replace("T", " ").substring(0, 19);
+            } else {
+                return "–";
             }
         },
     },

@@ -247,7 +247,7 @@ export default {
     "stanford-ner-parameter": () => import("./form/StanfordNERParameter"),
     "bi-lstm-parameter": () => import("./form/BiLSTMParameter"),
     "us-similarity-parameter": () => import("./form/UserStorySimilarityParameter"),
-    "ac-completeness-parameter": () => import("./form/AcceptanceCriteriaCompleteness"),
+    "ac-completeness-parameter": () => import("./form/AcceptanceCriteriaCompletenessParameter"),
   },
   computed: {
     component() {

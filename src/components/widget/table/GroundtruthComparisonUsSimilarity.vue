@@ -7,50 +7,17 @@
     </v-card-title>
     <v-card-text>
       <v-layout row wrap>
-        <v-card elevation="0" class="param_holder">
+        <v-card elevation="0" class="param_header">
           <v-card-title class="param_header">
-            <span class="grey--text text-uppercase">Result Length</span>
+            Threshold to calculate performance
           </v-card-title>
           <v-card-text class="param_content">
-            {{ resultsCount }}
+            <v-text-field v-model="threshold" clearable :rules="thresholdRules">
+            </v-text-field>
           </v-card-text>
         </v-card>
-        <v-divider vertical inset/>
-        <v-card elevation="0" class="param_holder">
-          <v-card-title class="param_header">
-            <span class="grey--text text-uppercase">Groundtruth Length</span>
-          </v-card-title>
-          <v-card-text class="param_content">
-            {{ groundtruthCount }}
-          </v-card-text>
-        </v-card>
-        <v-divider vertical inset/>
-        <v-card elevation="0" class="param_holder">
-          <v-card-title class="param_header">
-            <span class="grey--text text-uppercase">True Positives</span>
-          </v-card-title>
-          <v-card-text class="param_content">
-            {{ truePositives }}
-          </v-card-text>
-        </v-card>
-        <v-divider vertical inset/>
-        <v-card elevation="0" class="param_holder">
-          <v-card-title class="param_header">
-            <span class="grey--text text-uppercase">False Positives</span>
-          </v-card-title>
-          <v-card-text class="param_content">
-            {{ falsePositives }}
-          </v-card-text>
-        </v-card>
-        <v-divider vertical inset/>
-        <v-card elevation="0" class="param_holder">
-          <v-card-title class="param_header">
-            <span class="grey--text text-uppercase">False Negatives</span>
-          </v-card-title>
-          <v-card-text class="param_content">
-            {{ falseNegatives }}
-          </v-card-text>
-        </v-card>
+      </v-layout>
+      <v-layout row wrap>
         <v-card elevation="0" class="param_holder_gauge">
           <v-card-title class="param_header">
             <span class="grey--text text-uppercase">Precision</span>
@@ -81,6 +48,51 @@
           </v-card-text>
         </v-card>
       </v-layout>
+      <v-layout row wrap>
+        <v-card elevation="0" class="param_holder">
+          <v-card-title class="param_header">
+            <span class="grey--text text-uppercase">True Positives</span>
+          </v-card-title>
+          <v-card-text class="param_content">
+            {{ truePositives }}
+          </v-card-text>
+        </v-card>
+        <v-divider vertical inset/>
+        <v-card elevation="0" class="param_holder">
+          <v-card-title class="param_header">
+            <span class="grey--text text-uppercase">False Positives</span>
+          </v-card-title>
+          <v-card-text class="param_content">
+            {{ falsePositives }}
+          </v-card-text>
+        </v-card>
+        <v-divider vertical inset/>
+        <v-card elevation="0" class="param_holder">
+          <v-card-title class="param_header">
+            <span class="grey--text text-uppercase">False Negatives</span>
+          </v-card-title>
+          <v-card-text class="param_content">
+            {{ falseNegatives }}
+          </v-card-text>
+        </v-card>
+        <v-card elevation="0" class="param_holder">
+          <v-card-title class="param_header">
+            <span class="grey--text text-uppercase">Result Length</span>
+          </v-card-title>
+          <v-card-text class="param_content">
+            {{ resultsCount }}
+          </v-card-text>
+        </v-card>
+        <v-divider vertical inset/>
+        <v-card elevation="0" class="param_holder">
+          <v-card-title class="param_header">
+            <span class="grey--text text-uppercase">Groundtruth Length</span>
+          </v-card-title>
+          <v-card-text class="param_content">
+            {{ groundtruthCount }}
+          </v-card-text>
+        </v-card>
+      </v-layout>
     </v-card-text>
   </v-card>
 </template>
@@ -105,6 +117,11 @@ export default {
       precision: 0.0,
       recall: 0.0,
       fOneScore: 0.0,
+      threshold: 0.1,
+      thresholdRules: [
+        v => !!v || 'Threshold is required',
+        v => (v && v <= 1 && v >= 0) || 'Must be between 0 and 1',
+      ],
     }
   },
   watch: {
@@ -113,11 +130,13 @@ export default {
     },
     groundtruth: function () {
       this.updateScores();
+    },
+    threshold: function () {
+      this.updateScores();
     }
   },
   methods: {
     updateScores() {
-      this.resultsCount = this.result.length;
       this.groundtruthCount = this.groundtruth.length;
       if (this.groundtruthCount === 0) {
         return;
@@ -127,14 +146,21 @@ export default {
           xs.size === ys.size &&
           [...xs].every((x) => ys.has(x));
 
+      let resultCountTemp = 0;    
       let truePositives = 0;
-      for (let set1 of this.result) {
-        for (let set2 of this.groundtruth) {
-          if (eqSet(set1, set2)) {
-            truePositives++;
+      for (let resultEntry of this.result) {
+        if (resultEntry.score >= this.threshold) {
+          resultCountTemp++;
+          let set1 = resultEntry.set;
+          for (let set2 of this.groundtruth) {
+            if (eqSet(set1, set2)) {
+              truePositives++;
+            }
           }
         }
       }
+
+      this.resultsCount = resultCountTemp;
       this.truePositives = truePositives;
       this.falsePositives = this.resultsCount - this.truePositives;
       this.falseNegatives = this.groundtruthCount - this.truePositives;
@@ -182,6 +208,6 @@ export default {
 }
 
 #holder {
-  max-height: 450px;
+  margin-bottom: 20px;
 }
 </style>

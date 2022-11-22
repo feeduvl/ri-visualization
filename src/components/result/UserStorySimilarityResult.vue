@@ -205,7 +205,7 @@ export default {
       if (!this.selectedDataset.ground_truth) {
         return []
       }
-      function getSimilarIds(ids_string){
+      function getIds(ids_string){
         ids_string = ids_string.replace(/\s/g, "");
         if (ids_string.length === 0) {
           return [];
@@ -215,11 +215,17 @@ export default {
 
       let groundtruthArrOfSets = [];
       for (let thruthElement of this.selectedDataset.ground_truth) {
-        let similar_ids = getSimilarIds(thruthElement.value);
+        let similar_ids = getIds(thruthElement.value);
         if (similar_ids.length === 0) {
           continue;
         }
         for (let similar_id of similar_ids){
+          if (this.selectedResult.params && this.selectedResult.params.focused_document_ids && this.selectedResult.params.focused_document_ids.trim()) {
+            let focused_ids = getIds(this.selectedResult.params.focused_document_ids);
+            if (!focused_ids.includes(thruthElement.id) && !focused_ids.includes(similar_id)) {
+              continue;
+            }
+          }
           let temp_set = new Set([thruthElement.id, similar_id]);
           if (isNotContained(temp_set, groundtruthArrOfSets)){
             groundtruthArrOfSets.push(temp_set);
@@ -234,14 +240,18 @@ export default {
         return []
       }
       let simResult = this.selectedResult.topics.similarity_results;
-      let resultArrOfSets = [];
+      let resultArrOfSetsWithScores = [];
       for (let result of simResult) {
         let tempSet = new Set([result.id_1, result.id_2]);
+        let resultArrOfSets = resultArrOfSetsWithScores.map(a => a.set);
         if (isNotContained(tempSet, resultArrOfSets)) {
-          resultArrOfSets.push(tempSet);
+          resultArrOfSetsWithScores.push({
+            score: result.score,
+            set: tempSet
+          });
         }
       }
-      return resultArrOfSets;
+      return resultArrOfSetsWithScores;
     },
   },
   components: {"groundtruth-comparison-us-similarity": () => import("@/components/widget/table/GroundtruthComparisonUsSimilarity"),},

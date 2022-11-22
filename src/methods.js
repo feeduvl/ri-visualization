@@ -98,7 +98,7 @@ export const METHODS = [
         name: "acceptance-criteria-completeness",
         displayName: "Acceptance Criteria Completeness",
         parameterComponentName: "ac-completeness-parameter",
-        parameterComponentPath: "./form/AcceptanceCriteriaCompleteness",
+        parameterComponentPath: "./form/AcceptanceCriteriaCompletenessParameter",
         resultComponentName: "acceptance-criteria-completeness-result",
         resultComponentPath: "./components/result/AcceptanceCriteriaCompletenessResult",
         scoreFunction: getSimilarAcC,
@@ -143,7 +143,7 @@ export function getRuntimeAcceptanceCriteria(result) {
 export function getSimilarUsCount(result) {
     let metric;
     try {
-        metric = result.metrics.similar_user_stories;
+        metric = result.metrics.similar_us_pairs;
     } catch(e) {
         metric = "–"
     }
