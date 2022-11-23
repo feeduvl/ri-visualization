@@ -165,6 +165,7 @@
                             :rules="[requiredAnnotationsPresent || 'Either a name or a category is required']"
                             :items="tores"
                             :value="tore"
+                            :menu-props="{ maxHeight: 600 }"
                             label="Category">
                     </v-autocomplete>
 
