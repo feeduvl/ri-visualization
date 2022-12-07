@@ -29,7 +29,11 @@ import {
   REDDIT_CRAWLER_ENDPOINT,
   REDDIT_CRAWLER_GET_JOBS_ENDPOINT,
   POST_CRAWLER_DATA_ENDPOINT,
-  DELETE_CRAWLER_JOB_ENDPOINT
+  DELETE_CRAWLER_JOB_ENDPOINT,
+  APP_REVIEW_CRAWLER_ENDPOINT,
+  APP_REVIEW_CRAWLER_GET_JOBS_ENDPOINT,
+  POST_APP_REVIEW_CRAWLER_DATA_ENDPOINT,
+  DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -618,6 +622,82 @@ export const actionStopOccurrence = (date) => {
   return new Promise(() => {
     console.log("Stop Job Occurrence");
     axios.put(DELETE_CRAWLER_JOB_ENDPOINT(date))
+      .then(() => {
+        console.log("Crawler Job Occurrence stopped");
+      })
+      .catch(e => {
+        console.error("Error stopping crawler job occurrence: " + e);
+      })
+  });
+};
+
+// app review crawler 
+export const actionCrawlApp = ({commit}, settings) => {
+  return new Promise(() => {
+    console.log("Initialize Reddit Crawl");
+    commit("setIsLoadingAppReviewCrawler", true);
+
+    axios
+      .post(APP_REVIEW_CRAWLER_ENDPOINT, settings)
+      .then(() => {
+        console.log("Crawling finished");
+        commit("setIsLoadingAppReviewCrawler", false);
+      })
+      .catch(e => console.error("Error: "+e));
+  });
+};
+
+export const actionGetAppReviewCrawlerJobs = ({commit}) => {
+  return new Promise(() => {
+    console.log("Getting all crawler jobs");
+    commit("setIsLoadingCrawlingJobs", true);
+    axios.get(APP_REVIEW_CRAWLER_GET_JOBS_ENDPOINT)
+      .then(response => {
+        console.log("Got all crawler jobs: ");
+        const {data} = response;
+        console.log(data);
+        commit("setAvailableAppReviewCrawlerJobs", data);
+        return response;
+      })
+      .catch(e => console.error("Error: "+e))
+      .finally(() => {
+        commit("setIsLoadingCrawlingJobs", false);
+      });
+  });
+};
+
+export const actionPostAppReviewCrawlerJobData = ({commit}, crawlerData) => {
+  return new Promise((resolve, reject) => {
+    console.log("Posting crawler data");
+    axios.post(POST_APP_REVIEW_CRAWLER_DATA_ENDPOINT, crawlerData)
+      .then(r => {
+        commit("setCrawlerData", crawlerData);
+        resolve(r);
+      })
+      .catch(e => {
+        console.error("Error posting data: "+e);
+        reject(e);
+      });
+  });
+};
+
+export const actionDeleteAppReviewCrawlerJobs = (date) => {
+  return new Promise(() => {
+    console.log("Deleting Crawler Job");
+    axios.delete(DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT(date))
+      .then(() => {
+        console.log("Crawler Job deleted");
+      })
+      .catch(e => {
+        console.error("Error deleting crawler job: " + e);
+      })
+  });
+};
+
+export const actionAppReviewCrawlerStopOccurrence = (date) => {
+  return new Promise(() => {
+    console.log("Stop Job Occurrence");
+    axios.put(DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT(date))
       .then(() => {
         console.log("Crawler Job Occurrence stopped");
       })

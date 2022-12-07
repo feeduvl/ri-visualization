@@ -139,8 +139,12 @@ export const store = new Vuex.Store({
 
     // REDDIT CRAWLER
     finishedCrawlerJobs: [],
-    isLoadingRedditCrawler: false
+    isLoadingRedditCrawler: false,
 
+    // APP REVIEW CRAWLER 
+    finishedAppReviewCrawlerJobs: [],
+    isLoadingAppReviewCrawler: false
+    
   },
   getters,
   mutations: {
@@ -457,6 +461,10 @@ export const store = new Vuex.Store({
     
     setAvailableCrawlerJobs(state, crawlingJobs){
       state.finishedCrawlerJobs = crawlingJobs || [];
+    },
+
+    setAvailableAppReviewCrawlerJobs(state, crawlingJobs){
+      state.finishedAppReviewCrawlerJobs = crawlingJobs || [];
     }
   },
 

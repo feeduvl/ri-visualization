@@ -435,3 +435,7 @@ export const updateResolvedStatusOfTokens = (state, {tokens, codeIndex}) => {
 export const setIsLoadingRedditCrawler = (state, isLoading) => {
   state.isLoadingRedditCrawler = isLoading;
 };
+
+export const setIsLoadingAppReviewCrawler = (state, isLoading) => {
+  state.isLoadingAppReviewCrawler = isLoading;
+};
