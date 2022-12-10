@@ -333,7 +333,7 @@
             let crawlerTaskString = JSON.stringify(crawlerTask)
 
             // dispatch crawler task
-            this.$store.dispatch("actionCrawlReddit", crawlerTaskString)
+            this.$store.dispatch("actionCrawlApp", crawlerTaskString)
 
             // store crawler job
             console.log("occurrence: "+this.schedule)
@@ -354,23 +354,23 @@
             }
 
             let crawlerTaskInDBString = JSON.stringify(crawlerTaskInDB)
-            this.$store.dispatch("actionPostCrawlerJobData", crawlerTaskInDBString)
+            this.$store.dispatch("actionPostAppReviewCrawlerJobData", crawlerTaskInDBString)
         },
 
         deleteCrawlerJob(job){
                 console.log(job);
-                this.$store.dispatch("actionDeleteCrawlerJobs", job.date)
+                this.$store.dispatch("actionDeleteAppReviewCrawlerJobs", job.date)
                 //this.crawlerJobDelete = null;
                 this.reloadFields()
         },
 
         stopJobReoccurance(job){
-            this.$store.dispatch("actionStopOccurrence", job.date)
+            this.$store.dispatch("actionAppReviewCrawlerStopOccurrence", job.date)
             this.reloadFields()
         },
 
         reloadFields(){
-            this.$store.dispatch("actionGetCrawlerJobs")
+            this.$store.dispatch("actionGetAppReviewCrawlerJobs")
         }
     }
     
