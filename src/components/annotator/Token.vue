@@ -116,7 +116,7 @@ export default {
 }
 
 .highlightTore {
-    color: var('--toreHighlightColor')
+    color: var(--toreHighlightColor)
 }
 
 .whitespace {
