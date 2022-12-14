@@ -88,6 +88,35 @@
                             </v-chip>
                         </template>
                     </v-autocomplete>
+
+                    <v-autocomplete
+                            chips
+                            multiple
+                            clearable
+                            label="Highlight Tores"
+                            class="annotator-toolbar__tore-select"
+                            :items="tores"
+                            :loading="$store.state.isLoadingAnnotation"
+                            :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
+                            v-model="annotatorTores"
+                    >
+                    <template v-slot:selection="data">
+                            <v-chip
+                                    v-bind="{...data.attrs, color: getToreHighlightColor(data.item)}"
+                                    :input-value="data.selected"
+                                    close
+                                    @input="(function(item) {
+                                    const index_selected_tores = $store.state.selected_tores.indexOf(item)
+                                    const selectedTores = $store.state.selected_tores
+                                    if (index_selected_tores >= 0) {
+                                        selectedTores.splice(index_selected_tores, 1)
+                                    }
+                                    $store.commit('updateSelectedTores', selectedTores)
+                                })(data.item)"
+                            >{{ data.item }}
+                            </v-chip>
+                        </template>
+                    </v-autocomplete>
                 </template>
                 <template
                         v-else>
@@ -180,6 +209,7 @@
                        linkedTogether: isLinking && $store.state.token_linked_together[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
                        isLinking: isLinking,
                        algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma?$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma.toLowerCase():''),
+                       show_tore: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].tore!==null && $store.state.selected_tores.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].tore),
                        show_pos: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos!==null && $store.state.selected_pos_tags.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos),
                        posClass: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos,
                        annotatorInputVisible: $store.state.annotatorInputVisible
@@ -227,7 +257,7 @@
 import Token from "@/components/annotator/Token";
 import AnnotatorInput from "@/components/annotator/AnnotatorInput";
 import CodeView from "@/components/annotator/CodeView";
-import {Code, Code_user_display_prompt} from "@/components/annotator/code";
+import {Code, Code_user_display_prompt, getToreHighlightColor} from "@/components/annotator/code";
 import {mapGetters, mapState} from "vuex";
 import AnnotatorSettings from "@/components/annotator/AnnotatorSettings";
 import EditConfigurablesDialog from "@/components/annotator/EditConfigurablesDialog";
@@ -334,6 +364,15 @@ export default {
                 }
             },
 
+            annotatorTores: {
+                get(){
+                    return this.$store.state.selected_tores;
+                },
+                set(value){
+                    this.$store.commit("updateSelectedTores", value)
+                }
+            },
+
             mustDisambiguateTokenCode(){
                 return this.requestAnnotatorInput && this.multipleCodesPromptList.length > 2 && this.disambiguatedTokenCode === null;
             },
@@ -393,7 +432,8 @@ export default {
                 "lastAnnotationEditAt",
                 "lastAnnotationPostAt",
                 "annotatorViewingCodeResults",
-                "selected_doc"
+                "selected_doc",
+                "tores"
             ])
         },
 
@@ -442,7 +482,7 @@ export default {
         },
 
         methods: {
-
+            getToreHighlightColor,
             hideEditConfigurables(){
                 this.showingEditConfigurablesPopup = false;
                 if(this.showingInput){

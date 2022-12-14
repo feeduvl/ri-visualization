@@ -60,6 +60,7 @@ export const store = new Vuex.Store({
     relationship_owners: [],  // tore at index i owns the relationship name at index i
     relationship_names: [],  // relationship types
     tores: [],  // tore categories
+    selected_tores: [],
 
     annotatorInputVisible: false,
     selected_code: null,

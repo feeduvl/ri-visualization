@@ -224,6 +224,10 @@ export const updateSelectedPosTags = (state, value) => {
   state.selected_pos_tags = value;
 };
 
+export const updateSelectedTores = (state, value) => {
+  state.selected_tores = value;
+};
+
 export const setTores = (state, tores) => {
   state.tores = tores;
 };
