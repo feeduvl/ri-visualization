@@ -110,6 +110,7 @@ export default {
 }
 
 .highlightTore {
+    border: 2px solid;
     border-color: #bd3518;
 }
 
