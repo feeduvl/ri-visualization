@@ -111,7 +111,6 @@
                                     if (index_selected_tores >= 0) {
                                         selectedTores.splice(index_selected_tores, 1)
                                     }
-                                    console.log("Selected Tores: " + selected_tores)
                                     $store.commit('updateSelectedTores', selectedTores)
                                 })(data.item)"
                             >{{ data.item }}
