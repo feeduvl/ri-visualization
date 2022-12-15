@@ -145,7 +145,7 @@ export const add_or_remove_token_selected_relationship_in_agreement = (state, to
 };
 
 export const setSelectedToken = (state, token) => {
-  //console.log("Selected token is: "+token)
+  console.log("Selected token is: "+token)
   state.selectedToken = token;
 };
 
@@ -226,7 +226,7 @@ export const updateSelectedPosTags = (state, value) => {
 
 export const updateSelectedTores = (state, value) => {
   state.selected_tores = value;
-  console.log("Selected Tores: " + value);
+  //console.log("Selected Tores: " + value);
 };
 
 export const setTores = (state, tores) => {
