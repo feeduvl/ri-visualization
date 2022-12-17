@@ -142,7 +142,7 @@
             <v-btn
                 class="ma-2"
                 :disabled="!isFormValid"
-                :loading="$store.state.isLoadingRedditCrawler"
+                :loading="$store.state.isLoadingAppReviewCrawler"
                 color="secondary"
                 @click="crawlerRun"
                 >
@@ -299,7 +299,7 @@
     computed: {
         
         crawlerJobs() {
-            return this.$store.state.finishedCrawlerJobs
+            return this.$store.state.finishedAppReviewCrawlerJobs
         }
 
     },
