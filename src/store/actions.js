@@ -634,7 +634,7 @@ export const actionStopOccurrence = (date) => {
 // app review crawler 
 export const actionCrawlApp = ({commit}, settings) => {
   return new Promise(() => {
-    console.log("Initialize Reddit Crawl");
+    console.log("Initialize App Review Crawl");
     commit("setIsLoadingAppReviewCrawler", true);
 
     axios
