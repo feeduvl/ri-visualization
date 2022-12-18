@@ -344,7 +344,7 @@
             }
 
             let crawlerTaskInDB = {
-                appUrl: this.appURL,
+                app_url: this.appURL,
                 date: new Date(),
                 occurrence: this.occurrence_days,
                 number_posts: 0,
