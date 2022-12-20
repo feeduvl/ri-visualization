@@ -4,6 +4,7 @@
         @click.shift="listeners['annotator-token-click-shift'](props.index)"
         @click.ctrl="listeners['annotator-token-click-ctrl'](props.index)" 
         :id="'token_'+props.index"
+        :style="{ '--toreHighlightColor': getToreHighlightColor(props.toreClass) }"
         class="annotator-token-inner" 
         :class="['token-inner-default',
         props.show_pos && !props.isLinking ? props.posClass:'token-outer-default', 'whitespace',
@@ -21,10 +22,15 @@
 </template>
 
 <script>
+import { getToreHighlightColor } from "@/components/annotator/code";
 
 export default {
     name: "Token",
     functional:true,
+
+    methods: {
+        getToreHighlightColor
+    },
 
     props: {
         name: {
@@ -72,6 +78,10 @@ export default {
             type: String,
             required: true
         },
+        toreClass: {
+            type: String,
+            required: true
+        },
         show_tore: {
             type: Boolean,
             required: true
@@ -111,7 +121,7 @@ export default {
 
 .highlightTore {
     border: 2px solid;
-    border-color: #bd3518;
+    border-color: var('--toreHighlightColor')
 }
 
 .whitespace {

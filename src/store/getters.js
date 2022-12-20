@@ -151,7 +151,6 @@ export const getToreFromToken = state => token => {
   for (let code of state.codes){
     if (code.tokens.includes(token.index)){
       toreFromToken = code.tore;
-      console.log("FOUND TORE: " + code.tore);
       break;
     }
   }
