@@ -147,7 +147,7 @@ export const
 export const token = state => index => state.tokens[index];
 
 export const getToreFromToken = state => token => {
-  let toreFromToken;
+  let toreFromToken = "";
   for (let code of state.codes){
     if (code.tokens.includes(token.index)){
       toreFromToken = code.tore;
