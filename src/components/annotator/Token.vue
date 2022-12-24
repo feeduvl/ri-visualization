@@ -4,6 +4,7 @@
         @click.shift="listeners['annotator-token-click-shift'](props.index)"
         @click.ctrl="listeners['annotator-token-click-ctrl'](props.index)" 
         :id="'token_'+props.index"
+        :style="{ '--toreHighlightColor': $options.methods.getToreHighlightColor(props.toreClass) }"
         class="annotator-token-inner" 
         :class="['token-inner-default',
         props.show_pos && !props.isLinking ? props.posClass:'token-outer-default', 'whitespace',
@@ -120,7 +121,7 @@ export default {
 
 .highlightTore {
     border: 2px solid;
-    border-color: yellow
+    border-color: var(--toreHighlightColor)
 }
 
 .whitespace {
