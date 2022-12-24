@@ -312,7 +312,7 @@
         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
         var yyyy = today.getFullYear();
 
-        this.dateTo = mm + '/' + dd + '/' + yyyy;
+        this.dateTo = dd + '/' + mm + '/' + yyyy;
         this.dateFrom = this.dateTo;
     },
 
