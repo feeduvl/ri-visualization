@@ -56,6 +56,11 @@
             <groundtruth-comparison-ac-completeness v-bind:result="tableResults" v-bind:groundtruth="groundtruth" />
         </v-flex>
         <v-flex xs12>
+            <v-card id="ac-completeness-result-view-widget">
+                <AnnotationResultACCompleteness :result="tableResults"/>
+            </v-card>
+        </v-flex>
+        <v-flex xs12>
             <v-card id="ac-completeness-result-table">
                 <v-card-title>
                     <h3>Similarity Results</h3>
@@ -95,6 +100,7 @@
   
 <script>
 import { mapGetters } from "vuex";
+import AnnotationResultACCompleteness from "@/components/widget/annotations/AnnotationResultACCompleteness";
 
 export default {
     name: "UserStorySimilarityResult",
@@ -118,7 +124,7 @@ export default {
             return this.selectedDataset.ground_truth;
         },
     },
-    components: { "groundtruth-comparison-ac-completeness": () => import("@/components/widget/table/GroundtruthComparisonACCompleteness"), },
+    components: { "groundtruth-comparison-ac-completeness": () => import("@/components/widget/table/GroundtruthComparisonACCompleteness"), AnnotationResultACCompleteness},
     data: function () {
         return {
             errors: [],
