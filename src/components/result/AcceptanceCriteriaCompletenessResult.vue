@@ -57,7 +57,7 @@
         </v-flex>
         <v-flex xs12>
             <v-card id="ac-completeness-result-view-widget">
-                <AnnotationResultACCompleteness :result="tableResults"/>
+                <AnnotationResultACCompleteness :results="tableResults"/>
             </v-card>
         </v-flex>
         <v-flex xs12>
