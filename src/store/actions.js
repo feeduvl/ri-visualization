@@ -684,6 +684,7 @@ export const actionPostAppReviewCrawlerJobData = ({commit}, crawlerData) => {
 export const actionDeleteAppReviewCrawlerJobs = (date) => {
   return new Promise(() => {
     console.log("Deleting Crawler Job");
+    console.log(date);
     axios.delete(DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT(date))
       .then(() => {
         console.log("Crawler Job deleted");
