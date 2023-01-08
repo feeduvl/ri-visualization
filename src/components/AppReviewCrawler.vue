@@ -363,9 +363,14 @@
         deleteCrawlerJob(job){  
                 console.log(job);
                 let year = job.date.year;
+                console.log(year);
                 let month = job.date.month - 1; // Javascript months are zero indexed
+                console.log(month);
                 let day = job.date.day;
+                console.log(day);
                 let date_new = new Date(year, month, day);
+                console.log("Date for toISOString");
+                console.log(date_new);
                 let dateString = date_new.toISOString();
                 this.$store.dispatch("actionDeleteAppReviewCrawlerJobs", dateString)
                 //this.crawlerJobDelete = null;
