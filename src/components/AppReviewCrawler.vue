@@ -362,6 +362,7 @@
 
         deleteCrawlerJob(job){
                 console.log(job);
+                console.log("Type of job.date");
                 console.log(typeof(job.date));
                 let dateString = job.date.toISOString();
                 this.$store.dispatch("actionDeleteAppReviewCrawlerJobs", dateString)
