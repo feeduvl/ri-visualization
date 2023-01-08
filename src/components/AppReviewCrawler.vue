@@ -360,11 +360,13 @@
             this.$store.dispatch("actionPostAppReviewCrawlerJobData", crawlerTaskInDBString)
         },
 
-        deleteCrawlerJob(job){
+        deleteCrawlerJob(job){  
                 console.log(job);
-                console.log("Type of job.date");
-                console.log(typeof(job.date));
-                let dateString = job.date.toISOString();
+                let year = job.date.year;
+                let month = job.date.month - 1; // Javascript months are zero indexed
+                let day = jod.date.day;
+                let date_new = new Date(year, month, day);
+                let dateString = date_new.toISOString();
                 this.$store.dispatch("actionDeleteAppReviewCrawlerJobs", dateString)
                 //this.crawlerJobDelete = null;
                 this.reloadFields()
