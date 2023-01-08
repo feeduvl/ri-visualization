@@ -363,8 +363,8 @@
         deleteCrawlerJob(job){  
                 console.log(job);
                 let date_new = new Date(job.date);
-                console.log(date_new.getFullYear());
-                this.$store.dispatch("actionDeleteAppReviewCrawlerJobs", job.date)
+                let dateString = date_new.toISOString();
+                this.$store.dispatch("actionDeleteAppReviewCrawlerJobs", dateString)
                 //this.crawlerJobDelete = null;
                 this.reloadFields()
         },
