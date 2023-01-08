@@ -365,6 +365,8 @@
                 let date_new = new Date(job.date);
                 let dateString = date_new.toISOString();
                 console.log(dateString);
+                let url = DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT(dateString);
+                console.log(url);
                 this.$store.dispatch("actionDeleteAppReviewCrawlerJobs", dateString)
                 //this.crawlerJobDelete = null;
                 this.reloadFields()
