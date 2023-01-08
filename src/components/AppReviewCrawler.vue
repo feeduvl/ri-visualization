@@ -363,6 +363,9 @@
         deleteCrawlerJob(job){  
                 console.log(job);
                 console.log(job.date);
+                console.log(job.date.getFullYear);
+                console.log(job.date.getMonth);
+                console.log(job.date.getDate);
                 this.$store.dispatch("actionDeleteAppReviewCrawlerJobs", job.date)
                 //this.crawlerJobDelete = null;
                 this.reloadFields()
