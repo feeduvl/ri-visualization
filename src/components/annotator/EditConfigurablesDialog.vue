@@ -18,8 +18,8 @@
                 <v-layout>
                     <v-select
                             label="Delete a Category Type"
-                            v-model="deleteToreModel"
-                            :items="tores"
+                            v-model="deleteAnnotationToreModel"
+                            :items="annotation_tores"
                             :loading="awaitingCallback"
                     >
                     </v-select>
@@ -28,9 +28,9 @@
                             bottom>
                         <template #activator="{on}">
                             <v-icon
-                                    :disabled="!deleteToreModel"
+                                    :disabled="!deleteAnnotationToreModel"
                                     v-on="on"
-                                    @click="deleteSelectedTore" class="annotator-input__trash"
+                                    @click="deleteSelectedAnnotationTore" class="annotator-input__trash"
                                     color="red">
                                 delete_outline
                             </v-icon>
@@ -40,7 +40,7 @@
                     </v-tooltip>
 
                     <v-text-field
-                            v-model="addNewToreValue"
+                            v-model="addNewAnnotationToreValue"
                             label="Add a new Category Type"
                             :loading="awaitingCallback"
                     >
@@ -49,10 +49,10 @@
                             bottom>
                         <template #activator="{on}">
                             <v-icon
-                                    :disabled="!addNewToreValue"
+                                    :disabled="!addNewAnnotationToreValue"
                                     v-on="on"
                                     color="blue"
-                                    @click="addNewTore">
+                                    @click="addNewAnnotationTore">
                                 add
                             </v-icon>
                         </template>
@@ -152,10 +152,12 @@
 
                 deleteRelationshipModel: null,
                 deleteToreModel: null,
+                deleteAnnotationToreModel: null,
 
                 addNewRelationshipName: null,
                 addNewRelationshipOwner: null,
                 addNewToreValue: null,
+                addNewAnnotationToreValue: null,
 
                 awaitingCallback: false
 
@@ -179,6 +181,10 @@
                 type: Array,
                 required: true
             },
+            annotation_tores: {
+                type: Array,
+                required: true
+            },
             relationship_owners: {
                 type: Array,
                 required: true
@@ -189,6 +195,27 @@
             }
         },
         methods: {
+            deleteSelectedAnnotationTore(){
+                this.awaitingCallback = true;
+                let i = this.$store.state.annotation_tores.indexOf(this.deleteAnnotationToreModel);
+                if(i===-1){
+                    console.error("Couldn't find selected delete tore value: "+this.deleteAnnotationToreModel+" in tores: "+this.annotation_tores);
+                    this.snackbarText = "Failed to update categories";
+                    this.snackbarVisible = true;
+                } else {
+                    this.$store.state.annotation_tores.splice(i, 1);
+                    try {
+                        this.snackbarText = "Deleted Category: "+this.deleteAnnotationToreModel;
+                    } catch {
+                        this.snackbarText = "Failed to update categories";
+                    } finally {
+                        this.deleteAnnotationToreModel = null;
+                        this.snackbarVisible = true;
+                        this.awaitingCallback = false;
+                    }
+                }
+            },
+
             deleteSelectedTore(){
                 this.awaitingCallback = true;
                 let newTores = [...this.tores]
@@ -254,6 +281,20 @@
                 });
             },
 
+            addNewAnnotationTore(){
+                this.$store.state.annotation_tores.push[this.addNewAnnotationToreValue];
+                try {
+                this.snackbarText = "Added Category: " + this.addNewAnnotationToreValue;
+                } catch {
+                this.snackbarText = "Failed to update Categories";
+                }
+                finally {
+                this.addNewAnnotationToreValue = null;
+                this.snackbarVisible = true;
+                this.awaitingCallback = false;
+                }
+            },
+            
             addNewTore(){
                 this.awaitingCallback = true;
                 let newTores = [...this.tores]

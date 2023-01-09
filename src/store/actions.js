@@ -297,7 +297,8 @@ export const actionPostCurrentAnnotation = ({state, commit}) => {
       tokens: postTokens,
       tore_relationships: state.tore_relationships,
       codes: state.codes,
-      docs: state.docs.slice(1, state.docs.length)
+      docs: state.docs.slice(1, state.docs.length),
+      tores: state.annotation_tores
     })
       .then(() => {
         console.log("Got annotation POST response");

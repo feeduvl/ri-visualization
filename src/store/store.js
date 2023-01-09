@@ -60,6 +60,7 @@ export const store = new Vuex.Store({
     relationship_owners: [],  // tore at index i owns the relationship name at index i
     relationship_names: [],  // relationship types
     tores: [],  // tore categories
+    annotation_tores: [],
     selected_tores: [],
 
     annotatorInputVisible: false,
@@ -220,8 +221,10 @@ export const store = new Vuex.Store({
     },
 
     // eslint-disable-next-line camelcase
-    setAnnotationPayload(state, {name, tokens, codes, tore_relationships, docs, uploaded_at, dataset}){
+    setAnnotationPayload(state, {name, tokens, codes, tore_relationships, docs, uploaded_at, dataset, tores}){
       // eslint-disable-next-line camelcase
+      state.annotation_tores = tores;
+      console.log("Set Annotation Payload: " + state.annotation_tores);
       state.annotator_uploaded_at = uploaded_at;
       state.annotator_dataset = dataset;
       for (let token of tokens){
@@ -425,6 +428,7 @@ export const store = new Vuex.Store({
       state.docs = [];
       state.codes = [];
       state.tore_relationships = [];
+      state.annotation_tores = [];
 
       this.commit("initTokensEfficiencyStructs", true);
     },

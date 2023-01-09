@@ -94,7 +94,6 @@
                             multiple
                             clearable
                             label="Highlight Tores"
-                            class="annotator-toolbar__tore-select"
                             :items="tores"
                             :loading="$store.state.isLoadingAnnotation"
                             :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
@@ -435,7 +434,8 @@ export default {
                 "lastAnnotationPostAt",
                 "annotatorViewingCodeResults",
                 "selected_doc",
-                "tores"
+                "tores",
+                "annotation_tores"
             ])
         },
 
