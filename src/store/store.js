@@ -223,10 +223,10 @@ export const store = new Vuex.Store({
     // eslint-disable-next-line camelcase
     setAnnotationPayload(state, {name, tokens, codes, tore_relationships, docs, uploaded_at, dataset, tores}){
       // eslint-disable-next-line camelcase
-      if(!tores){
+      if(tores !== null){
         state.annotation_tores = tores;
       }
-      console.log("Set Annotation Payload: " + state.annotation_tores);
+      console.log("Set Annotation Payload: " + tores);
       state.annotator_uploaded_at = uploaded_at;
       state.annotator_dataset = dataset;
       for (let token of tokens){
