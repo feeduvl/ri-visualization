@@ -283,7 +283,7 @@
 
             addNewAnnotationTore(){
                 this.annotation_tores.push[this.addNewAnnotationToreValue];
-                console.log("Annotation Tores: " + $store.state.annotation_tores)
+                console.log("Annotation Tores: " + this.annotation_tores)
                 try {
                 this.snackbarText = "Added Category: " + this.addNewAnnotationToreValue;
                 } catch {
