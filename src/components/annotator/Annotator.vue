@@ -13,7 +13,8 @@
                 :show="showingEditConfigurablesPopup"
                 :relationship_names="[...$store.state.relationship_names]"
                 :relationship_owners="[...$store.state.relationship_owners]"
-                :tores="[...$store.state.tores]">
+                :tores="[...$store.state.tores]"
+                :annotation_tores="[...$store.state.annotation_tores]">
         </EditConfigurablesDialog>
 
         <AnnotatorSettings
