@@ -280,6 +280,7 @@ export const actionGetAllAgreements = ({commit}) => {
 export const actionPostCurrentAnnotation = ({state, commit}) => {
   return new Promise(() => {
     console.log("Posting annotation: "+state.selected_annotation);
+    console.log("Annotation Tores: " + state.annotation_tores)
     commit("postAnnotationCallback");
     let postTokens = [];
     for (let t of state.tokens){
