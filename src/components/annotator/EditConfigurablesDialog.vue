@@ -67,6 +67,37 @@
             <v-card>
                 <v-container>
                     <v-layout>
+                        <v-select 
+                            label="Rename Category" 
+                            v-model="oldCategoryName"
+                            :items="$store.state.annotation_tores">
+                        </v-select>
+                        
+                        <v-text-field 
+                            :disabled="!oldCategoryName" 
+                            v-model="newCategoryName" 
+                            label="Enter new Name">
+                        </v-text-field>
+
+                        <v-tooltip bottom>
+                            <template #activator="{ on }">
+                                <v-icon 
+                                        :disabled="!newCategoryName" 
+                                        v-on="on" 
+                                        @click="renameSelectedCategory"
+                                        color="green">
+                                    mode_edit_outline
+                                </v-icon>
+                            </template>
+                            <span>Rename selected Category</span>
+                        </v-tooltip>
+                    </v-layout>
+                </v-container>
+            </v-card>
+
+            <v-card>
+                <v-container>
+                    <v-layout>
                     <v-select
                             label="Delete a Relationship Type"
                             v-model="deleteRelationshipModel"
@@ -158,6 +189,9 @@
                 addNewRelationshipOwner: null,
                 addNewToreValue: null,
                 addNewAnnotationToreValue: null,
+
+                newCategoryName: null,
+                oldCategoryName: null,
 
                 awaitingCallback: false
 
@@ -318,6 +352,22 @@
                     this.snackbarVisible = true
                     this.awaitingCallback = false;
                 });
+
+            },
+            renameSelectedCategory() {
+                let index = this.$store.state.annotation_tores.indexOf(this.oldCategoryName);
+                this.$store.state.annotation_tores.push(this.newCategoryName);
+                this.$store.state.annotation_tores.splice(index, 1);
+                try {
+                    this.snackbarText = "Category: " + this.oldCategoryName + "renamed to " + this.newCategoryName;
+                }
+                catch {
+                    this.snackbarText = "Failed to rename Category";
+                }
+                finally {
+                    this.newCategoryName = null;
+                    this.oldCategoryName = null;
+                }
 
             }
         }
