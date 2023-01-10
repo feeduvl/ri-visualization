@@ -321,10 +321,6 @@
             addNewAnnotationTore(){
                 this.awaitingCallback = true;
                 this.$store.state.annotation_tores.push(this.addNewAnnotationToreValue);
-                console.log("Annotation Tores: " + this.$store.state.annotation_tores)
-                //let newTores = [...this.annotation_tores]
-                //newTores.push(this.addNewAnnotationToreValue);
-                //console.log("Annotation Tores: " + newTores)
                 try {
                 this.snackbarText = "Added Category: " + this.addNewAnnotationToreValue;
                 } catch {
@@ -366,6 +362,7 @@
                 }
                 finally {
                     this.newCategoryName = null;
+                    this.snackbarVisible = true;
                     this.oldCategoryName = null;
                 }
 
