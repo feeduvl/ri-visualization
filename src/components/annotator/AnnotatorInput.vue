@@ -163,7 +163,7 @@
                             class="annotator-input__tore"
                             @change="updateTore"
                             :rules="[requiredAnnotationsPresent || 'Either a name or a category is required']"
-                            :items="tores"
+                            :items="annotation_tores"
                             :value="tore"
                             :menu-props="{ maxHeight: 600 }"
                             label="Category">
@@ -291,7 +291,7 @@
                 "showingInput",
                 "getCodesForToken"]),
 
-            ...mapState(["relationship_names", "tores"]),
+            ...mapState(["relationship_names", "tores", "annotation_tores"]),
 
             allowedRelationshipNames(){
                 return this.$store.state.relationship_names.filter((name, index) => {

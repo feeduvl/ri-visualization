@@ -197,7 +197,7 @@
         methods: {
             deleteSelectedAnnotationTore(){
                 this.awaitingCallback = true;
-                this.$store.state.annotation_tores.indexOf(this.deleteAnnotationToreModel);
+                let i = this.$store.state.annotation_tores.indexOf(this.deleteAnnotationToreModel);
                 //let newTores = [...this.annotation_tores]
                 //let i = newTores.indexOf(this.deleteAnnotationToreModel);
                 if(i===-1){

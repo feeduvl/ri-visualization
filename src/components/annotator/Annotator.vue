@@ -95,7 +95,7 @@
                             multiple
                             clearable
                             label="Highlight Tores"
-                            :items="tores"
+                            :items="annotation_tores"
                             :loading="$store.state.isLoadingAnnotation"
                             :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
                             v-model="annotatorTores"
