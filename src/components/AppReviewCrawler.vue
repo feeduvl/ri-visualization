@@ -362,12 +362,8 @@
 
         deleteCrawlerJob(job){  
                 console.log(job);
-                let date_new = new Date(job.date);
-                let dateString = date_new.toISOString();
-                console.log(dateString);
-                let url = `/hitec/repository/concepts/store/app_review_crawler/jobs/${dateString}`;
                 console.log(url);
-                this.$store.dispatch("actionDeleteAppReviewCrawlerJobs", dateString)
+                this.$store.dispatch("actionDeleteAppReviewCrawlerJobs", job.date)
                 //this.crawlerJobDelete = null;
                 this.reloadFields()
         },
