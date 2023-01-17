@@ -355,7 +355,7 @@
                 this.$store.state.annotation_tores.push(this.newCategoryName);
                 this.$store.state.annotation_tores.splice(index, 1);
                 try {
-                    this.snackbarText = "Category: " + this.oldCategoryName + "renamed to " + this.newCategoryName;
+                    this.snackbarText = "Category: " + this.oldCategoryName + " renamed to " + this.newCategoryName;
                 }
                 catch {
                     this.snackbarText = "Failed to rename Category";
