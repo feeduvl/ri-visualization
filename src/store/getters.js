@@ -147,14 +147,15 @@ export const
 export const token = state => index => state.tokens[index];
 
 export const getToreFromToken = state => token => {
+  console.log("getToreFromToken Beginn: "+ (token?token.name:"null"));
   let toreFromToken = "";
   for (let code of state.codes){
     if (code.tokens.includes(token.index)){
       toreFromToken = code.tore;
-      console.log("getToreFromToken " + toreFromToken);
       break;
     }
   }
+  console.log("getToreFromToken Ende: " + toreFromToken);
   return toreFromToken;
 };
 
