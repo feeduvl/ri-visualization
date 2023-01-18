@@ -150,6 +150,7 @@ export const getToreFromToken = state => token => {
   console.log("getToreFromToken Beginn: "+ (token?token.name:"null"));
   let toreFromToken = "";
   for (let code of state.codes){
+    console.log("getToreFromToken: " + ", state.codes: " + state.codes + ", code: " + code + ", token.index: " + token.index + ", code.tokens: " + code.tokens + ", code.tore " + code.tore);
     if (code.tokens.includes(token.index)){
       toreFromToken = code.tore;
       break;
