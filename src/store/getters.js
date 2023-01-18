@@ -149,13 +149,14 @@ export const token = state => index => state.tokens[index];
 export const getToreFromToken = state => token => {
   let toreFromToken = "";
   for (let code of state.codes){
-    if (code.tore !== null && code.tokens.includes(token.index)){
+    if (code.tokens.includes(token.index)){
       toreFromToken = code.tore;
+      console.log("getToreFromToken " + toreFromToken);
       break;
     }
   }
   return toreFromToken;
-}
+};
 
 export const getCodesForToken = state => token => {
   console.log("getCodesForToken: "+(token?token.name:"null"));
