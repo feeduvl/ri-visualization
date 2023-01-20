@@ -348,7 +348,7 @@
             }
 
             let crawlerTaskInDB = {
-                app_id: crawlerTask["app_id"],
+                app_id: this.appURL.match(/id=([^&]+)/)[1],
                 date: new Date(),
                 app_occurrence: this.occurrence_days,
                 app_number_posts: 0,
