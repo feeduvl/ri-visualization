@@ -234,6 +234,7 @@
     export default {
         name: "AppReviewCrawler",
         data: () => ({
+            appName: '',
             appURL: '',
             datasetName: '',
             collectionNamesItems: [],
@@ -323,6 +324,7 @@
     methods: {
         crawlerRun(){
             let crawlerTask = {
+                app_name: this.appName,
                 app_url: this.appURL,
                 dataset_name : this.datasetName,
                 date_from : this.dateFrom,
@@ -352,6 +354,7 @@
             }
 
             let crawlerTaskInDB = {
+                app_name:this.appName,
                 app_url: this.appURL,
                 date: new Date(),
                 occurrence: this.occurrence_days,
