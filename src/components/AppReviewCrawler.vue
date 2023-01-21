@@ -194,9 +194,9 @@
                 :items-per-page="5"
             >
                 <template v-slot:items="props">
-                    <td>{{ props.item.app_name }}</td>
+                    <td>{{ props.item.app_url }}</td>
                     <td>{{ props.item.date }}</td>
-                    <td>{{ props.item.app_occurrence }}</td>
+                    <td>{{ props.item.occurrence }}</td>
                     <td>{{ props.item.dataset_name }}</td>
                     <td><span class="icon-column">
                             <v-tooltip bottom>
@@ -255,10 +255,10 @@
 
             tableHeaders: [
                     {
-                        text: "App",
+                        text: "App Url",
                         sortable: true,
                         width: "25%",
-                        value: "app_name",
+                        value: "app_url",
                     },
                     {
                         text: "Date",
@@ -273,7 +273,7 @@
                         align: "center",
                         sortable: true,
                         width: "10%",
-                        value: "app_occurrence",
+                        value: "occurrence",
                         filterable: false,
                     },
                     {
@@ -326,7 +326,6 @@
     methods: {
         crawlerRun(){
             let crawlerTask = {
-                app_name: this.appName,
                 app_url: this.appURL,
                 dataset_name : this.datasetName,
                 date_from : this.dateFrom,
@@ -356,11 +355,10 @@
             }
 
             let crawlerTaskInDB = {
-                app_name: this.appName,
                 app_url: this.appURL,
                 date: new Date(),
-                app_occurrence: this.occurrence_days,
-                app_number_posts: 0,
+                occurrence: this.occurrence_days,
+                number_posts: 0,
                 dataset_name: this.datasetName,
                 // request data
                 request: crawlerTask,
@@ -372,6 +370,7 @@
 
         deleteCrawlerJob(job){  
                 console.log(job);
+                console.log(url);
                 this.$store.dispatch("actionDeleteAppReviewCrawlerJobs", job.date)
                 //this.crawlerJobDelete = null;
                 this.reloadFields()
