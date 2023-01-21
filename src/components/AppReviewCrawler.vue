@@ -253,6 +253,12 @@
 
             tableHeaders: [
                     {
+                        text: "App",
+                        sortable: true,
+                        width: "25%",
+                        value: "app_name"
+                    },
+                    {
                         text: "App Url",
                         sortable: true,
                         width: "25%",
