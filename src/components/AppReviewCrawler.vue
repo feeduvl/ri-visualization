@@ -20,6 +20,13 @@
                     <v-container class="App-selection">
                         <!-- Using chips to enter multiple subreddit names -->
                         <v-card>
+                            <v-text-field 
+                                v-model="appName"
+                                label="Enter name of the respective app"
+                                :rules=[rules.required]
+                            ></v-text-field>
+                        </v-card>
+                        <v-card>
                             <v-text-field
                                 v-model="appURL"
                                 label="Enter url of the respective app"
@@ -229,6 +236,7 @@
     export default {
         name: "AppReviewCrawler",
         data: () => ({
+            appName: '',
             appURL: '',
             datasetName: '',
             collectionNamesItems: [],
@@ -247,10 +255,10 @@
 
             tableHeaders: [
                     {
-                        text: "App ID",
+                        text: "App",
                         sortable: true,
                         width: "25%",
-                        value: "app_id",
+                        value: "app_name",
                     },
                     {
                         text: "Date",
@@ -318,7 +326,7 @@
     methods: {
         crawlerRun(){
             let crawlerTask = {
-                app_id: this.appURL.match(/id=([^&]+)/)[1],
+                app_name: this.appName,
                 app_url: this.appURL,
                 dataset_name : this.datasetName,
                 date_from : this.dateFrom,
@@ -348,7 +356,8 @@
             }
 
             let crawlerTaskInDB = {
-                app_id: this.appURL.match(/id=([^&]+)/)[1],
+                app_name: this.appName,
+                app_url: this.appURL,
                 date: new Date(),
                 app_occurrence: this.occurrence_days,
                 app_number_posts: 0,
