@@ -247,10 +247,10 @@
 
             tableHeaders: [
                     {
-                        text: "App URL",
+                        text: "App ID",
                         sortable: true,
                         width: "25%",
-                        value: "app_url",
+                        value: "app_id",
                     },
                     {
                         text: "Date",
@@ -318,6 +318,7 @@
     methods: {
         crawlerRun(){
             let crawlerTask = {
+                app_id: this.appURL.match(/id=([^&]+)/)[1],
                 app_url: this.appURL,
                 dataset_name : this.datasetName,
                 date_from : this.dateFrom,
@@ -347,7 +348,7 @@
             }
 
             let crawlerTaskInDB = {
-                app_url: this.appURL,
+                app_id: this.appURL.match(/id=([^&]+)/)[1],
                 date: new Date(),
                 app_occurrence: this.occurrence_days,
                 app_number_posts: 0,
