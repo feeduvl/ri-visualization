@@ -273,7 +273,7 @@
                         align: "center",
                         sortable: true,
                         width: "10%",
-                        value: "occurrence",
+                        value: "app_occurrence",
                         filterable: false,
                     },
                     {
@@ -359,8 +359,8 @@
                 app_name:this.appName,
                 app_url: this.appURL,
                 date: new Date(),
-                occurrence: this.occurrence_days,
-                number_posts: 0,
+                app_occurrence: this.occurrence_days,
+                app_number_posts: 0,
                 dataset_name: this.datasetName,
                 // request data
                 request: crawlerTask,
