@@ -671,6 +671,7 @@ export const actionGetAppReviewCrawlerJobs = ({commit}) => {
 export const actionPostAppReviewCrawlerJobData = ({commit}, crawlerData) => {
   return new Promise((resolve, reject) => {
     console.log("Posting crawler data");
+    console.log(crawlerData);
     axios.post(POST_APP_REVIEW_CRAWLER_DATA_ENDPOINT, crawlerData)
       .then(r => {
         commit("setCrawlerData", crawlerData);
