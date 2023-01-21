@@ -258,7 +258,7 @@
                         text: "App Url",
                         sortable: true,
                         width: "25%",
-                        value: "app_url",
+                        value: "app_id",
                     },
                     {
                         text: "Date",
