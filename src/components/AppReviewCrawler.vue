@@ -255,13 +255,13 @@
                     {
                         text: "App",
                         sortable: true,
-                        width: "25%",
+                        width: "15%",
                         value: "app_name"
                     },
                     {
                         text: "App Url",
                         sortable: true,
-                        width: "25%",
+                        width: "15%",
                         value: "app_url",
                     },
                     {
@@ -285,7 +285,7 @@
                         align: "left",
                         sortable: false,
                         value: "dataset_name",
-                        width: "25%",
+                        width: "20%",
                         filterable: false,
                     },
                     {
