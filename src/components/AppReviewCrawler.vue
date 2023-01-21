@@ -20,13 +20,6 @@
                     <v-container class="App-selection">
                         <!-- Using chips to enter multiple subreddit names -->
                         <v-card>
-                            <v-text-field 
-                                v-model="appName"
-                                label="Enter name of the respective app"
-                                :rules=[rules.required]
-                            ></v-text-field>
-                        </v-card>
-                        <v-card>
                             <v-text-field
                                 v-model="appURL"
                                 label="Enter url of the respective app"
@@ -236,7 +229,6 @@
     export default {
         name: "AppReviewCrawler",
         data: () => ({
-            appName: '',
             appURL: '',
             datasetName: '',
             collectionNamesItems: [],
