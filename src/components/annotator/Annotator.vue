@@ -262,7 +262,6 @@ import {Code, Code_user_display_prompt, getToreHighlightColor} from "@/component
 import {mapGetters, mapState} from "vuex";
 import AnnotatorSettings from "@/components/annotator/AnnotatorSettings";
 import EditConfigurablesDialog from "@/components/annotator/EditConfigurablesDialog";
-import actionGetRecommendationTores from "@/store/actions";
 
 export default {
         name: "Annotator",
@@ -625,7 +624,7 @@ export default {
                 console.log("tokenClicked --> toreFromToken: " + toreFromToken)
                 if(toreFromToken === ""){
                     let tokenName = token.name;
-                    actionGetRecommendationTores(tokenName);
+                    this.$store.dispatch('actionGetRecommendationTores',tokenName);
                 }
                 console.log("tokenClicked: " + this.$store.state.recommendationTores);
                 if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
