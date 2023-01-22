@@ -61,6 +61,7 @@ export const store = new Vuex.Store({
     relationship_names: [],  // relationship types
     tores: [],  // tore categories
     annotation_tores: [],
+    recommendationTores: [],
     selected_tores: [],
 
     annotatorInputVisible: false,

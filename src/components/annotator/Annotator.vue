@@ -94,7 +94,7 @@
                             chips
                             multiple
                             clearable
-                            label="Highlight Tores"
+                            label="Highlight Tore"
                             :items="annotation_tores"
                             :loading="$store.state.isLoadingAnnotation"
                             :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
@@ -262,6 +262,7 @@ import {Code, Code_user_display_prompt, getToreHighlightColor} from "@/component
 import {mapGetters, mapState} from "vuex";
 import AnnotatorSettings from "@/components/annotator/AnnotatorSettings";
 import EditConfigurablesDialog from "@/components/annotator/EditConfigurablesDialog";
+import actionGetRecommendationTores from "@/store/actions";
 
 export default {
         name: "Annotator",
@@ -617,6 +618,15 @@ export default {
             },
 
             tokenClicked(index){
+                //get recommendationTores if token has no Tore
+                let toreFromToken = this.getToreFromToken(this.$store.state.tokens[index]);
+                console.log("tokenClicked:" + this.$store.state.tokens[index])
+                if(toreFromToken === ""){
+                    console.log("tokenClicked:" + this.$store.state.tokens[index].name)
+                    let tokenName = this.$store.state.tokens[index].name;
+                    actionGetRecommendationTores(tokenName);
+                }
+                console.log("tokenClicked: " + this.$store.state.recommendationTores);
                 if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
                     console.log("Missing required input, ignoring focus out")
                     return;

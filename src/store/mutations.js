@@ -226,11 +226,14 @@ export const updateSelectedPosTags = (state, value) => {
 
 export const updateSelectedTores = (state, value) => {
   state.selected_tores = value;
-  //console.log("Selected Tores: " + value);
 };
 
 export const setTores = (state, tores) => {
   state.tores = tores;
+};
+
+export const setRecommendationTores = (state, recommendationTores) => {
+  state.recommendationTores = recommendationTores;
 };
 
 export const setRelationshipNames = (state, relationship_names) => {
