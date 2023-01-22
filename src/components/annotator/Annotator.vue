@@ -619,11 +619,11 @@ export default {
 
             tokenClicked(index){
                 //get recommendationTores if token has no Tore
-                let toreFromToken = getToreFromToken(this.$store.state.tokens[index]);
-                console.log("tokenClicked:" + this.$store.state.tokens[index])
+                console.log("tokenClicked: " + this.token(index))
+                let toreFromToken = getToreFromToken(this.token(index));
                 if(toreFromToken === ""){
-                    console.log("tokenClicked:" + this.$store.state.tokens[index].name)
-                    let tokenName = this.$store.state.tokens[index].name;
+                    console.log("tokenClicked:" + this.token[index].name)
+                    let tokenName = this.token[index].name;
                     actionGetRecommendationTores(tokenName);
                 }
                 console.log("tokenClicked: " + this.$store.state.recommendationTores);
