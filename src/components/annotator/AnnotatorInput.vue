@@ -291,7 +291,7 @@
                 "showingInput",
                 "getCodesForToken"]),
 
-            ...mapState(["relationship_names", "tores", "annotation_tores"]),
+            ...mapState(["relationship_names", "tores", "annotation_tores", "recommendationTores"]),
 
             allowedRelationshipNames(){
                 return this.$store.state.relationship_names.filter((name, index) => {
@@ -323,7 +323,22 @@
                 },
             },
             tore(){
-                return this.selected_code.tore;
+                console.log("tore: " + this.selected_code.tore)
+                if(this.selected_code.tore === "") {
+                    return this.getRecommendationTores;
+                } else {
+                    return this.selected_code.tore;
+                }
+            },
+            getRecommendationTores() {
+                let annotation_tores = this.annotation_tores;
+                let recommendationTores = this.recommendationTores;
+                for (let i = 0; i < recommendationTores.length; i++) {
+                    if (annotation_tores.includes(recommendationTores[i])) {
+                        return recommendationTores[i];
+                    }
+                }
+                return "";
             },
             relationshipName(){
                 let r = this.$store.state.selected_tore_relationship
