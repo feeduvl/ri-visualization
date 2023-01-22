@@ -109,11 +109,11 @@ export const actionGetAllTores = ({commit}) => {
 
 export const actionGetRecommendationTores = ({commit, tokenName}) => {
   return new Promise(() => {
-    console.log("Getting all RecommendationTores.");
+    console.log("Getting all RecommendationTores for: " + tokenName);
     axios.get(GET_RECOMMENDATIONTORES_ENDPOINT(tokenName))
       .then(response => {
         const {recommendationTores} = response.data;
-        console.log("Got all RecommendationTores.");
+        console.log("Got all RecommendationTores: " + recommendationTores);
         commit("setRecommendationTores", recommendationTores);
       })
       .catch(e => console.error("Error getting RecommendationTores: "+e));
