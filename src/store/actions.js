@@ -112,7 +112,7 @@ export const actionGetRecommendationTores = ({commit}, tokenName) => {
     console.log("Getting all RecommendationTores for: " + tokenName);
     axios.get(GET_RECOMMENDATIONTORES_ENDPOINT(tokenName))
       .then(response => {
-        const {recommendationTores} = response.data;
+        const {recommendationTores} = response;
         console.log("Got all RecommendationTores: " + recommendationTores);
         commit("setRecommendationTores", recommendationTores);
       })
