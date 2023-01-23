@@ -372,7 +372,6 @@
 
         deleteCrawlerJob(job){  
                 console.log(job);
-                console.log(url);
                 this.$store.dispatch("actionDeleteAppReviewCrawlerJobs", job.date)
                 //this.crawlerJobDelete = null;
                 this.reloadFields()
