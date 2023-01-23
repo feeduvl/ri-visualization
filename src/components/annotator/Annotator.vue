@@ -94,7 +94,7 @@
                             chips
                             multiple
                             clearable
-                            label="Highlight Tores"
+                            label="Highlight Tore"
                             :items="annotation_tores"
                             :loading="$store.state.isLoadingAnnotation"
                             :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
@@ -617,11 +617,21 @@ export default {
             },
 
             tokenClicked(index){
+                let token = this.token(index)
+                //get recommendationTores if token has no Tore
+                console.log("tokenClicked: " + token.name)
+                let toreFromToken = this.getToreFromToken(token);
+                console.log("tokenClicked --> toreFromToken: " + toreFromToken)
+                if(toreFromToken === ""){
+                    let tokenName = token.name;
+                    this.$store.dispatch('actionGetRecommendationTores',tokenName);
+                }
+                console.log("tokenClicked: " + this.$store.state.recommendationTores);
                 if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
                     console.log("Missing required input, ignoring focus out")
                     return;
                 }
-                let token = this.token(index)
+                //let token = this.token(index)
                 this.updateSelectedToken(token);
                 if(!this.isLinking){
                     if(this.selected_code && this.selected_code.tokens.includes(index)){

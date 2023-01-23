@@ -26,6 +26,7 @@ import {
   POST_ALL_TORES_ENDPOINT,
   GET_ALL_RELATIONSHIPS_ENDPOINT,
   GET_ALL_TORES_ENDPOINT,
+  GET_RECOMMENDATIONTORES_ENDPOINT,
   REDDIT_CRAWLER_ENDPOINT,
   REDDIT_CRAWLER_GET_JOBS_ENDPOINT,
   POST_CRAWLER_DATA_ENDPOINT,
@@ -105,6 +106,20 @@ export const actionGetAllTores = ({commit}) => {
       .catch(e => console.error("Error getting tores: "+e));
   });
 };
+
+export const actionGetRecommendationTores = ({commit}, tokenName) => {
+  return new Promise(() => {
+    console.log("Getting all RecommendationTores for: " + tokenName);
+    axios.get(GET_RECOMMENDATIONTORES_ENDPOINT(tokenName))
+      .then(response => {
+        const {recommendationTores} = response.data;
+        console.log("Got all RecommendationTores: " + recommendationTores);
+        commit("setRecommendationTores", recommendationTores);
+      })
+      .catch(e => console.error("Error getting RecommendationTores: "+e));
+  });
+};
+
 
 export const actionGetNewAnnotation = ({
   commit
