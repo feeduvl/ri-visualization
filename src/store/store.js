@@ -224,10 +224,9 @@ export const store = new Vuex.Store({
     // eslint-disable-next-line camelcase
     setAnnotationPayload(state, {name, tokens, codes, tore_relationships, docs, uploaded_at, dataset, tores}){
       // eslint-disable-next-line camelcase
-      if(tores !== null){
+      if (tores !== null){
         state.annotation_tores = tores;
       }
-      console.log("Set Annotation Payload: " + tores);
       state.annotator_uploaded_at = uploaded_at;
       state.annotator_dataset = dataset;
       for (let token of tokens){
@@ -237,6 +236,13 @@ export const store = new Vuex.Store({
       state.tokens = tokens;
       this.commit("initTokensEfficiencyStructs", false);
       state.codes = codes;
+      console.log("-----------setAnnotationPayload------------");
+      for (let code of codes){
+        console.log("Code: " + code.name + "/" + code.tore);
+        for (let token of code.tokens) {
+          console.log(token.name);
+        }
+      }
       // eslint-disable-next-line camelcase
       state.tore_relationships = tore_relationships;
       let newDocs = [state.all_docs].concat(docs);

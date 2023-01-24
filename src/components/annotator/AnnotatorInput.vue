@@ -335,6 +335,7 @@
                 let recommendationTores = this.recommendationTores;
                 for (let i = 0; i < recommendationTores.length; i++) {
                     if (annotation_tores.includes(recommendationTores[i])) {
+                        this.updateTore(recommendationTores[i]);
                         return recommendationTores[i];
                     }
                 }
