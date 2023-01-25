@@ -62,6 +62,7 @@ export const store = new Vuex.Store({
     tores: [],  // tore categories
     annotation_tores: [],
     recommendationTores: [],
+    showRecommendationTore: false,
     selected_tores: [],
 
     annotatorInputVisible: false,
@@ -222,11 +223,11 @@ export const store = new Vuex.Store({
     },
 
     // eslint-disable-next-line camelcase
-    setAnnotationPayload(state, {name, tokens, codes, tore_relationships, docs, uploaded_at, dataset, tores}){
-      // eslint-disable-next-line camelcase
+    setAnnotationPayload(state, {name, tokens, codes, tore_relationships, docs, uploaded_at, dataset, tores, show_recommendationtore}){
       if (tores !== null){
         state.annotation_tores = tores;
       }
+      // eslint-disable-next-line camelcase
       state.annotator_uploaded_at = uploaded_at;
       state.annotator_dataset = dataset;
       for (let token of tokens){
@@ -234,6 +235,8 @@ export const store = new Vuex.Store({
       }
       Object.freeze(tokens);  // performance boost
       state.tokens = tokens;
+      // eslint-disable-next-line camelcase
+      state.showRecommendationTore = show_recommendationtore;
       this.commit("initTokensEfficiencyStructs", false);
       state.codes = codes;
       console.log("-----------setAnnotationPayload------------");
@@ -481,8 +484,6 @@ export const store = new Vuex.Store({
       state.finishedAppReviewCrawlerJobs = crawlingJobs || [];
     }
   },
-
-
   actions,
   modules: {
     sentiment

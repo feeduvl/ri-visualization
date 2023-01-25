@@ -162,6 +162,16 @@
                 </v-container>
             </v-card>
 
+            <v-card>
+                <v-container>
+                    <v-layout>
+                        <label>
+                            <input type="checkbox" v-model=isChecked @change="showRecommendationTore(isChecked)"> Show Recommendation
+                        </label>
+                    </v-layout>
+                </v-container>
+            </v-card>
+
             <v-card-actions>
                 <v-btn
                         @click="$emit('hide-edit-configurables')"
@@ -178,6 +188,7 @@
         name: "EditConfigurablesDialog",
         data(){
             return {
+                isChecked: false,
                 snackbarVisible: false,
                 snackbarText: "",
 
@@ -229,6 +240,10 @@
             }
         },
         methods: {
+            showRecommendationTore() {
+                this.$store.commit("setShowRecommendationTore", this.isChecked);
+            },
+
             deleteSelectedAnnotationTore(){
                 this.awaitingCallback = true;
                 let i = this.$store.state.annotation_tores.indexOf(this.deleteAnnotationToreModel);

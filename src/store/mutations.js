@@ -145,7 +145,6 @@ export const add_or_remove_token_selected_relationship_in_agreement = (state, to
 };
 
 export const setSelectedToken = (state, token) => {
-  console.log("Selected token is: "+token)
   state.selectedToken = token;
 };
 
@@ -236,6 +235,10 @@ export const setRecommendationTores = (state, recommendationTores) => {
   state.recommendationTores = recommendationTores;
 };
 
+export const setShowRecommendationTore = (state, isChecked) => {
+  state.showRecommendationTore = isChecked;
+};
+
 export const setRelationshipNames = (state, relationship_names) => {
   state.relationship_names = relationship_names;
 };
@@ -288,7 +291,7 @@ export const updateLastAgreementEditAt = state => {
   state.lastAgreementEditAt = Date.now();
 };
 
-export const refreshRecommendationTores = (state) => {
+export const refreshRecommendationTores = state => {
   state.recommendationTores = [];
 };
 

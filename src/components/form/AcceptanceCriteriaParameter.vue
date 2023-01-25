@@ -11,7 +11,7 @@
         ></v-checkbox>
       </v-flex>
       <v-flex xs1/>
-      <v-flex xs3>
+      <v-flex xs3/>
         <v-text-field
             v-model="run_name"
             hint="Optional string to name this run."

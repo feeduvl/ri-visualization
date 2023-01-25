@@ -291,7 +291,7 @@
                 "showingInput",
                 "getCodesForToken"]),
 
-            ...mapState(["relationship_names", "tores", "annotation_tores", "recommendationTores"]),
+            ...mapState(["relationship_names", "tores", "annotation_tores", "recommendationTores", "showRecommendationTore"]),
 
             allowedRelationshipNames(){
                 return this.$store.state.relationship_names.filter((name, index) => {
@@ -324,7 +324,7 @@
             },
             tore(){
                 console.log("tore: " + this.selected_code.tore)
-                if(this.selected_code.tore === "") {
+                if(this.showRecommendationTore && this.selected_code.tore === "") {
                     return this.getRecommendationTores;
                 } else {
                     return this.selected_code.tore;

@@ -120,7 +120,6 @@ export const actionGetRecommendationTores = ({commit}, tokenName) => {
   });
 };
 
-
 export const actionGetNewAnnotation = ({
   commit
 }, {name, dataset}) => {
@@ -314,7 +313,8 @@ export const actionPostCurrentAnnotation = ({state, commit}) => {
       tore_relationships: state.tore_relationships,
       codes: state.codes,
       docs: state.docs.slice(1, state.docs.length),
-      tores: state.annotation_tores
+      tores: state.annotation_tores,
+      show_recommendationtore: state.showRecommendationTore
     })
       .then(() => {
         console.log("Got annotation POST response");
