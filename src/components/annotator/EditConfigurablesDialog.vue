@@ -166,7 +166,7 @@
                 <v-container>
                     <v-layout>
                         <label>
-                            <input type="checkbox" v-model=isChecked @change="showRecommendationTore(isChecked)"> Show Recommendation
+                            <input type="checkbox" v-model="showRecommendationTore" @change="setShowRecommendationTore"> Show Recommendation
                         </label>
                     </v-layout>
                 </v-container>
@@ -188,7 +188,6 @@
         name: "EditConfigurablesDialog",
         data(){
             return {
-                isChecked: false,
                 snackbarVisible: false,
                 snackbarText: "",
 
@@ -237,11 +236,15 @@
             show: {
                 type: Boolean,
                 required: true
+            },
+            showRecommendationTore: {
+                type: Boolean,
+                required: true
             }
         },
         methods: {
-            showRecommendationTore() {
-                this.$store.commit("setShowRecommendationTore", this.isChecked);
+            setShowRecommendationTore() {
+                this.$store.commit("setShowRecommendationTore", this.showRecommendationTore);
             },
 
             deleteSelectedAnnotationTore(){
