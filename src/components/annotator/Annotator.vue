@@ -136,7 +136,7 @@
                             settings
                         </v-icon>
                     </template>
-                    Edit Categories and Relationships
+                    Annotation Settings
                 </v-tooltip>
 
                 <v-tooltip bottom
@@ -622,6 +622,7 @@ export default {
                 console.log("tokenClicked: " + token.name)
                 let toreFromToken = this.getToreFromToken(token);
                 console.log("tokenClicked --> toreFromToken: " + toreFromToken)
+                this.$store.commit("setRecommendationTores", "");
                 if(toreFromToken === ""){
                     let tokenName = token.name;
                     this.$store.dispatch('actionGetRecommendationTores',tokenName);

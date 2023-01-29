@@ -11,7 +11,7 @@
         </v-snackbar>
         <v-card>
             <v-card-title class="text-h5 grey lighten-2">
-                Edit Categories and Relationships
+                Annotation Settings
             </v-card-title>
             <v-card>
                 <v-container>

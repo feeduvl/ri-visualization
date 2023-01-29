@@ -291,10 +291,6 @@ export const updateLastAgreementEditAt = state => {
   state.lastAgreementEditAt = Date.now();
 };
 
-export const refreshRecommendationTores = state => {
-  state.recommendationTores = [];
-};
-
 export const initTokensEfficiencyStructs = (state, tear_down) => {
   console.warn("Initializing token efficiency structs");
   let token_in_selected_code = [];

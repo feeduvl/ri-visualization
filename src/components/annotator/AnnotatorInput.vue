@@ -336,7 +336,6 @@
                 for (let i = 0; i < recommendationTores.length; i++) {
                     if (annotation_tores.includes(recommendationTores[i])) {
                         this.updateTore(recommendationTores[i]);
-                        this.$store.commit("refreshRecommendationTores");
                         return recommendationTores[i];
                     }
                 }
