@@ -15,7 +15,7 @@
                 :relationship_owners="[...$store.state.relationship_owners]"
                 :tores="[...$store.state.tores]"
                 :annotation_tores="[...$store.state.annotation_tores]"
-                :showRecommendationTore="[...$store.state.showRecommendationTore]">
+                :showRecommendationTore="$store.state.showRecommendationTore">
         </EditConfigurablesDialog>
 
         <AnnotatorSettings
