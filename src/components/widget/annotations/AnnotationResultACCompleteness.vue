@@ -14,7 +14,7 @@
                         </template>
                         <p>Annotation: <b>{{ annotation.annotation }}</b> </p>
                         <p>Token: <b>{{ annotation.token }}</b> </p>
-                        <p v-if="annotation.mapping">Acceptance Criteria Concept: <b>{{ annotation.mapping }}</b></p>
+                        <p v-if="annotation.mapping">Linked Acceptance Criteria Concept: <b>{{ annotation.mapping }}</b></p>
                     </v-tooltip>
                 </v-card>
             </v-row>
@@ -29,7 +29,7 @@
                             </span>
                         </template>
                         <p>Annotation: <b>{{ annotation.annotation }}</b> </p>
-                        <p v-if="annotation.mapping">Acceptance Criteria Concept: <b>{{ annotation.mapping }}</b></p>
+                        <p v-if="annotation.mapping">Linked User Story Concept: <b>{{ annotation.mapping }}</b></p>
                     </v-tooltip>
                 </v-card>
             </v-row>
