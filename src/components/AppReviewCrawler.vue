@@ -347,10 +347,13 @@
             console.log("occurrence: "+this.schedule)
             if (this.schedule) {
                 var date_From = this.date_from;
-                date_From = new Date(date_From.split('/')[2], date_From.split('/')[1]-1, date_From.split('/')[0]);
+                console.log(date_From)
+                date_From = new Date(date_From.split('/')[2],date_From.split('/')[1]-1,date_From.split('/')[0]);
                 var date_To = this.date_to;
-                date_To = new Date(date_To.split('/')[2], date_To.split('/')[1]-1, date_To.split('/')[0]);
+                console.log(date_To)
+                date_To = new Date(date_To.split('/')[2],date_To.split('/')[1]-1,date_To.split('/')[0]);
                 const diffTime = Math.abs(new Date(date_To.getTime() - date_From.getTime()));
+                console.log(diffTime)
                 this.occurrence_days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
                 console.log(this.occurrence_days)
             }
