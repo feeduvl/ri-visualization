@@ -196,7 +196,7 @@
                 <template v-slot:items="props">
                     <td>{{ props.item.app_name }}</td>
                     <td>{{ props.item.date }}</td>
-                    <td>{{ props.item.occurrence }}</td>
+                    <td>{{ props.item.app_occurrence }}</td>
                     <td>{{ props.item.dataset_name }}</td>
                     <td><span class="icon-column">
                             <v-tooltip bottom>
