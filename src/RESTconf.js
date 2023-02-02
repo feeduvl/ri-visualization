@@ -26,6 +26,7 @@ export const GET_ALL_TORES_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/ann
 export const GET_RECOMMENDATIONTORES_ENDPOINT = function(tokenName){
   return `${BASE_URL}/hitec/repository/concepts/annotation/recommendationTores/${encodeURIComponent(tokenName)}`
 };
+export const POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT = BASE_URL+`/hitec/annotation/recommendation/rebuild/`;
 
 
 export const POST_ALL_RELATIONSHIPS_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/store/annotation/relationships/`

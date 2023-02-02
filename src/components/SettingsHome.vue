@@ -108,6 +108,14 @@
         <v-btn small color="primary" @click="changeAccessKey">change</v-btn>
       </v-card-text>
     </v-card>
+    <v-card flat class="header">
+      <v-card-title>
+        <h1>Update Recommendation Database</h1>
+      </v-card-title>
+      <v-card-text>
+        <v-btn small color="primary" @click="updateRecommendationDatabase" :disabled="$store.state.isLoadingRecommendationUpdate">update</v-btn>
+      </v-card-text>
+    </v-card>
   </v-container>
 </template>
 
@@ -126,6 +134,7 @@ import {
   MUTATE_ACCESS_KEY,
   LOCAL_STORAGE_ACCESS_KEY,
 } from "../store/types.js";
+
 export default {
   name: "SettingsHome",
   data() {
@@ -253,6 +262,9 @@ export default {
           break;
         }
       }
+    },
+    updateRecommendationDatabase() {
+      this.$store.dispatch('actionUpdateRecommendationDatabase');
     },
     async checkTwitterAccount(twitterAccount) {
       axios
