@@ -450,3 +450,7 @@ export const setIsLoadingRedditCrawler = (state, isLoading) => {
 export const setIsLoadingAppReviewCrawler = (state, isLoading) => {
   state.isLoadingAppReviewCrawler = isLoading;
 };
+
+export const setIsLoadingRecommendationUpdate = (state, isLoading) => {
+  state.isLoadingRecommendationUpdate = isLoading;
+};

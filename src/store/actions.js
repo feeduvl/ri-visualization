@@ -34,7 +34,8 @@ import {
   APP_REVIEW_CRAWLER_ENDPOINT,
   APP_REVIEW_CRAWLER_GET_JOBS_ENDPOINT,
   POST_APP_REVIEW_CRAWLER_DATA_ENDPOINT,
-  DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT
+  DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT,
+  POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -722,5 +723,19 @@ export const actionAppReviewCrawlerStopOccurrence = (date) => {
       .catch(e => {
         console.error("Error stopping crawler job occurrence: " + e);
       })
+  });
+};
+
+export const actionUpdateRecommendationDatabase = ({commit}) => {
+  return new Promise(() => {
+    console.log("actionUpdateRecommendationDatabase startet")
+    commit("setIsLoadingRecommendationUpdate", true);
+    axios.post(POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT)
+      .then(
+        console.log("Update recommendation database finished"));
+      .catch(e => console.error("Error updating recommendation database: "+e))
+      .finally(() => {
+        commit("setIsLoadingRecommendationUpdate", false);
+      });
   });
 };
