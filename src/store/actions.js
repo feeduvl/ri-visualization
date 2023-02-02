@@ -728,12 +728,15 @@ export const actionAppReviewCrawlerStopOccurrence = (date) => {
 
 export const actionUpdateRecommendationDatabase = ({commit}) => {
   return new Promise(() => {
-    console.log("actionUpdateRecommendationDatabase startet")
+    console.log("actionUpdateRecommendationDatabase startet");
     commit("setIsLoadingRecommendationUpdate", true);
     axios.post(POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT)
-      .then(
-        console.log("Update recommendation database finished"));
-      .catch(e => console.error("Error updating recommendation database: "+e))
+      .then(() => {
+        console.log("Update recommendation database finished");
+      })
+      .catch(e => {
+        console.error("Error updating recommendation database: "+e);
+      })
       .finally(() => {
         commit("setIsLoadingRecommendationUpdate", false);
       });
