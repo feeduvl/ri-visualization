@@ -166,7 +166,9 @@
                             :items="annotation_tores"
                             :value="tore"
                             :menu-props="{ maxHeight: 600 }"
-                            label="Category">
+                            label="Category"
+                            :disabled="$store.state.isLoadingRecommendation"
+                            :loading="$store.state.isLoadingRecommendation">
                     </v-autocomplete>
 
                     <v-tooltip bottom>

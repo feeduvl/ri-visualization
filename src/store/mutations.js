@@ -454,3 +454,7 @@ export const setIsLoadingAppReviewCrawler = (state, isLoading) => {
 export const setIsLoadingRecommendationUpdate = (state, isLoading) => {
   state.isLoadingRecommendationUpdate = isLoading;
 };
+
+export const setIsLoadingRecommendation = (state, isLoading) => {
+  state.isLoadingRecommendation = isLoading;
+};

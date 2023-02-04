@@ -64,6 +64,7 @@ export const store = new Vuex.Store({
     recommendationTores: [],
     showRecommendationTore: false,
     isLoadingRecommendationUpdate:false,
+    isLoadingRecommendation:false,
     selected_tores: [],
 
     annotatorInputVisible: false,

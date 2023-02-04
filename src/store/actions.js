@@ -108,19 +108,6 @@ export const actionGetAllTores = ({commit}) => {
   });
 };
 
-export const actionGetRecommendationTores = ({commit}, tokenName) => {
-  return new Promise(() => {
-    console.log("Getting all RecommendationTores for: " + tokenName);
-    axios.get(GET_RECOMMENDATIONTORES_ENDPOINT(tokenName))
-      .then(response => {
-        const {recommendationTores} = response.data;
-        console.log("Got all RecommendationTores: " + recommendationTores);
-        commit("setRecommendationTores", recommendationTores);
-      })
-      .catch(e => console.error("Error getting RecommendationTores: "+e));
-  });
-};
-
 export const actionGetNewAnnotation = ({
   commit
 }, {name, dataset}) => {
@@ -723,6 +710,25 @@ export const actionAppReviewCrawlerStopOccurrence = (date) => {
       .catch(e => {
         console.error("Error stopping crawler job occurrence: " + e);
       })
+  });
+};
+
+export const actionGetRecommendationTores = ({commit}, tokenName) => {
+  return new Promise(() => {
+    console.log("Getting all RecommendationTores for: " + tokenName);
+    commit("setIsLoadingRecommendation", true);
+    axios.get(GET_RECOMMENDATIONTORES_ENDPOINT(tokenName))
+      .then(response => {
+        const {recommendationTores} = response.data;
+        console.log("Got all RecommendationTores: " + recommendationTores);
+        commit("setRecommendationTores", recommendationTores);
+      })
+      .catch(e => { 
+        console.error("Error getting RecommendationTores: "+e);
+      })
+      .finally(() => {
+        commit("setIsLoadingRecommendation", false);
+      });
   });
 };
 
