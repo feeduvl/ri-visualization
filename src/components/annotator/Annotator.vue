@@ -623,7 +623,7 @@ export default {
                 console.log("tokenClicked: " + token.name)
                 let toreFromToken = this.getToreFromToken(token);
                 console.log("tokenClicked --> toreFromToken: " + toreFromToken)
-                console.log("tokenClicked --> selectedCode Name: " + this.selected_code.name)
+                //console.log("tokenClicked --> selectedCode Name: " + this.selected_code.name)
                 this.$store.commit("setRecommendationTores", "");
                 if(toreFromToken === ""){
                     let tokenName = token.name;
