@@ -250,15 +250,12 @@
             deleteSelectedAnnotationTore(){
                 this.awaitingCallback = true;
                 let i = this.$store.state.annotation_tores.indexOf(this.deleteAnnotationToreModel);
-                //let newTores = [...this.annotation_tores]
-                //let i = newTores.indexOf(this.deleteAnnotationToreModel);
                 if(i===-1){
                     console.error("Couldn't find selected delete tore value: "+this.deleteAnnotationToreModel+" in annotation_tores: "+this.annotation_tores);
                     this.snackbarText = "Failed to update categories";
                     this.snackbarVisible = true;
                 } else {
                     this.$store.state.annotation_tores.splice(i, 1);
-                    //newTores.splice(i, 1);
                     try {
                         this.snackbarText = "Deleted Category: "+this.deleteAnnotationToreModel;
                     } catch {
