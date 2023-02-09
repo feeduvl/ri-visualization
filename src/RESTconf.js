@@ -23,8 +23,8 @@ export const AGREEMENT_REFRESH_STATISTICS_ENDPOINT = `${BASE_URL}/hitec/orchestr
 export const GET_ALL_RELATIONSHIPS_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/annotation/relationships`
 
 export const GET_ALL_TORES_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/annotation/tores`
-export const GET_RECOMMENDATIONTORES_ENDPOINT = function(tokenName){
-  return `${BASE_URL}/hitec/repository/concepts/annotation/recommendationTores/${encodeURIComponent(tokenName)}`
+export const GET_RECOMMENDATIONTORES_ENDPOINT = function(codename){
+  return `${BASE_URL}/hitec/repository/concepts/annotation/recommendationTores/${encodeURIComponent(codename)}`
 };
 export const POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT = BASE_URL+`/hitec/annotation/recommendation/rebuild/`;
 

@@ -437,7 +437,8 @@ export default {
                 "annotatorViewingCodeResults",
                 "selected_doc",
                 "tores",
-                "annotation_tores"
+                "annotation_tores",
+                "showRecommendationTore"
             ])
         },
 
@@ -619,16 +620,11 @@ export default {
 
             tokenClicked(index){
                 let token = this.token(index)
-                console.log("tokenClicked --> selectedToken Lemma: " + token.lemma)
-                //get recommendationTores if token has no Tore
-                console.log("tokenClicked: " + token.name)
                 let toreFromToken = this.getToreFromToken(token);
-                console.log("tokenClicked --> toreFromToken: " + toreFromToken)
-                //console.log("tokenClicked --> selectedCode Name: " + this.selected_code.name)
                 this.$store.commit("setRecommendationTores", "");
-                if(toreFromToken === ""){
-                    let tokenName = token.name;
-                    this.$store.dispatch('actionGetRecommendationTores',tokenName);
+                 //get recommendationTores if token has no Tore
+                if(this.showRecommendationTore && toreFromToken === ""){
+                    this.$store.dispatch('actionGetRecommendationTores',token);
                 }
                 console.log("tokenClicked: " + this.$store.state.recommendationTores);
                 if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
@@ -658,7 +654,6 @@ export default {
                         this.$store.commit("updateLastAnnotationEditAt")
                         //this.$store.commit("setAnnotatorInputVisible", true);
                       });
-                      console.log("tokenClicked --> Update selectedCode Codename: " + this.selected_code.name);
                       return;
                     }
 
@@ -667,9 +662,6 @@ export default {
                     if(!this.mustDisambiguateTokenCode){  // else the assignment will be performed after user action
                         this.requestAnnotatorInput = false;
                         this.addSelectedTokenToCode()
-                    }
-                    if(this.selected_code){
-                        console.log("tokenClicked --> New Code Codename: " + this.selected_code.name);
                     }
                 } else {
                     if(this.selected_tore_relationship === null){

@@ -713,11 +713,15 @@ export const actionAppReviewCrawlerStopOccurrence = (date) => {
   });
 };
 
-export const actionGetRecommendationTores = ({commit}, tokenName) => {
+export const actionGetRecommendationTores = ({commit}, token) => {
   return new Promise(() => {
-    console.log("Getting all RecommendationTores for: " + tokenName);
+    let codename = token.lemma;
+    if(token.pos && token.pos == ("v")){
+      codename = "to " + token.lemma;
+    }
+    console.log("Getting all RecommendationTores for: " + codename);
     commit("setIsLoadingRecommendation", true);
-    axios.get(GET_RECOMMENDATIONTORES_ENDPOINT(tokenName))
+    axios.get(GET_RECOMMENDATIONTORES_ENDPOINT(codename))
       .then(response => {
         const {recommendationTores} = response.data;
         console.log("Got all RecommendationTores: " + recommendationTores);
