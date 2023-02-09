@@ -619,6 +619,7 @@ export default {
 
             tokenClicked(index){
                 let token = this.token(index)
+                console.log("tokenClicked --> selectedToken Lemma: " + token.lemma)
                 //get recommendationTores if token has no Tore
                 console.log("tokenClicked: " + token.name)
                 let toreFromToken = this.getToreFromToken(token);
