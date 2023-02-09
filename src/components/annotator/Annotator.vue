@@ -658,6 +658,7 @@ export default {
                         this.$store.commit("updateLastAnnotationEditAt")
                         //this.$store.commit("setAnnotatorInputVisible", true);
                       });
+                      console.log("tokenClicked --> Update selectedCode Codename: " + this.selected_code.name);
                       return;
                     }
 
@@ -666,6 +667,9 @@ export default {
                     if(!this.mustDisambiguateTokenCode){  // else the assignment will be performed after user action
                         this.requestAnnotatorInput = false;
                         this.addSelectedTokenToCode()
+                    }
+                    if(this.selected_code){
+                        console.log("tokenClicked --> New Code Codename: " + this.selected_code.name);
                     }
                 } else {
                     if(this.selected_tore_relationship === null){
