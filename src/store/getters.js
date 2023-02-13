@@ -112,7 +112,7 @@ export const docs = state => {
 
   codeNames = state => {
     console.log("codeNames");
-    //console.log("--------Time1.1: " + new Date().getTime());
+    console.log("--------Fill codeNamesList: " + new Date().getTime());
     let ret = [];
     for (let i = 0; i < state.codes.length; i++){
       if (state.codes[i] && state.codes[i].name){
