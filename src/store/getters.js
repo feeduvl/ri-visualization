@@ -112,14 +112,15 @@ export const docs = state => {
 
   codeNames = state => {
     console.log("codeNames");
-    console.log("--------Time1.1: " + new Date().getTime());
+    //console.log("--------Time1.1: " + new Date().getTime());
     let ret = [];
     for (let i = 0; i < state.codes.length; i++){
       if (state.codes[i] && state.codes[i].name){
         ret.push(state.codes[i].name);
       }
     }
-    console.log("--------Time1.2: " + new Date().getTime());
+    console.log("--------AnnotatorInput visible: " + new Date().getTime());
+    console.log("--------codeNames length: " + ret.length);
     return ret;
   }; export const
 
