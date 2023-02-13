@@ -111,17 +111,7 @@ export const docs = state => {
   }; export const 
 
   codeNames = state => {
-    console.log("codeNames");
-    console.log("--------Fill codeNamesList: " + new Date().getTime());
-    let ret = [];
-    for (let i = 0; i < state.codes.length; i++){
-      if (state.codes[i] && state.codes[i].name){
-        ret.push(state.codes[i].name);
-      }
-    }
-    console.log("--------AnnotatorInput visible: " + new Date().getTime());
-    console.log("--------codeNames length: " + ret.length);
-    return ret;
+    return state.annotatorInputCodeNames;
   }; export const
 
   selected_tore_relationship = state => {

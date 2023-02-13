@@ -66,6 +66,7 @@ export const store = new Vuex.Store({
     isLoadingRecommendationUpdate:false,
     isLoadingRecommendation:false,
     selected_tores: [],
+    annotatorInputCodeNames: [],
 
     annotatorInputVisible: false,
     selected_code: null,
@@ -264,6 +265,7 @@ export const store = new Vuex.Store({
       }
       state.selected_annotation = name;
       this.commit("setIsLoadingAnnotation", false);
+      this.commit("setAnnotatorInputCodeNames");
     },
 
     // eslint-disable-next-line camelcase

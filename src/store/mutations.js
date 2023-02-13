@@ -458,3 +458,14 @@ export const setIsLoadingRecommendationUpdate = (state, isLoading) => {
 export const setIsLoadingRecommendation = (state, isLoading) => {
   state.isLoadingRecommendation = isLoading;
 };
+
+export const setAnnotatorInputCodeNames = state => {
+  console.log("set codeNames");
+  let codeNames = [];
+  for (let i = 0; i < state.codes.length; i++){
+    if (state.codes[i] && state.codes[i].name){
+      codeNames.push(state.codes[i].name);
+    }
+  }
+  state.annotatorInputCodeNames = codeNames;
+};
