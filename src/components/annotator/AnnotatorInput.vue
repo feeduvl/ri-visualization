@@ -322,7 +322,6 @@
                 set(value){
                         this.$store.commit("updateCodeName", value);
                         this.$store.commit("updateLastAnnotationEditAt");
-                        this.$store.commit("setAnnotatorInputCodeNames");
                 },
             },
             tore(){

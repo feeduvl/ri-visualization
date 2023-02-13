@@ -403,6 +403,8 @@ export const store = new Vuex.Store({
       //console.log("setAnnotatorInputVisible: "+visible)
       state.annotatorInputVisible = visible;
       if (!visible){
+        console.log("setAnnotatorInputVisible: " + visible)
+        this.commit("setAnnotatorInputCodeNames");
         state.isLinking = false;
         state.selectedToken = null;
         this.commit("setTokensInSelectedCode", [state.selected_code, null]);
