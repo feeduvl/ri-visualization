@@ -619,6 +619,7 @@ export default {
             },
 
             tokenClicked(index){
+                console.log("--------Time1: " + new Date().getTime());
                 let token = this.token(index)
                 let toreFromToken = this.getToreFromToken(token);
                 this.$store.commit("setRecommendationTores", "");
@@ -633,14 +634,17 @@ export default {
                 }
                 //let token = this.token(index)
                 this.updateSelectedToken(token);
+                console.log("--------Time2: " + new Date().getTime());
                 if(!this.isLinking){
                     if(this.selected_code && this.selected_code.tokens.includes(index)){
+                      console.log("--------Time3: " + new Date().getTime());
                       let code = this.selected_code;
                       let new_token_index = 0;
                       if(code.tokens.length > 1){
                         new_token_index = Math.max(0, code.tokens.indexOf(index)-1)
                       }
                       this.$store.commit("removeTokenFromSelectedCode", token)
+                      console.log("--------Time4: " + new Date().getTime());
                       setTimeout(() => {
 
                         let newSelectedToken = this.$store.state.tokens[code.tokens[new_token_index]]
@@ -658,10 +662,11 @@ export default {
                     }
 
                     this.requestAnnotatorInput = true;  //  let the panel know we want to open the annotator input
-
+                    console.log("--------Time5: " + new Date().getTime());
                     if(!this.mustDisambiguateTokenCode){  // else the assignment will be performed after user action
                         this.requestAnnotatorInput = false;
                         this.addSelectedTokenToCode()
+                        console.log("--------Time6: " + new Date().getTime());
                     }
                 } else {
                     if(this.selected_tore_relationship === null){
