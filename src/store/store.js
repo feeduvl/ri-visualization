@@ -242,13 +242,6 @@ export const store = new Vuex.Store({
       state.showRecommendationTore = show_recommendationtore;
       this.commit("initTokensEfficiencyStructs", false);
       state.codes = codes;
-      console.log("-----------setAnnotationPayload------------");
-      for (let code of codes){
-        console.log("Code: " + code.name + "/" + code.tore);
-        for (let token of code.tokens) {
-          console.log(token.name);
-        }
-      }
       // eslint-disable-next-line camelcase
       state.tore_relationships = tore_relationships;
       let newDocs = [state.all_docs].concat(docs);

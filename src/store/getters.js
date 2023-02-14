@@ -111,6 +111,7 @@ export const docs = state => {
   }; export const 
 
   codeNames = state => {
+    console.log("--------AnnotatorInput visible: " + new Date().getTime());
     return state.annotatorInputCodeNames;
   }; export const
 
