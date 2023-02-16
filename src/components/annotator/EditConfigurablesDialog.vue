@@ -258,7 +258,7 @@
                     this.$store.state.annotation_tores.splice(i, 1);
                     try {
                         this.snackbarText = "Deleted Category: "+this.deleteAnnotationToreModel;
-                        this.$store.commit("deleteToreFromCodes", this.deleteAnnotationToreModel);
+                        //this.$store.commit("deleteToreFromCodes", this.deleteAnnotationToreModel);
                     } catch {
                         this.snackbarText = "Failed to update categories";
                     } finally {
@@ -332,7 +332,7 @@
                 this.$store.state.annotation_tores.splice(index, 1);
                 try {
                     this.snackbarText = "Category: " + this.oldCategoryName + " renamed to " + this.newCategoryName;
-                    this.$store.commit("renameToreInCodes", this.oldCategoryName, this.newCategoryName);
+                    //this.$store.commit("renameToreInCodes", this.oldCategoryName, this.newCategoryName);
                 }
                 catch {
                     this.snackbarText = "Failed to rename Category";
