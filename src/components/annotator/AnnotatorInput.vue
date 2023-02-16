@@ -242,7 +242,7 @@
                             settings
                         </v-icon>
                     </template>
-                    Edit Categories and Relationships
+                    Annotation Settings
                 </v-tooltip>
             </div>
 

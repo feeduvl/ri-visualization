@@ -258,6 +258,7 @@
                     this.$store.state.annotation_tores.splice(i, 1);
                     try {
                         this.snackbarText = "Deleted Category: "+this.deleteAnnotationToreModel;
+                        this.$store.commit("deleteToreFromCodes", this.deleteAnnotationToreModel);
                     } catch {
                         this.snackbarText = "Failed to update categories";
                     } finally {
@@ -265,28 +266,6 @@
                         this.snackbarVisible = true;
                         this.awaitingCallback = false;
                     }
-                }
-            },
-
-            deleteSelectedTore(){
-                this.awaitingCallback = true;
-                let newTores = [...this.tores]
-                let i = newTores.indexOf(this.deleteToreModel)
-                if(i===-1){
-                    console.error("Couldn't find selected delete tore value: "+this.deleteToreModel+" in tores: "+this.tores)
-                    this.snackbarText = "Failed to update categories"
-                    this.snackbarVisible = true;
-                } else {
-                    newTores.splice(i, 1);
-                    this.$store.dispatch("actionPostAllTores", newTores).then(() => {
-                        this.snackbarText = "Deleted Category: "+this.deleteToreModel
-                    }).catch(() => {
-                        this.snackbarText = "Failed to update categories"
-                    }).finally(() => {
-                        this.deleteToreModel = null;
-                        this.snackbarVisible = true
-                        this.awaitingCallback = false;
-                    });
                 }
             },
 
@@ -347,30 +326,13 @@
                 this.awaitingCallback = false;
                 }
             },
-            
-            addNewTore(){
-                this.awaitingCallback = true;
-                let newTores = [...this.tores]
-                newTores.push(this.addNewToreValue)
-
-                this.$store.dispatch("actionPostAllTores", newTores)
-                    .then(() => {
-                    this.snackbarText = "Added Category: " + this.addNewToreValue
-                     }).catch(() => {
-                        this.snackbarText = "Failed to update Categories"
-                    }).finally(() => {
-                    this.addNewToreValue = null;
-                    this.snackbarVisible = true
-                    this.awaitingCallback = false;
-                });
-
-            },
             renameSelectedCategory() {
                 let index = this.$store.state.annotation_tores.indexOf(this.oldCategoryName);
                 this.$store.state.annotation_tores.push(this.newCategoryName);
                 this.$store.state.annotation_tores.splice(index, 1);
                 try {
                     this.snackbarText = "Category: " + this.oldCategoryName + " renamed to " + this.newCategoryName;
+                    this.$store.commit("renameToreInCodes", this.oldCategoryName, this.newCategoryName);
                 }
                 catch {
                     this.snackbarText = "Failed to rename Category";
