@@ -565,7 +565,7 @@ export default {
                 return function(){
                     if(i === 0){  // cancel
                         self.requestAnnotatorInput = false;
-                        $store.commit("setAnnotatorInputVisible", false);
+                        self.$store.commit("setAnnotatorInputVisible", false);
                         return;
                     }
                     else if(i === 1){  // create a new code
