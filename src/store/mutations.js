@@ -3,8 +3,7 @@ import Vue from 'vue';
 import {
   TORERelationship_add_token,
   TORERelationship_remove_token,
-  TORERelationship_set_relationship_name,
-  CodeToString
+  TORERelationship_set_relationship_name
 } from "../components/annotator/code";
 
 export const mutateInitialData = (state, initialData) => {
@@ -469,24 +468,4 @@ export const setAnnotatorInputCodeNames = state => {
     }
   }
   state.annotatorInputCodeNames = codeNames;
-};
-
-export const deleteToreFromCodes = (state, toreToDelete) => {
-  console.log("delete Tore from Codes, Tore:" + toreToDelete);
-  for (let i = 0; i < state.codes.length; i++){
-    if (state.codes[i] && state.codes[i].tore !== '' && state.codes[i].tore === toreToDelete){
-      state.codes[i].tore = '';
-      console.log("Tore in code deleted: " + CodeToString(state.codes[i]));
-    }
-  }
-};
-
-export const renameToreInCodes = (state, toreOld, toreNew) => {
-  console.log("rename Tore from Codes, OldTore:" + toreOld);
-  for (let i = 0; i < state.codes.length; i++){
-    if (state.codes[i] && state.codes[i].tore !== '' && state.codes[i].tore === toreOld){
-      state.codes[i].tore = toreNew;
-      console.log("Tore in code renamed: " + CodeToString(state.codes[i]));
-    }
-  }
 };

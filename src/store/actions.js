@@ -752,3 +752,22 @@ export const actionUpdateRecommendationDatabase = ({commit}) => {
       });
   });
 };
+
+export const deleteCodesWithTore = ({commit,state}, toreToDelete) => {
+  console.log("delete Tore from Codes, Tore:" + toreToDelete);
+  for (let i = 0; i < state.codes.length; i++){
+    if (state.codes[i] && state.codes[i].tore !== '' && state.codes[i].tore === toreToDelete){
+      console.log("Deleted codename: " + state.codes[i].name);
+      commit("delete_code", state.codes[i]);
+    }
+  }
+};
+
+export const renameToreInCodes = ({commit,state}, toreOld, toreNew) => {
+  console.log("rename Tore from Codes, OldTore:" + toreOld);
+  for (let i = 0; i < state.codes.length; i++){
+    if (state.codes[i] && state.codes[i].tore !== '' && state.codes[i].tore === toreOld){
+      commit("delete_code", state.codes[i]);
+    }
+  }
+};

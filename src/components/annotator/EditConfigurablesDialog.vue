@@ -258,7 +258,7 @@
                     this.$store.state.annotation_tores.splice(i, 1);
                     try {
                         this.snackbarText = "Deleted Category: "+this.deleteAnnotationToreModel;
-                        //this.$store.commit("deleteToreFromCodes", this.deleteAnnotationToreModel);
+                        this.$store.dispatch("deleteCodesWithTore", this.deleteAnnotationToreModel);
                     } catch {
                         this.snackbarText = "Failed to update categories";
                     } finally {
