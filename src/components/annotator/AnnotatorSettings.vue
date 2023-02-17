@@ -120,6 +120,7 @@
                                       @click="viewCodeResults(item)"
                                       v-bind="attrs"
                                       v-on="on"
+                                      :disabled= "$store.state.isLoadingAnnotation || $store.state.isLoadingAvailableAnnotations"
                               >
                                 visibility
                               </v-icon>
@@ -133,6 +134,7 @@
                                       @click="startAnnotating(item)"
                                       v-bind="attrs"
                                       v-on="on"
+                                      :disabled= "$store.state.isLoadingAnnotation || $store.state.isLoadingAvailableAnnotations"
                               >
                                 mode
                               </v-icon>
@@ -146,6 +148,7 @@
                                       @click="annotationToDelete = item"
                                       v-bind="attrs"
                                       v-on="on"
+                                      :disabled= "$store.state.isLoadingAnnotation || $store.state.isLoadingAvailableAnnotations"
                               >
                                 delete
                               </v-icon>
