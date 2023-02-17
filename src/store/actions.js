@@ -762,12 +762,3 @@ export const deleteCodesWithTore = ({commit,state}, toreToDelete) => {
     }
   }
 };
-
-export const renameToreInCodes = ({commit,state}, toreOld, toreNew) => {
-  console.log("rename Tore from Codes, OldTore:" + toreOld);
-  for (let i = 0; i < state.codes.length; i++){
-    if (state.codes[i] && state.codes[i].tore !== '' && state.codes[i].tore === toreOld){
-      commit("delete_code", state.codes[i]);
-    }
-  }
-};
