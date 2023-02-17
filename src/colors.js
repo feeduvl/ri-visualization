@@ -75,3 +75,18 @@ export const ITEM_STYLE_BAR_SENTIMENT_NEG = {
   barBorderColor: RED_BORDER,
   barBorderRadius: 1,
 };
+
+export const getToreHighlightColor = function (str){
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    // eslint-disable-next-line no-bitwise
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  var color = '#';
+  for (var m = 0; m < 3; m++) {
+    // eslint-disable-next-line no-bitwise
+    var value = (hash >> (m * 8)) & 0xFF;
+    color += ('00' + value.toString(16)).substr(-2);
+  }
+  return color;
+};

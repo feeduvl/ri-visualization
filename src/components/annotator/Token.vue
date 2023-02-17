@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { getToreHighlightColor } from "@/components/annotator/code";
+import { getToreHighlightColor } from "@/colors";
 
 export default {
     name: "Token",

@@ -259,10 +259,11 @@
 import Token from "@/components/annotator/Token";
 import AnnotatorInput from "@/components/annotator/AnnotatorInput";
 import CodeView from "@/components/annotator/CodeView";
-import {Code, Code_user_display_prompt, getToreHighlightColor} from "@/components/annotator/code";
+import {Code, Code_user_display_prompt} from "@/components/annotator/code";
 import {mapGetters, mapState} from "vuex";
 import AnnotatorSettings from "@/components/annotator/AnnotatorSettings";
 import EditConfigurablesDialog from "@/components/annotator/EditConfigurablesDialog";
+import {getToreHighlightColor} from "@/colors";
 
 export default {
         name: "Annotator",

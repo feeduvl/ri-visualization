@@ -132,17 +132,4 @@ function CodeToString(code){
     return "[Code] Name: "+code.name+", tore: "+code.tore+", index: "+code.index+", relationship memberships: "+code.relationship_memberships;
 }
 
-function getToreHighlightColor(str){
-        var hash = 0;
-        for (var i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        var color = '#';
-        for (var m = 0; m < 3; m++) {
-            var value = (hash >> (m * 8)) & 0xFF;
-            color += ('00' + value.toString(16)).substr(-2);
-        }
-        return color;
-}
-
-export {Code_user_display_prompt, Code_remove_token, TORERelationship_remove_token, Code_add_relationship, Code_update_token, Code_remove_relationship, Code_remove_all_relationships, CodeToString, TORERelationship_set_relationship_name, TORERelationship_add_token, getToreHighlightColor, Code, TORERelationship}
+export {Code_user_display_prompt, Code_remove_token, TORERelationship_remove_token, Code_add_relationship, Code_update_token, Code_remove_relationship, Code_remove_all_relationships, CodeToString, TORERelationship_set_relationship_name, TORERelationship_add_token, Code, TORERelationship}
