@@ -212,6 +212,14 @@ export const store = new Vuex.Store({
       Vue.set(state.token_in_selected_code, token.index, false);
     },
 
+    rename_tore_from_code(toreOld, toreNew){
+      for(let i = 0; i < state.codes.length; i++){
+        if (state.codes[i] && state.codes[i].tore && state.codes[i].tore === toreOld){
+          Code_rename_TORE(code,toreOld,toreNew);
+        }
+      }
+    },
+
     assignToCode(state, args){  // DECLARED HERE TO ACCESS this.commit
       // eslint-disable-next-line camelcase
       const {token, code, new_code} = args;
