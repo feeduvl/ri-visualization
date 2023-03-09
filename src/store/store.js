@@ -237,6 +237,8 @@ export const store = new Vuex.Store({
     setAnnotationPayload(state, {name, tokens, codes, tore_relationships, docs, uploaded_at, dataset, tores, show_recommendationtore}){
       if (tores !== null){
         state.annotation_tores = tores;
+      } else {
+        state.annotation_tores = state.tores;
       }
       // eslint-disable-next-line camelcase
       state.annotator_uploaded_at = uploaded_at;
