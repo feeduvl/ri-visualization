@@ -332,8 +332,6 @@
                 this.$store.state.annotation_tores.splice(index, 1);
                 try {
                     this.snackbarText = "Category: " + this.oldCategoryName + " renamed to " + this.newCategoryName;
-                    //this.$store.commit("renameToreInCodes", this.oldCategoryName, this.newCategoryName);
-                    //this.$store.commit("rename_tore_from_code", {oldTore: this.oldCategoryName, newTore: this.newCategoryName})
                 }
                 catch {
                     this.snackbarText = "Failed to rename Category";

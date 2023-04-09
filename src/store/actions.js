@@ -282,7 +282,6 @@ export const actionGetAllAgreements = ({commit}) => {
 export const actionPostCurrentAnnotation = ({state, commit}) => {
   return new Promise(() => {
     console.log("Posting annotation: "+state.selected_annotation);
-    console.log("Annotation Tores: " + state.annotation_tores)
     commit("postAnnotationCallback");
     let postTokens = [];
     for (let t of state.tokens){
@@ -716,7 +715,7 @@ export const actionAppReviewCrawlerStopOccurrence = (date) => {
 export const actionGetRecommendationTores = ({commit}, token) => {
   return new Promise(() => {
     let codename = token.lemma;
-    if(token.pos && token.pos == ("v")){
+    if (token.pos && token.pos == ("v")){
       codename = "to " + token.lemma;
     }
     console.log("Getting all RecommendationTores for: " + codename);
@@ -724,7 +723,6 @@ export const actionGetRecommendationTores = ({commit}, token) => {
     axios.get(GET_RECOMMENDATIONTORES_ENDPOINT(codename))
       .then(response => {
         const {recommendationTores} = response.data;
-        console.log("Got all RecommendationTores: " + recommendationTores);
         commit("setRecommendationTores", recommendationTores);
       })
       .catch(e => { 

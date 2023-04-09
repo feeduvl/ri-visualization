@@ -39,7 +39,6 @@ export default {
         },
         lemma: String,
         pos: String,
-        tore: String,
         index: {
             type: Number,
             required: true

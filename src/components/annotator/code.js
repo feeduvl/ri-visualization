@@ -132,10 +132,4 @@ function CodeToString(code){
     return "[Code] Name: "+code.name+", tore: "+code.tore+", index: "+code.index+", relationship memberships: "+code.relationship_memberships;
 }
 
-function Code_rename_TORE(code, toreOld, toreNew){
-    if(code.tore && code.tore === toreOld){
-        code.tore = toreNew;
-    }
-} 
-
-export {Code_user_display_prompt, Code_remove_token, TORERelationship_remove_token, Code_add_relationship, Code_update_token, Code_remove_relationship, Code_remove_all_relationships, CodeToString, TORERelationship_set_relationship_name, TORERelationship_add_token, Code_rename_TORE, Code, TORERelationship}
+export {Code_user_display_prompt, Code_remove_token, TORERelationship_remove_token, Code_add_relationship, Code_update_token, Code_remove_relationship, Code_remove_all_relationships, CodeToString, TORERelationship_set_relationship_name, TORERelationship_add_token, Code, TORERelationship}

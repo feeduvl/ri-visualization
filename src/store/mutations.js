@@ -469,12 +469,3 @@ export const setAnnotatorInputCodeNames = state => {
   }
   state.annotatorInputCodeNames = codeNames;
 };
-
-export const renameToreInCodes = (state, toreOld, toreNew) => {
-  console.log("rename Tore from Codes, OldTore:" + toreOld);
-  for (let i = 0; i < state.codes.length; i++){
-    if (state.codes[i] && state.codes[i].tore && state.codes[i].tore === toreOld){
-      state.codes[i].tore = toreNew;
-    }
-  }
-};

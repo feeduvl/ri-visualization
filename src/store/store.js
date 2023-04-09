@@ -212,14 +212,6 @@ export const store = new Vuex.Store({
       Vue.set(state.token_in_selected_code, token.index, false);
     },
 
-    rename_tore_from_code(toreOld, toreNew){
-      for(let i = 0; i < state.codes.length; i++){
-        if (state.codes[i] && state.codes[i].tore && state.codes[i].tore === toreOld){
-          Code_rename_TORE(code,toreOld,toreNew);
-        }
-      }
-    },
-
     assignToCode(state, args){  // DECLARED HERE TO ACCESS this.commit
       // eslint-disable-next-line camelcase
       const {token, code, new_code} = args;
@@ -235,10 +227,10 @@ export const store = new Vuex.Store({
 
     // eslint-disable-next-line camelcase
     setAnnotationPayload(state, {name, tokens, codes, tore_relationships, docs, uploaded_at, dataset, tores, show_recommendationtore}){
-      if (tores !== null){
-        state.annotation_tores = tores;
-      } else {
+      if (tores === null){
         state.annotation_tores = state.tores;
+      } else {
+        state.annotation_tores = tores;
       }
       // eslint-disable-next-line camelcase
       state.annotator_uploaded_at = uploaded_at;
@@ -403,10 +395,8 @@ export const store = new Vuex.Store({
     },
 
     setAnnotatorInputVisible(state, visible){
-      //console.log("setAnnotatorInputVisible: "+visible)
       state.annotatorInputVisible = visible;
       if (!visible){
-        console.log("setAnnotatorInputVisible: " + visible)
         this.commit("setAnnotatorInputCodeNames");
         state.isLinking = false;
         state.selectedToken = null;

@@ -621,7 +621,6 @@ export default {
             },
 
             tokenClicked(index){
-                console.log("--------Token clicked: " + new Date().getTime());
                 let token = this.token(index)
                 let toreFromToken = this.getToreFromToken(token);
                 this.$store.commit("setRecommendationTores", "");
@@ -629,7 +628,6 @@ export default {
                 if(this.showRecommendationTore && toreFromToken === ""){
                     this.$store.dispatch('actionGetRecommendationTores',token);
                 }
-                console.log("tokenClicked: " + this.$store.state.recommendationTores);
                 if(this.selected_code && !this.requiredAnnotationsPresent){  // codes need some kind of label
                     console.log("Missing required input, ignoring focus out")
                     return;
