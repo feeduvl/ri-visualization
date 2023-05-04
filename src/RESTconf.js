@@ -11,6 +11,7 @@ export default axios;
 
 // annotation and agreement
 
+export const JIRA_BASE = BASE_URL+`/hitec/generate/jira/`;
 export const GET_EXAMPLE_ANNOTATION_POST_ENDPOINT = BASE_URL+`/hitec/annotation/tokenize/`;
 
 export const ANNOTATION_INITIALIIZE_ENDPOINT = `${BASE_URL}/hitec/orchestration/concepts/annotationinit/`;

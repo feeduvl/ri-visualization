@@ -1,6 +1,7 @@
 import axios from 'axios'
+import {JIRA_BASE} from "./RESTconf";
 
-const ISSUE_API_BASE_URL ='http://localhost:8080/api/issues'
+const ISSUE_API_BASE_URL = JIRA_BASE
 
 class JiraService {
 
