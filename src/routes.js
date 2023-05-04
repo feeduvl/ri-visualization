@@ -17,6 +17,7 @@ export const ROUTE_DOCUMENTS = "/documents";
 export const ROUTE_DATASET = "/dataset";
 export const ROUTE_REDDIT_CRAWLER = "/reddit_crawler";
 export const ROUTE_APP_REVIEW_CRAWLER = "/app_review_crawler";
+export const ROUTE_JIRA = "/jira";
 
 export const routes = [{
     path: ROUTE_EMPTY,
@@ -85,6 +86,10 @@ export const routes = [{
   {
     path: ROUTE_APP_REVIEW_CRAWLER,
     component: () => import('./components/AppReviewCrawler.vue')
+  },
+  {
+    path: ROUTE_JIRA,
+    component: () => import('./components/JiraDashboard.vue')
   },
   {
     path: ROUTE_ALL,
