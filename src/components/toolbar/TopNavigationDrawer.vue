@@ -122,7 +122,13 @@ export default {
           icon: "storage",
           path: "/dataset",
           theme: THEME_UVL
-        }
+        },
+          {
+              title: "Jira Board",
+              icon: "storage",
+              path: "/jira",
+              theme: THEME_UVL
+          }
       ],
       style: {
         backgroundColor: WHITE,
