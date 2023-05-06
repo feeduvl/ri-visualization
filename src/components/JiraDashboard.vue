@@ -109,15 +109,16 @@ export default {
             this.dialog = false;
         },
         getAllIssues() {
-            JiraService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
-                const {issues, totalItems} = response.data;
-                if(this.search === ""){
-                    this.issues = issues
-                    this.totalItems = totalItems
-                }else{
-                    this.filterData()
-                }
-            })
+            this.$store.dispatch("getAllIssues")
+            // JiraService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
+            //     const {issues, totalItems} = response.data;
+            //     if(this.search === ""){
+            //         this.issues = issues
+            //         this.totalItems = totalItems
+            //     }else{
+            //         this.filterData()
+            //     }
+            // })
         },
         getItemPerPage(val) {
             this.pageSize = val;

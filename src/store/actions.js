@@ -35,7 +35,7 @@ import {
   APP_REVIEW_CRAWLER_GET_JOBS_ENDPOINT,
   POST_APP_REVIEW_CRAWLER_DATA_ENDPOINT,
   DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT,
-  POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT, JIRA_BASE
+  POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT, JIRA_DASHBOARD_GET_ALL_ISSUES
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -635,15 +635,15 @@ export const actionStopOccurrence = (date) => {
   });
 };
 
-export const getAllIssues = ({commit}, settings) => {
+export const getAllIssues = ({commit}) => {
   return new Promise(() => {
     console.log("Initialize Jira issues");
     commit("setIsLoading", true);
 
     axios
-        .get(JIRA_BASE, settings)
+        .get(JIRA_DASHBOARD_GET_ALL_ISSUES)
         .then(() => {
-          console.log("Crawling finished");
+          console.log("Issues loaded");
           commit("setIsLoading", false);
         })
         .catch(e => console.error("Error: "+e));
