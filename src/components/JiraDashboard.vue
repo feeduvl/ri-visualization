@@ -78,7 +78,7 @@ export default {
                 {text: "Issue Type", value: "issueType"},
                 {text: "Project Name", value: "projectName"},
             ],
-            issues: "",
+            issues: [],
             search:"",
             totalItems: 0,
             pageNum: 1,
