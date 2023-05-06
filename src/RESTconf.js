@@ -10,8 +10,6 @@ export default axios;
 // feeduvl
 
 // annotation and agreement
-
-export const JIRA_BASE = BASE_URL+`/hitec/generate/jira/`;
 export const GET_EXAMPLE_ANNOTATION_POST_ENDPOINT = BASE_URL+`/hitec/annotation/tokenize/`;
 
 export const ANNOTATION_INITIALIIZE_ENDPOINT = `${BASE_URL}/hitec/orchestration/concepts/annotationinit/`;
@@ -158,7 +156,7 @@ export const POST_CRAWLER_DATA_ENDPOINT = `${BASE_URL}/hitec/repository/concepts
 export const DELETE_CRAWLER_JOB_ENDPOINT = function(date){
   return `${BASE_URL}/hitec/repository/concepts/store/reddit_crawler/jobs/${date}`
 };
-
+export const JIRA_BASE = `${BASE_URL}/hitec/generate/jira`
 // app review crawler 
 export const APP_REVIEW_CRAWLER_ENDPOINT = `${BASE_URL}/hitec/app/crawl`
 export const APP_REVIEW_CRAWLER_GET_JOBS_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/app_review_crawler_jobs/all`

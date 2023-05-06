@@ -61,6 +61,7 @@
 
 <script>
 import JiraService from "../jira-service";
+import {getAllIssues} from "../store/actions";
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: "Issue",
@@ -77,7 +78,7 @@ export default {
                 {text: "Issue Type", value: "issueType"},
                 {text: "Project Name", value: "projectName"},
             ],
-            issues: [],
+            issues: "",
             search:"",
             totalItems: 0,
             pageNum: 1,

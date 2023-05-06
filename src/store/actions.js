@@ -35,7 +35,7 @@ import {
   APP_REVIEW_CRAWLER_GET_JOBS_ENDPOINT,
   POST_APP_REVIEW_CRAWLER_DATA_ENDPOINT,
   DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT,
-  POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT
+  POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT, JIRA_BASE
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -632,6 +632,21 @@ export const actionStopOccurrence = (date) => {
       .catch(e => {
         console.error("Error stopping crawler job occurrence: " + e);
       })
+  });
+};
+
+export const getAllIssues = ({commit}, settings) => {
+  return new Promise(() => {
+    console.log("Initialize Jira issues");
+    commit("setIsLoading", true);
+
+    axios
+        .get(JIRA_BASE, settings)
+        .then(() => {
+          console.log("Crawling finished");
+          commit("setIsLoading", false);
+        })
+        .catch(e => console.error("Error: "+e));
   });
 };
 
