@@ -152,9 +152,9 @@ export default {
             })
         }
     },
-    created() {
-        this.getAllIssues()
-    },
+    // created() {
+    //     this.getAllIssues()
+    // },
 
 }
 </script>
