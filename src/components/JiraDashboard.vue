@@ -35,7 +35,7 @@
             <v-card class="v-card">
                 <v-data-table
                         :headers="headers"
-                        :items="getAllIssues()"
+                        :items="getData"
                         item-key="issueId"
                         class="elevation-1"
                         :footer-props="{
@@ -61,7 +61,6 @@
 
 <script>
 import JiraService from "../jira-service";
-import {getAllIssues} from "../store/actions";
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: "Issue",
@@ -97,7 +96,7 @@ export default {
                 console.log(response.data)
                 this.issues = response.data
                 this.loading = false
-                console.log(this.issues)
+                console.log(this.issues +"get by project name")
             })
         },
         saveSelectedIssues(){
@@ -150,9 +149,9 @@ export default {
             })
         }
     },
-    // created() {
-    //     this.getAllIssues()
-    // },
+    created() {
+        this.getAllIssues()
+    },
 
 }
 </script>
