@@ -95,6 +95,9 @@ export default {
             IssuesService.getIssuesByProjectName(this.projectName).then((response) => {
                 this.issues = response.data
                 this.loading = false
+                console.log(response.data)
+                console.log(this.issues)
+                console.log("get from jira")
             })
         },
         saveSelectedIssues(){
@@ -117,6 +120,7 @@ export default {
                     this.issues = issues
                     console.log(issues)
                     console.log(this.issues)
+                    console.log("get from db")
                     this.totalItems = totalItems
                 }else{
                     this.filterData()
