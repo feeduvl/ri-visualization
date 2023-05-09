@@ -109,7 +109,10 @@ export default {
             this.dialog = false;
         },
         getAllIssues() {
-            this.$store.dispatch("getAllIssues")
+            this.$store.dispatch("getAllIssues").action({
+                page: this.pageNum,
+                size: this.pageSize
+            })
             // JiraService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
             //     const {issues, totalItems} = response.data;
             //     if(this.search === ""){
