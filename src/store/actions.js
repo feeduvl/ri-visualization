@@ -47,6 +47,7 @@ import {
   MUTATE_FOOTER_TEXT,
   MUTATE_TOP_BAR_LINK
 } from '@/store/types';
+import {setJiraIssues} from "./mutations";
 
 export const actionPostAllRelationships= ({commit}, {newRelationships, newOwners}) => {
   return new Promise((resolve, reject) => {
@@ -92,6 +93,24 @@ export const actionGetAllRelationships = ({commit}) => {
         commit("setRelationshipOwners", owners);
       })
       .catch(e => console.error("Error getting relationships: "+e));
+  });
+};
+
+export const getAllIssues = ({commit}, page, size) => {
+  return new Promise(() => {
+    console.log("Initialize Jira issues");
+    axios.get(JIRA_DASHBOARD_GET_ALL_ISSUES + ':9645/hitec/jira/issues/all', {
+      params: {
+        page: page,
+        size: size
+      }
+    }).then(response => {
+      // eslint-disable-next-line camelcase
+      const {issues} = response.data;
+      console.log("Got all relationships");
+      commit("setJiraIssues", issues);
+      // commit("setRelationshipOwners", totalItems);
+    }).catch(e => console.error("Error: "+e));
   });
 };
 
@@ -632,21 +651,6 @@ export const actionStopOccurrence = (date) => {
       .catch(e => {
         console.error("Error stopping crawler job occurrence: " + e);
       })
-  });
-};
-
-export const getAllIssues = ({commit}, projectName) => {
-  return new Promise(() => {
-    console.log("Initialize Jira issues");
-    commit("setIsLoading", true);
-
-    axios
-        .get(JIRA_DASHBOARD_GET_ALL_ISSUES + ':9645/hitec/jira/issues/load/proj/${projectName}', projectName)
-        .then(() => {
-          console.log("Issues loaded");
-          commit("setIsLoading", false);
-        })
-        .catch(e => console.error("Error: "+e));
   });
 };
 

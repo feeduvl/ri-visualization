@@ -35,7 +35,7 @@
             <v-card class="v-card">
                 <v-data-table
                         :headers="headers"
-                        :items="getData"
+                        :items="[...$store.state.issues]"
                         item-key="issueId"
                         class="elevation-1"
                         :footer-props="{
