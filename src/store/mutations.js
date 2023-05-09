@@ -243,9 +243,9 @@ export const setRelationshipNames = (state, relationship_names) => {
   state.relationship_names = relationship_names;
 };
 
-export const setJiraIssues = (state, issues) => {
-  state.issues = issues;
-};
+// export const setJiraIssues = (state, issues) => {
+//   state.issues = issues;
+// };
 
 export const setRelationshipOwners = (state, owners) => {
   state.relationship_owners = owners;

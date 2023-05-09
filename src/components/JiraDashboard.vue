@@ -93,10 +93,11 @@ export default {
             this.dialog = true
             this.loading = true
             JiraService.getIssuesByProjectName(this.projectName).then((response) => {
-                console.log(response.data)
+                console.log(response.data +" response.data")
                 this.issues = response.data
                 this.loading = false
                 console.log(this.issues +"get by project name")
+                console.log(response +"1")
             })
         },
         saveSelectedIssues(){

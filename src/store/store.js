@@ -59,7 +59,7 @@ export const store = new Vuex.Store({
 
     relationship_owners: [],  // tore at index i owns the relationship name at index i
     relationship_names: [],  // relationship types
-    issues: [],
+    // issues: [],
     tores: [],  // tore categories
     annotation_tores: [],
     recommendationTores: [],
