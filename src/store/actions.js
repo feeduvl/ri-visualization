@@ -635,13 +635,13 @@ export const actionStopOccurrence = (date) => {
   });
 };
 
-export const getAllIssues = ({commit}) => {
+export const getAllIssues = ({commit}, projectName) => {
   return new Promise(() => {
     console.log("Initialize Jira issues");
     commit("setIsLoading", true);
 
     axios
-        .get(JIRA_DASHBOARD_GET_ALL_ISSUES)
+        .get(JIRA_DASHBOARD_GET_ALL_ISSUES + ':9645/hitec/jira/issues/load/proj/${projectName}', projectName)
         .then(() => {
           console.log("Issues loaded");
           commit("setIsLoading", false);
