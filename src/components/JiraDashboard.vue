@@ -19,7 +19,7 @@
             <v-data-table
                     v-model="selected"
                     :headers="headers"
-                    :items="getData"
+                    :items="issues"
                     item-key="issueId"
                     show-select
                     class="elevation-1"
@@ -35,7 +35,7 @@
             <v-card class="v-card">
                 <v-data-table
                         :headers="headers"
-                        :items="getData"
+                        :items="issues"
                         item-key="issueId"
                         class="elevation-1"
                         :footer-props="{
