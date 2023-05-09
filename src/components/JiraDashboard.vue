@@ -113,9 +113,9 @@ export default {
             JiraService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
                 const {issues, totalItems} = response.data;
                 if(this.search === ""){
-                    console.log(this.issues + "at filter ")
                     this.issues = issues
                     this.totalItems = totalItems
+                    console.log(this.issues + "at filter ")
                 }else{
                     this.filterData()
                 }
