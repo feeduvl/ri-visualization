@@ -115,6 +115,8 @@ export default {
                 // console.log("NEIN")
                 if(this.search === ""){
                     this.issues = issues
+                    console.log(issues)
+                    console.log(this.issues)
                     this.totalItems = totalItems
                 }else{
                     this.filterData()
