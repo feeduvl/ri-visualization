@@ -93,8 +93,10 @@ export default {
             this.dialog = true
             this.loading = true
             JiraService.getIssuesByProjectName(this.projectName).then((response) => {
+                console.log(response.data)
                 this.issues = response.data
                 this.loading = false
+                console.log(this.issues)
             })
         },
         saveSelectedIssues(){
@@ -111,6 +113,7 @@ export default {
             JiraService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
                 const {issues, totalItems} = response.data;
                 if(this.search === ""){
+                    console.log(this.issues + "at filter ")
                     this.issues = issues
                     this.totalItems = totalItems
                 }else{
