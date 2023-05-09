@@ -35,7 +35,7 @@
             <v-card class="v-card">
                 <v-data-table
                         :headers="headers"
-                        :items="getData"
+                        :items="getAllIssues()"
                         item-key="issueId"
                         class="elevation-1"
                         :footer-props="{
@@ -61,6 +61,7 @@
 
 <script>
 import JiraService from "../jira-service";
+import {getAllIssues} from "../store/actions";
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: "Issue",
@@ -110,16 +111,20 @@ export default {
             this.dialog = false;
         },
         getAllIssues() {
-            JiraService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
-                const {issues, totalItems} = response.data;
-                if(this.search === ""){
-                    this.issues = issues
-                    this.totalItems = totalItems
-                    console.log(this.issues + "at filter ")
-                }else{
-                    this.filterData()
-                }
-            })
+            this.issues = this.$store.dispatch("getAllIssues")
+            console.log(this.issues)
+
+
+            // JiraService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
+            //     const {issues, totalItems} = response.data;
+            //     if(this.search === ""){
+            //         this.issues = issues
+            //         this.totalItems = totalItems
+            //         console.log(this.issues + "at filter ")
+            //     }else{
+            //         this.filterData()
+            //     }
+            // })
         },
         getItemPerPage(val) {
             this.pageSize = val;
