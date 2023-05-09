@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const ISSUE_API_BASE_URL ='http://localhost:8080/hitec/jira/issues'
+const ISSUE_API_BASE_URL ='http://feed-uvl.ifi.uni-heidelberg.de/hitec/jira/issues'
 
 class IssuesService {
 
