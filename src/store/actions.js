@@ -99,7 +99,7 @@ export const actionGetAllRelationships = ({commit}) => {
 export const getAllIssues = ({commit}, page, size) => {
   return new Promise(() => {
     console.log("Initialize Jira issues");
-    axios.get(JIRA_DASHBOARD_GET_ALL_ISSUES + ':9645/hitec/jira/issues/all', {
+    axios.get(JIRA_DASHBOARD_GET_ALL_ISSUES + '/issues/all', {
       params: {
         page: page,
         size: size
