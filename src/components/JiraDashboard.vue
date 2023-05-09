@@ -111,20 +111,18 @@ export default {
             this.dialog = false;
         },
         getAllIssues() {
-            this.issues = this.$store.dispatch("getAllIssues")
-            console.log(this.issues)
-
-
-            // JiraService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
-            //     const {issues, totalItems} = response.data;
-            //     if(this.search === ""){
-            //         this.issues = issues
-            //         this.totalItems = totalItems
-            //         console.log(this.issues + "at filter ")
-            //     }else{
-            //         this.filterData()
-            //     }
-            // })
+            // this.issues = this.$store.dispatch("getAllIssues")
+            // console.log(this.issues)
+            JiraService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
+                const {issues, totalItems} = response.data;
+                if(this.search === ""){
+                    this.issues = issues
+                    this.totalItems = totalItems
+                    console.log(issues + "at filter ")
+                }else{
+                    this.filterData()
+                }
+            })
         },
         getItemPerPage(val) {
             this.pageSize = val;
