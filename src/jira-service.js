@@ -1,9 +1,8 @@
 import axios from 'axios'
-import {JIRA_DASHBOARD_GET_ALL_ISSUES} from "./RESTconf";
 
-const ISSUE_API_BASE_URL = JIRA_DASHBOARD_GET_ALL_ISSUES + '/issues'
+const ISSUE_API_BASE_URL ='http://localhost:8080/hitec/jira/issues'
 
-class JiraService {
+class IssuesService {
 
     saveIssues(issues){
         var parsedobj = JSON.parse(JSON.stringify(issues))
@@ -24,4 +23,4 @@ class JiraService {
     }
 }
 
-export default new JiraService()
+export default new IssuesService()

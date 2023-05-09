@@ -17,12 +17,12 @@
                 <v-btn @click="closeDialog()" style="margin-top: 200px">CLOSE</v-btn>
             </v-overlay>
             <v-data-table
-                    v-model="selected"
-                    :headers="headers"
-                    :items="issues"
-                    item-key="issueId"
-                    show-select
-                    class="elevation-1"
+                v-model="selected"
+                :headers="headers"
+                :items="getData"
+                item-key="issueId"
+                show-select
+                class="elevation-1"
             >
                 <template v-slot:top>
                     <v-text-field v-model="search" append-icon="mdi-magnify" label=" Search in table..."></v-text-field>
@@ -34,19 +34,19 @@
         <div>
             <v-card class="v-card">
                 <v-data-table
-                        :headers="headers"
-                        :items="issues"
-                        item-key="issueId"
-                        class="elevation-1"
-                        :footer-props="{
+                    :headers="headers"
+                    :items="getData"
+                    item-key="issueId"
+                    class="elevation-1"
+                    :footer-props="{
                'items-per-page-text':'Issues per Page',
                'items-per-page-options': [5, 10, 20, 50, -1],
              }"
-                        :items-per-page="this.pageSize"
-                        :page="pageNum"
-                        :server-items-length="this.totalItems"
-                        @update:items-per-page="getItemPerPage"
-                        @update:page="getPageNum"
+                    :items-per-page="this.pageSize"
+                    :page="pageNum"
+                    :server-items-length="this.totalItems"
+                    @update:items-per-page="getItemPerPage"
+                    @update:page="getPageNum"
                 >
                     <template v-slot:top>
                         <v-text-field v-model="search" append-icon="mdi-magnify" label=" Search in table..."></v-text-field>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import JiraService from "../jira-service";
+import IssuesService from "/src/jira-service";
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: "Issue",
@@ -92,19 +92,14 @@ export default {
         getIssuesByProjectName(){
             this.dialog = true
             this.loading = true
-            JiraService.getIssuesByProjectName(this.projectName).then((response) => {
-                console.log(response.data)
-                console.log("response.data")
+            IssuesService.getIssuesByProjectName(this.projectName).then((response) => {
                 this.issues = response.data
                 this.loading = false
-                console.log(this.issues)
-                console.log(response)
-                console.log("response")
             })
         },
         saveSelectedIssues(){
             this.dialog = false
-            JiraService.saveIssues(this.selected).then((response) => {
+            IssuesService.saveIssues(this.selected).then((response) => {
                 this.issues = response.data
                 this.getAllIssues()
             })
@@ -113,18 +108,19 @@ export default {
             this.dialog = false;
         },
         getAllIssues() {
-            // this.issues = this.$store.dispatch("getAllIssues")
-            // console.log(this.issues)
-            JiraService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
+            // console.log("JA")
+            // console.log(this.search)
+            IssuesService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
                 const {issues, totalItems} = response.data;
+                // console.log("NEIN")
                 if(this.search === ""){
                     this.issues = issues
                     this.totalItems = totalItems
-                    console.log(issues)
-                    console.log("issues")
                 }else{
                     this.filterData()
                 }
+                // console.log(this.issues + " ALLLL")
+                // console.log(totalItems)
             })
         },
         getItemPerPage(val) {
