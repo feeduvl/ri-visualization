@@ -35,7 +35,7 @@
             <v-card class="v-card">
                 <v-data-table
                         :headers="headers"
-                        :items="[...$store.state.issues]"
+                        :items="getData"
                         item-key="issueId"
                         class="elevation-1"
                         :footer-props="{
@@ -61,7 +61,6 @@
 
 <script>
 import JiraService from "../jira-service";
-import {getAllIssues} from "../store/actions";
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: "Issue",
@@ -93,11 +92,10 @@ export default {
         getIssuesByProjectName(){
             this.dialog = true
             this.loading = true
-            this.$store.dispatch("getAllIssues", this.projectName)
-            // JiraService.getIssuesByProjectName(this.projectName).then((response) => {
-            //     this.issues = response.data
-            //     this.loading = false
-            // })
+            JiraService.getIssuesByProjectName(this.projectName).then((response) => {
+                this.issues = response.data
+                this.loading = false
+            })
         },
         saveSelectedIssues(){
             this.dialog = false
@@ -110,19 +108,15 @@ export default {
             this.dialog = false;
         },
         getAllIssues() {
-            this.$store.dispatch("getAllIssues").action({
-                page: this.pageNum,
-                size: this.pageSize
+            JiraService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
+                const {issues, totalItems} = response.data;
+                if(this.search === ""){
+                    this.issues = issues
+                    this.totalItems = totalItems
+                }else{
+                    this.filterData()
+                }
             })
-            // JiraService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
-            //     const {issues, totalItems} = response.data;
-            //     if(this.search === ""){
-            //         this.issues = issues
-            //         this.totalItems = totalItems
-            //     }else{
-            //         this.filterData()
-            //     }
-            // })
         },
         getItemPerPage(val) {
             this.pageSize = val;
