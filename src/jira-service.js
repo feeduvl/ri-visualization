@@ -1,6 +1,7 @@
 import axios from 'axios'
+import {JIRA_DASHBOARD_GET_ALL_ISSUES} from "./RESTconf";
 
-const ISSUE_API_BASE_URL ='http://feed-uvl.ifi.uni-heidelberg.de/hitec/jira/issues'
+const ISSUE_API_BASE_URL = JIRA_DASHBOARD_GET_ALL_ISSUES +'/hitec/jira/issues'
 
 class IssuesService {
 
