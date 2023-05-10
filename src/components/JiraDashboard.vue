@@ -61,10 +61,9 @@
 
 <script>
 import IssuesService from "/src/jira-service";
-import {mapGetters} from "vuex";
 import {getIssues} from "../store/getters";
 import axios from "axios";
-import {mapGetters, mapState} from "vuex";
+import {mapState} from "vuex";
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: "Issue",
