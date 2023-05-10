@@ -61,6 +61,8 @@
 
 <script>
 import IssuesService from "/src/jira-service";
+// import {mapGetters} from "vuex";
+// import {jiraIssues} from "../store/getters";
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: "Issue",
@@ -88,6 +90,7 @@ export default {
             loading: false,
         }
     },
+
     methods: {
         getIssuesByProjectName(){
             this.dialog = true
@@ -95,9 +98,7 @@ export default {
             IssuesService.getIssuesByProjectName(this.projectName).then((response) => {
                 this.issues = response.data
                 this.loading = false
-                var parsedobj = JSON.parse(JSON.stringify(response.data))
-                console.log(parsedobj)
-                this.issues = parsedobj
+                this.issues = JSON.parse(JSON.stringify(this.issues))
                 console.log(response.data)
                 console.log(this.issues)
                 console.log("get from jira")
@@ -142,6 +143,9 @@ export default {
         },
     },
     computed: {
+        // ...mapGetters({
+        //     issues: 'jiraIssues',
+        // }),
         getData(){
             if(this.search === ""){
                 return this.issues
