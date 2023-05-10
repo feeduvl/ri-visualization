@@ -143,7 +143,8 @@ export default {
         getData(){
             if(this.search === ""){
                 console.log(this.issues)
-                return this.issues
+                console.log(JSON.parse(this.issues))
+                return JSON.parse(this.issues)
             }else{
                 return this.filterData
             }
