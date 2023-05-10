@@ -100,7 +100,12 @@ export const actionGetAllRelationships = ({commit}) => {
 export const getAllIssues = ({commit}, page, size) => {
   return new Promise(() => {
     console.log("Initialize Jira issues");
-    IssuesService.getAllIssues(page, size).then(response => {
+    axios.get(JIRA_DASHBOARD_GET_ALL_ISSUES + `/issues/all`, {
+      params: {
+        page: page,
+        size: size
+      }
+    }).then(response => {
       // eslint-disable-next-line camelcase
       const {issues} = response.data;
       console.log("Got all issues");
