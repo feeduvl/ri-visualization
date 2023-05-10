@@ -95,6 +95,8 @@ export default {
             IssuesService.getIssuesByProjectName(this.projectName).then((response) => {
                 this.issues = response.data
                 this.loading = false
+                var parsedobj = JSON.parse(JSON.stringify(response.data))
+                console.log(parsedobj)
                 console.log(response.data)
                 console.log(this.issues)
                 console.log("get from jira")
