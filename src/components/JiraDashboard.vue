@@ -7,7 +7,7 @@
         </div>
         <div class="project-import">
             <v-text-field v-model="projectName" append-icon="mdi-magnify" label="which project do you want to import ..."></v-text-field>
-            <v-btn dark color="blue" @click="getIssues"> SEARCH </v-btn>
+            <v-btn dark color="blue" @click="getIssues()"> SEARCH </v-btn>
         </div>
         <v-dialog v-model="dialog" width="70%" >
             <v-overlay v-if="loading">
@@ -152,6 +152,7 @@ export default {
             // console.log(this.$store.state.issues)
             // console.log("HALLO")
             // console.log(this.issues)
+            console.log(this.$store.state.issues)
             this.loading = false
         },
     },
