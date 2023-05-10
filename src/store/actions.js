@@ -35,7 +35,7 @@ import {
   APP_REVIEW_CRAWLER_GET_JOBS_ENDPOINT,
   POST_APP_REVIEW_CRAWLER_DATA_ENDPOINT,
   DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT,
-  POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT, JIRA_DASHBOARD_GET_ALL_ISSUES
+  POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -47,8 +47,6 @@ import {
   MUTATE_FOOTER_TEXT,
   MUTATE_TOP_BAR_LINK
 } from '@/store/types';
-import {setJiraIssues} from "./mutations";
-import IssuesService from "../jira-service";
 
 export const actionPostAllRelationships= ({commit}, {newRelationships, newOwners}) => {
   return new Promise((resolve, reject) => {
@@ -94,33 +92,6 @@ export const actionGetAllRelationships = ({commit}) => {
         commit("setRelationshipOwners", owners);
       })
       .catch(e => console.error("Error getting relationships: "+e));
-  });
-};
-
-export const getAllIssues = ({commit}, projectName) => {
-  return new Promise(() => {
-    console.log("Initialize Jira issues");
-    axios.get(JIRA_DASHBOARD_GET_ALL_ISSUES + `/issues/load/proj/${projectName}`).then(response => {
-      // eslint-disable-next-line camelcase
-      // const {issues} = response.data;
-      const issues = response.data;
-      console.log("Got all issues");
-      commit("setJiraIssues", issues);
-      // commit("setRelationshipOwners", totalItems);
-    }).catch(e => console.error("Error: "+e));
-  });
-};
-
-export const getAllIssuesFromJira = ({commit}, projectName) => {
-  return new Promise(() => {
-    console.log("Getting all issues");
-    axios.get(JIRA_DASHBOARD_GET_ALL_ISSUES + `/issues/load/proj/${projectName}`)
-        .then(response => {
-          const {tores} = response.data;
-          console.log("Got all tores");
-          commit("setJiraIssues", tores);
-        })
-        .catch(e => console.error("Error getting tores: "+e));
   });
 };
 

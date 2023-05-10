@@ -41,9 +41,7 @@ export const store = new Vuex.Store({
     // feed-uvl
     datasets: [],
     results: [],
-    issues:[],
     selectedDataset: {},
-    jiraIssues: {},
     selectedResult: {},
     selectedConcept: "",
     selectedMethod: "",

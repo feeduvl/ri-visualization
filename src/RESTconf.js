@@ -156,7 +156,7 @@ export const POST_CRAWLER_DATA_ENDPOINT = `${BASE_URL}/hitec/repository/concepts
 export const DELETE_CRAWLER_JOB_ENDPOINT = function(date){
   return `${BASE_URL}/hitec/repository/concepts/store/reddit_crawler/jobs/${date}`
 };
-export const JIRA_DASHBOARD_GET_ALL_ISSUES = `${BASE_URL}/hitec/jira`
+export const JIRA_DASHBOARD_BASE_URL = `${BASE_URL}/hitec/jira`
 // app review crawler 
 export const APP_REVIEW_CRAWLER_ENDPOINT = `${BASE_URL}/hitec/app/crawl`
 export const APP_REVIEW_CRAWLER_GET_JOBS_ENDPOINT = `${BASE_URL}/hitec/repository/concepts/app_review_crawler_jobs/all`

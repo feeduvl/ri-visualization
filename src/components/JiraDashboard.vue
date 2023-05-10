@@ -19,13 +19,19 @@
             <v-data-table
                 v-model="selected"
                 :headers="headers"
-                :items="issues"
+                :items="getData"
                 item-key="issueId"
                 show-select
                 class="elevation-1"
             >
                 <template v-slot:top>
                     <v-text-field v-model="search" append-icon="mdi-magnify" label=" Search in table..."></v-text-field>
+                </template>
+                <template v-slot:items="props">
+                    <td class="text-xs-right">{{ props.item.issueId }}</td>
+                    <td class="text-xs-right">{{ props.item.key }}</td>
+                    <td class="text-xs-right">{{ props.item.issueType }}</td>
+                    <td class="text-xs-right">{{ props.item.projectName }}</td>
                 </template>
             </v-data-table>
             <v-btn @click="saveSelectedIssues()">Import</v-btn>
@@ -101,7 +107,6 @@ export default {
             IssuesService.getIssuesByProjectName(this.projectName).then((response) => {
                 this.issues = response.data
                 this.loading = false
-                // this.issues = JSON.parse(JSON.stringify(response.data))
                 console.log(response.data)
                 console.log(this.issues)
                 console.log("get from jira")
@@ -118,11 +123,8 @@ export default {
             this.dialog = false;
         },
         getAllIssues() {
-            // console.log("JA")
-            // console.log(this.search)
             IssuesService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
                 const {issues, totalItems} = response.data;
-                // console.log("NEIN")
                 if(this.search === ""){
                     this.issues = issues
                     console.log(issues)
@@ -132,8 +134,6 @@ export default {
                 }else{
                     this.filterData()
                 }
-                // console.log(this.issues + " ALLLL")
-                // console.log(totalItems)
             })
         },
         getItemPerPage(val) {
@@ -148,7 +148,6 @@ export default {
     computed: {
         getData(){
             if(this.search === ""){
-                console.log(this.issues)
                 return this.issues
             }else{
                 return this.filterData

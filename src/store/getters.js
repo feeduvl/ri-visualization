@@ -40,9 +40,6 @@ export const datasets = state => {
 export const selectedDataset = state => {
   return state.selectedDataset;
 };
-// export const getIssues = state => {
-//   return state.issues;
-// };
 export const selectedResult = state => {
   return state.selectedResult;
 };
