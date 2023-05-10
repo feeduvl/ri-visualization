@@ -7,7 +7,7 @@
         </div>
         <div class="project-import">
             <v-text-field v-model="projectName" append-icon="mdi-magnify" label="which project do you want to import ..."></v-text-field>
-            <v-btn dark color="blue" @click="getIssuesByProjectName()"> SEARCH </v-btn>
+            <v-btn dark color="blue" @click="getIssues()"> SEARCH </v-btn>
         </div>
         <v-dialog v-model="dialog" width="70%" >
             <v-overlay v-if="loading">
@@ -35,7 +35,7 @@
             <v-card class="v-card">
                 <v-data-table
                     :headers="headers"
-                    :items="getData"
+                    :items="getIssues"
                     item-key="issueId"
                     class="elevation-1"
                     :footer-props="{
@@ -93,6 +93,12 @@ export default {
     },
 
     methods: {
+        getIssues() {
+            this.issues = this.$store.dispatch("getAllIssues", this.projectName)
+            console.log(this.$store.state.issues)
+            console.log(this.issues)
+            return this.issues
+        },
         getIssuesByProjectName(){
             this.dialog = true
             this.loading = true
@@ -142,11 +148,6 @@ export default {
             this.pageNum = val
             this.getAllIssues()
         },
-        getIssues() {
-            this.issues = this.$store.dispatch("getAllIssues", this.pageNum, this.pageSize)
-            console.log(this.issues)
-            return this.issues
-        },
     },
     computed: {
 
@@ -166,9 +167,9 @@ export default {
             })
         }
     },
-    created() {
-        this.getIssues()
-    },
+    // created() {
+    //     this.getAllIssues()
+    // },
 
 }
 </script>

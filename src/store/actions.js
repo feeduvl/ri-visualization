@@ -97,17 +97,13 @@ export const actionGetAllRelationships = ({commit}) => {
   });
 };
 
-export const getAllIssues = ({commit}, page, size) => {
+export const getAllIssues = ({commit}, projectName) => {
   return new Promise(() => {
     console.log("Initialize Jira issues");
-    axios.get(JIRA_DASHBOARD_GET_ALL_ISSUES + `/issues/all`, {
-      params: {
-        page: page,
-        size: 10
-      }
-    }).then(response => {
+    axios.get(JIRA_DASHBOARD_GET_ALL_ISSUES + `/issues/load/proj/${projectName}`).then(response => {
       // eslint-disable-next-line camelcase
-      const {issues} = response.data;
+      // const {issues} = response.data;
+      const issues = response.data;
       console.log("Got all issues");
       commit("setJiraIssues", issues);
       // commit("setRelationshipOwners", totalItems);
