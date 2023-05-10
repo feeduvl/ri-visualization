@@ -7,7 +7,7 @@
         </div>
         <div class="project-import">
             <v-text-field v-model="projectName" append-icon="mdi-magnify" label="which project do you want to import ..."></v-text-field>
-            <v-btn dark color="blue" @click="getIssues()"> SEARCH </v-btn>
+            <v-btn dark color="blue" @click="getIssuesByProjectName()"> SEARCH </v-btn>
         </div>
         <v-dialog v-model="dialog" width="70%" >
             <v-overlay v-if="loading">
@@ -19,7 +19,7 @@
             <v-data-table
                 v-model="selected"
                 :headers="headers"
-                :items="issues"
+                :items="getData"
                 item-key="issueId"
                 show-select
                 class="elevation-1"
@@ -80,7 +80,7 @@ export default {
                 {text: "Issue Type", value: "issueType"},
                 {text: "Project Name", value: "projectName"},
             ],
-            issues1: [],
+            issues: [],
             search:"",
             totalItems: 0,
             pageNum: 1,
@@ -93,14 +93,13 @@ export default {
     },
 
     methods: {
-
         getIssuesByProjectName(){
             this.dialog = true
             this.loading = true
             IssuesService.getIssuesByProjectName(this.projectName).then((response) => {
-                // this.issues = response.data
+                this.issues = response.data
                 this.loading = false
-                this.issues = JSON.parse(JSON.stringify(response.data))
+                // this.issues = JSON.parse(JSON.stringify(response.data))
                 console.log(response.data)
                 console.log(this.issues)
                 console.log("get from jira")
@@ -157,11 +156,6 @@ export default {
         },
     },
     computed: {
-        ...mapState([
-            "issues"
-        ]),
-
-
         getData(){
             if(this.search === ""){
                 return this.issues
