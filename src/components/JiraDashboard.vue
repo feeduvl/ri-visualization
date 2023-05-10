@@ -96,9 +96,8 @@ export default {
         getIssues() {
             this.dialog = true
             this.loading = true
-            this.$store.dispatch("getAllIssues", this.projectName)
-            this.issues = this.$store.state.issues
-            console.log(this.$store.state.issues)
+            this.issues = this.$store.dispatch("getAllIssues", this.projectName)
+            console.log(this.$store.dispatch("getAllIssues", this.projectName))
             console.log("HALLO")
             console.log(this.issues)
             this.loading = false
