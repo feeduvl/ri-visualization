@@ -19,7 +19,7 @@
             <v-data-table
                 v-model="selected"
                 :headers="headers"
-                :items="getData"
+                :items="issues"
                 item-key="issueId"
                 show-select
                 class="elevation-1"
@@ -61,9 +61,6 @@
 
 <script>
 import IssuesService from "/src/jira-service";
-import {getIssues} from "../store/getters";
-import axios from "axios";
-import {mapState} from "vuex";
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: "Issue",
@@ -91,7 +88,6 @@ export default {
             loading: false,
         }
     },
-
     methods: {
         getIssuesByProjectName(){
             this.dialog = true
@@ -142,22 +138,11 @@ export default {
             this.pageNum = val
             this.getAllIssues()
         },
-        getIssues() {
-            this.dialog = true
-            this.loading = true
-            // this.issues =
-            this.$store.dispatch("getAllIssuesFromJira", this.projectName)
-            // console.log(this.$store.dispatch("getAllIssues", this.projectName))
-            // console.log(this.$store.state.issues)
-            // console.log("HALLO")
-            // console.log(this.issues)
-            console.log(this.$store.state.issues)
-            this.loading = false
-        },
     },
     computed: {
         getData(){
             if(this.search === ""){
+                console.log(this.issues)
                 return this.issues
             }else{
                 return this.filterData
