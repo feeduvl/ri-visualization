@@ -94,8 +94,10 @@ export default {
 
     methods: {
         getIssues() {
-            this.issues = this.$store.dispatch("getAllIssues", this.projectName)
+            this.$store.dispatch("getAllIssues", this.projectName)
+            this.issues = this.$store.state.issues
             console.log(this.$store.state.issues)
+            console.log("HALLO")
             console.log(this.issues)
         },
         getIssuesByProjectName(){
