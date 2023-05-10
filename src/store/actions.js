@@ -101,9 +101,9 @@ export const getAllIssues = ({commit}, page, size) => {
   return new Promise(() => {
     console.log("Initialize Jira issues");
     axios.get(JIRA_DASHBOARD_GET_ALL_ISSUES + `/issues/all`, {
-      params: {
+      parameters: {
         page: page,
-        size: size
+        size: 10
       }
     }).then(response => {
       // eslint-disable-next-line camelcase
