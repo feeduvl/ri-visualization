@@ -35,7 +35,7 @@
             <v-card class="v-card">
                 <v-data-table
                     :headers="headers"
-                    :items="getData"
+                    :items="getIssues"
                     item-key="issueId"
                     class="elevation-1"
                     :footer-props="{
@@ -61,8 +61,9 @@
 
 <script>
 import IssuesService from "/src/jira-service";
-// import {mapGetters} from "vuex";
-// import {jiraIssues} from "../store/getters";
+import {mapGetters} from "vuex";
+import {jiraIssues} from "../store/getters";
+import axios from "axios";
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: "Issue",
@@ -143,9 +144,10 @@ export default {
         },
     },
     computed: {
-        // ...mapGetters({
-        //     issues: 'jiraIssues',
-        // }),
+        getIssues() {
+            this.$store.dispatch("getAllIssues", this.pageNum, this.pageSize)
+            return this.$store.state.issues
+        },
         getData(){
             if(this.search === ""){
                 return this.issues
@@ -162,9 +164,9 @@ export default {
             })
         }
     },
-    created() {
-        this.getAllIssues()
-    },
+    // created() {
+    //     this.getAllIssues()
+    // },
 
 }
 </script>

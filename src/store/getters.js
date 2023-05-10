@@ -40,6 +40,9 @@ export const datasets = state => {
 export const selectedDataset = state => {
   return state.selectedDataset;
 };
+export const jiraIssues = state => {
+  return state.jiraIssues;
+};
 export const selectedResult = state => {
   return state.selectedResult;
 };
