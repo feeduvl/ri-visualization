@@ -35,7 +35,7 @@
             <v-card class="v-card">
                 <v-data-table
                     :headers="headers"
-                    :items="getIssues"
+                    :items="getData"
                     item-key="issueId"
                     class="elevation-1"
                     :footer-props="{
@@ -142,14 +142,14 @@ export default {
             this.pageNum = val
             this.getAllIssues()
         },
+        getIssues() {
+            this.issues = this.$store.dispatch("getAllIssues", this.pageNum, this.pageSize)
+            console.log(this.issues)
+            return this.issues
+        },
     },
     computed: {
-        getIssues() {
-            this.$store.dispatch("getAllIssues", this.pageNum, this.pageSize)
-            console.log(this.$store.dispatch("getAllIssues", this.pageNum, this.pageSize))
-            console.log(this.$store.state.issues)
-            return this.$store.state.issues
-        },
+
         getData(){
             if(this.search === ""){
                 return this.issues
@@ -166,9 +166,9 @@ export default {
             })
         }
     },
-    // created() {
-    //     this.getAllIssues()
-    // },
+    created() {
+        this.getIssues()
+    },
 
 }
 </script>
