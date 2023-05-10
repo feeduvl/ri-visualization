@@ -146,6 +146,8 @@ export default {
     computed: {
         getIssues() {
             this.$store.dispatch("getAllIssues", this.pageNum, this.pageSize)
+            console.log(this.$store.dispatch("getAllIssues", this.pageNum, this.pageSize))
+            console.log(this.$store.state.issues)
             return this.$store.state.issues
         },
         getData(){

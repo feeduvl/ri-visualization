@@ -48,6 +48,7 @@ import {
   MUTATE_TOP_BAR_LINK
 } from '@/store/types';
 import {setJiraIssues} from "./mutations";
+import IssuesService from "../jira-service";
 
 export const actionPostAllRelationships= ({commit}, {newRelationships, newOwners}) => {
   return new Promise((resolve, reject) => {
@@ -99,12 +100,7 @@ export const actionGetAllRelationships = ({commit}) => {
 export const getAllIssues = ({commit}, page, size) => {
   return new Promise(() => {
     console.log("Initialize Jira issues");
-    axios.get(JIRA_DASHBOARD_GET_ALL_ISSUES + '/issues/all', {
-      params: {
-        page: page,
-        size: size
-      }
-    }).then(response => {
+    IssuesService.getAllIssues(page, size).then(response => {
       // eslint-disable-next-line camelcase
       const {issues} = response.data;
       console.log("Got all relationships");
