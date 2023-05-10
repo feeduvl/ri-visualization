@@ -103,7 +103,7 @@ export const getAllIssues = ({commit}, page, size) => {
     IssuesService.getAllIssues(page, size).then(response => {
       // eslint-disable-next-line camelcase
       const {issues} = response.data;
-      console.log("Got all relationships");
+      console.log("Got all issues");
       commit("setJiraIssues", issues);
       // commit("setRelationshipOwners", totalItems);
     }).catch(e => console.error("Error: "+e));
