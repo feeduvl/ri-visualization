@@ -35,7 +35,7 @@
             <v-card class="v-card">
                 <v-data-table
                     :headers="headers"
-                    :items="getIssues"
+                    :items="getData"
                     item-key="issueId"
                     class="elevation-1"
                     :footer-props="{
@@ -97,7 +97,6 @@ export default {
             this.issues = this.$store.dispatch("getAllIssues", this.projectName)
             console.log(this.$store.state.issues)
             console.log(this.issues)
-            return this.issues
         },
         getIssuesByProjectName(){
             this.dialog = true
@@ -167,9 +166,9 @@ export default {
             })
         }
     },
-    // created() {
-    //     this.getAllIssues()
-    // },
+    created() {
+        this.getAllIssues()
+    },
 
 }
 </script>
