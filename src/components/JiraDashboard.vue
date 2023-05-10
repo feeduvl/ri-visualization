@@ -94,11 +94,14 @@ export default {
 
     methods: {
         getIssues() {
+            this.dialog = true
+            this.loading = true
             this.$store.dispatch("getAllIssues", this.projectName)
             this.issues = this.$store.state.issues
             console.log(this.$store.state.issues)
             console.log("HALLO")
             console.log(this.issues)
+            this.loading = false
         },
         getIssuesByProjectName(){
             this.dialog = true
