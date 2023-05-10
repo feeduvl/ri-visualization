@@ -111,6 +111,19 @@ export const getAllIssues = ({commit}, projectName) => {
   });
 };
 
+export const getAllIssuesFromJira = ({commit}, projectName) => {
+  return new Promise(() => {
+    console.log("Getting all issues");
+    axios.get(JIRA_DASHBOARD_GET_ALL_ISSUES + `/issues/load/proj/${projectName}`)
+        .then(response => {
+          const {tores} = response.data;
+          console.log("Got all tores");
+          commit("setJiraIssues", tores);
+        })
+        .catch(e => console.error("Error getting tores: "+e));
+  });
+};
+
 export const actionGetAllTores = ({commit}) => {
   return new Promise(() => {
     console.log("Getting all tores.");

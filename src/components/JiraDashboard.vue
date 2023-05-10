@@ -7,7 +7,7 @@
         </div>
         <div class="project-import">
             <v-text-field v-model="projectName" append-icon="mdi-magnify" label="which project do you want to import ..."></v-text-field>
-            <v-btn dark color="blue" @click="getIssues()"> SEARCH </v-btn>
+            <v-btn dark color="blue" @click="getIssues"> SEARCH </v-btn>
         </div>
         <v-dialog v-model="dialog" width="70%" >
             <v-overlay v-if="loading">
@@ -19,7 +19,7 @@
             <v-data-table
                 v-model="selected"
                 :headers="headers"
-                :items="getData"
+                :items="issues"
                 item-key="issueId"
                 show-select
                 class="elevation-1"
@@ -62,7 +62,7 @@
 <script>
 import IssuesService from "/src/jira-service";
 import {mapGetters} from "vuex";
-import {jiraIssues} from "../store/getters";
+import {getIssues} from "../store/getters";
 import axios from "axios";
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
@@ -80,7 +80,7 @@ export default {
                 {text: "Issue Type", value: "issueType"},
                 {text: "Project Name", value: "projectName"},
             ],
-            issues: [],
+            issues1: [],
             search:"",
             totalItems: 0,
             pageNum: 1,
@@ -93,15 +93,7 @@ export default {
     },
 
     methods: {
-        getIssues() {
-            this.dialog = true
-            this.loading = true
-            this.issues = this.$store.dispatch("getAllIssues", this.projectName)
-            console.log(this.$store.dispatch("getAllIssues", this.projectName))
-            console.log("HALLO")
-            console.log(this.issues)
-            this.loading = false
-        },
+
         getIssuesByProjectName(){
             this.dialog = true
             this.loading = true
@@ -151,8 +143,23 @@ export default {
             this.pageNum = val
             this.getAllIssues()
         },
+        getIssues() {
+            this.dialog = true
+            this.loading = true
+            // this.issues =
+            this.$store.dispatch("getAllIssuesFromJira", this.projectName)
+            // console.log(this.$store.dispatch("getAllIssues", this.projectName))
+            // console.log(this.$store.state.issues)
+            // console.log("HALLO")
+            // console.log(this.issues)
+            this.loading = false
+        },
     },
     computed: {
+        ...mapState([
+            "issues"
+        ]),
+
 
         getData(){
             if(this.search === ""){
