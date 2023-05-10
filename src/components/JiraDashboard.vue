@@ -97,6 +97,7 @@ export default {
                 this.loading = false
                 var parsedobj = JSON.parse(JSON.stringify(response.data))
                 console.log(parsedobj)
+                this.issues = parsedobj
                 console.log(response.data)
                 console.log(this.issues)
                 console.log("get from jira")
