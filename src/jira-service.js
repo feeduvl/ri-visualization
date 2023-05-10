@@ -14,13 +14,29 @@ class IssuesService {
     getIssuesByProjectName(projectName){
         return axios.get(ISSUE_API_BASE_URL + `/load/proj/${projectName}`);
     }
-    getAllIssues(page, size){
-        return axios.get(ISSUE_API_BASE_URL + `/all`, {
-            params: {
-                page: page,
-                size: size
-            }
+    getAllIssues = ({commit}, page, size) => {
+    // getAllIssues(page, size){
+        return new Promise(() => {
+            console.log("Initialize Jira issues");
+            axios.get(ISSUE_API_BASE_URL + `/all`, {
+                params: {
+                    page: page,
+                    size: size
+                }
+            }).then(response => {
+                // eslint-disable-next-line camelcase
+                const {issues} = response.data;
+                console.log("Got all relationships");
+                commit("setJiraIssues", issues);
+                // commit("setRelationshipOwners", totalItems);
+            }).catch(e => console.error("Error: "+e));
         });
+        // return axios.get(ISSUE_API_BASE_URL + `/all`, {
+        //     params: {
+        //         page: page,
+        //         size: size
+        //     }
+        // });
     }
 }
 

@@ -97,9 +97,9 @@ export default {
             this.dialog = true
             this.loading = true
             IssuesService.getIssuesByProjectName(this.projectName).then((response) => {
-                this.issues = response.data
+                // this.issues = response.data
                 this.loading = false
-                this.issues = JSON.parse(JSON.stringify(this.issues))
+                this.issues = JSON.parse(JSON.stringify(response.data))
                 console.log(response.data)
                 console.log(this.issues)
                 console.log("get from jira")
