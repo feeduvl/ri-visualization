@@ -51,6 +51,12 @@
                     <template v-slot:top>
                         <v-text-field v-model="search" append-icon="mdi-magnify" label=" Search in table..."></v-text-field>
                     </template>
+                    <template v-slot:items="props">
+                        <td class="text-xs-right">{{ props.item.issueId }}</td>
+                        <td class="text-xs-right">{{ props.item.key }}</td>
+                        <td class="text-xs-right">{{ props.item.issueType }}</td>
+                        <td class="text-xs-right">{{ props.item.projectName }}</td>
+                    </template>
                 </v-data-table>
             </v-card>
 
@@ -143,8 +149,7 @@ export default {
         getData(){
             if(this.search === ""){
                 console.log(this.issues)
-                console.log(JSON.parse(this.issues))
-                return JSON.parse(this.issues)
+                return this.issues
             }else{
                 return this.filterData
             }
