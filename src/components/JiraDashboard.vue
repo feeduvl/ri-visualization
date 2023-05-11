@@ -172,6 +172,7 @@ export default {
             IssuesService.getIssuesByTypes(this.projectName, this.selectedIssuesTypes).then((response) => {
                 this.issues = response.data
                 this.loading = false
+                this.selectedIssuesTypes = ""
                 console.log(response.data)
                 console.log(this.issues)
                 console.log("get issues jira")
@@ -207,6 +208,7 @@ export default {
                     console.log(this.issues)
                     console.log("get from db")
                     this.totalItems = totalItems
+                    this.selectedIssues = "";
                 }else{
                     this.filterData()
                 }
