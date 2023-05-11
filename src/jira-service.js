@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {JIRA_DASHBOARD_BASE_URL} from "./RESTconf";
 
-const ISSUE_API_BASE_URL = JIRA_DASHBOARD_BASE_URL +'/issues'
+const ISSUE_API_BASE_URL = JIRA_DASHBOARD_BASE_URL
 
 class IssuesService {
 
