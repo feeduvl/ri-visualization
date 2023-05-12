@@ -13,6 +13,7 @@
             ></v-select>
             <v-text-field v-model="projectName" append-icon="mdi-magnify" label="which project do you want to import ..."></v-text-field>
             <v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH </v-btn>
+            <p v-if="!isProjectSelected" style="color: red">No project selected. Please select a project</p>
         </div>
         <v-dialog v-model="dialogIssueTypes" width="70%" >
             <div class="overlay" v-if="loading" >
@@ -25,10 +26,11 @@
                 <v-data-table
                     v-model="selectedIssuesTypes"
                     :headers="headersIssueTypes"
-                    :items="myItemsTransformed"
+                    :items="getIssueTypes"
                     item-key="item"
                     select-all
                     class="elevation-1"
+                    rows-per-page-text="IssueTypes per page"
                 >
                     <template v-slot:items="props">
                         <td>
@@ -61,10 +63,11 @@
                     <v-data-table
                         v-model="selectedIssues"
                         :headers="headers"
-                        :items="getData"
+                        :items="getIssuesToSelect"
                         select-all
                         item-key="key"
                         class="elevation-1"
+                        rows-per-page-text="Issues per page"
                     >
                         <template v-slot:items="props">
                             <td>
@@ -94,18 +97,14 @@
                 </v-card-title>
                 <v-data-table
                     :headers="headers"
-                    :items="getData"
+                    :items="getIssues"
                     item-key="key"
                     class="elevation-1"
-                    :footer-props="{
-               'rows-per-page-text':'Issues per Page',
-               'rows-per-page-items': [5, 10, 20, 50, -1],
-             }"
-                    :items-per-page="this.pageSize"
-                    :page="pageNum"
                     :total-items="totalItems"
-                    @update:items-per-page="getItemPerPage"
-                    @update:page="getPageNum"
+                    rows-per-page-text="Issues per page"
+                    :rows-per-page-items="pagination.rowsPerPageItems"
+                    :pagination.sync="pagination"
+                    @update:pagination.self="getAllIssues()"
                 >
                     <template v-slot:items="props">
                         <td>{{ props.item.key }}</td>
@@ -139,6 +138,7 @@ export default {
             ],
             issues: [],
             issueTypes: [],
+            issuesToImportOrAdd: [],
             search:"",
             totalItems: 0,
             pageNum: 1,
@@ -151,30 +151,43 @@ export default {
             loading: false,
             projectNames: [],
             selectProjectName: "",
+            isProjectSelected: true,
+            pagination: {
+                sortBy: "key",
+                descending: false,
+                page: 1,
+                rowsPerPage: 10,
+                rowsPerPageItems: [5,10,25,50,100,{"text":"All","value":-1}]
+            },
         }
     },
     methods: {
         getIssueTypesByProjectName(){
-            this.dialogIssueTypes = true
-            this.loading = true
-            IssuesService.getIssueTypesByProjectName(this.projectName).then((response) => {
-                this.issueTypes = response.data
-                this.loading = false
-                console.log(response.data)
-                console.log(this.issueTypes)
-                console.log("get issueTypes jira")
-            })
+            if(this.projectName === ""){
+                return this.isProjectSelected = false
+            }else{
+                this.isProjectSelected = true
+                this.dialogIssueTypes = true
+                this.loading = true
+                IssuesService.getIssueTypesByProjectName(this.projectName).then((response) => {
+                    this.issueTypes = response.data
+                    this.loading = false
+                    console.log(response.data)
+                    console.log(this.issueTypes)
+                    console.log("get issueTypes jira")
+                })
+            }
+
         },
         getIssuesByTypes(){
             this.dialogIssueTypes = false
             this.dialogIssues = true
             this.loading = true
             IssuesService.getIssuesByTypes(this.projectName, this.selectedIssuesTypes).then((response) => {
-                this.issues = response.data
+                this.issuesToImportOrAdd = response.data
                 this.loading = false
-                this.selectedIssuesTypes = ""
                 console.log(response.data)
-                console.log(this.issues)
+                console.log(this.issuesToImportOrAdd)
                 console.log("get issues jira")
             })
         },
@@ -182,6 +195,7 @@ export default {
             this.dialogIssues = false
             IssuesService.importIssues(this.selectedIssues).then((response) => {
                 this.issues = response.data
+                this.selectedIssues = []
                 this.getAllIssues()
             })
         },
@@ -189,6 +203,7 @@ export default {
             this.dialogIssues = false
             IssuesService.addIssues(this.selectedIssues).then((response) => {
                 this.issues = response.data
+                this.selectedIssues = []
                 console.log(this.issues)
                 this.getAllIssues()
             })
@@ -200,27 +215,15 @@ export default {
             this.dialogIssues = false;
         },
         getAllIssues() {
-            IssuesService.getAllIssues(this.pageNum, this.pageSize).then((response) => {
+            console.log(this.pagination.rowsPerPage)
+            IssuesService.getAllIssues(this.pagination.page, this.pagination.rowsPerPage).then((response) => {
                 const {issues, totalItems} = response.data;
-                if(this.search === ""){
-                    this.issues = issues
-                    console.log(issues)
-                    console.log(this.issues)
-                    console.log("get from db")
-                    this.totalItems = totalItems
-                    this.selectedIssues = "";
-                }else{
-                    this.filterData()
-                }
+                this.issues = issues
+                console.log(issues)
+                console.log(this.issues)
+                console.log("get from db")
+                this.totalItems = totalItems
             })
-        },
-        getItemPerPage(val) {
-            this.pageSize = val;
-            this.getAllIssues()
-        },
-        getPageNum(val) {
-            this.pageNum = val
-            this.getAllIssues()
         },
         getProjectNames(){
             IssuesService.getProjectNames().then((response) => {
@@ -229,19 +232,35 @@ export default {
         }
     },
     computed: {
-        myItemsTransformed() {
+        getIssueTypes() {
             return this.issueTypes.map(item => ({
                 item }));
         },
-        getData(){
+        getIssues(){
+
             if(this.search === ""){
                 return this.issues
             }else{
-                return this.filterData
+                return this.filterIssues
             }
         },
-        filterData(){
+        getIssuesToSelect(){
+            if(this.search === ""){
+                return this.issuesToImportOrAdd
+            }else{
+                return this.filterIssuesToSelect
+            }
+        },
+        filterIssues(){
             return this.issues.filter(item =>{
+                return item.summary.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+                    || item.key.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+                    || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+                    || item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            })
+        },
+        filterIssuesToSelect(){
+            return this.issuesToImportOrAdd.filter(item =>{
                 return item.summary.toLowerCase().indexOf(this.search.toLowerCase()) > -1
                     || item.key.toLowerCase().indexOf(this.search.toLowerCase()) > -1
                     || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
