@@ -1,19 +1,24 @@
 <template>
     <div class="container">
-        <v-toolbar class="banner" >
-            Jira Connection
+        <v-toolbar class="banner">
+            Jira Dashboard
         </v-toolbar>
-        <div class="project-import">
-            <v-select
-                v-model="projectName"
-                :items="projectNames"
-                box
-                label="Select project"
-                item-text="name"
-            ></v-select>
-            <v-text-field v-model="projectName" append-icon="mdi-magnify" label="which project do you want to import ..."></v-text-field>
-            <v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH </v-btn>
-            <p v-if="!isProjectSelected" style="color: red">No project selected. Please select a project</p>
+        <div class="row">
+            <p style="color: dodgerblue; font-size: 18px; margin-left: 15px" >Select already used projects or search for new:</p>
+            <div class="project-import" >
+                <v-select
+                    class="select-issueTypes"
+                    v-model="projectName"
+                    :items="projectNames"
+                    label="Select project"
+                    item-text="name"
+                    style="width: 25%; margin-left: 20px"
+
+                ></v-select>
+                <v-text-field v-model="projectName" append-icon="mdi-magnify" label="type project name ..." style="margin-left: 55px; width: 35%"></v-text-field>
+                <v-btn dark color="blue" @click="getIssueTypesByProjectName()" style="margin-left: 50px"> SEARCH </v-btn>
+                <p v-if="!isProjectSelected" style="color: red">No project selected. Please select a project</p>
+            </div>
         </div>
         <v-dialog v-model="dialogIssueTypes" width="70%" >
             <div class="overlay" v-if="loading" >
@@ -114,10 +119,8 @@
                     </template>
                 </v-data-table>
             </v-card>
-
         </div>
     </div>
-
 </template>
 
 <script>
@@ -277,11 +280,12 @@ export default {
 </script>
 
 <style>
+.row{
+    margin-top: 30px;
+}
 .project-import{
-    margin-top: 40px;
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
+    display: -webkit-box;
+    display: -moz-box;
 }
 .overlay{
     margin-top: 20px;
