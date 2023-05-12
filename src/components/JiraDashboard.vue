@@ -175,9 +175,6 @@ export default {
                 IssuesService.getIssueTypesByProjectName(this.projectName).then((response) => {
                     this.issueTypes = response.data
                     this.loading = false
-                    console.log(response.data)
-                    console.log(this.issueTypes)
-                    console.log("get issueTypes jira")
                 })
             }
 
@@ -189,9 +186,6 @@ export default {
             IssuesService.getIssuesByTypes(this.projectName, this.selectedIssuesTypes).then((response) => {
                 this.issuesToImportOrAdd = response.data
                 this.loading = false
-                console.log(response.data)
-                console.log(this.issuesToImportOrAdd)
-                console.log("get issues jira")
             })
         },
         importSelectedIssues(){
@@ -207,7 +201,6 @@ export default {
             IssuesService.addIssues(this.selectedIssues).then((response) => {
                 this.issues = response.data
                 this.selectedIssues = []
-                console.log(this.issues)
                 this.getAllIssues()
             })
         },
@@ -218,19 +211,17 @@ export default {
             this.dialogIssues = false;
         },
         getAllIssues() {
-            console.log(this.pagination.rowsPerPage)
             IssuesService.getAllIssues(this.pagination.page, this.pagination.rowsPerPage).then((response) => {
                 const {issues, totalItems} = response.data;
                 this.issues = issues
-                console.log(issues)
-                console.log(this.issues)
-                console.log("get from db")
                 this.totalItems = totalItems
+                console.log(this.issues)
             })
         },
         getProjectNames(){
             IssuesService.getProjectNames().then((response) => {
                 this.projectNames = JSON.parse(JSON.stringify(response.data))
+                console.log(this.projectNames)
             })
         }
     },
@@ -240,7 +231,6 @@ export default {
                 item }));
         },
         getIssues(){
-
             if(this.search === ""){
                 return this.issues
             }else{
