@@ -5,60 +5,74 @@
         </v-toolbar>
         <div class="row">
             <p style="color: dodgerblue; font-size: 18px; margin-left: 15px" >Select already used projects or search for new:</p>
-            <div class="project-import" >
-                <v-select
-                    class="select-issueTypes"
-                    v-model="projectName"
-                    :items="projectNames"
-                    label="Select project"
-                    item-text="name"
-                    style="width: 25%; margin-left: 20px"
-
-                ></v-select>
-                <v-text-field v-model="projectName" append-icon="mdi-magnify" label="type project name ..." style="margin-left: 55px; width: 35%"></v-text-field>
-                <v-btn dark color="blue" @click="getIssueTypesByProjectName()" style="margin-left: 50px"> SEARCH </v-btn>
-                <p v-if="!isProjectSelected" style="color: red">No project selected. Please select a project</p>
-            </div>
+            <v-radio-group  v-model="searchForProject">
+                <div class="project-import">
+                    <v-select
+                        class="select-issueTypes"
+                        v-model="projectNameBySelect"
+                        :items="projectNames"
+                        label="Select project"
+                        item-text="name"
+                        style="margin-left: 15px"
+                        :disabled="searchForProject==='1'"
+                    ></v-select>
+                    <v-radio
+                        value="0"
+                    ></v-radio>
+                    <v-text-field v-model="projectNameBySearch" append-icon="mdi-magnify" label="type project name ..." style="margin-left: 30px; width: 30%"
+                                  :disabled="searchForProject === '0'">
+                    </v-text-field>
+                    <v-radio
+                        value="1"
+                    ></v-radio>
+                    <v-btn dark color="blue" @click="getIssueTypesByProjectName()" style="margin-left: 40px"> SEARCH </v-btn>
+                </div>
+            </v-radio-group>
+            <p v-if="!isProjectSelected" style="color: red">{{warning}}</p>
         </div>
-        <v-dialog v-model="dialogIssueTypes" width="70%" >
-            <div class="overlay" v-if="loading" >
+        <v-dialog v-model="dialogIssueTypes" width="70%">
+            <div class="overlay" v-if="loading">
                 <v-progress-circular indeterminate size="64">
                     Loading...
                 </v-progress-circular>
-                <v-btn @click="closeDialogIssueTypes()" style="margin-top: 200px">CLOSE</v-btn>
+                <v-btn dark color="black" @click="closeDialogIssueTypes()" style="margin-top: 200px; margin-left: 85%">CLOSE</v-btn>
             </div>
             <div v-if="!loading">
-                <v-data-table
-                    v-model="selectedIssuesTypes"
-                    :headers="headersIssueTypes"
-                    :items="getIssueTypes"
-                    item-key="item"
-                    select-all
-                    class="elevation-1"
-                    rows-per-page-text="IssueTypes per page"
-                >
-                    <template v-slot:items="props">
-                        <td>
-                            <v-checkbox
-                                v-model="props.selected"
-                                primary
-                                hide-details
-                            ></v-checkbox>
-                        </td>
-                        <td>{{ props.item.item }}</td>
-                    </template>
-                </v-data-table>
-                <v-btn @click="getIssuesByTypes()">Search</v-btn>
-                <v-btn @click="closeDialogIssueTypes()">Close</v-btn>
+                <v-card>
+                    <v-card-title>
+                        choose the issue-types you want to show of project: {{projectName}}
+                    </v-card-title>
+                    <v-data-table
+                        v-model="selectedIssuesTypes"
+                        :headers="headersIssueTypes"
+                        :items="getIssueTypes"
+                        item-key="item"
+                        select-all
+                        class="elevation-1"
+                        rows-per-page-text="IssueTypes per page"
+                    >
+                        <template v-slot:items="props">
+                            <td>
+                                <v-checkbox
+                                    v-model="props.selected"
+                                    primary
+                                    hide-details
+                                ></v-checkbox>
+                            </td>
+                            <td>{{ props.item.item }}</td>
+                        </template>
+                    </v-data-table>
+                    <v-btn dark color="blue" @click="getIssuesByTypes()" style="margin-left: 75%">Search</v-btn>
+                    <v-btn dark color="black" @click="closeDialogIssueTypes()">Close</v-btn>
+                </v-card>
             </div>
-
         </v-dialog>
-        <v-dialog v-model="dialogIssues" width="70%" >
+        <v-dialog v-model="dialogIssues" width="70%">
             <div class="overlay" v-if="loading" >
                 <v-progress-circular indeterminate size="64" style="margin-left: 30px">
                     Loading...
                 </v-progress-circular>
-                <v-btn @click="closeDialogIssues()" style="margin-top: 200px">CLOSE</v-btn>
+                <v-btn dark color="black" @click="closeDialogIssues()" style="margin-top: 200px; margin-left: 85%">CLOSE</v-btn>
             </div>
             <div v-if="!loading">
                 <v-card>
@@ -86,13 +100,12 @@
                             <td>{{ props.item.summary }}</td>
                             <td>{{ props.item.issueType }}</td>
                             <td>{{ props.item.projectName }}</td>
-
                         </template>
                     </v-data-table>
                 </v-card>
-                <v-btn @click="importSelectedIssues()">Import</v-btn>
-                <v-btn @click="addSelectedIssues()">Add</v-btn>
-                <v-btn @click="closeDialogIssues()">Close</v-btn>
+                <v-btn dark color="blue" @click="importSelectedIssues()" style="margin-left: 65%">Import</v-btn>
+                <v-btn dark color="blue" @click="addSelectedIssues()">Add</v-btn>
+                <v-btn dark color="black" @click="closeDialogIssues()">Close</v-btn>
             </div>
         </v-dialog>
         <div>
@@ -144,17 +157,18 @@ export default {
             issuesToImportOrAdd: [],
             search:"",
             totalItems: 0,
-            pageNum: 1,
-            pageSize: 10,
+            projectNameBySearch: "",
+            projectNameBySelect: "",
             projectName: "",
+            searchForProject: "0",
             dialogIssueTypes: false,
             dialogIssues: false,
             selectedIssuesTypes: [],
             selectedIssues: [],
             loading: false,
             projectNames: [],
-            selectProjectName: "",
             isProjectSelected: true,
+            warning: "",
             pagination: {
                 sortBy: "key",
                 descending: false,
@@ -166,7 +180,15 @@ export default {
     },
     methods: {
         getIssueTypesByProjectName(){
-            if(this.projectName === ""){
+            if(this.searchForProject === "0"){
+                console.log("select")
+                this.projectName = this.projectNameBySelect
+            }else if(this.searchForProject === "1"){
+                console.log("search")
+                this.projectName = this.projectNameBySearch
+            }
+            if(this.projectName === "" || this.projectName === "-"){
+                this.warning = "No project selected. Please select a project"
                 return this.isProjectSelected = false
             }else{
                 this.isProjectSelected = true
@@ -175,9 +197,16 @@ export default {
                 IssuesService.getIssueTypesByProjectName(this.projectName).then((response) => {
                     this.issueTypes = response.data
                     this.loading = false
+                    console.log(this.issueTypes)
+                    console.log("get issueTypes jira")
+                    if(this.issueTypes.length === 0){
+                        this.dialogIssueTypes = false
+                        this.isProjectSelected = false
+                        this.warning = "No project or issues in project found"
+                    }
+                    this.getProjectNames()
                 })
             }
-
         },
         getIssuesByTypes(){
             this.dialogIssueTypes = false
@@ -186,6 +215,8 @@ export default {
             IssuesService.getIssuesByTypes(this.projectName, this.selectedIssuesTypes).then((response) => {
                 this.issuesToImportOrAdd = response.data
                 this.loading = false
+                console.log(this.issuesToImportOrAdd)
+                console.log("get issues jira")
             })
         },
         importSelectedIssues(){
@@ -211,11 +242,13 @@ export default {
             this.dialogIssues = false;
         },
         getAllIssues() {
+            console.log(this.pagination.rowsPerPage)
             IssuesService.getAllIssues(this.pagination.page, this.pagination.rowsPerPage).then((response) => {
                 const {issues, totalItems} = response.data;
                 this.issues = issues
-                this.totalItems = totalItems
                 console.log(this.issues)
+                console.log("get from db")
+                this.totalItems = totalItems
             })
         },
         getProjectNames(){
@@ -223,7 +256,7 @@ export default {
                 this.projectNames = JSON.parse(JSON.stringify(response.data))
                 console.log(this.projectNames)
             })
-        }
+        },
     },
     computed: {
         getIssueTypes() {
@@ -280,5 +313,13 @@ export default {
 .overlay{
     margin-top: 20px;
     margin-left: 45%;
+    width: 50%;
+    height: 50%;
+}
+body {
+    font-family: arial;
+}
+p {
+    font-weight: bold;
 }
 </style>
