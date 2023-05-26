@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <v-layout row class="spacing">
-      <uvl-filter-toolbar/>
+      <uvl-filter-toolbar />
     </v-layout>
     <v-layout row class="spacing">
       <v-flex xs12>
-        <component v-bind:is="resultComponent"/>
+        <component v-bind:is="resultComponent" />
       </v-flex>
     </v-layout>
   </v-container>
@@ -13,8 +13,8 @@
 
 <script>
 
-import {mapGetters} from "vuex";
-import {getMethodObj} from "@/methods";
+import { mapGetters } from "vuex";
+import { getMethodObj, METHODS } from "@/methods";
 
 export default {
   name: "ConceptHome",
@@ -34,8 +34,8 @@ export default {
     ...mapGetters({
       selectedMethod: 'selectedMethod'
     }),
-    resultComponent () {
-      return getMethodObj(this.selectedMethod).resultComponentName;
+    resultComponent() {
+      return getMethodObj(METHODS, this.selectedMethod).resultComponentName;
     }
   },
   data() {

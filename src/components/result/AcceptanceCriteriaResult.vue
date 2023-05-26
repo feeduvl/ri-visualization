@@ -4,36 +4,36 @@
       <v-card id="parameter_holder">
         <v-card-title>
           <h2>Method Parameter </h2>
-          <v-spacer/>
+          <v-spacer />
           <v-btn small color="primary" @click="downloadResult" class="btnAlign">
             Download
           </v-btn>
         </v-card-title>
         <v-layout row wrap id="parameter_layout">
-            <v-card elevation="0" class="param_holder">
-              <v-card-title class="param_header">
-                <span class="grey--text text-uppercase">Run Name</span>
-              </v-card-title>
-              <v-card-text class="param_content">
-                {{ displayRunName(selectedResult.name) }}
-              </v-card-text>
-            </v-card>
-            <v-card elevation="0" class="param_holder">
-              <v-card-title class="param_header">
-                <span class="grey--text text-uppercase">Dataset</span>
-              </v-card-title>
-              <v-card-text class="param_content">
-                {{ displayDatasetName(selectedResult.dataset_name) }}
-              </v-card-text>
-            </v-card>
-            <v-card elevation="0" class="param_holder">
-              <v-card-title class="param_header">
-                <span class="grey--text text-uppercase">Run Date</span>
-              </v-card-title>
-              <v-card-text class="param_content">
-                {{ displayRunDate() }}
-              </v-card-text>
-            </v-card>
+          <v-card elevation="0" class="param_holder">
+            <v-card-title class="param_header">
+              <span class="grey--text text-uppercase">Run Name</span>
+            </v-card-title>
+            <v-card-text class="param_content">
+              {{ displayRunName(selectedResult.name) }}
+            </v-card-text>
+          </v-card>
+          <v-card elevation="0" class="param_holder">
+            <v-card-title class="param_header">
+              <span class="grey--text text-uppercase">Dataset</span>
+            </v-card-title>
+            <v-card-text class="param_content">
+              {{ displayDatasetName(selectedResult.dataset_name) }}
+            </v-card-text>
+          </v-card>
+          <v-card elevation="0" class="param_holder">
+            <v-card-title class="param_header">
+              <span class="grey--text text-uppercase">Run Date</span>
+            </v-card-title>
+            <v-card-text class="param_content">
+              {{ displayRunDate() }}
+            </v-card-text>
+          </v-card>
           <template v-for="(item, key) in selectedResult.params">
             <v-card :key="key" elevation="0" class="param_holder">
               <v-card-title class="param_header">
@@ -55,22 +55,26 @@
             </v-card>
           </template>
         </v-layout>
-        <v-data-table
-            :headers="tableHeaders"
-            :items="selectedDataset.documents"
-            :pagination.sync="pagination"
-            :loading="loadingResults"
-        >
+        <v-data-table :headers="tableHeaders" :items="selectedDataset.documents" :pagination.sync="pagination"
+          :loading="loadingResults">
           <template slot="items" slot-scope="props">
             <tr>
               <td>{{ props.item.id }}</td>
               <td>{{ props.item.text }}</td>
               <td>
                 <span v-for="ac in getAC(props.item.number)" :key="ac">
-                  <v-chip v-if="ac.startsWith('ERROR: ')" color="red" text-color="white"><v-avatar left style="margin-left: -8px; margin-right: 4px"><v-icon>error</v-icon></v-avatar>{{ ac.substring(7) }}</v-chip>
-                  <v-chip v-else-if="ac.startsWith('WARNING: ')" color="orange" text-color="white"><v-avatar left style="margin-left: -8px; margin-right: 4px"><v-icon>warning</v-icon></v-avatar>{{ ac.substring(9) }}</v-chip>
-                  <v-chip v-else-if="ac.startsWith('INFO: ')" color="blue" text-color="white"><v-avatar left style="margin-left: -8px; margin-right: 4px"><v-icon>info</v-icon></v-avatar>{{ ac.substring(6) }}</v-chip>
-                  <v-chip v-else-if="ac.startsWith('DEBUG: ')" text-color="grey darken-1"><v-avatar left style="margin-left: -8px; margin-right: 4px"><v-icon>bug_report</v-icon></v-avatar>{{ ac.substring(7) }}</v-chip>
+                  <v-chip v-if="ac.startsWith('ERROR: ')" color="red" text-color="white"><v-avatar left
+                      style="margin-left: -8px; margin-right: 4px"><v-icon>error</v-icon></v-avatar>{{ ac.substring(7)
+                      }}</v-chip>
+                  <v-chip v-else-if="ac.startsWith('WARNING: ')" color="orange" text-color="white"><v-avatar left
+                      style="margin-left: -8px; margin-right: 4px"><v-icon>warning</v-icon></v-avatar>{{ ac.substring(9)
+                      }}</v-chip>
+                  <v-chip v-else-if="ac.startsWith('INFO: ')" color="blue" text-color="white"><v-avatar left
+                      style="margin-left: -8px; margin-right: 4px"><v-icon>info</v-icon></v-avatar>{{ ac.substring(6)
+                      }}</v-chip>
+                  <v-chip v-else-if="ac.startsWith('DEBUG: ')" text-color="grey darken-1"><v-avatar left
+                      style="margin-left: -8px; margin-right: 4px"><v-icon>bug_report</v-icon></v-avatar>{{
+                        ac.substring(7) }}</v-chip>
                   <v-chip v-else>{{ ac }}</v-chip>
                   <span> </span>
                 </span>
@@ -84,12 +88,12 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
-import {getMethodObj} from "@/methods";
+import { mapGetters } from "vuex";
+import { METHODS, getMethodObj } from "@/methods";
 
 export default {
   name: "AcceptanceCriteriaResult",
-  watch: { },
+  watch: {},
   computed: {
     ...mapGetters({
       loadingResults: 'loadingResults',
@@ -97,7 +101,7 @@ export default {
       selectedDataset: 'selectedDataset',
     }),
   },
-  components: { },
+  components: {},
   data: function () {
     return {
       methods: [],
@@ -131,7 +135,7 @@ export default {
       pagination: {
         descending: false,
         rowsPerPage: 25,
-        rowsPerPageItems: [5,10,25,50,100,{"text":"All","value":-1}]
+        rowsPerPageItems: [5, 10, 25, 50, 100, { "text": "All", "value": -1 }]
       }
     }
   },
@@ -169,7 +173,7 @@ export default {
       } else {
         name = this.selectedResult.name;
       }
-      return name + "–" + this.selectedResult.started_at.replace(":","-") + ".json";
+      return name + "–" + this.selectedResult.started_at.replace(":", "-") + ".json";
     },
     displayRunDate() {
       if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
@@ -179,14 +183,14 @@ export default {
       }
     },
     displayScore(item) {
-      return getMethodObj(item.method).scoreFunction(item);
+      return getMethodObj(METHODS, item.method).scoreFunction(item);
     },
     downloadResult() {
       if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
         const data = JSON.stringify(this.selectedResult);
-        const blob = new Blob([data], {type: 'text/plain'});
+        const blob = new Blob([data], { type: 'text/plain' });
         const e = document.createEvent('MouseEvents'),
-            a = document.createElement('a');
+          a = document.createElement('a');
         a.download = this.getNameForFile();
         a.href = window.URL.createObjectURL(blob);
         a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
@@ -200,7 +204,6 @@ export default {
 </script>
 
 <style scoped>
-
 #parameter_holder {
   margin-bottom: 20px;
 }
@@ -243,5 +246,4 @@ export default {
   padding: 6px 12px;
   white-space: normal;
 }
-
 </style>
