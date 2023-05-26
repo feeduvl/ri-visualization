@@ -7,8 +7,8 @@
                 </v-flex>
                 <v-flex xs1 />
                 <v-flex xs3>
-                    <v-select v-model="chainedMethod" :items="chainableMethods" :disabled="!chained" item-text="displayName"
-                        item-value="name" label="Chained Method">
+                    <v-select v-model="chainedMethodSelect" :items="chainableMethods" :disabled="!chained"
+                        item-text="displayName" item-value="name" label="Chained Method">
                     </v-select>
                 </v-flex>
 
@@ -56,13 +56,7 @@ import axios from "axios";
 import { POST_START_DETECTION_ENDPOINT } from "@/RESTconf";
 import { SNACKBAR_DISPLAY_TIME } from "@/theme";
 import { CHAINABLE_METHODS } from "@/methods";
-import {
-    ACTION_DELETE_RESULT,
-    ACTION_EDIT_RESULT_NAME,
-    // mutations
-    MUTATE_SELECTED_RESULT,
-    MUTATE_SELECTED_METHOD
-} from "@/store/types";
+
 export default {
     name: "BERTParameter",
     props: {
@@ -84,9 +78,12 @@ export default {
         annotation_name: "",
     }),
     computed: {
-        chainedMethod: {
+        chainedMethodSelect: {
             get() {
-                this.chainedMethod
+                if (this.chained) {
+                    return this.chainedMethod
+                }
+                return ""
             },
             set(newValue) {
                 this.chainedMethod = newValue
