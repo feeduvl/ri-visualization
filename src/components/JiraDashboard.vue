@@ -223,8 +223,7 @@ export default {
             IssuesService.getAllIssues(this.pagination.page, this.pagination.rowsPerPage).then((response) => {
                 const { issues, totalItems } = response.data;
                 this.issues = issues
-                console.log(this.issues)
-                console.log("get from db")
+                this.tempIssueForFilter = issues
                 this.totalItems = totalItems
             })
         },
