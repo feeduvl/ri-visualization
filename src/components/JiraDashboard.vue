@@ -75,7 +75,7 @@
                         </template>
                     </v-data-table>
                 </v-card>
-                <v-btn dark color="blue" @click="importSelectedIssues()" style="margin-left: 65%">Import</v-btn>
+                <v-btn dark color="blue" @click="importSelectedIssues()" style="margin-left: 55%">Import</v-btn>
                 <v-btn dark color="blue" @click="addSelectedIssues()">Add to existing</v-btn>
                 <v-btn dark color="black" @click="closeDialogIssues()">Close</v-btn>
             </div>
