@@ -264,12 +264,10 @@ export default {
             })
         },
         filterIssuesByProjectName(){
-            var filtered = this.issues.filter(item =>{
+            this.issues = this.issues.filter(item =>{
                 return item.projectName.toLowerCase().indexOf(this.filterProjectName.toLowerCase()) > -1
             })
-            // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-            this.issues = filtered
-            return filtered
+            return this.issues
         },
         filterIssuesToSelect() {
             return this.issuesToImportOrAdd.filter(item => {
