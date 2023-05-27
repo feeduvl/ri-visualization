@@ -18,15 +18,15 @@
                         </v-card-actions>
                         <v-card-actions>
                             <v-switch v-model="heatmap" label="Toggle Heatmap" :input-value="true"
-                                @change="repaintGraph()"></v-switch>
+                                      @change="repaintGraph()"></v-switch>
                         </v-card-actions>
                         <v-card-actions>
                             <v-switch v-model="relationsOn" label="Toggle Relations" :input-value="true"
-                                @change="resetGraph()"></v-switch>
+                                      @change="resetGraph()"></v-switch>
                         </v-card-actions>
                         <v-card-actions>
                             <v-switch v-model="displayMode" :input-value="true" false-value="Appearances"
-                                true-value="Occurences" @change="repaintGraph()">
+                                      true-value="Occurences" @change="repaintGraph()">
                                 <template v-slot:label>
                                     Display Mode: <br>
                                     {{ displayMode == "Appearances" ? 'Appearances' : 'Occurences' }}
@@ -36,7 +36,7 @@
                         <v-text-field placeholder="Category Node Color" hide-details class="ma-0 pa-0" readonly solo>
                             <template v-slot:append>
                                 <v-menu v-model="categoryMenu" top nudge-bottom="105" nudge-left="16"
-                                    :close-on-content-click="false">
+                                        :close-on-content-click="false">
                                     <template v-slot:activator="{ on }">
                                         <div :style="swatchStyleCategory" v-on="on" />
                                     </template>
@@ -52,7 +52,7 @@
                         <v-text-field placeholder="Relationship Node Color" hide-details class="ma-0 pa-0" readonly solo>
                             <template v-slot:append>
                                 <v-menu v-model="relationMenu" top nudge-bottom="105" nudge-left="16"
-                                    :close-on-content-click="false">
+                                        :close-on-content-click="false">
                                     <template v-slot:activator="{ on }">
                                         <div :style="swatchStyleRelation" v-on="on" />
                                     </template>
@@ -302,13 +302,13 @@ export default {
                 var start = 0;
                 var end = 0;
                 nodeList.forEach(node => {
-                    if (node.name == relation.start.name) {
-                        start = node;
+                        if (node.name == relation.start.name) {
+                            start = node;
+                        }
+                        if (node.name == relation.end.name) {
+                            end = node;
+                        }
                     }
-                    if (node.name == relation.end.name) {
-                        end = node;
-                    }
-                }
                 )
                 if (start != 0 && end != 0) {
                     node = new RelationNode(name, start, end, relation.absValue, relation.relValue)
