@@ -130,6 +130,7 @@ export default {
             issues: [],
             issueTypes: [],
             issuesToImportOrAdd: [],
+            tempIssueForFilter: [],
             search: "",
             filterProjectName: "",
             totalItems: 0,
@@ -242,19 +243,18 @@ export default {
         },
         getIssues(){
             if(this.filterProjectName !== "" && this.filterProjectName !== "-"){
-                console.log(this.filterProjectName)
                 if(this.search !== ""){
-                    console.log(this.search)
                     return this.filterIssues
                 }
+                this.issues = this.tempIssueForFilter
                 return this.filterIssuesByProjectName
             }
             else if(this.search !== ""){
-                this.getAllIssues()
+                this.issues = this.tempIssueForFilter
                 return this.filterIssues
             }
             else{
-                this.getAllIssues()
+                this.issues = this.tempIssueForFilter
                 return this.issues
             }
         },
@@ -312,11 +312,6 @@ export default {
     width: 50%;
     height: 50%;
 }
-
-body {
-    font-family: arial;
-}
-
 p {
     font-weight: bold;
 }
