@@ -57,7 +57,7 @@ import {
   LOCAL_STORAGE_ACCESS_KEY_CONFIGURATION, ACTION_FETCH_INITIAL_CONCEPT_DATA
 } from "../store/types.js";
 
-import { ROUTE_DASHBOARD } from "../routes";
+import { ROUTE_UPLOAD } from "../routes";
 export default {
   name: "LoginHome",
   data() {
@@ -107,7 +107,7 @@ export default {
                 response => {
                   this.waitingForResponse = false;
                   this.$store.commit(MUTATE_ACCESS_KEY, this.accessKey);
-                  this.$router.push({ path: ROUTE_DASHBOARD });
+                  this.$router.push({ path: ROUTE_UPLOAD });
                 },
                 error => {
                   this.waitingForResponse = false;
@@ -147,6 +147,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch(
+      //"setToolbarHeader",
       "Check Access and Load Configuration"
     );
     if (localStorage.getItem(LOCAL_STORAGE_ACCESS_KEY)) {
