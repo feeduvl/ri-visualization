@@ -19,7 +19,7 @@ export const store = new Vuex.Store({
   state: {
     topBarTitle: '',
     projectTitle: 'Feed.UVL',
-    topBarLogo: require(''),
+    topBarLogo: require('@/assets/UVL_Logo_small.png'),
     topBarAltText: '',
     topBarLink: 'https://github.com/feeduvl',
     //footer: "— Christoph Stanik\n" +
