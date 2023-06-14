@@ -97,7 +97,7 @@ export default {
           icon: "storage",
           path: "/dataset",
           theme: THEME_UVL
-        }
+        },
         { divider: true, inset: false },
         {
           title: "Twitter Dashboard",
