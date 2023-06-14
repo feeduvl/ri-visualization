@@ -33,7 +33,7 @@ export default {
       items: [
           // Icons can be found in the standard google font icon library: https://fonts.google.com/icons
           {
-          title: "UVL - User View Language",
+          title: "Feed.UVL",
           icon: "",
           path: "",
           theme: ""
@@ -81,7 +81,7 @@ export default {
           theme: THEME_UVL
         },
         {
-          title: "App Crawler",
+          title: "App Review Crawler",
           icon: "sync",
           path: "/app_review_crawler",
           theme: THEME_UVL
@@ -99,6 +99,12 @@ export default {
           theme: THEME_UVL
         },
         { divider: true, inset: false },
+        {
+          title: "Twitter - Feed.ai",
+          icon: "",
+          path: "",
+          theme: ""
+        },
         {
           title: "Twitter Dashboard",
           icon: "dashboard",
