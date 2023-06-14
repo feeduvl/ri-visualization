@@ -155,6 +155,9 @@
 </template>
 
 <script>
+import {
+  ACTION_SET_TOOLBAR_HEADER
+} from "@/store/types";
 import axios from "axios";
 import {
   BLUE_BORDER
@@ -192,6 +195,7 @@ export default {
   },
   mounted() {
     this.isMounted = true;
+    this.$store.dispatch(ACTION_SET_TOOLBAR_HEADER, "Upload");
   },
   computed: {
     fileInputField() {

@@ -18,10 +18,10 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   state: {
     topBarTitle: '',
-    projectTitle: 'Requirements Intelligence',
-    //topBarLogo: require('@/assets/openreq_logo.png'),
+    projectTitle: 'Feed.UVL',
+    topBarLogo: require(''),
     topBarAltText: '',
-    //topBarLink: 'https://openreq.eu/',
+    topBarLink: 'https://github.com/feeduvl',
     //footer: "— Christoph Stanik\n" +
     //    "      <strong>\n" +
     //    "        <a href=\"https://openreq.eu/\">@OpenReq</a>\n" +
