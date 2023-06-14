@@ -147,7 +147,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch(
-      //"setToolbarHeader",
+      "setToolbarHeader",
       "Check Access and Load Configuration"
     );
     if (localStorage.getItem(LOCAL_STORAGE_ACCESS_KEY)) {

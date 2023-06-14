@@ -26,6 +26,14 @@ export const THEME_UVL = {
   footer: "",
 };
 
+
+export const NEUTRAL = {
+  projectTitle: "",
+  topBarAltText: '',
+  topBarLink: '',
+  footer: "",
+};
+
 export const setTheme = function (topBarTitle, theme, store) {
   store.dispatch(ACTION_SET_TOOLBAR_HEADER, topBarTitle);
   store.dispatch(ACTION_SET_PROJECT_TITLE, theme.projectTitle);
