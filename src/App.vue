@@ -7,9 +7,9 @@
         <router-view :key="$route.path"></router-view>
       </keep-alive>
     </v-content>
-    <v-footer class="footer">
+    <!--<v-footer class="footer">
       &copy;{{new Date().getFullYear()}} <span v-html="footer"></span>
-    </v-footer>
+    </v-footer>-->
   </v-app>
 </template>
 
