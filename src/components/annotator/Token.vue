@@ -120,7 +120,8 @@ export default {
 
 .highlightTore {
     border: 2px solid;
-    border-color: var(--toreHighlightColor)
+    border-color: var(--toreHighlightColor);
+    background-color: var(--toreHighlightColor);
 }
 
 .whitespace {
@@ -137,7 +138,7 @@ export default {
 
 
 .hasBoth {
-    background-color: #66f877;
+    background-color: #a8fff8;
 }
 
 .isAlgoLemma {
