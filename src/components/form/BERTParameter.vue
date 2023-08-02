@@ -59,15 +59,13 @@ export default {
         dataset: String,
     },
     data: () => ({
-        method: "bert-classifier",
+        method: "bert",
         snackbarVisible: false,
         loading: false,
         snackbarText: "",
         snackbarTimeout: SNACKBAR_DISPLAY_TIME,
         debug: false,
         run_name: "",
-
-        method: "",
         formValid: true,
         persist: false,
         chainableMethods: CHAINABLE_METHODS,
@@ -121,7 +119,6 @@ export default {
             let params = {
                 method: this.method,
                 dataset: this.$props.dataset,
-                method: this.method,
                 debug: this.debug,
                 persist: this.persist,
                 name: this.run_name,
