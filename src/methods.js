@@ -116,7 +116,7 @@ export const METHODS = [
     }
 ]
 
-export const CHAINABLE_METHOD_LIST = ["stanford-ner", "bi-lstm-classifier", "bert-classifier"];
+export const CHAINABLE_METHOD_LIST = ["sner_bert", "bilstm_bert", "bert_bert", "bert"];
 
 export const CHAINABLE_METHODS = [
     {
@@ -130,27 +130,37 @@ export const CHAINABLE_METHODS = [
         showInDocumentView: true
     },
     {
-        name: "stanford-ner",
-        displayName: "Stanford NER",
+        name: "sner_bert",
+        displayName: "Stanford NER + BERT",
         parameterComponentName: "stanford-ner-parameter",
         parameterComponentPath: "./form/StanfordNERParameter",
-        resultComponentName: "classifier-tore-result",
+        resultComponentName: "sner-bert-result",
         resultComponentPath: "./components/result/ClassifierTOREResult",
         scoreFunction: getScoreEmpty,
         showInDocumentView: false
     },
     {
-        name: "bi-lstm-classifier",
-        displayName: "Bi-LSTM",
+        name: "bilstm_bert",
+        displayName: "Bi-LSTM + BERT",
         parameterComponentName: "bi-lstm-parameter",
         parameterComponentPath: "./form/BiLSTMParameter",
-        resultComponentName: "bi-lstm-tore-result",
+        resultComponentName: "bilstm-bert-result",
         resultComponentPath: "./components/result/ClassifierTOREResult",
         scoreFunction: getScoreEmpty,
         showInDocumentView: false
     },
     {
-        name: "bert-classifier",
+        name: "bert_bert",
+        displayName: "BERT + BERT",
+        parameterComponentName: "bert-parameter",
+        parameterComponentPath: "./form/BERTParameter",
+        resultComponentName: "bert-bert-result",
+        resultComponentPath: "./components/result/ClassifierTOREResult",
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: false
+    },
+        {
+        name: "bert",
         displayName: "BERT",
         parameterComponentName: "bert-parameter",
         parameterComponentPath: "./form/BERTParameter",

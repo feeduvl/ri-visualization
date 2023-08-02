@@ -3,12 +3,8 @@
         <v-form ref="form" v-model="formValid">
             <v-layout row wrap>
                 <v-flex xs3>
-                    <v-checkbox v-model="chained" :label="`Run a secondary chained method`"></v-checkbox>
-                </v-flex>
-                <v-flex xs1 />
-                <v-flex xs3>
-                    <v-select v-model="chainedMethodSelect" :items="chainableMethods" :disabled="!chained"
-                        item-text="displayName" item-value="name" label="Chained Method">
+                    <v-select v-model="chainedMethodSelect" :items="chainableMethods" 
+                        item-text="displayName" item-value="name" label="Classification Methods">
                     </v-select>
                 </v-flex>
 
@@ -70,8 +66,8 @@ export default {
         snackbarTimeout: SNACKBAR_DISPLAY_TIME,
         debug: false,
         run_name: "",
-        chained: false,
-        chainedMethod: "",
+
+        method: "",
         formValid: true,
         persist: false,
         chainableMethods: CHAINABLE_METHODS,
@@ -80,13 +76,10 @@ export default {
     computed: {
         chainedMethodSelect: {
             get() {
-                if (this.chained) {
-                    return this.chainedMethod
-                }
-                return ""
+                return this.method
             },
             set(newValue) {
-                this.chainedMethod = newValue
+                this.method = newValue
             }
         }
     },
@@ -128,8 +121,7 @@ export default {
             let params = {
                 method: this.method,
                 dataset: this.$props.dataset,
-                chained: this.chained,
-                chainedMethod: this.chainedMethod,
+                method: this.method,
                 debug: this.debug,
                 persist: this.persist,
                 name: this.run_name,
@@ -141,8 +133,7 @@ export default {
             return this.$props.dataset !== "";
         },
         resetForm() {
-            this.chained = false;
-            this.chainedMethod = "";
+            this.method = "";
             this.debug = false;
             this.persist = false;
             this.run_name = "";
