@@ -32,39 +32,8 @@ export default {
       drawer: false,
       items: [
           // Icons can be found in the standard google font icon library: https://fonts.google.com/icons
-        {
-          title: "Dashboard",
-          icon: "dashboard",
-          path: "/dashboard",
-          theme: THEME_OPENREQ
-        },
-        {
-          title: "Problem Reports",
-          icon: "error_outline",
-          path: "/problemReports",
-          theme: THEME_OPENREQ
-        },
-        {
-          title: "Inquiries",
-          icon: "help_outline",
-          path: "/inquiries",
-          theme: THEME_OPENREQ
-        },
-        {
-          title: "Competitor Comparison",
-          icon: "compare_arrows",
-          path: "/comparison",
-          theme: THEME_OPENREQ
-        },
-        {
-          title: "Settings",
-          icon: "settings",
-          path: "/settings",
-          theme: THEME_OPENREQ
-        },
-        { divider: true, inset: false },
-        {
-          title: "UVL - User View Language",
+          {
+          title: "Feed.UVL",
           icon: "",
           path: "",
           theme: ""
@@ -76,9 +45,21 @@ export default {
           theme: THEME_UVL
         },
         {
-          title: "Start Analysis",
+          title: "Jira Board",
+          icon: "storage",
+          path: "/jira",
+          theme: THEME_UVL
+        },
+        {
+          title: "Classifier Analysis",
           icon: "play_arrow",
           path: "/detection",
+          theme: THEME_UVL
+        },
+        {
+          title: "Classifier Results",
+          icon: "assessment",
+          path: "/results",
           theme: THEME_UVL
         },
         {
@@ -106,12 +87,6 @@ export default {
           theme: THEME_UVL
         },
         {
-          title: "Detection Results",
-          icon: "assessment",
-          path: "/results",
-          theme: THEME_UVL
-        },
-        {
           title: "Document View",
           icon: "description",
           path: "/documents",
@@ -123,12 +98,44 @@ export default {
           path: "/dataset",
           theme: THEME_UVL
         },
-          {
-              title: "Jira Board",
-              icon: "storage",
-              path: "/jira",
-              theme: THEME_UVL
-          }
+        { divider: true, inset: false },
+        {
+          title: "Twitter - Feed.ai",
+          icon: "",
+          path: "",
+          theme: ""
+        },
+        {
+          title: "Twitter Dashboard",
+          icon: "dashboard",
+          path: "/dashboard",
+          theme: THEME_OPENREQ
+        },
+        {
+          title: "Problem Reports",
+          icon: "error_outline",
+          path: "/problemReports",
+          theme: THEME_OPENREQ
+        },
+        {
+          title: "Twitter Inquiries",
+          icon: "help_outline",
+          path: "/inquiries",
+          theme: THEME_OPENREQ
+        },
+        {
+          title: "Competitor Comparison",
+          icon: "compare_arrows",
+          path: "/comparison",
+          theme: THEME_OPENREQ
+        },
+        { divider: true, inset: false },
+        {
+          title: "Settings",
+          icon: "settings",
+          path: "/settings",
+          theme: THEME_OPENREQ
+        }
       ],
       style: {
         backgroundColor: WHITE,

@@ -9,11 +9,11 @@
             <v-radio-group v-model="searchForProject">
                 <div class="project-import">
                     <v-select class="select-issueTypes" v-model="projectNameBySelect" :items="projectNames"
-                        label="Select project" item-text="name" style="margin-left: 15px"
-                        :disabled="searchForProject === '1'"></v-select>
+                              label="Select project" item-text="name" style="margin-left: 15px"
+                              :disabled="searchForProject === '1'"></v-select>
                     <v-radio value="0"></v-radio>
-                    <v-text-field v-model="projectNameBySearch" append-icon="mdi-magnify" label="type project name ..."
-                        style="margin-left: 30px; width: 30%" :disabled="searchForProject === '0'">
+                    <v-text-field v-model="projectNameBySearch" append-icon="mdi-magnify" label="type project key ..."
+                                  style="margin-left: 30px; width: 30%" :disabled="searchForProject === '0'">
                     </v-text-field>
                     <v-radio value="1"></v-radio>
                     <v-btn dark color="blue" @click="getIssueTypesByProjectName()" style="margin-left: 40px"> SEARCH
@@ -28,7 +28,7 @@
                     Loading...
                 </v-progress-circular>
                 <v-btn dark color="black" @click="closeDialogIssueTypes()"
-                    style="margin-top: 200px; margin-left: 85%">CLOSE</v-btn>
+                       style="margin-top: 200px; margin-left: 85%">CLOSE</v-btn>
             </div>
             <div v-if="!loading">
                 <v-card>
@@ -36,7 +36,7 @@
                         choose the issue-types you want to show of project: {{ projectName }}
                     </v-card-title>
                     <v-data-table v-model="selectedIssuesTypes" :headers="headersIssueTypes" :items="getIssueTypes"
-                        item-key="item" select-all class="elevation-1" rows-per-page-text="IssueTypes per page">
+                                  item-key="item" select-all class="elevation-1" rows-per-page-text="IssueTypes per page">
                         <template v-slot:items="props">
                             <td>
                                 <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
@@ -55,7 +55,7 @@
                     Loading...
                 </v-progress-circular>
                 <v-btn dark color="black" @click="closeDialogIssues()"
-                    style="margin-top: 200px; margin-left: 85%">CLOSE</v-btn>
+                       style="margin-top: 200px; margin-left: 85%">CLOSE</v-btn>
             </div>
             <div v-if="!loading">
                 <v-card>
@@ -63,7 +63,7 @@
                         <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
                     </v-card-title>
                     <v-data-table v-model="selectedIssues" :headers="headers" :items="getIssuesToSelect" select-all
-                        item-key="key" class="elevation-1" rows-per-page-text="Issues per page">
+                                  item-key="key" class="elevation-1" rows-per-page-text="Issues per page">
                         <template v-slot:items="props">
                             <td>
                                 <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
@@ -75,20 +75,30 @@
                         </template>
                     </v-data-table>
                 </v-card>
-                <v-btn dark color="blue" @click="importSelectedIssues()" style="margin-left: 65%">Import</v-btn>
-                <v-btn dark color="blue" @click="addSelectedIssues()">Add</v-btn>
+                <v-btn dark color="blue" @click="importSelectedIssues()" style="margin-left: 55%">Import</v-btn>
+                <v-btn dark color="blue" @click="addSelectedIssues()">Add to existing</v-btn>
                 <v-btn dark color="black" @click="closeDialogIssues()">Close</v-btn>
             </div>
         </v-dialog>
         <div>
             <v-card class="v-card">
                 <v-card-title>
-                    <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
+                    <div style="width: 40%">
+                        <v-select
+                            v-model="filterProjectName"
+                            :items="projectNames"
+                            label="Filter by project name"
+                            item-text="name"
+                        ></v-select>
+                    </div>
+                    <div style="width: 50%; margin-left: 25px">
+                        <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
+                    </div>
                 </v-card-title>
                 <v-data-table :headers="headers" :items="getIssues" item-key="key" class="elevation-1"
-                    :total-items="totalItems" rows-per-page-text="Issues per page"
-                    :rows-per-page-items="pagination.rowsPerPageItems" :pagination.sync="pagination"
-                    @update:pagination.self="getAllIssues()">
+                              :total-items="totalItems" rows-per-page-text="Issues per page"
+                              :rows-per-page-items="pagination.rowsPerPageItems" :pagination.sync="pagination"
+                              @update:pagination.self="getAllIssues()">
                     <template v-slot:items="props">
                         <td>{{ props.item.key }}</td>
                         <td>{{ props.item.summary }}</td>
@@ -120,7 +130,9 @@ export default {
             issues: [],
             issueTypes: [],
             issuesToImportOrAdd: [],
+            tempIssueForFilter: [],
             search: "",
+            filterProjectName: "",
             totalItems: 0,
             projectNameBySearch: "",
             projectNameBySelect: "",
@@ -211,8 +223,7 @@ export default {
             IssuesService.getAllIssues(this.pagination.page, this.pagination.rowsPerPage).then((response) => {
                 const { issues, totalItems } = response.data;
                 this.issues = issues
-                console.log(this.issues)
-                console.log("get from db")
+                this.tempIssueForFilter = issues
                 this.totalItems = totalItems
             })
         },
@@ -229,11 +240,21 @@ export default {
                 item
             }));
         },
-        getIssues() {
-            if (this.search === "") {
-                return this.issues
-            } else {
+        getIssues(){
+            if(this.filterProjectName !== "" && this.filterProjectName !== "-"){
+                if(this.search !== ""){
+                    return this.filterIssues
+                }
+                this.issues = this.tempIssueForFilter
+                return this.filterIssuesByProjectName
+            }
+            else if(this.search !== ""){
+                this.issues = this.tempIssueForFilter
                 return this.filterIssues
+            }
+            else{
+                this.issues = this.tempIssueForFilter
+                return this.issues
             }
         },
         getIssuesToSelect() {
@@ -250,6 +271,12 @@ export default {
                     || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
                     || item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
             })
+        },
+        filterIssuesByProjectName(){
+            this.issues = this.issues.filter(item =>{
+                return item.projectName.toLowerCase().indexOf(this.filterProjectName.toLowerCase()) > -1
+            })
+            return this.issues
         },
         filterIssuesToSelect() {
             return this.issuesToImportOrAdd.filter(item => {
@@ -284,11 +311,6 @@ export default {
     width: 50%;
     height: 50%;
 }
-
-body {
-    font-family: arial;
-}
-
 p {
     font-weight: bold;
 }

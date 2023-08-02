@@ -8,7 +8,7 @@ import {
 } from "@/store/types";
 
 export const THEME_OPENREQ = {
-  projectTitle: 'Requirements Intelligence',
+  projectTitle: 'Feed.ai',
   topBarLogo: require('@/assets/openreq_logo.png'),
   topBarAltText: 'openreq',
   topBarLink: 'https://openreq.eu/',
@@ -19,10 +19,18 @@ export const THEME_OPENREQ = {
 };
 
 export const THEME_UVL = {
-  projectTitle: "User View Language",
+  projectTitle: "Feed.UVL",
   topBarLogo: require('@/assets/UVL_Logo_small.png'),
   topBarAltText: 'uvl',
   topBarLink: 'https://github.com/feeduvl',
+  footer: "",
+};
+
+
+export const NEUTRAL = {
+  projectTitle: "",
+  topBarAltText: '',
+  topBarLink: '',
   footer: "",
 };
 

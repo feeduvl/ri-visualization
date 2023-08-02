@@ -17,15 +17,15 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
-    topBarTitle: 'Dashboard',
-    projectTitle: 'Requirements Intelligence',
-    topBarLogo: require('@/assets/openreq_logo.png'),
-    topBarAltText: 'openreq',
-    topBarLink: 'https://openreq.eu/',
-    footer: "— Christoph Stanik\n" +
-        "      <strong>\n" +
-        "        <a href=\"https://openreq.eu/\">@OpenReq</a>\n" +
-        "      </strong>",
+    topBarTitle: '',
+    projectTitle: 'Feed.UVL',
+    topBarLogo: require('@/assets/UVL_Logo_small.png'),
+    topBarAltText: '',
+    topBarLink: 'https://github.com/feeduvl',
+    //footer: "— Christoph Stanik\n" +
+    //    "      <strong>\n" +
+    //    "        <a href=\"https://openreq.eu/\">@OpenReq</a>\n" +
+    //    "      </strong>",
     twitterAccounts: [],
     tweets: {},
     selectedTwitterAccounts: [],

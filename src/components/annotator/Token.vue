@@ -118,11 +118,6 @@ export default {
     border-color: #3cff3c;
 }
 
-.highlightTore {
-    border: 2px solid;
-    border-color: var(--toreHighlightColor)
-}
-
 .whitespace {
     margin-right: 0.7em;
 }
@@ -137,7 +132,13 @@ export default {
 
 
 .hasBoth {
-    background-color: #66f877;
+    background-color: #a8fff8;
+}
+
+.highlightTore {
+  border: 2px solid;
+  border-color: var(--toreHighlightColor);
+  background-color: var(--toreHighlightColor);
 }
 
 .isAlgoLemma {
