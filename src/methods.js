@@ -1,5 +1,5 @@
 /* eslint-disable */
-export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic", "acceptance-criteria", "us-similarity", "acceptance-criteria-completeness"];
+export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic", "acceptance-criteria", "us-similarity", "acceptance-criteria-completeness", "bert"];
 
 export const METHODS = [
     {
@@ -85,6 +85,16 @@ export const METHODS = [
         showInDocumentView: false
     },
     {
+        name: "bert-classifier",
+        displayName: "BERT",
+        parameterComponentName: "bert-parameter",
+        parameterComponentPath: "./form/BERTParameter",
+        resultComponentName: "bert-tore-result",
+        resultComponentPath: "./components/result/ClassifierTOREResult",
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: false
+    },
+    {
         name: "us-similarity",
         displayName: "User Story Similarity",
         parameterComponentName: "us-similarity-parameter",
@@ -106,11 +116,67 @@ export const METHODS = [
     }
 ]
 
+export const CHAINABLE_METHOD_LIST = ["sner_bert", "bilstm_bert", "bert_bert", "bert"];
+
+export const CHAINABLE_METHODS = [
+    {
+        name: "",
+        displayName: "Empty",
+        parameterComponentName: "empty-parameter",
+        parameterComponentPath: "./form/EmptyParameter",
+        resultComponentName: "empty-result",
+        resultComponentPath: "./components/result/EmptyResult",
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: true
+    },
+    {
+        name: "sner_bert",
+        displayName: "Stanford NER + BERT",
+        parameterComponentName: "stanford-ner-parameter",
+        parameterComponentPath: "./form/StanfordNERParameter",
+        resultComponentName: "sner-bert-result",
+        resultComponentPath: "./components/result/ClassifierTOREResult",
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: false
+    },
+    {
+        name: "bilstm_bert",
+        displayName: "Bi-LSTM + BERT",
+        parameterComponentName: "bi-lstm-parameter",
+        parameterComponentPath: "./form/BiLSTMParameter",
+        resultComponentName: "bilstm-bert-result",
+        resultComponentPath: "./components/result/ClassifierTOREResult",
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: false
+    },
+    {
+        name: "bert_bert",
+        displayName: "BERT + BERT",
+        parameterComponentName: "bert-parameter",
+        parameterComponentPath: "./form/BERTParameter",
+        resultComponentName: "bert-bert-result",
+        resultComponentPath: "./components/result/ClassifierTOREResult",
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: false
+    },
+        {
+        name: "bert",
+        displayName: "BERT",
+        parameterComponentName: "bert-parameter",
+        parameterComponentPath: "./form/BERTParameter",
+        resultComponentName: "bert-tore-result",
+        resultComponentPath: "./components/result/ClassifierTOREResult",
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: false
+    },
+
+]
+
 export function getScoreSeaNMF(result) {
     let metric;
     try {
         metric = result.metrics.total_coherence.toString().substring(0, 6);
-    } catch(e) {
+    } catch (e) {
         metric = "–";
     }
     return metric;
@@ -120,7 +186,7 @@ export function getScoreLDA(result) {
     let metric;
     try {
         metric = result.metrics.total_coherence.toString().substring(0, 6);
-    } catch(e) {
+    } catch (e) {
         metric = "–";
     }
     return metric;
@@ -134,7 +200,7 @@ export function getRuntimeAcceptanceCriteria(result) {
             throw new Error('Object is not a Number');
         }
         metric = new Date(runtime).toISOString().substr(11, 12).toString();
-    } catch(e) {
+    } catch (e) {
         metric = "–";
     }
     return metric;
@@ -144,7 +210,7 @@ export function getSimilarUsCount(result) {
     let metric;
     try {
         metric = result.metrics.similar_us_pairs;
-    } catch(e) {
+    } catch (e) {
         metric = "–"
     }
     return metric
@@ -154,7 +220,7 @@ export function getSimilarAcC(result) {
     let metric;
     try {
         metric = result.metrics.avg_completeness;
-    } catch(e) {
+    } catch (e) {
         metric = "–"
     }
     return metric
@@ -164,11 +230,11 @@ export function getScoreEmpty(result) {
     return "–";
 }
 
-export function getMethodObj(methodName) {
-    for(let index in METHODS){
-        if(METHODS[index].name === methodName){
-            return METHODS[index];
+export function getMethodObj(methods, methodName) {
+    for (let index in methods) {
+        if (methods[index].name === methodName) {
+            return methods[index];
         }
     }
-    return METHODS[0];
+    return methods[0];
 }

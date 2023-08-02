@@ -9,32 +9,23 @@
       <v-container>
         <v-layout row wrap>
           <v-flex xs3>
-            <v-select
-                v-model="selectedMethod"
-                :items="runMethods"
-                item-text="displayName"
-                item-value="name"
-                label="Method"
-            >
+            <v-select v-model="selectedMethod" :items="runMethods" item-text="displayName" item-value="name"
+              label="Method">
             </v-select>
           </v-flex>
-          <v-flex xs1/>
+          <v-flex xs1 />
           <v-flex xs3 id="service-status">
-            <b>Status: <span :style="{'color': serviceColor}">{{ serviceStatus }}</span></b>
+            <b>Status: <span :style="{ 'color': serviceColor }">{{ serviceStatus }}</span></b>
           </v-flex>
-          <v-flex xs1/>
+          <v-flex xs1 />
           <v-flex xs3>
-            <v-select
-                v-model="selectedDataset"
-                :items="datasets"
-                label="Dataset"
-            >
+            <v-select v-model="selectedDataset" :items="datasets" label="Dataset">
             </v-select>
           </v-flex>
         </v-layout>
       </v-container>
-      <v-divider/>
-      <component v-bind:is="component" v-bind:dataset="selectedDataset"/>
+      <v-divider />
+      <component v-bind:is="component" v-bind:dataset="selectedDataset" />
     </v-card>
     <v-card>
       <v-card flat class="header">
@@ -42,12 +33,7 @@
           <h1>{{ cardTableTitle }}</h1>
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-              <v-icon
-                  @click="reloadResults"
-                  v-bind="attrs"
-                  v-on="on"
-                  id="reload-btn"
-              >
+              <v-icon @click="reloadResults" v-bind="attrs" v-on="on" id="reload-btn">
                 refresh
               </v-icon>
             </template>
@@ -56,76 +42,50 @@
           <v-spacer></v-spacer>
           <v-spacer></v-spacer>
           <v-spacer></v-spacer>
-          <v-text-field
-              v-model="search"
-              append-icon="search"
-              label="Search for Run Name"
-              single-line
-              hide-details
-              clearable
-          ></v-text-field>
+          <v-text-field v-model="search" append-icon="search" label="Search for Run Name" single-line hide-details
+            clearable></v-text-field>
         </v-card-title>
       </v-card>
-      <v-data-table
-          :headers="tableHeaders"
-          :items="filteredResults"
-          :pagination.sync="pagination"
-          :loading="loading"
-          :search="search"
-      >
+      <v-data-table :headers="tableHeaders" :items="filteredResults" :pagination.sync="pagination" :loading="loading"
+        :search="search">
         <template slot="items" slot-scope="props">
           <tr>
             <td style="text-align:center">{{
-                props.item.started_at.replace("Z", "").replace("T", " ").substring(0, 19)
-              }}
+              props.item.started_at.replace("Z", "").replace("T", " ").substring(0, 19)
+            }}
             </td>
             <td>{{ getDisplayName(props.item.method) }}</td>
             <td>{{ props.item.dataset_name }}</td>
             <td>{{ displayParameter(props.item.params) }}</td>
             <td>{{ displayRunName(props.item.name) }}</td>
-            <td><span :style="{'color': getStatusColor(props.item.status)}">{{ props.item.status.toUpperCase() }}</span>
+            <td><span :style="{ 'color': getStatusColor(props.item.status) }">{{ props.item.status.toUpperCase() }}</span>
             </td>
             <td>{{ displayScore(props.item) }}</td>
             <td><span v-if="props.item.status !== 'scheduled' && props.item.status !== 'started'">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon
-                      small
-                      @click="showResult(props.item)"
-                      v-bind="attrs"
-                      v-on="on"
-                  >
-                    visibility
-                  </v-icon>
-                </template>
-                <span>Show Result</span>
-              </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon
-                      small
-                      @click="showEditName(props.item)"
-                      v-bind="attrs"
-                      v-on="on"
-                  >
-                    edit
-                  </v-icon>
-                </template>
-                <span>Edit Name</span>
-              </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon
-                      small
-                      @click="showDeleteResult(props.item)"
-                      v-bind="attrs"
-                      v-on="on"
-                  >
-                    delete
-                  </v-icon>
-                </template>
-                <span>Delete Result</span>
-              </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon small @click="showResult(props.item)" v-bind="attrs" v-on="on">
+                      visibility
+                    </v-icon>
+                  </template>
+                  <span>Show Result</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon small @click="showEditName(props.item)" v-bind="attrs" v-on="on">
+                      edit
+                    </v-icon>
+                  </template>
+                  <span>Edit Name</span>
+                </v-tooltip>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon small @click="showDeleteResult(props.item)" v-bind="attrs" v-on="on">
+                      delete
+                    </v-icon>
+                  </template>
+                  <span>Delete Result</span>
+                </v-tooltip>
               </span>
               <span v-else>-</span>
             </td>
@@ -133,83 +93,42 @@
         </template>
       </v-data-table>
     </v-card>
-    <v-snackbar
-        v-model="deleteSnackbarVisible"
-        :timeout="deleteSnackbarTimeout"
-        :top=true
-    >
+    <v-snackbar v-model="deleteSnackbarVisible" :timeout="deleteSnackbarTimeout" :top=true>
       Delete Result {{ resultToDelete.name }}?
 
-      <v-btn
-          color="error"
-          small
-          :loading="deleteBtn"
-          :disabled="deleteBtn"
-          @click="deleteResult"
-      >
+      <v-btn color="error" small :loading="deleteBtn" :disabled="deleteBtn" @click="deleteResult">
         Confirm
       </v-btn>
 
-      <v-btn
-          color="primary"
-          small
-          @click="deleteSnackbarVisible = false"
-      >
+      <v-btn color="primary" small @click="deleteSnackbarVisible = false">
         Cancel
       </v-btn>
     </v-snackbar>
-    <v-snackbar
-        v-model="snackbarVisible"
-        :timeout="snackbarTimeout"
-        :top=true
-    >
+    <v-snackbar v-model="snackbarVisible" :timeout="snackbarTimeout" :top=true>
       {{ snackbarText }}
 
-      <v-btn
-          color="blue"
-          text
-          @click="closeSnackbar"
-      >
+      <v-btn color="blue" text @click="closeSnackbar">
         Close
       </v-btn>
     </v-snackbar>
-    <v-dialog
-        v-model="editDialogVisible"
-        max-width="290"
-    >
+    <v-dialog v-model="editDialogVisible" max-width="290">
       <v-card>
         <v-card-title class="text-h5 dialog-title">
           Edit Result Name
         </v-card-title>
 
         <v-card-text>
-          <v-text-field
-              v-model="newResultName"
-              label="Name"
-              single-line
-              hide-details
-              clearable
-          ></v-text-field>
+          <v-text-field v-model="newResultName" label="Name" single-line hide-details clearable></v-text-field>
         </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn
-              color="primary"
-              text
-              @click="editName"
-              :loading="editBtn"
-              :disabled="editBtn"
-          >
+          <v-btn color="primary" text @click="editName" :loading="editBtn" :disabled="editBtn">
             Edit
           </v-btn>
 
-          <v-btn
-              color="error"
-              text
-              @click="editDialogVisible = false"
-          >
+          <v-btn color="error" text @click="editDialogVisible = false">
             Cancel
           </v-btn>
         </v-card-actions>
@@ -221,10 +140,10 @@
 <script>
 import axios from "axios";
 import "moment/locale/de";
-import {GREEN_FILL, RED_FILL, GRAY, PRIMARY} from "@/colors";
-import {DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT} from "@/RESTconf";
-import {mapGetters} from 'vuex'
-import {getMethodObj, METHODS} from "@/methods";
+import { GREEN_FILL, RED_FILL, GRAY, PRIMARY } from "@/colors";
+import { DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT } from "@/RESTconf";
+import { mapGetters } from 'vuex'
+import { getMethodObj, METHODS } from "@/methods";
 import {
   ACTION_DELETE_RESULT,
   ACTION_EDIT_RESULT_NAME,
@@ -232,8 +151,8 @@ import {
   MUTATE_SELECTED_RESULT,
   MUTATE_SELECTED_METHOD
 } from "@/store/types";
-import {setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL} from "@/theme";
-import {loadDataset, reloadResults} from "@/RESTcalls";
+import { setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL } from "@/theme";
+import { loadDataset, reloadResults } from "@/RESTcalls";
 
 export default {
   name: "StartDetectionHome",
@@ -246,12 +165,13 @@ export default {
     "acceptance-criteria-parameter": () => import("./form/AcceptanceCriteriaParameter"),
     "stanford-ner-parameter": () => import("./form/StanfordNERParameter"),
     "bi-lstm-parameter": () => import("./form/BiLSTMParameter"),
+    "bert-parameter": () => import("./form/BERTParameter.vue"),
     "us-similarity-parameter": () => import("./form/UserStorySimilarityParameter"),
     "ac-completeness-parameter": () => import("./form/AcceptanceCriteriaCompletenessParameter"),
   },
   computed: {
     component() {
-      return getMethodObj(this.selectedMethod).parameterComponentName;
+      return getMethodObj(METHODS, this.selectedMethod).parameterComponentName;
     },
     selectedMethod: {
       get() {
@@ -397,27 +317,27 @@ export default {
         name: this.resultToEdit.name,
         started_at: this.resultToEdit.started_at
       })
-          .then(response => {
-            if (response.status > 200 || response.status < 300) {
-              this.displaySnackbar("Name edited");
-              this.$store.dispatch(ACTION_EDIT_RESULT_NAME, this.resultToEdit);
-              this.resultToEdit = {};
-              this.newResultName = "";
-            } else {
-              this.displaySnackbar("Error with result name edit!");
-            }
-          })
-          .catch(e => {
-            this.errors.push(e);
-            console.log(e);
-            this.displaySnackbar("Could not contact backend!");
-          }).finally( () => {
-            this.editBtn = false;
-            this.editDialogVisible = false;
-            setTimeout(() => {
-              this.snackbarVisible = false;
-            }, SNACKBAR_DISPLAY_TIME);
-      });
+        .then(response => {
+          if (response.status > 200 || response.status < 300) {
+            this.displaySnackbar("Name edited");
+            this.$store.dispatch(ACTION_EDIT_RESULT_NAME, this.resultToEdit);
+            this.resultToEdit = {};
+            this.newResultName = "";
+          } else {
+            this.displaySnackbar("Error with result name edit!");
+          }
+        })
+        .catch(e => {
+          this.errors.push(e);
+          console.log(e);
+          this.displaySnackbar("Could not contact backend!");
+        }).finally(() => {
+          this.editBtn = false;
+          this.editDialogVisible = false;
+          setTimeout(() => {
+            this.snackbarVisible = false;
+          }, SNACKBAR_DISPLAY_TIME);
+        });
     },
     showDeleteResult(item) {
       this.resultToDelete = item;
@@ -426,28 +346,28 @@ export default {
     deleteResult() {
       this.deleteBtn = true;
       axios.delete(DELETE_RESULT_ENDPOINT(this.resultToDelete.started_at))
-          .then(response => {
-            if (response.status > 200 || response.status < 300) {
-              this.displaySnackbar(response.data.message);
-              this.$store.dispatch(ACTION_DELETE_RESULT, this.resultToDelete);
-              if (this.resultToDelete.started_at === this.selectedResult.started_at) {
-                this.$store.commit(MUTATE_SELECTED_RESULT, {});
-              }
-              this.resultToDelete = {};
-            } else {
-              this.displaySnackbar("Error with result deletion!");
+        .then(response => {
+          if (response.status > 200 || response.status < 300) {
+            this.displaySnackbar(response.data.message);
+            this.$store.dispatch(ACTION_DELETE_RESULT, this.resultToDelete);
+            if (this.resultToDelete.started_at === this.selectedResult.started_at) {
+              this.$store.commit(MUTATE_SELECTED_RESULT, {});
             }
-          })
-          .catch(e => {
-            this.errors.push(e);
-            this.displaySnackbar("Could not contact backend!");
-          }).finally( () => {
-            this.deleteBtn = false;
-            this.deleteSnackbarVisible = false;
-            setTimeout(() => {
-              this.snackbarVisible = false;
-            }, SNACKBAR_DISPLAY_TIME);
-      });
+            this.resultToDelete = {};
+          } else {
+            this.displaySnackbar("Error with result deletion!");
+          }
+        })
+        .catch(e => {
+          this.errors.push(e);
+          this.displaySnackbar("Could not contact backend!");
+        }).finally(() => {
+          this.deleteBtn = false;
+          this.deleteSnackbarVisible = false;
+          setTimeout(() => {
+            this.snackbarVisible = false;
+          }, SNACKBAR_DISPLAY_TIME);
+        });
     },
     displaySnackbar(message) {
       this.snackbarText = message;
@@ -479,20 +399,20 @@ export default {
       let status = "checking"
       this.updateStatus(status);
       axios
-          .get(GET_SERVICE_STATUS_ENDPOINT(service))
-          .then(response => {
-            if (response.data !== null) {
-              status = response.data.status;
-            } else {
-              status = "offline";
-            }
-          })
-          .catch(e => {
-            status = "offline"
-            this.errors.push(e);
-          }).finally( () => {
-            this.updateStatus(status);
-      });
+        .get(GET_SERVICE_STATUS_ENDPOINT(service))
+        .then(response => {
+          if (response.data !== null) {
+            status = response.data.status;
+          } else {
+            status = "offline";
+          }
+        })
+        .catch(e => {
+          status = "offline"
+          this.errors.push(e);
+        }).finally(() => {
+          this.updateStatus(status);
+        });
     },
     updateStatus(status) {
       if (status === "operational") {
@@ -508,10 +428,10 @@ export default {
     },
     displayParameter(params) {
       return (JSON.stringify(params).replace("{", "").replace("}", "")
-          .replaceAll('"', "").replaceAll(",", ", "));
+        .replaceAll('"', "").replaceAll(",", ", "));
     },
     displayScore(item) {
-      return getMethodObj(item.method).scoreFunction(item);
+      return getMethodObj(METHODS, item.method).scoreFunction(item);
     },
     displayRunName(name) {
       if (name === "") {
@@ -521,10 +441,10 @@ export default {
       }
     },
     getDisplayName(method) {
-      return getMethodObj(method).displayName;
+      return getMethodObj(METHODS, method).displayName;
     },
     async reloadResults() {
-      if(!(this._inactive)) {
+      if (!(this._inactive)) {
         await reloadResults(this.$store);
       }
     },
@@ -533,7 +453,7 @@ export default {
     this.updateServiceStatus(this.selectedMethod);
 
     setInterval(function () {
-      if(!(this._inactive)) {
+      if (!(this._inactive)) {
         this.updateServiceStatus(this.selectedMethod);
       }
     }.bind(this), 30000);
@@ -629,12 +549,18 @@ h1 {
   margin-left: 10px;
 }
 
-table.v-table tbody td:first-child, table.v-table tbody td:not(:first-child), table.v-table tbody th:first-child, table.v-table tbody th:not(:first-child), table.v-table thead td:first-child, table.v-table thead td:not(:first-child), table.v-table thead th:first-child, table.v-table thead th:not(:first-child) {
+table.v-table tbody td:first-child,
+table.v-table tbody td:not(:first-child),
+table.v-table tbody th:first-child,
+table.v-table tbody th:not(:first-child),
+table.v-table thead td:first-child,
+table.v-table thead td:not(:first-child),
+table.v-table thead th:first-child,
+table.v-table thead th:not(:first-child) {
   padding: 0 8px;
 }
 
 .dialog-title {
   font-weight: 500;
 }
-
 </style>

@@ -4,7 +4,7 @@
       <v-card id="parameter_holder">
         <v-card-title>
           <h2>Method Parameter </h2>
-          <v-spacer/>
+          <v-spacer />
           <v-btn small color="primary" @click="showEditName" class="btnAlign">
             Rename
           </v-btn>
@@ -16,30 +16,30 @@
           </v-btn>
         </v-card-title>
         <v-layout row wrap id="parameter_layout">
-            <v-card elevation="0" class="param_holder">
-              <v-card-title class="param_header">
-                <span class="grey--text text-uppercase">Run Name</span>
-              </v-card-title>
-              <v-card-text class="param_content">
-                {{ displayRunName(selectedResult.name) }}
-              </v-card-text>
-            </v-card>
-            <v-card elevation="0" class="param_holder">
-              <v-card-title class="param_header">
-                <span class="grey--text text-uppercase">Dataset</span>
-              </v-card-title>
-              <v-card-text class="param_content">
-                {{ displayDatasetName(selectedResult.dataset_name) }}
-              </v-card-text>
-            </v-card>
-            <v-card elevation="0" class="param_holder">
-              <v-card-title class="param_header">
-                <span class="grey--text text-uppercase">Run Date</span>
-              </v-card-title>
-              <v-card-text class="param_content">
-                {{ displayRunDate() }}
-              </v-card-text>
-            </v-card>
+          <v-card elevation="0" class="param_holder">
+            <v-card-title class="param_header">
+              <span class="grey--text text-uppercase">Run Name</span>
+            </v-card-title>
+            <v-card-text class="param_content">
+              {{ displayRunName(selectedResult.name) }}
+            </v-card-text>
+          </v-card>
+          <v-card elevation="0" class="param_holder">
+            <v-card-title class="param_header">
+              <span class="grey--text text-uppercase">Dataset</span>
+            </v-card-title>
+            <v-card-text class="param_content">
+              {{ displayDatasetName(selectedResult.dataset_name) }}
+            </v-card-text>
+          </v-card>
+          <v-card elevation="0" class="param_holder">
+            <v-card-title class="param_header">
+              <span class="grey--text text-uppercase">Run Date</span>
+            </v-card-title>
+            <v-card-text class="param_content">
+              {{ displayRunDate() }}
+            </v-card-text>
+          </v-card>
           <template v-for="(item, key) in selectedResult.params">
             <v-card :key="key" elevation="0" class="param_holder">
               <v-card-title class="param_header">
@@ -66,19 +66,23 @@
         <v-card-title>
           <h2>Concept Wordcloud</h2>
         </v-card-title>
-        <cloud :data="topicWords" :height="height" :padding="padding" :width="width" :fontSizeMapper="fontSizeMapper" :rotate="rotate" :coloring="coloring" :colors="colors" :onWordClick="() => {}" />
+        <cloud :data="topicWords" :height="height" :padding="padding" :width="width" :fontSizeMapper="fontSizeMapper"
+          :rotate="rotate" :coloring="coloring" :colors="colors" :onWordClick="() => { }" />
       </v-card>
     </v-flex>
     <v-flex xs12>
       <v-card id="concept_word_holder">
         <v-card-title>
-          <h2>Concept Words</h2><span id="cw_legend">Legend (click to filter): <v-chip @click="toggleShowNotMatching" :color="BLUE_LIGHT">matching</v-chip><span> </span><v-chip @click="toggleShowMatching" :color="ORANGE_LIGHT">not matching</v-chip></span>
+          <h2>Concept Words</h2><span id="cw_legend">Legend (click to filter): <v-chip @click="toggleShowNotMatching"
+              :color="BLUE_LIGHT">matching</v-chip><span> </span><v-chip @click="toggleShowMatching"
+              :color="ORANGE_LIGHT">not matching</v-chip></span>
         </v-card-title>
         <v-layout row wrap id="concept_word_content">
           <v-flex xs5 id="concept_words">
             <h4 class="grey-headline">Concept Words</h4>
             <span v-for="word in topicWordList" :key="word">
-              <v-chip v-show="showMatching" v-if="conceptWordPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
+              <v-chip v-show="showMatching" v-if="conceptWordPositives.includes(word)" :color="BLUE_LIGHT">{{ word
+              }}</v-chip>
               <v-chip v-show="showNotMatching" v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
             </span>
           </v-flex>
@@ -86,7 +90,8 @@
           <v-flex v-if="groundtruthList.length > 0" xs5 id="groundtruth_words">
             <h4 class="grey-headline">Ground Truth</h4>
             <span v-for="word in groundtruthList" :key="word">
-              <v-chip v-show="showMatching"  v-if="groundtruthPositives.includes(word)" :color="BLUE_LIGHT">{{ word }}</v-chip>
+              <v-chip v-show="showMatching" v-if="groundtruthPositives.includes(word)" :color="BLUE_LIGHT">{{ word
+              }}</v-chip>
               <v-chip v-show="showNotMatching" v-else :color="ORANGE_LIGHT">{{ word }}</v-chip><span> </span>
             </span>
           </v-flex>
@@ -98,90 +103,49 @@
       </v-card>
     </v-flex>
     <v-flex xs12 id="groundtruth-comparison-holder">
-      <groundtruth-comparison v-bind:conceptWords="topicWordList" v-bind:groundtruth="groundtruthList"/>
+      <groundtruth-comparison v-bind:conceptWords="topicWordList" v-bind:groundtruth="groundtruthList" />
     </v-flex>
     <v-flex xs12 id="heatmap-holder">
-      <heatmap-word-document/>
+      <heatmap-word-document />
     </v-flex>
-    <v-snackbar
-        v-model="snackbarVisible"
-        :timeout="snackbarTimeout"
-        :top=true
-    >
+    <v-snackbar v-model="snackbarVisible" :timeout="snackbarTimeout" :top=true>
       {{ snackbarText }}
 
-      <v-btn
-          color="blue"
-          text
-          @click="closeSnackbar"
-      >
+      <v-btn color="blue" text @click="closeSnackbar">
         Close
       </v-btn>
     </v-snackbar>
-    <v-dialog
-        v-model="editDialogVisible"
-        max-width="290"
-    >
+    <v-dialog v-model="editDialogVisible" max-width="290">
       <v-card>
         <v-card-title class="text-h5">
           Edit Result Name
         </v-card-title>
 
         <v-card-text>
-          <v-text-field
-              v-model="newResultName"
-              label="Name"
-              single-line
-              hide-details
-              clearable
-          ></v-text-field>
+          <v-text-field v-model="newResultName" label="Name" single-line hide-details clearable></v-text-field>
         </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn
-              color="primary"
-              text
-              @click="editName"
-              :loading="editBtn"
-              :disabled="editBtn"
-          >
+          <v-btn color="primary" text @click="editName" :loading="editBtn" :disabled="editBtn">
             Edit
           </v-btn>
 
-          <v-btn
-              color="error"
-              text
-              @click="editDialogVisible = false"
-          >
+          <v-btn color="error" text @click="editDialogVisible = false">
             Cancel
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-snackbar
-        v-model="deleteSnackbarVisible"
-        :timeout="deleteSnackbarTimeout"
-        :top=true
-    >
+    <v-snackbar v-model="deleteSnackbarVisible" :timeout="deleteSnackbarTimeout" :top=true>
       Delete Result {{ resultToDelete.name }}?
 
-      <v-btn
-          color="error"
-          small
-          :loading="deleteBtn"
-          :disabled="deleteBtn"
-          @click="deleteResult"
-      >
+      <v-btn color="error" small :loading="deleteBtn" :disabled="deleteBtn" @click="deleteResult">
         Confirm
       </v-btn>
 
-      <v-btn
-          color="primary"
-          small
-          @click="deleteSnackbarVisible = false"
-      >
+      <v-btn color="primary" small @click="deleteSnackbarVisible = false">
         Cancel
       </v-btn>
     </v-snackbar>
@@ -189,14 +153,14 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 import Cloud from 'vue-d3-cloud';
-import {BLUE_LIGHT, CLOUD, ORANGE_LIGHT} from "@/colors";
-import {getMethodObj} from "@/methods";
-import {SNACKBAR_DISPLAY_TIME} from "@/theme";
+import { BLUE_LIGHT, CLOUD, ORANGE_LIGHT } from "@/colors";
+import { METHODS, getMethodObj } from "@/methods";
+import { SNACKBAR_DISPLAY_TIME } from "@/theme";
 import axios from "axios";
-import {DELETE_RESULT_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT} from "@/RESTconf";
-import {ACTION_DELETE_RESULT, ACTION_EDIT_RESULT_NAME, MUTATE_SELECTED_RESULT} from "@/store/types";
+import { DELETE_RESULT_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT } from "@/RESTconf";
+import { ACTION_DELETE_RESULT, ACTION_EDIT_RESULT_NAME, MUTATE_SELECTED_RESULT } from "@/store/types";
 
 export default {
   name: "TopicDetectionResult",
@@ -231,7 +195,7 @@ export default {
     },
     groundtruthList() {
       let list = [];
-      if (Object.prototype.hasOwnProperty.call(this.selectedDataset,"ground_truth")) {
+      if (Object.prototype.hasOwnProperty.call(this.selectedDataset, "ground_truth")) {
         for (let index in this.selectedDataset.ground_truth) {
           let gt = this.selectedDataset.ground_truth[index];
           if (!(list.indexOf(gt.value) > -1)) {
@@ -263,7 +227,7 @@ export default {
               count++;
             }
           }
-          tw.push({text: word, value: Math.min((count *2) + this.baseFontsize, 100)});
+          tw.push({ text: word, value: Math.min((count * 2) + this.baseFontsize, 100) });
         }
         return tw;
       } else {
@@ -274,7 +238,7 @@ export default {
   components: {
     Cloud,
     "heatmap-word-document": () =>
-        import("../widget/heatmap/HeatmapWordDocument"),
+      import("../widget/heatmap/HeatmapWordDocument"),
     "groundtruth-comparison": () => import("@/components/widget/table/GroundtruthComparison"),
   },
   data: function () {
@@ -360,52 +324,54 @@ export default {
         name: this.resultToEdit.name,
         started_at: this.resultToEdit.started_at
       })
-          .then(response => {
-            if (response.status > 200 || response.status < 300) {
-              this.displaySnackbar("Name edited");
-              this.$store.dispatch(ACTION_EDIT_RESULT_NAME, this.resultToEdit);
-              this.resultToEdit = {};
-              this.newResultName = "";
-            } else {
-              this.displaySnackbar("Error with result name edit!");
-            }
-          })
-          .catch(e => {
-            console.log(e);
-            this.displaySnackbar("Could not contact backend!");
-          })
-          .finally(() => {
-            this.editBtn = false;
-            this.editDialogVisible = false;
-            setTimeout(() => {
-              this.snackbarVisible = false;
-            }, SNACKBAR_DISPLAY_TIME);
+        .then(response => {
+          if (response.status > 200 || response.status < 300) {
+            this.displaySnackbar("Name edited");
+            this.$store.dispatch(ACTION_EDIT_RESULT_NAME, this.resultToEdit);
+            this.resultToEdit = {};
+            this.newResultName = "";
+          } else {
+            this.displaySnackbar("Error with result name edit!");
           }
-      )},
+        })
+        .catch(e => {
+          console.log(e);
+          this.displaySnackbar("Could not contact backend!");
+        })
+        .finally(() => {
+          this.editBtn = false;
+          this.editDialogVisible = false;
+          setTimeout(() => {
+            this.snackbarVisible = false;
+          }, SNACKBAR_DISPLAY_TIME);
+        }
+        )
+    },
     deleteResult() {
       this.deleteBtn = true;
       axios.delete(DELETE_RESULT_ENDPOINT(this.resultToDelete.started_at))
-          .then(response => {
-            if (response.status > 200 || response.status < 300) {
-              this.displaySnackbar(response.data.message);
-              this.$store.dispatch(ACTION_DELETE_RESULT, this.resultToDelete);
-              this.resultToDelete = {};
-              this.$store.commit(MUTATE_SELECTED_RESULT, {});
-            } else {
-              this.displaySnackbar("Error with result deletion!");
-            }
-          })
-          .catch(e => {
-            this.errors.push(e);
-            this.displaySnackbar("Could not contact backend!");
-          }).finally(() => {
-            this.deleteBtn = false;
-            this.deleteSnackbarVisible = false;
-            setTimeout(() => {
-              this.snackbarVisible = false;
-            }, SNACKBAR_DISPLAY_TIME);
+        .then(response => {
+          if (response.status > 200 || response.status < 300) {
+            this.displaySnackbar(response.data.message);
+            this.$store.dispatch(ACTION_DELETE_RESULT, this.resultToDelete);
+            this.resultToDelete = {};
+            this.$store.commit(MUTATE_SELECTED_RESULT, {});
+          } else {
+            this.displaySnackbar("Error with result deletion!");
           }
-      )},
+        })
+        .catch(e => {
+          this.errors.push(e);
+          this.displaySnackbar("Could not contact backend!");
+        }).finally(() => {
+          this.deleteBtn = false;
+          this.deleteSnackbarVisible = false;
+          setTimeout(() => {
+            this.snackbarVisible = false;
+          }, SNACKBAR_DISPLAY_TIME);
+        }
+        )
+    },
     displayRunName(name) {
       if (name === "" || name === undefined) {
         return "–";
@@ -427,7 +393,7 @@ export default {
       } else {
         name = this.selectedResult.name;
       }
-      return name + "–" + this.selectedResult.started_at.replace(":","-") + ".json";
+      return name + "–" + this.selectedResult.started_at.replace(":", "-") + ".json";
     },
     displayRunDate() {
       if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
@@ -437,7 +403,7 @@ export default {
       }
     },
     displayScore(item) {
-      return getMethodObj(item.method).scoreFunction(item);
+      return getMethodObj(METHODS, item.method).scoreFunction(item);
     },
     displaySnackbar(message) {
       this.snackbarText = message;
@@ -450,9 +416,9 @@ export default {
     downloadResult() {
       if (JSON.stringify(this.selectedResult) !== JSON.stringify({})) {
         const data = JSON.stringify(this.selectedResult);
-        const blob = new Blob([data], {type: 'text/plain'});
+        const blob = new Blob([data], { type: 'text/plain' });
         const e = document.createEvent('MouseEvents'),
-            a = document.createElement('a');
+          a = document.createElement('a');
         a.download = this.getNameForFile();
         a.href = window.URL.createObjectURL(blob);
         a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
@@ -460,7 +426,7 @@ export default {
         a.dispatchEvent(e);
       } else {
         this.displaySnackbar("Select a result first!");
-        setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
+        setTimeout(() => { this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
       }
     },
     showEditName() {
@@ -470,7 +436,7 @@ export default {
         this.editDialogVisible = true;
       } else {
         this.displaySnackbar("Select a result first!");
-        setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
+        setTimeout(() => { this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
       }
     },
     showDeleteResult() {
@@ -479,7 +445,7 @@ export default {
         this.deleteSnackbarVisible = true;
       } else {
         this.displaySnackbar("Select a result first!");
-        setTimeout(() => {  this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
+        setTimeout(() => { this.snackbarVisible = false; }, SNACKBAR_DISPLAY_TIME);
       }
     },
   },
@@ -490,7 +456,6 @@ export default {
 </script>
 
 <style scoped>
-
 #wordcloud_holder {
   margin-bottom: 20px;
 }
@@ -558,5 +523,4 @@ export default {
   max-height: 500px;
   padding-bottom: 20px;
 }
-
 </style>
