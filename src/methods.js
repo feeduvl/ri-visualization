@@ -116,7 +116,7 @@ export const METHODS = [
     }
 ]
 
-export const CHAINABLE_METHOD_LIST = ["sner_bert", "bilstm_bert", "bert_bert", "bert"];
+export const CHAINABLE_METHOD_LIST = ["bert-classifier/sner_bert", "bert-classifier/bilstm_bert", "bert-classifier/bert_bert", "bert-classifier/bert"];
 
 export const CHAINABLE_METHODS = [
     {
@@ -130,27 +130,27 @@ export const CHAINABLE_METHODS = [
         showInDocumentView: true
     },
     {
-        name: "sner_bert",
+        name: "bert-classifier/sner_bert",
         displayName: "Stanford NER + BERT",
-        parameterComponentName: "stanford-ner-parameter",
-        parameterComponentPath: "./form/StanfordNERParameter",
+        parameterComponentName: "bert-parameter",
+        parameterComponentPath: "./form/BERTParameter",
         resultComponentName: "sner-bert-result",
         resultComponentPath: "./components/result/ClassifierTOREResult",
         scoreFunction: getScoreEmpty,
         showInDocumentView: false
     },
     {
-        name: "bilstm_bert",
+        name: "bert-classifier/bilstm_bert",
         displayName: "Bi-LSTM + BERT",
-        parameterComponentName: "bi-lstm-parameter",
-        parameterComponentPath: "./form/BiLSTMParameter",
+        parameterComponentName: "bert-parameter",
+        parameterComponentPath: "./form/BERTParameter",
         resultComponentName: "bilstm-bert-result",
         resultComponentPath: "./components/result/ClassifierTOREResult",
         scoreFunction: getScoreEmpty,
         showInDocumentView: false
     },
     {
-        name: "bert_bert",
+        name: "bert-classifier/bert_bert",
         displayName: "BERT + BERT",
         parameterComponentName: "bert-parameter",
         parameterComponentPath: "./form/BERTParameter",
@@ -160,7 +160,7 @@ export const CHAINABLE_METHODS = [
         showInDocumentView: false
     },
         {
-        name: "bert",
+        name: "bert-classifier/bert",
         displayName: "BERT",
         parameterComponentName: "bert-parameter",
         parameterComponentPath: "./form/BERTParameter",
