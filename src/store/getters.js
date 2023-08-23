@@ -59,14 +59,14 @@ export const resultsForSelectedMethod = state => {
   if (state.selectedMethod === METHODS[0].name){
     return [...state.results].reverse();
   }
-  return [...state.results.filter(a => a.method.name.startsWith(state.selectedMethod.name))].reverse();
+  return [...state.results.filter(a => a.method.startsWith(state.selectedMethod.name))].reverse();
 };
 
 export const finishedResultsForSelectedMethod = (state, getters) => {
   if (state.selectedMethod === METHODS[0].name){
     return [...getters.finishedResults].reverse();
   }
-  return [...getters.finishedResults.filter(a => a.method.name.startsWith(state.selectedMethod.name))].reverse();
+  return [...getters.finishedResults.filter(a => a.method.startsWith(state.selectedMethod.name))].reverse();
 };
 
 export const loadingResults = state => {
