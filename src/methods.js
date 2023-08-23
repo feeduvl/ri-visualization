@@ -238,3 +238,11 @@ export function getMethodObj(methods, methodName) {
     }
     return methods[0];
 }
+
+export function getMethodOrChainedObj(methods, methodName){
+    res_method = getMethodObj(methods, methodName)
+    if(res_method===methods[0]){
+        return getMethodObj(CHAINABLE_METHODS, method)
+    }
+    return res_method
+}

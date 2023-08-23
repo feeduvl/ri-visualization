@@ -143,7 +143,7 @@ import "moment/locale/de";
 import { GREEN_FILL, RED_FILL, GRAY, PRIMARY } from "@/colors";
 import { DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT } from "@/RESTconf";
 import { mapGetters } from 'vuex'
-import { getMethodObj, METHODS } from "@/methods";
+import { getMethodObj, getMethodOrChainedObj, METHODS } from "@/methods";
 import {
   ACTION_DELETE_RESULT,
   ACTION_EDIT_RESULT_NAME,
@@ -441,7 +441,7 @@ export default {
       }
     },
     getDisplayName(method) {
-      return getMethodObj(METHODS, method).displayName;
+      return getMethodOrChainedObj(METHODS, method).displayName;
     },
     async reloadResults() {
       if (!(this._inactive)) {
