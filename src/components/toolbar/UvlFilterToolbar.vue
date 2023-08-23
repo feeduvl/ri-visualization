@@ -70,7 +70,7 @@ import {
 import {mapGetters} from "vuex";
 import {loadDataset, reloadResults} from "@/RESTcalls";
 import {MUTATE_SELECTED_METHOD, MUTATE_SELECTED_RESULT} from "@/store/types";
-import {METHODS} from "@/methods";
+import {METHODS, CHAINABLE_METHODS} from "@/methods";
 import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 
 export default {
@@ -80,7 +80,7 @@ export default {
       if(this.path === ROUTE_DOCUMENTS){
           return this.documentViewMethods;
       } else{
-        return METHODS;
+        return [].concat(METHODS, CHAINABLE_METHODS);
       }
     },
     selectedResult: {
