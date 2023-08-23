@@ -240,7 +240,7 @@ export function getMethodObj(methods, methodName) {
 }
 
 export function getMethodOrChainedObj(methods, methodName){
-    res_method = getMethodObj(methods, methodName)
+    let res_method = getMethodObj(methods, methodName);
     if(res_method===methods[0]){
         return getMethodObj(CHAINABLE_METHODS, method)
     }
