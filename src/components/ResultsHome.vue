@@ -14,7 +14,7 @@
 <script>
 
 import { mapGetters } from "vuex";
-import { getMethodObj, METHODS } from "@/methods";
+import { getMethodObj, METHODS, getMethodOrChainedObj } from "@/methods";
 
 export default {
   name: "ConceptHome",
@@ -39,7 +39,7 @@ export default {
       selectedMethod: 'selectedMethod'
     }),
     resultComponent() {
-      return getMethodObj(METHODS, this.selectedMethod).resultComponentName;
+      return getMethodOrChainedObj(METHODS, this.selectedMethod).resultComponentName;
     }
   },
   data() {
