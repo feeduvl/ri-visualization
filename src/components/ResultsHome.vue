@@ -29,6 +29,10 @@ export default {
     "bi-lstm-tore-result": () => import("./result/ClassifierTOREResult"),
     "us-similarity-result": () => import("./result/UserStorySimilarityResult"),
     "acceptance-criteria-completeness-result": () => import("./result/AcceptanceCriteriaCompletenessResult"),
+    "bert-tore-result": () => import("./result/ClassifierTOREResult"),
+    "bert-bert-result": () => import("./result/ClassifierTOREResult"),
+    "bilstm-bert-result": () => import("./result/ClassifierTOREResult"),
+    "sner-bert-result": () => import("./result/ClassifierTOREResult"),
   },
   computed: {
     ...mapGetters({
