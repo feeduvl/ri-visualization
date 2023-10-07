@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <v-toolbar class="banner">
-      <router-link to="/">Issues</router-link>
-      <router-link to="/feedback" style="margin-left: 10px">Feedback</router-link>
+      <router-link to="/jira/issues">Issues</router-link>
+      <router-link to="/jira/feedback" style="margin-left: 10px">Feedback</router-link>
     </v-toolbar>
     <router-view style="margin-top: 40px"/>
   </div>
