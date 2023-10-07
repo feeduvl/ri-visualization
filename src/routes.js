@@ -22,7 +22,7 @@ export const ROUTE_REDDIT_CRAWLER = "/reddit_crawler";
 export const ROUTE_APP_REVIEW_CRAWLER = "/app_review_crawler";
 export const ROUTE_JIRA = "/jira";
 
-export const ROUTE_FEEDBACK = "/feedback";
+export const ROUTE_FEEDBACK = "/jira-feedback";
 
 export const routes = [{
     path: ROUTE_EMPTY,
@@ -94,14 +94,10 @@ export const routes = [{
   },
   {
     path: ROUTE_JIRA,
-    component: () => import('./components/JiraDashBoardHome.vue')
+    component: () => import('./components/JiraDashboard.vue')
   },
   {
-    path: "/jira/issues",
-    component: () => import('./components/jira-feedback/JiraDashboard.vue')
-  },
-  {
-    path: '/jira/issues/assigned-feedback/:item',
+    path: '/jira/assigned-feedback/:item',
     name: 'assigned-feedback',
     component: AssigenedFeedbackDetail,
     props: true,
@@ -111,7 +107,7 @@ export const routes = [{
     component: () => import('./components/jira-feedback/Feedback.vue')
   },
   {
-    path: '/feedback/:item',
+    path: '/jira-feedback/:item',
     name: 'tore-feedback',
     component: ToreCategoriesForFeedback,
     props: true,
