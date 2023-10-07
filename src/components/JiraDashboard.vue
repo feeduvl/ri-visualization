@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <div>
-      <router-link :to="{ path: ROUTE_FEEDBACK() }">Zur Feedback-Seite</router-link>
-    </div>
+    <v-toolbar class="banner">
+      <router-link :to="{ path: ROUTE_FEEDBACK() }">Feedback</router-link>
+    </v-toolbar>
     <div class="row">
       <p style="color: dodgerblue; font-size: 18px; margin-left: 15px">Select already used projects or search for new:
       </p>
@@ -125,7 +125,7 @@
 <script>
 import IssuesService from "@/jira-service";
 import FeedbackService from "@/feedback-service"
-import {ROUTE_FEEDBACK} from "@/routes";
+import {ROUTE_FEEDBACK, ROUTE_JIRA} from "@/routes";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Issues",
@@ -170,6 +170,9 @@ export default {
     }
   },
   methods: {
+    ROUTE_JIRA() {
+      return ROUTE_JIRA
+    },
     ROUTE_FEEDBACK() {
       return ROUTE_FEEDBACK
     },

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <router-link :to="{ path: ROUTE_JIRA() }">&lt; Issues</router-link>
     <p>Issue Key: {{ item.key }}</p>
     <p>Assigned Feedback</p>
 <!--    <v-data-table-->
@@ -21,6 +22,8 @@
 
 <script>
 
+import {ROUTE_JIRA} from "@/routes";
+
 export default {
   props: ['item'],
   data() {
@@ -29,15 +32,12 @@ export default {
         {text: "Id", value: "id"},
         {text: "Text", value: "text"},
       ],
-      headers: [
-        {text: "Issue Name", value: "key"},
-        {text: "Summary", value: "summary"},
-        {text: "Issue Type", value: "issueType"},
-        {text: "Project Name", value: "projectName"},
-      ],
     }
   },
   methods: {
+    ROUTE_JIRA() {
+      return ROUTE_JIRA
+    }
   }
 };
 
