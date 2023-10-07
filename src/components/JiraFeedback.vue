@@ -32,7 +32,8 @@
 
 // import ExcelJS from 'exceljs';
 // import axios from "axios";
-import FeedbackService from "@/components/JiraFeedback.vue";
+
+import FeedbackService from "@/feedback-service";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
