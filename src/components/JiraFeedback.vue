@@ -52,15 +52,6 @@ export default {
       selectedAnnotationFileName: '',
     }
   },
-  computed:{
-    // fetchFeedbackFileNames(){
-    //   console.log("in comp")
-    //   FeedbackService.getFeedbackNames().then((response) => {
-    //     console.log(response.data)
-    //     this.feedbackFileNames = response.data
-    //   });
-    // },
-  },
   methods: {
     sendSelectedFeedbackName(){
       FeedbackService.saveSelectedFeedback(this.selectedFeedbackFileName).then((response) => {
@@ -81,7 +72,6 @@ export default {
       })
     },
     fetchFeedbackFileNames(){
-      console.log("in method")
       FeedbackService.getFeedbackNames().then((response) => {
         console.log(response.data)
         this.feedbackFileNames = response.data

@@ -1,4 +1,7 @@
 /* eslint-disable */
+import ToreCategoriesForFeedback from "@/components/jira-feedback/ToreCategoriesForFeedback.vue";
+import AssigenedFeedbackDetail from "@/components/jira-feedback/AssigenedFeedbackDetail.vue";
+
 export const ROUTE_EMPTY = "";
 export const ROUTE_DEFAULT = "/";
 export const ROUTE_ALL = "*";
@@ -92,22 +95,22 @@ export const routes = [{
     path: ROUTE_JIRA,
     component: () => import('./components/JiraDashboard.vue')
   },
-  // {
-  //   path: '/jira/assigned-feedback/:item',
-  //   name: 'assigned-feedback',
-  //   component: AssigenedFeedbackDetail,
-  //   props: true,
-  // },
+  {
+    path: '/jira/assigned-feedback/:item',
+    name: 'assigned-feedback',
+    component: AssigenedFeedbackDetail,
+    props: true,
+  },
   {
     path: ROUTE_FEEDBACK,
     component: () => import('./components/JiraFeedback.vue')
   },
-  // {
-  //   path: '/jira/feedback/:item',
-  //   name: 'tore-feedback',
-  //   component: ToreCategoriesForFeedback,
-  //   props: true,
-  // },
+  {
+    path: '/jira-feedback/tore-feedback/:item',
+    name: 'tore-feedback',
+    component: ToreCategoriesForFeedback,
+    props: true,
+  },
   {
     path: ROUTE_ALL,
     redirect: ROUTE_DASHBOARD
