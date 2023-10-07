@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <v-toolbar class="banner">
+      <router-link to="/feedback" style="margin-left: 10px">Feedback</router-link>
+    </v-toolbar>
     <div class="row">
       <p style="color: dodgerblue; font-size: 18px; margin-left: 15px">Select already used projects or search for new:
       </p>
