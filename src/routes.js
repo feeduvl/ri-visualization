@@ -107,7 +107,7 @@ export const routes = [{
     component: () => import('./components/jira-feedback/Feedback.vue')
   },
   {
-    path: '/jira-feedback/tore-feedback/:item',
+    path: '/jira-feedback/:item',
     name: 'tore-feedback',
     component: ToreCategoriesForFeedback,
     props: true,
