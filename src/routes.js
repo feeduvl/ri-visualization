@@ -94,10 +94,14 @@ export const routes = [{
   },
   {
     path: ROUTE_JIRA,
-    component: () => import('./components/JiraDashboard.vue')
+    component: () => import('./components/JiraDashBoardHome.vue')
   },
   {
-    path: '/jira/assigned-feedback/:item',
+    path: "/jira/issues",
+    component: () => import('./components/jira-feedback/JiraDashboard.vue')
+  },
+  {
+    path: '/jira/issues/assigned-feedback/:item',
     name: 'assigned-feedback',
     component: AssigenedFeedbackDetail,
     props: true,
