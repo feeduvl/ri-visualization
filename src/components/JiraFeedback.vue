@@ -53,13 +53,13 @@ export default {
     }
   },
   computed:{
-    fetchFeedbackFileNames(){
-      console.log("in comp")
-      FeedbackService.getFeedbackNames().then((response) => {
-        console.log(response.data)
-        this.feedbackFileNames = response.data
-      });
-    },
+    // fetchFeedbackFileNames(){
+    //   console.log("in comp")
+    //   FeedbackService.getFeedbackNames().then((response) => {
+    //     console.log(response.data)
+    //     this.feedbackFileNames = response.data
+    //   });
+    // },
   },
   methods: {
     sendSelectedFeedbackName(){
