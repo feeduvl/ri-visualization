@@ -21,7 +21,6 @@ export const ROUTE_DATASET = "/dataset";
 export const ROUTE_REDDIT_CRAWLER = "/reddit_crawler";
 export const ROUTE_APP_REVIEW_CRAWLER = "/app_review_crawler";
 export const ROUTE_JIRA = "/jira";
-
 export const ROUTE_FEEDBACK = "/feedback";
 
 export const routes = [{
@@ -103,11 +102,11 @@ export const routes = [{
     props: true,
   },
   {
-    path: ROUTE_FEEDBACK,
+    path: '/jira/feedback',
     component: () => import('./components/jira-feedback/Feedback.vue')
   },
   {
-    path: '/feedback/:item',
+    path: '/jira/feedback/:item',
     name: 'tore-feedback',
     component: ToreCategoriesForFeedback,
     props: true,
