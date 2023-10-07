@@ -100,7 +100,7 @@ export const routes = [{
   // },
   {
     path: ROUTE_FEEDBACK,
-    component: () => import('./components/jira-feedback/Feedback.vue')
+    component: () => import('./components/JiraFeedback.vue')
   },
   // {
   //   path: '/jira/feedback/:item',
