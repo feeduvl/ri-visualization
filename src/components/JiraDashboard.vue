@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <v-toolbar class="banner">
+      <router-link to="/jira" style="margin-left: 10px">Feedback</router-link>
       <router-link to="/feedback" style="margin-left: 10px">Feedback</router-link>
     </v-toolbar>
     <div class="row">
