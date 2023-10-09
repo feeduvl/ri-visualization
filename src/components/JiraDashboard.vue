@@ -26,6 +26,16 @@
         </v-btn>
         <v-btn dark color="blue" @click="assignFeedbackToIssueWithTore()"> Assign Feedback to Issues with TORE classification
         </v-btn>
+        <v-dialog v-model="loadAssignment">
+          <div class="overlay">
+            <v-progress-circular indeterminate size="64" style="margin-left: 30px">
+              Loading...
+            </v-progress-circular>
+            <v-btn dark color="black" @click="closeDialogIssues()"
+                   style="margin-top: 200px; margin-left: 85%">CLOSE
+            </v-btn>
+          </div>
+        </v-dialog>
       </div>
     </div>
     <v-dialog v-model="dialogIssueTypes" width="70%">
@@ -125,8 +135,8 @@
 <script>
 
 import IssuesService from "@/jira-service";
-import FeedbackService from "@/feedback-service"
 import {ROUTE_FEEDBACK, ROUTE_JIRA} from "@/routes";
+import FeedbackService from "@/feedback-service";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Issues",
@@ -157,6 +167,7 @@ export default {
       selectedIssuesTypes: [],
       selectedIssues: [],
       loading: false,
+      loadAssignment: false,
       projectNames: [],
       isProjectSelected: true,
       warning: "",
@@ -178,15 +189,19 @@ export default {
       return ROUTE_FEEDBACK
     },
     assignFeedbackToIssues(){
+      this.loadAssignment = true
       FeedbackService.assignFeedbackToIssues().then((response) => {
         console.log(response.data)
         this.issues = response.data
+        this.loadAssignment = false
       });
     },
     assignFeedbackToIssueWithTore(){
+      this.loadAssignment = true
       FeedbackService.assignFeedbackToIssuesByTore().then((response) => {
         console.log(response.data)
         this.issues = response.data
+        this.loadAssignment = false
       });
     },
     showDetails(item) {
