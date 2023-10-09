@@ -13,6 +13,10 @@ class FeedbackService {
     //     });
     // }
     assignFeedbackToIssues(){
+        return axios.post(ISSUE_API_BASE_URL + `/assign_feedback_to_issues`);
+    }
+
+    assignFeedbackToIssuesByTore(){
         return axios.post(ISSUE_API_BASE_URL + `/assign_feedback_to_issues_by_tore`);
     }
     saveSelectedFeedback(feedback_name){

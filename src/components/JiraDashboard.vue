@@ -22,7 +22,7 @@
       </v-radio-group>
       <p v-if="!isProjectSelected" style="color: red">{{ warning }}</p>
       <div>
-        <v-btn dark color="blue"> Assign Feedback to Issues
+        <v-btn dark color="blue" @click="assignFeedbackToIssues()"> Assign Feedback to Issues
         </v-btn>
         <v-btn dark color="blue" @click="assignFeedbackToIssueWithTore()"> Assign Feedback to Issues with TORE classification
         </v-btn>
@@ -123,6 +123,7 @@
 </template>
 
 <script>
+
 import IssuesService from "@/jira-service";
 import FeedbackService from "@/feedback-service"
 import {ROUTE_FEEDBACK, ROUTE_JIRA} from "@/routes";
@@ -176,8 +177,14 @@ export default {
     ROUTE_FEEDBACK() {
       return ROUTE_FEEDBACK
     },
-    assignFeedbackToIssueWithTore(){
+    assignFeedbackToIssues(){
       FeedbackService.assignFeedbackToIssues().then((response) => {
+        console.log(response.data)
+        this.issues = response.data
+      });
+    },
+    assignFeedbackToIssueWithTore(){
+      FeedbackService.assignFeedbackToIssuesByTore().then((response) => {
         console.log(response.data)
         this.issues = response.data
       });
