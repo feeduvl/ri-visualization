@@ -1,11 +1,11 @@
 <template>
   <div id="start">
     <nav id="start">
-      <router-link to="issues">
-        <div :class="{ 'tab': true, 'tab-left': $route.path === 'issues' }">Issues</div>
+      <router-link to="/jira/issues">
+        <div :class="{ 'tab': true, 'tab-left': $route.path === '/jira/issues' }">Issues</div>
       </router-link>
-      <router-link to="feedback">
-        <div :class="{ 'tab': true, 'tab-right': $route.path === 'feedback' }">Feedback</div>
+      <router-link to="/jira/feedback">
+        <div :class="{ 'tab': true, 'tab-right': $route.path === '/jira/feedback' }">Feedback</div>
       </router-link>
     </nav>
     <router-view></router-view>
