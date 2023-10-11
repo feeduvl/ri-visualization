@@ -1,7 +1,4 @@
 /* eslint-disable */
-import ToreCategoriesForFeedback from "@/components/jira-feedback/ToreCategoriesForFeedback.vue";
-import AssigenedFeedbackDetail from "@/components/jira-feedback/AssigenedFeedbackDetail.vue";
-
 export const ROUTE_EMPTY = "";
 export const ROUTE_DEFAULT = "/";
 export const ROUTE_ALL = "*";
@@ -21,7 +18,10 @@ export const ROUTE_DATASET = "/dataset";
 export const ROUTE_REDDIT_CRAWLER = "/reddit_crawler";
 export const ROUTE_APP_REVIEW_CRAWLER = "/app_review_crawler";
 export const ROUTE_JIRA = "/jira";
-export const ROUTE_FEEDBACK = "/jira-feedback";
+export const ROUTE_JIRA_ISSUES = "/jira/issues";
+export const ROUTE_JIRA_ISSUES_DETAILS = "/jira/issues/:item";
+export const ROUTE_JIRA_FEEDBACK = "/jira/feedback";
+export const ROUTE_JIRA_FEEDBACK_DETAILS = "/jira/feedback/:item";
 
 export const routes = [{
     path: ROUTE_EMPTY,
@@ -93,23 +93,27 @@ export const routes = [{
   },
   {
     path: ROUTE_JIRA,
-    component: () => import('./components/JiraDashboard.vue')
-  },
-  {
-    path: '/jira/assigned-feedback/:item',
-    name: 'assigned-feedback',
-    component: AssigenedFeedbackDetail,
-    props: true,
-  },
-  {
-    path: ROUTE_FEEDBACK,
-    component: () => import('./components/JiraFeedback.vue')
-  },
-  {
-    path: '/jira-feedback/tore-feedback/:item',
-    name: 'tore-feedback',
-    component: ToreCategoriesForFeedback,
-    props: true,
+    component: () => import('./components/JiraDashboard.vue'),
+    children:[
+      {
+        path: ROUTE_JIRA_ISSUES,
+        component: () => import('./components/jira-feedback/JiraIssues.vue'),
+      },
+      {
+        path: ROUTE_JIRA_ISSUES_DETAILS,
+        component: () => import('./components/jira-feedback/JiraIssuesDetails.vue'),
+        props: true,
+      },
+      {
+        path: ROUTE_JIRA_FEEDBACK,
+        component: () => import('./components/jira-feedback/JiraFeedback.vue'),
+      },
+      {
+        path: ROUTE_JIRA_FEEDBACK_DETAILS,
+        component: () => import('./components/jira-feedback/JiraFeedbackDetails.vue'),
+        props: true,
+      },
+    ]
   },
   {
     path: ROUTE_ALL,

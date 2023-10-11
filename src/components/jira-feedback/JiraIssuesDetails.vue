@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link :to="{ path: ROUTE_JIRA() }">&lt; Issues</router-link>
+    <button class="back-button" @click="goBack">&lt; Back</button>
     <p>Issue Key: {{ item.key }}</p>
     <p>Assigned Feedback</p>
     <v-data-table
@@ -27,8 +27,6 @@
 
 <script>
 
-import {ROUTE_JIRA} from "@/routes";
-
 export default {
   props: ['item'],
   data() {
@@ -40,8 +38,8 @@ export default {
     }
   },
   methods: {
-    ROUTE_JIRA() {
-      return ROUTE_JIRA
+    goBack() {
+      this.$router.go(-1);
     }
   }
 };
@@ -51,5 +49,23 @@ export default {
 
 
 <style scoped>
+
+.back-button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  outline: none;
+  position: absolute;
+  top: 100px;
+  left: 20px;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
+}
 
 </style>

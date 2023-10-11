@@ -1,8 +1,5 @@
 <template>
   <div>
-    <v-toolbar class="banner">
-      <router-link :to="{ path: ROUTE_JIRA() }">Issues</router-link>
-    </v-toolbar>
     <div>
       <v-select
           v-model="selectedFeedbackFileName"
@@ -34,7 +31,6 @@
 <script>
 
 import FeedbackService from "@/feedback-service";
-import {ROUTE_FEEDBACK, ROUTE_JIRA} from "@/routes";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -54,12 +50,6 @@ export default {
     }
   },
   methods: {
-    ROUTE_FEEDBACK() {
-      return ROUTE_FEEDBACK
-    },
-    ROUTE_JIRA() {
-      return ROUTE_JIRA
-    },
     sendSelectedFeedbackName(){
       FeedbackService.saveSelectedFeedback(this.selectedFeedbackFileName).then((response) => {
         console.log(response.data)
