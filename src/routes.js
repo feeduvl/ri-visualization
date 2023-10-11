@@ -18,10 +18,10 @@ export const ROUTE_DATASET = "/dataset";
 export const ROUTE_REDDIT_CRAWLER = "/reddit_crawler";
 export const ROUTE_APP_REVIEW_CRAWLER = "/app_review_crawler";
 export const ROUTE_JIRA = "/jira";
-export const ROUTE_JIRA_ISSUES = "/jira/issues";
-export const ROUTE_JIRA_ISSUES_DETAILS = "/jira/issues/:item";
-export const ROUTE_JIRA_FEEDBACK = "/jira/feedback";
-export const ROUTE_JIRA_FEEDBACK_DETAILS = "/jira/feedback/:item";
+export const ROUTE_JIRA_ISSUES = "/issues";
+export const ROUTE_JIRA_ISSUES_DETAILS = "/issues/:item";
+export const ROUTE_JIRA_FEEDBACK = "/feedback";
+export const ROUTE_JIRA_FEEDBACK_DETAILS = "/feedback/:item";
 
 export const routes = [{
     path: ROUTE_EMPTY,
