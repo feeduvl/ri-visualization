@@ -93,7 +93,7 @@ export const routes = [{
   },
   {
     path: ROUTE_JIRA,
-    redirect: ROUTE_JIRA_ISSUES,
+    redirect: "/jira/issues",
   },
   {
     path: ROUTE_JIRA,
