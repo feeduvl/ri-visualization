@@ -39,7 +39,7 @@ export default {
   cursor: pointer;
   outline: none;
   position: absolute;
-  top: 100px;
+  top: 80px;
   left: 20px;
 }
 

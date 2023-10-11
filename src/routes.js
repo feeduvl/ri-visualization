@@ -93,6 +93,10 @@ export const routes = [{
   },
   {
     path: ROUTE_JIRA,
+    redirect: ROUTE_JIRA_ISSUES,
+  },
+  {
+    path: ROUTE_JIRA,
     component: () => import('./components/JiraDashboard.vue'),
     children:[
       {

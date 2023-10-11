@@ -5,7 +5,7 @@
     <p>Assigned Feedback</p>
     <v-data-table
         :headers="header"
-        :items="item.assigned_feedback"
+        :items="computedData"
     >
       <template v-slot:items="props">
         <td>{{ props.item.id }}</td>
@@ -40,6 +40,18 @@ export default {
   methods: {
     goBack() {
       this.$router.go(-1);
+    }
+  },
+  computed: {
+    computedData: {
+      get() {
+        console.log(this.item)
+        return this.item.assigned_feedback;
+      },
+      set(value) {
+        // Hier können Sie die props aktualisieren
+        this.$emit('update:item.assigned_feedback', value);
+      }
     }
   }
 };
