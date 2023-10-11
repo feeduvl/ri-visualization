@@ -195,7 +195,7 @@ export default {
       });
     },
     showDetails(item) {
-      this.$router.push({name: 'assigned-feedback', params: {item: item}});
+      this.$router.push({name: 'assigned_feedback', params: {item: item}});
     },
     getIssueTypesByProjectName() {
       if (this.searchForProject === "0") {

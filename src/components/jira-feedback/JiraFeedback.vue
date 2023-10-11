@@ -81,7 +81,7 @@ export default {
       });
     },
     showDetails(item) {
-      this.$router.push({ name: 'tore-feedback', params: { item: item } });
+      this.$router.push({ name: 'tore_feedback', params: { item: item } });
     },
   },
   created() {
