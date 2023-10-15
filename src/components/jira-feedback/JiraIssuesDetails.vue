@@ -54,7 +54,7 @@
       </v-card>
     </v-dialog>
 
-    <v-card>
+    <v-card style="margin-top: 3%">
       <v-card-title>
         <p>Assigned Feedback with TORE classification</p>
         <v-btn class="add-button" @click="openAddDialogWithTore" fab dark small top>
@@ -219,7 +219,7 @@ export default {
   cursor: pointer;
   outline: none;
   position: absolute;
-  top: 100px;
+  top: 80px;
   left: 20px;
 }
 
