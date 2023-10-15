@@ -111,7 +111,9 @@
 
 <script>
 
-import FeedbackService from "@/services/FeedbackService";
+
+
+import FeedbackService from "@/feedback-service";
 
 export default {
   props: ['item'],

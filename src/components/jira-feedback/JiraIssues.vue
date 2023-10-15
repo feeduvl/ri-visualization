@@ -133,6 +133,7 @@
 
 import IssuesService from "@/jira-service";
 import FeedbackService from "@/feedback-service";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Issues",
