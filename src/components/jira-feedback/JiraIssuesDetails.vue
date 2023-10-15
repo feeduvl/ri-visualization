@@ -7,9 +7,9 @@
     <v-card>
       <v-card-title>
         <p>Assigned Feedback</p>
-        <td>
-          <i class="material-icons delete-icon" @click="deleteItem(props.item)">delete</i>
-        </td>
+        <v-btn class="add-button" @click="openAddDialog" small>
+          <i class="material-icons add-icon" >add</i>
+        </v-btn>
       </v-card-title>
       <v-data-table
           :headers="header"
