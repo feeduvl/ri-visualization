@@ -25,10 +25,7 @@ export default {
 
 </script>
 
-
-
 <style scoped>
-
 .back-button {
   border: none;
   border-radius: 10px;
@@ -46,5 +43,6 @@ export default {
 .back-button:hover {
   background-color: #0056b3;
 }
+
 
 </style>
