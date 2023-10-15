@@ -28,7 +28,7 @@
             <v-progress-circular indeterminate size="64" style="margin-left: 30px">
               Loading...
             </v-progress-circular>
-            <v-btn dark color="black" @click="closeDialogIssues()"
+            <v-btn dark color="black" @click="closeDialogLoadAssignment()"
                    style="margin-top: 200px; margin-left: 85%">CLOSE
             </v-btn>
           </div>
@@ -253,6 +253,9 @@ export default {
     },
     closeDialogIssues() {
       this.dialogIssues = false;
+    },
+    closeDialogLoadAssignment() {
+      this.loadAssignment = false;
     },
     getAllIssues() {
       IssuesService.getAllIssues(this.pagination.page, this.pagination.rowsPerPage).then((response) => {

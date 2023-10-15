@@ -4,7 +4,6 @@ import { BaklavaVuePlugin } from '@baklavajs/plugin-renderer-vue'
 import App from './App.vue';
 import './plugins/vuetify';
 import LoadScript from 'vue-plugin-load-script';
-import '@mdi/font/css/materialdesignicons.css';
 import {
   routes,
   ROUTE_LOGIN

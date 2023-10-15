@@ -1,13 +1,15 @@
 <template>
   <div>
-    <button class="back-button" @click="goBack">&lt; Back</button>
+    <button class="back-button" @click="goBack">
+      <i class="material-icons">arrow_back_ios</i>
+    </button>
     <p>Issue Key: {{ item.key }}</p>
     <v-card>
       <v-card-title>
         <p>Assigned Feedback</p>
-        <v-btn class="add-button" @click="openAddDialog" fab dark small right top>
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
+        <td>
+          <i class="material-icons delete-icon" @click="deleteItem(props.item)">delete</i>
+        </td>
       </v-card-title>
       <v-data-table
           :headers="header"
@@ -18,9 +20,7 @@
           <td>{{ props.item.text }}</td>
           <td>{{ props.item.similarity }}</td>
           <td>
-            <v-btn @click="deleteItem(props.item)" icon>
-              <v-icon color="red">mdi-delete</v-icon>
-            </v-btn>
+            <i class="material-icons delete-icon" @click="deleteItem(props.item)">delete</i>
           </td>
         </template>
       </v-data-table>
@@ -46,10 +46,10 @@
           </v-data-table>
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="addSelectedFeedback" color="primary">
-            Add Selected Tore Feedback
+          <v-btn @click="addSelectedFeedback" dark color="blue" style="margin-left: 50%">
+            Add selected Feedback to list
           </v-btn>
-          <v-btn @click="openFeedback = false">Close</v-btn>
+          <v-btn @click="openFeedback = false" dark color="black">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -57,8 +57,8 @@
     <v-card style="margin-top: 3%">
       <v-card-title>
         <p>Assigned Feedback with TORE classification</p>
-        <v-btn class="add-button" @click="openAddDialogWithTore" fab dark small top>
-          <v-icon>mdi-plus</v-icon>
+        <v-btn class="add-button" @click="openAddDialogWithTore">
+          <i class="material-icons add-icon">add</i>
         </v-btn>
       </v-card-title>
       <v-data-table
@@ -70,9 +70,7 @@
           <td>{{ props.item.text }}</td>
           <td>{{ props.item.similarity }}</td>
           <td>
-            <v-btn @click="deleteItemWithTore(props.item)" icon>
-              <v-icon color="red">mdi-delete</v-icon>
-            </v-btn>
+            <i class="material-icons delete-icon" @click="deleteItemWithTore(props.item)">delete</i>
           </td>
         </template>
       </v-data-table>
@@ -98,10 +96,10 @@
           </v-data-table>
         </v-card-text>
         <v-card-actions>
-          <v-btn @click="addSelectedToreFeedback" color="primary">
-            Add Selected Feedback
+          <v-btn @click="addSelectedToreFeedback" dark color="blue" style="margin-left: 50%">
+            Add Selected Feedback to list
           </v-btn>
-          <v-btn @click="openFeedbackWithTore = false">Close</v-btn>
+          <v-btn @click="openFeedbackWithTore = false" dark color="black">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -213,8 +211,6 @@ export default {
   border: none;
   border-radius: 10px;
   padding: 10px 20px;
-  background-color: #007BFF;
-  color: white;
   font-size: 16px;
   cursor: pointer;
   outline: none;
@@ -224,12 +220,18 @@ export default {
 }
 
 .back-button:hover {
-  background-color: #0056b3;
+  background-color: blue;
 }
 
 .add-button {
   position: absolute;
   top: 10px;
   right: 10px;
+}
+.delete-icon {
+  color: red;
+}
+.add-icon {
+  color: blue;
 }
 </style>

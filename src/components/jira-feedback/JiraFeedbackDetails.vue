@@ -1,6 +1,8 @@
 <template>
   <div>
-    <button class="back-button" @click="goBack">&lt; Back</button>
+    <button class="back-button" @click="goBack">
+      <i class="material-icons">arrow_back_ios</i>
+    </button>
     <p>Tore Classification for Feedback: "{{item.id}}"</p>
     <v-data-table
         :items="item.tore"
@@ -30,8 +32,6 @@ export default {
   border: none;
   border-radius: 10px;
   padding: 10px 20px;
-  background-color: #007BFF;
-  color: white;
   font-size: 16px;
   cursor: pointer;
   outline: none;
@@ -41,7 +41,7 @@ export default {
 }
 
 .back-button:hover {
-  background-color: #0056b3;
+  background-color: blue;
 }
 
 
