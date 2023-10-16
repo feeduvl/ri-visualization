@@ -4,13 +4,15 @@
       <i class="material-icons">arrow_back_ios</i>
     </button>
     <h2>Tore Classification for Feedback: "{{item.id}}"</h2>
-    <v-data-table
-        :items="item.tore"
-    >
-      <template v-slot:items="props">
-        <td>{{ props.item }}</td>
-      </template>
-    </v-data-table>
+    <div class="table-header">
+      <v-data-table
+          :items="item.tore"
+      >
+        <template v-slot:items="props">
+          <td>{{ props.item }}</td>
+        </template>
+      </v-data-table>
+    </div>
   </div>
 </template>
 
@@ -26,6 +28,9 @@ export default {
 </script>
 
 <style scoped>
+.table-header{
+  margin-top: 20px;
+}
 .container{
   margin-top: 20px;
 }
@@ -37,7 +42,7 @@ export default {
   cursor: pointer;
   outline: none;
   position: absolute;
-  top: 150px;
+  top: 130px;
   left: 120px;
 }
 

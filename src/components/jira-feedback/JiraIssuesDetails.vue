@@ -147,7 +147,7 @@ export default {
   cursor: pointer;
   outline: none;
   position: absolute;
-  top: 150px;
+  top: 130px;
   left: 120px;
 }
 
