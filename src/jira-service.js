@@ -3,7 +3,7 @@ import {JIRA_DASHBOARD_BASE_URL} from "./RESTconf";
 
 const ISSUE_API_BASE_URL = JIRA_DASHBOARD_BASE_URL + "/issues"
 
-class IssuesService {
+class IssueService {
 
     importIssues(issues){
         var parsedobj = JSON.parse(JSON.stringify(issues))
@@ -42,4 +42,4 @@ class IssuesService {
 
 }
 
-export default new IssuesService()
+export default new IssueService()

@@ -1,34 +1,44 @@
 <template>
-  <div>
-    <div>
-      <v-select
-          v-model="selectedFeedbackFileName"
-          :items="feedbackFileNames"
-          label="Select Feedback"
-          @change="sendSelectedFeedbackName()"
-      ></v-select>
-      <v-select
-          v-model="selectedAnnotationFileName"
-          :items="annotationFileNames"
-          label="Select Annotations"
-          @change="sendSelectedAnnotationName()"
-      ></v-select>
+  <div class="container">
+    <div class="select-container">
+      <div class="select-feedback">
+        <v-select
+            v-model="selectedFeedbackFileName"
+            :items="feedbackFileNames"
+            label="Select Feedback"
+            @change="sendSelectedFeedbackName()"
+        ></v-select>
+      </div>
+      <div class="select-annotation">
+        <v-select
+            v-model="selectedAnnotationFileName"
+            :items="annotationFileNames"
+            label="Select Annotations"
+            @change="sendSelectedAnnotationName()"
+        ></v-select>
+      </div>
     </div>
-    <v-data-table
-        :headers="tableHeaders"
-        :items="feedback"
-    >
-      <template v-slot:items="props">
-        <tr @click="showDetails(props.item)">
-          <td>{{ props.item.id }}</td>
-          <td>{{ props.item.text }}</td>
-        </tr>
-      </template>
-    </v-data-table>
+    <v-card class="table-header">
+      <v-card-title>
+        <h2>Feedback</h2>
+      </v-card-title>
+      <v-data-table
+          :headers="tableHeaders"
+          :items="feedback"
+      >
+        <template v-slot:items="props">
+          <tr @click="showDetails(props.item)">
+            <td>{{ props.item.id }}</td>
+            <td>{{ props.item.text }}</td>
+          </tr>
+        </template>
+      </v-data-table>
+    </v-card>
   </div>
 </template>
 
 <script>
+
 
 import FeedbackService from "@/feedback-service";
 
@@ -93,6 +103,22 @@ export default {
 </script>
 
 <style scoped>
+.table-header{
+  margin-top: 20px;
+}
 
+.select-container{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.select-annotation,
+.select-feedback {
+  width: 48%; /* Oder eine andere Breite, um Platz für den Abstand zu lassen */
+}
+.container{
+  width: 90%;
+  margin-top: 20px;
+}
 
 </style>

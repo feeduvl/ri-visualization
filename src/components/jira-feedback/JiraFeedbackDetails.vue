@@ -41,8 +41,7 @@ export default {
 }
 
 .back-button:hover {
-  background-color: blue;
+  color: blue;
 }
-
 
 </style>

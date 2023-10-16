@@ -1,62 +1,43 @@
 <template>
   <div id="start">
-    <nav id="start">
-      <router-link to="/jira/issues">
-        <div :class="{ 'tab': true, 'tab-left': $route.path === '/jira/issues' }">Issues</div>
-      </router-link>
-      <router-link to="/jira/feedback">
-        <div :class="{ 'tab': true, 'tab-right': $route.path === '/jira/feedback' }">Feedback</div>
-      </router-link>
-    </nav>
+    <v-card>
+      <v-tabs
+      >
+        <v-tab>
+          <v-btn @click="navigateTo('/jira/issues')" :class="{ 'tab': true, 'tab-left': activeTab === 'issues' }">Issues</v-btn>
+        </v-tab>
+        <v-tab>
+          <v-btn @click="navigateTo('/jira/feedback')" :class="{ 'tab': true, 'tab-right': activeTab === 'feedback' }">Feedback</v-btn>
+        </v-tab>
+      </v-tabs>
+    </v-card>
     <router-view></router-view>
   </div>
 </template>
 
-<script setup>
-
+<script>
+export default {
+  data() {
+    return {
+      activeTab: '',
+    };
+  },
+  methods: {
+    navigateTo(route) {
+      this.activeTab = route.split('/').pop();
+      this.$router.push(route);
+    },
+  },
+};
 </script>
 
 <style scoped>
-
-.tab {
-  display: inline-block;
-  padding: 10px 0;
-  margin: 0 5px;
-  cursor: pointer;
-}
-
-.tab-left {
-  width: 20%;
-  text-align: center;
-  border: 2px solid black;
-  border-radius: 5px 0 0 5px;
-}
-
-.tab-right {
-  width: 20%;
-  text-align: center;
-  border: 2px solid black;
-  border-radius: 0 5px 5px 0;
-}
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #007BFF;
-}
 
 #start {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
 
 </style>
