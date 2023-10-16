@@ -36,8 +36,8 @@ export default {
   cursor: pointer;
   outline: none;
   position: absolute;
-  top: 80px;
-  left: 20px;
+  top: 220px;
+  left: 120px;
 }
 
 .back-button:hover {
