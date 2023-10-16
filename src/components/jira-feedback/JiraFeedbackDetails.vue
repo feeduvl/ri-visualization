@@ -3,7 +3,7 @@
     <button class="back-button" @click="goBack">
       <i class="material-icons">arrow_back_ios</i>
     </button>
-    <p>Tore Classification for Feedback: "{{item.id}}"</p>
+    <h2>Tore Classification for Feedback: "{{item.id}}"</h2>
     <v-data-table
         :items="item.tore"
     >
@@ -15,7 +15,6 @@
 </template>
 
 <script>
-
 export default {
   props: ['item'],
   methods: {
@@ -24,13 +23,11 @@ export default {
     }
   }
 };
-
 </script>
 
 <style scoped>
 .container{
-  margin-top: 50px;
-  width: 80%;
+  margin-top: 20px;
 }
 .back-button {
   border: none;

@@ -3,10 +3,10 @@
     <button class="back-button" @click="goBack">
       <i class="material-icons">arrow_back_ios</i>
     </button>
-    <p>Issue Key: {{ item.key }}</p>
-    <v-card>
+    <h2>Issue Key: {{ item.key }}</h2>
+    <v-card class="table-header">
       <v-card-title>
-        <p>Assigned Feedback</p>
+        <h3>Assigned Feedback</h3>
         <v-btn class="add-button" @click="openAddDialog" small>
           <i class="material-icons add-icon" >add</i>
         </v-btn>
@@ -26,9 +26,9 @@
       </v-data-table>
     </v-card>
 
-    <v-card style="margin-top: 3%">
+    <v-card>
       <v-card-title>
-        <p>Assigned Feedback with TORE classification</p>
+        <h3>Assigned Feedback with TORE classification</h3>
         <v-btn class="add-button" @click="openAddDialogWithTore">
           <i class="material-icons add-icon">add</i>
         </v-btn>
@@ -52,7 +52,6 @@
 </template>
 
 <script>
-
 
 import AddFeedbackToList from "@/components/jira-feedback/dialogs/AddFeedbackToList.vue";
 import FeedbackService from "@/feedback-service";
@@ -130,15 +129,15 @@ export default {
   }
 
 };
-
 </script>
 
-
-
 <style scoped>
+.table-header{
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
 .container{
-  margin-top: 50px;
-  width: 80%;
+  margin-top: 20px;
 }
 .back-button {
   border: none;
