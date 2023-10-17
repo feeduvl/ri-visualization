@@ -33,6 +33,7 @@ export default {
 }
 .container{
   margin-top: 20px;
+  text-align: center;
 }
 .back-button {
   border: none;
