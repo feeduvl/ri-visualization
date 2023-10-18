@@ -91,6 +91,7 @@
               </td>
               <td>{{ props.item.key }}</td>
               <td>{{ props.item.summary }}</td>
+              <td>{{ props.item.description }}</td>
               <td>{{ props.item.issueType }}</td>
               <td>{{ props.item.projectName }}</td>
             </template>
@@ -127,6 +128,7 @@
             <tr @click="showDetails(props.item)">
               <td>{{ props.item.key }}</td>
               <td>{{ props.item.summary }}</td>
+              <td>{{ props.item.description }}</td>
               <td>{{ props.item.issueType }}</td>
               <td>{{ props.item.projectName }}</td>
             </tr>
@@ -154,6 +156,7 @@ export default {
       headers: [
         {text: "Issue Name", value: "key"},
         {text: "Summary", value: "summary"},
+        {text: "Description", value: "description"},
         {text: "Issue Type", value: "issueType"},
         {text: "Project Name", value: "projectName"},
       ],
@@ -317,6 +320,7 @@ export default {
       return this.issues.filter(item => {
         return item.summary.toLowerCase().indexOf(this.search.toLowerCase()) > -1
             || item.key.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
             || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
             || item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       })
@@ -332,6 +336,7 @@ export default {
       return this.issuesToImportOrAdd.filter(item => {
         return item.summary.toLowerCase().indexOf(this.search.toLowerCase()) > -1
             || item.key.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
             || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
             || item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       })
