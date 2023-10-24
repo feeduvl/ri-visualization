@@ -15,7 +15,7 @@
         <template v-slot:items="props">
           <tr @click="showDetails(props.item)">
             <td>{{ props.item.text }}</td>
-            <td>{{ limitDescriptionText(props.item.id, 8) }}</td>
+            <td>{{ limitDescriptionText(props.item.id, 10) }}</td>
             <td>
               <v-btn @click.stop="deleteFeedback(props.item)">
                 <i class="material-icons delete-icon" >delete</i>
