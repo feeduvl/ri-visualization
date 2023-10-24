@@ -22,6 +22,7 @@ export const ROUTE_JIRA_ISSUES = "issues";
 export const ROUTE_JIRA_ISSUES_DETAILS = "issues/:item";
 export const ROUTE_JIRA_FEEDBACK = "feedback";
 export const ROUTE_JIRA_FEEDBACK_DETAILS = "feedback/:item";
+export const ROUTE_JIRA_IMPORT_PROJECTS = "jiraImport";
 
 export const routes = [{
     path: ROUTE_EMPTY,
@@ -101,23 +102,27 @@ export const routes = [{
     children:[
       {
         path: ROUTE_JIRA_ISSUES,
-        component: () => import('./components/jira-feedback/JiraIssues.vue'),
+        component: () => import('./components/jiraDashboardViews/Issues.vue'),
       },
       {
         path: ROUTE_JIRA_ISSUES_DETAILS,
         name: "assigned_feedback",
-        component: () => import('./components/jira-feedback/JiraIssuesDetails.vue'),
+        component: () => import('./components/jiraDashboardViews/IssuesDetails.vue'),
         props: true,
       },
       {
         path: ROUTE_JIRA_FEEDBACK,
-        component: () => import('./components/jira-feedback/JiraFeedback.vue'),
+        component: () => import('./components/jiraDashboardViews/Feedback.vue'),
       },
       {
         path: ROUTE_JIRA_FEEDBACK_DETAILS,
         name: "tore_feedback",
-        component: () => import('./components/jira-feedback/JiraFeedbackDetails.vue'),
+        component: () => import('./components/jiraDashboardViews/FeedbackDetails.vue'),
         props: true,
+      },
+      {
+        path: ROUTE_JIRA_IMPORT_PROJECTS,
+        component: () => import('./components/jiraDashboardViews/ImportJiraProject.vue'),
       },
     ]
   },
