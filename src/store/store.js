@@ -150,7 +150,10 @@ export const store = new Vuex.Store({
 
     // APP REVIEW CRAWLER 
     finishedAppReviewCrawlerJobs: [],
-    isLoadingAppReviewCrawler: false
+    isLoadingAppReviewCrawler: false,
+
+    // JIRA DASHBOARD
+    allIssues: [],
     
   },
   getters,
@@ -481,6 +484,9 @@ export const store = new Vuex.Store({
 
     setAvailableAppReviewCrawlerJobs(state, crawlingJobs){
       state.finishedAppReviewCrawlerJobs = crawlingJobs || [];
+    },
+    setAvailableJirIssues(state, issues){
+      state.allIssues = issues || [];
     }
   },
   actions,

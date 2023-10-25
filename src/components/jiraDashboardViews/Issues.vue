@@ -41,7 +41,7 @@
             <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
           </div>
         </v-card-title>
-        <v-data-table :headers="headers" :items="getIssues" item-key="key" class="elevation-1"
+        <v-data-table :headers="headers" :items="getAll" item-key="key" class="elevation-1"
                       :total-items="totalItems" rows-per-page-text="Issues per page"
                       :rows-per-page-items="pagination.rowsPerPageItems" :pagination.sync="pagination"
                       @update:pagination.self="getAllIssues()" :no-data-text="warning">
@@ -176,14 +176,15 @@ export default {
       this.loadData = false;
     },
     getAllIssues() {
-      IssueService.getAllIssues(this.pagination.page, this.pagination.rowsPerPage).then((response) => {
-        const {issues, totalItems} = response.data;
-        console.log("new load")
-        console.log(issues)
-        this.issues = issues
-        this.tempIssueForFilter = issues
-        this.totalItems = totalItems
-      })
+      this.$store.dispatch("actionGetAppReviewCrawlerJobs")
+      // IssueService.getAllIssues(this.pagination.page, this.pagination.rowsPerPage).then((response) => {
+      //   const {issues, totalItems} = response.data;
+      //   console.log("new load")
+      //   console.log(issues)
+      //   this.issues = issues
+      //   this.tempIssueForFilter = issues
+      //   this.totalItems = totalItems
+      // })
     },
     getProjectNames() {
       IssueService.getProjectNames().then((response) => {
@@ -208,6 +209,9 @@ export default {
 
   },
   computed: {
+    getAll() {
+      return this.$store.state.allIssues
+    },
     getIssues() {
       if (this.search !== "") {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties

@@ -35,7 +35,7 @@ import {
   APP_REVIEW_CRAWLER_GET_JOBS_ENDPOINT,
   POST_APP_REVIEW_CRAWLER_DATA_ENDPOINT,
   DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT,
-  POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT
+  POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT, JIRA_DASHBOARD_BASE_URL
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -759,4 +759,26 @@ export const deleteCodesWithTore = ({commit,state}, toreToDelete) => {
       commit("delete_code", state.codes[i]);
     }
   }
+};
+
+export const actionGetImportedJiraIssues = ({commit}, page, size) => {
+  return new Promise(() => {
+    console.log("Getting all jira issues");
+    axios.get(JIRA_DASHBOARD_BASE_URL + '/all', {
+      params: {
+        page: page,
+        size: size
+      }
+    })
+        .then(response => {
+          console.log("Got all issues");
+          const {data} = response;
+          console.log(data);
+          commit("setAvailableJirIssues", data);
+          return response;
+        })
+        .catch(e => console.error("Error: "+e))
+        .finally(() => {
+        });
+  });
 };
