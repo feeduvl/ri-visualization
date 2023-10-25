@@ -472,6 +472,10 @@ export const setAnnotatorInputCodeNames = state => {
 
 // Jira Dashboard
 
+export const updateAllIssues = (state, issues) => {
+  state.issues = issues.updated_issues || [];
+};
+
 export const setAvailableJiraProjects = (state, projects) => {
   state.availableJiraProjects = projects || [];
 };

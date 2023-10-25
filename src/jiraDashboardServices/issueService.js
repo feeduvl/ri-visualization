@@ -4,15 +4,6 @@ import {JIRA_DASHBOARD_BASE_URL} from "@/RESTconf";
 const ISSUE_API_BASE_URL = JIRA_DASHBOARD_BASE_URL + "/issues"
 
 class IssueService {
-    deleteAllIssues(){
-        return axios.delete(ISSUE_API_BASE_URL + '/remove_all_issues')
-    }
-    addIssues(issues){
-        var parsedobj = JSON.parse(JSON.stringify(issues))
-        return axios.post(ISSUE_API_BASE_URL + '/add', {
-            jsonObject: parsedobj,
-        })
-    }
     filterIssuesToAssign(selectedProjects){
         return axios.post(ISSUE_API_BASE_URL + `/issues_to_assign`, {
             selectedProjects: selectedProjects

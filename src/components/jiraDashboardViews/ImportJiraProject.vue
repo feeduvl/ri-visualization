@@ -125,18 +125,25 @@ export default {
     deleteAllIssues() {
       this.dialogIssues = false
       this.openDialog = false
-      IssueService.deleteAllIssues().then((response) => {
-        console.log(response.data)
-        this.selectedIssues = []
-      })
+      this.$store.dispatch("actionDeleteAllIssues")
+      // IssueService.importIssues(this.selectedIssues).then((response) => {
+      // IssueService.deleteAllIssues().then((response) => {
+      //   console.log(response.data)
+      this.selectedIssues = []
+      // })
     },
     addSelectedIssues() {
       this.dialogIssues = false
       this.openDialog = false
-      IssueService.addIssues(this.selectedIssues).then((response) => {
-        console.log(response.data)
-        this.selectedIssues = []
-      })
+      let selectedIssues = this.selectedIssues
+      const selectedIssuesArray = selectedIssues.map(item => {
+        return item;
+      });
+      this.$store.dispatch("actionAddSelectedIssues", {selectedIssuesArray})
+      // IssueService.addIssues(this.selectedIssues).then((response) => {
+      //   console.log(response.data)
+      this.selectedIssues = []
+      // })
     },
     closeDialogIssueTypes() {
       this.openDialog = false

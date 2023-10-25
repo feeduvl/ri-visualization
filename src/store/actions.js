@@ -904,3 +904,31 @@ export const actionToreAssignIssuesToFeedback = () => {
         });
   });
 };
+
+export const actionDeleteAllIssues = () => {
+  return new Promise(() => {
+    axios.delete(JIRA_DASHBOARD_BASE_URL_ISSUES+ `/remove_all_issues`)
+        .then(response => {
+          return response;
+        })
+        .catch(e => console.error("Error: "+e))
+        .finally(() => {
+        });
+  });
+};
+
+export const actionAddSelectedIssues = ({commit},{selectedIssuesArray}) => {
+  return new Promise(() => {
+    axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES + `/add`, {
+      jsonObject: selectedIssuesArray,
+    })
+        .then(response => {
+          const {data} = response
+          commit("updateAllIssues", data);
+          return response;
+        })
+        .catch(e => console.error("Error: "+e))
+        .finally(() => {
+        });
+  });
+};
