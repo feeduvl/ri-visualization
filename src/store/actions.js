@@ -35,7 +35,8 @@ import {
   APP_REVIEW_CRAWLER_GET_JOBS_ENDPOINT,
   POST_APP_REVIEW_CRAWLER_DATA_ENDPOINT,
   DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT,
-  POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT, JIRA_DASHBOARD_BASE_URL
+  POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT,
+  JIRA_DASHBOARD_BASE_URL_ISSUES, JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -765,14 +766,138 @@ export const deleteCodesWithTore = ({commit,state}, toreToDelete) => {
 
 export const actionGetAllJiraProjects = ({commit}) => {
   return new Promise(() => {
-    console.log("Getting Projects from Jira");
-    axios.get(JIRA_DASHBOARD_BASE_URL + `/issues/get_all_jira_projects`)
+    axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_all_jira_projects`)
         .then(response => {
-          console.log("Got all projects from Jira: ");
           const {data} = response;
-          console.log(data);
           commit("setAvailableJiraProjects", data);
           return response;
+        })
+        .catch(e => console.error("Error: "+e))
+        .finally(() => {
+        });
+  });
+};
+
+export const actionGetImportedJiraProjects = ({commit}) => {
+  return new Promise(() => {
+    axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/projectNames`)
+        .then(response => {
+          const {data} = response;
+          commit("setImportedJiraProjects", data);
+          return response;
+        })
+        .catch(e => console.error("Error: "+e))
+        .finally(() => {
+        });
+  });
+};
+
+export const actionGetAssignedIssuesFromFeedback = ({commit}, feedbackId) => {
+  return new Promise(() => {
+    axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_assigned_issues/${feedbackId}`)
+        .then(response => {
+          const {data} = response;
+          commit("setAssignedIssuesFromFeedback", data);
+          return response;
+        })
+        .catch(e => console.error("Error: "+e))
+        .finally(() => {
+        });
+  });
+};
+
+export const actionGetToreAssignedIssuesFromFeedback = ({commit}, feedbackId) => {
+  return new Promise(() => {
+    axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_tore_assigned_issues/${feedbackId}`)
+        .then(response => {
+          const {data} = response;
+          commit("setToreAssignedIssuesFromFeedback", data);
+          return response;
+        })
+        .catch(e => console.error("Error: "+e))
+        .finally(() => {
+        });
+  });
+};
+
+export const actionGetIssueTypesByProjectNameFromJira = ({commit}, projectName) => {
+  return new Promise(() => {
+    commit("setIsLoadingData", true);
+    axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/load/issueTypes/${projectName}`)
+        .then(response => {
+          const {data} = response;
+          commit("setIssueTypes", data);
+          commit("setIsLoadingData", false);
+          return response;
+        })
+        .catch(e => console.error("Error: "+e))
+        .finally(() => {
+        });
+  });
+};
+
+export const actionGetAllIssues = ({commit}, {page, size}) => {
+  return new Promise(() => {
+    commit("setIsLoadingData", true);
+    axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/all`, {
+      params: {
+        page: page,
+        size: size
+      }
+    })
+        .then(response => {
+          const {data} = response;
+          commit("setAllIssues", data);
+          commit("setIsLoadingData", false);
+          return response;
+        })
+        .catch(e => console.error("Error: "+e))
+        .finally(() => {
+        });
+  });
+};
+
+export const actionGetIssuesByProjectNameFromJira = ({commit},{ projectName, selectedIssuesTypesArray}) => {
+  return new Promise(() => {
+    commit("setIsLoadingData", true);
+    axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES + `/load/issues/${projectName}`, {
+      jsonObject: selectedIssuesTypesArray,
+    })
+        .then(response => {
+          const {data} = response;
+          commit("setIssuesToImport", data);
+          commit("setIsLoadingData", false);
+          return response;
+        })
+        .catch(e => console.error("Error: "+e))
+        .finally(() => {
+        });
+  });
+};
+
+export const actionAssignIssuesToFeedback = () => {
+  return new Promise(() => {
+    // commit("setIsLoadingData", true);
+
+    axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/assign_feedback_to_issues`)
+        .then(response => {
+          const {data} = response;
+          return data;
+        })
+        .catch(e => console.error("Error: "+e))
+        .finally(() => {
+        });
+  });
+};
+
+export const actionToreAssignIssuesToFeedback = () => {
+  return new Promise(() => {
+    // commit("setIsLoadingData", true);
+
+    axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/assign_feedback_to_issues_by_tore`)
+        .then(response => {
+          const {data} = response;
+          return data;
         })
         .catch(e => console.error("Error: "+e))
         .finally(() => {

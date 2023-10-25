@@ -19,16 +19,16 @@
           <div class="filter-by-project">
             <v-select
                 v-model="selectedProjects"
-                :items="projectNames"
+                :items="getImportedJiraProjects"
                 label="Select Projectname"
-                multiple
                 item-text="projectName"
+                multiple
                 dense
                 @change="filterIssuesByProjectName()"
             >
-              <template v-slot:item="{ item }">
-                <div class="select-projects">
-                  <v-checkbox v-model="item.selected"></v-checkbox>
+              <template v-slot:item="{ item }" >
+                <div class="select-projects" >
+                  <v-checkbox v-model="item.selectedToAssign"></v-checkbox>
                   {{ item.projectName }}
                   <v-btn class="delete-project">
                     <i class="material-icons delete-icon" @click.stop="deleteProject(item)">delete</i>
@@ -79,9 +79,9 @@
 <script>
 
 
-import IssueService from "@/jiraDashboardServices/issueService";
-import IssueFeedbackRelationService from "@/jiraDashboardServices/issueFeedbackRelationService";
+
 import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFromDB.vue";
+import IssueService from "@/jiraDashboardServices/issueService";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -148,12 +148,8 @@ export default {
         this.isProjectSelected = false
       }else{
         this.isProjectSelected = true
-        this.loadData = true
-        IssueFeedbackRelationService.assignFeedbackToIssues().then((response) => {
-          console.log(response.data)
-          this.getAllIssues()
-          this.loadData = false
-        });
+        this.$store.dispatch("actionAssignIssuesToFeedback")
+        this.getAllIssues()
       }
     },
     assignFeedbackToIssueWithTore(){
@@ -162,11 +158,8 @@ export default {
       }else {
         this.isProjectSelected = true
         this.loadData = true
-        IssueFeedbackRelationService.assignFeedbackToIssuesByTore().then((response) => {
-          console.log(response.data)
-          this.getAllIssues()
-          this.loadData = false
-        });
+        this.$store.dispatch("actionToreAssignIssuesToFeedback")
+        this.getAllIssues()
       }
     },
     showDetails(item) {
@@ -176,27 +169,12 @@ export default {
       this.loadData = false;
     },
     getAllIssues() {
-      IssueService.getAllIssues(this.pagination.page, this.pagination.rowsPerPage).then((response) => {
-        const {issues, totalItems} = response.data;
-        console.log("new load")
-        console.log(issues)
-        this.issues = issues
-        this.tempIssueForFilter = issues
-        this.totalItems = totalItems
-      })
+      let page = this.pagination.page
+      let size = this.pagination.rowsPerPage
+      this.$store.dispatch("actionGetAllIssues", {page, size})
     },
     getProjectNames() {
-      IssueService.getProjectNames().then((response) => {
-        this.selectedProjects =[]
-        this.projectNames =[]
-        var data = response.data
-        data.forEach(project => {
-          if (project.selectedToAssign === true){
-            this.selectedProjects.push(project.projectName)
-          }
-          this.projectNames.push({ projectName: project.projectName, selected: project.selectedToAssign });
-        })
-      })
+      this.$store.dispatch("actionGetImportedJiraProjects")
     },
     filterIssuesByProjectName() {
       IssueService.filterIssuesToAssign(this.selectedProjects).then((response) => {
@@ -205,28 +183,35 @@ export default {
         this.getProjectNames()
       })
     },
-
   },
   computed: {
+    getImportedJiraProjects(){
+      // eslint-disable-next-line
+      this.selectedProjects = []
+      this.$store.state.importedJiraProjects.forEach(project => {
+        if (project.selectedToAssign === true){
+          this.selectedProjects.push(project.projectName)
+        }
+      })
+      return this.$store.state.importedJiraProjects
+    },
     getIssues() {
       if (this.search !== "") {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.issues = this.tempIssueForFilter
-        return this.filterIssues
+        return this.$store.state.issues.filter(issue => {
+          const summary = issue.summary ?? "";
+          const key = issue.key ?? "";
+          const description = issue.description ?? "";
+          const issueType = issue.issueType ?? "";
+          const projectName = issue.projectName ?? "";
+          return summary.toLowerCase().includes(this.search)
+              || key.toLowerCase().includes(this.search)
+              || description.toLowerCase().includes(this.search)
+              || issueType.toLowerCase().includes(this.search)
+              || projectName.toLowerCase().includes(this.search);
+        });
       } else {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.issues = this.tempIssueForFilter
-        return this.issues
+        return this.$store.state.issues
       }
-    },
-    filterIssues() {
-      return this.issues.filter(item => {
-        return item.summary.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-            || item.key.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-            || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-            || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-            || item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-      })
     },
     filterIssuesToSelect() {
       return this.issuesToImportOrAdd.filter(item => {
@@ -238,7 +223,7 @@ export default {
       })
     }
   },
-  created() {
+  mounted() {
     this.getAllIssues()
     this.getProjectNames()
   },

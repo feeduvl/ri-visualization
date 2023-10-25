@@ -4,12 +4,6 @@ import {JIRA_DASHBOARD_BASE_URL} from "@/RESTconf";
 const ISSUE_API_BASE_URL = JIRA_DASHBOARD_BASE_URL + "/issue_feedback"
 
 class IssueFeedbackRelationService {
-    assignFeedbackToIssues(){
-        return axios.post(ISSUE_API_BASE_URL + `/assign_feedback_to_issues`);
-    }
-    assignFeedbackToIssuesByTore(){
-        return axios.post(ISSUE_API_BASE_URL + `/assign_feedback_to_issues_by_tore`);
-    }
     deleteIssueFeedbackRelation(issueKey, feedbackId) {
         return axios.delete(ISSUE_API_BASE_URL + `/delete_feedback/${issueKey}/${feedbackId}`);
     }

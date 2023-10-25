@@ -90,12 +90,6 @@ export const mutateFooterText = (state, title) => {
   state.footer = title;
 };
 
-// JIRA DASHBOARD
-
-export const setAvailableJiraProjects = (state, projects) => {
-  state.availableJiraProjects = projects || [];
-};
-
 // ANNOTATOR AND AGREEMENT STUFF
 
 /**
@@ -475,3 +469,39 @@ export const setAnnotatorInputCodeNames = state => {
   }
   state.annotatorInputCodeNames = codeNames;
 };
+
+// Jira Dashboard
+
+export const setAvailableJiraProjects = (state, projects) => {
+  state.availableJiraProjects = projects || [];
+};
+
+export const setImportedJiraProjects = (state, projects) => {
+  state.importedJiraProjects = projects || [];
+};
+
+export const setAssignedIssuesFromFeedback = (state, issues) => {
+  state.assignedIssues = issues || [];
+};
+
+export const setToreAssignedIssuesFromFeedback = (state, issues) => {
+  state.toreAssignedIssues = issues || [];
+};
+
+export const setIssueTypes = (state, issueTypes) => {
+  state.issueTypes = issueTypes || [];
+};
+
+export const setIssuesToImport = (state, issues) => {
+  state.issuesToImport = issues || [];
+};
+
+export const setIsLoadingData = (state, value) => {
+  state.isLoadingData = value || false;
+};
+
+export const setAllIssues = (state, issues) => {
+  state.issues = issues.issues || [];
+  state.totalIssueItems = issues.totalItems || 0;
+};
+

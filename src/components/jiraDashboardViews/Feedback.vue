@@ -96,7 +96,7 @@ export default {
       })
     },
   },
-  mounted() {
+  created() {
     this.getFeedback();
   },
 }

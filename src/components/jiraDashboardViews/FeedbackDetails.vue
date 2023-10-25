@@ -16,7 +16,7 @@
       </v-card-title>
       <v-data-table
           :headers="headers"
-          :items="getIssues"
+          :items="getAssignedIssuesFromFeedback"
       >
         <template v-slot:items="props">
           <td>{{ props.item.key }}</td>
@@ -41,7 +41,7 @@
       </v-card-title>
       <v-data-table
           :headers="headers"
-          :items="getToreIssues"
+          :items="getToreAssignedIssuesFromFeedback"
       >
         <template v-slot:items="props">
           <td>{{ props.item.key }}</td>
@@ -60,9 +60,9 @@
 <script>
 
 
-import IssueFeedbackRelationService from "@/jiraDashboardServices/issueFeedbackRelationService";
+
 import AddIssuesToFeedback from "@/components/jiraDashboardViews/dialogs/AddIssuesToFeedback.vue";
-import IssueService from "@/jiraDashboardServices/issueService";
+import IssueFeedbackRelationService from "@/jiraDashboardServices/issueFeedbackRelationService";
 
 export default {
   components: {AddIssuesToFeedback},
@@ -76,7 +76,6 @@ export default {
         // {text: "Issue Type", value: "issueType"},
         {text: "Similarity", value: "similarity"},
       ],
-      // issues: this.item,
       openIssuesDialog: false,
       listWithTore: false,
       feedback: this.item,
@@ -89,37 +88,40 @@ export default {
     }
   },
   computed: {
-    getIssues() {
-      if (this.search !== "") {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.assignedIssues = this.tempIssues
-        return this.filterIssues
-      } else {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.assignedIssues = this.tempIssues
-        return this.assignedIssues
-      }
+    getAssignedIssuesFromFeedback(){
+      return this.$store.state.assignedIssues
     },
-    getToreIssues() {
-      if (this.search !== "") {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.assignedToreIssues = this.tempIssuesTore
-        return this.filterToreIssues
-      } else {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.assignedToreIssues = this.tempIssuesTore
-        return this.assignedToreIssues
-      }
+    getToreAssignedIssuesFromFeedback(){
+      return this.$store.state.toreAssignedIssues
     },
+    // getIssues() {
+    //   if (this.search !== "") {
+    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    //     this.assignedIssues = this.tempIssues
+    //     return this.filterIssues
+    //   } else {
+    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    //     this.assignedIssues = this.tempIssues
+    //     return this.assignedIssues
+    //   }
+    // },
+    // getToreIssues() {
+    //   if (this.search !== "") {
+    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    //     this.assignedToreIssues = this.tempIssuesTore
+    //     return this.filterToreIssues
+    //   } else {
+    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    //     this.assignedToreIssues = this.tempIssuesTore
+    //     return this.assignedToreIssues
+    //   }
+    // },
     filterIssues() {
       return this.assignedIssues.filter(item => {
         const similarityString = item.similarity.toString();
         return item.summary.toLowerCase().indexOf(this.searchIssues.toLowerCase()) > -1
             || item.key.toLowerCase().indexOf(this.searchIssues.toLowerCase()) > -1
             || similarityString.toLowerCase().indexOf(this.searchIssues.toLowerCase()) > -1
-        // || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-        // || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-        // || item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       })
     },
     filterToreIssues() {
@@ -128,28 +130,15 @@ export default {
         return item.summary.toLowerCase().indexOf(this.searchToreIssues.toLowerCase()) > -1
             || item.key.toLowerCase().indexOf(this.searchToreIssues.toLowerCase()) > -1
             || similarityString.toLowerCase().indexOf(this.searchToreIssues.toLowerCase()) > -1
-        // || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-        // || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-        // || item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       })
     },
   },
   methods: {
     getAssignedIssues(){
-      IssueService.getAssignedIssues(this.feedback.id).then((response) => {
-        console.log("response.data")
-        console.log(response.data)
-        this.assignedIssues = response.data
-        this.tempIssues = response.data
-      })
+      this.$store.dispatch("actionGetAssignedIssuesFromFeedback", this.feedback.id)
     },
     getAssignedToreIssues(){
-      IssueService.getToreAssignedIssues(this.feedback.id).then((response) => {
-        console.log("response.data")
-        console.log(response.data)
-        this.assignedToreIssues = response.data
-        this.tempIssuesTore = response.data
-      })
+      this.$store.dispatch("actionGetToreAssignedIssuesFromFeedback", this.feedback.id)
     },
     openAddDialogWithTore() {
       this.listWithTore = true
@@ -188,7 +177,7 @@ export default {
           });
     },
   },
-  mounted() {
+  created() {
     this.getAssignedIssues()
     this.getAssignedToreIssues()
   }

@@ -153,7 +153,15 @@ export const store = new Vuex.Store({
     isLoadingAppReviewCrawler: false,
 
     // JIRA DASHBOARD
+    issues: [],
+    totalIssueItems: 0,
     availableJiraProjects: [],
+    importedJiraProjects: [],
+    assignedIssues: [],
+    toreAssignedIssues: [],
+    issueTypes: [],
+    isLoadingData: false,
+    issuesToImport: [],
     
   },
   getters,
