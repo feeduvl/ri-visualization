@@ -765,10 +765,10 @@ export const deleteCodesWithTore = ({commit,state}, toreToDelete) => {
 
 export const actionGetAllJiraProjects = ({commit}) => {
   return new Promise(() => {
-    console.log("Getting all crawler jobs");
-    axios.get(JIRA_DASHBOARD_BASE_URL + `/get_all_jira_projects`)
+    console.log("Getting Projects from Jira");
+    axios.get(JIRA_DASHBOARD_BASE_URL + `/issues/get_all_jira_projects`)
         .then(response => {
-          console.log("Got all crawler jobs: ");
+          console.log("Got all projects from Jira: ");
           const {data} = response;
           console.log(data);
           commit("setAvailableJiraProjects", data);
