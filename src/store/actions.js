@@ -761,20 +761,17 @@ export const deleteCodesWithTore = ({commit,state}, toreToDelete) => {
   }
 };
 
-export const actionGetImportedJiraIssues = ({commit}, page, size) => {
+// jira Dashboard
+
+export const actionGetAllJiraProjects = ({commit}) => {
   return new Promise(() => {
-    console.log("Getting all jira issues");
-    axios.get(JIRA_DASHBOARD_BASE_URL + '/all', {
-      params: {
-        page: page,
-        size: size
-      }
-    })
+    console.log("Getting all crawler jobs");
+    axios.get(JIRA_DASHBOARD_BASE_URL + `/get_all_jira_projects`)
         .then(response => {
-          console.log("Got all issues");
+          console.log("Got all crawler jobs: ");
           const {data} = response;
           console.log(data);
-          commit("setAvailableJirIssues", data);
+          commit("setAvailableJiraProjects", data);
           return response;
         })
         .catch(e => console.error("Error: "+e))

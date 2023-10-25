@@ -4,7 +4,7 @@
       Select already used projects or search for new:
     </p>
     <div>
-      <v-select class="select-issueTypes" v-model="projectNameBySelect" :items="allJiraProjects"
+      <v-select class="select-issueTypes" v-model="projectNameBySelect" :items="allAvailableJiraIssues"
                 label="Select project" item-text="name"
       ></v-select>
       <v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
@@ -128,9 +128,10 @@ export default {
   },
   methods:{
     getAllJiraProjects() {
-      IssueService.getAllJiraProjects().then(response => {
-        this.allJiraProjects = response.data
-      })
+      this.$store.dispatch("actionGetAllJiraProjects")
+      // IssueService.getAllJiraProjects().then(response => {
+      //   this.allJiraProjects = response.data
+      // })
     },
     getIssuesByTypes() {
       this.dialogIssueTypes = false
@@ -202,6 +203,9 @@ export default {
     },
   },
   computed:{
+    allAvailableJiraIssues() {
+      return this.$store.state.availableJiraProjects
+    },
     getIssueTypes() {
       return this.issueTypes.map(item => ({
         item
@@ -215,7 +219,7 @@ export default {
       }
     },
   },
-  created() {
+  mounted() {
     this.getProjectNames()
     this.getAllJiraProjects()
   },
