@@ -35,7 +35,8 @@ import {
   APP_REVIEW_CRAWLER_GET_JOBS_ENDPOINT,
   POST_APP_REVIEW_CRAWLER_DATA_ENDPOINT,
   DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT,
-  POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT
+  POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT,
+  JIRA_DASHBOARD_BASE_URL
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -47,6 +48,7 @@ import {
   MUTATE_FOOTER_TEXT,
   MUTATE_TOP_BAR_LINK
 } from '@/store/types';
+import {setImportedJiraIssues} from "@/store/mutations";
 
 export const actionPostAllRelationships= ({commit}, {newRelationships, newOwners}) => {
   return new Promise((resolve, reject) => {
@@ -759,4 +761,26 @@ export const deleteCodesWithTore = ({commit,state}, toreToDelete) => {
       commit("delete_code", state.codes[i]);
     }
   }
+};
+
+export const actionGetImportedJiraIssues = ({commit}, page, size) => {
+  return new Promise(() => {
+
+    console.log("Getting all Imported Jira Issues");
+    // commit("setImportedJiraIssues", true);
+    axios.get(JIRA_DASHBOARD_BASE_URL + `/all`, {
+      params: {
+        page: page,
+        size: size
+      }
+    }).then((response) => {
+      const {issues, totalItems} = response.data;
+      commit("setImportedJiraIssues", issues);
+      // const {issues, totalItems} = response.data;
+      // this.issues = issues
+      // this.tempIssueForFilter = issues
+      // this.totalItems = totalItems
+    })
+  });
+
 };

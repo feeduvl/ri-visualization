@@ -150,7 +150,10 @@ export const store = new Vuex.Store({
 
     // APP REVIEW CRAWLER 
     finishedAppReviewCrawlerJobs: [],
-    isLoadingAppReviewCrawler: false
+    isLoadingAppReviewCrawler: false,
+
+    // JIRA DASHBOARD
+    jiraIssues: [],
     
   },
   getters,
