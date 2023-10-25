@@ -197,7 +197,8 @@ export default {
     },
     getIssues() {
       if (this.search !== "") {
-        return this.$store.state.issues.filter(issue => {
+        const issues = this.$store.state.issues
+        return issues.filter(issue => {
           const summary = issue.summary ?? "";
           const key = issue.key ?? "";
           const description = issue.description ?? "";
