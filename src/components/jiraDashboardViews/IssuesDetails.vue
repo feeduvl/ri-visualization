@@ -186,7 +186,7 @@ export default {
       this.getAssignedToreFeedback()
     },
   },
-  created() {
+  mounted() {
     this.getAssignedFeedback()
     this.getAssignedToreFeedback()
   }

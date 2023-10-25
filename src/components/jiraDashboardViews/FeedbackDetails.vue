@@ -188,7 +188,7 @@ export default {
           });
     },
   },
-  created() {
+  mounted() {
     this.getAssignedIssues()
     this.getAssignedToreIssues()
   }

@@ -238,7 +238,7 @@ export default {
       })
     }
   },
-  created() {
+  mounted() {
     this.getAllIssues()
     this.getProjectNames()
   },

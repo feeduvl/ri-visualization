@@ -128,7 +128,6 @@ export default {
   },
   methods:{
     getAllJiraProjects() {
-
       IssueService.getAllJiraProjects().then(response => {
         this.allJiraProjects = response.data
       })
