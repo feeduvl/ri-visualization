@@ -159,12 +159,6 @@ export const store = new Vuex.Store({
   getters,
   mutations: {
     ...mutations,
-    // jira dashboard
-    setAvailableJiraProjects(state, projects){
-      state.availableJiraProjects = projects || [];
-    },
-
-    // end jira dashboard
     delete_code(state, code){  // DECLARED HERE TO ACCESS this.commit
       if (!code){
         console.error("delete_code attempted to delete null/undefined code");

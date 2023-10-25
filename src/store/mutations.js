@@ -90,6 +90,12 @@ export const mutateFooterText = (state, title) => {
   state.footer = title;
 };
 
+// JIRA DASHBOARD
+
+export const setAvailableJiraProjects = (state, projects) => {
+  state.availableJiraProjects = projects || [];
+};
+
 // ANNOTATOR AND AGREEMENT STUFF
 
 /**
