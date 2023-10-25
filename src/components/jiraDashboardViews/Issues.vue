@@ -102,7 +102,7 @@ export default {
       tempIssueForFilter: [],
       search: "",
       filterProjectName: "",
-      totalItems: 10,
+      totalItems: 0,
       loadData: false,
       feedback: [],
       projectNames: [],
@@ -175,16 +175,16 @@ export default {
     closeDialogLoadAssignment() {
       this.loadData = false;
     },
-    // getAllIssues() {
-      // IssueService.getAllIssues(this.pagination.page, this.pagination.rowsPerPage).then((response) => {
-      //   const {issues, totalItems} = response.data;
-      //   console.log("new load")
-      //   console.log(issues)
-      //   this.issues = issues
-      //   this.tempIssueForFilter = issues
-      //   this.totalItems = 10
-      // })
-    // },
+    getAllIssues() {
+      IssueService.getAllIssues(this.pagination.page, this.pagination.rowsPerPage).then((response) => {
+        const {issues, totalItems} = response.data;
+        console.log("new load")
+        console.log(issues)
+        this.issues = issues
+        this.tempIssueForFilter = issues
+        this.totalItems = totalItems
+      })
+    },
     getProjectNames() {
       IssueService.getProjectNames().then((response) => {
         this.selectedProjects =[]
@@ -239,7 +239,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("actionGetImportedJiraIssues", this.pagination.page, this.pagination.rowsPerPage)
+    this.getAllIssues()
     this.getProjectNames()
   },
 

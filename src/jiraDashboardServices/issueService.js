@@ -42,14 +42,14 @@ class IssueService {
             jsonObject: parsedobj,
         });
     }
-    // getAllIssues(page, size){
-    //     return axios.get(ISSUE_API_BASE_URL + `/all`, {
-    //         params: {
-    //             page: page,
-    //             size: size
-    //         }
-    //     });
-    // }
+    getAllIssues(page, size){
+        return axios.get(ISSUE_API_BASE_URL + `/all`, {
+            params: {
+                page: page,
+                size: size
+            }
+        });
+    }
     filterIssuesToAssign(selectedProjects){
         return axios.post(ISSUE_API_BASE_URL + `/issues_to_assign`, {
             selectedProjects: selectedProjects

@@ -469,7 +469,3 @@ export const setAnnotatorInputCodeNames = state => {
   }
   state.annotatorInputCodeNames = codeNames;
 };
-
-export const setImportedJiraIssues = (state, issues) => {
-  state.jiraIssues = issues;
-};
