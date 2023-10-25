@@ -82,6 +82,7 @@
 import IssueService from "@/jiraDashboardServices/issueService";
 import IssueFeedbackRelationService from "@/jiraDashboardServices/issueFeedbackRelationService";
 import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFromDB.vue";
+import {actionGetImportedJiraIssues} from "@/store/actions";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -176,7 +177,7 @@ export default {
       this.loadData = false;
     },
     getAllIssues() {
-      this.$store.dispatch("actionGetAppReviewCrawlerJobs")
+      this.$store.dispatch("actionGetImportedJiraIssues")
       // IssueService.getAllIssues(this.pagination.page, this.pagination.rowsPerPage).then((response) => {
       //   const {issues, totalItems} = response.data;
       //   console.log("new load")
