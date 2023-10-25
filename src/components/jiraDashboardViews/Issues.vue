@@ -197,32 +197,25 @@ export default {
     },
     getIssues() {
       if (this.search !== "") {
-        const issues = this.$store.state.issues
-        return issues.filter(issue => {
-          const summary = issue.summary ?? "";
-          const key = issue.key ?? "";
-          const description = issue.description ?? "";
-          const issueType = issue.issueType ?? "";
-          const projectName = issue.projectName ?? "";
-          return summary.toLowerCase().includes(this.search)
-              || key.toLowerCase().includes(this.search)
-              || description.toLowerCase().includes(this.search)
-              || issueType.toLowerCase().includes(this.search)
-              || projectName.toLowerCase().includes(this.search);
-        });
+        return this.filterIssues
       } else {
         return this.$store.state.issues
       }
     },
-    filterIssuesToSelect() {
-      return this.issuesToImportOrAdd.filter(item => {
-        return item.summary.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-            || item.key.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-            || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-            || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-            || item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-      })
-    }
+    filterIssues() {
+      return this.$store.state.issues.filter(issue => {
+        const summary = issue.summary ?? "";
+        const key = issue.key ?? "";
+        const description = issue.description ?? "";
+        const issueType = issue.issueType ?? "";
+        const projectName = issue.projectName ?? "";
+        return summary.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || key.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+      });
+    },
   },
   mounted() {
     this.getAllIssues()
