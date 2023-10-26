@@ -1230,7 +1230,11 @@ export const actionGetAssignedFeedback = ({commit}, issueKey) => {
     return new Promise((resolve, reject) => {
         commit("setIsLoadingData", true);
         console.log("get assigned feedback")
-        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_feedback/${issueKey}`)
+        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_feedback/${issueKey}`, {
+            headers: {
+                'Cache-Control': 'no-cache',
+            },
+        })
             .then((response) => {
                 const {data} = response;
                 commit("setAssignedFeedback", data);
@@ -1264,7 +1268,11 @@ export const actionGetToreAssignedFeedback = ({commit}, issueKey) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
         console.log("get assigned feedback")
-        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_tore_feedback/${issueKey}`)
+        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_tore_feedback/${issueKey}`, {
+            headers: {
+                'Cache-Control': 'no-cache',
+            },
+        })
             .then(response => {
                 const {data} = response;
                 commit("setToreAssignedFeedback", data);
