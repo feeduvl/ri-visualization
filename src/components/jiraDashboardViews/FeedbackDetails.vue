@@ -59,7 +59,9 @@
 
 <script>
 
-import AddIssuesToFeedback from "@/components/dialogs/AddIssuesToFeedback.vue";
+
+
+import AddIssuesToFeedback from "@/components/jiraDashboardViews/dialogs/AddIssuesToFeedback.vue";
 
 export default {
   components: {AddIssuesToFeedback},

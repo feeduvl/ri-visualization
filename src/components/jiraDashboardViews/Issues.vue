@@ -94,9 +94,9 @@
 <script>
 
 
-import LoadFeedbackFromDB from "@/components/LoadFeedbackFromDB.vue";
-import ImportJiraProject from "@/components/ImportJiraProject.vue";
 
+import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFromDB.vue";
+import ImportJiraProject from "@/components/jiraDashboardViews/ImportJiraProject.vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
