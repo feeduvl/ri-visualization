@@ -91,7 +91,7 @@ export default {
   watch: {
     '$route' (to, from) {
       if (to.params.item !== from.params.item) {
-        this.issue = to.params.item;
+        this.feedback = to.params.item;
         this.getAssignedIssues()
         this.getAssignedToreIssues()
       }
