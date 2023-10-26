@@ -10,9 +10,6 @@
           <v-tab>
             <v-btn @click="navigateTo('/jira/feedback')" :class="{ 'tab': true, 'tab-right': activeTab === 'feedback' }">Feedback</v-btn>
           </v-tab>
-          <v-tab>
-            <v-btn @click="navigateTo('/jira/jiraImport')" :class="{ 'tab': true, 'tab-right': activeTab === 'jiraImport' }">Jira Import</v-btn>
-          </v-tab>
         </v-tabs>
       </v-card>
     </div>
