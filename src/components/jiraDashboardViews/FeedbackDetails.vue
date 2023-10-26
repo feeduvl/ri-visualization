@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <v-dialog v-model="isLoadingData">
+      <LoadingView/>
+    </v-dialog>
     <button class="back-button" @click="goBack">
       <i class="material-icons">arrow_back_ios</i>
     </button>
@@ -62,9 +65,13 @@
 
 
 import AddIssuesToFeedback from "@/components/jiraDashboardViews/dialogs/AddIssuesToFeedback.vue";
+import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
 
 export default {
-  components: {AddIssuesToFeedback},
+  components: {
+    AddIssuesToFeedback,
+    LoadingView
+  },
   props: ['item'],
   data(){
     return{
@@ -83,6 +90,9 @@ export default {
     }
   },
   computed: {
+    isLoadingData(){
+      return this.$store.state.isLoadingData
+    },
     getIssues() {
       if (this.search !== "") {
         return this.filterIssues
@@ -194,7 +204,7 @@ h2{
   cursor: pointer;
   outline: none;
   position: absolute;
-  top: 160px;
+  top: 130px;
   left: 120px;
 }
 

@@ -1,5 +1,6 @@
 <template>
   <div class="overlay">
+    <v-progress-linear :indeterminate="true" :color="red"></v-progress-linear>
     <v-progress-circular indeterminate size="64">
       Loading...
     </v-progress-circular>
