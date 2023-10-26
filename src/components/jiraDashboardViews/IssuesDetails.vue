@@ -89,6 +89,14 @@ export default {
     AddFeedbackToIssue,
     LoadingView,
   },
+  watch: {
+    '$route' (to, from) {
+      if (to.params.item !== from.params.item) {
+        // Parameter wurde geändert, Komponente aktualisieren
+        this.issue = to.params.item;
+      }
+    }
+  },
   computed:{
     isLoadingData(){
       return this.$store.state.isLoadingData
@@ -129,6 +137,7 @@ export default {
       this.$router.go(-1);
     },
     getAssignedFeedback(){
+      console.log("get assigned feedback")
       this.$store.dispatch("actionGetAssignedFeedback", this.issue.key)
     },
     getAssignedToreFeedback(){
@@ -161,6 +170,7 @@ export default {
     },
   },
   mounted() {
+    this.issue = this.$route.params.item
     this.getAssignedFeedback()
     this.getAssignedToreFeedback()
   }
