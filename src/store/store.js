@@ -162,6 +162,13 @@ export const store = new Vuex.Store({
     issueTypes: [],
     isLoadingData: false,
     issuesToImport: [],
+    unassignedIssues: [],
+    feedback: [],
+    feedbackFileNames: [],
+    annotationFileNames: [],
+    assignedFeedback: [],
+    toreAssignedFeedback: [],
+    unassignedFeedback: [],
     
   },
   getters,

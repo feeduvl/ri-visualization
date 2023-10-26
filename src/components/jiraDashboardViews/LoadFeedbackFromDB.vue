@@ -3,7 +3,7 @@
     <div class="select-feedback">
       <v-select
           v-model="selectedFeedbackFileName"
-          :items="feedbackFileNames"
+          :items="getFeedbackFileNames"
           label="Select Feedback"
           @change="sendSelectedFeedbackName()"
       ></v-select>
@@ -11,7 +11,7 @@
     <div class="select-annotation">
       <v-select
           v-model="selectedAnnotationFileName"
-          :items="annotationFileNames"
+          :items="getAnnotationFileNames"
           label="Select Annotation"
           @change="sendSelectedAnnotationName()"
       ></v-select>
@@ -21,44 +21,34 @@
 
 <script>
 
-
-import FeedbackService from "@/jiraDashboardServices/feedbackService";
-
 export default {
   name: "LoadFeedbackFromDB",
   data() {
     return {
       selectedFeedbackFileName: '',
-      feedbackFileNames:[],
       selectedAnnotationFileName: '',
-      annotationFileNames:[],
     }
   },
+  computed: {
+    getFeedbackFileNames(){
+      return this.$store.state.feedbackFileNames
+    },
+    getAnnotationFileNames(){
+      return this.$store.state.annotationFileNames
+    },
+  },
   methods: {
-    //am ende noch eine Bestätigung senden
     sendSelectedAnnotationName(){
-      this.loadData = true
-      FeedbackService.assignToreCategoriesToFeedback(this.selectedAnnotationFileName).then((response) => {
-        this.feedback = response.data
-        this.loadData = false
-      })
+      this.$store.dispatch("actionAssignToreCategoriesToFeedback", this.selectedAnnotationFileName)
     },
     sendSelectedFeedbackName(){
-      this.loadData = true
-      FeedbackService.saveSelectedFeedback(this.selectedFeedbackFileName).then((response) => {
-        this.feedback = response.data
-        this.loadData = false
-      })
+      this.$store.dispatch("actionSaveSelectedFeedback", this.selectedFeedbackFileName)
     },
     fetchFeedbackFileNames(){
-      FeedbackService.getFeedbackNames().then((response) => {
-        this.feedbackFileNames = response.data
-      });
+      this.$store.dispatch("actionGetFeedbackNames")
     },
     fetchAnnotationFileNames(){
-      FeedbackService.getAnnotationsNames().then((response) => {
-        this.annotationFileNames = response.data
-      });
+      this.$store.dispatch("actionGetAnnotationNames")
     },
   },
   created() {

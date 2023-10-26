@@ -74,26 +74,11 @@
 <script>
 
 
-
-import IssueService from "@/jiraDashboardServices/issueService";
-
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "SearchForJiraProject",
   data() {
     return {
-      no_results_text: "test message",
-      issueTypes: [],
-      isProjectSelected: true,
-      warning: "",
-      projectName: "",
-      dialogIssueTypes: false,
-      dialogIssues: false,
-      openDialog: false,
-      search: "",
-      selectedIssuesTypes: [],
-      selectedIssues: [],
-      allJiraProjects: [],
       headersIssueTypes: [
         {text: "Issue Type", value: "issueType"},
       ],
@@ -104,6 +89,15 @@ export default {
         {text: "Issue Type", value: "issueType"},
         {text: "Project Name", value: "projectName"},
       ],
+      isProjectSelected: true,
+      warning: "",
+      projectName: "",
+      dialogIssueTypes: false,
+      dialogIssues: false,
+      openDialog: false,
+      search: "",
+      selectedIssuesTypes: [],
+      selectedIssues: [],
     }
   },
   methods:{
@@ -120,17 +114,12 @@ export default {
         return item;
       });
       this.$store.dispatch('actionGetIssuesByProjectNameFromJira', {projectName, selectedIssuesTypesArray});
-
     },
     deleteAllIssues() {
       this.dialogIssues = false
       this.openDialog = false
       this.$store.dispatch("actionDeleteAllIssues")
-      // IssueService.importIssues(this.selectedIssues).then((response) => {
-      // IssueService.deleteAllIssues().then((response) => {
-      //   console.log(response.data)
       this.selectedIssues = []
-      // })
     },
     addSelectedIssues() {
       this.dialogIssues = false
@@ -140,10 +129,7 @@ export default {
         return item;
       });
       this.$store.dispatch("actionAddSelectedIssues", {selectedIssuesArray})
-      // IssueService.addIssues(this.selectedIssues).then((response) => {
-      //   console.log(response.data)
       this.selectedIssues = []
-      // })
     },
     closeDialogIssueTypes() {
       this.openDialog = false
@@ -161,6 +147,7 @@ export default {
         this.isProjectSelected = true
         this.openDialog = true
         this.dialogIssueTypes = true
+        console.log("1")
         this.$store.dispatch("actionGetIssueTypesByProjectNameFromJira", this.projectName)
       }
     },

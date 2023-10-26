@@ -16,7 +16,7 @@
       </v-card-title>
       <v-data-table
           :headers="headers"
-          :items="getAssignedIssuesFromFeedback"
+          :items="getIssues"
       >
         <template v-slot:items="props">
           <td>{{ props.item.key }}</td>
@@ -41,7 +41,7 @@
       </v-card-title>
       <v-data-table
           :headers="headers"
-          :items="getToreAssignedIssuesFromFeedback"
+          :items="getToreIssues"
       >
         <template v-slot:items="props">
           <td>{{ props.item.key }}</td>
@@ -59,10 +59,7 @@
 
 <script>
 
-
-
-import AddIssuesToFeedback from "@/components/jiraDashboardViews/dialogs/AddIssuesToFeedback.vue";
-import IssueFeedbackRelationService from "@/jiraDashboardServices/issueFeedbackRelationService";
+import AddIssuesToFeedback from "@/components/dialogs/AddIssuesToFeedback.vue";
 
 export default {
   components: {AddIssuesToFeedback},
@@ -81,55 +78,43 @@ export default {
       feedback: this.item,
       searchIssues: "",
       searchToreIssues: "",
-      assignedIssues: [],
-      assignedToreIssues: [],
-      tempIssues: [],
-      tempIssuesTore: [],
     }
   },
   computed: {
-    getAssignedIssuesFromFeedback(){
-      return this.$store.state.assignedIssues
+    getIssues() {
+      if (this.search !== "") {
+        return this.filterIssues
+      } else {
+        return this.$store.state.assignedIssues
+      }
     },
-    getToreAssignedIssuesFromFeedback(){
-      return this.$store.state.toreAssignedIssues
+    getToreIssues() {
+      if (this.search !== "") {
+        return this.filterToreIssues
+      } else {
+        return this.$store.state.toreAssignedIssues
+      }
     },
-    // getIssues() {
-    //   if (this.search !== "") {
-    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //     this.assignedIssues = this.tempIssues
-    //     return this.filterIssues
-    //   } else {
-    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //     this.assignedIssues = this.tempIssues
-    //     return this.assignedIssues
-    //   }
-    // },
-    // getToreIssues() {
-    //   if (this.search !== "") {
-    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //     this.assignedToreIssues = this.tempIssuesTore
-    //     return this.filterToreIssues
-    //   } else {
-    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //     this.assignedToreIssues = this.tempIssuesTore
-    //     return this.assignedToreIssues
-    //   }
-    // },
     filterIssues() {
-      return this.assignedIssues.filter(item => {
+      return this.$store.state.assignedIssues.filter(item => {
         const similarityString = item.similarity.toString();
         return item.summary.toLowerCase().indexOf(this.searchIssues.toLowerCase()) > -1
             || item.key.toLowerCase().indexOf(this.searchIssues.toLowerCase()) > -1
             || similarityString.toLowerCase().indexOf(this.searchIssues.toLowerCase()) > -1
+        // || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        // || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        // || item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       })
     },
     filterToreIssues() {
-      return this.assignedToreIssues.filter(item => {
+      return this.$store.state.toreAssignedIssues.filter(item => {
         const similarityString = item.similarity.toString();
         return item.summary.toLowerCase().indexOf(this.searchToreIssues.toLowerCase()) > -1
             || item.key.toLowerCase().indexOf(this.searchToreIssues.toLowerCase()) > -1
             || similarityString.toLowerCase().indexOf(this.searchToreIssues.toLowerCase()) > -1
+        // || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        // || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+        // || item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       })
     },
   },
@@ -156,25 +141,17 @@ export default {
     goBack() {
       this.$router.go(-1);
     },
-    deleteIssue(item) {
-      IssueFeedbackRelationService.deleteIssueFeedbackRelation(item.key, this.feedback.id)
-          .then((response) => {
-            console.log(response.data);
-            this.getAssignedIssues()
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+    async deleteIssue(item) {
+      const feedbackId = this.feedback.id
+      const issueKey = item.key
+      await this.$store.dispatch("actionDeleteIssueFeedbackRelation", {issueKey, feedbackId})
+      this.getAssignedIssues()
     },
-    deleteToreIssue(item) {
-      IssueFeedbackRelationService.deleteToreIssueFeedbackRelation(item.key, this.feedback.id)
-          .then((response) => {
-            console.log(response.data);
-            this.getAssignedToreIssues()
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+    async deleteToreIssue(item) {
+      const feedbackId = this.feedback.id
+      const issueKey = item.key
+      await this.$store.dispatch("actionDeleteToreIssueFeedbackRelation", {issueKey, feedbackId})
+      this.getAssignedToreIssues()
     },
   },
   created() {

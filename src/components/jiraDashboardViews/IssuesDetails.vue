@@ -59,18 +59,11 @@
 
 <script>
 
-
-import AddFeedbackToIssue from "@/components/jiraDashboardViews/dialogs/AddFeedbackToIssue.vue";
-import FeedbackService from "@/jiraDashboardServices/feedbackService";
-import IssueFeedbackRelationService from "@/jiraDashboardServices/issueFeedbackRelationService";
-
+import AddFeedbackToIssue from "@/components/dialogs/AddFeedbackToIssue.vue";
 export default {
   props: ['item'],
   data() {
     return {
-      issue: this.item,
-      selectedFeedback: [],
-      listWithTore: false,
       header: [
         {text: "Id", value: "id"},
         {text: "Text", value: "text"},
@@ -80,14 +73,11 @@ export default {
         {text: "Id", value: "id"},
         {text: "Text", value: "text"},
       ],
-      feedbackToAdd: [],
+      issue: this.item,
+      listWithTore: false,
       openFeedbackDialog: false,
       searchFeedback: "",
       searchToreFeedback: "",
-      assignedFeedback: [],
-      assignedToreFeedback: [],
-      tempFeedback: [],
-      tempFeedbackTore: []
     }
   },
   components:{
@@ -96,28 +86,20 @@ export default {
   computed:{
     getAssignedFeedbackFilter() {
       if (this.searchFeedback !== "") {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.assignedFeedback = this.tempFeedback
         return this.filterFeedbackFromIssue
       } else {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.assignedFeedback = this.tempFeedback
-        return this.assignedFeedback
+        return this.$store.state.assignedFeedback
       }
     },
     getAssignedToreFeedbackFilter() {
       if (this.searchToreFeedback !== "") {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.assignedToreFeedback = this.tempFeedbackTore
         return this.filterToreFeedbackFromIssue
       } else {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.assignedToreFeedback = this.tempFeedbackTore
-        return this.assignedToreFeedback
+        return this.$store.state.toreAssignedFeedback
       }
     },
     filterFeedbackFromIssue() {
-      return this.assignedFeedback.filter(item => {
+      return this.$store.state.assignedFeedback.filter(item => {
         const similarityString = item.similarity.toString();
         return item.id.toLowerCase().indexOf(this.searchFeedback.toLowerCase()) > -1
             || item.text.toLowerCase().indexOf(this.searchFeedback.toLowerCase()) > -1
@@ -125,7 +107,7 @@ export default {
       })
     },
     filterToreFeedbackFromIssue() {
-      return this.assignedToreFeedback.filter(item => {
+      return this.$store.state.toreAssignedFeedback.filter(item => {
         const similarityString = item.similarity.toString();
         return item.id.toLowerCase().indexOf(this.searchToreFeedback.toLowerCase()) > -1
             || item.text.toLowerCase().indexOf(this.searchToreFeedback.toLowerCase()) > -1
@@ -138,39 +120,22 @@ export default {
       this.$router.go(-1);
     },
     getAssignedFeedback(){
-      FeedbackService.getAssignedFeedback(this.issue.key).then((response) => {
-        console.log(response.data)
-        this.assignedFeedback = response.data
-        this.tempFeedback = response.data
-      })
+      this.$store.dispatch("actionGetAssignedFeedback", this.issue.key)
     },
     getAssignedToreFeedback(){
-      FeedbackService.getAssignedToreFeedback(this.issue.key).then((response) => {
-        console.log(response.data)
-        this.assignedToreFeedback = response.data
-        this.tempFeedbackTore = response.data
-      })
+      this.$store.dispatch("actionGetToreAssignedFeedback", this.issue.key)
     },
-    deleteFeedback(item) {
-      IssueFeedbackRelationService.deleteIssueFeedbackRelation(this.issue.key, item.id)
-          .then((response) => {
-            console.log(response.data);
-            // this.issue = response.data
-            this.getAssignedFeedback()
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+    async deleteFeedback(item) {
+      const feedbackId = item.id
+      const issueKey = this.issue.key
+      await this.$store.dispatch("actionDeleteIssueFeedbackRelation", {issueKey, feedbackId})
+      this.getAssignedFeedback()
     },
-    deleteToreFeedback(item) {
-      IssueFeedbackRelationService.deleteToreIssueFeedbackRelation(this.issue.key, item.id)
-          .then((response) => {
-            console.log(response.data);
-            this.getAssignedToreFeedback()
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+    async deleteToreFeedback(item) {
+      const feedbackId = item.id
+      const issueKey = this.issue.key
+      await this.$store.dispatch("actionDeleteToreIssueFeedbackRelation", {issueKey, feedbackId})
+      this.getAssignedToreFeedback()
     },
     openAddDialogWithTore() {
       this.listWithTore = true
@@ -186,7 +151,7 @@ export default {
       this.getAssignedToreFeedback()
     },
   },
-  mounted() {
+  created() {
     this.getAssignedFeedback()
     this.getAssignedToreFeedback()
   }

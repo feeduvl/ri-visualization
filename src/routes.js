@@ -120,10 +120,6 @@ export const routes = [{
         component: () => import('./components/jiraDashboardViews/FeedbackDetails.vue'),
         props: true,
       },
-      {
-        path: ROUTE_JIRA_IMPORT_PROJECTS,
-        component: () => import('./components/jiraDashboardViews/ImportJiraProject.vue'),
-      },
     ]
   },
   {

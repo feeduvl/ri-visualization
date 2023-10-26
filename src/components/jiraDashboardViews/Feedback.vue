@@ -30,21 +30,15 @@
 
 <script>
 
-
-import FeedbackService from "@/jiraDashboardServices/feedbackService";
-
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Feedback",
   data() {
     return {
-      excelData: [],
       tableHeaders: [
         {text: "Text", value: "text"},
         {text: "ID", value: "id"}
       ],
-      feedback: [],
-      tempFeedbackForFilter: [],
       search: "",
     }
   },
@@ -57,21 +51,11 @@ export default {
       }
     },
     getFeedback(){
-      FeedbackService.getFeedback().then((response) => {
-        console.log(response.data)
-        this.feedback = response.data
-        this.tempFeedbackForFilter = response.data
-      })
+      this.$store.dispatch("actionGetFeedback")
     },
-    deleteFeedback(item) {
-      FeedbackService.deleteFeedback(item.id)
-          .then((response) => {
-            console.log(response.data);
-            this.getFeedback()
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+    async deleteFeedback(item) {
+      await this.$store.dispatch("actionDeleteFeedback", item.id)
+      this.getFeedback()
     },
     showDetails(item) {
       this.$router.push({ name: 'tore_feedback', params: { item: item } });
@@ -80,17 +64,13 @@ export default {
   computed: {
     getFeedbackForFilter() {
       if (this.search !== "") {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.feedback = this.tempFeedbackForFilter
         return this.filterFeedback
       } else {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.feedback = this.tempFeedbackForFilter
-        return this.feedback
+        return this.$store.state.feedback
       }
     },
     filterFeedback() {
-      return this.feedback.filter(item => {
+      return this.$store.state.feedback.filter(item => {
         return item.id.toLowerCase().indexOf(this.search.toLowerCase()) > -1
             || item.text.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       })

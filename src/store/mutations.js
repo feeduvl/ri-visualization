@@ -472,10 +472,6 @@ export const setAnnotatorInputCodeNames = state => {
 
 // Jira Dashboard
 
-export const updateAllIssues = (state, issues) => {
-  state.issues = issues.updated_issues || [];
-};
-
 export const setAvailableJiraProjects = (state, projects) => {
   state.availableJiraProjects = projects || [];
 };
@@ -507,5 +503,33 @@ export const setIsLoadingData = (state, value) => {
 export const setAllIssues = (state, issues) => {
   state.issues = issues.issues || [];
   state.totalIssueItems = issues.totalItems || 0;
+};
+
+export const setUnassignedIssues = (state, issues) => {
+  state.unassignedIssues = issues.missing_issues || [];
+};
+
+export const setAllFeedback = (state, feedback) => {
+  state.feedback = feedback || [];
+};
+
+export const setFeedbackFileNames = (state, feedbackFileNames) => {
+  state.feedbackFileNames = feedbackFileNames || [];
+};
+
+export const setAnnotationFileNames = (state, annotationFileNames) => {
+  state.annotationFileNames = annotationFileNames || [];
+};
+
+export const setAssignedFeedback = (state, feedback) => {
+  state.assignedFeedback = feedback || [];
+};
+
+export const setToreAssignedFeedback = (state, feedback) => {
+  state.toreAssignedFeedback = feedback || [];
+};
+
+export const setUnassignedFeedback = (state, feedback) => {
+  state.unassignedFeedback = feedback || [];
 };
 
