@@ -168,5 +168,5 @@ export const DELETE_APP_REVIEW_CRAWLER_JOB_ENDPOINT = function(date){
 
 // jira dashboard
 export const JIRA_DASHBOARD_BASE_URL_ISSUES = `${BASE_URL}/hitec/jira/issues`
-export const JIRA_DASHBOARD_BASE_URL_FEEDBACK = `${BASE_URL}/hitec/jira`
+export const JIRA_DASHBOARD_BASE_URL_FEEDBACK = `${BASE_URL}/hitec/jira/feedback`
 export const JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION = `${BASE_URL}/hitec/jira/issue_feedback`
