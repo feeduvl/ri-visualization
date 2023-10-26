@@ -92,8 +92,9 @@ export default {
   watch: {
     '$route' (to, from) {
       if (to.params.item !== from.params.item) {
-        // Parameter wurde geändert, Komponente aktualisieren
         this.issue = to.params.item;
+        this.getAssignedFeedback()
+        this.getAssignedToreFeedback()
       }
     }
   },
@@ -170,7 +171,6 @@ export default {
     },
   },
   mounted() {
-    this.issue = this.$route.params.item
     this.getAssignedFeedback()
     this.getAssignedToreFeedback()
   }
