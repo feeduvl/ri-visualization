@@ -268,15 +268,6 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
-.select-container{
-  display: flex;
-  justify-content: space-between;
-  width: 60%;
-}
-.select-annotation,
-.select-feedback {
-  width: 48%;
-}
 .warning{
   color: red;
 }
@@ -288,12 +279,6 @@ export default {
 }
 .main-issue-table{
   margin-top: 10px;
-}
-.overlay {
-  margin-top: 20px;
-  margin-left: 45%;
-  width: 50%;
-  height: 50%;
 }
 p {
   font-weight: bold;

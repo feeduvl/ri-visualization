@@ -156,7 +156,7 @@ export default {
       this.getAssignedToreIssues()
     },
   },
-  created() {
+  mounted() {
     this.getAssignedIssues()
     this.getAssignedToreIssues()
   }
@@ -194,7 +194,7 @@ h2{
   cursor: pointer;
   outline: none;
   position: absolute;
-  top: 220px;
+  top: 160px;
   left: 120px;
 }
 

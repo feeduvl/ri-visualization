@@ -1,6 +1,5 @@
 <template>
   <div class="overlay">
-    <h2>HALLO</h2>
     <v-progress-circular indeterminate size="64">
       Loading...
     </v-progress-circular>
@@ -22,5 +21,10 @@ export default {
 </script>
 
 <style scoped>
-
+.overlay{
+  height: 200px;
+  margin-top: 20px;
+  margin-left: 45%;
+  width: 50%;
+}
 </style>

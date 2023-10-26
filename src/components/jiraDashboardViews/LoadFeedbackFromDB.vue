@@ -51,7 +51,7 @@ export default {
       this.$store.dispatch("actionGetAnnotationNames")
     },
   },
-  created() {
+  mounted() {
     this.fetchFeedbackFileNames();
     this.fetchAnnotationFileNames();
   }
@@ -61,5 +61,13 @@ export default {
 </script>
 
 <style scoped>
-
+.select-container{
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+}
+.select-annotation,
+.select-feedback {
+  width: 48%;
+}
 </style>
