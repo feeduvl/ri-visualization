@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <v-dialog v-model="isLoadingData">
+      <LoadingView/>
+    </v-dialog>
 
     <v-card class="table-header">
       <v-card-title>
@@ -30,9 +33,14 @@
 
 <script>
 
+
+
+import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Feedback",
+  components: {LoadingView},
   data() {
     return {
       tableHeaders: [
@@ -62,6 +70,9 @@ export default {
     },
   },
   computed: {
+    isLoadingData(){
+      return this.$store.state.isLoadingData
+    },
     getFeedbackForFilter() {
       if (this.search !== "") {
         return this.filterFeedback

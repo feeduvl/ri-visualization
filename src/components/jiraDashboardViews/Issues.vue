@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-
+    <v-dialog v-model="isLoadingData">
+      <LoadingView/>
+    </v-dialog>
 
     <div class="import-elements">
       <LoadFeedbackFromDB class="element1"></LoadFeedbackFromDB>
@@ -78,16 +80,6 @@
       </v-card>
     </div>
 
-    <v-dialog v-model="isLoadingData">
-      <div class="overlay">
-        <v-progress-circular indeterminate size="64">
-          Loading...
-        </v-progress-circular>
-        <v-btn dark color="black" @click="closeDialogLoadAssignment()"
-        >CLOSE
-        </v-btn>
-      </div>
-    </v-dialog>
   </div>
 </template>
 
@@ -95,8 +87,11 @@
 
 
 
+
+
 import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFromDB.vue";
 import ImportJiraProject from "@/components/jiraDashboardViews/ImportJiraProject.vue";
+import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -129,7 +124,8 @@ export default {
   },
   components:{
     LoadFeedbackFromDB,
-    ImportJiraProject
+    ImportJiraProject,
+    LoadingView
   },
   methods: {
     closeImportDialog(){
@@ -180,9 +176,6 @@ export default {
     },
     showDetails(item) {
       this.$router.push({name: 'assigned_feedback', params: {item: item}});
-    },
-    closeDialogLoadAssignment() {
-      this.isLoadingData = false
     },
     getAllIssues() {
       console.log("get All Issues")

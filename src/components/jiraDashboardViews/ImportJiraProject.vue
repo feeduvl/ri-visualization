@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <v-dialog v-model="isLoadingData">
+      <LoadingView/>
+    </v-dialog>
     <p class="headline-select-jira-project">
       Select already used projects or search for new:
     </p>
@@ -14,14 +17,6 @@
     <p v-if="!isProjectSelected" class="warning">{{ warning }}</p>
 
     <v-dialog v-model="openDialog" width="70%">
-      <div class="overlay" v-if="isLoadingData">
-        <v-progress-circular indeterminate size="64">
-          Loading...
-        </v-progress-circular>
-        <v-btn dark color="black" @click="closeDialogIssues()"
-        >CLOSE
-        </v-btn>
-      </div>
       <div v-if="!isLoadingData">
         <div v-if="dialogIssues">
           <v-card>
@@ -74,9 +69,14 @@
 <script>
 
 
+
+
+import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "SearchForJiraProject",
+  components: {LoadingView},
   data() {
     return {
       headersIssueTypes: [
