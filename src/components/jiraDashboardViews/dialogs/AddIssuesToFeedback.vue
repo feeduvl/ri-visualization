@@ -88,7 +88,8 @@ export default {
   },
   watch: {
     openIssuesDialog() {
-      this.getAllIssues();
+      this.selectedFeedback = this.feedback
+      this.getUnassignedIssues();
     }
   },
   methods:{
@@ -107,7 +108,7 @@ export default {
         this.toggleIssues();
       }
     },
-    getAllIssues() {
+    getUnassignedIssues() {
       console.log(this.listWithTore)
       if (!this.listWithTore){
         this.$store.dispatch("actionGetUnassignedIssues", this.selectedFeedback.id)

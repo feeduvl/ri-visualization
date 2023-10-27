@@ -993,7 +993,7 @@ export const actionDeleteIssue = ({ commit }, {projectName, issueKey}) => {
 export const actionGetUnassignedIssues = ({commit}, feedback_id) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
-        console.log("get all unassigned Issues")
+        console.log("get unassigned Issues")
         axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_unassigned_issues/${feedback_id}`)
             .then(response => {
                 const {data} = response;
@@ -1010,7 +1010,7 @@ export const actionGetUnassignedIssues = ({commit}, feedback_id) => {
 export const actionGetUnassignedToreIssues = ({commit}, feedback_id) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
-        console.log("get all unassigned Issues")
+        console.log("get unassigned Issues")
         axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_tore_unassigned_issues/${feedback_id}`)
             .then(response => {
                 const {data} = response;
@@ -1303,7 +1303,7 @@ export const actionDeleteFeedback = ({commit}, feedbackId) => {
 export const actionGetUnassignedFeedback = ({commit}, issueKey) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
-        console.log("get assigned feedback")
+        console.log("get unassigned feedback")
         axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_unassigned_feedback/${issueKey}`)
             .then(response => {
                 const {data} = response;
@@ -1320,7 +1320,7 @@ export const actionGetUnassignedFeedback = ({commit}, issueKey) => {
 export const actionGetToreUnassignedFeedback = ({commit}, issueKey) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
-        console.log("get assigned feedback")
+        console.log("get unassigned feedback")
         axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_unassigned_tore_feedback/${issueKey}`)
             .then(response => {
                 const {data} = response;

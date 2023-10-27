@@ -92,12 +92,9 @@ export default {
   },
   watch: {
     item() {
-      // if (newItem !== oldItem) {
-        console.log("new item");
-        this.issue = this.item;
-        this.getAssignedFeedback();
-        this.getAssignedToreFeedback();
-      // }
+      this.issue = this.item;
+      this.getAssignedFeedback();
+      this.getAssignedToreFeedback();
     }
   },
   computed:{

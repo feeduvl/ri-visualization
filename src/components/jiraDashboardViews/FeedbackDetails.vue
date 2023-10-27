@@ -90,13 +90,10 @@ export default {
     }
   },
   watch: {
-    item(newItem, oldItem) {
-      if (newItem !== oldItem) {
-        console.log("new item");
-        this.feedback = newItem;
-        this.getAssignedIssues();
-        this.getAssignedToreIssues();
-      }
+    item() {
+      this.feedback = this.item;
+      this.getAssignedIssues();
+      this.getAssignedToreIssues();
     }
   },
   computed: {

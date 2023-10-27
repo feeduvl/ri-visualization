@@ -51,7 +51,8 @@ export default {
   },
   watch: {
     openFeedbackDialog() {
-      this.getFeedback()
+      this.selectedIssue = this.issue
+      this.getUnassignedFeedback()
     },
   },
   computed:{
@@ -91,7 +92,7 @@ export default {
         this.toggleFeedback();
       }
     },
-    getFeedback(){
+    getUnassignedFeedback(){
       if (!this.listWithTore){
         this.$store.dispatch("actionGetUnassignedFeedback", this.selectedIssue.key)
       }else{
