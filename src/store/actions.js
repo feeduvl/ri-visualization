@@ -1226,43 +1226,41 @@ export const actionGetFeedback = ({commit}) => {
     });
 };
 
-export const actionGetAssignedFeedback = ({commit}, issueKey) => {
-    return new Promise((resolve, reject) => {
-        commit("setIsLoadingData", true);
-        console.log("get assigned feedback")
-        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_feedback/${issueKey}`, {
-            headers: {
-                'Cache-Control': 'no-cache',
-            },
-        })
-            .then((response) => {
-                const {data} = response;
-                commit("setAssignedFeedback", data);
-                commit("setIsLoadingData", false);
-                resolve(response);
-            })
-            .catch(e => {
-                console.error("Error:", e);
-                reject(e);
-            });
-    });
-};
 // export const actionGetAssignedFeedback = ({commit}, issueKey) => {
-//     return new Promise(() => {
+//     return new Promise((resolve, reject) => {
 //         commit("setIsLoadingData", true);
 //         console.log("get assigned feedback")
-//         axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_feedback/${issueKey}`)
-//             .then(response => {
+//         axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_feedback/${issueKey}`, {
+//             headers: {
+//                 'Cache-Control': 'no-cache',
+//             },
+//         })
+//             .then((response) => {
 //                 const {data} = response;
 //                 commit("setAssignedFeedback", data);
 //                 commit("setIsLoadingData", false);
-//                 return response;
+//                 resolve(response);
 //             })
-//             .catch(e => console.error("Error: "+e))
-//             .finally(() => {
+//             .catch(e => {
+//                 console.error("Error:", e);
+//                 reject(e);
 //             });
 //     });
 // };
+export const actionGetAssignedFeedback = ({commit}, issueKey) => {
+    return new Promise(() => {
+        commit("setIsLoadingData", true);
+        console.log("get assigned feedback")
+        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_feedback/${issueKey}`)
+            .then(response => {
+                const {data} = response;
+                commit("setAssignedFeedback", data);
+                commit("setIsLoadingData", false);
+                return response;
+            })
+            .catch(e => console.error("Error: "+e));
+    });
+};
 
 export const actionGetToreAssignedFeedback = ({commit}, issueKey) => {
     return new Promise(() => {

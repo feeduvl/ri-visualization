@@ -94,8 +94,8 @@ export default {
       if (newItem !== oldItem) {
         console.log("new item");
         this.issue = newItem;
-        this.getAssignedFeedback();
-        this.getAssignedToreFeedback();
+        this.getAssignedIssues();
+        this.getAssignedToreIssues();
       }
     }
   },

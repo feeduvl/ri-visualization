@@ -67,6 +67,7 @@ import AddFeedbackToIssue from "@/components/jiraDashboardViews/dialogs/AddFeedb
 import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
 
 export default {
+  props: ['item'],
   data() {
     return {
       header: [
@@ -78,7 +79,7 @@ export default {
         {text: "Id", value: "id"},
         {text: "Text", value: "text"},
       ],
-      issue: this.$route.params.item,
+      issue: this.item,
       listWithTore: false,
       openFeedbackDialog: false,
       searchFeedback: "",
@@ -90,11 +91,12 @@ export default {
     LoadingView,
   },
   watch: {
-    '$route' (to, from) {
-      if (to.params.item !== from.params.item) {
-        this.issue = to.params.item;
-        this.getAssignedFeedback()
-        this.getAssignedToreFeedback()
+    item(newItem, oldItem) {
+      if (newItem !== oldItem) {
+        console.log("new item");
+        this.issue = newItem;
+        this.getAssignedFeedback();
+        this.getAssignedToreFeedback();
       }
     }
   },
