@@ -838,6 +838,23 @@ export const actionGetIssueTypesByProjectNameFromJira = ({commit}, projectName) 
     });
 };
 
+export const actionDeleteAllFeedback = ({commit}) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        console.log("Delete all feedback");
+        axios.delete(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/delete_all_feedback`)
+            .then(response => {
+                console.log("deleted feedback");
+                commit("setIsLoadingData", false);
+                resolve(response);
+            })
+            .catch(e => {
+                console.error("Error:", e);
+                reject(e);
+            });
+    });
+};
+
 export const actionGetAllIssues = ({commit}, {page, size}) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);

@@ -94,20 +94,6 @@ export default {
     AddFeedbackToIssue,
     LoadingView,
   },
-  // watch: {
-  //   openDetails(newOpenDetails) {
-  //     console.log("newOpenDetails")
-  //     console.log(newOpenDetails)
-  //     if (newOpenDetails === true) {
-  //       console.log("new item");
-  //       this.issue = this.item;
-  //       this.getAssignedFeedback();
-  //       this.getAssignedToreFeedback();
-  //     }else {
-  //
-  //     }
-  //   }
-  // },
   watch: {
     item() {
       this.issue = this.item;

@@ -10,6 +10,9 @@
         <div class="search-in-table">
           <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
+        <v-btn color="red" @click="deleteAllFeedback()">
+          remove entire feedback
+        </v-btn>
       </v-card-title>
       <v-data-table
           :headers="tableHeaders"
@@ -66,8 +69,11 @@ export default {
       await this.$store.dispatch("actionDeleteFeedback", item.id)
       this.getFeedback()
     },
+    async deleteAllFeedback() {
+      await this.$store.dispatch("actionDeleteAllFeedback")
+      this.getFeedback()
+    },
     showDetails(item) {
-      // this.openDetails = true
       this.$router.push({ name: 'tore_feedback', params: { item: item } });
     },
   },
