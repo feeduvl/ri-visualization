@@ -72,6 +72,7 @@ export default {
     AddIssuesToFeedback,
     LoadingView
   },
+  props: ['item'],
   data(){
     return{
       headers: [
@@ -83,17 +84,18 @@ export default {
       ],
       openIssuesDialog: false,
       listWithTore: false,
-      feedback: this.$route.params.item,
+      feedback: this.item,
       searchIssues: "",
       searchToreIssues: "",
     }
   },
   watch: {
-    '$route' (to, from) {
-      if (to.params.item !== from.params.item) {
-        this.feedback = to.params.item;
-        this.getAssignedIssues()
-        this.getAssignedToreIssues()
+    item(newItem, oldItem) {
+      if (newItem !== oldItem) {
+        console.log("new item");
+        this.issue = newItem;
+        this.getAssignedFeedback();
+        this.getAssignedToreFeedback();
       }
     }
   },
