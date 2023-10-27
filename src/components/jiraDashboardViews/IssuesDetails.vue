@@ -99,7 +99,6 @@ export default {
         this.issue = this.item;
         this.getAssignedFeedback();
         this.getAssignedToreFeedback();
-        this.openDetails = false
       }
     }
   },
@@ -155,6 +154,7 @@ export default {
     },
     getAssignedToreFeedback(){
       this.$store.dispatch("actionGetToreAssignedFeedback", this.issue.key)
+      this.openDetails = false
     },
     async deleteFeedback(item) {
       const feedbackId = item.id

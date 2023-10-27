@@ -120,7 +120,7 @@ export default {
       warning: "Select or import a project",
       isProjectSelected: true,
       importDialog: false,
-      openDetails: true
+      openDetails: false
     }
   },
   components:{
