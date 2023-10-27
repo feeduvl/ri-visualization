@@ -93,7 +93,7 @@ export default {
     item(newItem, oldItem) {
       if (newItem !== oldItem) {
         console.log("new item");
-        this.issue = newItem;
+        this.feedback = newItem;
         this.getAssignedIssues();
         this.getAssignedToreIssues();
       }
