@@ -67,6 +67,10 @@ import AddFeedbackToIssue from "@/components/jiraDashboardViews/dialogs/AddFeedb
 import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
 
 export default {
+  activated() {
+    this.getAssignedIssues()
+    this.getAssignedToreIssues()
+  },
   props: ['item', 'openDetails'],
   data() {
     return {
@@ -90,18 +94,20 @@ export default {
     AddFeedbackToIssue,
     LoadingView,
   },
-  watch: {
-    openDetails(newOpenDetails) {
-      console.log("newOpenDetails")
-      console.log(newOpenDetails)
-      if (newOpenDetails === true) {
-        console.log("new item");
-        this.issue = this.item;
-        this.getAssignedFeedback();
-        this.getAssignedToreFeedback();
-      }
-    }
-  },
+  // watch: {
+  //   openDetails(newOpenDetails) {
+  //     console.log("newOpenDetails")
+  //     console.log(newOpenDetails)
+  //     if (newOpenDetails === true) {
+  //       console.log("new item");
+  //       this.issue = this.item;
+  //       this.getAssignedFeedback();
+  //       this.getAssignedToreFeedback();
+  //     }else {
+  //
+  //     }
+  //   }
+  // },
   // watch: {
   //   // insert bool var that turn true, when open details
   //   item() {
@@ -181,10 +187,10 @@ export default {
       this.getAssignedToreFeedback()
     },
   },
-  mounted() {
-    this.getAssignedFeedback()
-    this.getAssignedToreFeedback()
-  }
+  // mounted() {
+  //   this.getAssignedFeedback()
+  //   this.getAssignedToreFeedback()
+  // }
 };
 
 </script>

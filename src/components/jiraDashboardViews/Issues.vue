@@ -16,7 +16,6 @@
       </v-dialog>
     </div>
 
-
     <div>
       <v-btn dark color="blue" @click="assignFeedbackToIssues()"> Assign Feedback to Issues
       </v-btn>
@@ -86,9 +85,6 @@
 <script>
 
 
-
-
-
 import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFromDB.vue";
 import ImportJiraProject from "@/components/jiraDashboardViews/ImportJiraProject.vue";
 import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
@@ -120,7 +116,7 @@ export default {
       warning: "Select or import a project",
       isProjectSelected: true,
       importDialog: false,
-      openDetails: false
+      // openDetails: false
     }
   },
   components:{
@@ -175,13 +171,8 @@ export default {
         this.getAllIssues()
       }
     },
-    async showDetails(item) {
-      this.openDetails = true
-      await this.$router.push({ name: 'assigned_feedback', params: { item: item, openDetails: this.openDetails } });
-      console.log(this.openDetails)
-      this.openDetails = false
-      console.log("this.openDetails")
-      console.log(this.openDetails)
+    showDetails(item) {
+      this.$router.push({ name: 'assigned_feedback', params: { item: item } });
     },
     getAllIssues() {
       console.log("get All Issues")
