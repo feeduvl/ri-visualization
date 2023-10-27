@@ -71,7 +71,7 @@ export default {
     this.getAssignedFeedback()
     this.getAssignedToreFeedback()
   },
-  props: ['item', 'openDetails'],
+  props: ['item'],
   data() {
     return {
       header: [
@@ -108,13 +108,11 @@ export default {
   //     }
   //   }
   // },
-  // watch: {
-  //   // insert bool var that turn true, when open details
-  //   item() {
-  //     this.issue = this.item;
-
-  //   }
-  // },
+  watch: {
+    item() {
+      this.issue = this.item;
+    }
+  },
   computed:{
     isLoadingData(){
       return this.$store.state.isLoadingData

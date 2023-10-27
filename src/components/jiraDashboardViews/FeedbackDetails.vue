@@ -76,7 +76,7 @@ export default {
     AddIssuesToFeedback,
     LoadingView
   },
-  props: ['item', 'openDetails'],
+  props: ['item'],
   data(){
     return{
       headers: [
@@ -93,18 +93,11 @@ export default {
       searchToreIssues: "",
     }
   },
-  // watch: {
-  //   openDetails(newOpenDetails) {
-  //     console.log("newOpenDetails")
-  //     console.log(newOpenDetails)
-  //     if (newOpenDetails === true) {
-  //       console.log("new feedback");
-  //       this.feedback = this.item;
-  //       this.getAssignedIssues();
-  //       this.getAssignedToreIssues();
-  //     }
-  //   }
-  // },
+  watch: {
+    item() {
+      this.feedback = this.item;
+    }
+  },
   computed: {
     isLoadingData(){
       return this.$store.state.isLoadingData
