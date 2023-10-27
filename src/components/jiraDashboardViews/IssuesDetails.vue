@@ -91,13 +91,13 @@ export default {
     LoadingView,
   },
   watch: {
-    item(newItem, oldItem) {
-      if (newItem !== oldItem) {
+    item() {
+      // if (newItem !== oldItem) {
         console.log("new item");
-        this.issue = newItem;
+        this.issue = this.item;
         this.getAssignedFeedback();
         this.getAssignedToreFeedback();
-      }
+      // }
     }
   },
   computed:{
