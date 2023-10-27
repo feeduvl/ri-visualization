@@ -180,7 +180,6 @@ export default {
       this.$router.push({ name: 'assigned_feedback', params: { item: item, openDetails: this.openDetails } });
       console.log("this.openDetails")
       console.log(this.openDetails)
-      this.openDetails = false
     },
     getAllIssues() {
       console.log("get All Issues")

@@ -99,6 +99,7 @@ export default {
         this.issue = this.item;
         this.getAssignedFeedback();
         this.getAssignedToreFeedback();
+        this.openDetails = false
       }
     }
   },
