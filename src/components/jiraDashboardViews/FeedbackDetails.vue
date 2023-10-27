@@ -72,7 +72,7 @@ export default {
     AddIssuesToFeedback,
     LoadingView
   },
-  props: ['item'],
+  props: ['item', 'openDetails'],
   data(){
     return{
       headers: [
@@ -90,13 +90,13 @@ export default {
     }
   },
   watch: {
-
-    item(newItem) {
-      if (newItem) {
+    $route(to, from) {
+      if (from.params.openDetails === true) {
         console.log("new feedback");
         this.feedback = this.item;
         this.getAssignedIssues();
         this.getAssignedToreIssues();
+        this.openDetails = false
       }
     }
   },

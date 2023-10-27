@@ -48,6 +48,7 @@ export default {
         {text: "ID", value: "id"}
       ],
       search: "",
+      openDetails: false,
     }
   },
   methods: {
@@ -66,7 +67,8 @@ export default {
       this.getFeedback()
     },
     showDetails(item) {
-      this.$router.push({ name: 'tore_feedback', params: { item: item } });
+      this.openDetails = true
+      this.$router.push({ name: 'tore_feedback', params: { item: item, openDetails: this.openDetails } });
     },
   },
   computed: {
