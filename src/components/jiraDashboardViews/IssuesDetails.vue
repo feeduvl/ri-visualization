@@ -67,7 +67,7 @@ import AddFeedbackToIssue from "@/components/jiraDashboardViews/dialogs/AddFeedb
 import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
 
 export default {
-  props: ['item', 'showDetails'],
+  props: ['item', 'openDetails'],
   data() {
     return {
       header: [
@@ -91,8 +91,8 @@ export default {
     LoadingView,
   },
   watch: {
-    showDetails(newShowDetails, oldShowDetails) {
-      if (newShowDetails === true) {
+    openDetails(newOpenDetails) {
+      if (newOpenDetails === true) {
         console.log("new item");
         this.issue = this.item;
         this.getAssignedFeedback();

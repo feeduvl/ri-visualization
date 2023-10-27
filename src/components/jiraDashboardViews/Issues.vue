@@ -120,7 +120,7 @@ export default {
       warning: "Select or import a project",
       isProjectSelected: true,
       importDialog: false,
-      showDetails: true
+      openDetails: true
     }
   },
   components:{
@@ -176,8 +176,8 @@ export default {
       }
     },
     showDetails(item) {
-      this.$router.push({ name: 'assigned_feedback', params: { item: item, showDetails: this.showDetails } });
-      this.showDetails = false
+      this.$router.push({ name: 'assigned_feedback', params: { item: item, showDetails: this.openDetails } });
+      this.openDetails = false
     },
     getAllIssues() {
       console.log("get All Issues")
