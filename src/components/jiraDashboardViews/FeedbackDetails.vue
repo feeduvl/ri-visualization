@@ -90,13 +90,14 @@ export default {
     }
   },
   watch: {
-    openDetails(open) {
-      if (open) {
+    openDetails(newOpenDetails) {
+      console.log("newOpenDetails")
+      console.log(newOpenDetails)
+      if (newOpenDetails === true) {
         console.log("new feedback");
         this.feedback = this.item;
         this.getAssignedIssues();
         this.getAssignedToreIssues();
-        this.openDetails = false
       }
     }
   },
