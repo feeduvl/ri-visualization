@@ -175,9 +175,11 @@ export default {
         this.getAllIssues()
       }
     },
-    showDetails(item) {
+    async showDetails(item) {
       this.openDetails = true
-      this.$router.push({ name: 'assigned_feedback', params: { item: item, openDetails: this.openDetails } });
+      await this.$router.push({ name: 'assigned_feedback', params: { item: item, openDetails: this.openDetails } });
+      console.log(this.openDetails)
+      this.openDetails = false
       console.log("this.openDetails")
       console.log(this.openDetails)
     },
