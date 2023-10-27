@@ -91,12 +91,22 @@ export default {
     LoadingView,
   },
   watch: {
-    item() {
-      this.issue = this.item;
-      this.getAssignedFeedback();
-      this.getAssignedToreFeedback();
+    item(newItem, oldItem) {
+      if (newItem !== oldItem && newItem === oldItem) {
+        console.log("new item");
+        this.issue = this.item;
+        this.getAssignedFeedback();
+        this.getAssignedToreFeedback();
+      }
     }
   },
+  // watch: {
+  //   // insert bool var that turn true, when open details
+  //   item() {
+  //     this.issue = this.item;
+
+  //   }
+  // },
   computed:{
     isLoadingData(){
       return this.$store.state.isLoadingData

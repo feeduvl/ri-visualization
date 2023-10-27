@@ -90,10 +90,13 @@ export default {
     }
   },
   watch: {
-    item() {
-      this.feedback = this.item;
-      this.getAssignedIssues();
-      this.getAssignedToreIssues();
+    item(newItem, oldItem) {
+      if (newItem !== oldItem && newItem === oldItem) {
+        console.log("new feedback");
+        this.feedback = this.item;
+        this.getAssignedFeedback();
+        this.getAssignedToreFeedback();
+      }
     }
   },
   computed: {
