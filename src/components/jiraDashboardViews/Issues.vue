@@ -176,7 +176,10 @@ export default {
       }
     },
     showDetails(item) {
+      this.openDetails = true
       this.$router.push({ name: 'assigned_feedback', params: { item: item, showDetails: this.openDetails } });
+      console.log("this.openDetails")
+      console.log(this.openDetails)
       this.openDetails = false
     },
     getAllIssues() {

@@ -92,6 +92,8 @@ export default {
   },
   watch: {
     openDetails(newOpenDetails) {
+      console.log("newOpenDetails")
+      console.log(newOpenDetails)
       if (newOpenDetails === true) {
         console.log("new item");
         this.issue = this.item;
