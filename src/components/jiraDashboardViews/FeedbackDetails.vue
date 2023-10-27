@@ -90,8 +90,9 @@ export default {
     }
   },
   watch: {
-    item(newItem, oldItem) {
-      if (newItem !== oldItem || newItem === oldItem) {
+
+    item(newItem) {
+      if (newItem) {
         console.log("new feedback");
         this.feedback = this.item;
         this.getAssignedIssues();

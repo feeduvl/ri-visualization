@@ -91,8 +91,8 @@ export default {
     LoadingView,
   },
   watch: {
-    item(newItem, oldItem) {
-      if (newItem !== oldItem || newItem === oldItem) {
+    item(newItem) {
+      if (newItem) {
         console.log("new item");
         this.issue = this.item;
         this.getAssignedFeedback();
