@@ -90,14 +90,14 @@ export default {
     }
   },
   watch: {
-    openDetails() {
-      // if () {
+    openDetails(open) {
+      if (open) {
         console.log("new feedback");
         this.feedback = this.item;
         this.getAssignedIssues();
         this.getAssignedToreIssues();
         this.openDetails = false
-      // }
+      }
     }
   },
   computed: {
