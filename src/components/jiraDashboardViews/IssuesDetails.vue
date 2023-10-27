@@ -68,8 +68,8 @@ import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue
 
 export default {
   activated() {
-    this.getAssignedIssues()
-    this.getAssignedToreIssues()
+    this.getAssignedFeedback()
+    this.getAssignedToreFeedback()
   },
   props: ['item', 'openDetails'],
   data() {

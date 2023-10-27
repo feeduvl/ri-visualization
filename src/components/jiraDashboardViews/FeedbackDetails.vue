@@ -68,6 +68,10 @@ import AddIssuesToFeedback from "@/components/jiraDashboardViews/dialogs/AddIssu
 import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
 
 export default {
+  activated() {
+    this.getAssignedIssues()
+    this.getAssignedToreIssues()
+  },
   components: {
     AddIssuesToFeedback,
     LoadingView
@@ -89,18 +93,18 @@ export default {
       searchToreIssues: "",
     }
   },
-  watch: {
-    openDetails(newOpenDetails) {
-      console.log("newOpenDetails")
-      console.log(newOpenDetails)
-      if (newOpenDetails === true) {
-        console.log("new feedback");
-        this.feedback = this.item;
-        this.getAssignedIssues();
-        this.getAssignedToreIssues();
-      }
-    }
-  },
+  // watch: {
+  //   openDetails(newOpenDetails) {
+  //     console.log("newOpenDetails")
+  //     console.log(newOpenDetails)
+  //     if (newOpenDetails === true) {
+  //       console.log("new feedback");
+  //       this.feedback = this.item;
+  //       this.getAssignedIssues();
+  //       this.getAssignedToreIssues();
+  //     }
+  //   }
+  // },
   computed: {
     isLoadingData(){
       return this.$store.state.isLoadingData
@@ -178,10 +182,10 @@ export default {
       this.getAssignedToreIssues()
     },
   },
-  mounted() {
-    this.getAssignedIssues()
-    this.getAssignedToreIssues()
-  }
+  // mounted() {
+  //   this.getAssignedIssues()
+  //   this.getAssignedToreIssues()
+  // }
 };
 
 </script>
