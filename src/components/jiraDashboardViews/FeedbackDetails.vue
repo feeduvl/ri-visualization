@@ -90,14 +90,14 @@ export default {
     }
   },
   watch: {
-    $route(to, from) {
-      if (from.params.openDetails === true) {
+    openDetails() {
+      // if () {
         console.log("new feedback");
         this.feedback = this.item;
         this.getAssignedIssues();
         this.getAssignedToreIssues();
         this.openDetails = false
-      }
+      // }
     }
   },
   computed: {
