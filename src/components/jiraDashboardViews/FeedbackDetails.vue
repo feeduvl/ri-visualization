@@ -94,8 +94,8 @@ export default {
       if (newItem !== oldItem && newItem === oldItem) {
         console.log("new feedback");
         this.feedback = this.item;
-        this.getAssignedFeedback();
-        this.getAssignedToreFeedback();
+        this.getAssignedIssues();
+        this.getAssignedToreIssues();
       }
     }
   },
