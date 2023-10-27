@@ -154,7 +154,6 @@ export default {
     },
     getAssignedToreFeedback(){
       this.$store.dispatch("actionGetToreAssignedFeedback", this.issue.key)
-      this.openDetails = false
     },
     async deleteFeedback(item) {
       const feedbackId = item.id
