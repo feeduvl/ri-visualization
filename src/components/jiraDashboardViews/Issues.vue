@@ -57,10 +57,18 @@
             <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
           </div>
         </v-card-title>
-        <v-data-table :headers="headers" :items="getIssues" item-key="key" class="elevation-1"
-                      :total-items="$store.state.totalIssueItems" rows-per-page-text="Issues per page"
-                      :rows-per-page-items="pagination.rowsPerPageItems" :pagination.sync="pagination"
-                      @update:pagination.self="getAllIssues()" :no-data-text="warning">
+        <v-data-table
+            :headers="headers"
+            :items="getIssues"
+            item-key="key"
+            class="elevation-1"
+            :total-items="$store.state.totalIssueItems"
+            rows-per-page-text="Issues per page"
+            :rows-per-page-items="pagination.rowsPerPageItems"
+            :pagination.sync="pagination"
+            @update:pagination.self="getAllIssues()"
+            :no-data-text="warning"
+        >
           <template v-slot:items="props">
             <tr @click="showDetails(props.item)">
               <td>{{ props.item.key }}</td>
@@ -116,7 +124,6 @@ export default {
       warning: "Select or import a project",
       isProjectSelected: true,
       importDialog: false,
-      // openDetails: false
     }
   },
   components:{

@@ -13,6 +13,13 @@
             :headers="headerDialog"
             :items="getFilteredFeedback"
             item-key="id"
+            class="elevation-1"
+            :total-items="$store.state.totalUnassignedFeedbackItems"
+            rows-per-page-text="Issues per page"
+            :rows-per-page-items="pagination.rowsPerPageItems"
+            :pagination.sync="pagination"
+            @update:pagination.self="getUnassignedFeedback()"
+            :no-data-text="warning"
         >
           <template v-slot:items="props">
             <td>
@@ -47,6 +54,14 @@ export default {
         {text: "Id", value: "id"},
         {text: "Text", value: "text"},
       ],
+      pagination: {
+        sortBy: "id",
+        descending: false,
+        page: 1,
+        rowsPerPage: 10,
+        rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}]
+      },
+      warning: "No Feedback assigned",
     }
   },
   watch: {
@@ -91,10 +106,13 @@ export default {
       }
     },
     getUnassignedFeedback(){
+      let page = this.pagination.page
+      let size = this.pagination.rowsPerPage
+      let issueKey = this.selectedIssue.key
       if (!this.listWithTore){
-        this.$store.dispatch("actionGetUnassignedFeedback", this.selectedIssue.key)
+        this.$store.dispatch("actionGetUnassignedFeedback", {issueKey, page, size})
       }else{
-        this.$store.dispatch("actionGetToreUnassignedFeedback", this.selectedIssue.key)
+        this.$store.dispatch("actionGetToreUnassignedFeedback", {issueKey, page, size})
       }
     },
   },

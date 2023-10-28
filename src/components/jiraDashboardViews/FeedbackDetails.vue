@@ -20,6 +20,14 @@
       <v-data-table
           :headers="headers"
           :items="getIssues"
+          item-key="key"
+          class="elevation-1"
+          :total-items="$store.state.totalAssignedIssueItems"
+          rows-per-page-text="Issues per page"
+          :rows-per-page-items="pagination.rowsPerPageItems"
+          :pagination.sync="pagination"
+          @update:pagination.self="getAssignedIssues()"
+          :no-data-text="warning"
       >
         <template v-slot:items="props">
           <td>{{ props.item.key }}</td>
@@ -45,6 +53,14 @@
       <v-data-table
           :headers="headers"
           :items="getToreIssues"
+          item-key="key"
+          class="elevation-1"
+          :total-items="$store.state.totalToreAssignedIssueItems"
+          rows-per-page-text="Issues per page"
+          :rows-per-page-items="paginationTore.rowsPerPageItems"
+          :pagination.sync="paginationTore"
+          @update:pagination.self="getAssignedToreIssues()"
+          :no-data-text="warning"
       >
         <template v-slot:items="props">
           <td>{{ props.item.key }}</td>
@@ -86,6 +102,21 @@ export default {
         // {text: "Issue Type", value: "issueType"},
         {text: "Similarity", value: "similarity"},
       ],
+      pagination: {
+        sortBy: "key",
+        descending: false,
+        page: 1,
+        rowsPerPage: 10,
+        rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}]
+      },
+      paginationTore: {
+        sortBy: "id",
+        descending: false,
+        page: 1,
+        rowsPerPage: 10,
+        rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}]
+      },
+      warning: "No Issues assigned",
       openIssuesDialog: false,
       listWithTore: false,
       feedback: this.item,
@@ -141,10 +172,16 @@ export default {
   },
   methods: {
     getAssignedIssues(){
-      this.$store.dispatch("actionGetAssignedIssuesFromFeedback", this.feedback.id)
+      let page = this.pagination.page
+      let size = this.pagination.rowsPerPage
+      let feedbackId = this.feedback.id
+      this.$store.dispatch("actionGetAssignedIssuesFromFeedback", {feedbackId, page, size})
     },
     getAssignedToreIssues(){
-      this.$store.dispatch("actionGetToreAssignedIssuesFromFeedback", this.feedback.id)
+      let page = this.paginationTore.page
+      let size = this.paginationTore.rowsPerPage
+      let feedbackId = this.feedback.id
+      this.$store.dispatch("actionGetToreAssignedIssuesFromFeedback", {feedbackId, page, size})
     },
     openAddDialogWithTore() {
       this.listWithTore = true
@@ -175,10 +212,6 @@ export default {
       this.getAssignedToreIssues()
     },
   },
-  // mounted() {
-  //   this.getAssignedIssues()
-  //   this.getAssignedToreIssues()
-  // }
 };
 
 </script>

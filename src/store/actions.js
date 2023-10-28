@@ -794,12 +794,20 @@ export const actionGetImportedJiraProjects = ({commit}) => {
     });
 };
 
-export const actionGetAssignedIssuesFromFeedback = ({commit}, feedbackId) => {
+export const actionGetAssignedIssuesFromFeedback = ({commit}, {feedbackId, page, size}) => {
     return new Promise(() => {
-        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_assigned_issues/${feedbackId}`)
+        commit("setIsLoadingData", true);
+        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_assigned_issues/${feedbackId}`, {
+            params: {
+                page: page,
+                size: size
+            }
+        })
             .then(response => {
                 const {data} = response;
                 commit("setAssignedIssuesFromFeedback", data);
+                commit("setIsLoadingData", false);
+                console.log("feritg geladen")
                 return response;
             })
             .catch(e => console.error("Error: "+e))
@@ -808,9 +816,14 @@ export const actionGetAssignedIssuesFromFeedback = ({commit}, feedbackId) => {
     });
 };
 
-export const actionGetToreAssignedIssuesFromFeedback = ({commit}, feedbackId) => {
+export const actionGetToreAssignedIssuesFromFeedback = ({commit}, {feedbackId, page, size}) => {
     return new Promise(() => {
-        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_tore_assigned_issues/${feedbackId}`)
+        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_tore_assigned_issues/${feedbackId}`, {
+            params: {
+                page: page,
+                size: size
+            }
+        })
             .then(response => {
                 const {data} = response;
                 commit("setToreAssignedIssuesFromFeedback", data);
@@ -834,23 +847,6 @@ export const actionGetIssueTypesByProjectNameFromJira = ({commit}, projectName) 
             })
             .catch(e => console.error("Error: "+e))
             .finally(() => {
-            });
-    });
-};
-
-export const actionDeleteAllFeedback = ({commit}) => {
-    return new Promise((resolve, reject) => {
-        commit("setIsLoadingData", true);
-        console.log("Delete all feedback");
-        axios.delete(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/delete_all_feedback`)
-            .then(response => {
-                console.log("deleted feedback");
-                commit("setIsLoadingData", false);
-                resolve(response);
-            })
-            .catch(e => {
-                console.error("Error:", e);
-                reject(e);
             });
     });
 };
@@ -1007,11 +1003,16 @@ export const actionDeleteIssue = ({ commit }, {projectName, issueKey}) => {
     });
 };
 
-export const actionGetUnassignedIssues = ({commit}, feedback_id) => {
+export const actionGetUnassignedIssues = ({commit}, {feedbackId, page, size}) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
-        console.log("get unassigned Issues")
-        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_unassigned_issues/${feedback_id}`)
+        console.log("get all unassigned Issues")
+        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_unassigned_issues/${feedbackId}`, {
+            params: {
+                page: page,
+                size: size
+            }
+        })
             .then(response => {
                 const {data} = response;
                 commit("setUnassignedIssues", data);
@@ -1024,11 +1025,16 @@ export const actionGetUnassignedIssues = ({commit}, feedback_id) => {
     });
 };
 
-export const actionGetUnassignedToreIssues = ({commit}, feedback_id) => {
+export const actionGetUnassignedToreIssues = ({commit}, {feedbackId, page, size}) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
-        console.log("get unassigned Issues")
-        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_tore_unassigned_issues/${feedback_id}`)
+        console.log("get all unassigned Issues")
+        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_tore_unassigned_issues/${feedbackId}`, {
+            params: {
+                page: page,
+                size: size
+            }
+        })
             .then(response => {
                 const {data} = response;
                 commit("setUnassignedIssues", data);
@@ -1226,11 +1232,16 @@ export const actionGetAnnotationNames = ({commit}) => {
     });
 };
 
-export const actionGetFeedback = ({commit}) => {
+export const actionGetFeedback = ({commit}, {page, size}) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
         console.log("get all feedback")
-        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_feedback`)
+        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_feedback`, {
+            params: {
+                page: page,
+                size: size
+            }
+        })
             .then(response => {
                 const {data} = response;
                 commit("setAllFeedback", data);
@@ -1243,50 +1254,56 @@ export const actionGetFeedback = ({commit}) => {
     });
 };
 
-// export const actionGetAssignedFeedback = ({commit}, issueKey) => {
-//     return new Promise((resolve, reject) => {
-//         commit("setIsLoadingData", true);
-//         console.log("get assigned feedback")
-//         axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_feedback/${issueKey}`, {
-//             headers: {
-//                 'Cache-Control': 'no-cache',
-//             },
-//         })
-//             .then((response) => {
-//                 const {data} = response;
-//                 commit("setAssignedFeedback", data);
-//                 commit("setIsLoadingData", false);
-//                 resolve(response);
-//             })
-//             .catch(e => {
-//                 console.error("Error:", e);
-//                 reject(e);
-//             });
-//     });
-// };
-export const actionGetAssignedFeedback = ({commit}, issueKey) => {
-    return new Promise(() => {
+export const actionGetAssignedFeedback = ({ commit }, {issueKey, page, size}) => {
+    return new Promise((resolve, reject) => {
         commit("setIsLoadingData", true);
-        console.log("get assigned feedback")
-        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_feedback/${issueKey}`)
-            .then(response => {
-                const {data} = response;
+        console.log("get assigned feedback");
+        axios
+            .get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_feedback/${issueKey}`, {
+                params: {
+                    page: page,
+                    size: size
+                }
+            })
+            .then((response) => {
+                const { data } = response;
                 commit("setAssignedFeedback", data);
                 commit("setIsLoadingData", false);
-                return response;
+                resolve(response);
             })
-            .catch(e => console.error("Error: "+e));
+            .catch((e) => {
+                console.error("Error:", e);
+                reject(e);
+            });
     });
 };
 
-export const actionGetToreAssignedFeedback = ({commit}, issueKey) => {
+// export const actionGetAssignedFeedback = ({commit}, issueKey) => {
+//     return new Promise(() => {
+//         commit("setIsLoadingData", true);
+//         console.log("get assigned feedback")
+//         axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_feedback/${issueKey}`)
+//             .then(response => {
+//                 const {data} = response;
+//                 commit("setAssignedFeedback", data);
+//                 commit("setIsLoadingData", false);
+//                 return response;
+//             })
+//             .catch(e => console.error("Error: "+e))
+//             .finally(() => {
+//             });
+//     });
+// };
+
+export const actionGetToreAssignedFeedback = ({commit}, {issueKey, page, size}) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
         console.log("get assigned feedback")
         axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_tore_feedback/${issueKey}`, {
-            headers: {
-                'Cache-Control': 'no-cache',
-            },
+            params: {
+                page: page,
+                size: size
+            }
         })
             .then(response => {
                 const {data} = response;
@@ -1317,11 +1334,33 @@ export const actionDeleteFeedback = ({commit}, feedbackId) => {
     });
 };
 
-export const actionGetUnassignedFeedback = ({commit}, issueKey) => {
+export const actionDeleteAllFeedback = ({commit}) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        console.log("Delete all feedback");
+        axios.delete(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/delete_all_feedback`)
+            .then(response => {
+                console.log("deleted feedback");
+                commit("setIsLoadingData", false);
+                resolve(response);
+            })
+            .catch(e => {
+                console.error("Error:", e);
+                reject(e);
+            });
+    });
+};
+
+export const actionGetUnassignedFeedback = ({commit}, {issueKey, page, size}) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
-        console.log("get unassigned feedback")
-        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_unassigned_feedback/${issueKey}`)
+        console.log("get assigned feedback")
+        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_unassigned_feedback/${issueKey}`, {
+            params: {
+                page: page,
+                size: size
+            }
+        })
             .then(response => {
                 const {data} = response;
                 commit("setUnassignedFeedback", data);
@@ -1334,11 +1373,16 @@ export const actionGetUnassignedFeedback = ({commit}, issueKey) => {
     });
 };
 
-export const actionGetToreUnassignedFeedback = ({commit}, issueKey) => {
+export const actionGetToreUnassignedFeedback = ({commit}, {issueKey, page, size}) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
-        console.log("get unassigned feedback")
-        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_unassigned_tore_feedback/${issueKey}`)
+        console.log("get assigned feedback")
+        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_unassigned_tore_feedback/${issueKey}`, {
+            params: {
+                page: page,
+                size: size
+            }
+        })
             .then(response => {
                 const {data} = response;
                 commit("setUnassignedFeedback", data);

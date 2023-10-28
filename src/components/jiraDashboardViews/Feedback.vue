@@ -17,6 +17,14 @@
       <v-data-table
           :headers="tableHeaders"
           :items="getFeedbackForFilter"
+          item-key="id"
+          class="elevation-1"
+          :total-items="$store.state.totalFeedbackItems"
+          rows-per-page-text="Feedback per page"
+          :rows-per-page-items="pagination.rowsPerPageItems"
+          :pagination.sync="pagination"
+          @update:pagination.self="getFeedback()"
+          :no-data-text="warning"
       >
         <template v-slot:items="props">
           <tr @click="showDetails(props.item)">
@@ -50,8 +58,15 @@ export default {
         {text: "Text", value: "text"},
         {text: "ID", value: "id"}
       ],
+      pagination: {
+        sortBy: "id",
+        descending: false,
+        page: 1,
+        rowsPerPage: 10,
+        rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}]
+      },
       search: "",
-      // openDetails: false,
+      warning: "Select Feedback Dataset",
     }
   },
   methods: {
@@ -63,7 +78,9 @@ export default {
       }
     },
     getFeedback(){
-      this.$store.dispatch("actionGetFeedback")
+      let page = this.pagination.page
+      let size = this.pagination.rowsPerPage
+      this.$store.dispatch("actionGetFeedback", {page, size})
     },
     async deleteFeedback(item) {
       await this.$store.dispatch("actionDeleteFeedback", item.id)

@@ -13,10 +13,13 @@
             :headers="headers"
             :items="getIssues"
             item-key="key"
-            :total-items="totalItems" rows-per-page-text="Issues per page"
+            class="elevation-1"
+            :total-items="$store.state.totalUnassignedIssueItems"
+            rows-per-page-text="Issues per page"
             :rows-per-page-items="pagination.rowsPerPageItems"
             :pagination.sync="pagination"
-            @update:pagination.self="getAllIssues()"
+            @update:pagination.self="getUnassignedIssues()"
+            :no-data-text="warning"
         >
           <template v-slot:items="props">
             <td>
@@ -59,6 +62,7 @@ export default {
         rowsPerPage: 10,
         rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}]
       },
+      warning: "No Issues assigned",
       selectedFeedback: this.feedback,
       selectedIssues: [],
       totalItems: 0,
@@ -109,13 +113,14 @@ export default {
       }
     },
     getUnassignedIssues() {
+      let page = this.pagination.page
+      let size = this.pagination.rowsPerPage
+      let feedbackId = this.selectedFeedback.id
       console.log(this.listWithTore)
       if (!this.listWithTore){
-        this.$store.dispatch("actionGetUnassignedIssues", this.selectedFeedback.id)
-        // this.totalItems = totalItems
+        this.$store.dispatch("actionGetUnassignedIssues", {feedbackId, page, size})
       }else{
-        this.$store.dispatch("actionGetUnassignedToreIssues", this.selectedFeedback.id)
-        //   // this.totalItems = totalItems
+        this.$store.dispatch("actionGetUnassignedToreIssues", {feedbackId, page, size})
       }
     },
   },
