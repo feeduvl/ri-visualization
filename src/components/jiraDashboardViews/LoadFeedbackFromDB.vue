@@ -14,6 +14,7 @@
           :items="getAnnotationFileNames"
           label="Select Annotation"
           @change="sendSelectedAnnotationName()"
+          :disabled="!selectedFeedbackFileName"
       ></v-select>
     </div>
   </div>
