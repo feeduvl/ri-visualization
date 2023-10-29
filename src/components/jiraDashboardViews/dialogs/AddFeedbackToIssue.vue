@@ -13,6 +13,7 @@
             :headers="headerDialog"
             :items="getFilteredFeedback"
             item-key="id"
+            select-all
             class="elevation-1"
             :total-items="$store.state.totalUnassignedFeedbackItems"
             rows-per-page-text="Issues per page"
@@ -50,7 +51,6 @@ export default {
       selectedFeedback: [],
       search: "",
       headerDialog: [
-        {text: "", sort: false},
         {text: "Id", value: "id"},
         {text: "Text", value: "text"},
       ],

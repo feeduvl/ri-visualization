@@ -13,6 +13,7 @@
             :headers="headers"
             :items="getIssues"
             item-key="key"
+            select-all
             class="elevation-1"
             :total-items="$store.state.totalUnassignedIssueItems"
             rows-per-page-text="Issues per page"
@@ -48,7 +49,6 @@ export default {
   data() {
     return {
       headers: [
-        {text: "", sort: false},
         {text: "Issue Name", value: "key"},
         {text: "Summary", value: "summary"},
         // {text: "Description", value: "description"},

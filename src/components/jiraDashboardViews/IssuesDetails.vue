@@ -13,9 +13,14 @@
         <div class="search-in-table">
           <v-text-field v-model="searchFeedback" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
-        <v-btn class="add-button" @click="openAddDialog" small>
-          <i class="material-icons add-icon" >add</i>
-        </v-btn>
+        <div class="service-button">
+          <v-btn  @click="deleteAssignedFeedbackForIssue()" small>
+            <i class="material-icons delete-icon">delete_sweep</i>
+          </v-btn>
+          <v-btn  @click="openAddDialog" small>
+            <i class="material-icons add-icon" >add</i>
+          </v-btn>
+        </div>
       </v-card-title>
       <v-data-table
           :headers="header"
@@ -46,9 +51,14 @@
         <div class="search-in-table">
           <v-text-field v-model="searchToreFeedback" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
-        <v-btn class="add-button" @click="openAddDialogWithTore">
-          <i class="material-icons add-icon">add</i>
-        </v-btn>
+        <div class="service-button" >
+          <v-btn  @click="deleteToreAssignedFeedbackForIssue()" small>
+            <i class="material-icons delete-icon">delete_sweep</i>
+          </v-btn>
+          <v-btn  @click="openAddDialogWithTore">
+            <i class="material-icons add-icon">add</i>
+          </v-btn>
+        </div>
       </v-card-title>
       <v-data-table
           :headers="header"
@@ -166,6 +176,14 @@ export default {
     },
   },
   methods:{
+    async deleteAssignedFeedbackForIssue() {
+      await this.$store.dispatch("actionDeleteAssignedFeedbackForIssue", this.issue.key)
+      this.getAssignedFeedback()
+    },
+    async deleteToreAssignedFeedbackForIssue() {
+      await this.$store.dispatch("actionDeleteToreAssignedFeedbackForIssue", this.issue.key)
+      this.getAssignedToreFeedback()
+    },
     goBack() {
       this.$router.go(-1);
     },
@@ -232,12 +250,10 @@ h2{
   top: 130px;
   left: 120px;
 }
-
 .back-button:hover {
   color: blue;
 }
-
-.add-button {
+.service-button {
   position: absolute;
   top: 10px;
   right: 10px;

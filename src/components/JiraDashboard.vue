@@ -4,11 +4,11 @@
       <v-card class="banner">
         <v-tabs
         >
-          <v-tab>
-            <v-btn @click="navigateTo('/jira/issues')" :class="{ 'tab': true, 'tab-left': activeTab === 'issues' }">Issues</v-btn>
+          <v-tab :class="{ 'tab': true, 'tab-left': activeTab === '/jira/issues' }">
+            <v-btn @click="navigateTo('/jira/issues')" >Issues</v-btn>
           </v-tab>
-          <v-tab>
-            <v-btn @click="navigateTo('/jira/feedback')" :class="{ 'tab': true, 'tab-right': activeTab === 'feedback' }">Feedback</v-btn>
+          <v-tab :class="{ 'tab': true, 'tab-right': activeTab === '/jira/feedback' }">
+            <v-btn @click="navigateTo('/jira/feedback')" >Feedback</v-btn>
           </v-tab>
         </v-tabs>
       </v-card>
@@ -34,7 +34,6 @@ export default {
 </script>
 
 <style scoped>
-
 #start {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -42,7 +41,7 @@ export default {
 }
 .banner{
   margin-top: 50px;
-  width: 90%;
+  width: 85%;
   text-align: center;
 }
 .center-container{

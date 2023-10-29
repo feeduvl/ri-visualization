@@ -13,9 +13,14 @@
         <div class="search-in-table">
           <v-text-field v-model="searchIssues" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
-        <v-btn class="add-button" @click="openAddDialog" small>
-          <i class="material-icons add-icon" >add</i>
-        </v-btn>
+        <div class="service-button">
+          <v-btn  @click="deleteAssignedIssuesForFeedback()" small>
+            <i class="material-icons delete-icon">delete_sweep</i>
+          </v-btn>
+          <v-btn @click="openAddDialog" small>
+            <i class="material-icons add-icon">add</i>
+          </v-btn>
+        </div>
       </v-card-title>
       <v-data-table
           :headers="headers"
@@ -46,9 +51,14 @@
         <div class="search-in-table">
           <v-text-field v-model="searchToreIssues" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
-        <v-btn class="add-button" @click="openAddDialogWithTore">
-          <i class="material-icons add-icon">add</i>
-        </v-btn>
+        <div class="service-button">
+          <v-btn  @click="deleteToreAssignedIssuesForFeedback()" small>
+            <i class="material-icons delete-icon">delete_sweep</i>
+          </v-btn>
+          <v-btn @click="openAddDialogWithTore" small>
+            <i class="material-icons add-icon">add</i>
+          </v-btn>
+        </div>
       </v-card-title>
       <v-data-table
           :headers="headers"
@@ -183,6 +193,14 @@ export default {
       let feedbackId = this.feedback.id
       this.$store.dispatch("actionGetToreAssignedIssuesFromFeedback", {feedbackId, page, size})
     },
+    async deleteAssignedIssuesForFeedback() {
+      await this.$store.dispatch("actionDeleteAssignedIssuesForFeedback", this.feedback.id)
+      this.getAssignedIssues()
+    },
+    async deleteToreAssignedIssuesForFeedback() {
+      await this.$store.dispatch("actionDeleteToreAssignedIssuesForFeedback", this.feedback.id)
+      this.getAssignedToreIssues()
+    },
     openAddDialogWithTore() {
       this.listWithTore = true
       this.openIssuesDialog = true;
@@ -217,13 +235,13 @@ export default {
 </script>
 
 <style scoped>
-h2{
-  text-align: center;
-}
-.add-button {
+.service-button {
   position: absolute;
   top: 10px;
   right: 10px;
+}
+h2{
+  text-align: center;
 }
 .delete-icon {
   color: red;
@@ -249,9 +267,7 @@ h2{
   top: 130px;
   left: 120px;
 }
-
 .back-button:hover {
   color: blue;
 }
-
 </style>

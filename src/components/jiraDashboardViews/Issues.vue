@@ -4,26 +4,28 @@
       <LoadingView/>
     </v-dialog>
 
-    <div class="import-elements">
-      <LoadFeedbackFromDB class="element1"></LoadFeedbackFromDB>
-      <v-btn dark color="blue" class="element2" @click="openImportDialog()"> Import Issues
-      </v-btn>
-      <v-dialog v-model="importDialog">
-        <ImportJiraProject class="import-dialog"/>
-        <v-btn dark color="black" @click="closeImportDialog()"
-        >CLOSE
-        </v-btn>
-      </v-dialog>
-    </div>
-
     <div>
-      <v-btn dark color="blue" @click="assignFeedbackToIssues()"> Assign Feedback to Issues
-      </v-btn>
-      <v-btn dark color="blue" @click="assignFeedbackToIssueWithTore()"> Assign Feedback to Issues with TORE classification
-      </v-btn>
-    </div>
+      <div class="import-elements">
+        <LoadFeedbackFromDB class="element1"></LoadFeedbackFromDB>
+        <v-btn dark color="blue" class="element2" @click="openImportDialog()"> Import Issues
+        </v-btn>
+        <v-dialog v-model="importDialog">
+          <ImportJiraProject class="import-dialog"/>
+          <v-btn dark color="black" @click="closeImportDialog()"
+          >CLOSE
+          </v-btn>
+        </v-dialog>
+      </div>
 
-    <p v-if="!isProjectSelected" class="warning">{{ warning }}</p>
+      <div>
+        <v-btn dark color="blue" @click="assignFeedbackToIssues()"> Assign Feedback to Issues
+        </v-btn>
+        <v-btn dark color="blue" @click="assignFeedbackToIssueWithTore()"> Assign Feedback to Issues with TORE classification
+        </v-btn>
+      </div>
+
+      <p v-if="!isProjectSelected" class="warning">{{ warning }}</p>
+    </div>
 
     <div class="main-issue-table">
       <v-card class="v-card">
@@ -46,15 +48,18 @@
                       @input="onSelect(!selectedProjects.includes(item))"
                   ></v-checkbox>
                   {{ item.projectName }}
-                  <v-btn class="delete-project">
-                    <i class="material-icons delete-icon" @click.stop="deleteProject(item)">delete</i>
-                  </v-btn>
+                  <i class="material-icons delete-icon" @click.stop="deleteProject(item)">delete</i>
                 </div>
               </template>
             </v-select>
           </div>
           <div class="search-in-table">
             <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
+          </div>
+          <div class="service-button">
+            <v-btn  @click="deleteAllIssues()" small>
+              <i class="material-icons delete-icon">delete_sweep</i>
+            </v-btn>
           </div>
         </v-card-title>
         <v-data-table
@@ -77,9 +82,7 @@
               <td>{{ props.item.issueType }}</td>
               <td>{{ props.item.projectName }}</td>
               <td>
-                <v-btn @click.stop="deleteIssue(props.item)">
-                  <i class="material-icons delete-icon" >delete</i>
-                </v-btn>
+                <i class="material-icons delete-icon"  @click.stop="deleteIssue(props.item)">delete</i>
               </td>
             </tr>
           </template>
@@ -132,6 +135,11 @@ export default {
     LoadingView
   },
   methods: {
+    async deleteAllIssues() {
+      await this.$store.dispatch("actionDeleteAllIssues")
+      this.getAllIssues()
+      this.getProjectNames()
+    },
     closeImportDialog(){
       this.importDialog = false
       this.getProjectNames()
@@ -182,7 +190,6 @@ export default {
       this.$router.push({ name: 'assigned_feedback', params: { item: item } });
     },
     getAllIssues() {
-      console.log("get All Issues")
       let page = this.pagination.page
       let size = this.pagination.rowsPerPage
       this.$store.dispatch("actionGetAllIssues", {page, size})
@@ -217,7 +224,6 @@ export default {
       return this.$store.state.importedJiraProjects
     },
     getIssues() {
-      console.log("filter issues")
       if (this.search !== "") {
         return this.filterIssues
       } else {
@@ -248,6 +254,11 @@ export default {
 </script>
 
 <style>
+.service-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 .import-dialog{
   background-color: white;
 }
@@ -255,17 +266,11 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-
 .element1 {
   flex: 0.7;
 }
-
 .element2 {
   flex: 0.1;
-}
-
-.delete-project{
-  margin-left: 100px
 }
 .select-projects{
   display: flex;
@@ -286,5 +291,12 @@ export default {
 }
 p {
   font-weight: bold;
+}
+.delete-icon {
+  color: red;
+}
+.import-dialog {
+  background-color: white;
+  height: 300px;
 }
 </style>

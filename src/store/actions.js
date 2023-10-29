@@ -1401,3 +1401,74 @@ export const actionCancelLoading = ({commit}) => {
         commit("setIsLoadingData", false);
     });
 };
+
+
+export const actionDeleteAssignedFeedbackForIssue = ({commit}, issueKey) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        console.log("Delete assigned feedback");
+        axios.delete(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/delete_assigned_feedback_for_issue/${issueKey}`)
+            .then(response => {
+                console.log("deleted feedback");
+                commit("setIsLoadingData", false);
+                resolve(response);
+            })
+            .catch(e => {
+                console.error("Error:", e);
+                reject(e);
+            });
+    });
+};
+
+export const actionDeleteToreAssignedFeedbackForIssue = ({commit}, issueKey) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        console.log("Delete assigned feedback");
+        axios.delete(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/delete_tore_assigned_feedback_for_issue/${issueKey}`)
+            .then(response => {
+                console.log("deleted feedback");
+                commit("setIsLoadingData", false);
+                resolve(response);
+            })
+            .catch(e => {
+                console.error("Error:", e);
+                reject(e);
+            });
+    });
+};
+
+
+export const actionDeleteAssignedIssuesForFeedback = ({commit}, feedbackId) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        console.log("Delete assigned issues");
+        axios.delete(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/delete_assigned_issues_for_feedback/${feedbackId}`)
+            .then(response => {
+                console.log("deleted issues");
+                commit("setIsLoadingData", false);
+                resolve(response);
+            })
+            .catch(e => {
+                console.error("Error:", e);
+                reject(e);
+            });
+    });
+};
+
+
+export const actionDeleteToreAssignedIssuesForFeedback = ({commit}, feedbackId) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        console.log("Delete assigned issues");
+        axios.delete(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/delete_tore_assigned_issues_for_feedback/${feedbackId}`)
+            .then(response => {
+                console.log("deleted issues");
+                commit("setIsLoadingData", false);
+                resolve(response);
+            })
+            .catch(e => {
+                console.error("Error:", e);
+                reject(e);
+            });
+    });
+};

@@ -3,15 +3,14 @@
     <v-dialog v-model="isLoadingData">
       <LoadingView/>
     </v-dialog>
-
     <v-card class="table-header">
       <v-card-title>
         <h2>Feedback</h2>
         <div class="search-in-table">
           <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
-        <v-btn color="red" @click="deleteAllFeedback()">
-          remove entire feedback
+        <v-btn class="delete-button" @click="deleteAllFeedback()" small>
+          <i class="material-icons delete-icon">delete_sweep</i>
         </v-btn>
       </v-card-title>
       <v-data-table
@@ -31,9 +30,7 @@
             <td>{{ props.item.text }}</td>
             <td>{{ limitDescriptionText(props.item.id, 10) }}</td>
             <td>
-              <v-btn @click.stop="deleteFeedback(props.item)">
-                <i class="material-icons delete-icon" >delete</i>
-              </v-btn>
+              <i class="material-icons delete-icon" @click.stop="deleteFeedback(props.item)">delete</i>
             </td>
           </tr>
         </template>
@@ -122,10 +119,13 @@ export default {
 .table-header{
   margin-top: 20px;
 }
-
 .container{
   width: 90%;
   margin-top: 20px;
 }
-
+.delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 </style>
