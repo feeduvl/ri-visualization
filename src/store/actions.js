@@ -933,18 +933,21 @@ export const actionDeleteAllIssues = () => {
     });
 };
 
-export const actionAddSelectedIssues = ({commit},{selectedIssuesArray}) => {
-    return new Promise(() => {
+export const actionAddSelectedIssues = ({commit}, {selectedIssuesArray}) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        console.log("add issues Projects")
         axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES + `/add`, {
             jsonObject: selectedIssuesArray,
         })
             .then(response => {
-                // const {data} = response
+                console.log("filtered Projects")
                 commit("setIsLoadingData", false);
-                return response;
+                resolve(response);
             })
-            .catch(e => console.error("Error: "+e))
-            .finally(() => {
+            .catch(e => {
+                console.error("Error:", e);
+                reject(e);
             });
     });
 };
