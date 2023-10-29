@@ -78,6 +78,7 @@ import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "SearchForJiraProject",
+  props: ['importDialog'],
   components: {LoadingView},
   data() {
     return {
@@ -103,6 +104,10 @@ export default {
     }
   },
   methods:{
+    toggleImport() {
+      console.log(this.importDialog)
+      this.$emit('toggleImport', !this.importDialog);
+    },
     getAllJiraProjects() {
       this.$store.dispatch("actionGetAllJiraProjects")
     },
@@ -116,15 +121,16 @@ export default {
       });
       this.$store.dispatch('actionGetIssuesByProjectNameFromJira', {projectName, selectedIssuesTypesArray});
     },
-    addSelectedIssues() {
+    async addSelectedIssues() {
       this.dialogIssues = false
       this.openDialog = false
       let selectedIssues = this.selectedIssues
       const selectedIssuesArray = selectedIssues.map(item => {
         return item;
       });
-      this.$store.dispatch("actionAddSelectedIssues", {selectedIssuesArray})
+      await this.$store.dispatch("actionAddSelectedIssues", {selectedIssuesArray})
       this.selectedIssues = []
+      this.toggleImport()
     },
     closeDialogIssueTypes() {
       this.openDialog = false
@@ -142,7 +148,6 @@ export default {
         this.isProjectSelected = true
         this.openDialog = true
         this.dialogIssueTypes = true
-        console.log("1")
         this.$store.dispatch("actionGetIssueTypesByProjectNameFromJira", this.projectName)
       }
     },

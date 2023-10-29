@@ -10,7 +10,7 @@
         <v-btn dark color="blue" class="element2" @click="openImportDialog()"> Import Issues
         </v-btn>
         <v-dialog v-model="importDialog">
-          <ImportJiraProject class="import-dialog"/>
+          <ImportJiraProject class="import-dialog" @toggleImport="toggleImport" :importDialog="importDialog"/>
           <v-btn dark color="black" @click="closeImportDialog()"
           >CLOSE
           </v-btn>
@@ -135,6 +135,11 @@ export default {
     LoadingView
   },
   methods: {
+    toggleImport(value) {
+      this.importDialog = value;
+      this.getAllIssues()
+      this.getProjectNames()
+    },
     async deleteAllIssues() {
       await this.$store.dispatch("actionDeleteAllIssues")
       this.getAllIssues()
