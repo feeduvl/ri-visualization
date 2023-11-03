@@ -61,7 +61,7 @@ export default {
       this.fetchAnnotationFileNames();
     }
   },
-  mounted() {
+  activated() {
     this.fetchFeedbackFileNames();
     this.fetchAnnotationFileNames();
   }

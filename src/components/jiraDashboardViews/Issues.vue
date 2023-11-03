@@ -250,7 +250,7 @@ export default {
       });
     },
   },
-  mounted() {
+  activated() {
     this.getAllIssues()
     this.getProjectNames()
   },
