@@ -921,14 +921,18 @@ export const actionToreAssignIssuesToFeedback = ({commit}) => {
     });
 };
 
-export const actionDeleteAllIssues = () => {
-    return new Promise(() => {
-        axios.delete(JIRA_DASHBOARD_BASE_URL_ISSUES+ `/remove_all_issues`)
+export const actionDeleteAllIssues = ({commit}) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        console.log("delete all issues")
+        axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES + `/remove_all_issues`)
             .then(response => {
-                return response;
+                commit("setIsLoadingData", false);
+                resolve(response);
             })
-            .catch(e => console.error("Error: "+e))
-            .finally(() => {
+            .catch(e => {
+                console.error("Error:", e);
+                reject(e);
             });
     });
 };
