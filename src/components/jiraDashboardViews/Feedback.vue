@@ -115,12 +115,12 @@ export default {
     showDetails(item) {
       this.$router.push({ name: 'tore_feedback', params: { item: item } });
     },
-  },
-  computed: {
     async getAssignedDataToExport() {
       await this.$store.dispatch("actionGetAssignedDataToExport")
       this.exportToCSV()
     },
+  },
+  computed: {
     isLoadingData(){
       return this.$store.state.isLoadingData
     },
