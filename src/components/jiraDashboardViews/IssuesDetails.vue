@@ -6,7 +6,9 @@
     <button class="back-button" @click="goBack">
       <i class="material-icons">arrow_back_ios</i>
     </button>
-    <h2>Issue Key: {{ issue.key }}</h2>
+    <h3>Issue Key: <span>{{ issue.key }}</span></h3>
+    <h3>Issue Summary: <span>{{ issue.summary }}</span></h3>
+    <h3>Issue Description: <span>{{ issue.description }}</span></h3>
     <v-card class="table-header">
       <v-card-title>
         <h3>Assigned Feedback</h3>
@@ -263,5 +265,8 @@ h2{
 }
 .add-icon {
   color: blue;
+}
+span{
+  font-weight: normal;
 }
 </style>

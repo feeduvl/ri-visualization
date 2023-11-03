@@ -28,6 +28,7 @@
             </td>
             <td>{{ props.item.key }}</td>
             <td>{{ props.item.summary }}</td>
+            <td>{{ props.item.description }}</td>
           </template>
         </v-data-table>
       </v-card-text>
@@ -51,9 +52,7 @@ export default {
       headers: [
         {text: "Issue Name", value: "key"},
         {text: "Summary", value: "summary"},
-        // {text: "Description", value: "description"},
-        // {text: "Issue Type", value: "issueType"},
-        // {text: "Project Name", value: "projectName"},
+        {text: "Description", value: "description"},
       ],
       pagination: {
         sortBy: "key",
@@ -84,9 +83,7 @@ export default {
       return this.$store.state.unassignedIssues.filter(item => {
         return item.summary.toLowerCase().indexOf(this.search.toLowerCase()) > -1
             || item.key.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-        // || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-        // || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-        // || item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       })
     },
   },

@@ -6,7 +6,8 @@
     <button class="back-button" @click="goBack">
       <i class="material-icons">arrow_back_ios</i>
     </button>
-    <h2>Feedback: {{feedback.id}}</h2>
+    <h3>Feedback: <span>{{feedback.id}}</span></h3>
+    <h3>Feedback Text: <span>{{feedback.text}}</span></h3>
     <v-card class="table-header">
       <v-card-title>
         <h3>Assigned Issues</h3>
@@ -37,6 +38,7 @@
         <template v-slot:items="props">
           <td>{{ props.item.key }}</td>
           <td>{{ props.item.summary }}</td>
+          <td>{{ props.item.description }}</td>
           <td>{{ props.item.similarity }}</td>
           <td>
             <i class="material-icons delete-icon" @click="deleteIssue(props.item)">delete</i>
@@ -75,6 +77,7 @@
         <template v-slot:items="props">
           <td>{{ props.item.key }}</td>
           <td>{{ props.item.summary }}</td>
+          <td>{{ props.item.description }}</td>
           <td>{{ props.item.similarity }}</td>
           <td>
             <i class="material-icons delete-icon" @click="deleteToreIssue(props.item)">delete</i>
@@ -108,8 +111,7 @@ export default {
       headers: [
         {text: "Issue Name", value: "key"},
         {text: "Summary", value: "summary"},
-        // {text: "Description", value: "description"},
-        // {text: "Issue Type", value: "issueType"},
+        {text: "Description", value: "description"},
         {text: "Similarity", value: "similarity"},
       ],
       pagination: {
@@ -163,9 +165,7 @@ export default {
         return item.summary.toLowerCase().indexOf(this.searchIssues.toLowerCase()) > -1
             || item.key.toLowerCase().indexOf(this.searchIssues.toLowerCase()) > -1
             || similarityString.toLowerCase().indexOf(this.searchIssues.toLowerCase()) > -1
-        // || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-        // || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-        // || item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       })
     },
     filterToreIssues() {
@@ -174,9 +174,7 @@ export default {
         return item.summary.toLowerCase().indexOf(this.searchToreIssues.toLowerCase()) > -1
             || item.key.toLowerCase().indexOf(this.searchToreIssues.toLowerCase()) > -1
             || similarityString.toLowerCase().indexOf(this.searchToreIssues.toLowerCase()) > -1
-        // || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-        // || item.issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
-        // || item.projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || item.description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       })
     },
   },
@@ -235,6 +233,9 @@ export default {
 </script>
 
 <style scoped>
+span{
+  font-weight: normal;
+}
 .service-button {
   position: absolute;
   top: 10px;

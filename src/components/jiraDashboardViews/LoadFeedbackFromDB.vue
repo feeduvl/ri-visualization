@@ -49,8 +49,17 @@ export default {
       this.$store.dispatch("actionGetFeedbackNames")
     },
     fetchAnnotationFileNames(){
-      this.$store.dispatch("actionGetAnnotationNames")
+      if(this.selectedFeedbackFileName){
+        this.$store.dispatch("actionGetAnnotationNames", this.selectedFeedbackFileName)
+      }else{
+        return []
+      }
     },
+  },
+  watch: {
+    selectedFeedbackFileName() {
+      this.fetchAnnotationFileNames();
+    }
   },
   mounted() {
     this.fetchFeedbackFileNames();

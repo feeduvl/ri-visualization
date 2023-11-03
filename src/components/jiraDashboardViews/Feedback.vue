@@ -3,6 +3,9 @@
     <v-dialog v-model="isLoadingData">
       <LoadingView/>
     </v-dialog>
+    <div>
+      <button @click="getAssignedDataToExport">Export CSV</button>
+    </div>
     <v-card class="table-header">
       <v-card-title>
         <h2>Feedback</h2>
@@ -67,6 +70,28 @@ export default {
     }
   },
   methods: {
+    exportToCSV() {
+      const csvHeader = ['feedback_id', 'feedback_text', 'issue_key', 'issue_summary', 'issue_description'];
+      const csvContent = [csvHeader];
+
+      for (const data of this.$store.state.dataToExport) {
+        const row = [
+          `"${data.feedback_id}"`,
+          `"${data.feedback_text}"`,
+          `"${data.issue_key}"`,
+          `"${data.issue_summary}"`,
+          `"${data.issue_description}"`
+        ];
+        csvContent.push(row);
+      }
+      const csvBlob = new Blob([csvContent.map(row => row.join(',')).join('\n')], { type: 'text/csv' });
+      const url = URL.createObjectURL(csvBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'exported_data.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    },
     limitDescriptionText(text, limit) {
       if (text.length > limit) {
         return text.substring(0, limit);
@@ -92,6 +117,10 @@ export default {
     },
   },
   computed: {
+    async getAssignedDataToExport() {
+      await this.$store.dispatch("actionGetAssignedDataToExport")
+      this.exportToCSV()
+    },
     isLoadingData(){
       return this.$store.state.isLoadingData
     },

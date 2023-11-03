@@ -1222,11 +1222,11 @@ export const actionGetFeedbackNames = ({commit}) => {
     });
 };
 
-export const actionGetAnnotationNames = ({commit}) => {
+export const actionGetAnnotationNames = ({commit}, selectedFeedbackFileName) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
         console.log("get all unassigned Issues")
-        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_annotations_names`)
+        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_annotations_names/${selectedFeedbackFileName}`)
             .then(response => {
                 const {data} = response;
                 commit("setAnnotationFileNames", data);
@@ -1285,23 +1285,6 @@ export const actionGetAssignedFeedback = ({ commit }, {issueKey, page, size}) =>
     });
 };
 
-// export const actionGetAssignedFeedback = ({commit}, issueKey) => {
-//     return new Promise(() => {
-//         commit("setIsLoadingData", true);
-//         console.log("get assigned feedback")
-//         axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_assigned_feedback/${issueKey}`)
-//             .then(response => {
-//                 const {data} = response;
-//                 commit("setAssignedFeedback", data);
-//                 commit("setIsLoadingData", false);
-//                 return response;
-//             })
-//             .catch(e => console.error("Error: "+e))
-//             .finally(() => {
-//             });
-//     });
-// };
-
 export const actionGetToreAssignedFeedback = ({commit}, {issueKey, page, size}) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
@@ -1331,6 +1314,25 @@ export const actionDeleteFeedback = ({commit}, feedbackId) => {
         axios.delete(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/delete_feedback/${feedbackId}`)
             .then(response => {
                 console.log("deleted feedback");
+                commit("setIsLoadingData", false);
+                resolve(response);
+            })
+            .catch(e => {
+                console.error("Error:", e);
+                reject(e);
+            });
+    });
+};
+
+export const actionGetAssignedDataToExport = ({commit}) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        console.log("get assigned data");
+        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/get_data_to_export`)
+            .then(response => {
+                const {data} = response
+                console.log(data)
+                commit("setDataToExport", data);
                 commit("setIsLoadingData", false);
                 resolve(response);
             })
