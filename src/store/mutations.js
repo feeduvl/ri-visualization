@@ -475,6 +475,10 @@ export const setAnnotatorInputCodeNames = state => {
 export const setDataToExport = (state, value) => {
   state.dataToExport = value || [];
 };
+
+export const setToreDataToExport = (state, value) => {
+  state.toreDataToExport = value || [];
+};
 export const setAvailableJiraProjects = (state, projects) => {
   state.availableJiraProjects = projects || [];
 };

@@ -4,7 +4,10 @@
       <LoadingView/>
     </v-dialog>
     <div>
-      <button @click="getAssignedDataToExport">Export CSV</button>
+      <button @click="getAssignedDataToExport">Export assigned Data to CSV</button>
+    </div>
+    <div>
+      <button @click="getToreAssignedDataToExport">Export TORE assigned Data To CSV</button>
     </div>
     <v-card class="table-header">
       <v-card-title>
@@ -70,11 +73,33 @@ export default {
     }
   },
   methods: {
-    exportToCSV() {
+    exportAssignedDataToCSV() {
       const csvHeader = ['feedback_id', 'feedback_text', 'issue_key', 'issue_summary', 'issue_description'];
       const csvContent = [csvHeader];
 
       for (const data of this.$store.state.dataToExport) {
+        const row = [
+          `"${data.feedback_id}"`,
+          `"${data.feedback_text}"`,
+          `"${data.issue_key}"`,
+          `"${data.issue_summary}"`,
+          `"${data.issue_description}"`
+        ];
+        csvContent.push(row);
+      }
+      const csvBlob = new Blob([csvContent.map(row => row.join(',')).join('\n')], { type: 'text/csv' });
+      const url = URL.createObjectURL(csvBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'exported_data.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    },
+    exportAssignedToreDataToCSV() {
+      const csvHeader = ['feedback_id', 'feedback_text', 'issue_key', 'issue_summary', 'issue_description'];
+      const csvContent = [csvHeader];
+
+      for (const data of this.$store.state.toreDataToExport) {
         const row = [
           `"${data.feedback_id}"`,
           `"${data.feedback_text}"`,
@@ -117,7 +142,11 @@ export default {
     },
     async getAssignedDataToExport() {
       await this.$store.dispatch("actionGetAssignedDataToExport")
-      this.exportToCSV()
+      this.exportAssignedDataToCSV()
+    },
+    async getToreAssignedDataToExport() {
+      await this.$store.dispatch("actionGetToreAssignedDataToExport")
+      this.exportAssignedToreDataToCSV()
     },
   },
   computed: {

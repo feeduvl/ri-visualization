@@ -1343,6 +1343,25 @@ export const actionGetAssignedDataToExport = ({commit}) => {
     });
 };
 
+export const actionGetToreAssignedDataToExport = ({commit}) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        console.log("get assigned data");
+        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/get_data_tore_to_export`)
+            .then(response => {
+                const {data} = response
+                console.log(data)
+                commit("setToreDataToExport", data);
+                commit("setIsLoadingData", false);
+                resolve(response);
+            })
+            .catch(e => {
+                console.error("Error:", e);
+                reject(e);
+            });
+    });
+};
+
 export const actionDeleteAllFeedback = ({commit}) => {
     return new Promise((resolve, reject) => {
         commit("setIsLoadingData", true);
