@@ -925,7 +925,7 @@ export const actionDeleteAllIssues = ({commit}) => {
     return new Promise((resolve, reject) => {
         commit("setIsLoadingData", true);
         console.log("delete all issues")
-        axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES + `/remove_all_issues`)
+        axios.delete(JIRA_DASHBOARD_BASE_URL_ISSUES + `/remove_all_issues`)
             .then(response => {
                 commit("setIsLoadingData", false);
                 resolve(response);
