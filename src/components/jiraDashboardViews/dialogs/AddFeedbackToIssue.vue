@@ -2,34 +2,40 @@
   <v-dialog v-model="openDialog" max-width="800">
     <v-card>
       <v-card-title>
-        <h2>Add Feedback</h2>
+        <h3>Add Feedback</h3>
         <div class="search-in-table">
           <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
       </v-card-title>
       <v-card-text>
-        <v-data-table
-            v-model="selectedFeedback"
-            :headers="headerDialog"
-            :items="getFilteredFeedback"
-            item-key="id"
-            select-all
-            class="elevation-1"
-            :total-items="$store.state.totalUnassignedFeedbackItems"
-            rows-per-page-text="Issues per page"
-            :rows-per-page-items="pagination.rowsPerPageItems"
-            :pagination.sync="pagination"
-            @update:pagination.self="getUnassignedFeedback()"
-            :no-data-text="warning"
-        >
-          <template v-slot:items="props">
-            <td>
-              <v-checkbox v-model="props.selected" />
-            </td>
-            <td>{{ props.item.id }}</td>
-            <td>{{ props.item.text }}</td>
-          </template>
-        </v-data-table>
+        <div class="fixed-header">
+          <h3>Issue Summary: <span>{{ issue.summary }}</span></h3>
+          <h3>Issue Description: <span>{{ issue.description }}</span></h3>
+        </div>
+        <div class="scrollable-content">
+          <v-data-table
+              v-model="selectedFeedback"
+              :headers="headerDialog"
+              :items="getFilteredFeedback"
+              item-key="id"
+              select-all
+              class="elevation-1"
+              :total-items="$store.state.totalUnassignedFeedbackItems"
+              rows-per-page-text="Issues per page"
+              :rows-per-page-items="pagination.rowsPerPageItems"
+              :pagination.sync="pagination"
+              @update:pagination.self="getUnassignedFeedback()"
+              :no-data-text="warning"
+          >
+            <template v-slot:items="props">
+              <td>
+                <v-checkbox v-model="props.selected" />
+              </td>
+              <td>{{ props.item.id }}</td>
+              <td>{{ props.item.text }}</td>
+            </template>
+          </v-data-table>
+        </div>
       </v-card-text>
       <v-card-actions>
         <v-btn @click="addSelectedFeedback" dark color="blue" class="add-feedback">
@@ -122,5 +128,18 @@ export default {
 <style scoped>
 .add-feedback{
   margin-left: 50%
+}
+.fixed-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+.scrollable-content {
+  overflow-y: auto;
+  max-height: 400px;
+}
+span{
+  font-weight: normal;
 }
 </style>

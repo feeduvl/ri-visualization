@@ -8,29 +8,34 @@
         </div>
       </v-card-title>
       <v-card-text>
-        <v-data-table
-            v-model="selectedIssues"
-            :headers="headers"
-            :items="getIssues"
-            item-key="key"
-            select-all
-            class="elevation-1"
-            :total-items="$store.state.totalUnassignedIssueItems"
-            rows-per-page-text="Issues per page"
-            :rows-per-page-items="pagination.rowsPerPageItems"
-            :pagination.sync="pagination"
-            @update:pagination.self="getUnassignedIssues()"
-            :no-data-text="warning"
-        >
-          <template v-slot:items="props">
-            <td>
-              <v-checkbox v-model="props.selected" />
-            </td>
-            <td>{{ props.item.key }}</td>
-            <td>{{ props.item.summary }}</td>
-            <td>{{ props.item.description }}</td>
-          </template>
-        </v-data-table>
+        <div class="fixed-header">
+          <h3>Feedback Text: <span>{{feedback.text}}</span></h3>
+        </div>
+        <div class="scrollable-content">
+          <v-data-table
+              v-model="selectedIssues"
+              :headers="headers"
+              :items="getIssues"
+              item-key="key"
+              select-all
+              class="elevation-1"
+              :total-items="$store.state.totalUnassignedIssueItems"
+              rows-per-page-text="Issues per page"
+              :rows-per-page-items="pagination.rowsPerPageItems"
+              :pagination.sync="pagination"
+              @update:pagination.self="getUnassignedIssues()"
+              :no-data-text="warning"
+          >
+            <template v-slot:items="props">
+              <td>
+                <v-checkbox v-model="props.selected" />
+              </td>
+              <td>{{ props.item.key }}</td>
+              <td>{{ props.item.summary }}</td>
+              <td>{{ props.item.description }}</td>
+            </template>
+          </v-data-table>
+        </div>
       </v-card-text>
       <v-card-actions>
         <v-btn @click="addSelectedIssues" dark color="blue" class="add-issue">
@@ -127,5 +132,18 @@ export default {
 <style scoped>
 .add-issue {
   margin-left: 50%
+}
+.fixed-header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+.scrollable-content {
+  overflow-y: auto;
+  max-height: 400px;
+}
+span{
+  font-weight: normal;
 }
 </style>
