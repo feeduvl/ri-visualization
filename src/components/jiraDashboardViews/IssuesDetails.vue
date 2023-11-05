@@ -6,9 +6,11 @@
     <button class="back-button" @click="goBack">
       <i class="material-icons">arrow_back_ios</i>
     </button>
-    <h3>Issue Key: <span>{{ issue.key }}</span></h3>
-    <h3>Issue Summary: <span>{{ issue.summary }}</span></h3>
-    <h3>Issue Description: <span>{{ issue.description }}</span></h3>
+    <div class="description-issue-detail">
+      <h3>Issue Key: <span>{{ issue.key }}</span></h3>
+      <h3>Issue Summary: <span>{{ issue.summary }}</span></h3>
+      <h3>Issue Description: <span>{{ issue.description }}</span></h3>
+    </div>
     <v-card class="table-header">
       <v-card-title>
         <h3>Assigned Feedback</h3>
@@ -249,7 +251,7 @@ h2{
   cursor: pointer;
   outline: none;
   position: absolute;
-  top: 130px;
+  top: 120px;
   left: 120px;
 }
 .back-button:hover {
@@ -268,5 +270,8 @@ h2{
 }
 span{
   font-weight: normal;
+}
+.description-issue-detail{
+  text-align: center;
 }
 </style>

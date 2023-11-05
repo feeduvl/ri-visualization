@@ -6,8 +6,10 @@
     <button class="back-button" @click="goBack">
       <i class="material-icons">arrow_back_ios</i>
     </button>
-    <h3>Feedback: <span>{{feedback.id}}</span></h3>
-    <h3>Feedback Text: <span>{{feedback.text}}</span></h3>
+    <div class="description-feedback-detail">
+      <h3>Feedback: <span>{{feedback.id}}</span></h3>
+      <h3>Feedback Text: <span>{{feedback.text}}</span></h3>
+    </div>
     <v-card class="table-header">
       <v-card-title>
         <h3>Assigned Issues</h3>
@@ -233,6 +235,9 @@ export default {
 </script>
 
 <style scoped>
+.description-feedback-detail{
+  text-align: center;
+}
 span{
   font-weight: normal;
 }
@@ -265,7 +270,7 @@ h2{
   cursor: pointer;
   outline: none;
   position: absolute;
-  top: 130px;
+  top: 120px;
   left: 120px;
 }
 .back-button:hover {
