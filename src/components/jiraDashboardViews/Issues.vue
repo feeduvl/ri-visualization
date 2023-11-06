@@ -184,13 +184,19 @@ export default {
     },
     async assignFeedbackToIssues(){
       let selectedFeedback = this.$store.state.selectedFeedback
-      let maxSimilarity = this.maxSimilarity
+      let maxSimilarity = 0
+      if (this.maxSimilarity !== ""){
+        maxSimilarity = this.maxSimilarity
+      }
       await this.$store.dispatch("actionAssignIssuesToFeedback", {selectedFeedback, maxSimilarity})
       this.getAllIssues()
     },
     async assignFeedbackToIssueWithTore(){
       let selectedFeedback = this.$store.state.selectedFeedback
-      let maxSimilarity = this.maxSimilarity
+      let maxSimilarity = 0
+      if (this.maxSimilarity !== ""){
+        maxSimilarity = this.maxSimilarity
+      }
       await this.$store.dispatch("actionToreAssignIssuesToFeedback", {selectedFeedback, maxSimilarity})
       this.getAllIssues()
     },
@@ -322,7 +328,6 @@ p {
   width: 70px;
   border: 2px solid #ccc;
   padding: 5px;
-  display: flex;
-  flex-direction: column;
+  margin-left: 5px;
 }
 </style>
