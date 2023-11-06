@@ -17,14 +17,22 @@
         </v-dialog>
       </div>
 
-      <div>
-        <v-btn dark color="blue" @click="assignFeedbackToIssues()"> Assign Feedback to Issues
-        </v-btn>
-        <v-btn dark color="blue" @click="assignFeedbackToIssueWithTore()"> Assign Feedback to Issues with TORE classification
-        </v-btn>
+      <div class="container-similarity">
+        <div class="button-row">
+          <v-btn dark color="blue" :class="{'assign_tore_not_allowed': !feedbackAndProjectIsSelected}"
+                 @click="assignFeedbackToIssues()"> Assign Feedback to Issues
+          </v-btn>
+          <v-btn dark color="blue" :class="{'assign_tore_not_allowed': !annotationAndProjectIsSelected}"
+                 @click="assignFeedbackToIssueWithTore()"> Assign Feedback to Issues with TORE classification
+          </v-btn>
+        </div>
+        <div class="input-container">
+          <label for="maxSimilarity">Choose max similarity:</label>
+          <input id="maxSimilarity" class="chooseSimilarity" type="number" v-model="maxSimilarity" />
+        </div>
       </div>
 
-      <p v-if="!isProjectSelected" class="warning">{{ warning }}</p>
+      <!--      <p v-if="!isProjectSelected" class="warning">{{ warning }}</p>-->
     </div>
 
     <div class="main-issue-table">
@@ -124,9 +132,10 @@ export default {
       },
       search: "",
       selectedProjects: [],
-      warning: "Select or import a project",
+      warning: "Select/import a project or feedback",
       isProjectSelected: true,
       importDialog: false,
+      maxSimilarity: 0
     }
   },
   components:{
@@ -174,22 +183,16 @@ export default {
       }
     },
     async assignFeedbackToIssues(){
-      if (this.$store.state.issues.length < 1){
-        this.isProjectSelected = false
-      }else{
-        this.isProjectSelected = true
-        await this.$store.dispatch("actionAssignIssuesToFeedback")
-        this.getAllIssues()
-      }
+      let selectedFeedback = this.$store.state.selectedFeedback
+      let maxSimilarity = this.maxSimilarity
+      await this.$store.dispatch("actionAssignIssuesToFeedback", {selectedFeedback, maxSimilarity})
+      this.getAllIssues()
     },
     async assignFeedbackToIssueWithTore(){
-      if (this.$store.state.issues.length < 1){
-        this.isProjectSelected = false
-      }else {
-        this.isProjectSelected = true
-        await this.$store.dispatch("actionToreAssignIssuesToFeedback")
-        this.getAllIssues()
-      }
+      let selectedFeedback = this.$store.state.selectedFeedback
+      let maxSimilarity = this.maxSimilarity
+      await this.$store.dispatch("actionToreAssignIssuesToFeedback", {selectedFeedback, maxSimilarity})
+      this.getAllIssues()
     },
     showDetails(item) {
       this.$router.push({ name: 'assigned_feedback', params: { item: item } });
@@ -215,6 +218,12 @@ export default {
     },
   },
   computed: {
+    annotationAndProjectIsSelected() {
+      return this.$store.state.selectedAnnotation !== "" && this.$store.state.issues.length > 0;
+    },
+    feedbackAndProjectIsSelected() {
+      return this.$store.state.selectedFeedback !== "" && this.$store.state.issues.length > 0;
+    },
     isLoadingData(){
       return this.$store.state.isLoadingData
     },
@@ -303,5 +312,17 @@ p {
 .import-dialog {
   background-color: white;
   height: 300px;
+}
+.assign_tore_not_allowed {
+  background-color: #ccc !important;
+  pointer-events: none !important;
+  color: #777 !important;
+}
+.chooseSimilarity{
+  width: 70px;
+  border: 2px solid #ccc;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
 }
 </style>

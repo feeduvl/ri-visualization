@@ -91,7 +91,7 @@ export default {
       const url = URL.createObjectURL(csvBlob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'exported_data.csv';
+      a.download = 'assigned_feedback-issues.csv';
       a.click();
       URL.revokeObjectURL(url);
     },
@@ -113,7 +113,7 @@ export default {
       const url = URL.createObjectURL(csvBlob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'exported_data.csv';
+      a.download = 'tore_assigned_feedback-issues.csv';
       a.click();
       URL.revokeObjectURL(url);
     },
@@ -127,14 +127,18 @@ export default {
     getFeedback(){
       let page = this.pagination.page
       let size = this.pagination.rowsPerPage
-      this.$store.dispatch("actionGetFeedback", {page, size})
+      let selectedFeedbackFileName = this.selectedFeedbackFileName
+      this.$store.dispatch("actionGetFeedback", {page, size, selectedFeedbackFileName})
     },
     async deleteFeedback(item) {
-      await this.$store.dispatch("actionDeleteFeedback", item.id)
+      let feedbackId = item.id
+      let selectedFeedback = this.$store.state.selectedFeedback
+      await this.$store.dispatch("actionDeleteFeedback", {feedbackId, selectedFeedback})
       this.getFeedback()
     },
     async deleteAllFeedback() {
-      await this.$store.dispatch("actionDeleteAllFeedback")
+      let selectedFeedback = this.$store.state.selectedFeedback
+      await this.$store.dispatch("actionDeleteAllFeedback", selectedFeedback)
       this.getFeedback()
     },
     showDetails(item) {
@@ -150,6 +154,9 @@ export default {
     },
   },
   computed: {
+    selectedFeedbackFileName (){
+      return this.$store.state.selectedFeedback
+    },
     isLoadingData(){
       return this.$store.state.isLoadingData
     },

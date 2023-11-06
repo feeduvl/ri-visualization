@@ -115,10 +115,11 @@ export default {
       let page = this.pagination.page
       let size = this.pagination.rowsPerPage
       let issueKey = this.selectedIssue.key
+      let selectedFeedback = this.$store.state.selectedFeedback
       if (!this.listWithTore){
-        this.$store.dispatch("actionGetUnassignedFeedback", {issueKey, page, size})
+        this.$store.dispatch("actionGetUnassignedFeedback", {issueKey, page, size, selectedFeedback})
       }else{
-        this.$store.dispatch("actionGetToreUnassignedFeedback", {issueKey, page, size})
+        this.$store.dispatch("actionGetToreUnassignedFeedback", {issueKey, page, size, selectedFeedback})
       }
     },
   },

@@ -178,7 +178,8 @@ export const store = new Vuex.Store({
     totalUnassignedFeedbackItems: 0,
     dataToExport: [],
     toreDataToExport: [],
-    
+    selectedFeedback: "",
+    selectedAnnotation: "",
   },
   getters,
   mutations: {

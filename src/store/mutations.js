@@ -472,6 +472,12 @@ export const setAnnotatorInputCodeNames = state => {
 
 // Jira Dashboard
 
+export const setSelectedFeedback = (state, name) => {
+  state.selectedFeedback = name || "";
+};
+export const setSelectedAnnotation = (state, name) => {
+  state.selectedAnnotation = name || "";
+};
 export const setDataToExport = (state, value) => {
   state.dataToExport = value || [];
 };
