@@ -321,9 +321,6 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
-.warning{
-  color: red;
-}
 .filter-by-project, .search-in-table{
   margin-left: 30px;
 }

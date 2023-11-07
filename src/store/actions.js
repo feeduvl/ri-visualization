@@ -1327,11 +1327,11 @@ export const actionDeleteFeedback = ({commit}, {feedbackId, selectedFeedback}) =
     });
 };
 
-export const actionGetAssignedDataToExport = ({commit}) => {
+export const actionGetAssignedDataToExport = ({commit}, selectedFeedback) => {
     return new Promise((resolve, reject) => {
         commit("setIsLoadingData", true);
         console.log("get assigned data");
-        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/get_data_to_export`)
+        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/get_data_to_export/${selectedFeedback}`)
             .then(response => {
                 const {data} = response
                 console.log(data)
@@ -1345,11 +1345,12 @@ export const actionGetAssignedDataToExport = ({commit}) => {
             });
     });
 };
-export const actionGetToreAssignedDataToExport = ({commit}) => {
+
+export const actionGetToreAssignedDataToExport = ({commit}, selectedFeedback) => {
     return new Promise((resolve, reject) => {
         commit("setIsLoadingData", true);
         console.log("get assigned data");
-        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/get_data_tore_to_export`)
+        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/get_data_tore_to_export/${selectedFeedback}`)
             .then(response => {
                 const {data} = response
                 console.log(data)
