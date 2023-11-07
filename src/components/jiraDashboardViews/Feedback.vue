@@ -4,6 +4,23 @@
       <LoadingView/>
     </v-dialog>
     <div>
+      <v-dialog v-model="deleteAllFb" :max-width="300" class="delete-all-feedback">
+        <v-card>
+          <v-card-title>
+            <h3>Are you sure you want to delete all imported feedback?</h3>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="red" @click="deleteAllFeedback()">
+              Delete
+            </v-btn>
+            <v-btn dark color="black" @click="dontDeleteFeedback()">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <div>
       <button @click="getAssignedDataToExport">Export assigned Data to CSV</button>
     </div>
     <div>
@@ -15,7 +32,7 @@
         <div class="search-in-table">
           <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
-        <v-btn class="delete-button" @click="deleteAllFeedback()" small>
+        <v-btn class="delete-button" @click="dialogDeleteAllFeedback()" small>
           <i class="material-icons delete-icon">delete_sweep</i>
         </v-btn>
       </v-card-title>
@@ -70,9 +87,16 @@ export default {
       },
       search: "",
       warning: "Select Feedback Dataset",
+      deleteAllFb: false,
     }
   },
   methods: {
+    dialogDeleteAllFeedback() {
+      this.deleteAllFb = true
+    },
+    dontDeleteFeedback(){
+      this.deleteAllFb = false
+    },
     exportAssignedDataToCSV() {
       const csvHeader = ['feedback_id', 'feedback_text', 'issue_key', 'issue_summary', 'issue_description'];
       const csvContent = [csvHeader];
@@ -137,9 +161,15 @@ export default {
       this.getFeedback()
     },
     async deleteAllFeedback() {
-      let selectedFeedback = this.$store.state.selectedFeedback
+      let selectedFeedback
+      if (this.$store.state.selectedFeedback === ""){
+        selectedFeedback = "None"
+      }else{
+        selectedFeedback = this.$store.state.selectedFeedback
+      }
       await this.$store.dispatch("actionDeleteAllFeedback", selectedFeedback)
       this.getFeedback()
+      this.deleteAllFb = false
     },
     showDetails(item) {
       this.$router.push({ name: 'tore_feedback', params: { item: item } });
@@ -192,5 +222,8 @@ export default {
   position: absolute;
   top: 10px;
   right: 10px;
+}
+.delete-all-feedback{
+  text-align: center;
 }
 </style>

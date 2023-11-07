@@ -3,7 +3,23 @@
     <v-dialog v-model="isLoadingData">
       <LoadingView/>
     </v-dialog>
-
+    <div>
+      <v-dialog v-model="deleteAllIs" :max-width="300" class="delete-all-issues">
+        <v-card>
+          <v-card-title>
+            <h3>Are you sure you want to delete all imported issues?</h3>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="red" @click="deleteAllIssues()">
+              Delete
+            </v-btn>
+            <v-btn dark color="black" @click="dontDeleteIssues()">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
     <div>
       <div class="import-elements">
         <LoadFeedbackFromDB class="element1"></LoadFeedbackFromDB>
@@ -65,7 +81,7 @@
             <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
           </div>
           <div class="service-button">
-            <v-btn  @click="deleteAllIssues()" small>
+            <v-btn  @click="dialogDeleteAllIssues()" small>
               <i class="material-icons delete-icon">delete_sweep</i>
             </v-btn>
           </div>
@@ -135,7 +151,8 @@ export default {
       warning: "Select/import a project or feedback",
       isProjectSelected: true,
       importDialog: false,
-      maxSimilarity: 0
+      maxSimilarity: 0,
+      deleteAllIs: false,
     }
   },
   components:{
@@ -149,10 +166,17 @@ export default {
       this.getAllIssues()
       this.getProjectNames()
     },
+    dialogDeleteAllIssues(){
+      this.deleteAllIs = true
+    },
+    dontDeleteIssues(){
+      this.deleteAllIs = false
+    },
     async deleteAllIssues() {
       await this.$store.dispatch("actionDeleteAllIssues")
       this.getAllIssues()
       this.getProjectNames()
+      this.deleteAllIs = false
     },
     closeImportDialog(){
       this.importDialog = false
@@ -329,5 +353,8 @@ p {
   border: 2px solid #ccc;
   padding: 5px;
   margin-left: 5px;
+}
+.delete-all-issues{
+  text-align: center;
 }
 </style>

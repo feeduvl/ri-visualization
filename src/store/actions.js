@@ -1371,9 +1371,9 @@ export const actionDeleteAllFeedback = ({commit}, selectedFeedback) => {
         axios.delete(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/delete_all_feedback/${selectedFeedback}`)
             .then(response => {
                 console.log("deleted feedback");
-                commit("setIsLoadingData", false);
                 commit("setSelectedFeedback", "");
                 commit("setSelectedAnnotation", "");
+                commit("setIsLoadingData", false);
                 resolve(response);
             })
             .catch(e => {
