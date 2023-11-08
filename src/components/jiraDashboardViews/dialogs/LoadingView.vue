@@ -17,4 +17,7 @@
   text-align: center;
   height: 100px;
 }
+.text-center{
+  color: blue;
+}
 </style>
