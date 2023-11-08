@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <v-dialog v-model="isLoadingData">
+    <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
     <div>
@@ -21,10 +21,10 @@
       </v-dialog>
     </div>
     <div>
-      <button @click="getAssignedDataToExport">Export assigned Data to CSV</button>
-    </div>
-    <div>
-      <button @click="getToreAssignedDataToExport">Export TORE assigned Data To CSV</button>
+      <v-btn dark color="blue" @click="getAssignedDataToExport()"> Export assigned Data to CSV
+      </v-btn>
+      <v-btn dark color="blue" @click="getToreAssignedDataToExport()"> Export TORE assigned Data To CSV
+      </v-btn>
     </div>
     <v-card class="table-header">
       <v-card-title>
@@ -98,22 +98,43 @@ export default {
       this.deleteAllFb = false
     },
     exportAssignedDataToCSV() {
-      const separator = "#";
       const csvContent = [];
-      const headerRow = ['issue_key', 'issue_summary', 'issue_description', 'feedback'];
-      for (let i = 1; i <= this.$store.state.maxFeedbackCount; i++) {
-        headerRow.push(`feedback_id${i}`, `feedback_text${i}`);
+      const dataToExport = this.$store.state.dataToExport;
+
+      if (dataToExport.length === 0) {
+        return;
       }
-      csvContent.push(headerRow.join(separator));
-      for (const data of this.$store.state.dataToExport) {
-        const issueRow = [data.issue_key, data.issue_summary, data.issue_description];
-        for (const feedback of data.feedback_data) {
-          issueRow.push(feedback.feedback_id, feedback.feedback_text);
+      const issueKeys = [];
+      const issueSummaries = [];
+      const issueDescriptions = [];
+
+      for (const data of dataToExport) {
+        issueKeys.push(data.issue_key);
+        issueSummaries.push(data.issue_summary);
+        issueDescriptions.push(data.issue_description);
+      }
+      csvContent.push('issue_key#' + issueKeys.join('##'));
+      csvContent.push('issue_summary#' + issueSummaries.join('##'));
+      csvContent.push('issue_description#' + issueDescriptions.join('##'));
+
+      const maxFeedbackCount = Math.max(...dataToExport.map(data => data.feedback_data.length));
+
+      for (let i = 0; i < maxFeedbackCount; i++) {
+        const feedbackIdRow = [];
+        const feedbackTextRow = [];
+
+        for (const data of dataToExport) {
+          if (i < data.feedback_data.length) {
+            const feedback = data.feedback_data[i];
+            feedbackIdRow.push(feedback.feedback_id);
+            feedbackTextRow.push(feedback.feedback_text);
+          } else {
+            feedbackIdRow.push('');
+            feedbackTextRow.push('');
+          }
         }
-        while (issueRow.length < headerRow.length) {
-          issueRow.push('');
-        }
-        csvContent.push(issueRow.join(separator));
+        csvContent.push('feedback_id' + (i + 1) + '#' + feedbackIdRow.join('##'));
+        csvContent.push('feedback_text' + (i + 1) + '#' + feedbackTextRow.join('##'));
       }
       const csvBlob = new Blob([csvContent.join('\n')], { type: 'text/csv' });
       const url = URL.createObjectURL(csvBlob);
@@ -124,22 +145,43 @@ export default {
       URL.revokeObjectURL(url);
     },
     exportAssignedToreDataToCSV() {
-      const separator = "#";
       const csvContent = [];
-      const headerRow = ['issue_key', 'issue_summary', 'issue_description', 'feedback'];
-      for (let i = 1; i <= this.$store.state.maxFeedbackCount; i++) {
-        headerRow.push(`feedback_id${i}`, `feedback_text${i}`);
+      const dataToExport = this.$store.state.toreDataToExport;
+
+      if (dataToExport.length === 0) {
+        return;
       }
-      csvContent.push(headerRow.join(separator));
-      for (const data of this.$store.state.toreDataToExport) {
-        const issueRow = [data.issue_key, data.issue_summary, data.issue_description];
-        for (const feedback of data.feedback_data) {
-          issueRow.push(feedback.feedback_id, feedback.feedback_text);
+      const issueKeys = [];
+      const issueSummaries = [];
+      const issueDescriptions = [];
+
+      for (const data of dataToExport) {
+        issueKeys.push(data.issue_key);
+        issueSummaries.push(data.issue_summary);
+        issueDescriptions.push(data.issue_description);
+      }
+      csvContent.push('issue_key#' + issueKeys.join('##'));
+      csvContent.push('issue_summary#' + issueSummaries.join('##'));
+      csvContent.push('issue_description#' + issueDescriptions.join('##'));
+
+      const maxFeedbackCount = Math.max(...dataToExport.map(data => data.feedback_data.length));
+
+      for (let i = 0; i < maxFeedbackCount; i++) {
+        const feedbackIdRow = [];
+        const feedbackTextRow = [];
+
+        for (const data of dataToExport) {
+          if (i < data.feedback_data.length) {
+            const feedback = data.feedback_data[i];
+            feedbackIdRow.push(feedback.feedback_id);
+            feedbackTextRow.push(feedback.feedback_text);
+          } else {
+            feedbackIdRow.push('');
+            feedbackTextRow.push('');
+          }
         }
-        while (issueRow.length < headerRow.length) {
-          issueRow.push('');
-        }
-        csvContent.push(issueRow.join(separator));
+        csvContent.push('feedback_id' + (i + 1) + '#' + feedbackIdRow.join('##'));
+        csvContent.push('feedback_text' + (i + 1) + '#' + feedbackTextRow.join('##'));
       }
       const csvBlob = new Blob([csvContent.join('\n')], { type: 'text/csv' });
       const url = URL.createObjectURL(csvBlob);

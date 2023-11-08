@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <v-dialog v-model="isLoadingData">
+    <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
     <div>
