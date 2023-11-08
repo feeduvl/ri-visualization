@@ -15,5 +15,6 @@
 <style scoped>
 .overlay{
   text-align: center;
+  height: 100px;
 }
 </style>
