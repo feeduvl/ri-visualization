@@ -543,6 +543,9 @@ export default {
 </script>
 
 <style>
+.select-saved-data {
+  width: 50%;
+}
 .service-button {
   position: absolute;
   top: 10px;
@@ -551,15 +554,18 @@ export default {
 .import-dialog{
   background-color: white;
 }
-.import-elements {
+.import-buttons {
   display: flex;
   justify-content: space-between;
+}
+.export-buttons, .save-buttons{
+  border-bottom: 1px solid #ccc;
 }
 .element1 {
   flex: 0.7;
 }
 .element2 {
-  flex: 0.1;
+  flex: 0.2;
 }
 .select-projects{
   display: flex;
@@ -596,7 +602,7 @@ p {
   padding: 5px;
   margin-left: 5px;
 }
-.delete-all-issues{
+.delete-all-issues, .restore-data{
   text-align: center;
 }
 </style>
