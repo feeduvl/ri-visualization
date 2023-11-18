@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="start" v-else-if="access">
+    <div id="start" >
       <div class="center-container">
         <v-card class="banner">
           <v-tabs
@@ -17,10 +17,10 @@
       <router-view></router-view>
     </div>
   </div>
-
 </template>
 
 <script >
+
 export default {
   data() {
     return {
