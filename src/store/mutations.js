@@ -472,6 +472,20 @@ export const setAnnotatorInputCodeNames = state => {
 
 // Jira Dashboard
 
+export const setIssuesWithoutAssignment = (state, issues) => {
+  state.issuesWithoutAssignment = issues.unassigned_issues || [];
+  state.totalIssueItems = issues.totalItems || 0;
+};
+
+export const setSavedData = (state, names) => {
+  state.selectedData = names || [];
+};
+
+export const setFeedbackWithoutAssignment = (state, issues) => {
+  state.feedbackWithoutAssignment = issues.unassigned_feedback || [];
+  state.totalFeedbackItems = issues.totalItems || 0;
+};
+
 export const setSelectedFeedback = (state, name) => {
   state.selectedFeedback = name || "";
 };

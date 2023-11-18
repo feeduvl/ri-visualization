@@ -766,6 +766,122 @@ export const deleteCodesWithTore = ({commit,state}, toreToDelete) => {
 
 // jira Dashboard
 
+export const actionGetSelectedData = ({ commit }, selectedData) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        axios
+            .get(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/restore_data/${selectedData}`)
+            .then((response) => {
+                commit("setIsLoadingData", false);
+                resolve(response);
+            })
+            .catch((e) => {
+                console.error("Error:", e);
+                reject(e);
+            });
+    });
+};
+
+export const actionDeleteSavedData = ({ commit }, item) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        axios
+            .delete(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/delete_data/${item}`)
+            .then((response) => {
+                commit("setIsLoadingData", false);
+                resolve(response);
+            })
+            .catch((e) => {
+                console.error("Error:", e);
+                reject(e);
+            });
+    });
+};
+
+export const actionSaveData = ({ commit }, savedDataName) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        console.log("save data");
+
+        axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/save_data/${savedDataName}`)
+            .then(response => {
+                commit("setIsLoadingData", false);
+                resolve(response);
+            })
+            .catch(error => {
+                commit("setIsLoadingData", false);
+                console.error("Error:", error);
+
+                if (error.response && error.response.status === 400) {
+                    alert("Name already exists! Please choose a different name.");
+                }
+
+                reject(error);
+            });
+    });
+};
+
+export const actionGetIssuesWithoutAssignment = ({commit}, {page, size}) => {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        console.log("Fetch all Issues")
+        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_issues_without_assigned_elements`, {
+            params: {
+                page: page,
+                size: size
+            }
+        })
+            .then(response => {
+                const {data} = response;
+                commit("setIssuesWithoutAssignment", data);
+                commit("setIsLoadingData", false);
+                resolve(response);
+            })
+            .catch(e => {
+                console.error("Error:", e);
+                reject(e);
+            });
+    });
+};
+
+export const actionGetSavedDataNames = ({commit}) => {
+    return new Promise(() => {
+        commit("setIsLoadingData", true);
+        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/get_saved_data_names`)
+            .then(response => {
+                const {data} = response;
+                commit("setSavedData", data);
+                commit("setIsLoadingData", false);
+                return response;
+            })
+            .catch(e => console.error("Error: "+e))
+            .finally(() => {
+            });
+    });
+};
+
+export const actionGetFeedbackWithoutAssignment = ({commit}, {page, size, selectedFeedback}) => {
+    return new Promise(() => {
+        commit("setIsLoadingData", true);
+        console.log("Fetch all Issues")
+        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_feedback_without_assigned_elements/${selectedFeedback}`, {
+            params: {
+                page: page,
+                size: size
+            }
+        })
+            .then(response => {
+                const {data} = response;
+                commit("setFeedbackWithoutAssignment", data);
+                commit("setIsLoadingData", false);
+                return response;
+            })
+            .catch(e => console.error("Error: "+e))
+            .finally(() => {
+            });
+    });
+};
+
 export const actionGetAllJiraProjects = ({commit}) => {
     return new Promise(() => {
         axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES + `/get_all_jira_projects`)

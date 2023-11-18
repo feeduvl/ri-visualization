@@ -180,6 +180,9 @@ export const store = new Vuex.Store({
     toreDataToExport: [],
     selectedFeedback: "",
     selectedAnnotation: "",
+    issuesWithoutAssignment: [],
+    feedbackWithoutAssignment: [],
+    selectedData: [],
   },
   getters,
   mutations: {

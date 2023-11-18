@@ -20,21 +20,22 @@
         </v-card>
       </v-dialog>
     </div>
-    <div>
-      <v-btn dark color="blue" @click="getAssignedDataToExport()"> Export assigned Data to CSV
-      </v-btn>
-      <v-btn dark color="blue" @click="getToreAssignedDataToExport()"> Export TORE assigned Data To CSV
-      </v-btn>
-    </div>
+
     <v-card class="table-header">
       <v-card-title>
         <h2>Feedback</h2>
         <div class="search-in-table">
           <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
-        <v-btn class="delete-button" @click="dialogDeleteAllFeedback()" small>
-          <i class="material-icons delete-icon">delete_sweep</i>
-        </v-btn>
+        <div class="delete-button">
+          <v-btn  @click="dialogDeleteAllFeedback()" small>
+            <i class="material-icons delete-icon">delete_sweep</i>
+          </v-btn>
+          <v-switch v-model="showUnassigned" @change="getUnassignedFeedback">
+
+          </v-switch>
+        </div>
+
       </v-card-title>
       <v-data-table
           :headers="tableHeaders"
@@ -64,8 +65,6 @@
 
 <script>
 
-
-
 import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
 
 export default {
@@ -88,108 +87,31 @@ export default {
       search: "",
       warning: "Select Feedback Dataset",
       deleteAllFb: false,
+      showUnassigned: false,
     }
   },
   methods: {
+    getUnassignedFeedback(){
+      if(this.showUnassigned){
+        let selectedFeedback
+        if(this.$store.state.selectedFeedback === ""){
+          selectedFeedback = "None"
+        }else{
+          selectedFeedback = this.$store.state.selectedFeedback
+        }
+        let page = this.pagination.page
+        let size = this.pagination.rowsPerPage
+        this.$store.dispatch("actionGetFeedbackWithoutAssignment", {page, size, selectedFeedback})
+      }else{
+        this.getFeedback()
+      }
+
+    },
     dialogDeleteAllFeedback() {
       this.deleteAllFb = true
     },
     dontDeleteFeedback(){
       this.deleteAllFb = false
-    },
-    exportAssignedDataToCSV() {
-      const csvContent = [];
-      const dataToExport = this.$store.state.dataToExport;
-
-      if (dataToExport.length === 0) {
-        return;
-      }
-      const issueKeys = [];
-      const issueSummaries = [];
-      const issueDescriptions = [];
-
-      for (const data of dataToExport) {
-        issueKeys.push(data.issue_key);
-        issueSummaries.push(data.issue_summary);
-        issueDescriptions.push(data.issue_description);
-      }
-      csvContent.push('issue_key#' + issueKeys.join('##'));
-      csvContent.push('issue_summary#' + issueSummaries.join('##'));
-      csvContent.push('issue_description#' + issueDescriptions.join('##'));
-
-      const maxFeedbackCount = Math.max(...dataToExport.map(data => data.feedback_data.length));
-
-      for (let i = 0; i < maxFeedbackCount; i++) {
-        const feedbackIdRow = [];
-        const feedbackTextRow = [];
-
-        for (const data of dataToExport) {
-          if (i < data.feedback_data.length) {
-            const feedback = data.feedback_data[i];
-            feedbackIdRow.push(feedback.feedback_id);
-            feedbackTextRow.push(feedback.feedback_text);
-          } else {
-            feedbackIdRow.push('');
-            feedbackTextRow.push('');
-          }
-        }
-        csvContent.push('feedback_id' + (i + 1) + '#' + feedbackIdRow.join('##'));
-        csvContent.push('feedback_text' + (i + 1) + '#' + feedbackTextRow.join('##'));
-      }
-      const csvBlob = new Blob([csvContent.join('\n')], { type: 'text/csv' });
-      const url = URL.createObjectURL(csvBlob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'assigned_feedback-issues.csv';
-      a.click();
-      URL.revokeObjectURL(url);
-    },
-    exportAssignedToreDataToCSV() {
-      const csvContent = [];
-      const dataToExport = this.$store.state.toreDataToExport;
-
-      if (dataToExport.length === 0) {
-        return;
-      }
-      const issueKeys = [];
-      const issueSummaries = [];
-      const issueDescriptions = [];
-
-      for (const data of dataToExport) {
-        issueKeys.push(data.issue_key);
-        issueSummaries.push(data.issue_summary);
-        issueDescriptions.push(data.issue_description);
-      }
-      csvContent.push('issue_key#' + issueKeys.join('##'));
-      csvContent.push('issue_summary#' + issueSummaries.join('##'));
-      csvContent.push('issue_description#' + issueDescriptions.join('##'));
-
-      const maxFeedbackCount = Math.max(...dataToExport.map(data => data.feedback_data.length));
-
-      for (let i = 0; i < maxFeedbackCount; i++) {
-        const feedbackIdRow = [];
-        const feedbackTextRow = [];
-
-        for (const data of dataToExport) {
-          if (i < data.feedback_data.length) {
-            const feedback = data.feedback_data[i];
-            feedbackIdRow.push(feedback.feedback_id);
-            feedbackTextRow.push(feedback.feedback_text);
-          } else {
-            feedbackIdRow.push('');
-            feedbackTextRow.push('');
-          }
-        }
-        csvContent.push('feedback_id' + (i + 1) + '#' + feedbackIdRow.join('##'));
-        csvContent.push('feedback_text' + (i + 1) + '#' + feedbackTextRow.join('##'));
-      }
-      const csvBlob = new Blob([csvContent.join('\n')], { type: 'text/csv' });
-      const url = URL.createObjectURL(csvBlob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'tore_assigned_feedback-issues.csv';
-      a.click();
-      URL.revokeObjectURL(url);
     },
     limitDescriptionText(text, limit) {
       if (text.length > limit) {
@@ -224,26 +146,6 @@ export default {
     showDetails(item) {
       this.$router.push({ name: 'tore_feedback', params: { item: item } });
     },
-    async getAssignedDataToExport() {
-      let selectedFeedback
-      if(this.$store.state.selectedFeedback === ""){
-        selectedFeedback = "None"
-      }else{
-        selectedFeedback = this.$store.state.selectedFeedback
-      }
-      await this.$store.dispatch("actionGetAssignedDataToExport", selectedFeedback)
-      this.exportAssignedDataToCSV()
-    },
-    async getToreAssignedDataToExport() {
-      let selectedFeedback
-      if(this.$store.state.selectedFeedback === ""){
-        selectedFeedback = "None"
-      }else{
-        selectedFeedback = this.$store.state.selectedFeedback
-      }
-      await this.$store.dispatch("actionGetToreAssignedDataToExport", selectedFeedback)
-      this.exportAssignedToreDataToCSV()
-    },
   },
   computed: {
     selectedFeedbackFileName (){
@@ -256,7 +158,11 @@ export default {
       if (this.search !== "") {
         return this.filterFeedback
       } else {
-        return this.$store.state.feedback
+        if (this.showUnassigned){
+          return this.$store.state.feedbackWithoutAssignment
+        }else{
+          return this.$store.state.feedback
+        }
       }
     },
     filterFeedback() {
