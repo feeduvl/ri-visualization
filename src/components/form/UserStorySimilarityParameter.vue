@@ -38,11 +38,15 @@
           </v-flex>
           <v-flex xs1/>
           <v-flex xs3>
-            <v-checkbox v-model="without_us_skeleton" :label="`Remove the us template words`"></v-checkbox>
-          </v-flex>
-          <v-flex xs1/>
-          <v-flex xs3>
-            <v-checkbox v-model="only_us_action" :label="`Use only acion part of us`"></v-checkbox>
+            <v-select
+              v-model="selected_preprocessing_value"
+              :items="preprocessingValues"
+              item-text="displayName"
+              item-value="name"
+              label="Preprocessing Options"
+              persistent-hint
+              return-object
+            ></v-select>
           </v-flex>
           <v-flex xs1/>
           <v-flex xs3>
@@ -89,13 +93,25 @@
       focused_document_ids: "",
       threshold: 0.7,
       selected_technique: { name: "vsm" },
+      selected_preprocessing_value:  { name: "basic" },
       techniqueItems: [
         { displayName: "VSM + TF-IDF + Cosine", name: "vsm" },
         { displayName: "WordNet + WuP", name: "wordnet" },
-        { displayName: "Word2vec + Cosine", name: "word2vec" }
+        { displayName: "Word2vec + Cosine", name: "word2vec" },
+        { displayName: "ALBERT", name: "albert" },
+        { displayName: "BERT (large, cased)", name: "bert" },
+        { displayName: "BERT4RE", name: "bert4re" },
+        { displayName: "RoBERTa (large)", name: "roberta" },
+        { displayName: "STS-RoBERTa (V1)", name: "roberta-stsb-v1" },
+        { displayName: "STS-RoBERTa (V2)", name: "roberts-stsb-v2" },
+        { displayName: "USE (large)", name: "use" }
       ],
-      without_us_skeleton: false,
-      only_us_action: false,
+      preprocessingValues:[
+        { displayName: "Default", name: "default" }, 
+        { displayName: "No Preprocessing (only for DL Models)", name: "no_preprocessing" }, 
+        { displayName: "Only US Action", name: "only_us_action" },
+        { displayName: "No US Skeleton", name: "no_us_skeleton" }
+      ],
       run_name: "",
       formValid: true,
       thresholdRules: [
@@ -144,8 +160,9 @@
           focused_document_ids: this.focused_document_ids,
           threshold: this.threshold,
           selected_technique: this.selected_technique.name,
-          without_us_skeleton: this.without_us_skeleton,
-          only_us_action: this.only_us_action,
+          without_us_skeleton: this.selected_preprocessing_value.name == "no_us_skeleton",
+          only_us_action: this.selected_preprocessing_value.name == "only_us_action",
+          no_preprocessing: this.selected_preprocessing_value.name == "no_preprocessing",
           name: this.run_name,
         };
         return JSON.stringify(params);
@@ -157,8 +174,7 @@
         this.focused_document_ids = "";
         this.threshold = 0.7;
         this.selected_technique = { displayName: "VSM + TF-IDF + Cosine", name: "vsm" };
-        this.without_us_skeleton = false;
-        this.only_us_action = false;
+        this.selected_preprocessing_value = { displayName: "Default", name: "default" }
         this.run_name = "";
       },
     },
