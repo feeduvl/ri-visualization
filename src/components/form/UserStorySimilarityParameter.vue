@@ -103,7 +103,7 @@
         { displayName: "BERT4RE", name: "bert4re" },
         { displayName: "RoBERTa (large)", name: "roberta" },
         { displayName: "STS-RoBERTa (V1)", name: "roberta-stsb-v1" },
-        { displayName: "STS-RoBERTa (V2)", name: "roberts-stsb-v2" },
+        { displayName: "STS-RoBERTa (V2)", name: "roberta-stsb-v2" },
         { displayName: "USE (large)", name: "use" }
       ],
       preprocessingValues:[
