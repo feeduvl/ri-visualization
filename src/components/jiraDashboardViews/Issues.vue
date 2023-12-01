@@ -556,7 +556,9 @@ export default {
   border-right: 1px solid #ccc;
   padding-right: 80px;
 }
-
+.input-container{
+  margin-left: 10px;
+}
 .export-buttons {
   float: left;
   margin-left: 20px;
