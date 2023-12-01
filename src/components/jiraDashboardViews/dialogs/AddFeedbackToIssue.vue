@@ -57,8 +57,8 @@ export default {
       selectedFeedback: [],
       search: "",
       headerDialog: [
-        {text: "Id", value: "id"},
-        {text: "Text", value: "text"},
+        {text: "Id", value: "id", sortable: false},
+        {text: "Text", value: "text", sortable: false},
       ],
       pagination: {
         sortBy: "id",

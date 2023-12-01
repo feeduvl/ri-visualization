@@ -31,12 +31,16 @@
           <v-btn  @click="dialogDeleteAllFeedback()" small>
             <i class="material-icons delete-icon">delete_sweep</i>
           </v-btn>
-          <v-switch v-model="showUnassigned" @change="getUnassignedFeedback">
-
-          </v-switch>
         </div>
-
       </v-card-title>
+      <div class="switch-container">
+        <div class="label-container">
+          <label for="showUnassigned" class="label-text">Show reviews without assigned issues:</label>
+        </div>
+        <div class="switch-content">
+          <v-switch id="showUnassigned" v-model="showUnassigned" @change="getUnassignedFeedback"></v-switch>
+        </div>
+      </div>
       <v-data-table
           :headers="tableHeaders"
           :items="getFeedbackForFilter"
@@ -74,8 +78,8 @@ export default {
   data() {
     return {
       tableHeaders: [
-        {text: "Text", value: "text"},
-        {text: "ID", value: "id"}
+        {text: "Text", value: "text", sortable: false},
+        {text: "ID", value: "id", sortable: false}
       ],
       pagination: {
         sortBy: "id",
@@ -179,6 +183,21 @@ export default {
 </script>
 
 <style scoped>
+.switch-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-left: 15px;
+}
+.label-container {
+  margin-right: 16px;
+}
+.label-text {
+  margin-bottom: 0;
+}
+.switch-content {
+  margin-top: 8px;
+}
 .table-header{
   margin-top: 20px;
 }

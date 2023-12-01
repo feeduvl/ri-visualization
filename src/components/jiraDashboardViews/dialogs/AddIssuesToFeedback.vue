@@ -55,9 +55,9 @@ export default {
   data() {
     return {
       headers: [
-        {text: "Issue Name", value: "key"},
-        {text: "Summary", value: "summary"},
-        {text: "Description", value: "description"},
+        {text: "Issue Name", value: "key", sortable: false},
+        {text: "Summary", value: "summary", sortable: false},
+        {text: "Description", value: "description", sortable: false},
       ],
       pagination: {
         sortBy: "key",
