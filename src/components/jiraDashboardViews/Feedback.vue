@@ -35,7 +35,7 @@
       </v-card-title>
       <div class="switch-container">
         <div class="label-container">
-          <label for="showUnassigned" class="label-text">Show reviews without assigned issues:</label>
+          <label for="showUnassigned" class="label-text">Show feedback without assigned requirements:</label>
         </div>
         <div class="switch-content">
           <v-switch id="showUnassigned" v-model="showUnassigned" @change="getUnassignedFeedback"></v-switch>

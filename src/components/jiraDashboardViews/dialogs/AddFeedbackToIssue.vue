@@ -9,8 +9,8 @@
       </v-card-title>
       <v-card-text>
         <div class="fixed-header">
-          <h3>Issue Summary: <span>{{ issue.summary }}</span></h3>
-          <h3>Issue Description: <span>{{ issue.description }}</span></h3>
+          <h3>Requirement Summary: <span>{{ issue.summary }}</span></h3>
+          <h3>Requirement Description: <span>{{ issue.description }}</span></h3>
         </div>
         <div class="scrollable-content">
           <v-data-table
@@ -21,7 +21,7 @@
               select-all
               class="elevation-1"
               :total-items="$store.state.totalUnassignedFeedbackItems"
-              rows-per-page-text="Issues per page"
+              rows-per-page-text="Feedback per page"
               :rows-per-page-items="pagination.rowsPerPageItems"
               :pagination.sync="pagination"
               @update:pagination.self="getUnassignedFeedback()"
@@ -67,7 +67,7 @@ export default {
         rowsPerPage: 10,
         rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}]
       },
-      warning: "No Feedback assigned",
+      warning: "No Feedback available",
     }
   },
   watch: {

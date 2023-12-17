@@ -7,9 +7,9 @@
       <i class="material-icons">arrow_back_ios</i>
     </button>
     <div class="description-issue-detail">
-      <h3>Issue Key: <span>{{ issue.key }}</span></h3>
-      <h3>Issue Summary: <span>{{ issue.summary }}</span></h3>
-      <h3>Issue Description: <span>{{ issue.description }}</span></h3>
+      <h3>Requirement Key: <span>{{ issue.key }}</span></h3>
+      <h3>Requirement Summary: <span>{{ issue.summary }}</span></h3>
+      <h3>Requirement Description: <span>{{ issue.description }}</span></h3>
     </div>
     <v-card class="table-header">
       <v-card-title>
@@ -107,7 +107,7 @@ export default {
       header: [
         { text: "Id", value: "id", sortable: false },
         { text: "Text", value: "text", sortable: false },
-        { text: "Similarity", value: "similarity", sortable: true },
+        { text: "Similarity", value: "similarity", sortable: false },
       ],
       pagination: {
         sortBy: "id",

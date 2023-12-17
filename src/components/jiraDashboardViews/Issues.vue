@@ -60,11 +60,10 @@
         <div class="import-elements">
           <div class="import-buttons">
             <LoadFeedbackFromDB class="element1"></LoadFeedbackFromDB>
-            <v-btn dark :style="{ backgroundColor: blueDark }" class="element2" @click="openImportDialog()"> Import Issues
+            <v-btn dark :style="{ backgroundColor: blueDark }" class="element2" @click="openImportDialog()"> Import Requirements
             </v-btn>
             <v-dialog class="custom-dialog" v-model="importDialog">
               <ImportJiraProject class="import-dialog" @toggleImport="toggleImport" :importDialog="importDialog"/>
-              <v-btn dark color="black" @click="closeImportDialog()">CLOSE</v-btn>
             </v-dialog>
           </div>
         </div>
@@ -97,15 +96,14 @@
         </div>
       </v-card-title>
       <v-alert v-if="warningMessage" type="error">{{ warningMessage }}</v-alert>
-
       <v-card-title>
         <div class="container-similarity">
           <div class="button-row">
             <v-btn :style="{ backgroundColor: blueLight }" :class="{'assign_tore_not_allowed': !feedbackAndProjectIsSelected}"
-                   @click="assignFeedbackToIssues()"> Assign Feedback to Issues
+                   @click="assignFeedbackToIssues()"> Assign Feedback to Requirements
             </v-btn>
             <v-btn :style="{ backgroundColor: blueLight }" :class="{'assign_tore_not_allowed': !annotationAndProjectIsSelected}"
-                   @click="assignFeedbackToIssueWithTore()"> Assign Feedback to Issues with TORE classification
+                   @click="assignFeedbackToIssueWithTore()"> Assign Feedback to Requirements with TORE classification
             </v-btn>
           </div>
           <div class="input-container">
@@ -119,7 +117,7 @@
     <div class="main-issue-table">
       <v-card class="v-card">
         <v-card-title>
-          <h2>Jira Issues</h2>
+          <h2>Jira Requirements</h2>
           <div class="filter-by-project">
             <v-select
                 v-model="selectedProjects"
@@ -153,7 +151,7 @@
 
           <div class="switch-container">
             <div class="label-container">
-              <label for="showUnassigned" class="label-text">Show issues without assigned reviews:</label>
+              <label for="showUnassigned" class="label-text">Show requirements without assigned feedback:</label>
             </div>
             <div class="switch-content">
               <v-switch id="showUnassigned" v-model="showUnassigned" @change="getUnassignedIssues"></v-switch>
@@ -165,7 +163,7 @@
                       item-key="key"
                       class="elevation-1"
                       :total-items="$store.state.totalIssueItems"
-                      rows-per-page-text="Issues per page"
+                      rows-per-page-text="Requirements per page"
                       :rows-per-page-items="pagination.rowsPerPageItems"
                       :pagination.sync="pagination"
                       @update:pagination.self="getAllIssues()"
@@ -206,10 +204,10 @@ export default {
       blueFill: BLUE_FILL,
       blueDark: BLUE_DARK,
       headers: [
-        {text: "Issue Name", value: "key", sortable: false},
+        {text: "Requirement Name", value: "key", sortable: false},
         {text: "Summary", value: "summary", sortable: false},
         {text: "Description", value: "description", sortable: false},
-        {text: "Issue Type", value: "issueType", sortable: false},
+        {text: "Requirement Type", value: "issueType", sortable: false},
         {text: "Project Name", value: "projectName", sortable: false},
       ],
       pagination: {
@@ -422,11 +420,6 @@ export default {
       this.getProjectNames()
       this.deleteAllIs = false
     },
-    closeImportDialog(){
-      this.importDialog = false
-      this.getProjectNames()
-      this.getAllIssues()
-    },
     openImportDialog(){
       this.importDialog = true
     },
@@ -595,6 +588,7 @@ export default {
 .import-buttons {
   display: flex;
   justify-content: space-between;
+  margin-left: 10px;
 }
 .import-elements, .export-elements{
   width: 100%;

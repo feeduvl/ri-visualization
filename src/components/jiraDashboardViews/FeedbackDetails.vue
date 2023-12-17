@@ -12,7 +12,7 @@
     </div>
     <v-card class="table-header">
       <v-card-title>
-        <h3>Assigned Issues</h3>
+        <h3>Assigned Requirements</h3>
         <div class="search-in-table">
           <v-text-field v-model="searchIssues" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
@@ -31,7 +31,7 @@
           item-key="key"
           class="elevation-1"
           :total-items="$store.state.totalAssignedIssueItems"
-          rows-per-page-text="Issues per page"
+          rows-per-page-text="Requirements per page"
           :rows-per-page-items="pagination.rowsPerPageItems"
           :pagination.sync="pagination"
           @update:pagination.self="getAssignedIssues()"
@@ -51,7 +51,7 @@
 
     <v-card>
       <v-card-title>
-        <h3>Assigned Issues with TORE classification</h3>
+        <h3>Assigned Requirements with TORE classification</h3>
         <div class="search-in-table">
           <v-text-field v-model="searchToreIssues" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
@@ -70,7 +70,7 @@
           item-key="key"
           class="elevation-1"
           :total-items="$store.state.totalToreAssignedIssueItems"
-          rows-per-page-text="Issues per page"
+          rows-per-page-text="Requirements per page"
           :rows-per-page-items="paginationTore.rowsPerPageItems"
           :pagination.sync="paginationTore"
           @update:pagination.self="getAssignedToreIssues()"
@@ -111,10 +111,10 @@ export default {
   data(){
     return{
       headers: [
-        {text: "Issue Name", value: "key", sortable: false},
+        {text: "Requirement Name", value: "key", sortable: false},
         {text: "Summary", value: "summary", sortable: false},
         {text: "Description", value: "description", sortable: false},
-        {text: "Similarity", value: "similarity", sortable: true},
+        {text: "Similarity", value: "similarity", sortable: false},
       ],
       pagination: {
         sortBy: "key",
@@ -130,7 +130,7 @@ export default {
         rowsPerPage: 10,
         rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}]
       },
-      warning: "No Issues assigned",
+      warning: "No requirements assigned",
       openIssuesDialog: false,
       listWithTore: false,
       feedback: this.item,

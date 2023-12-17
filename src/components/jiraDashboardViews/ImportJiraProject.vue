@@ -4,7 +4,7 @@
       <LoadingView/>
     </v-dialog>
     <p class="headline-select-jira-project">
-      Select already used projects or search for new:
+      Select Project to import:
     </p>
     <div>
       <v-select class="select-issueTypes" v-model="projectName" :items="allAvailableJiraIssues"
@@ -12,6 +12,7 @@
       ></v-select>
       <v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
       </v-btn>
+      <v-btn dark color="black" @click="toggleImport()">CLOSE</v-btn>
     </div>
     <p v-if="!isProjectSelected" class="warning">{{ warning }}</p>
 
@@ -23,7 +24,7 @@
               <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
             </v-card-title>
             <v-data-table v-model="selectedIssues" :headers="headers" :items="getIssuesToSelect" select-all
-                          item-key="key" class="elevation-1" rows-per-page-text="Issues per page"
+                          item-key="key" class="elevation-1" rows-per-page-text="Requirements per page"
             >
               <template v-slot:items="props">
                 <td>
@@ -43,7 +44,7 @@
         <div v-if="dialogIssueTypes">
           <v-card>
             <v-card-title>
-              choose the issue-types you want to show of project: {{ projectName }}
+              Choose the requirement types you want to show of project: {{ projectName }}
             </v-card-title>
             <v-data-table v-model="selectedIssuesTypes"
                           :headers="headersIssueTypes"
@@ -51,7 +52,7 @@
                           item-key="item"
                           select-all
                           class="elevation-1"
-                          rows-per-page-text="IssueTypes per page"
+                          rows-per-page-text="Requirement Types per page"
             >
               <template v-slot:items="props">
                 <td>
@@ -83,13 +84,13 @@ export default {
   data() {
     return {
       headersIssueTypes: [
-        {text: "Issue Type", value: "issueType"},
+        {text: "Requirement Type", value: "issueType"},
       ],
       headers: [
-        {text: "Issue Name", value: "key"},
+        {text: "Requirement Name", value: "key"},
         {text: "Summary", value: "summary"},
         {text: "Description", value: "description"},
-        {text: "Issue Type", value: "issueType"},
+        {text: "Requirement Type", value: "issueType"},
         {text: "Project Name", value: "projectName"},
       ],
       isProjectSelected: true,

@@ -6,7 +6,7 @@
           <v-tabs
           >
             <v-tab :class="{ 'tab': true, 'tab-left': activeTab === '/jira/issues' }">
-              <v-btn @click="navigateTo('/jira/issues')" >Issues</v-btn>
+              <v-btn @click="navigateTo('/jira/issues')" >Requirements</v-btn>
             </v-tab>
             <v-tab :class="{ 'tab': true, 'tab-right': activeTab === '/jira/feedback' }">
               <v-btn @click="navigateTo('/jira/feedback')" >Feedback</v-btn>

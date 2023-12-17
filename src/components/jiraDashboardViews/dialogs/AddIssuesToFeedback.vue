@@ -2,7 +2,7 @@
   <v-dialog v-model="openDialog" max-width="800">
     <v-card>
       <v-card-title>
-        <h2>Add Issues</h2>
+        <h2>Add Requirements</h2>
         <div class="search-in-table">
           <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
@@ -20,7 +20,7 @@
               select-all
               class="elevation-1"
               :total-items="$store.state.totalUnassignedIssueItems"
-              rows-per-page-text="Issues per page"
+              rows-per-page-text="Requirements per page"
               :rows-per-page-items="pagination.rowsPerPageItems"
               :pagination.sync="pagination"
               @update:pagination.self="getUnassignedIssues()"
@@ -39,7 +39,7 @@
       </v-card-text>
       <v-card-actions>
         <v-btn @click="addSelectedIssues" dark color="blue" class="add-issue">
-          Add Selected Issues to list
+          Add Selected Requirements to list
         </v-btn>
         <v-btn @click="toggleIssues()" dark color="black">Close</v-btn>
       </v-card-actions>
@@ -55,7 +55,7 @@ export default {
   data() {
     return {
       headers: [
-        {text: "Issue Name", value: "key", sortable: false},
+        {text: "Requirement Name", value: "key", sortable: false},
         {text: "Summary", value: "summary", sortable: false},
         {text: "Description", value: "description", sortable: false},
       ],
@@ -66,7 +66,7 @@ export default {
         rowsPerPage: 10,
         rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}]
       },
-      warning: "No Issues assigned",
+      warning: "No requirements assigned",
       selectedFeedback: this.feedback,
       selectedIssues: [],
       totalItems: 0,
