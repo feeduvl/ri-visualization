@@ -342,12 +342,12 @@ h2{
 .back-button {
   border: none;
   border-radius: 10px;
-  padding: 10px 10px;
+  padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
   outline: none;
   position: absolute;
-  top: 120px;
+  top: 130px;
   left: 120px;
 }
 .back-button:hover {

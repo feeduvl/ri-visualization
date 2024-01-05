@@ -376,7 +376,7 @@ h2{
   cursor: pointer;
   outline: none;
   position: absolute;
-  top: 120px;
+  top: 130px;
   left: 120px;
 }
 .back-button:hover {
