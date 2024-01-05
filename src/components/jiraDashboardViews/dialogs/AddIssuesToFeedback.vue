@@ -41,7 +41,7 @@
         <v-btn @click="addSelectedIssues" dark color="blue" class="add-issue">
           Add Selected Requirements to list
         </v-btn>
-        <v-btn @click="toggleIssues()" dark color="black">Close</v-btn>
+        <v-btn @click="toggleIssues()" dark color="black">Cancel</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

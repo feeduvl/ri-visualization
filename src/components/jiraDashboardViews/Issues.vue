@@ -12,6 +12,7 @@
               outlined
               solo-inverted
           ></v-text-field>
+          <p v-if="warningMessage" style="color: red">{{warningMessage}}</p>
         </v-card-text>
         <v-card-actions>
           <v-btn @click="saveData" color="blue">Save</v-btn>
@@ -41,7 +42,7 @@
       <v-dialog v-model="deleteAllIs" :max-width="300" class="delete-all-issues">
         <v-card>
           <v-card-title>
-            <h3>Are you sure you want to delete all imported issues?</h3>
+            <h3>Are you sure you want to delete all imported requirements?</h3>
           </v-card-title>
           <v-card-actions>
             <v-btn color="red" @click="deleteAllIssues()">
@@ -54,7 +55,59 @@
         </v-card>
       </v-dialog>
     </div>
+    <div>
+      <v-dialog v-model="deleteOneRequirement" :max-width="300" class="delete-all-issues">
+        <v-card>
+          <v-card-title>
+            <h3>Are you sure you want to delete this requirement?</h3>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="red" @click="deleteIssue">
+              Delete
+            </v-btn>
+            <v-btn dark color="black" @click="dontDeleteIssues()">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
 
+    <div>
+      <v-dialog v-model="deleteAllRequirementsByProjectName" :max-width="300" class="delete-all-issues">
+        <v-card>
+          <v-card-title>
+            <h3>Are you sure you want to delete all requirement of this project?</h3>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="red" @click="deleteProject">
+              Delete
+            </v-btn>
+            <v-btn dark color="black" @click="dontDeleteIssues()">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+
+    <div>
+      <v-dialog v-model="deleteSavedRelations" :max-width="300" class="delete-all-issues">
+        <v-card>
+          <v-card-title>
+            <h3>Are you sure you want to delete this saved relations?</h3>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="red" @click="deleteSavedData">
+              Delete
+            </v-btn>
+            <v-btn dark color="black" @click="dontDeleteIssues()">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
     <v-card>
       <v-card-title>
         <div class="import-elements">
@@ -79,35 +132,34 @@
               <template v-slot:item="{ item }" >
                 <div>
                   {{ item }}
-                  <i class="material-icons delete-icon" @click.stop="deleteSavedData(item)">delete</i>
+                  <i class="material-icons delete-icon" @click.stop="openDeleteSavedData(item)">delete</i>
                 </div>
               </template>
             </v-select>
             <v-btn :style="{ backgroundColor: blueFill }" @click="openRestoreDataDialog()">Show Data</v-btn>
-            <v-btn :style="{ backgroundColor: blueFill }" @click="setNameToSave()"> Save all assignments
+            <v-btn :style="{ backgroundColor: blueFill }" @click="setNameToSave()"> Save all relations
             </v-btn>
             <p v-if="warningMessage1" style="color: red">{{warningMessage1}}</p>
           </div>
           <div class="export-buttons">
             <v-subheader>Exporting Data</v-subheader>
-            <v-btn :style="{ backgroundColor: blueFill }" :class="{'assign_tore_not_allowed': !feedbackAndProjectIsSelected}" @click="getAssignedDataToExport()"> Export assigned Data to CSV </v-btn>
-            <v-btn :style="{ backgroundColor: blueFill }" :class="{'assign_tore_not_allowed': !annotationAndProjectIsSelected}" @click="getToreAssignedDataToExport()"> Export TORE assigned Data To CSV </v-btn>
+            <v-btn :style="{ backgroundColor: blueFill }" :class="{'assign_tore_not_allowed': !feedbackAndProjectIsSelected}" @click="getAssignedDataToExport()"> Export relations Data to CSV </v-btn>
+            <v-btn :style="{ backgroundColor: blueFill }" :class="{'assign_tore_not_allowed': !annotationAndProjectIsSelected}" @click="getToreAssignedDataToExport()"> Export TORE relations Data To CSV </v-btn>
           </div>
         </div>
       </v-card-title>
-      <v-alert v-if="warningMessage" type="error">{{ warningMessage }}</v-alert>
       <v-card-title>
         <div class="container-similarity">
           <div class="button-row">
             <v-btn :style="{ backgroundColor: blueLight }" :class="{'assign_tore_not_allowed': !feedbackAndProjectIsSelected}"
-                   @click="assignFeedbackToIssues()"> Assign Feedback to Requirements
+                   @click="assignFeedbackToIssues()"> Relate Feedback to Requirements
             </v-btn>
             <v-btn :style="{ backgroundColor: blueLight }" :class="{'assign_tore_not_allowed': !annotationAndProjectIsSelected}"
-                   @click="assignFeedbackToIssueWithTore()"> Assign Feedback to Requirements with TORE classification
+                   @click="assignFeedbackToIssueWithTore()"> Relate Feedback to Requirements with TORE
             </v-btn>
           </div>
           <div class="input-container">
-            <label for="maxSimilarity">Choose max similarity:</label>
+            <label for="maxSimilarity">Threshold:</label>
             <input id="maxSimilarity" class="chooseSimilarity" type="number" v-model="maxSimilarity" />
           </div>
         </div>
@@ -135,7 +187,7 @@
                       @input="onSelect(!selectedProjects.includes(item))"
                   ></v-checkbox>
                   {{ item.projectName }}
-                  <i class="material-icons delete-icon" @click.stop="deleteProject(item)">delete</i>
+                  <i class="material-icons delete-icon" @click.stop="openDeleteProject(item)">delete</i>
                 </div>
               </template>
             </v-select>
@@ -176,7 +228,7 @@
               <td>{{ props.item.issueType }}</td>
               <td>{{ props.item.projectName }}</td>
               <td>
-                <i class="material-icons delete-icon"  @click.stop="deleteIssue(props.item)">delete</i>
+                <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
               </td>
             </tr>
           </template>
@@ -231,6 +283,12 @@ export default {
       warningMessage: "",
       warningMessage1: "",
       checkRestoreData: false,
+      deleteOneRequirement: false,
+      itemToDelete: [],
+      deleteAllRequirementsByProjectName: false,
+      projectToDelete: [],
+      deleteSavedRelations: false,
+      savedDataToDelete: [],
     }
   },
   components:{
@@ -386,9 +444,16 @@ export default {
       this.getProjectNames()
       this.checkRestoreData = false
     },
-    async deleteSavedData(item){
+    async deleteSavedData(){
+      let item = this.savedDataToDelete
       await this.$store.dispatch("actionDeleteSavedData", item);
       this.getSavedDataNames()
+      this.deleteSavedRelations = false
+      this.savedDataToDelete = []
+    },
+    openDeleteSavedData(item) {
+      this.deleteSavedRelations = true
+      this.savedDataToDelete = item
     },
     async saveData() {
       try {
@@ -397,7 +462,7 @@ export default {
         this.warningMessage = "";
         this.getSavedDataNames()
       } catch (error) {
-        this.warningMessage = "Error: " + error.message;
+        this.warningMessage = "Please enter a name";
       }
     },
     closeSaveDialog(){
@@ -413,6 +478,9 @@ export default {
     },
     dontDeleteIssues(){
       this.deleteAllIs = false
+      this.deleteOneRequirement = false
+      this.deleteAllRequirementsByProjectName = false
+      this.deleteSavedRelations = false
     },
     async deleteAllIssues() {
       await this.$store.dispatch("actionDeleteAllIssues")
@@ -423,22 +491,35 @@ export default {
     openImportDialog(){
       this.importDialog = true
     },
-    async deleteIssue(item){
+    openDeleteOneRequirementDialog(item) {
+      this.deleteOneRequirement = true
+      this.itemToDelete = item
+    },
+    async deleteIssue(){
       try {
-        const projectName = item.projectName
-        const issueKey = item.key
+        const projectName = this.itemToDelete.projectName
+        const issueKey = this.itemToDelete.key
         await this.$store.dispatch("actionDeleteIssue", {projectName, issueKey});
         this.getAllIssues();
         this.getProjectNames();
+        this.itemToDelete = []
+        this.deleteOneRequirement = false
       } catch (error) {
         console.error("Error:", error);
       }
     },
-    async deleteProject(item) {
+    openDeleteProject(item) {
+      this.deleteAllRequirementsByProjectName = true
+      this.projectToDelete = item
+    },
+    async deleteProject() {
+      let item = this.projectToDelete
       try {
         await this.$store.dispatch("actionDeleteProject", item.projectName);
         this.getAllIssues();
         this.getProjectNames();
+        this.deleteAllRequirementsByProjectName = false
+        this.projectToDelete = []
       } catch (error) {
         console.error("Error:", error);
       }

@@ -21,6 +21,24 @@
       </v-dialog>
     </div>
 
+    <div>
+      <v-dialog v-model="deleteOneFeedback" :max-width="300" class="delete-all-feedback">
+        <v-card>
+          <v-card-title>
+            <h3>Are you sure you want to delete this feedback?</h3>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="red" @click="deleteFeedback()">
+              Delete
+            </v-btn>
+            <v-btn dark color="black" @click="dontDeleteFeedback()">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+
     <v-card class="table-header">
       <v-card-title>
         <h2>Feedback</h2>
@@ -58,7 +76,7 @@
             <td>{{ props.item.text }}</td>
             <td>{{ limitDescriptionText(props.item.id, 10) }}</td>
             <td>
-              <i class="material-icons delete-icon" @click.stop="deleteFeedback(props.item)">delete</i>
+              <i class="material-icons delete-icon" @click.stop="openDeleteOneFeedbackDialog(props.item)">delete</i>
             </td>
           </tr>
         </template>
@@ -92,6 +110,8 @@ export default {
       warning: "Select Feedback Dataset",
       deleteAllFb: false,
       showUnassigned: false,
+      deleteOneFeedback: false,
+      feedbackToDelete: [],
     }
   },
   methods: {
@@ -116,6 +136,7 @@ export default {
     },
     dontDeleteFeedback(){
       this.deleteAllFb = false
+      this.deleteOneFeedback = false
     },
     limitDescriptionText(text, limit) {
       if (text.length > limit) {
@@ -130,11 +151,17 @@ export default {
       let selectedFeedbackFileName = this.selectedFeedbackFileName
       this.$store.dispatch("actionGetFeedback", {page, size, selectedFeedbackFileName})
     },
-    async deleteFeedback(item) {
-      let feedbackId = item.id
+    openDeleteOneFeedbackDialog(item) {
+      this.deleteOneFeedback = true
+      this.feedbackToDelete = item
+    },
+    async deleteFeedback() {
+      let feedbackId = this.feedbackToDelete.id
       let selectedFeedback = this.$store.state.selectedFeedback
       await this.$store.dispatch("actionDeleteFeedback", {feedbackId, selectedFeedback})
       this.getFeedback()
+      this.deleteOneFeedback = false
+      this.feedbackToDelete = []
     },
     async deleteAllFeedback() {
       let selectedFeedback

@@ -3,6 +3,74 @@
     <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
+    <div>
+      <v-dialog v-model="deleteOneRequirementDialog" :max-width="300" class="delete-all-feedback">
+        <v-card>
+          <v-card-title>
+            <h3>Are you sure you want to delete all imported feedback?</h3>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="red" @click="deleteIssue()">
+              Delete
+            </v-btn>
+            <v-btn dark color="black" @click="dontDelete()">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <div>
+      <v-dialog v-model="deleteOneTORERequirementDialog" :max-width="300" class="delete-all-feedback">
+        <v-card>
+          <v-card-title>
+            <h3>Are you sure you want to delete all imported feedback?</h3>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="red" @click="deleteToreIssue()">
+              Delete
+            </v-btn>
+            <v-btn dark color="black" @click="dontDelete()">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <div>
+      <v-dialog v-model="deleteAllRequirementsDialog" :max-width="300" class="delete-all-feedback">
+        <v-card>
+          <v-card-title>
+            <h3>Are you sure you want to delete all imported feedback?</h3>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="red" @click="deleteAssignedIssuesForFeedback()">
+              Delete
+            </v-btn>
+            <v-btn dark color="black" @click="dontDelete()">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <div>
+      <v-dialog v-model="deleteAllTORERequirementsDialog" :max-width="300" class="delete-all-feedback">
+        <v-card>
+          <v-card-title>
+            <h3>Are you sure you want to delete all imported feedback?</h3>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="red" @click="deleteToreAssignedIssuesForFeedback()">
+              Delete
+            </v-btn>
+            <v-btn dark color="black" @click="dontDelete()">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
     <button class="back-button" @click="goBack">
       <i class="material-icons">arrow_back_ios</i>
     </button>
@@ -12,12 +80,12 @@
     </div>
     <v-card class="table-header">
       <v-card-title>
-        <h3>Assigned Requirements</h3>
+        <h3>Related Requirements</h3>
         <div class="search-in-table">
           <v-text-field v-model="searchIssues" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
         <div class="service-button">
-          <v-btn  @click="deleteAssignedIssuesForFeedback()" small>
+          <v-btn  @click="openDeleteAllAssignmentsDialog()" small>
             <i class="material-icons delete-icon">delete_sweep</i>
           </v-btn>
           <v-btn @click="openAddDialog" small>
@@ -43,7 +111,7 @@
           <td>{{ props.item.description }}</td>
           <td>{{ props.item.similarity }}</td>
           <td>
-            <i class="material-icons delete-icon" @click="deleteIssue(props.item)">delete</i>
+            <i class="material-icons delete-icon" @click="openDeleteOneAssignmentDialog(props.item)">delete</i>
           </td>
         </template>
       </v-data-table>
@@ -51,12 +119,12 @@
 
     <v-card>
       <v-card-title>
-        <h3>Assigned Requirements with TORE classification</h3>
+        <h3>Related Requirements with TORE</h3>
         <div class="search-in-table">
           <v-text-field v-model="searchToreIssues" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
         <div class="service-button">
-          <v-btn  @click="deleteToreAssignedIssuesForFeedback()" small>
+          <v-btn  @click="openDeleteAllTOREAssignmentsDialog()" small>
             <i class="material-icons delete-icon">delete_sweep</i>
           </v-btn>
           <v-btn @click="openAddDialogWithTore" small>
@@ -82,7 +150,7 @@
           <td>{{ props.item.description }}</td>
           <td>{{ props.item.similarity }}</td>
           <td>
-            <i class="material-icons delete-icon" @click="deleteToreIssue(props.item)">delete</i>
+            <i class="material-icons delete-icon" @click="openDeleteOneTOREAssignmentDialog(props.item)">delete</i>
           </td>
         </template>
       </v-data-table>
@@ -136,6 +204,12 @@ export default {
       feedback: this.item,
       searchIssues: "",
       searchToreIssues: "",
+      deleteOneRequirementDialog: false,
+      requirementToDelete: [],
+      deleteOneTORERequirementDialog: false,
+      requirementToDeleteTore: [],
+      deleteAllRequirementsDialog: false,
+      deleteAllTORERequirementsDialog: false,
     }
   },
   watch: {
@@ -187,6 +261,12 @@ export default {
     },
   },
   methods: {
+    dontDelete(){
+      this.deleteOneRequirementDialog = false
+      this.deleteOneTORERequirementDialog = false
+      this.deleteAllRequirementsDialog = false
+      this.deleteAllTORERequirementsDialog = false
+    },
     getAssignedIssues(){
       let page = this.pagination.page
       let size = this.pagination.rowsPerPage
@@ -202,10 +282,18 @@ export default {
     async deleteAssignedIssuesForFeedback() {
       await this.$store.dispatch("actionDeleteAssignedIssuesForFeedback", this.feedback.id)
       this.getAssignedIssues()
+      this.deleteAllRequirementsDialog = false
+    },
+    openDeleteAllAssignmentsDialog() {
+      this.deleteAllRequirementsDialog = true
+    },
+    openDeleteAllTOREAssignmentsDialog() {
+      this.deleteAllTORERequirementsDialog = true
     },
     async deleteToreAssignedIssuesForFeedback() {
       await this.$store.dispatch("actionDeleteToreAssignedIssuesForFeedback", this.feedback.id)
       this.getAssignedToreIssues()
+      this.deleteAllTORERequirementsDialog = false
     },
     openAddDialogWithTore() {
       this.listWithTore = true
@@ -223,17 +311,29 @@ export default {
     goBack() {
       this.$router.go(-1);
     },
-    async deleteIssue(item) {
+    async deleteIssue() {
       const feedbackId = this.feedback.id
-      const issueKey = item.key
+      const issueKey = this.requirementToDelete.key
       await this.$store.dispatch("actionDeleteIssueFeedbackRelation", {issueKey, feedbackId})
       this.getAssignedIssues()
+      this.deleteOneRequirementDialog = false
+      this.requirementToDelete = []
     },
-    async deleteToreIssue(item) {
+    openDeleteOneAssignmentDialog(item) {
+      this.deleteOneRequirementDialog = true
+      this.requirementToDelete = item
+    },
+    openDeleteOneTOREAssignmentDialog(item) {
+      this.deleteOneTORERequirementDialog = true
+      this.requirementToDeleteTore = item
+    },
+    async deleteToreIssue() {
       const feedbackId = this.feedback.id
-      const issueKey = item.key
+      const issueKey = this.requirementToDeleteTore.key
       await this.$store.dispatch("actionDeleteToreIssueFeedbackRelation", {issueKey, feedbackId})
       this.getAssignedToreIssues()
+      this.deleteOneTORERequirementDialog = false
+      this.requirementToDeleteTore = []
     },
   },
 };

@@ -12,9 +12,9 @@
       ></v-select>
       <v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
       </v-btn>
-      <v-btn dark color="black" @click="toggleImport()">CLOSE</v-btn>
+      <v-btn dark color="black" @click="toggleImport()">CANCEL</v-btn>
     </div>
-    <p v-if="!isProjectSelected" class="warning">{{ warning }}</p>
+    <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
 
     <v-dialog v-model="openDialog" width="70%">
       <div v-if="!isLoadingData">
@@ -39,7 +39,7 @@
             </v-data-table>
           </v-card>
           <v-btn dark color="blue" @click="addSelectedIssues()">Add Issues</v-btn>
-          <v-btn dark color="black" @click="closeDialogIssues()">Close</v-btn>
+          <v-btn dark color="black" @click="closeDialogIssues()">Cancel</v-btn>
         </div>
         <div v-if="dialogIssueTypes">
           <v-card>
@@ -62,7 +62,7 @@
               </template>
             </v-data-table>
             <v-btn dark color="blue" @click="getIssuesByTypes()">Search</v-btn>
-            <v-btn dark color="black" @click="closeDialogIssueTypes()">Close</v-btn>
+            <v-btn dark color="black" @click="closeDialogIssueTypes()">Cancel</v-btn>
           </v-card>
         </div>
       </div>

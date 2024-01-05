@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="start" >
-      <div class="center-container">
+      <div class="container">
         <v-card class="banner">
           <v-tabs
           >
@@ -44,13 +44,13 @@ export default {
 }
 .banner{
   margin-top: 50px;
-  width: 85%;
   text-align: center;
 }
-.center-container{
+.container{
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
 }
 </style>

@@ -41,7 +41,7 @@
         <v-btn @click="addSelectedFeedback" dark color="blue" class="add-feedback">
           Add Selected Feedback to list
         </v-btn>
-        <v-btn @click="toggleFeedback()" dark color="black">Close</v-btn>
+        <v-btn @click="toggleFeedback()" dark color="black">Cancel</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
