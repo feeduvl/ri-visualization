@@ -646,9 +646,6 @@ export default {
   top: 10px;
   right: 10px;
 }
-.import-dialog{
-  background-color: white;
-}
 .switch-container {
   display: flex;
   flex-wrap: wrap;
