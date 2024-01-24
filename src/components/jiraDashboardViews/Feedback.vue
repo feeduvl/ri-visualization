@@ -1,8 +1,10 @@
 <template>
   <div class="container">
+
     <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
+<!--    Dialogs to delete-->
     <div>
       <v-dialog v-model="deleteAllFb" :max-width="300" class="delete-all-feedback">
         <v-card>
@@ -38,7 +40,7 @@
         </v-card>
       </v-dialog>
     </div>
-
+<!-- Feedback Table-->
     <v-card class="table-header">
       <v-card-title>
         <h2>Feedback</h2>
@@ -51,6 +53,7 @@
           </v-btn>
         </div>
       </v-card-title>
+<!--      Switch to show unassigned-->
       <div class="switch-container">
         <div class="label-container">
           <label for="showUnassigned" class="label-text">Show feedback without assigned requirements:</label>
@@ -74,7 +77,7 @@
         <template v-slot:items="props">
           <tr @click="showDetails(props.item)">
             <td>{{ props.item.text }}</td>
-            <td>{{ limitDescriptionText(props.item.id, 10) }}</td>
+            <td>{{ limitIDLength(props.item.id, 10) }}</td>
             <td>
               <i class="material-icons delete-icon" @click.stop="openDeleteOneFeedbackDialog(props.item)">delete</i>
             </td>
@@ -129,27 +132,33 @@ export default {
       }else{
         this.getFeedback()
       }
-
     },
     dialogDeleteAllFeedback() {
       this.deleteAllFb = true
     },
+    // Close Dialogs
     dontDeleteFeedback(){
       this.deleteAllFb = false
       this.deleteOneFeedback = false
     },
-    limitDescriptionText(text, limit) {
+    // Limit the length of feedback id
+    limitIDLength(text, limit) {
       if (text.length > limit) {
         return text.substring(0, limit);
       } else {
         return text;
       }
     },
+    // Get the feedback dataset
     getFeedback(){
-      let page = this.pagination.page
-      let size = this.pagination.rowsPerPage
-      let selectedFeedbackFileName = this.selectedFeedbackFileName
-      this.$store.dispatch("actionGetFeedback", {page, size, selectedFeedbackFileName})
+      if(this.showUnassigned){
+        this.getUnassignedFeedback()
+      }else{
+        let page = this.pagination.page
+        let size = this.pagination.rowsPerPage
+        let selectedFeedbackFileName = this.selectedFeedbackFileName
+        this.$store.dispatch("actionGetFeedback", {page, size, selectedFeedbackFileName})
+      }
     },
     openDeleteOneFeedbackDialog(item) {
       this.deleteOneFeedback = true
@@ -186,18 +195,28 @@ export default {
       return this.$store.state.isLoadingData
     },
     getFeedbackForFilter() {
-      if (this.search !== "") {
-        return this.filterFeedback
-      } else {
-        if (this.showUnassigned){
-          return this.$store.state.feedbackWithoutAssignment
+      if (this.showUnassigned){
+        if(this.search !== ""){
+          return this.filterUnassignedFeedback
         }else{
+          return this.$store.state.feedbackWithoutAssignment
+        }
+      }else{
+        if (this.search !== "") {
+          return this.filterFeedback
+        } else {
           return this.$store.state.feedback
         }
       }
     },
     filterFeedback() {
       return this.$store.state.feedback.filter(item => {
+        return item.id.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || item.text.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+      })
+    },
+    filterUnassignedFeedback() {
+      return this.$store.state.feedbackWithoutAssignment.filter(item => {
         return item.id.toLowerCase().indexOf(this.search.toLowerCase()) > -1
             || item.text.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       })

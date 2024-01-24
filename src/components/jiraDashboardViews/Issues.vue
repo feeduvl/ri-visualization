@@ -297,6 +297,7 @@ export default {
     LoadingView
   },
   methods: {
+    // Get names of the saved relations
     getSavedDataNames() {
       this.$store.dispatch("actionGetSavedDataNames")
     },
@@ -423,6 +424,7 @@ export default {
       await this.$store.dispatch("actionGetToreAssignedDataToExport", selectedFeedback)
       this.exportAssignedToreDataToCSV()
     },
+    // Open dialog to save relations
     setNameToSave(){
       this.typeNameToSaveData = true
     },
@@ -468,6 +470,7 @@ export default {
     closeSaveDialog(){
       this.typeNameToSaveData = false
     },
+    // Close Dialog for import jira issues
     toggleImport(value) {
       this.importDialog = value;
       this.getAllIssues()
@@ -476,6 +479,7 @@ export default {
     dialogDeleteAllIssues(){
       this.deleteAllIs = true
     },
+    // Close Delete Dialogs
     dontDeleteIssues(){
       this.deleteAllIs = false
       this.deleteOneRequirement = false
@@ -546,9 +550,13 @@ export default {
       this.$router.push({ name: 'assigned_feedback', params: { item: item } });
     },
     getAllIssues() {
-      let page = this.pagination.page
-      let size = this.pagination.rowsPerPage
-      this.$store.dispatch("actionGetAllIssues", {page, size})
+      if(this.showUnassigned){
+        this.getUnassignedIssues()
+      }else{
+        let page = this.pagination.page
+        let size = this.pagination.rowsPerPage
+        this.$store.dispatch("actionGetAllIssues", {page, size})
+      }
     },
     getProjectNames() {
       this.$store.dispatch("actionGetImportedJiraProjects")
@@ -589,11 +597,15 @@ export default {
       return this.$store.state.importedJiraProjects
     },
     getIssues() {
-      if (this.search !== "") {
-        return this.filterIssues
-      }else{
-        if (this.showUnassigned) {
+      if (this.showUnassigned){
+        if(this.search !== ""){
+          return this.filterUnassignedIssues
+        }else{
           return this.$store.state.issuesWithoutAssignment
+        }
+      }else{
+        if(this.search !== ""){
+          return this.filterIssues
         }else{
           return this.$store.state.issues
         }
@@ -601,6 +613,20 @@ export default {
     },
     filterIssues() {
       return this.$store.state.issues.filter(issue => {
+        const summary = issue.summary || "";
+        const key = issue.key || "";
+        const description = issue.description || "";
+        const issueType = issue.issueType || "";
+        const projectName = issue.projectName || "";
+        return summary.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || key.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+      });
+    },
+    filterUnassignedIssues() {
+      return this.$store.state.issuesWithoutAssignment.filter(issue => {
         const summary = issue.summary || "";
         const key = issue.key || "";
         const description = issue.description || "";
