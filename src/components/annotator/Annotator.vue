@@ -61,6 +61,7 @@
                     </v-autocomplete>
 
                     <v-autocomplete
+                            v-if="!$store.state.sentenceTokenisation_activated"
                             chips
                             multiple
                             clearable
@@ -214,6 +215,7 @@
                        toreClass: getToreFromToken(($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1])),
                        show_pos: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos!==null && $store.state.selected_pos_tags.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos),
                        posClass: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos,
+                       isSentence: $store.state.sentenceTokenisation_activated,
                        annotatorInputVisible: $store.state.annotatorInputVisible
                    }">
                 </Token>
@@ -624,7 +626,8 @@ export default {
                 let token = this.token(index)
                 let toreFromToken = this.getToreFromToken(token);
                 this.$store.commit("setRecommendationTores", "");
-                 //get recommendationTores if token has no Tore
+                 // get recommendationTores if token has no Tore
+                 // and the Annotation has not sentence-based tokenisation
                 if(this.showRecommendationTore && toreFromToken === ""){
                     this.$store.dispatch('actionGetRecommendationTores',token);
                 }

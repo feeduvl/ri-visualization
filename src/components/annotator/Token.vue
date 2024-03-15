@@ -11,7 +11,8 @@
         {
           highlightTore: props.show_tore,
           hasOnlyName: props.hasName && !props.hasTore,  // indicates that a token has been assigned to a code
-          hasOnlyTore: !props.hasName && props.hasTore,
+          hasOnlyTore: !props.hasName && props.hasTore && !props.isSentence,
+          hasOnlyToreButIsSentence: !props.hasName && props.hasTore && props.isSentence,
           hasBoth: props.hasName && props.hasTore,
           isAlgoLemma: props.algo_lemma,
           highlightInSelectedCode: ((props.isLinking || props.annotatorInputVisible) && props.inSelectedCode), // currently SELECTED code
@@ -85,6 +86,10 @@ export default {
             type: Boolean,
             required: true
         },
+        isSentence: {
+            type: Boolean,
+            required: true
+        },
         annotatorInputVisible: {
             type: Boolean,
             required: true
@@ -130,6 +135,9 @@ export default {
     background-color: #fff668;
 }
 
+.hasOnlyToreButIsSentence {
+    background-color: #a8fff8;
+}
 
 .hasBoth {
     background-color: #a8fff8;

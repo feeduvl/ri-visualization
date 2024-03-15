@@ -263,6 +263,10 @@ export const updateSelectedAnnotation = (state, value) => {
   state.selected_annotation = value;
 };
 
+export const updateSentenceTokenisation_activated = (state, value) => {
+  state.sentenceTokenisation_activated = value;
+};
+
 export const updateLastAnnotationEditAt = state => {
   state.lastAnnotationEditAt = Date.now();
 };

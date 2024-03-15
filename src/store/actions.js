@@ -113,13 +113,14 @@ export const actionGetAllTores = ({commit}) => {
 
 export const actionGetNewAnnotation = ({
   commit
-}, {name, dataset}) => {
+}, {name, dataset, sentenceTokenisation_activated}) => {
   return new Promise(() => {
     console.warn("Initializing annotation");
     commit("setIsLoadingAnnotation", true);
     axios.post(ANNOTATION_INITIALIIZE_ENDPOINT, {
       name,
-      dataset
+      dataset,
+      sentenceTokenisation_activated
     })
       .then(response => {
         console.log("actionGetExampleAnnotation Got good response.");
@@ -304,7 +305,8 @@ export const actionPostCurrentAnnotation = ({state, commit}) => {
       codes: state.codes,
       docs: state.docs.slice(1, state.docs.length),
       tores: state.annotation_tores,
-      show_recommendationtore: state.showRecommendationTore
+      show_recommendationtore: state.showRecommendationTore,
+      sentenceTokenisation_activated: state.sentenceTokenisation_activated
     })
       .then(() => {
         console.log("Got annotation POST response");

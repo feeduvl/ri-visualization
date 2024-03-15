@@ -19,6 +19,22 @@
                             </v-autocomplete>
                         </v-flex>
                         <v-flex xs1/>
+                        <div class="mt-3">
+                            <v-flex xs12>
+                            <label>
+                                <input type="radio" id="Word-based" :value="false" v-model="sentenceTokenisation_activated" />
+                                <label for="Word-based"> Word-based Tokenisation</label>
+                            </label>
+                            </v-flex>
+
+                            <v-flex xs12>
+                            <label>
+                                <input type="radio" id="Sentence-based" :value="true" v-model="sentenceTokenisation_activated" />
+                                <label for="Sentence-based"> Sentence-based Tokenisation</label>
+                            </label>
+                            </v-flex>
+                        </div>
+                        <v-flex xs1/>
                         <v-flex xs3 id="service-status">
                             <b>Tokenization Service: <span :style="{'color': serviceColor}">{{ serviceStatus }}</span></b>
                         </v-flex>
@@ -103,6 +119,7 @@
                 <template #items="{item}">
                     <tr>
                         <td>{{item.name}}</td>
+                        <td style="text-align:center">{{ item.sentenceTokenisation_activated ? "Sentence-based" : "Word-based" }}</td>
                         <td style="text-align:center">{{item.last_updated?
                             item.last_updated.replace("Z", "").replace("T", " ").substring(0, 19):'last_updated missing'
                             }}
@@ -111,8 +128,8 @@
                             item.uploaded_at.replace("Z", "").replace("T", " ").substring(0, 19):'uploaded_at missing'
                             }}
                         </td>
-                        <td>{{ item.dataset}}</td>
-                        <td><span class="icon-column">
+                        <td style="text-align:center">{{ item.dataset}}</td>
+                        <td style="text-align:center"><span class="icon-column">
                             <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
                               <v-icon
@@ -212,6 +229,7 @@
                 addingAnnotationName: "",
                 createNewAnnotationDataset: null,
                 annotationToDelete: null,
+                sentenceTokenisation_activated: false,
 
                 tableHeaders: [
                     {
@@ -221,12 +239,20 @@
                         value: "name"
                     },
                     {
+                        text: "Type of Tokenisation",
+                        sortable: true,
+                        width: "10%",
+                        value: "sentenceTokenisation_activated",
+                        align: 'center'
+                    },
+                    {
                         text: "Last Updated",
                         align: "center",
                         sortable: true,
                         width: "10%",
                         value: "last_updated",
                         filterable: false,
+                        align: 'center',
                     },
                     {
                         text: "Created",
@@ -235,6 +261,7 @@
                         width: "10%",
                         value: "uploaded_at",
                         filterable: false,
+                        align: 'center',
                     },
                     {
                         text: "Dataset",
@@ -243,6 +270,7 @@
                         value: "dataset",
                         width: "9%",
                         filterable: false,
+                        align: 'center',
                     },
                     {
                         text: "Actions",
@@ -250,6 +278,7 @@
                         sortable: false,
                         value: 'actions',
                         width: "12%",
+                        align: 'center',
                     },
                 ],
             }
@@ -287,7 +316,8 @@
         methods: {
             initializeAnnotation(){
                 this.initializingNewAnnotation = true;
-                this.$store.dispatch('actionGetNewAnnotation', {name: this.addingAnnotationName, dataset: this.createNewAnnotationDataset})
+                this.$store.dispatch('actionGetNewAnnotation', {name: this.addingAnnotationName, dataset: this.createNewAnnotationDataset, sentenceTokenisation_activated: this.sentenceTokenisation_activated});
+                this.sentenceTokenisation_activated = false;
             },
 
             deleteAnnotation(){
@@ -298,6 +328,7 @@
 
             viewCodeResults(annotation){
                 this.$store.commit("updateSelectedAnnotation", annotation.name)  // repeat startAnnotating here in case implementation changes
+                this.$store.commit("updateSentenceTokenisation_activated", annotation.sentenceTokenisation_activated);
                 this.$store.dispatch('actionGetSelectedAnnotation');
                 this.$store.commit("toggleAnnotatorViewingCodes", true)
             },
