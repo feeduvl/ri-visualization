@@ -68,10 +68,14 @@
 export default {
   name: "SelectableAnnotations.vue",
   props: {
-    selectedDataset: String
+    selectedDataset: String,
+    sentenceTokenizationEnabledForAgreement: Boolean,
   },
   watch: {
     selectedDataset: function(newVal, oldVal) { // watch it
+      console.log('Prop changed: ', newVal, ' | was: ', oldVal)
+    },
+    sentenceTokenizationEnabledForAgreement: function(newVal, oldVal) { // watch it
       console.log('Prop changed: ', newVal, ' | was: ', oldVal)
     }},
   data: () => ({
@@ -91,7 +95,7 @@ export default {
   computed: {
     availableAnnotations() {
       return this.$store.state.available_annotations.filter( a =>
-          a.dataset === this.selectedDataset
+          a.dataset === this.selectedDataset && a.sentenceTokenisation_activated === this.sentenceTokenizationEnabledForAgreement
       )
     }
   },

@@ -98,12 +98,14 @@
                             >{{ props.item.token_names }}</td>
                             <td :key="'header_column_0_2'"
                                 :class="{'text-xs-left': 2 > 0}"
+                                v-if="!$store.state.sentenceTokenizationEnabledForAgreement"
                             >{{ props.item.word_codes }}</td>
                             <td :key="'header_column_0_3'"
                                 :class="{'text-xs-left': 3 > 0}"
                             >{{ props.item.categories }}</td>
                             <td :key="'header_column_0_5'"
                                 :class="{'text-xs-left': 5 > 0}"
+                                v-if="!$store.state.sentenceTokenizationEnabledForAgreement"
                             >
                                 <ul style="list-style-type: none">
                                     <li v-for="relationship in props.item.relationships">
@@ -204,12 +206,14 @@
                             >{{ props.item.token_names }}</td>
                             <td :key="'header_column_0_2'"
                                 :class="{'text-xs-left': 2 > 0}"
+                                v-if="!$store.state.sentenceTokenizationEnabledForAgreement"
                             >{{ props.item.word_codes }}</td>
                             <td :key="'header_column_0_3'"
                                 :class="{'text-xs-left': 3 > 0}"
                             >{{ props.item.categories }}</td>
                             <td :key="'header_column_0_5'"
                                 :class="{'text-xs-left': 5 > 0}"
+                                v-if="!$store.state.sentenceTokenizationEnabledForAgreement"
                             >
                                 <ul style="list-style-type: none">
                                     <li v-for="relationship in props.item.relationships">
@@ -322,7 +326,7 @@ export default {
             return ret
         }
     },
-    data: () => {
+    data () {
         return {
             addingAnnotationName: "",
             snackbarText: "",
@@ -346,7 +350,7 @@ export default {
             renameCode: null,
             selectedTab: 0,
             tab_titles: ["Unresolved Codes", "Resolved Codes", "Statistics"],
-            headers: [
+            headers: !this.$store.state.sentenceTokenizationEnabledForAgreement ? [
                 [  // Tab view 0
                     {
                         text: 'Document',
@@ -440,7 +444,77 @@ export default {
                         value: 'kappa_current'
                     },
                 ],
-            ],
+                ] : [
+                [  // Tab view 0
+                    {
+                        text: 'Document',
+                        value: 'document',
+                        align: 'left',
+                        sortable: true
+                    },
+                    {
+                        text: 'Token Names',
+                        align: "left",
+                        sortable: true,
+                        value: 'token_names'
+                    },
+                    {
+                        text: 'Category',
+                        align: "left",
+                        sortable: true,
+                        value: 'categories'
+                    },
+                    {
+                        text: 'Annotation Name',
+                        align: "left",
+                        sortable: true,
+                        value: 'annotation_name'
+                    },
+                ],
+                [  // Tab view 1
+                    {
+                        text: 'Document',
+                        value: 'document',
+                        align: 'left',
+                        sortable: true
+                    },
+                    {
+                        text: 'Token Names',
+                        align: "left",
+                        sortable: true,
+                        value: 'token_names'
+                    },
+                    {
+                        text: 'Category',
+                        align: "left",
+                        sortable: true,
+                        value: 'categories'
+                    },
+                    {
+                        text: 'Annotation Name',
+                        align: "left",
+                        sortable: true,
+                        value: 'annotation_name'
+                    },
+                ],
+                [// Tab view 2
+                    {
+                        text: 'Kappa Name',
+                        value: 'kappa_name',
+                        align: 'left',
+                    },
+                    {
+                        text: 'Initial Value',
+                        align: "left",
+                        value: 'kappa_initial'
+                    },
+                    {
+                        text: 'Current Value',
+                        align: "left",
+                        value: 'kappa_current'
+                    },
+                ],
+            ]
         }
     },
     methods: {

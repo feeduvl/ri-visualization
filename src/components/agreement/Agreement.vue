@@ -51,6 +51,7 @@
                     </v-autocomplete>
 
                     <v-autocomplete
+                        v-if="!$store.state.sentenceTokenizationEnabledForAgreement"
                         chips
                         multiple
                         clearable

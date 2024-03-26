@@ -267,6 +267,10 @@ export const updateSentenceTokenisation_activated = (state, value) => {
   state.sentenceTokenisation_activated = value;
 };
 
+export const updateSentenceTokenizationEnabledForAgreement = (state, value) => {
+  state.sentenceTokenizationEnabledForAgreement = value;
+};
+
 export const updateLastAnnotationEditAt = state => {
   state.lastAnnotationEditAt = Date.now();
 };

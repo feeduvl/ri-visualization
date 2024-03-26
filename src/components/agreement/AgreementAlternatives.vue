@@ -46,12 +46,14 @@
                     <tr v-bind:class="props.item.merge_status">
                         <td :key="'header_column_0_0'"
                             :class="{'text-xs-left': 0 > 0}"
+                            v-if="!$store.state.sentenceTokenizationEnabledForAgreement"
                         >{{ props.item.code.name }}</td>
                         <td :key="'header_column_0_1'"
                             :class="{'text-xs-left': 1 > 0}"
                         >{{ props.item.code.tore }}</td>
                         <td :key="'header_column_0_2'"
                             :class="{'text-xs-left': 2 > 0}"
+                            v-if="!$store.state.sentenceTokenizationEnabledForAgreement"
                         >
                             <ul style="list-style-type: none">
                                 <li v-for="relationship in props.item.code.relationship_memberships">
@@ -64,6 +66,7 @@
                         >{{ props.item.annotation_name }}</td>
                         <td :key="'header_column_0_4'"
                             :class="{'text-xs-left': 4 > 0}"
+                            v-if="!$store.state.sentenceTokenizationEnabledForAgreement"
                         >
                             <ul style="list-style-type: none">
                                 <li v-for="alternativeToken in props.item.code.tokens.filter(value => value !== token.index)">
@@ -273,7 +276,7 @@ export default {
             type: Boolean
         },
     },
-    data: () => {
+    data () {
         return {
             createNewClicked: false,
 
@@ -281,7 +284,7 @@ export default {
             newCategory: "",
 
             visible: true,
-            headers: [
+            headers: !this.$store.state.sentenceTokenizationEnabledForAgreement ? [
                 {
                     text: 'Word Code',
                     align: "left",
@@ -311,6 +314,25 @@ export default {
                     text: 'Linked tokens',
                     align: "left",
                     width: "8%",
+                    sortable: false
+                },
+                {
+                    text: '',
+                    align: "right",
+                    width: "9%",
+                    sortable: false
+                },
+                ] : [
+                {
+                    text: 'Category',
+                    align: "left",
+                    width: "25%",
+                    sortable: false
+                },
+                {
+                    text: 'Annotation Name',
+                    align: "left",
+                    width: "10%",
                     sortable: false
                 },
                 {

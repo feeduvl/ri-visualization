@@ -19,6 +19,22 @@
               </v-autocomplete>
             </v-flex>
             <v-flex xs1/>
+              <div class="mt-3">
+                  <v-flex xs12>
+                  <label>
+                      <input type="radio" id="Word-based" :value="false" v-model="sentenceTokenizationEnabledForAgreement" />
+                      <label for="Word-based"> Word-based Tokenisation</label>
+                  </label>
+                  </v-flex>
+
+                  <v-flex xs12>
+                  <label>
+                      <input type="radio" id="Sentence-based" :value="true" v-model="sentenceTokenizationEnabledForAgreement" />
+                      <label for="Sentence-based"> Sentence-based Tokenisation</label>
+                  </label>
+                  </v-flex>
+              </div>
+            <v-flex xs1/>
             <v-flex xs3/>
             <v-flex xs1/>
             <v-flex xs3/>
@@ -66,7 +82,7 @@
           </v-layout>
           <v-layout row justify-center align-center>
             <v-flex>
-              <SelectableAnnotations v-bind:selected-dataset="createNewAgreementDataset"
+              <SelectableAnnotations v-bind:selected-dataset="createNewAgreementDataset" :sentenceTokenizationEnabledForAgreement="sentenceTokenizationEnabledForAgreement"
                                      @selectAnnotation="updateSelectedAnnotations"/>
             </v-flex>
           </v-layout>
@@ -132,6 +148,7 @@
               </li>
             </ul>
           </td>
+          <td style="text-align:center">{{ props.item.sentence_tokenization_enabled_for_agreement ? "Sentence-based" : "Word-based" }}</td>
           <td>{{ props.item.is_completed ? "Yes" : "No" }}</td>
           <td><span class="icon-column">
                             <v-tooltip bottom>
@@ -237,6 +254,7 @@ export default {
 
       createNewAgreementDataset: null,
       agreementToDelete: null,
+      sentenceTokenizationEnabledForAgreement: false,
 
       tableHeaders: [
         {
@@ -274,6 +292,14 @@ export default {
           align: "center",
           sortable: true,
           value: "annotations",
+          width: "12%",
+          filterable: false,
+        },
+        {
+          text: "Type of Tokenisation",
+          align: "center",
+          sortable: true,
+          value: "sentence_tokenization_enabled_for_agreement",
           width: "12%",
           filterable: false,
         },
@@ -340,9 +366,11 @@ export default {
             name: this.addingAgreementName,
             dataset: this.createNewAgreementDataset,
             annotations: this.selectedAnnotationsForAgreement,
-            completeConcurrences: this.doAutomaticCompletion
+            completeConcurrences: this.doAutomaticCompletion,
+            sentenceTokenizationEnabledForAgreement: this.sentenceTokenizationEnabledForAgreement
           },
-      )
+      );
+      this.sentenceTokenizationEnabledForAgreement = false;
     },
 
     deleteAgreement() {
@@ -353,6 +381,7 @@ export default {
 
     viewCodeResults(agreement) {
       this.$store.commit("updateSelectedAgreement", agreement.name)
+      this.$store.commit("updateSentenceTokenizationEnabledForAgreement", agreement.sentence_tokenization_enabled_for_agreement);
       this.$store.dispatch('actionGetSelectedAgreement');
       this.$store.commit("toggleAgreementViewingCodes", true)
     },

@@ -136,7 +136,7 @@ export const actionGetNewAnnotation = ({
 
 export const actionGetNewAgreement = ({
   commit
-}, {name, dataset, annotations, completeConcurrences}) => {
+}, {name, dataset, annotations, completeConcurrences, sentenceTokenizationEnabledForAgreement}) => {
   return new Promise(() => {
     const annotationNames = annotations.map(function (item) {
       return item.name;
@@ -147,7 +147,8 @@ export const actionGetNewAgreement = ({
       name,
       dataset,
       annotationNames,
-      completeConcurrences
+      completeConcurrences,
+      sentenceTokenizationEnabledForAgreement
     })
       .then(response => {
         console.log("actionGetNewAgreement Got good response.");
@@ -329,7 +330,8 @@ export const actionPostCurrentAgreement = ({state, commit}) => {
         tore_relationships: state.agreement_tore_relationships,
         code_alternatives: state.agreement_code_alternatives,
         docs: state.docs.slice(1, state.docs.length),
-        agreement_statistics: state.agreement_statistics
+        agreement_statistics: state.agreement_statistics,
+        sentence_tokenization_enabled_for_agreement: state.sentenceTokenizationEnabledForAgreement
       })
         .then(() => {
           console.log("Got agreement POST response");

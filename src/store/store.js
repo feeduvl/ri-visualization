@@ -68,6 +68,7 @@ export const store = new Vuex.Store({
     selected_tores: [],
     annotatorInputCodeNames: [],
     sentenceTokenisation_activated: false,
+    sentenceTokenizationEnabledForAgreement: false,
 
     annotatorInputVisible: false,
     selected_code: null,
@@ -296,10 +297,11 @@ export const store = new Vuex.Store({
     },
 
     // eslint-disable-next-line camelcase
-    setAgreementPayload(state, {name, tokens, code_alternatives, tore_relationships, docs, created_at, dataset, annotation_names, agreement_statistics, is_completed}){
+    setAgreementPayload(state, {name, tokens, code_alternatives, tore_relationships, docs, created_at, dataset, annotation_names, agreement_statistics, is_completed, sentence_tokenization_enabled_for_agreement}){
       // eslint-disable-next-line camelcase
       state.agreement_created_at = created_at;
       state.agreement_dataset = dataset;
+      state.sentenceTokenizationEnabledForAgreement = sentence_tokenization_enabled_for_agreement;
       // eslint-disable-next-line camelcase
       if (tore_relationships === null) {
         state.agreement_tore_relationships = [];
