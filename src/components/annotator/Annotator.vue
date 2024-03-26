@@ -626,8 +626,7 @@ export default {
                 let token = this.token(index)
                 let toreFromToken = this.getToreFromToken(token);
                 this.$store.commit("setRecommendationTores", "");
-                 // get recommendationTores if token has no Tore
-                 // and the Annotation has not sentence-based tokenisation
+                
                 if(this.showRecommendationTore && toreFromToken === ""){
                     this.$store.dispatch('actionGetRecommendationTores',token);
                 }

@@ -93,7 +93,7 @@
 
                 </v-container>
                 <v-data-table
-                    :headers="!$store.state.sentenceTokenisation_activated ? (index === 0 || index >= 4 ? this_header.concat([{text: 'Actions', value: 'placeholder'}]) : this_header) : (index === 0 || index > 0 ? this_header.concat([{text: 'Actions', value: 'placeholder'}]) : this_header)"
+                    :headers="!$store.state.sentenceTokenisation_activated ? (index === 0 || index >= 4 ? this_header.concat([{text: 'Actions', value: 'placeholder'}]) : this_header) : (index === 1 ? this_header.concat([{text: 'Actions', value: 'placeholder'}]) : this_header)"
                     :items="!$store.state.sentenceTokenisation_activated ? tab_content_for_wordBasedTokenization[index] : tab_content_for_sentenceBasedTokenization[index]"
                     :search="search"
                     :loading="$store.state.isLoadingAnnotation"
@@ -107,7 +107,7 @@
                         >
                             {{item[column.value]}}
                         </td>
-                        <td v-show="index===0">
+                        <td v-show="(!$store.state.sentenceTokenisation_activated && index===0)">
                             <span class="icon-column">
                               <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
@@ -124,13 +124,13 @@
                               </v-tooltip>
                             </span>
                         </td>
-                        <td v-show="index>=4">
+                        <td v-show="!$store.state.sentenceTokenisation_activated && index>=4 || $store.state.sentenceTokenisation_activated && index === 1">
                             <span class="icon-column">
                               <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-icon
                                           small
-                                          @click="deleteOccurrence(item, index === headers.length-1)"
+                                          @click="deleteOccurrence(item, index === (!$store.state.sentenceTokenisation_activated && headers.length-1))"
                                           v-bind="attrs"
                                           v-on="on"
                                   >
@@ -554,12 +554,6 @@
                                         value: 'count'
                                     },
                                     {
-                                        text: 'Number of Relationships',
-                                        align: "left",
-                                        sortable: true,
-                                        value: 'relationship_count'
-                                    },
-                                    {
                                         text: 'Appearances',
                                         align: "left",
                                         sortable: true,
@@ -567,25 +561,25 @@
                                     }
                                 ],
                                 [
-                                            {
-                                                text: "Category",
-                                                align: "left",
-                                                sortable: true,
-                                                value: "tore"
-                                            },
-                                            {
-                                                text: "Document",
-                                                align: "left",
-                                                sortable: true,
-                                                value: "document"
-                                            },
-                                            {
-                                                text: "Sentences",
-                                                align: "left",
-                                                sortable: true,
-                                                value: "words_string"
-                                            },
-                                    ],
+                                    {
+                                        text: "Category",
+                                        align: "left",
+                                        sortable: true,
+                                        value: "tore"
+                                    },
+                                    {
+                                        text: "Document",
+                                        align: "left",
+                                        sortable: true,
+                                        value: "document"
+                                    },
+                                    {
+                                        text: "Sentences",
+                                        align: "left",
+                                        sortable: true,
+                                        value: "words_string"
+                                    },
+                                ],
                     ],
                 }
             }
