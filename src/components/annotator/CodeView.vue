@@ -93,8 +93,8 @@
 
                 </v-container>
                 <v-data-table
-                    :headers="!$store.state.sentenceTokenisation_activated ? (index === 0 || index >= 4 ? this_header.concat([{text: 'Actions', value: 'placeholder'}]) : this_header) : (index === 1 ? this_header.concat([{text: 'Actions', value: 'placeholder'}]) : this_header)"
-                    :items="!$store.state.sentenceTokenisation_activated ? tab_content_for_wordBasedTokenization[index] : tab_content_for_sentenceBasedTokenization[index]"
+                    :headers="!$store.state.sentenceTokenizationEnabledForAnnotation ? (index === 0 || index >= 4 ? this_header.concat([{text: 'Actions', value: 'placeholder'}]) : this_header) : (index === 1 ? this_header.concat([{text: 'Actions', value: 'placeholder'}]) : this_header)"
+                    :items="!$store.state.sentenceTokenizationEnabledForAnnotation ? tab_content_for_wordBasedTokenization[index] : tab_content_for_sentenceBasedTokenization[index]"
                     :search="search"
                     :loading="$store.state.isLoadingAnnotation"
                     :rows-per-page-items="[25, 50, 100, 200, {'text':'$vuetify.dataIterator.rowsPerPageAll','value':-1}]"
@@ -107,7 +107,7 @@
                         >
                             {{item[column.value]}}
                         </td>
-                        <td v-show="(!$store.state.sentenceTokenisation_activated && index===0)">
+                        <td v-show="(!$store.state.sentenceTokenizationEnabledForAnnotation && index===0)">
                             <span class="icon-column">
                               <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
@@ -124,13 +124,13 @@
                               </v-tooltip>
                             </span>
                         </td>
-                        <td v-show="!$store.state.sentenceTokenisation_activated && index>=4 || $store.state.sentenceTokenisation_activated && index === 1">
+                        <td v-show="!$store.state.sentenceTokenizationEnabledForAnnotation && index>=4 || $store.state.sentenceTokenizationEnabledForAnnotation && index === 1">
                             <span class="icon-column">
                               <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-icon
                                           small
-                                          @click="deleteOccurrence(item, index === (!$store.state.sentenceTokenisation_activated && headers.length-1))"
+                                          @click="deleteOccurrence(item, index === (!$store.state.sentenceTokenizationEnabledForAnnotation && headers.length-1))"
                                           v-bind="attrs"
                                           v-on="on"
                                   >
@@ -271,7 +271,7 @@
             }
         },
         data () {
-            if (!this.$store.state.sentenceTokenisation_activated){
+            if (!this.$store.state.sentenceTokenizationEnabledForAnnotation){
                 return {
                         paginations: [{page: 1,
                             descending: false,
@@ -870,7 +870,7 @@
             },
 
             downloadTab(tabIndex, dateString){
-                if(!this.$store.state.sentenceTokenisation_activated){
+                if(!this.$store.state.sentenceTokenizationEnabledForAnnotation){
                     this.downloadTextFile("annotation_"+this.$store.state.selected_annotation+"_"+dateString+"_"+this.tab_titles[tabIndex].toLowerCase()+".csv", this.getCSVFileString(this.headers[tabIndex], this.tab_content_for_wordBasedTokenization[tabIndex]));
                 } else {
                     this.downloadTextFile("annotation_"+this.$store.state.selected_annotation+"_"+dateString+"_"+this.tab_titles[tabIndex].toLowerCase()+".csv", this.getCSVFileString(this.headers[tabIndex], this.tab_content_for_sentenceBasedTokenization[tabIndex]));

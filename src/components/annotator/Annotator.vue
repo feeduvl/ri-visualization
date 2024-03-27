@@ -61,7 +61,7 @@
                     </v-autocomplete>
 
                     <v-autocomplete
-                            v-if="!$store.state.sentenceTokenisation_activated"
+                            v-if="!$store.state.sentenceTokenizationEnabledForAnnotation"
                             chips
                             multiple
                             clearable
@@ -215,7 +215,7 @@
                        toreClass: getToreFromToken(($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1])),
                        show_pos: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos!==null && $store.state.selected_pos_tags.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos),
                        posClass: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos,
-                       isSentence: $store.state.sentenceTokenisation_activated,
+                       isSentence: $store.state.sentenceTokenizationEnabledForAnnotation,
                        annotatorInputVisible: $store.state.annotatorInputVisible
                    }">
                 </Token>

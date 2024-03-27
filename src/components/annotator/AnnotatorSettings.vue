@@ -22,14 +22,14 @@
                         <div class="mt-3">
                             <v-flex xs12>
                             <label>
-                                <input type="radio" id="Word-based" :value="false" v-model="sentenceTokenisation_activated" />
+                                <input type="radio" id="Word-based" :value="false" v-model="sentenceTokenizationEnabledForAnnotation" />
                                 <label for="Word-based"> Word-based Tokenisation</label>
                             </label>
                             </v-flex>
 
                             <v-flex xs12>
                             <label>
-                                <input type="radio" id="Sentence-based" :value="true" v-model="sentenceTokenisation_activated" />
+                                <input type="radio" id="Sentence-based" :value="true" v-model="sentenceTokenizationEnabledForAnnotation" />
                                 <label for="Sentence-based"> Sentence-based Tokenisation</label>
                             </label>
                             </v-flex>
@@ -119,7 +119,7 @@
                 <template #items="{item}">
                     <tr>
                         <td>{{item.name}}</td>
-                        <td style="text-align:center">{{ item.sentenceTokenisation_activated ? "Sentence-based" : "Word-based" }}</td>
+                        <td style="text-align:center">{{ item.sentence_tokenization_enabled_for_annotation ? "Sentence-based" : "Word-based" }}</td>
                         <td style="text-align:center">{{item.last_updated?
                             item.last_updated.replace("Z", "").replace("T", " ").substring(0, 19):'last_updated missing'
                             }}
@@ -229,7 +229,7 @@
                 addingAnnotationName: "",
                 createNewAnnotationDataset: null,
                 annotationToDelete: null,
-                sentenceTokenisation_activated: false,
+                sentenceTokenizationEnabledForAnnotation: false,
 
                 tableHeaders: [
                     {
@@ -242,7 +242,7 @@
                         text: "Type of Tokenisation",
                         sortable: true,
                         width: "10%",
-                        value: "sentenceTokenisation_activated",
+                        value: "sentence_tokenization_enabled_for_annotation",
                         align: 'center'
                     },
                     {
@@ -316,8 +316,8 @@
         methods: {
             initializeAnnotation(){
                 this.initializingNewAnnotation = true;
-                this.$store.dispatch('actionGetNewAnnotation', {name: this.addingAnnotationName, dataset: this.createNewAnnotationDataset, sentenceTokenisation_activated: this.sentenceTokenisation_activated});
-                this.sentenceTokenisation_activated = false;
+                this.$store.dispatch('actionGetNewAnnotation', {name: this.addingAnnotationName, dataset: this.createNewAnnotationDataset, sentenceTokenizationEnabledForAnnotation: this.sentenceTokenizationEnabledForAnnotation});
+                this.sentenceTokenizationEnabledForAnnotation = false;
             },
 
             deleteAnnotation(){
@@ -328,7 +328,7 @@
 
             viewCodeResults(annotation){
                 this.$store.commit("updateSelectedAnnotation", annotation.name)  // repeat startAnnotating here in case implementation changes
-                this.$store.commit("updateSentenceTokenisation_activated", annotation.sentenceTokenisation_activated);
+                this.$store.commit("updateSentenceTokenizationEnabledForAnnotation", annotation.sentence_tokenization_enabled_for_annotation);
                 this.$store.dispatch('actionGetSelectedAnnotation');
                 this.$store.commit("toggleAnnotatorViewingCodes", true)
             },

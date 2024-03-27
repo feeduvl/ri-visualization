@@ -260,6 +260,6 @@ export const showingInput = state => {
   return state.selected_code && state.annotatorInputVisible;
 };
 
-export const sentenceTokenisation_activated = state => {
-  return state.sentenceTokenisation_activated;
+export const sentenceTokenizationEnabledForAnnotation = state => {
+  return state.sentenceTokenizationEnabledForAnnotation;
 };

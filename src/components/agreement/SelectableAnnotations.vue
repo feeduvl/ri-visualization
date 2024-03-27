@@ -95,7 +95,7 @@ export default {
   computed: {
     availableAnnotations() {
       return this.$store.state.available_annotations.filter( a =>
-          a.dataset === this.selectedDataset && a.sentenceTokenisation_activated === this.sentenceTokenizationEnabledForAgreement
+          a.dataset === this.selectedDataset && a.sentence_tokenization_enabled_for_annotation === this.sentenceTokenizationEnabledForAgreement
       )
     }
   },

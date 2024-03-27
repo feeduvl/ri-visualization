@@ -95,7 +95,7 @@
                 </v-container>
             </v-card>
 
-            <v-card v-if="!$store.state.sentenceTokenisation_activated">
+            <v-card v-if="!$store.state.sentenceTokenizationEnabledForAnnotation">
                 <v-container>
                     <v-layout>
                     <v-select
@@ -162,7 +162,7 @@
                 </v-container>
             </v-card>
 
-            <v-card v-if="!$store.state.sentenceTokenisation_activated">
+            <v-card v-if="!$store.state.sentenceTokenizationEnabledForAnnotation">
                 <v-container>
                     <v-layout>
                         <label>

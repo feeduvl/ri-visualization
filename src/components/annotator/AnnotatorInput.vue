@@ -154,7 +154,7 @@
                             item-value="name"
                             :rules="[requiredAnnotationsPresent || 'Either a name or a category is required']"
                             ref="nameInput"
-                            v-if="wrapInputVisible && !$store.state.sentenceTokenisation_activated"
+                            v-if="wrapInputVisible && !$store.state.sentenceTokenizationEnabledForAnnotation"
                             autofocus
                             id="annotator-input__name"
                     ></v-combobox>
@@ -171,7 +171,7 @@
                             :loading="$store.state.isLoadingRecommendation">
                     </v-autocomplete>
 
-                    <v-tooltip bottom  v-if="!$store.state.sentenceTokenisation_activated">
+                    <v-tooltip bottom  v-if="!$store.state.sentenceTokenizationEnabledForAnnotation">
                         <template #activator="{on}">
                             <v-icon v-on="on"
                                     :disabled="!selected_code.tore || allowedRelationshipNames.length === 0"

@@ -67,7 +67,7 @@ export const store = new Vuex.Store({
     isLoadingRecommendation:false,
     selected_tores: [],
     annotatorInputCodeNames: [],
-    sentenceTokenisation_activated: false,
+    sentenceTokenizationEnabledForAnnotation: false,
     sentenceTokenizationEnabledForAgreement: false,
 
     annotatorInputVisible: false,
@@ -258,13 +258,13 @@ export const store = new Vuex.Store({
     },
 
     // eslint-disable-next-line camelcase
-    setAnnotationPayload(state, {name, tokens, codes, tore_relationships, docs, uploaded_at, dataset, tores, show_recommendationtore, sentenceTokenisation_activated}){
+    setAnnotationPayload(state, {name, tokens, codes, tore_relationships, docs, uploaded_at, dataset, tores, show_recommendationtore, sentence_tokenization_enabled_for_annotation}){
       if (tores === null){
         state.annotation_tores = state.tores;
       } else {
         state.annotation_tores = tores;
       }
-      state.sentenceTokenisation_activated = sentenceTokenisation_activated;
+      state.sentenceTokenizationEnabledForAnnotation = sentence_tokenization_enabled_for_annotation;
       // eslint-disable-next-line camelcase
       state.annotator_uploaded_at = uploaded_at;
       state.annotator_dataset = dataset;
