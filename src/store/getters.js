@@ -259,7 +259,3 @@ export const agreementAlgoResults = state => {
 export const showingInput = state => {
   return state.selected_code && state.annotatorInputVisible;
 };
-
-export const sentenceTokenizationEnabledForAnnotation = state => {
-  return state.sentenceTokenizationEnabledForAnnotation;
-};
