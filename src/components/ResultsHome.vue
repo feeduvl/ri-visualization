@@ -33,6 +33,7 @@ export default {
     "bert-bert-result": () => import("./result/ClassifierTOREResult"),
     "bilstm-bert-result": () => import("./result/ClassifierTOREResult"),
     "sner-bert-result": () => import("./result/ClassifierTOREResult"),
+    "relevance-classifier-result": () => import("./result/RelevanceClassifierResult"),
   },
   computed: {
     ...mapGetters({

@@ -1,5 +1,5 @@
 /* eslint-disable */
-export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic", "acceptance-criteria", "us-similarity", "acceptance-criteria-completeness", "bert"];
+export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic", "acceptance-criteria", "us-similarity", "acceptance-criteria-completeness", "bert", "relevance-classifier"];
 
 export const METHODS = [
     {
@@ -112,6 +112,16 @@ export const METHODS = [
         resultComponentName: "acceptance-criteria-completeness-result",
         resultComponentPath: "./components/result/AcceptanceCriteriaCompletenessResult",
         scoreFunction: getSimilarAcC,
+        showInDocumentView: false
+    },
+    {
+        name: "relevance-classifier",
+        displayName: "Relevance Classifier",
+        parameterComponentName: "relevance-classifier-parameter",
+        parameterComponentPath: "./form/RelevanceClassifierParameter",
+        resultComponentName: "relevance-classifier-result",
+        resultComponentPath: "./components/result/RelevanceClassifierResult",
+        scoreFunction: getScoreEmpty,
         showInDocumentView: false
     }
 ]
