@@ -65,6 +65,9 @@ export const GET_SERVICE_STATUS_ENDPOINT = function (service) {
   if (`${service}` == "acceptance-criteria") {
     return `${BASE_URL}/hitec/generate/${service}/status`;
   }
+  else if (`${service}` == "relevance-classifier") {
+    return `${BASE_URL}/hitec/classify/relevance/status`;
+  }
   return `${BASE_URL}/hitec/classify/concepts/${service}/status`;
 };
 
@@ -77,6 +80,8 @@ export const DELETE_RESULT_ENDPOINT = function (result) {
 };
 
 export const POST_START_DETECTION_ENDPOINT = `/hitec/orchestration/concepts/detection/`;
+
+export const POST_START_RELEVANCE_CLASSIFICATION_ENDPOINT = `/hitec/orchestration/concepts/relevance/`;
 
 export const POST_UPLOAD_DATASET_ENDPOINT =  `/hitec/orchestration/concepts/store/dataset/`;
 
