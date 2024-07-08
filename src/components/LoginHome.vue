@@ -6,23 +6,23 @@
           <v-card-text>
             <v-form v-model="valid" ref="form" @submit.prevent="sendCheckAccessKey">
               <v-text-field
-                autofocus
-                v-model="accessKey"
-                prepend-icon="lock"
-                name="password"
-                label="Access Key"
-                type="password"
-                :rules="accessKeyRules"
+                  autofocus
+                  v-model="accessKey"
+                  prepend-icon="lock"
+                  name="password"
+                  label="Access Key"
+                  type="password"
+                  :rules="accessKeyRules"
               ></v-text-field>
             </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
-              :color="color"
-              class="white--text"
-              :disabled="!valid"
-              @click="sendCheckAccessKey"
+                :color="color"
+                class="white--text"
+                :disabled="!valid"
+                @click="sendCheckAccessKey"
             >
               <v-spacer></v-spacer>
               <v-icon v-if="!waitingForResponse" left dark>send</v-icon>
@@ -83,51 +83,19 @@ export default {
     },
     sendCheckAccessKey() {
       this.waitingForResponse = true;
-      axios
-        .post(
-          POST_RETRIEVE_ACCESS_KEY_CONFIGURATION(),
-          POST_RETRIEVE_ACCESS_KEY_CONFIGURATION_PAYLOAD(this.accessKey)
-        )
-        .then(response => {
-          if (response.status == 200) {
-            this.$store.commit(
-              MUTATE_TWITTER_ACCOUNTS,
-              response.data.twitter_accounts
-            );
-            this.$store.commit(MUTATE_ACCESS_KEY_CONFIGURATION, response.data);
-            localStorage.setItem(LOCAL_STORAGE_ACCESS_KEY, this.accessKey);
 
-            this.getInitialConceptsData();
-            this.$store
-              .dispatch(
-                ACTION_FETCH_INITIAL_DATA,
-                response.data.twitter_accounts
-              )
-              .then(
-                response => {
-                  this.waitingForResponse = false;
-                  this.$store.commit(MUTATE_ACCESS_KEY, this.accessKey);
-                  this.$router.push({ path: ROUTE_UPLOAD });
-                },
-                error => {
-                  this.waitingForResponse = false;
-                  console.error(
-                    "Got nothing from server. Prompt user to check internet connection and try again"
-                  );
-                }
-              );
-          } else {
-            this.waitingForResponse = false;
-            this.errorSnackbar = true;
-            this.accessKey = "";
-          }
-        })
-        .catch(e => {
-          this.waitingForResponse = false;
-          this.errorSnackbar = true;
-          this.accessKey = "";
-          this.errors.push(e);
-        });
+      // begin
+      localStorage.setItem(LOCAL_STORAGE_ACCESS_KEY, this.accessKey);
+      this.getInitialConceptsData();
+      console.error("LoginHome: getInitialConceptsData");
+      this.$store.commit(MUTATE_ACCESS_KEY, this.accessKey);
+      this.$router.push({ path: ROUTE_UPLOAD });
+
+
+      this.waitingForResponse = false;
+
+      // end
+
     },
     getInitialConceptsData() {
       this.$store
@@ -147,8 +115,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch(
-      "setToolbarHeader",
-      "Check Access and Load Configuration"
+        "setToolbarHeader",
+        "Check Access and Load Configuration"
     );
     if (localStorage.getItem(LOCAL_STORAGE_ACCESS_KEY)) {
       this.accessKey = localStorage.getItem(LOCAL_STORAGE_ACCESS_KEY);

@@ -39,6 +39,12 @@ export default {
           theme: ""
         },
         {
+          title: "UVL Dashboard",
+          icon: "storage",
+          path: "/uvldashboard",
+          theme: THEME_UVL
+        },
+        {
           title: "Upload Data",
           icon: "upload",
           path: "/upload",

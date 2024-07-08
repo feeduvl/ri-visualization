@@ -8,6 +8,9 @@ export const ROUTE_PROBLEM_REPORTS = "/problemReports";
 export const ROUTE_INQUIRIES = "/inquiries";
 export const ROUTE_COMPARISON = "/comparison";
 export const ROUTE_SETTINGS = "/settings";
+export const ROUTE_UVLDASHBOARD = "/uvldashboard";
+export const ROUTE_UVLDASHBOARD_JIRA = "jira";
+export const ROUTE_UVLDASHBOARD_ANNOTATION = "annotation";
 export const ROUTE_UPLOAD = "/upload";
 export const ROUTE_START_DETECTION = "/detection";
 export const ROUTE_ANNOTATION = "/annotation";
@@ -52,6 +55,21 @@ export const routes = [{
     path: ROUTE_SETTINGS,
     component: () => import('./components/SettingsHome.vue')
   },
+  {
+    path: ROUTE_UVLDASHBOARD,
+    component: () => import('./components/UVLDashboard.vue'),
+    children:[
+      {
+        path: ROUTE_UVLDASHBOARD_JIRA,
+        component: () => import('./components/uvlDashboardViews/jiraView.vue')
+      },
+      {
+        path: ROUTE_UVLDASHBOARD_ANNOTATION,
+        component: () => import('./components/UVLDashboard.vue')
+      },
+    ]
+  },
+
   {
     path: ROUTE_UPLOAD,
     component: () => import('./components/UploadHome.vue')
