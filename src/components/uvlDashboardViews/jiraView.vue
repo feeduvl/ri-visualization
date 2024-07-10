@@ -216,6 +216,9 @@ export default {
       this.snackbarVisible = false;
       this.snackbarText = "";
     },
+    openImportDialog(){
+      this.importDialog = true
+    },
   },
   computed:{
     isLoadingData() {
@@ -233,9 +236,7 @@ export default {
       // this.getAllIssues()
       // this.getProjectNames()
     },
-    openImportDialog(){
-      this.importDialog = true
-    },
+
     ...mapGetters({
       datasets: 'datasets'
     }),
