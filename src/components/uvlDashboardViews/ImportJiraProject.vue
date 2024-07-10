@@ -1,5 +1,23 @@
 <template>
   <div class="container">
+    <p class="headline-select-jira-project">
+      Select Project to import:
+    </p>
+    <div>
+      <v-select class="select-issueTypes" v-model="projectName" :items="allAvailableJiraIssues"
+                label="Select project" item-text="name"
+      ></v-select>
+      <v-btn dark :style="{ backgroundColor: blueDark }" @click="openImportDialog()"> Search
+      </v-btn>
+      <!--<v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
+      </v-btn>-->
+    </div>
+    <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
+
+
+
+
+
     <v-dialog v-model="openDialog" width="70%">
       <div v-if="!isLoadingData">
         <div v-if="dialogIssues">
@@ -135,6 +153,18 @@ export default {
         this.dialogIssueTypes = true
         this.$store.dispatch("actionGetIssueTypesByProjectNameFromJira", this.projectName)
       }
+    },
+    openImportDialog(){
+      if (this.projectName === "") {
+        this.warning = "No project selected. Please select a project"
+        return this.isProjectSelected = false
+      } else {
+        this.isProjectSelected = true
+        this.openDialog = true
+        this.dialogIssueTypes = true
+        this.$store.dispatch("actionGetIssueTypesByProjectNameFromJira", this.projectName)
+      }
+      console.log("openImportDialog");
     },
   },
   computed:{

@@ -3,22 +3,11 @@
     <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
-    <p class="headline-select-jira-project">
-      Select Project to import:
-    </p>
-    <div>
-      <v-select class="select-issueTypes" v-model="projectName" :items="allAvailableJiraIssues"
-                label="Select project" item-text="name"
-      ></v-select>
-      <v-btn dark :style="{ backgroundColor: blueDark }" class="element2" @click="openImportDialog()"> Import Requirements
-      </v-btn>
-      <v-dialog class="custom-dialog" v-model="importDialog">
-        <ImportJiraProject class="import-dialog" @toggleImport="toggleImport" :importDialog="importDialog"/>
-      </v-dialog>
-      <!--<v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
-      </v-btn>-->
+    <div class="import-elements">
+      <div class="import-buttons">
+        <ImportJiraProject class="element1"></ImportJiraProject>
+      </div>
     </div>
-    <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
 
     <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
@@ -216,10 +205,7 @@ export default {
       this.snackbarVisible = false;
       this.snackbarText = "";
     },
-    openImportDialog(){
-      this.importDialog = true
-      console.log("openImportDialog");
-    },
+
     // Close Dialog for import jira issues
     toggleImport(value) {
       console.log("toggleImport");
@@ -266,5 +252,9 @@ export default {
 }
 .headline-select-jira-project{
   font-size: 18px;
+}
+.import-dialog {
+  background-color: white;
+  height: 300px;
 }
 </style>
