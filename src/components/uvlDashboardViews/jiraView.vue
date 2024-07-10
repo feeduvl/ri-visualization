@@ -230,8 +230,8 @@ export default {
     // Close Dialog for import jira issues
     toggleImport(value) {
       this.importDialog = value;
-      <!--this.getAllIssues()
-      this.getProjectNames()-->
+      // this.getAllIssues()
+      // this.getProjectNames()
     },
     openImportDialog(){
       this.importDialog = true
