@@ -148,10 +148,10 @@ export default {
     }
   },
   methods:{
-    toggleImport() {
+    /*toggleImport() {
       console.log(this.importDialog)
       this.$emit('toggleImport', !this.importDialog);
-    },
+    },*/
     getAllJiraProjects() {
       this.$store.dispatch("actionGetAllJiraProjects")
     },
@@ -218,7 +218,16 @@ export default {
     },
     openImportDialog(){
       this.importDialog = true
+      console.log("openImportDialog");
     },
+    // Close Dialog for import jira issues
+    toggleImport(value) {
+      console.log("toggleImport");
+      this.importDialog = value;
+      this.getAllIssues()
+      this.getProjectNames()
+    },
+
   },
   computed:{
     isLoadingData() {
@@ -229,12 +238,6 @@ export default {
     },
     allAvailableDataSets(){
 
-    },
-    // Close Dialog for import jira issues
-    toggleImport(value) {
-      this.importDialog = value;
-      // this.getAllIssues()
-      // this.getProjectNames()
     },
 
     ...mapGetters({
