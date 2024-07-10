@@ -10,8 +10,13 @@
       <v-select class="select-issueTypes" v-model="projectName" :items="allAvailableJiraIssues"
                 label="Select project" item-text="name"
       ></v-select>
-      <v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
+      <v-btn dark :style="{ backgroundColor: blueDark }" class="element2" @click="openImportDialog()"> Import Requirements
       </v-btn>
+      <v-dialog class="custom-dialog" v-model="importDialog">
+        <ImportJiraProject class="import-dialog" @toggleImport="toggleImport" :importDialog="importDialog"/>
+      </v-dialog>
+      <!--<v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
+      </v-btn>-->
     </div>
     <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
 
@@ -97,6 +102,9 @@
 <script >
 
 import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
+import ImportJiraProject from "@/components/uvlDashboardViews/ImportJiraProject.vue";
+import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFromDB.vue";
+
 import {mapGetters} from "vuex";
 import axios from "axios";
 
@@ -105,6 +113,8 @@ export default {
   name: "SearchForJiraProject",
   components: {
     LoadingView,
+    ImportJiraProject,
+    LoadFeedbackFromDB,
     "empty-parameter": () => import("./../form/EmptyParameter"),
     "lda-parameter": () => import("./../form/LdaParameter"),
     "seanmf-parameter": () => import("./../form/SeanmfParameter"),
