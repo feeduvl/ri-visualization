@@ -125,6 +125,7 @@
 import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
 import ImportJiraProject from "@/components/uvlDashboardViews/ImportJiraProject.vue";
 import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFromDB.vue";
+import { getMethodObj, METHODS } from "@/methods";
 
 import {mapGetters} from "vuex";
 import axios from "axios";
