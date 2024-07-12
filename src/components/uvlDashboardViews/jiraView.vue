@@ -19,11 +19,15 @@
       <v-select class="select-issueTypes" v-model="projectName" :items="datasets"
                 label="Select dataset" item-text="dataset"
       ></v-select>
-      <v-btn dark color="blue" @click="getIssueTypesByProjectName()"> ADD
+      <v-btn dark color="blue" @click="addDataset()"> ADD
       </v-btn>
     </div>
+    <component v-bind:is="component" v-bind:dataset="selectedDataset" />
+
+
     <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
     <v-card>
+      <component v-bind:is="component" v-bind:dataset="selectedDataset" />
       <v-card flat class="header">
         <v-card-title primary-title>
           <h2>Select File</h2>
@@ -53,6 +57,35 @@
         </v-layout>
       </v-container>
     </v-card>
+
+    <v-card id="listingWrapper">
+      <v-card flat class="header">
+        <v-card-title primary-title>
+          <h2>Selected Datasets</h2>
+        </v-card-title>
+      </v-card>
+      <v-layout row wrap id="datasetListing">
+        <v-card
+            id="datasetTile"
+            max-width="400"
+            min-width="360"
+            height="100"
+            v-for="dataset in datasets"
+            v-bind:key="dataset"
+        >
+          <v-card-title><h3>{{ dataset }}</h3></v-card-title>
+          <v-btn small outline color="error" @click="showRemoveDataset(dataset)" class="btnAlign">
+            Delete
+          </v-btn>
+          <v-btn small color="primary" @click="showDataset(dataset)" class="btnAlign">
+            Show
+          </v-btn>
+        </v-card>
+      </v-layout>
+    </v-card>
+
+
+
     <v-card>
       <v-card flat class="header">
         <v-card-title primary-title>
@@ -78,7 +111,6 @@
         </v-layout>
       </v-container>
       <v-divider />
-      <component v-bind:is="component" v-bind:dataset="selectedDataset" />
     </v-card>
     <div>
       <v-btn dark color="red" @click=""> Automatically relate feedback to requirements
@@ -129,11 +161,13 @@ export default {
         {text: "Project Name", value: "projectName"},
       ],
       isProjectSelected: true,
+      selectedDataset: "",
       warning: "",
       projectName: "",
       importDialog: false,
       uploadedFile: "",
       loading: false,
+      datasets: []
     }
   },
   methods:{
@@ -213,11 +247,23 @@ export default {
       this.getAllIssues()
       this.getProjectNames()
     },
+    showDataset(dataset) {
+      this.updateTheme("Dataset View", THEME_UVL);
+      this.$store.commit(MUTATE_SELECTED_DATASET_OUTSIDE, dataset);
+      this.$router.push("/dataset");
+    },
+    addDataset() {
+      this.datasets.push(this.$props.dataset);
+
+    }
 
   },
   computed:{
     isLoadingData() {
       return this.$store.state.isLoadingData
+    },
+    component() {
+      return getMethodObj(METHODS, this.selectedMethod).parameterComponentName;
     },
     allAvailableJiraIssues() {
       return this.$store.state.availableJiraProjects
