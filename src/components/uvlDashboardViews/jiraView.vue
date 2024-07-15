@@ -27,6 +27,7 @@
 
     <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
     <v-card>
+      <component v-bind:is="component" v-bind:dataset="selectedDataset" />
       <v-card flat class="header">
         <v-card-title primary-title>
           <h2>Select File</h2>
@@ -103,6 +104,10 @@
             <b>Status: <span :style="{ 'color': serviceColor }">{{ serviceStatus }}</span></b>
           </v-flex>
           <v-flex xs1 />
+          <v-flex xs3>
+            <v-select v-model="selectedDataset" :items="datasets" label="Dataset">
+            </v-select>
+          </v-flex>
         </v-layout>
       </v-container>
       <v-divider />
@@ -294,5 +299,9 @@ export default {
 }
 .headline-select-jira-project{
   font-size: 18px;
+}
+.import-dialog {
+  background-color: white;
+  height: 300px;
 }
 </style>
