@@ -54,6 +54,34 @@
         </v-layout>
       </v-container>
     </v-card>
+
+
+    <v-card id="listingWrapper">
+      <v-card flat class="header">
+        <v-card-title primary-title>
+          <h2>Selected Datasets</h2>
+        </v-card-title>
+      </v-card>
+      <v-layout row wrap id="datasetListing">
+        <v-card
+            id="datasetTile"
+            max-width="400"
+            min-width="360"
+            height="100"
+            v-for="dataset in datasets"
+            v-bind:key="dataset"
+        >
+          <v-card-title><h3>{{ dataset }}</h3></v-card-title>
+          <v-btn small outline color="error" @click="showRemoveDataset(dataset)" class="btnAlign">
+            Delete
+          </v-btn>
+          <v-btn small color="primary" @click="showDataset(dataset)" class="btnAlign">
+            Show
+          </v-btn>
+        </v-card>
+      </v-layout>
+    </v-card>
+
     <v-card>
       <v-card flat class="header">
         <v-card-title primary-title>
@@ -223,7 +251,8 @@ export default {
     addDataset() {
       this.datasets.push(this.$props.dataset);
 
-    }
+    },
+    showRemoveDataset(dataset){}
 
   },
   computed:{
