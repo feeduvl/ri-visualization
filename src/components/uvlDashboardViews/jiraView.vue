@@ -19,9 +19,10 @@
       <v-select class="select-issueTypes" v-model="projectName" :items="datasets"
                 label="Select dataset" item-text="dataset"
       ></v-select>
-      <v-btn dark color="blue" @click="getIssueTypesByProjectName()"> ADD
+      <v-btn dark color="blue" @click="addDataset()"> ADD
       </v-btn>
     </div>
+    <component v-bind:is="component" v-bind:dataset="selectedDataset" />
     <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
     <v-card>
       <v-card flat class="header">
@@ -93,6 +94,7 @@
 import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
 import ImportJiraProject from "@/components/uvlDashboardViews/ImportJiraProject.vue";
 import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFromDB.vue";
+import { getMethodObj, METHODS } from "@/methods";
 
 import {mapGetters} from "vuex";
 import axios from "axios";
@@ -213,11 +215,23 @@ export default {
       this.getAllIssues()
       this.getProjectNames()
     },
+    showDataset(dataset) {
+      this.updateTheme("Dataset View", THEME_UVL);
+      this.$store.commit(MUTATE_SELECTED_DATASET_OUTSIDE, dataset);
+      this.$router.push("/dataset");
+    },
+    addDataset() {
+      this.datasets.push(this.$props.dataset);
+
+    }
 
   },
   computed:{
     isLoadingData() {
       return this.$store.state.isLoadingData
+    },
+    component() {
+      return getMethodObj(METHODS, this.selectedMethod).parameterComponentName;
     },
     allAvailableJiraIssues() {
       return this.$store.state.availableJiraProjects
