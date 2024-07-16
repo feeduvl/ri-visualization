@@ -1,5 +1,5 @@
 /* eslint-disable */
-export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic", "acceptance-criteria", "us-similarity", "acceptance-criteria-completeness", "bert", "relevance-classifier"];
+export const METHOD_LIST = ["lda", "seanmf", "frequency-rbai", "frequency-fcic", "acceptance-criteria", "us-similarity", "acceptance-criteria-completeness", "bert", "relevance-classifier", "spellchecker"];
 
 export const METHODS = [
     {
@@ -121,6 +121,16 @@ export const METHODS = [
         parameterComponentPath: "./form/RelevanceClassifierParameter",
         resultComponentName: "relevance-classifier-result",
         resultComponentPath: "./components/result/RelevanceClassifierResult",
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: false
+    },
+    {
+        name: "spellchecker",
+        displayName: "Spellchecker",
+        parameterComponentName: "spellchecker-parameter",
+        parameterComponentPath: "./form/SpellcheckerParameter",
+        resultComponentName: "spellchecker-result",
+        resultComponentPath: "./components/result/SpellcheckerResult",
         scoreFunction: getScoreEmpty,
         showInDocumentView: false
     }

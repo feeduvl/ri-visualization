@@ -34,6 +34,7 @@ export default {
     "bilstm-bert-result": () => import("./result/ClassifierTOREResult"),
     "sner-bert-result": () => import("./result/ClassifierTOREResult"),
     "relevance-classifier-result": () => import("./result/RelevanceClassifierResult"),
+    "spellchecker-result": () => import("./result/SpellcheckerResult"),
   },
   computed: {
     ...mapGetters({

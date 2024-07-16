@@ -169,6 +169,7 @@ export default {
     "us-similarity-parameter": () => import("./form/UserStorySimilarityParameter"),
     "ac-completeness-parameter": () => import("./form/AcceptanceCriteriaCompletenessParameter"),
     "relevance-classifier-parameter": () => import("./form/RelevanceClassifierParameter"),
+    "spellchecker-parameter": () => import("./form/SpellcheckerParameter"),
   },
   created() {
     this.$store.dispatch('actionGetAllAnnotations');
