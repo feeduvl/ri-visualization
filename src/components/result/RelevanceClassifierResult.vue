@@ -56,10 +56,10 @@
             <tr>
                 <td>{{ props.item.id }}</td>
                 <td style="background-color: lightgrey;"> <!--- white-space: pre-wrap; -->
-                    {{ props.item.originalText }}
+                    <div v-html="props.item.originalText"></div>
                 </td>
                 <td style="background-color: lightgreen;"> <!--- white-space: pre-wrap; -->
-                    {{ props.item.adjustedText }}
+                    <div v-html="props.item.adjustedText"></div>
                 </td>
             </tr>
             </template>
@@ -104,6 +104,7 @@
 <script>
 import axios from "axios";
 import {mapGetters} from "vuex";
+import { diffSentences } from 'diff';
 import {
   GET_DATASET_ENDPOINT, ANNOTATION_GET_ENDPOINT
 } from "@/RESTconf";
@@ -321,24 +322,43 @@ export default {
             return documents
         },
 
+        highlightDifferences(originalText, adjustedText) {
+            const diff = diffSentences(originalText, adjustedText);
+            let highlightedOriginalText = '';
+            let highlightedAdjustedText = '';
+
+            diff.forEach(part => {
+                if (part.removed) {
+                highlightedOriginalText += `<span style="background-color: red">${part.value}</span>`;
+                } else {
+                highlightedOriginalText += part.value;
+                highlightedAdjustedText += part.value;
+                }
+            });
+
+            return { highlightedOriginalText, highlightedAdjustedText };
+        },
+
         combineDatasets() {
             this.combinedData = this.originalData.map(originalItem => {
                 const adjustedItem = this.adjustedData.find(adjustedItem => adjustedItem.id === originalItem.id);
                 if (adjustedItem) {
-                return {
-                    id: originalItem.id,
-                    originalText: originalItem.originalText, 
-                    adjustedText: adjustedItem.adjustedText
-                };
+                    const { highlightedOriginalText, highlightedAdjustedText } = this.highlightDifferences(originalItem.originalText, adjustedItem.adjustedText);
+                    return {
+                        id: originalItem.id,
+                        originalText: highlightedOriginalText, 
+                        adjustedText: highlightedAdjustedText
+                    };
                 } else {
-                return {
-                    id: originalItem.id,
-                    originalText: originalItem.originalText,
-                    adjustedText: ''
-                };
+                    // Highlight the entire original text in red
+                    const { highlightedOriginalText } = this.highlightDifferences(originalItem.originalText, '');
+                    return {
+                        id: originalItem.id,
+                        originalText: highlightedOriginalText,
+                        adjustedText: ''
+                    };
                 }
             });
-            console.log("this.combinedData: ", this.combinedData);
         },
 
         async loadAndCombineDatasets() {
