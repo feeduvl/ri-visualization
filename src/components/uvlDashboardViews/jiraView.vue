@@ -251,10 +251,15 @@ export default {
       this.$router.push("/dataset");
     },
     addDataset() {
-      this.selectedDatasets.push(this.selectedDatasetName);
+      if (!this.selectedDatasets.includes(this.selectedDatasetName,0)) {
+        this.selectedDatasets.push(this.selectedDatasetName);
+      }
 
     },
-    showRemoveDataset(dataset){}
+    showRemoveDataset(dataset){
+      const index = this.selectedDatasets.indexOf(dataset)
+      this.selectedDatasets.splice(index, 1)
+    }
 
   },
   computed:{
@@ -263,6 +268,9 @@ export default {
     },
     component() {
       return getMethodObj(METHODS, this.selectedMethod).parameterComponentName;
+    },
+    fileInputField() {
+      return document.getElementById("file-input-field");
     },
     allAvailableJiraIssues() {
       return this.$store.state.availableJiraProjects
