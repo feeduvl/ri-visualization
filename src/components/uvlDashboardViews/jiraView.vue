@@ -100,10 +100,10 @@
             <b>Status: <span :style="{ 'color': serviceColor }">{{ serviceStatus }}</span></b>
           </v-flex>
           <v-flex xs1 />
-          <v-flex xs3>
+          <!-- <v-flex xs3>
             <v-select v-model="selectedDataset" :items="datasets" label="Dataset">
             </v-select>
-          </v-flex>
+          </v-flex> -->
         </v-layout>
       </v-container>
       <v-divider />
@@ -168,6 +168,7 @@ export default {
       loading: false,
       selectedDatasets: [],
       selectedDatasetName: "",
+      runMethods: METHODS,
     }
   },
   methods:{
