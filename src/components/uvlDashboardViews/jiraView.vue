@@ -227,7 +227,7 @@ export default {
         });
       }
       console.log(this.uploadedFile);
-      this.selectedDatasetName = this.uploadedFile.split(".",0)
+      this.selectedDatasetName = this.uploadedFile['name'].split(".",0)
       this.selectedDatasets.push(this.selectedDatasetName);
     },
     getFileName() {

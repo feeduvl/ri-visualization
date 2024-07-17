@@ -57,6 +57,10 @@ export const routes = [{
   },
   {
     path: ROUTE_UVLDASHBOARD,
+    redirect: "/uvldashboard/jira",
+  },
+  {
+    path: ROUTE_UVLDASHBOARD,
     component: () => import('./components/UVLDashboard.vue'),
     children:[
       {
