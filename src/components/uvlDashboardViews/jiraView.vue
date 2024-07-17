@@ -16,7 +16,7 @@
       Select Datasets to use:
     </p>
     <div>
-      <v-select class="select-issueTypes" v-model="projectName" :items="datasets"
+      <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
                 label="Select dataset" item-text="dataset"
       ></v-select>
       <v-btn dark color="blue" @click="addDataset()"> ADD
@@ -73,7 +73,7 @@
         >
           <v-card-title><h3>{{ dataset }}</h3></v-card-title>
           <v-btn small outline color="error" @click="showRemoveDataset(dataset)" class="btnAlign">
-            Delete
+            Remove
           </v-btn>
           <v-btn small color="primary" @click="showDataset(dataset)" class="btnAlign">
             Show
@@ -164,6 +164,8 @@ export default {
       importDialog: false,
       uploadedFile: "",
       loading: false,
+      datasets: [],
+      selectedDatasetName: "",
     }
   },
   methods:{
@@ -249,7 +251,7 @@ export default {
       this.$router.push("/dataset");
     },
     addDataset() {
-      this.datasets.push(this.$props.dataset);
+      this.datasets.push(this.selectedDatasetName);
 
     },
     showRemoveDataset(dataset){}
@@ -270,7 +272,7 @@ export default {
     },
 
     ...mapGetters({
-      datasets: 'datasets'
+      //datasets: 'datasets'
     }),
     fileDisplayName() {
       if (this.uploadedFile) {
