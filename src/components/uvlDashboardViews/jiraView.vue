@@ -124,7 +124,7 @@ import ImportJiraProject from "@/components/uvlDashboardViews/ImportJiraProject.
 import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFromDB.vue";
 import { getMethodObj, METHODS } from "@/methods";
 import {POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
-import {SNACKBAR_DISPLAY_TIME, THEME_UVL} from "@/theme";
+import {setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL} from "@/theme";
 
 import {mapGetters} from "vuex";
 import axios from "axios";
