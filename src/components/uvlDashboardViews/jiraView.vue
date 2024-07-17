@@ -24,7 +24,7 @@
     </div>
     <component v-bind:is="component" v-bind:dataset="selectedDataset" />
     <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
-    <v-card>
+    <!--<v-card>
       <v-card flat class="header">
         <v-card-title primary-title>
           <h2>Select File</h2>
@@ -53,7 +53,7 @@
           </v-flex>
         </v-layout>
       </v-container>
-    </v-card>
+    </v-card> -->
 
 
     <v-card id="listingWrapper">
@@ -124,6 +124,7 @@ import ImportJiraProject from "@/components/uvlDashboardViews/ImportJiraProject.
 import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFromDB.vue";
 import { getMethodObj, METHODS } from "@/methods";
 import {POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
+import {SNACKBAR_DISPLAY_TIME, THEME_UVL} from "@/theme";
 
 import {mapGetters} from "vuex";
 import axios from "axios";
@@ -226,9 +227,8 @@ export default {
           this.loading = false;
         });
       }
-      console.log(this.uploadedFile);
-      this.selectedDatasetName = this.uploadedFile['name'].split(".",0)
-      this.selectedDatasets.push(this.selectedDatasetName);
+      console.log(this.uploadedFile['name']);
+      this.displaySnackbar("Please select your uploaded dataset from the dropdown menu.");
     },
     getFileName() {
       this.uploadedFile = this.fileInputField.files[0];
