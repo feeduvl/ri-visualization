@@ -123,6 +123,7 @@ import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue
 import ImportJiraProject from "@/components/uvlDashboardViews/ImportJiraProject.vue";
 import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFromDB.vue";
 import { getMethodObj, METHODS } from "@/methods";
+import {POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
 
 import {mapGetters} from "vuex";
 import axios from "axios";
@@ -225,6 +226,9 @@ export default {
           this.loading = false;
         });
       }
+      console.log(this.uploadedFile);
+      this.selectedDatasetName = this.uploadedFile.split(".",0)
+      this.selectedDatasets.push(this.selectedDatasetName);
     },
     getFileName() {
       this.uploadedFile = this.fileInputField.files[0];
