@@ -263,6 +263,11 @@ export default {
     showRemoveDataset(dataset){
       const index = this.selectedDatasets.indexOf(dataset)
       this.selectedDatasets.splice(index, 1)
+    },
+    updateTheme (title, theme) {
+      if (theme !== "") {
+        setTheme(title, theme, this.$store);
+      }
     }
 
   },
