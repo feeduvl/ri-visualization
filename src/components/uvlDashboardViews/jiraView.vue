@@ -68,7 +68,7 @@
             max-width="400"
             min-width="360"
             height="100"
-            v-for="dataset in datasets"
+            v-for="dataset in selectedDatasets"
             v-bind:key="dataset"
         >
           <v-card-title><h3>{{ dataset }}</h3></v-card-title>
@@ -164,7 +164,7 @@ export default {
       importDialog: false,
       uploadedFile: "",
       loading: false,
-      datasets: [],
+      selectedDatasets: [],
       selectedDatasetName: "",
     }
   },
@@ -251,7 +251,7 @@ export default {
       this.$router.push("/dataset");
     },
     addDataset() {
-      this.datasets.push(this.selectedDatasetName);
+      this.selectedDatasets.push(this.selectedDatasetName);
 
     },
     showRemoveDataset(dataset){}
@@ -272,7 +272,7 @@ export default {
     },
 
     ...mapGetters({
-      //datasets: 'datasets'
+      datasets: 'datasets'
     }),
     fileDisplayName() {
       if (this.uploadedFile) {
@@ -297,9 +297,5 @@ export default {
 }
 .headline-select-jira-project{
   font-size: 18px;
-}
-.import-dialog {
-  background-color: white;
-  height: 300px;
 }
 </style>
