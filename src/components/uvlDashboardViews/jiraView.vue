@@ -82,13 +82,13 @@
       </v-layout>
     </v-card>
 
-    <v-card>
+    <!--<v-card>
       <div>
         <StartDetectionHome class="element1"></StartDetectionHome>
       </div>
-    </v-card>
+    </v-card>-->
     <div>
-      <v-btn dark color="red" @click=""> Automatically relate feedback to requirements
+      <v-btn dark color="red" @click="assignFeedbackToIssues()"> Automatically relate feedback to requirements
       </v-btn>
     </div>
   </div>
@@ -150,6 +150,8 @@ export default {
       selectedDatasets: [],
       selectedDatasetName: "",
       runMethods: METHODS,
+      showUnassigned: false,
+
     }
   },
   methods:{
@@ -250,7 +252,35 @@ export default {
       if (theme !== "") {
         setTheme(title, theme, this.$store);
       }
-    }
+    },
+    async assignFeedbackToIssues(){
+      let selectedFeedback = this.$store.state.selectedFeedback
+      console.log (selectedFeedback)
+      let maxSimilarity = 0
+      /*if (this.maxSimilarity !== ""){
+        maxSimilarity = this.maxSimilarity
+      }*/
+      await this.$store.dispatch("actionAssignIssuesToFeedback", {selectedFeedback, maxSimilarity})
+      this.getAllIssues()
+    },
+    getAllIssues() {
+      if(this.showUnassigned){
+        this.getUnassignedIssues()
+      }else{
+        let page = this.pagination.page
+        let size = this.pagination.rowsPerPage
+        this.$store.dispatch("actionGetAllIssues", {page, size})
+      }
+    },
+    async getUnassignedIssues() {
+      if(this.showUnassigned){
+        let page = this.pagination.page
+        let size = this.pagination.rowsPerPage
+        await this.$store.dispatch("actionGetIssuesWithoutAssignment", {page, size})
+      }else{
+        this.getAllIssues()
+      }
+    },
 
   },
   computed:{
