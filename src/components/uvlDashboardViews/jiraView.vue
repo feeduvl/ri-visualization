@@ -83,31 +83,9 @@
     </v-card>
 
     <v-card>
-      <v-card flat class="header">
-        <v-card-title primary-title>
-          <h1>Start Analysis</h1>
-        </v-card-title>
-      </v-card>
-      <v-container>
-        <v-layout row wrap>
-          <v-flex xs3>
-            <v-select v-model="selectedMethod" :items="runMethods" item-text="displayName" item-value="name"
-                      label="Method">
-            </v-select>
-          </v-flex>
-          <v-flex xs1 />
-          <v-flex xs3 id="service-status">
-            <b>Status: <span :style="{ 'color': serviceColor }">{{ serviceStatus }}</span></b>
-          </v-flex>
-          <v-flex xs1 />
-          <!-- <v-flex xs3>
-            <v-select v-model="selectedDataset" :items="datasets" label="Dataset">
-            </v-select>
-          </v-flex> -->
-        </v-layout>
-      </v-container>
-      <v-divider />
-      <component v-bind:is="component" v-bind:dataset="selectedDataset" />
+      <div>
+        <StartDetectionHome class="element1"></StartDetectionHome>
+      </div>
     </v-card>
     <div>
       <v-btn dark color="red" @click=""> Automatically relate feedback to requirements
@@ -121,6 +99,7 @@
 
 import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
 import ImportJiraProject from "@/components/uvlDashboardViews/ImportJiraProject.vue";
+import StartDetectionHome from "@/components/uvlDashboardViews/StartDetectionHome.vue";
 import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFromDB.vue";
 import { getMethodObj, METHODS } from "@/methods";
 import {POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
@@ -134,6 +113,7 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "SearchForJiraProject",
   components: {
+    StartDetectionHome,
     LoadingView,
     ImportJiraProject,
     LoadFeedbackFromDB,
