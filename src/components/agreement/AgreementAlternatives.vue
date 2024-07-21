@@ -143,7 +143,7 @@
             <div class="agreement-input__input-fields">
                 <template v-if="!isLinking && !isAddingToken"
                           class="agreement-input-no-link">
-                    <v-combobox
+                    <v-combobox v-if="!$store.state.sentenceTokenizationEnabledForAgreement"
                         required
                         :class="['agreement-input__name']"
                         label="Name"
@@ -158,13 +158,18 @@
                     <v-autocomplete
                         class="agreement-input__tore"
                         @change="updateTore"
-                        :rules="[requiredAgreementsPresent || 'Either a name or a category is required']"
+                        :rules="[
+                                    requiredAgreementsPresent || 
+                                    ($store.state.sentenceTokenizationEnabledForAgreement
+                                    ? 'A category is required'
+                                    : 'Either a name or a category is required')
+                                ]"
                         :items="tores"
                         :value="newCategory"
                         label="Category">
                     </v-autocomplete>
 
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="!$store.state.sentenceTokenizationEnabledForAgreement">
                         <template #activator="{on}">
                             <v-icon v-on="on"
                                     :disabled="!newCategory || (newCategory === '') || allowedRelationshipNames.length === 0"
