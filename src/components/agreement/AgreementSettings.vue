@@ -23,14 +23,14 @@
                   <v-flex xs12>
                   <label>
                       <input type="radio" id="Word-based" :value="false" v-model="sentenceTokenizationEnabledForAgreement" />
-                      <label for="Word-based"> Word-based Tokenisation</label>
+                      <label for="Word-based"> Word-based Tokenization</label>
                   </label>
                   </v-flex>
 
                   <v-flex xs12>
                   <label>
                       <input type="radio" id="Sentence-based" :value="true" v-model="sentenceTokenizationEnabledForAgreement" />
-                      <label for="Sentence-based"> Sentence-based Tokenisation</label>
+                      <label for="Sentence-based"> Sentence-based Tokenization</label>
                   </label>
                   </v-flex>
               </div>
@@ -296,7 +296,7 @@ export default {
           filterable: false,
         },
         {
-          text: "Type of Tokenisation",
+          text: "Type of Tokenization",
           align: "center",
           sortable: true,
           value: "sentence_tokenization_enabled_for_agreement",
