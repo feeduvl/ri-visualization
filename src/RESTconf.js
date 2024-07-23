@@ -83,6 +83,7 @@ export const DELETE_RESULT_ENDPOINT = function (result) {
 };
 
 export const POST_START_DETECTION_ENDPOINT = `/hitec/orchestration/concepts/detection/`;
+export const POST_START_MULTIDETECTION_ENDPOINT = `/hitec/orchestration/concepts/multidetection/`;
 
 export const POST_START_RELEVANCE_CLASSIFICATION_ENDPOINT = `/hitec/orchestration/concepts/relevance/`;
 

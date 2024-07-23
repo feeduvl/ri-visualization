@@ -69,7 +69,7 @@ export const routes = [{
       },
       {
         path: ROUTE_UVLDASHBOARD_ANNOTATION,
-        component: () => import('./components/UVLDashboard.vue')
+        component: () => import('./components/uvlDashboardViews/annotationView.vue')
       },
     ]
   },
