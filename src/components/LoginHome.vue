@@ -83,19 +83,49 @@ export default {
     },
     sendCheckAccessKey() {
       this.waitingForResponse = true;
-
-      // begin
-      localStorage.setItem(LOCAL_STORAGE_ACCESS_KEY, this.accessKey);
-      this.getInitialConceptsData();
-      console.error("LoginHome: getInitialConceptsData");
-      this.$store.commit(MUTATE_ACCESS_KEY, this.accessKey);
-      this.$router.push({ path: ROUTE_UPLOAD });
-
-
-      this.waitingForResponse = false;
-
-      // end
-
+      axios.post(
+          POST_RETRIEVE_ACCESS_KEY_CONFIGURATION(),
+          POST_RETRIEVE_ACCESS_KEY_CONFIGURATION_PAYLOAD(this.accessKey)
+        )
+        .then(response => {
+          if (response.status == 200) {
+            this.$store.commit(
+              MUTATE_TWITTER_ACCOUNTS,
+              response.data.twitter_accounts
+            );
+            this.$store.commit(MUTATE_ACCESS_KEY_CONFIGURATION, response.data);
+            localStorage.setItem(LOCAL_STORAGE_ACCESS_KEY, this.accessKey);
+            this.getInitialConceptsData();
+            this.$store
+              .dispatch(
+                ACTION_FETCH_INITIAL_DATA,
+                response.data.twitter_accounts
+              )
+              .then(
+                response => {
+                  this.waitingForResponse = false;
+                  this.$store.commit(MUTATE_ACCESS_KEY, this.accessKey);
+                  this.$router.push({ path: ROUTE_UPLOAD });
+                },
+                error => {
+                  this.waitingForResponse = false;
+                  console.error(
+                    "Got nothing from server. Prompt user to check internet connection and try again"
+                  );
+                }
+              );
+          } else {
+            this.waitingForResponse = false;
+            this.errorSnackbar = true;
+            this.accessKey = "";
+          }
+        })
+        .catch(e => {
+          this.waitingForResponse = false;
+          this.errorSnackbar = true;
+          this.accessKey = "";
+          this.errors.push(e);
+        });
     },
     getInitialConceptsData() {
       this.$store
