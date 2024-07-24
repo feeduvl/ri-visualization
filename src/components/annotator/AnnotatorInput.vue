@@ -18,7 +18,7 @@
             <div class="annotator-input__input-fields">
                 <template v-if="!isLinking"
                           class="annotator-input-no-link">
-                    <v-menu
+                    <v-menu v-if="!$store.state.sentenceTokenizationEnabledForAnnotation"
                             bottom
                             left
                             offset-x>
@@ -162,7 +162,9 @@
                     <v-autocomplete
                             class="annotator-input__tore"
                             @change="updateTore"
-                            :rules="[requiredAnnotationsPresent || 'Either a name or a category is required']"
+                            :rules="[requiredAnnotationsPresent || ($store.state.sentenceTokenizationEnabledForAnnotation
+                                    ? 'A category is required'
+                                    : 'Either a name or a category is required')]"
                             :items="annotation_tores"
                             :value="tore"
                             :menu-props="{ maxHeight: 600 }"
