@@ -17,7 +17,7 @@
       <v-btn dark color="blue" @click="addDataset()"> ADD
       </v-btn>
     </div>
-    <component v-bind:is="component" v-bind:dataset="selectedDataset" />
+    <component v-bind:is="component" v-bind:dataset="this.selectedDatasets" />
     <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
     <!--<v-card>
       <v-card flat class="header">
@@ -150,6 +150,7 @@ export default {
     }
   },
   methods:{
+    selectedDataset,
     /*toggleImport() {
       console.log(this.importDialog)
       this.$emit('toggleImport', !this.importDialog);
