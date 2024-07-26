@@ -260,7 +260,7 @@ export default {
       /*if (this.maxSimilarity !== ""){
         maxSimilarity = this.maxSimilarity
       }*/
-      await this.$store.dispatch("actionAssignIssuesToFeedback", {selectedFeedback, maxSimilarity})
+      await this.$store.dispatch("actionAssignIssuesToManyFeedback", {selectedFeedback, maxSimilarity})
       this.getAllIssues()
     },
     getAllIssues() {

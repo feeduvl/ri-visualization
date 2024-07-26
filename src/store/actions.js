@@ -1026,6 +1026,21 @@ export const actionAssignIssuesToFeedback = ({commit}, {selectedFeedback, maxSim
     });
 };
 
+export const actionAssignIssuesToManyFeedback = ({commit}, {selectedFeedback, maxSimilarity}) => {
+    return new Promise(() => {
+        commit("setIsLoadingData", true);
+
+        axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/assign_many_feedback_to_issues/${selectedFeedback}/${maxSimilarity}`)
+            .then(response => {
+                commit("setIsLoadingData", false);
+                return response;
+            })
+            .catch(e => console.error("Error: "+e))
+            .finally(() => {
+            });
+    });
+};
+
 export const actionToreAssignIssuesToFeedback = ({commit}, {selectedFeedback, maxSimilarity}) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
