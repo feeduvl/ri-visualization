@@ -1030,7 +1030,7 @@ export const actionAssignIssuesToManyFeedback = ({commit}, {selectedFeedback, ma
     return new Promise(() => {
         commit("setIsLoadingData", true);
 
-        axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/assign_many_feedback_to_issues/${selectedFeedback}/${maxSimilarity}`)
+        axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/assign_many_feedback_to_issues/${maxSimilarity}`, {datasets: selectedFeedback})
             .then(response => {
                 commit("setIsLoadingData", false);
                 return response;
