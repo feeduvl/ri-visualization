@@ -5,7 +5,7 @@
                 <v-flex xs3>
                     <v-checkbox 
                     v-model="dataset_persist" 
-                    :label="`Spellcheck dataset: ${this.$props.dataset}`">
+                    :label="`Create new spellchecked dataset based on: ${this.$props.dataset}`">
                 </v-checkbox>
                 </v-flex>
                 <v-flex xs1 />
