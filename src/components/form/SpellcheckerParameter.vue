@@ -2,26 +2,21 @@
     <v-container>
         <v-form ref="form" v-model="formValid">
             <v-layout row wrap>
-                <v-flex xs3>
-                    <v-checkbox 
-                    v-model="dataset_persist" 
-                    :label="`Create new spellchecked dataset based on: ${this.$props.dataset}`">
-                </v-checkbox>
-                </v-flex>
-                <v-flex xs1 />
                 <v-flex xs4>
+                    <v-label>
+                        {{ `Create new spellchecked dataset based on: ${this.$props.dataset}` }}
+                    </v-label>
                     <v-text-field 
                         v-model="new_dataset_name" 
                         label="Enter a unique Dataset Name"
-                        :rules="[new_dataset_name => !new_dataset_name || !datasets.includes(new_dataset_name) || 'Dataset Name is already in use.']"
-                        :disabled="!dataset_persist">
+                        :rules="[new_dataset_name => !new_dataset_name || !datasets.includes(new_dataset_name) || 'Dataset Name is already in use.']">
                     </v-text-field>
                 </v-flex>
             </v-layout>
             <v-flex xs3>
-                    <v-text-field v-model="run_name" hint="Optional string to name this run." label="Run Name"
-                        persistent-hint></v-text-field>
-                </v-flex>
+                <v-text-field v-model="run_name" hint="Optional string to name this run." label="Run Name"
+                    persistent-hint></v-text-field>
+            </v-flex>
             <v-layout row wrap>
                 <v-flex xs9 />
                 <v-btn small color="primary" @click="resetForm">Reset</v-btn>
@@ -57,7 +52,6 @@ export default {
         snackbarText: "",
         snackbarTimeout: SNACKBAR_DISPLAY_TIME,
         formValid: true,
-        dataset_persist: false,
         new_annotation_name: "",
         new_dataset_name: "",
         run_name: ""
@@ -71,9 +65,7 @@ export default {
                 this.displaySnackbar("Please select a dataset!");
             } else if (!(this.formValid)) {
                 this.displaySnackbar("Please validate your parameter inputs!");
-            } else if (!(this.dataset_persist)){
-                this.displaySnackbar("Please select dataset creation!");
-            } else if ((this.dataset_persist) && (this.new_dataset_name === "")){
+            } else if ((this.new_dataset_name === "")){
                 this.displaySnackbar("Please enter a dataset creation name!");
             }
             else {
@@ -123,7 +115,6 @@ export default {
         },
         resetForm() {
             this.run_name = "",
-            this.dataset_persist = false;
             this.new_dataset_name = "";
         },
     },
