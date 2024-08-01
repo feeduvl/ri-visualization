@@ -93,6 +93,53 @@
     </div>
   </div>
 
+
+
+
+  <div class="main-issue-table">
+    <v-card class="v-card">
+      <v-card-title>
+        <h2>Jira Requirements</h2>
+
+        <div class="search-in-table">
+          <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
+        </div>
+
+        <div class="switch-container">
+          <div class="label-container">
+            <label for="showUnassigned" class="label-text">Show requirements without assigned feedback:</label>
+          </div>
+          <div class="switch-content">
+            <v-switch id="showUnassigned" v-model="showUnassigned" @change="getUnassignedIssues"></v-switch>
+          </div>
+        </div>
+      </v-card-title>
+      <v-data-table :headers="headers"
+                    :items="getIssues"
+                    item-key="key"
+                    class="elevation-1"
+                    :total-items="$store.state.totalIssueItems"
+                    rows-per-page-text="Requirements per page"
+                    :rows-per-page-items="pagination.rowsPerPageItems"
+                    :pagination.sync="pagination"
+                    @update:pagination.self="getAllIssues()"
+                    :no-data-text="warning">
+        <template v-slot:items="props">
+          <tr @click="showDetails(props.item)">
+            <td>{{ props.item.key }}</td>
+            <td>{{ props.item.summary }}</td>
+            <td>{{ props.item.description }}</td>
+            <td>{{ props.item.issueType }}</td>
+            <td>{{ props.item.projectName }}</td>
+            <td>
+              <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
+            </td>
+          </tr>
+        </template>
+      </v-data-table>
+    </v-card>
+  </div>
+
 </template>
 
 <script >
@@ -134,15 +181,7 @@ export default {
       headersIssueTypes: [
         {text: "Requirement Type", value: "issueType"},
       ],
-      headers: [
-        {text: "Requirement Name", value: "key"},
-        {text: "Summary", value: "summary"},
-        {text: "Description", value: "description"},
-        {text: "Requirement Type", value: "issueType"},
-        {text: "Project Name", value: "projectName"},
-      ],
       isProjectSelected: true,
-      warning: "",
       projectName: "",
       importDialog: false,
       uploadedFile: "",
@@ -151,6 +190,25 @@ export default {
       selectedDatasetName: "",
       runMethods: METHODS,
       showUnassigned: false,
+      headers: [
+        {text: "Requirement Name", value: "key", sortable: false},
+        {text: "Summary", value: "summary", sortable: false},
+        {text: "Description", value: "description", sortable: false},
+        {text: "Requirement Type", value: "issueType", sortable: false},
+        {text: "Project Name", value: "projectName", sortable: false},
+      ],
+      pagination: {
+        sortBy: "key",
+        descending: false,
+        page: 1,
+        rowsPerPage: 10,
+        rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}]
+      },
+      search: "",
+      warning: "Select/import a project or feedback",
+      deleteOneRequirement: false,
+      itemToDelete: [],
+
 
     }
   },
@@ -281,7 +339,13 @@ export default {
         this.getAllIssues()
       }
     },
-
+    showDetails(item) {
+      this.$router.push({ name: 'assigned_feedback', params: { item: item } });
+    },
+    openDeleteOneRequirementDialog(item) {
+      this.deleteOneRequirement = true
+      this.itemToDelete = item
+    },
   },
   computed:{
     isLoadingData() {
@@ -308,6 +372,49 @@ export default {
         return this.uploadedFile.name;
       }
       return ""
+    },
+    getIssues() {
+      if (this.showUnassigned){
+        if(this.search !== ""){
+          return this.filterUnassignedIssues
+        }else{
+          return this.$store.state.issuesWithoutAssignment
+        }
+      }else{
+        if(this.search !== ""){
+          return this.filterIssues
+        }else{
+          return this.$store.state.issues
+        }
+      }
+    },
+    filterUnassignedIssues() {
+      return this.$store.state.issuesWithoutAssignment.filter(issue => {
+        const summary = issue.summary || "";
+        const key = issue.key || "";
+        const description = issue.description || "";
+        const issueType = issue.issueType || "";
+        const projectName = issue.projectName || "";
+        return summary.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || key.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+      });
+    },
+    filterIssues() {
+      return this.$store.state.issues.filter(issue => {
+        const summary = issue.summary || "";
+        const key = issue.key || "";
+        const description = issue.description || "";
+        const issueType = issue.issueType || "";
+        const projectName = issue.projectName || "";
+        return summary.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || key.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || description.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || issueType.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+            || projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+      });
     },
   },
   mounted() {
