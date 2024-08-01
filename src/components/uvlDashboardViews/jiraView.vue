@@ -434,4 +434,7 @@ export default {
 .headline-select-jira-project{
   font-size: 18px;
 }
+.main-issue-table{
+  margin-top: 10px;
+}
 </style>
