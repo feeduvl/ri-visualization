@@ -13,7 +13,7 @@
       <LoadingView/>
     </v-dialog>
     <p class="headline-select-jira-project">
-      Select Datasets to use###:
+      Select Datasets to use:
     </p>
     <div>
       <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
@@ -91,55 +91,58 @@
       <v-btn dark color="red" @click="assignFeedbackToIssues()"> Automatically relate feedback to requirements
       </v-btn>
     </div>
+
+
+
+
+
+    <h2>Jira Requirements Headline</h2>
+
+    <div class="main-issue-table">
+      <v-card class="v-card">
+        <v-card-title>
+          <h2>Jira Requirements</h2>
+
+          <div class="search-in-table">
+            <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
+          </div>
+
+          <div class="switch-container">
+            <div class="label-container">
+              <label for="showUnassigned" class="label-text">Show requirements without assigned feedback:</label>
+            </div>
+            <div class="switch-content">
+              <v-switch id="showUnassigned" v-model="showUnassigned" @change="getUnassignedIssues"></v-switch>
+            </div>
+          </div>
+        </v-card-title>
+        <v-data-table :headers="headers"
+                      :items="getIssues"
+                      item-key="key"
+                      class="elevation-1"
+                      :total-items="$store.state.totalIssueItems"
+                      rows-per-page-text="Requirements per page"
+                      :rows-per-page-items="pagination.rowsPerPageItems"
+                      :pagination.sync="pagination"
+                      @update:pagination.self="getAllIssues()"
+                      :no-data-text="warning">
+          <template v-slot:items="props">
+            <tr @click="showDetails(props.item)">
+              <td>{{ props.item.key }}</td>
+              <td>{{ props.item.summary }}</td>
+              <td>{{ props.item.description }}</td>
+              <td>{{ props.item.issueType }}</td>
+              <td>{{ props.item.projectName }}</td>
+              <td>
+                <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
+      </v-card>
+    </div>
   </div>
 
-
-
-  <h2>Jira Requirements Headline</h2>
-
-  <div class="main-issue-table">
-    <v-card class="v-card">
-      <v-card-title>
-        <h2>Jira Requirements</h2>
-
-        <div class="search-in-table">
-          <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
-        </div>
-
-        <div class="switch-container">
-          <div class="label-container">
-            <label for="showUnassigned" class="label-text">Show requirements without assigned feedback:</label>
-          </div>
-          <div class="switch-content">
-            <v-switch id="showUnassigned" v-model="showUnassigned" @change="getUnassignedIssues"></v-switch>
-          </div>
-        </div>
-      </v-card-title>
-      <v-data-table :headers="headers"
-                    :items="getIssues"
-                    item-key="key"
-                    class="elevation-1"
-                    :total-items="$store.state.totalIssueItems"
-                    rows-per-page-text="Requirements per page"
-                    :rows-per-page-items="pagination.rowsPerPageItems"
-                    :pagination.sync="pagination"
-                    @update:pagination.self="getAllIssues()"
-                    :no-data-text="warning">
-        <template v-slot:items="props">
-          <tr @click="showDetails(props.item)">
-            <td>{{ props.item.key }}</td>
-            <td>{{ props.item.summary }}</td>
-            <td>{{ props.item.description }}</td>
-            <td>{{ props.item.issueType }}</td>
-            <td>{{ props.item.projectName }}</td>
-            <td>
-              <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
-            </td>
-          </tr>
-        </template>
-      </v-data-table>
-    </v-card>
-  </div>
 
 </template>
 
