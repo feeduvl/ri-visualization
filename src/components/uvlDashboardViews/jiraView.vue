@@ -95,6 +95,7 @@
 
 
 
+  <h2>Jira Requirements Headline</h2>
 
   <div class="main-issue-table">
     <v-card class="v-card">
@@ -340,6 +341,7 @@ export default {
       }
     },
     showDetails(item) {
+      console.log(item)
       this.$router.push({ name: 'assigned_feedback', params: { item: item } });
     },
     openDeleteOneRequirementDialog(item) {
