@@ -125,6 +125,7 @@ export default {
       this.$store.dispatch('actionGetIssuesByProjectNameFromJira', {projectName, selectedIssuesTypesArray});
     },
     async addSelectedIssues() {
+      await this.deleteAllIssues()
       this.dialogIssues = false
       this.openDialog = false
       let selectedIssues = this.selectedIssues
@@ -165,6 +166,12 @@ export default {
         this.$store.dispatch("actionGetIssueTypesByProjectNameFromJira", this.projectName)
       }
       console.log("openImportDialog");
+    },
+    async deleteAllIssues() {
+      await this.$store.dispatch("actionDeleteAllIssues")
+      this.getAllIssues()
+      this.getProjectNames()
+      this.deleteAllIs = false
     },
   },
   computed:{

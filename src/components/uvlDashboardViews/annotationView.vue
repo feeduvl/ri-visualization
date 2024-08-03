@@ -150,7 +150,7 @@ export default {
     }
   },
   methods:{
-    selectedDataset,
+    // selectedDataset,
     /*toggleImport() {
       console.log(this.importDialog)
       this.$emit('toggleImport', !this.importDialog);
