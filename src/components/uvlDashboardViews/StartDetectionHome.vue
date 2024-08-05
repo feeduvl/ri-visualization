@@ -25,7 +25,7 @@
         </v-layout>
       </v-container>
       <v-divider />
-      <!--<component v-bind:is="component" v-bind:dataset="selectedDataset" />-->
+      <component v-bind:is="component" v-bind:dataset="selectedDataset" />
     </v-card>
     <v-card>
       <v-card flat class="header">
@@ -157,19 +157,19 @@ import { loadDataset, reloadResults } from "@/RESTcalls";
 export default {
   name: "StartDetectionHome",
   components: {
-    "empty-parameter": () => import("./form/EmptyParameter"),
-    "lda-parameter": () => import("./form/LdaParameter"),
-    "seanmf-parameter": () => import("./form/SeanmfParameter"),
-    "frequency-rbai-parameter": () => import("./form/FrequencyRBAIParameter"),
-    "frequency-fcic-parameter": () => import("./form/FrequencyFCICParameter"),
-    "acceptance-criteria-parameter": () => import("./form/AcceptanceCriteriaParameter"),
-    "stanford-ner-parameter": () => import("./form/StanfordNERParameter"),
-    "bi-lstm-parameter": () => import("./form/BiLSTMParameter"),
-    "bert-parameter": () => import("./form/BERTParameter.vue"),
-    "us-similarity-parameter": () => import("./form/UserStorySimilarityParameter"),
-    "ac-completeness-parameter": () => import("./form/AcceptanceCriteriaCompletenessParameter"),
-    "relevance-classifier-parameter": () => import("./form/RelevanceClassifierParameter"),
-    "spellchecker-parameter": () => import("./form/SpellcheckerParameter"),
+    "empty-parameter": () => import("./../form/EmptyParameter"),
+    "lda-parameter": () => import("./../form/LdaParameter"),
+    "seanmf-parameter": () => import("./../form/SeanmfParameter"),
+    "frequency-rbai-parameter": () => import("./../form/FrequencyRBAIParameter"),
+    "frequency-fcic-parameter": () => import("./../form/FrequencyFCICParameter"),
+    "acceptance-criteria-parameter": () => import("./../form/AcceptanceCriteriaParameter"),
+    "stanford-ner-parameter": () => import("./../form/StanfordNERParameter"),
+    "bi-lstm-parameter": () => import("./../form/BiLSTMParameter"),
+    "bert-parameter": () => import("./../form/BERTParameter.vue"),
+    "us-similarity-parameter": () => import("./../form/UserStorySimilarityParameter"),
+    "ac-completeness-parameter": () => import("./../form/AcceptanceCriteriaCompletenessParameter"),
+    "relevance-classifier-parameter": () => import("./../form/RelevanceClassifierParameter"),
+    "spellchecker-parameter": () => import("./../form/SpellcheckerParameter"),
   },
   created() {
     this.$store.dispatch('actionGetAllAnnotations');
