@@ -25,7 +25,7 @@
         </v-layout>
       </v-container>
       <v-divider />
-      <component v-bind:is="component" v-bind:dataset="selectedDataset" />
+      <component v-bind:is="component" v-bind:dataset_dummy="selectedDataset" />
     </v-card>
     <v-card>
       <v-card flat class="header">
