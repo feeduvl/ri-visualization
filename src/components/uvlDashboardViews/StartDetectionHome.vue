@@ -168,7 +168,7 @@ export default {
     "bert-parameter": () => import("./../form/BERTParameter.vue"),
     "us-similarity-parameter": () => import("./../form/UserStorySimilarityParameter"),
     "ac-completeness-parameter": () => import("./../form/AcceptanceCriteriaCompletenessParameter"),
-    "relevance-classifier-parameter": () => import("./../form/RelevanceClassifierParameter"),
+    "relevance-classifier-parameter": () => import("./form/RelevanceClassifierParameter"),
     "spellchecker-parameter": () => import("./../form/SpellcheckerParameter"),
   },
   created() {
