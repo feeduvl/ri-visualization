@@ -96,7 +96,7 @@ export default {
             else {
                 this.loading = true;
                 console.log("form data")
-                console.log("dataset: ", this.$props.selected_dataset)
+                console.log("dataset: ", this.$props.dataset)
                 console.log(this.getFormData())
                 axios.post(POST_START_RELEVANCE_CLASSIFICATION_ENDPOINT, this.getFormData()
                 ).then(response => {
@@ -150,7 +150,7 @@ export default {
             let params = {
                 run_name: this.run_name,
                 method: this.method,
-                original_dataset_name: this.$props.selected_dataset,
+                original_dataset_name: this.$props.dataset,
                 persist: this.persist,
                 dataset_persist: this.dataset_persist,
                 new_annotation_name: this.new_annotation_name,
