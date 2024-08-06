@@ -17,7 +17,7 @@
       <v-btn dark color="blue" @click="addDataset()"> ADD
       </v-btn>
     </div>
-    <StartDetectionHome v-bind:selected_dataset="selectedDatasets" />
+
     <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
     <!--<v-card>
       <v-card flat class="header">
@@ -79,7 +79,7 @@
 
     <v-card>
       <div>
-        <StartDetectionHome class="element1"></StartDetectionHome>
+        <StartDetectionHome v-bind:selected_dataset="selectedDatasets" class="element1"></StartDetectionHome>
       </div>
     </v-card>
     <div>

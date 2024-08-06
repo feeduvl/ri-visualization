@@ -110,10 +110,11 @@ export default {
                         this.displaySnackbar("Error starting creation!");
                         this.loading = false;
                     }
-                }).catch(() => {
+                }).catch((e) => {
                     this.displaySnackbar("Could not contact backend!");
                     this.loading = false;
                     console.log(this.getFormData());
+                    console.log("error: ", e)
                 });
                 
                 //if (((this.persist) && !(this.dataset_persist))) {
