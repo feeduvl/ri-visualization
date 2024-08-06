@@ -25,7 +25,7 @@
         </v-layout>
       </v-container>
       <v-divider />
-      <component v-bind:is="component" v-bind:dataset="this.selected_dataset" />
+      <component v-bind:is="component" v-bind:dataset="this.$props.selected_dataset" />
     </v-card>
     <v-card>
       <v-card flat class="header">
@@ -156,6 +156,9 @@ import { loadDataset, reloadResults } from "@/RESTcalls";
 
 export default {
   name: "StartDetectionHome",
+  props: {
+    selected_dataset: Array,
+  },
   components: {
     "empty-parameter": () => import("./form/EmptyParameter"),
     "lda-parameter": () => import("./form/LdaParameter"),
@@ -204,7 +207,6 @@ export default {
   },
   data() {
     return {
-      selected_dataset: this.$props.selected_dataset,
       key: this.$route.path,
       selectedDataset: "",
       serviceStatus: "NA",

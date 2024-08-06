@@ -62,7 +62,7 @@ import {loadDatasets} from "@/RESTcalls";
 export default {
     name: "RelevanceClassifierParameter",
     props: {
-        dataset: String,
+        dataset: Array,
     },
     data: () => ({
         method: "relevance-classifier",
