@@ -25,7 +25,7 @@
         </v-layout>
       </v-container>
       <v-divider />
-      <component v-bind:is="component" v-bind:dataset_dummy="selectedDataset" />
+      <component v-bind:is="component" v-bind:dataset="this.selected_dataset" />
     </v-card>
     <v-card>
       <v-card flat class="header">
@@ -204,6 +204,7 @@ export default {
   },
   data() {
     return {
+      selected_dataset: this.$props.selected_dataset,
       key: this.$route.path,
       selectedDataset: "",
       serviceStatus: "NA",

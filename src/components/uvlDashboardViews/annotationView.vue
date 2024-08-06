@@ -17,7 +17,7 @@
       <v-btn dark color="blue" @click="addDataset()"> ADD
       </v-btn>
     </div>
-    <component v-bind:is="component" v-bind:dataset="this.selectedDatasets" />
+    <component v-bind:is="component" v-bind:selected_dataset="this.selectedDatasets" />
     <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
     <!--<v-card>
       <v-card flat class="header">
