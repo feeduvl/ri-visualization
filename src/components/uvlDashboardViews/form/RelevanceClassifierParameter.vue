@@ -54,7 +54,7 @@
 
 <script>
 import axios from "axios";
-import { POST_START_RELEVANCE_CLASSIFICATION_ENDPOINT } from "@/RESTconf";
+import { POST_START_MULTIRELEVANCE_CLASSIFICATION_ENDPOINT } from "@/RESTconf";
 import { SNACKBAR_DISPLAY_TIME } from "@/theme";
 import { mapGetters } from 'vuex';
 import {loadDatasets} from "@/RESTcalls";
@@ -98,7 +98,7 @@ export default {
                 console.log("form data")
                 console.log("dataset: ", this.$props.dataset)
                 console.log(this.getFormData())
-                axios.post(POST_START_RELEVANCE_CLASSIFICATION_ENDPOINT, this.getFormData()
+                axios.post(POST_START_MULTIRELEVANCE_CLASSIFICATION_ENDPOINT, this.getFormData()
                 ).then(response => {
                     console.log("relevance classifier response: ", response)
                     if (response.status > 200 || response.status < 300) {

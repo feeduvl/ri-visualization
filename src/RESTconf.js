@@ -86,6 +86,7 @@ export const POST_START_DETECTION_ENDPOINT = `/hitec/orchestration/concepts/dete
 export const POST_START_MULTIDETECTION_ENDPOINT = `/hitec/orchestration/concepts/multidetection/`;
 
 export const POST_START_RELEVANCE_CLASSIFICATION_ENDPOINT = `/hitec/orchestration/concepts/relevance/`;
+export const POST_START_MULTIRELEVANCE_CLASSIFICATION_ENDPOINT = `/hitec/orchestration/concepts/multirelevance/`;
 
 export const POST_START_SPELLCHECKER_ENDPOINT = `/hitec/orchestration/concepts/spellchecker/`;
 
