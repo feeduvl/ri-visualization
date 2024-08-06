@@ -151,7 +151,8 @@ export default {
             let params = {
                 run_name: this.run_name,
                 method: this.method,
-                original_dataset_name: this.$props.dataset,
+                original_dataset_name: "i_am_a_string",
+                //original_dataset_name: this.$props.dataset,
                 persist: this.persist,
                 dataset_persist: this.dataset_persist,
                 new_annotation_name: this.new_annotation_name,
