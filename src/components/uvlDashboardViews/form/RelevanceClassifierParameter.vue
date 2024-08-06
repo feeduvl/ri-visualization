@@ -95,6 +95,7 @@ export default {
             else {
                 this.loading = true;
                 console.log("form data")
+                console.log("dataset: ", this.$props.dataset)
                 console.log(this.getFormData())
                 axios.post(POST_START_RELEVANCE_CLASSIFICATION_ENDPOINT, this.getFormData()
                 ).then(response => {
