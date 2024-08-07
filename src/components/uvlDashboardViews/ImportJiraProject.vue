@@ -169,19 +169,12 @@ export default {
     },
     async deleteAllIssues() {
       await this.$store.dispatch("actionDeleteAllIssues")
-      this.getAllIssues()
-      this.getProjectNames()
+      //this.getAllIssues()
+      //this.getProjectNames()
       this.deleteAllIs = false
     },
-    getAllIssues() {
-      if(this.showUnassigned){
-        this.getUnassignedIssues()
-      }else{
-        let page = this.pagination.page
-        let size = this.pagination.rowsPerPage
-        this.$store.dispatch("actionGetAllIssues", {page, size})
-      }
-    },
+
+
   },
   computed:{
     isLoadingData() {
