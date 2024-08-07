@@ -173,6 +173,15 @@ export default {
       this.getProjectNames()
       this.deleteAllIs = false
     },
+    getAllIssues() {
+      if(this.showUnassigned){
+        this.getUnassignedIssues()
+      }else{
+        let page = this.pagination.page
+        let size = this.pagination.rowsPerPage
+        this.$store.dispatch("actionGetAllIssues", {page, size})
+      }
+    },
   },
   computed:{
     isLoadingData() {

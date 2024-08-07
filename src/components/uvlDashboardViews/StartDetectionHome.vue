@@ -404,7 +404,6 @@ export default {
       return color;
     },
     async checkServiceStatus(service) {
-      console.log("dataset status: ", this.$props.selected_dataset)
       let status = "checking"
       this.updateStatus(status);
       axios
