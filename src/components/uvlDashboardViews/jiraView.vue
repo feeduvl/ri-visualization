@@ -125,7 +125,8 @@
                       :rows-per-page-items="pagination.rowsPerPageItems"
                       :pagination.sync="pagination"
                       @update:pagination.self="getAllIssues()"
-                      :no-data-text="warning">
+                      :no-data-text="warning"
+                      show-expand>
           <template v-slot:items="props">
             <tr @click="showDetails(props.item)">
               <td>{{ props.item.key }}</td>
@@ -135,6 +136,13 @@
               <td>{{ props.item.projectName }}</td>
               <td>
                 <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
+              </td>
+            </tr>
+          </template>
+          <template v-slot:expanded-row="{ columns, item }">
+            <tr>
+              <td :colspan="columns.length">
+                More info about {{ item.name }}
               </td>
             </tr>
           </template>
