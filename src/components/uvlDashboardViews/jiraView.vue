@@ -191,6 +191,7 @@ export default {
   },
   data() {
     return {
+      expanded: [],
       headersIssueTypes: [
         {text: "Requirement Type", value: "issueType"},
       ],
@@ -209,6 +210,7 @@ export default {
         {text: "Description", value: "description", sortable: false},
         {text: "Requirement Type", value: "issueType", sortable: false},
         {text: "Project Name", value: "projectName", sortable: false},
+        {text: "", value: "data-table-expand", sortable: false}
       ],
       pagination: {
         sortBy: "key",
