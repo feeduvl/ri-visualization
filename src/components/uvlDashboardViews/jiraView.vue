@@ -116,7 +116,8 @@
             </div>
           </div>
         </v-card-title>
-        <v-data-table :headers="headers"
+        <v-data-table v-model:expanded="expanded"
+                      :headers="headers"
                       :items="getIssues"
                       item-key="key"
                       class="elevation-1"
