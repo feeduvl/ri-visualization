@@ -116,7 +116,7 @@
             </div>
           </div>
         </v-card-title>
-        <v-data-table :value="expanded"
+        <!--<v-data-table :value="expanded"
                       @input="expanded = $event"
                       :headers="headers"
                       :items="getIssues"
@@ -129,9 +129,16 @@
                       :pagination.sync="pagination"
                       @update:pagination.self="getAllIssues()"
                       :no-data-text="warning"
-                      show-expand>
+                      show-expand>-->
+        <v-data-table :headers="headers"
+                      :items="getIssues"
+                      class="elevation-1"
+                      :no-data-text="warning"
+                      >
+          <template v-slot:item="{ item }">
+            <!--
           <template v-slot:item="{ item, expanded }">
-            <!--<tr @click="showDetails(item)">-->
+            <tr @click="showDetails(item)">-->
             <tr>
               <!--<td class="d-block d-sm-table-cell" v-for="field in Object.keys(item)" :key="field">
                 {{item[field]}}
