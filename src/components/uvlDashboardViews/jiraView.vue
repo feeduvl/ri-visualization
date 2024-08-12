@@ -222,7 +222,7 @@ export default {
         {title: "Project Name", key: "projectName", sortable: false},
         //{title: "", key: "data-table-expand", sortable: false},
         //{title: "", key: "delete", sortable: false},
-        {title: '', align: 'start', sortable: false, key: 'name'}
+        //{title: '', align: 'start', sortable: false, key: 'name'}
       ],
       pagination: {
         sortBy: "key",
