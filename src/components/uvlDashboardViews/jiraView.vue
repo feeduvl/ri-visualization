@@ -130,7 +130,7 @@
                       :no-data-text="warning"
                       show-expand>
           <template v-slot:item="{ item, expanded }">
-            <tr @click="showDetails(props.item)">
+            <tr @click="showDetails(item)">
               <td class="d-block d-sm-table-cell" v-for="field in Object.keys(item)" :key="field">
                 {{item[field]}}
               </td>
@@ -142,7 +142,7 @@
               </td>
 
               <td>
-                <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
+                <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(item)">delete</i>
               </td>
             </tr>
           </template>
@@ -216,6 +216,7 @@ export default {
         {title: "Requirement Type", key: "issueType", sortable: false},
         {title: "Project Name", key: "projectName", sortable: false},
         {title: "", key: "data-table-expand", sortable: false},
+        {title: "", key: "delete", sortable: false},
         {title: '', align: 'start', sortable: false, key: 'name'}
       ],
       pagination: {
@@ -407,7 +408,6 @@ export default {
       return ""
     },
     getIssues() {
-      console.log("getIssues called:", this.$store.state.issues);
       if (this.showUnassigned){
         if(this.search !== ""){
           return this.filterUnassignedIssues
