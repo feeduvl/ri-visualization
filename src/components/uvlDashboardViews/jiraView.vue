@@ -144,8 +144,8 @@
 
               <td>
                 <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(item)">delete</i>
-              </td>
-            </tr>-->
+              </td>-->
+            </tr>
           </template>
 
           <template  v-slot:expanded-item="{ columns, item }">
