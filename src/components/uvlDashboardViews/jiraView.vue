@@ -116,7 +116,8 @@
             </div>
           </div>
         </v-card-title>
-        <v-data-table :headers="headers"
+        <v-data-table v-model:expanded="expanded"
+                      :headers="headers"
                       :items="getIssues"
                       item-key="key"
                       class="elevation-1"
@@ -127,24 +128,26 @@
                       @update:pagination.self="getAllIssues()"
                       :no-data-text="warning"
                       show-expand>
-          <template #item="{item, columns, internalItem, isExpanded, toggleExpand}">
+          <template #item="{item, internalItem, isExpanded, toggleExpand}">
             <tr @click="showDetails(props.item)">
-              <td v-for="column in columns">
+              <td class="d-block d-sm-table-cell" v-for="field in Object.keys(item)">
+                {{item[field]}}
+              </td>
+              <td>
                 <v-btn
-                    v-if="column.key === 'data-table-expand'"
                     :icon="isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down'"
                     variant="plain"
                     @click="toggleExpand(internalItem)"
-                ></v-btn>
-                <span v-else>{{item[column.key]}}</span>
+                />
               </td>
+
               <td>
                 <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
               </td>
             </tr>
           </template>
 
-          <template #expanded-row="{item, columns}">
+          <template  v-slot:expanded-row="{ columns, item }">
             <tr>
               <td :colspan="columns.length">Item: {{item}}</td>
             </tr>
@@ -212,7 +215,8 @@ export default {
         {text: "Description", value: "description", sortable: false},
         {text: "Requirement Type", value: "issueType", sortable: false},
         {text: "Project Name", value: "projectName", sortable: false},
-        {text: "", value: "data-table-expand", sortable: false}
+        {text: "", value: "data-table-expand", sortable: false},
+        {title: '', align: 'start', sortable: false, value: 'name'}
       ],
       pagination: {
         sortBy: "key",
