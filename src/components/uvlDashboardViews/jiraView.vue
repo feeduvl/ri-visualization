@@ -119,7 +119,7 @@
         <v-data-table v-model:expanded="expanded"
                       :headers="headers"
                       :items="getIssues"
-                      item-key="key"
+                      item-value="key"
                       class="elevation-1"
                       :total-items="$store.state.totalIssueItems"
                       rows-per-page-text="Requirements per page"
@@ -210,13 +210,13 @@ export default {
       runMethods: METHODS,
       showUnassigned: false,
       headers: [
-        {text: "Requirement Name", value: "key", sortable: false},
-        {text: "Summary", value: "summary", sortable: false},
-        {text: "Description", value: "description", sortable: false},
-        {text: "Requirement Type", value: "issueType", sortable: false},
-        {text: "Project Name", value: "projectName", sortable: false},
-        {text: "", value: "data-table-expand", sortable: false},
-        {title: '', align: 'start', sortable: false, value: 'name'}
+        {title: "Requirement Name", key: "key", sortable: false},
+        {title: "Summary", key: "summary", sortable: false},
+        {title: "Description", key: "description", sortable: false},
+        {title: "Requirement Type", key: "issueType", sortable: false},
+        {title: "Project Name", key: "projectName", sortable: false},
+        {title: "", key: "data-table-expand", sortable: false},
+        {title: '', align: 'start', sortable: false, key: 'name'}
       ],
       pagination: {
         sortBy: "key",
