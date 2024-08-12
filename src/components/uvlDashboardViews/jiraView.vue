@@ -116,7 +116,8 @@
             </div>
           </div>
         </v-card-title>
-        <v-data-table :expanded.sync="expanded"
+        <v-data-table :value="expanded"
+                      @input="expanded = $event"
                       :headers="headers"
                       :items="getIssues"
                       item-value="key"
@@ -128,16 +129,15 @@
                       @update:pagination.self="getAllIssues()"
                       :no-data-text="warning"
                       show-expand>
-          <template #item="{item, internalItem, isExpanded, toggleExpand}">
+          <template v-slot:item="{ item, expanded }">
             <tr @click="showDetails(props.item)">
-              <td class="d-block d-sm-table-cell" v-for="field in Object.keys(item)">
+              <td class="d-block d-sm-table-cell" v-for="field in Object.keys(item)" :key="field">
                 {{item[field]}}
               </td>
               <td>
                 <v-btn
-                    :icon="isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-                    variant="plain"
-                    @click="toggleExpand(internalItem)"
+                    :icon="isExpanded(item) ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                    @click="toggleExpand(item)"
                 />
               </td>
 
@@ -147,7 +147,7 @@
             </tr>
           </template>
 
-          <template  v-slot:expanded-row="{ columns, item }">
+          <template  v-slot:expanded-item="{ columns, item }">
             <tr>
               <td :colspan="columns.length">Item: {{item}}</td>
             </tr>
@@ -367,6 +367,17 @@ export default {
     openDeleteOneRequirementDialog(item) {
       this.deleteOneRequirement = true
       this.itemToDelete = item
+    },
+    toggleExpand(item) {
+      const index = this.expanded.indexOf(item);
+      if (index >= 0) {
+        this.expanded.splice(index, 1);
+      } else {
+        this.expanded.push(item);
+      }
+    },
+    isExpanded(item) {
+      return this.expanded.includes(item);
     },
   },
   computed:{
