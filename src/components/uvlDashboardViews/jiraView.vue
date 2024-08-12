@@ -420,7 +420,6 @@ export default {
           return this.$store.state.issuesWithoutAssignment
         }
       }else{
-        console.log(Object.keys(this.$store.state.issues[0]))
         if(this.search !== ""){
           return this.filterIssues
         }else{
