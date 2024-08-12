@@ -131,9 +131,13 @@
                       :no-data-text="warning"
                       show-expand>
           <template v-slot:item="{ item, expanded }">
-            <tr @click="showDetails(item)">
-              <td class="d-block d-sm-table-cell" v-for="field in Object.keys(item)" :key="field">
+            <!--<tr @click="showDetails(item)">-->
+            <tr>
+              <!--<td class="d-block d-sm-table-cell" v-for="field in Object.keys(item)" :key="field">
                 {{item[field]}}
+              </td>-->
+              <td v-for="field in Object.keys(item)" :key="field" class="text-xs-left">
+                {{ item[field] }}
               </td>
               <!--<td>
                 <v-btn
