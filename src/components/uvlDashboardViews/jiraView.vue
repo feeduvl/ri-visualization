@@ -407,6 +407,7 @@ export default {
       return ""
     },
     getIssues() {
+      console.log("getIssues called:", this.$store.state.issues);
       if (this.showUnassigned){
         if(this.search !== ""){
           return this.filterUnassignedIssues
