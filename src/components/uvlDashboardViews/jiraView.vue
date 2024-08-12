@@ -116,7 +116,7 @@
             </div>
           </div>
         </v-card-title>
-        <v-data-table :expandedn.sync="expanded"
+        <v-data-table :expanded.sync="expanded"
                       :headers="headers"
                       :items="getIssues"
                       item-value="key"
