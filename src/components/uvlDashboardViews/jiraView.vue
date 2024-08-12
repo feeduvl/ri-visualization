@@ -215,11 +215,11 @@ export default {
       runMethods: METHODS,
       showUnassigned: false,
       headers: [
-        {title: "Requirement Name", key: "key", sortable: false},
-        {title: "Summary", key: "summary", sortable: false},
-        {title: "Description", key: "description", sortable: false},
-        {title: "Requirement Type", key: "issueType", sortable: false},
-        {title: "Project Name", key: "projectName", sortable: false},
+        {text: "Requirement Name", value: "key", sortable: false},
+        {text: "Summary", value: "summary", sortable: false},
+        {text: "Description", value: "description", sortable: false},
+        {text: "Requirement Type", value: "issueType", sortable: false},
+        {text: "Project Name", value: "projectName", sortable: false},
         //{title: "", key: "data-table-expand", sortable: false},
         //{title: "", key: "delete", sortable: false},
         //{title: '', align: 'start', sortable: false, key: 'name'}
@@ -420,6 +420,7 @@ export default {
           return this.$store.state.issuesWithoutAssignment
         }
       }else{
+        console.log(Object.keys(this.$store.state.issues[0]))
         if(this.search !== ""){
           return this.filterIssues
         }else{
