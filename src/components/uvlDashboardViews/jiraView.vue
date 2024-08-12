@@ -116,8 +116,7 @@
             </div>
           </div>
         </v-card-title>
-        <v-data-table v-model:expanded="expanded"
-                      :headers="headers"
+        <v-data-table :headers="headers"
                       :items="getIssues"
                       item-key="key"
                       class="elevation-1"
@@ -128,23 +127,26 @@
                       @update:pagination.self="getAllIssues()"
                       :no-data-text="warning"
                       show-expand>
-          <template v-slot:items="props">
+          <template #item="{item, columns, internalItem, isExpanded, toggleExpand}">
             <tr @click="showDetails(props.item)">
-              <td>{{ props.item.key }}</td>
-              <td>{{ props.item.summary }}</td>
-              <td>{{ props.item.description }}</td>
-              <td>{{ props.item.issueType }}</td>
-              <td>{{ props.item.projectName }}</td>
+              <td v-for="column in columns">
+                <v-btn
+                    v-if="column.key === 'data-table-expand'"
+                    :icon="isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                    variant="plain"
+                    @click="toggleExpand(internalItem)"
+                ></v-btn>
+                <span v-else>{{item[column.key]}}</span>
+              </td>
               <td>
                 <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
               </td>
             </tr>
           </template>
-          <template v-slot:expanded-row="{ columns, item }">
+
+          <template #expanded-row="{item, columns}">
             <tr>
-              <td :colspan="columns.length">
-                More info about {{ item.name }}
-              </td>
+              <td :colspan="columns.length">Item: {{item}}</td>
             </tr>
           </template>
         </v-data-table>
