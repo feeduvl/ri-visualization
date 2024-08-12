@@ -121,6 +121,7 @@
                       :headers="headers"
                       :items="getIssues"
                       item-value="key"
+                      item-key="key"
                       class="elevation-1"
                       :total-items="$store.state.totalIssueItems"
                       rows-per-page-text="Requirements per page"
@@ -134,7 +135,7 @@
               <td class="d-block d-sm-table-cell" v-for="field in Object.keys(item)" :key="field">
                 {{item[field]}}
               </td>
-              <td>
+              <!--<td>
                 <v-btn
                     :icon="isExpanded(item) ? 'mdi-chevron-up' : 'mdi-chevron-down'"
                     @click="toggleExpand(item)"
@@ -144,7 +145,7 @@
               <td>
                 <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(item)">delete</i>
               </td>
-            </tr>
+            </tr>-->
           </template>
 
           <template  v-slot:expanded-item="{ columns, item }">
@@ -215,8 +216,8 @@ export default {
         {title: "Description", key: "description", sortable: false},
         {title: "Requirement Type", key: "issueType", sortable: false},
         {title: "Project Name", key: "projectName", sortable: false},
-        {title: "", key: "data-table-expand", sortable: false},
-        {title: "", key: "delete", sortable: false},
+        //{title: "", key: "data-table-expand", sortable: false},
+        //{title: "", key: "delete", sortable: false},
         {title: '', align: 'start', sortable: false, key: 'name'}
       ],
       pagination: {
