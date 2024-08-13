@@ -116,20 +116,7 @@
             </div>
           </div>
         </v-card-title>
-        <!--<v-data-table :value="expanded"
-                      @input="expanded = $event"
-                      :headers="headers"
-                      :items="getIssues"
-                      item-value="key"
-                      item-key="key"
-                      class="elevation-1"
-                      :total-items="$store.state.totalIssueItems"
-                      rows-per-page-text="Requirements per page"
-                      :rows-per-page-items="pagination.rowsPerPageItems"
-                      :pagination.sync="pagination"
-                      @update:pagination.self="getAllIssues()"
-                      :no-data-text="warning"
-                      show-expand>-->
+
         <v-data-table :headers="headers"
                       :items="getIssues"
                       class="elevation-1"
@@ -152,41 +139,43 @@
               </td>
             </tr>
             <tr v-if="isExpanded(props.item)">
-              <td :colspan="headers.length + 1">
+              <td :colspan="headers.length + 2">
                 <v-alert :value="true" type="info">
                   <strong>Details:</strong> This is additional information for {{ props.item.key }}.
                 </v-alert>
+                <v-data-table
+                    :headers="header_details"
+                    :items="getAssignedFeedbackFilter"
+                    item-key="id"
+                    class="elevation-1"
+                    :total-items="$store.state.totalAssignedFeedbackItems"
+                    rows-per-page-text="Feedback per page"
+                    :rows-per-page-items="pagination.rowsPerPageItems"
+                    :pagination.sync="pagination"
+                    @update:pagination.self="getAssignedFeedback()"
+                    :no-data-text="warning"
+                >
+                  <template v-slot:items="props">
+                    <td>{{ props.item.id }}</td>
+                    <td>{{ props.item.text }}</td>
+                    <td>{{ props.item.similarity }}</td>
+                    <td>
+                      <i class="material-icons delete-icon" @click="openDeleteOneAssignmentDialog(props.item)">delete</i>
+                    </td>
+                  </template>
+                </v-data-table>
                 <!-- Additional details or nested components can go here -->
               </td>
 
             </tr>
           </template>
-            <!--
-          <template v-slot:item="{ item, expanded }">
-            <tr @click="showDetails(item)">-->
-              <!--<td class="d-block d-sm-table-cell" v-for="field in Object.keys(item)" :key="field">
-                {{item[field]}}
-              </td>-->
-              <!--<td>
-                <v-btn
-                    :icon="isExpanded(item) ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-                    @click="toggleExpand(item)"
-                />
-              </td>
 
-              <td>
-                <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(item)">delete</i>
-              </td>-->
           <template slot="no-data">
             <v-alert :value="true" type="error">
               No matching records found
             </v-alert>
           </template>
-          <!--<template  v-slot:expanded-item="{ columns, item }">
-            <tr>
-              <td :colspan="columns.length">Item: {{item}}</td>
-            </tr>
-          </template>-->
+
         </v-data-table>
       </v-card>
     </div>
@@ -250,9 +239,11 @@ export default {
         {text: "Description", value: "description", sortable: false},
         {text: "Requirement Type", value: "issueType", sortable: false},
         {text: "Project Name", value: "projectName", sortable: false},
-        //{title: "", key: "data-table-expand", sortable: false},
-        //{title: "", key: "delete", sortable: false},
-        //{title: '', align: 'start', sortable: false, key: 'name'}
+      ],
+      header_details: [
+        { text: "Id", value: "id", sortable: false },
+        { text: "Text", value: "text", sortable: false },
+        { text: "Similarity", value: "similarity", sortable: false },
       ],
       pagination: {
         sortBy: "key",
@@ -265,6 +256,7 @@ export default {
       warning: "Select/import a project or feedback",
       deleteOneRequirement: false,
       itemToDelete: [],
+      searchFeedback: "",
 
     }
   },
@@ -414,6 +406,12 @@ export default {
     isExpanded(item) {
       return this.expanded.includes(item);
     },
+    getAssignedFeedback(){
+      let issueKey = this.issue.key
+      let page = this.pagination.page
+      let size = this.pagination.rowsPerPage
+      this.$store.dispatch("actionGetAssignedFeedback", {issueKey, page, size})
+    },
   },
   computed:{
     isLoadingData() {
@@ -428,8 +426,20 @@ export default {
     allAvailableJiraIssues() {
       return this.$store.state.availableJiraProjects
     },
-    allAvailableDataSets(){
-
+    getAssignedFeedbackFilter() {
+      if (this.searchFeedback !== "") {
+        return this.filterFeedbackFromIssue
+      } else {
+        return this.$store.state.assignedFeedback
+      }
+    },
+    filterFeedbackFromIssue() {
+      return this.$store.state.assignedFeedback.filter(item => {
+        const similarityString = item.similarity.toString();
+        return item.id.toLowerCase().indexOf(this.searchFeedback.toLowerCase()) > -1
+            || item.text.toLowerCase().indexOf(this.searchFeedback.toLowerCase()) > -1
+            || similarityString.toLowerCase().indexOf(this.searchFeedback.toLowerCase()) > -1
+      })
     },
 
     ...mapGetters({
