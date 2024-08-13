@@ -131,7 +131,7 @@
                       :no-data-text="warning"
                       show-expand>-->
         <v-data-table :headers="headers"
-                      :items="content"
+                      :items="getIssues"
                       class="elevation-1"
                       :rows-per-page-items="rowsPerPageItems"
                       item-key="key"
@@ -275,7 +275,6 @@ export default {
       warning: "Select/import a project or feedback",
       deleteOneRequirement: false,
       itemToDelete: [],
-
 
     }
   },
