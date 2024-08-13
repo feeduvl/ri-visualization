@@ -152,7 +152,7 @@
                     rows-per-page-text="Feedback per page"
                     :rows-per-page-items="pagination.rowsPerPageItems"
                     :pagination.sync="pagination"
-                    @update:pagination.self="getAssignedFeedback()"
+                    @update:pagination.self="getAssignedFeedback(props.item)"
                     :no-data-text="warning"
                 >
                   <template v-slot:items="props">
@@ -406,8 +406,8 @@ export default {
     isExpanded(item) {
       return this.expanded.includes(item);
     },
-    getAssignedFeedback(){
-      let issueKey = this.issue.key
+    getAssignedFeedback(issueKey){
+      //let issueKey = this.issue.key
       let page = this.pagination.page
       let size = this.pagination.rowsPerPage
       this.$store.dispatch("actionGetAssignedFeedback", {issueKey, page, size})
