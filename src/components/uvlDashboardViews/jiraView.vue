@@ -133,7 +133,9 @@
         <v-data-table :headers="headers"
                       :items="getIssues"
                       class="elevation-1"
-                      :rows-per-page-items="rowsPerPageItems"
+                      :rows-per-page-items="pagination.rowsPerPageItems"
+                      :pagination.sync="pagination"
+                      @update:pagination.self="getAllIssues()"
                       item-key="key"
                       >
           <template slot="items" slot-scope="props">
@@ -148,7 +150,7 @@
             <tr v-if="isExpanded(props.item)">
               <td :colspan="headers.length + 1">
                 <v-alert :value="true" type="info">
-                  <strong>Details:</strong> This is additional information for {{ props.item.name }}.
+                  <strong>Details:</strong> This is additional information for {{ props.item.key }}.
                 </v-alert>
                 <!-- Additional details or nested components can go here -->
               </td>
