@@ -147,6 +147,9 @@
               <td>
                 <v-icon>{{ isExpanded(props.item) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
               </td>
+              <td>
+                <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
+              </td>
             </tr>
             <tr v-if="isExpanded(props.item)">
               <td :colspan="headers.length + 1">
@@ -155,9 +158,7 @@
                 </v-alert>
                 <!-- Additional details or nested components can go here -->
               </td>
-              <td>
-                <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(item)">delete</i>
-              </td>
+
             </tr>
           </template>
             <!--
