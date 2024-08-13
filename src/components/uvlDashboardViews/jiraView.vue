@@ -155,6 +155,9 @@
                 </v-alert>
                 <!-- Additional details or nested components can go here -->
               </td>
+              <td>
+                <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(item)">delete</i>
+              </td>
             </tr>
           </template>
             <!--
@@ -250,23 +253,6 @@ export default {
         //{title: "", key: "delete", sortable: false},
         //{title: '', align: 'start', sortable: false, key: 'name'}
       ],
-      content: [
-        {
-          "description": "View where the user can manage his/her friends  *Data:*  * closeFriends  * suggestedFriends",
-          "issueType": "Workspace",
-          "key": "KOMOOTRE-76",
-          "projectName": "ISWRE Komoot Base",
-          "summary": " Manage Friends View"
-        },
-        {
-          "description": "A view that shows the app in its logged-out state with options to log in via Facebook or Email and to read the ToS.  Data:  * facebookLink  * emailLink  * ToSLink  \u00a0 \u00a0 \u00a0",
-          "issueType": "Workspace",
-          "key": "KOMOOTRE-49",
-          "projectName": "ISWRE Komoot Base",
-          "summary": " LogIn View"
-        },
-      ],
-      rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}],
       pagination: {
         sortBy: "key",
         descending: false,
