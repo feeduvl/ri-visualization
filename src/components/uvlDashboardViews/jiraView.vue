@@ -141,11 +141,11 @@
                       >
           <template slot="items" slot-scope="props">
             <tr @click="toggleExpand(props.item)">
-              <td>
-                <v-icon>{{ isExpanded(props.item) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
-              </td>
               <td v-for="field in Object.keys(props.item)" :key="field" class="text-xs-left">
                 {{ props.item[field] }}
+              </td>
+              <td>
+                <v-icon>{{ isExpanded(props.item) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
               </td>
             </tr>
             <tr v-if="isExpanded(props.item)">
