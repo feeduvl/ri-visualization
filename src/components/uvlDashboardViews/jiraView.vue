@@ -136,6 +136,7 @@
                       :rows-per-page-items="pagination.rowsPerPageItems"
                       :pagination.sync="pagination"
                       @update:pagination.self="getAllIssues()"
+                      :total-items="$store.state.totalIssueItems"
                       item-key="key"
                       >
           <template slot="items" slot-scope="props">
