@@ -133,19 +133,33 @@
         <v-data-table :headers="headers"
                       :items="content"
                       class="elevation-1"
-                      :no-data-text="warning"
+                      :rows-per-page-items="rowsPerPageItems"
+                      item-key="key"
                       >
-          <template v-slot:item="{ item }">
+          <template slot="items" slot-scope="props">
+            <tr @click="toggleExpand(props.item)">
+              <td>
+                <v-icon>{{ isExpanded(props.item) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+              </td>
+              <td v-for="field in Object.keys(props.item)" :key="field" class="text-xs-left">
+                {{ props.item[field] }}
+              </td>
+            </tr>
+            <tr v-if="isExpanded(props.item)">
+              <td :colspan="headers.length + 1">
+                <v-alert :value="true" type="info">
+                  <strong>Details:</strong> This is additional information for {{ props.item.name }}.
+                </v-alert>
+                <!-- Additional details or nested components can go here -->
+              </td>
+            </tr>
+          </template>
             <!--
           <template v-slot:item="{ item, expanded }">
             <tr @click="showDetails(item)">-->
-            <tr>
               <!--<td class="d-block d-sm-table-cell" v-for="field in Object.keys(item)" :key="field">
                 {{item[field]}}
               </td>-->
-              <td v-for="field in Object.keys(item)" :key="field" class="text-xs-left">
-                {{ item[field] }}
-              </td>
               <!--<td>
                 <v-btn
                     :icon="isExpanded(item) ? 'mdi-chevron-up' : 'mdi-chevron-down'"
@@ -156,9 +170,11 @@
               <td>
                 <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(item)">delete</i>
               </td>-->
-            </tr>
+          <template slot="no-data">
+            <v-alert :value="true" type="error">
+              No matching records found
+            </v-alert>
           </template>
-
           <!--<template  v-slot:expanded-item="{ columns, item }">
             <tr>
               <td :colspan="columns.length">Item: {{item}}</td>
@@ -247,6 +263,7 @@ export default {
           "summary": " LogIn View"
         },
       ],
+      rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}],
       pagination: {
         sortBy: "key",
         descending: false,
