@@ -131,7 +131,7 @@
                       :no-data-text="warning"
                       show-expand>-->
         <v-data-table :headers="headers"
-                      :items="getIssues"
+                      :items="content"
                       class="elevation-1"
                       :no-data-text="warning"
                       >
@@ -159,11 +159,11 @@
             </tr>
           </template>
 
-          <template  v-slot:expanded-item="{ columns, item }">
+          <!--<template  v-slot:expanded-item="{ columns, item }">
             <tr>
               <td :colspan="columns.length">Item: {{item}}</td>
             </tr>
-          </template>
+          </template>-->
         </v-data-table>
       </v-card>
     </div>
@@ -230,6 +230,22 @@ export default {
         //{title: "", key: "data-table-expand", sortable: false},
         //{title: "", key: "delete", sortable: false},
         //{title: '', align: 'start', sortable: false, key: 'name'}
+      ],
+      content: [
+        {
+          "description": "View where the user can manage his/her friends  *Data:*  * closeFriends  * suggestedFriends",
+          "issueType": "Workspace",
+          "key": "KOMOOTRE-76",
+          "projectName": "ISWRE Komoot Base",
+          "summary": " Manage Friends View"
+        },
+        {
+          "description": "A view that shows the app in its logged-out state with options to log in via Facebook or Email and to read the ToS.  Data:  * facebookLink  * emailLink  * ToSLink  \u00a0 \u00a0 \u00a0",
+          "issueType": "Workspace",
+          "key": "KOMOOTRE-49",
+          "projectName": "ISWRE Komoot Base",
+          "summary": " LogIn View"
+        },
       ],
       pagination: {
         sortBy: "key",
