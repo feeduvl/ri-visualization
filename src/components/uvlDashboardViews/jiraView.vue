@@ -406,8 +406,8 @@ export default {
     isExpanded(item) {
       return this.expanded.includes(item);
     },
-    getAssignedFeedback(issueKey){
-      //let issueKey = this.issue.key
+    getAssignedFeedback(issue){
+      let issueKey = issue.key
       let page = this.pagination.page
       let size = this.pagination.rowsPerPage
       this.$store.dispatch("actionGetAssignedFeedback", {issueKey, page, size})
