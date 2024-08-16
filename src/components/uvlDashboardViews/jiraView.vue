@@ -150,8 +150,8 @@
                     class="elevation-1"
                     :total-items="$store.state.totalAssignedFeedbackItems"
                     rows-per-page-text="Feedback per page"
-                    :rows-per-page-items="pagination.rowsPerPageItems"
-                    :pagination.sync="pagination"
+                    :rows-per-page-items="pagination_expandable.rowsPerPageItems"
+                    :pagination.sync="pagination_expandable"
                     @update:pagination.self="getAssignedFeedback(props.item)"
                     :no-data-text="warning"
                 >
@@ -247,6 +247,13 @@ export default {
         { text: "Similarity", value: "similarity", sortable: false },
       ],
       pagination: {
+        sortBy: "key",
+        descending: false,
+        page: 1,
+        rowsPerPage: 10,
+        rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}]
+      },
+      pagination_expandable: {
         sortBy: "key",
         descending: false,
         page: 1,
@@ -399,6 +406,7 @@ export default {
     toggleExpand(index) {
       //const index = this.expanded.indexOf(item);
       this.expandedRow = this.expandedRow === index ? null : index;
+      this.pagination_expandable.page = 1
       /*if (index >= 0) {
         this.expanded.splice(index, 1);
       } else {
