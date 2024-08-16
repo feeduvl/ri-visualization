@@ -143,27 +143,7 @@
                 <v-alert :value="true" type="info">
                   <strong>Details:</strong> This is additional information for {{ props.item.key }}.
                 </v-alert>
-                <v-data-table
-                    :headers="header_details"
-                    :items="getAssignedFeedbackFilter"
-                    item-key="id"
-                    class="elevation-1"
-                    :total-items="$store.state.totalAssignedFeedbackItems"
-                    rows-per-page-text="Feedback per page"
-                    :rows-per-page-items="pagination_expandable.rowsPerPageItems"
-                    :pagination.sync="pagination_expandable"
-                    @update:pagination.self="getAssignedFeedback(props.item)"
-                    :no-data-text="warning"
-                >
-                  <template v-slot:items="props">
-                    <td>{{ props.item.id }}</td>
-                    <td>{{ props.item.text }}</td>
-                    <td>{{ props.item.similarity }}</td>
-                    <td>
-                      <i class="material-icons delete-icon" @click="openDeleteOneAssignmentDialog(props.item)">delete</i>
-                    </td>
-                  </template>
-                </v-data-table>
+                <issue-details :item="props.item" />
                 <!-- Additional details or nested components can go here -->
               </td>
 
@@ -197,11 +177,13 @@ import {MUTATE_SELECTED_DATASET_OUTSIDE, MUTATE_SELECTED_RESULT} from "@/store/t
 
 import {mapGetters} from "vuex";
 import axios from "axios";
+import IssueDetails from "./issueDetails.vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "SearchForJiraProject",
   components: {
+    IssueDetails,
     StartDetectionHome,
     LoadingView,
     ImportJiraProject,
@@ -241,11 +223,7 @@ export default {
         {text: "Requirement Type", value: "issueType", sortable: false},
         {text: "Project Name", value: "projectName", sortable: false},
       ],
-      header_details: [
-        { text: "Id", value: "id", sortable: false },
-        { text: "Text", value: "text", sortable: false },
-        { text: "Similarity", value: "similarity", sortable: false },
-      ],
+
       pagination: {
         sortBy: "key",
         descending: false,
@@ -253,18 +231,11 @@ export default {
         rowsPerPage: 10,
         rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}]
       },
-      pagination_expandable: {
-        sortBy: "key",
-        descending: false,
-        page: 1,
-        rowsPerPage: 10,
-        rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}]
-      },
+
       search: "",
       warning: "Select/import a project or feedback",
       deleteOneRequirement: false,
       itemToDelete: [],
-      searchFeedback: "",
 
     }
   },
@@ -416,12 +387,7 @@ export default {
     isExpanded(index) {
       return (this.expandedRow == index);
     },
-    getAssignedFeedback(issue){
-      let issueKey = issue.key
-      let page = this.pagination.page
-      let size = this.pagination.rowsPerPage
-      this.$store.dispatch("actionGetAssignedFeedback", {issueKey, page, size})
-    },
+
   },
   computed:{
     isLoadingData() {
@@ -435,21 +401,6 @@ export default {
     },
     allAvailableJiraIssues() {
       return this.$store.state.availableJiraProjects
-    },
-    getAssignedFeedbackFilter() {
-      if (this.searchFeedback !== "") {
-        return this.filterFeedbackFromIssue
-      } else {
-        return this.$store.state.assignedFeedback
-      }
-    },
-    filterFeedbackFromIssue() {
-      return this.$store.state.assignedFeedback.filter(item => {
-        const similarityString = item.similarity.toString();
-        return item.id.toLowerCase().indexOf(this.searchFeedback.toLowerCase()) > -1
-            || item.text.toLowerCase().indexOf(this.searchFeedback.toLowerCase()) > -1
-            || similarityString.toLowerCase().indexOf(this.searchFeedback.toLowerCase()) > -1
-      })
     },
 
     ...mapGetters({
