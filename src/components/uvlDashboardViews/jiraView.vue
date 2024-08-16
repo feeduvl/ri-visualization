@@ -138,8 +138,7 @@
                 <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
               </td>
             </tr>
-          </template>
-          <template v-slot:expanded-item="props">
+
             <tr v-if="expandedRow === props.index">
               <td :colspan="headers.length + 2">
                 <v-alert :value="true" type="info">
