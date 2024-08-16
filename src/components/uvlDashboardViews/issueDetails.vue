@@ -5,6 +5,8 @@
       item-key="id"
       class="elevation-1"
       :total-items="$store.state.totalAssignedFeedbackItems"
+      :page="page"
+      @update:page="page => $emit('update:page', page)"
       rows-per-page-text="Feedback per page"
       :rows-per-page-items="pagination_expandable.rowsPerPageItems"
       :pagination.sync="pagination_expandable"
@@ -44,6 +46,10 @@ export default {
   props: {
     item: {
       type: Object,
+      required: true,
+    },
+    page: {
+      type: Number,
       required: true,
     },
   },

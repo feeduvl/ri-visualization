@@ -138,12 +138,14 @@
                 <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
               </td>
             </tr>
+          </template>
+          <template v-slot:expanded-item="props">
             <tr v-if="expandedRow === props.index">
               <td :colspan="headers.length + 2">
                 <v-alert :value="true" type="info">
                   <strong>Details:</strong> This is additional information for {{ props.item.key }}.
                 </v-alert>
-                <issue-details :item="props.item" />
+                <issue-details :item="props.item" :page="nestedPage"/>
                 <!-- Additional details or nested components can go here -->
               </td>
 
@@ -236,7 +238,7 @@ export default {
       warning: "Select/import a project or feedback",
       deleteOneRequirement: false,
       itemToDelete: [],
-
+      expandablePage: 1, // Page number of expandable
     }
   },
   methods:{
@@ -377,7 +379,7 @@ export default {
     toggleExpand(index) {
       //const index = this.expanded.indexOf(item);
       this.expandedRow = this.expandedRow === index ? null : index;
-      this.pagination_expandable.page = 1
+      this.expandablePage = 1
       /*if (index >= 0) {
         this.expanded.splice(index, 1);
       } else {
