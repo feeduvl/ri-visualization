@@ -127,18 +127,18 @@
                       item-key="key"
                       >
           <template slot="items" slot-scope="props">
-            <tr @click="toggleExpand(props.item)">
+            <tr @click="toggleExpand(props.index)">
               <td v-for="field in Object.keys(props.item)" :key="field" class="text-xs-left">
                 {{ props.item[field] }}
               </td>
               <td>
-                <v-icon>{{ isExpanded(props.item) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+                <v-icon>{{ isExpanded(props.index) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
               </td>
               <td>
                 <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
               </td>
             </tr>
-            <tr v-if="isExpanded(props.item)">
+            <tr v-if="expandedRow === props.index">
               <td :colspan="headers.length + 2">
                 <v-alert :value="true" type="info">
                   <strong>Details:</strong> This is additional information for {{ props.item.key }}.
@@ -221,6 +221,7 @@ export default {
   data() {
     return {
       expanded: [],
+      expandedRow: null,
       headersIssueTypes: [
         {text: "Requirement Type", value: "issueType"},
       ],
@@ -395,16 +396,17 @@ export default {
       this.deleteOneRequirement = true
       this.itemToDelete = item
     },
-    toggleExpand(item) {
-      const index = this.expanded.indexOf(item);
-      if (index >= 0) {
+    toggleExpand(index) {
+      //const index = this.expanded.indexOf(item);
+      this.expandedRow = this.expandedRow === index ? null : index;
+      /*if (index >= 0) {
         this.expanded.splice(index, 1);
       } else {
         this.expanded.push(item);
-      }
+      }*/
     },
-    isExpanded(item) {
-      return this.expanded.includes(item);
+    isExpanded(index) {
+      return (this.expandedRow == index);
     },
     getAssignedFeedback(issue){
       let issueKey = issue.key
