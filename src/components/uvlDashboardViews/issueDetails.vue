@@ -1,4 +1,21 @@
 <template>
+  <div>
+    <v-dialog v-model="deleteOneFeedbackDialog" :max-width="300" class="delete-all-issues">
+      <v-card>
+        <v-card-title>
+          <h3>Are you sure you want to delete this related feedback?</h3>
+        </v-card-title>
+        <v-card-actions>
+          <v-btn color="red" @click="deleteFeedback()">
+            Delete
+          </v-btn>
+          <v-btn dark color="black" @click="dontDelete()">
+            Cancel
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
   <v-data-table
       :headers="header_details"
       :items="getAssignedFeedbackFilter"
@@ -85,7 +102,9 @@ export default {
     })
   },
   watch: {
-
+    item() {
+      this.issue = this.item;
+    }
   },
   data() {
     return {
@@ -102,6 +121,10 @@ export default {
         rowsPerPageItems: [5, 10, 25, 50, 100, {"text": "All", "value": -1}]
       },
       searchFeedback: "",
+      deleteOneFeedbackDialog: false,
+      itemToDelete: [],
+      issue: this.item,
+      deleteAllFeedbackDialog: false,
 
     };
   },
@@ -111,6 +134,22 @@ export default {
       let page = this.pagination_expandable.page
       let size = this.pagination_expandable.rowsPerPage
       this.$store.dispatch("actionGetAssignedFeedback", {issueKey, page, size})
+    },
+    openDeleteOneAssignmentDialog(item) {
+      this.deleteOneFeedbackDialog = true
+      this.itemToDelete = item
+    },
+    async deleteFeedback() {
+      const feedbackId = this.itemToDelete.id
+      const issueKey = this.issue.key
+      await this.$store.dispatch("actionDeleteIssueFeedbackRelation", {issueKey, feedbackId})
+      this.getAssignedFeedback()
+      this.deleteOneFeedbackDialog = false
+      this.itemToDelete = []
+    },
+    dontDelete(){
+      this.deleteAllFeedbackDialog = false
+      this.deleteOneFeedbackDialog = false
     },
   },
   mounted() {
