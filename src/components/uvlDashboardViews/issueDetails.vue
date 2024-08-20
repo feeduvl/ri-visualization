@@ -17,6 +17,21 @@
         </v-card>
       </v-dialog>
     </div>
+
+    <v-card-title>
+      <h3>Related Feedback</h3>
+      <div class="search-in-table">
+        <v-text-field v-model="searchFeedback" append-icon="search" label=" Search in table..."></v-text-field>
+      </div>
+      <div class="service-button">
+        <v-btn  @click="openDeleteAllAssignmentsDialog()" small>
+          <i class="material-icons delete-icon">delete_sweep</i>
+        </v-btn>
+        <v-btn  @click="openAddDialog" small>
+          <i class="material-icons add-icon" >add</i>
+        </v-btn>
+      </div>
+    </v-card-title>
     <v-data-table
         :headers="header_details"
         :items="getAssignedFeedbackFilter"
@@ -40,6 +55,8 @@
         </td>
       </template>
     </v-data-table>
+    <AddFeedbackToIssue :openFeedbackDialog="openFeedbackDialog" :issue="issue" @toggleFeedback="toggleFeedback"/>
+
   </div>
 </template>
 
@@ -59,6 +76,7 @@ import {
 } from "@/store/types";
 import { setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL } from "@/theme";
 import { loadDataset, reloadResults } from "@/RESTcalls";
+import AddFeedbackToIssue from "../uvlDashboardViews/AddFeedbackToIssue.vue";
 
 export default {
   name: "issueDetails",
@@ -73,6 +91,7 @@ export default {
     },
   },
   components: {
+    AddFeedbackToIssue
 
   },
   created() {
@@ -128,6 +147,7 @@ export default {
       itemToDelete: [],
       issue: this.item,
       deleteAllFeedbackDialog: false,
+      openFeedbackDialog: false,
 
     };
   },
@@ -164,6 +184,17 @@ export default {
     dontDelete(){
       this.deleteAllFeedbackDialog = false
       this.deleteOneFeedbackDialog = false
+    },
+    openDeleteAllAssignmentsDialog() {
+      this.deleteAllFeedbackDialog = true
+    },
+    openAddDialog() {
+      this.listWithTore = false
+      this.openFeedbackDialog = true;
+    },
+    toggleFeedback(value) {
+      this.openFeedbackDialog = value;
+      this.getAssignedFeedback()
     },
   },
   mounted() {
