@@ -477,4 +477,7 @@ export default {
 .main-issue-table{
   margin-top: 10px;
 }
+.pointer-cursor {
+  cursor: pointer; /* Makes the cursor a hand when hovering over the delete icon */
+}
 </style>

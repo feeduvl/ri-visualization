@@ -174,5 +174,7 @@ export default {
 </script>
 
 <style scoped>
-
+.pointer-cursor {
+  cursor: pointer; /* Makes the cursor a hand when hovering over the delete icon */
+}
 </style>
