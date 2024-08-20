@@ -1523,7 +1523,7 @@ export const actionGetUnassignedFeedback = ({commit}, {issueKey, page, size, sel
     return new Promise(() => {
         commit("setIsLoadingData", true);
         console.log("get assigned feedback")
-        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_unassigned_feedback/${issueKey}/${selectedFeedback}`, {
+        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_unassigned_feedback/${issueKey}`, {
             params: {
                 page: page,
                 size: size
