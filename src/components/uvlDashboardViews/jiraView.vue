@@ -135,7 +135,7 @@
                 <v-icon>{{ isExpanded(props.index) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
               </td>
               <td>
-                <i class="material-icons delete-icon"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
+                <i class="material-icons delete-icon pointer-cursor"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
               </td>
             </tr>
 

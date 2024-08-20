@@ -36,7 +36,7 @@
         <td>{{ props.item.text }}</td>
         <td>{{ props.item.similarity }}</td>
         <td>
-          <i class="material-icons delete-icon" @click="openDeleteOneAssignmentDialog(props.item)">delete</i>
+          <i class="material-icons delete-icon pointer-cursor" @click="openDeleteOneAssignmentDialog(props.item)">delete</i>
         </td>
       </template>
     </v-data-table>
