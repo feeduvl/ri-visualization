@@ -106,7 +106,8 @@ export default {
   watch: {
     item() {
       this.issue = this.item;
-    }
+      this.fetchData(); // Trigger fetch data when item changes
+    },
   },
   data() {
     return {
@@ -131,6 +132,17 @@ export default {
     };
   },
   methods: {
+    fetchData() {
+      this.getAssignedFeedback(); // Fetch assigned feedback for the current item
+      //this.updateTotalItems(); // Update the total items count
+    },
+    updateTotalItems() {
+      // Fetch the updated total items count based on the current item
+      let issueKey = this.item.key;
+      this.$store.dispatch("actionGetTotalAssignedFeedbackItems", issueKey).then(total => {
+        this.totalItems = total;
+      });
+    },
     getAssignedFeedback(){
       let issueKey = this.item.key
       let page = this.pagination_expandable.page
