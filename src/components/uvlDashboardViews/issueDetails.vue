@@ -1,44 +1,46 @@
 <template>
-  <div>
-    <v-dialog v-model="deleteOneFeedbackDialog" :max-width="300" class="delete-all-issues">
-      <v-card>
-        <v-card-title>
-          <h3>Are you sure you want to delete this related feedback?</h3>
-        </v-card-title>
-        <v-card-actions>
-          <v-btn color="red" @click="deleteFeedback()">
-            Delete
-          </v-btn>
-          <v-btn dark color="black" @click="dontDelete()">
-            Cancel
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+  <div class="container">
+    <div>
+      <v-dialog v-model="deleteOneFeedbackDialog" :max-width="300" class="delete-all-issues">
+        <v-card>
+          <v-card-title>
+            <h3>Are you sure you want to delete this related feedback?</h3>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="red" @click="deleteFeedback()">
+              Delete
+            </v-btn>
+            <v-btn dark color="black" @click="dontDelete()">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <v-data-table
+        :headers="header_details"
+        :items="getAssignedFeedbackFilter"
+        item-key="id"
+        class="elevation-1"
+        :total-items="$store.state.totalAssignedFeedbackItems"
+        :page="page"
+        @update:page="page => $emit('update:page', page)"
+        rows-per-page-text="Feedback per page"
+        :rows-per-page-items="pagination_expandable.rowsPerPageItems"
+        :pagination.sync="pagination_expandable"
+        @update:pagination.self="getAssignedFeedback()"
+        :no-data-text="warning"
+    >
+      <template v-slot:items="props">
+        <td>{{ props.item.id }}</td>
+        <td>{{ props.item.text }}</td>
+        <td>{{ props.item.similarity }}</td>
+        <td>
+          <i class="material-icons delete-icon" @click="openDeleteOneAssignmentDialog(props.item)">delete</i>
+        </td>
+      </template>
+    </v-data-table>
   </div>
-  <v-data-table
-      :headers="header_details"
-      :items="getAssignedFeedbackFilter"
-      item-key="id"
-      class="elevation-1"
-      :total-items="$store.state.totalAssignedFeedbackItems"
-      :page="page"
-      @update:page="page => $emit('update:page', page)"
-      rows-per-page-text="Feedback per page"
-      :rows-per-page-items="pagination_expandable.rowsPerPageItems"
-      :pagination.sync="pagination_expandable"
-      @update:pagination.self="getAssignedFeedback()"
-      :no-data-text="warning"
-  >
-    <template v-slot:items="props">
-      <td>{{ props.item.id }}</td>
-      <td>{{ props.item.text }}</td>
-      <td>{{ props.item.similarity }}</td>
-      <td>
-        <i class="material-icons delete-icon" @click="openDeleteOneAssignmentDialog(props.item)">delete</i>
-      </td>
-    </template>
-  </v-data-table>
 </template>
 
 <script>
