@@ -10,15 +10,15 @@
       rows-per-page-text="Feedback per page"
       :rows-per-page-items="pagination_expandable.rowsPerPageItems"
       :pagination.sync="pagination_expandable"
-      @update:pagination.self="getAssignedFeedback(this.$props.item)"
+      @update:pagination.self="getAssignedFeedback()"
       :no-data-text="warning"
   >
     <template v-slot:items="props">
-      <td>{{ this.$props.item.id }}</td>
-      <td>{{ this.$props.item.text }}</td>
-      <td>{{ this.$props.item.similarity }}</td>
+      <td>{{ props.item.id }}</td>
+      <td>{{ props.item.text }}</td>
+      <td>{{ props.item.similarity }}</td>
       <td>
-        <i class="material-icons delete-icon" @click="openDeleteOneAssignmentDialog(this.$props.item)">delete</i>
+        <i class="material-icons delete-icon" @click="openDeleteOneAssignmentDialog(props.item)">delete</i>
       </td>
     </template>
   </v-data-table>
@@ -40,7 +40,6 @@ import {
 } from "@/store/types";
 import { setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL } from "@/theme";
 import { loadDataset, reloadResults } from "@/RESTcalls";
-import props from "vuetify/lib/components/VCalendar/util/props";
 
 export default {
   name: "issueDetails",
@@ -60,9 +59,6 @@ export default {
   created() {
   },
   computed: {
-    props() {
-      return props
-    },
     getAssignedFeedbackFilter() {
       if (this.searchFeedback !== "") {
         return this.filterFeedbackFromIssue
@@ -110,8 +106,8 @@ export default {
     };
   },
   methods: {
-    getAssignedFeedback(issue){
-      let issueKey = issue.key
+    getAssignedFeedback(){
+      let issueKey = this.item.key
       let page = this.pagination_expandable.page
       let size = this.pagination_expandable.rowsPerPage
       this.$store.dispatch("actionGetAssignedFeedback", {issueKey, page, size})
