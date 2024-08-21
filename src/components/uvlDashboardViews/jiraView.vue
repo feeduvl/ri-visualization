@@ -162,6 +162,10 @@
 
         </v-data-table>
       </v-card>
+      <div class="export-buttons">
+        <v-subheader>Exporting Data</v-subheader>
+        <v-btn :style="{ backgroundColor: blueFill }" :class="{'assign_tore_not_allowed': !feedbackAndProjectIsSelected}" @click="getAssignedDataToExport()"> Export relations Data to CSV </v-btn>
+      </div>
     </div>
   </div>
 
@@ -392,7 +396,63 @@ export default {
     isExpanded(index) {
       return (this.expandedRow == index);
     },
+    async getAssignedDataToExport() {
+      let selectedFeedback
+      if(this.$store.state.selectedFeedback === ""){
+        selectedFeedback = "None"
+      }else{
+        selectedFeedback = this.$store.state.selectedFeedback
+      }
+      await this.$store.dispatch("actionGetAssignedDataToExport", selectedFeedback)
+      this.exportAssignedDataToCSV()
+    },
+    exportAssignedDataToCSV() {
+      const csvContent = [];
+      const dataToExport = this.$store.state.dataToExport;
 
+      if (dataToExport.length === 0) {
+        return;
+      }
+      const issueKeys = [];
+      const issueSummaries = [];
+      const issueDescriptions = [];
+
+      for (const data of dataToExport) {
+        issueKeys.push(data.issue_key);
+        issueSummaries.push(data.issue_summary);
+        issueDescriptions.push(data.issue_description);
+      }
+      csvContent.push('issue_key#' + issueKeys.join('##'));
+      csvContent.push('issue_summary#' + issueSummaries.join('##'));
+      csvContent.push('issue_description#' + issueDescriptions.join('##'));
+
+      const maxFeedbackCount = Math.max(...dataToExport.map(data => data.feedback_data.length));
+
+      for (let i = 0; i < maxFeedbackCount; i++) {
+        const feedbackIdRow = [];
+        const feedbackTextRow = [];
+
+        for (const data of dataToExport) {
+          if (i < data.feedback_data.length) {
+            const feedback = data.feedback_data[i];
+            feedbackIdRow.push(feedback.feedback_id);
+            feedbackTextRow.push(feedback.feedback_text);
+          } else {
+            feedbackIdRow.push('');
+            feedbackTextRow.push('');
+          }
+        }
+        csvContent.push('feedback_id' + (i + 1) + '#' + feedbackIdRow.join('##'));
+        csvContent.push('feedback_text' + (i + 1) + '#' + feedbackTextRow.join('##'));
+      }
+      const csvBlob = new Blob([csvContent.join('\n')], { type: 'text/csv' });
+      const url = URL.createObjectURL(csvBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'assigned_feedback-issues.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    },
   },
   computed:{
     isLoadingData() {
@@ -460,6 +520,9 @@ export default {
             || projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       });
     },
+    feedbackAndProjectIsSelected() {
+      return this.$store.state.selectedFeedback !== "" && this.$store.state.issues.length > 0;
+    },
   },
   mounted() {
     this.getAllJiraProjects()
@@ -489,5 +552,14 @@ export default {
   border: 2px solid #ccc;
   padding: 5px;
   margin-left: 5px;
+}
+.export-buttons {
+  float: left;
+  margin-left: 20px;
+}
+.assign_tore_not_allowed {
+  background-color: #ccc !important;
+  pointer-events: none !important;
+  color: #777 !important;
 }
 </style>
