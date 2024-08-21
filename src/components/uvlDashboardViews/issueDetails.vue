@@ -1,6 +1,23 @@
 <template>
   <div class="container">
     <div>
+      <v-dialog v-model="deleteAllFeedbackDialog" :max-width="300" class="delete-all-issues">
+        <v-card>
+          <v-card-title>
+            <h3>Are you sure you want to delete all related feedback?</h3>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="red" @click="deleteAssignedFeedbackForIssue">
+              Delete
+            </v-btn>
+            <v-btn dark color="black" @click="dontDelete()">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+    <div>
       <v-dialog v-model="deleteOneFeedbackDialog" :max-width="300" class="delete-all-issues">
         <v-card>
           <v-card-title>
@@ -195,6 +212,11 @@ export default {
     toggleFeedback(value) {
       this.openFeedbackDialog = value;
       this.getAssignedFeedback()
+    },
+    async deleteAssignedFeedbackForIssue() {
+      await this.$store.dispatch("actionDeleteAssignedFeedbackForIssue", this.issue.key)
+      this.getAssignedFeedback()
+      this.deleteAllFeedbackDialog = false
     },
   },
   mounted() {
