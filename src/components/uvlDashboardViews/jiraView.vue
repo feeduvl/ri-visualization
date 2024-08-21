@@ -81,7 +81,10 @@
         </v-card>
       </v-layout>
     </v-card>
-
+    <div class="input-container">
+      <label for="maxSimilarity">Threshold:</label>
+      <input id="maxSimilarity" class="chooseSimilarity" type="number" v-model="maxSimilarity" />
+    </div>
     <!--<v-card>
       <div>
         <StartDetectionHome class="element1"></StartDetectionHome>
@@ -217,6 +220,7 @@ export default {
       selectedDatasetName: "",
       runMethods: METHODS,
       showUnassigned: false,
+      maxSimilarity: 0,
       headers: [
         {text: "Requirement Name", value: "key", sortable: false},
         {text: "Summary", value: "summary", sortable: false},
@@ -343,9 +347,9 @@ export default {
       let selectedFeedback = this.selectedDatasets
       console.log (selectedFeedback)
       let maxSimilarity = 0
-      /*if (this.maxSimilarity !== ""){
+      if (this.maxSimilarity !== ""){
         maxSimilarity = this.maxSimilarity
-      }*/
+      }
       await this.$store.dispatch("actionAssignIssuesToManyFeedback", {selectedFeedback, maxSimilarity})
       this.getAllIssues()
     },
@@ -479,5 +483,11 @@ export default {
 }
 .pointer-cursor {
   cursor: pointer; /* Makes the cursor a hand when hovering over the delete icon */
+}
+.chooseSimilarity{
+  width: 70px;
+  border: 2px solid #ccc;
+  padding: 5px;
+  margin-left: 5px;
 }
 </style>
