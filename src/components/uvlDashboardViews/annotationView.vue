@@ -88,6 +88,10 @@
     </div>
   </div>
 
+  <div>
+    <Annotator></Annotator>
+  </div>
+
 </template>
 
 <script >
@@ -103,11 +107,13 @@ import {MUTATE_SELECTED_DATASET_OUTSIDE, MUTATE_SELECTED_RESULT} from "@/store/t
 
 import {mapGetters} from "vuex";
 import axios from "axios";
+import Annotator from "../annotator/Annotator.vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "SearchForJiraProject",
   components: {
+    Annotator,
     StartDetectionHome,
     LoadingView,
     ImportJiraProject,
