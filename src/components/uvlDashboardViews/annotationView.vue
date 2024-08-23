@@ -86,11 +86,10 @@
       <v-btn dark color="red" @click="assignFeedbackToIssues()"> Classify
       </v-btn>
     </div>
+    <v-container>
+      <Annotator/>
+    </v-container>
   </div>
-
-  <v-container>
-    <Annotator/>
-  </v-container>
 
 </template>
 
