@@ -27,7 +27,7 @@
       <v-divider />
       <component v-bind:is="component" v-bind:dataset="this.$props.selected_dataset" />
     </v-card>
-    <v-card>
+    <!--<v-card>
       <v-card flat class="header">
         <v-card-title>
           <h1>{{ cardTableTitle }}</h1>
@@ -92,7 +92,7 @@
           </tr>
         </template>
       </v-data-table>
-    </v-card>
+    </v-card>-->
     <v-snackbar v-model="deleteSnackbarVisible" :timeout="deleteSnackbarTimeout" :top=true>
       Delete Result {{ resultToDelete.name }}?
 
