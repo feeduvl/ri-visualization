@@ -106,7 +106,7 @@ import {MUTATE_SELECTED_DATASET_OUTSIDE, MUTATE_SELECTED_RESULT} from "@/store/t
 
 import {mapGetters} from "vuex";
 import axios from "axios";
-import Annotator from "/annotation/Annotator.vue";
+import Annotator from "./annotation/Annotator.vue";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
