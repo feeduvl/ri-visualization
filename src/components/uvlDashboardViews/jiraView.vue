@@ -164,7 +164,7 @@
       </v-card>
       <div class="export-buttons">
         <v-subheader>Exporting Data</v-subheader>
-        <v-btn :style="{ backgroundColor: blueFill }" :class="{ @click="getAssignedDataToExport()"> Export relations Data to CSV </v-btn>
+        <v-btn :style="{ backgroundColor: blueFill }" @click="getAssignedDataToExport()"> Export relations Data to CSV </v-btn>
       </div>
     </div>
   </div>
