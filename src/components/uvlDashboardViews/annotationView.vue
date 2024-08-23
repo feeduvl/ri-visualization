@@ -88,9 +88,9 @@
     </div>
   </div>
 
-  <div>
-    <Annotator></Annotator>
-  </div>
+  <v-container>
+    <Annotator/>
+  </v-container>
 
 </template>
 
