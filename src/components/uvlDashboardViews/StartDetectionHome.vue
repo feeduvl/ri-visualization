@@ -304,7 +304,7 @@ export default {
   },
   methods: {
     async assignFeedbackToIssues(){
-      let selectedFeedback =  this.selectedDatasets.join('#!#');
+      let selectedFeedback =  this.$props.selected_dataset.join('#!#');
       //let selectedFeedback = this.selectedDatasets
       console.log (selectedFeedback)
       let maxSimilarity = 0
