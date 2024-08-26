@@ -79,7 +79,7 @@
 
     <v-card>
       <div>
-        <StartDetectionHome v-bind:selected_dataset="selectedDatasets" class="element1"></StartDetectionHome>
+        <StartDetectionHome v-bind:selected_dataset="selectedDatasets.join('#!#')" class="element1"></StartDetectionHome>
       </div>
     </v-card>
 
