@@ -79,7 +79,7 @@
 
     <v-card>
       <div>
-        <StartDetectionHome v-bind:selected_dataset="selectedDatasets" class="element1"></StartDetectionHome>
+        <StartDetectionHome v-bind:selected_dataset="selectedDatasets" class="element1" ref="detectionRef"></StartDetectionHome>
       </div>
     </v-card>
     <div>
@@ -262,8 +262,9 @@ export default {
       /*if (this.maxSimilarity !== ""){
         maxSimilarity = this.maxSimilarity
       }*/
-      await this.$store.dispatch("actionAssignIssuesToFeedback", {selectedFeedback, maxSimilarity})
-      this.getAllIssues()
+      this.$refs.detectionRef.startRun()
+      //await this.$store.dispatch("actionAssignIssuesToFeedback", {selectedFeedback, maxSimilarity})
+      //this.getAllIssues()
     },
     getAllIssues() {
       if(this.showUnassigned){

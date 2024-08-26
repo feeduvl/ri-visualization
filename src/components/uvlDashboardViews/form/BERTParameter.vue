@@ -49,7 +49,7 @@
 
 <script>
 import axios from "axios";
-import { POST_START_DETECTION_ENDPOINT } from "@/RESTconf";
+import { POST_START_MULTIDETECTION_ENDPOINT } from "@/RESTconf";
 import { SNACKBAR_DISPLAY_TIME } from "@/theme";
 import { CHAINABLE_METHODS } from "@/methods";
 
@@ -89,7 +89,7 @@ export default {
                 this.displaySnackbar("Please validate your parameter inputs!");
             } else {
                 this.loading = false;
-                axios.post(POST_START_DETECTION_ENDPOINT, this.getFormData()
+                axios.post(POST_START_MULTIDETECTION_ENDPOINT, this.getFormData()
                 ).then(response => {
                     if (response.status > 200 || response.status < 300) {
                         this.displaySnackbar("Run has been started successfully.");
