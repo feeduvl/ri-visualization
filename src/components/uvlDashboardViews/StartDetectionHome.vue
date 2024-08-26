@@ -25,7 +25,7 @@
         </v-layout>
       </v-container>
       <v-divider />
-      <component v-bind:is="component" v-bind:dataset="this.$props.selected_dataset" />
+      <component v-bind:is="component" v-bind:dataset="this.$props.selected_dataset" ref="detectionRef"/>
     </v-card>
     <!--<v-card>
       <v-card flat class="header">
@@ -134,6 +134,10 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <div>
+      <v-btn dark color="red" @click="assignFeedbackToIssues()"> Classify
+      </v-btn>
+    </div>
   </v-container>
 </template>
 
@@ -299,6 +303,18 @@ export default {
     };
   },
   methods: {
+    async assignFeedbackToIssues(){
+      let selectedFeedback =  this.selectedDatasets.join('#!#');
+      //let selectedFeedback = this.selectedDatasets
+      console.log (selectedFeedback)
+      let maxSimilarity = 0
+      /*if (this.maxSimilarity !== ""){
+        maxSimilarity = this.maxSimilarity
+      }*/
+      this.$refs.detectionRef.startRun()
+      //await this.$store.dispatch("actionAssignIssuesToFeedback", {selectedFeedback, maxSimilarity})
+      //this.getAllIssues()
+    },
     updateServiceStatus(service) {
       if (service === "") {
         this.serviceColor = GRAY;

@@ -79,16 +79,14 @@
 
     <v-card>
       <div>
-        <StartDetectionHome v-bind:selected_dataset="selectedDatasets" class="element1" ref="detectionRef"></StartDetectionHome>
+        <StartDetectionHome v-bind:selected_dataset="selectedDatasets" class="element1"></StartDetectionHome>
       </div>
     </v-card>
-    <div>
-      <v-btn dark color="red" @click="assignFeedbackToIssues()"> Classify
-      </v-btn>
-    </div>
+
     <v-container>
       <Annotator/>
     </v-container>
+
   </div>
 
 </template>
@@ -254,18 +252,7 @@ export default {
         setTheme(title, theme, this.$store);
       }
     },
-    async assignFeedbackToIssues(){
-      let selectedFeedback =  this.selectedDatasets.join('#!#');
-      //let selectedFeedback = this.selectedDatasets
-      console.log (selectedFeedback)
-      let maxSimilarity = 0
-      /*if (this.maxSimilarity !== ""){
-        maxSimilarity = this.maxSimilarity
-      }*/
-      this.$refs.detectionRef.startRun()
-      //await this.$store.dispatch("actionAssignIssuesToFeedback", {selectedFeedback, maxSimilarity})
-      //this.getAllIssues()
-    },
+
     getAllIssues() {
       if(this.showUnassigned){
         this.getUnassignedIssues()
