@@ -84,7 +84,7 @@
     </v-card>
 
     <v-container>
-      <Annotator v-bind:selectedAnnotation="tim10"/>
+      <Annotator :selectedAnnotation="tim10"/>
     </v-container>
 
   </div>
