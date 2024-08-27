@@ -19,7 +19,8 @@
         </EditConfigurablesDialog>
 
         <AnnotatorSettings
-                v-if="!$store.state.selected_annotation">
+                v-if="!$store.state.selected_annotation"
+                ref="annotatorSettingsRef">
         </AnnotatorSettings>
 
         <div class="annotator"
@@ -494,6 +495,10 @@ export default {
           console.log("annotator loaded")
           console.log(this.$props.selectedAnnotation)
           console.log(this.$store.state.selected_annotation)
+          let currentAnnotation = this.$store.state.available_annotations.find(a => a.name === this.$props.selectedAnnotation)
+          console.log(currentAnnotation)
+          this.$refs.annotatorSettingsRef.viewCodeResults(currentAnnotation)
+
         },
 
         methods: {
