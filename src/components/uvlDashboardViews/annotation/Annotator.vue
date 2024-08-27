@@ -18,9 +18,9 @@
                 :showRecommendationTore="$store.state.showRecommendationTore">
         </EditConfigurablesDialog>
 
-        <!--<AnnotatorSettings
+        <AnnotatorSettings
                 v-if="!$store.state.selected_annotation">
-        </AnnotatorSettings>-->
+        </AnnotatorSettings>
 
         <div class="annotator"
              v-else>
