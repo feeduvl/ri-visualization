@@ -269,6 +269,9 @@ import {getToreHighlightColor} from "@/colors";
 
 export default {
         name: "Annotator",
+        props: {
+          selectedAnnotation: String,
+        },
         data: () => {
             return {
 
@@ -487,6 +490,7 @@ export default {
         },
 
         mounted(){
+          this.$store.commit("updateSelectedAnnotation", this.$props.selectedAnnotation)
           console.log("annotator loaded")
         },
 
