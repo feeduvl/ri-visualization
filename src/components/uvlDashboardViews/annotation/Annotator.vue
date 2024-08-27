@@ -492,6 +492,8 @@ export default {
         mounted(){
           this.$store.commit("updateSelectedAnnotation", this.$props.selectedAnnotation)
           console.log("annotator loaded")
+          console.log(this.$props.selectedAnnotation)
+          console.log(this.$store.state.selected_annotation)
         },
 
         methods: {
