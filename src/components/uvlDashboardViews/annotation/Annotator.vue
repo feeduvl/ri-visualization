@@ -487,6 +487,7 @@ export default {
         },
 
         mounted(){
+          console.log("annotator loaded")
         },
 
         methods: {
