@@ -273,6 +273,19 @@ export default {
         props: {
           selectedAnnotation: String,
         },
+        created(){
+          const loadAnnotationsOnCreated = async () => {
+            try {
+              await this.$store.dispatch('actionGetAllAnnotations')
+              console.log("got all annotations async")
+            } catch (error) {
+              console.error('Error loading annotations:', error);
+            }
+          };
+          loadAnnotationsOnCreated()
+          console.log("executed creation function")
+
+        },
         data: () => {
             return {
 
@@ -489,18 +502,7 @@ export default {
                 }
             }
         },
-        created(){
-          const loadAnnotationsOnCreated = async () => {
-            try {
-              await this.$store.dispatch('actionGetAllAnnotations')
-              console.log("got all annotations async")
-            } catch (error) {
-              console.error('Error loading annotations:', error);
-            }
-          };
-          loadAnnotationsOnCreated()
 
-        },
         mounted(){
           this.$store.commit("updateSelectedAnnotation", this.$props.selectedAnnotation)
           console.log("annotator loaded")
