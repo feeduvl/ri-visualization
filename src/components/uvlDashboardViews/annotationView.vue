@@ -84,7 +84,7 @@
     </v-card>
 
     <v-container>
-      <Annotator :selectedAnnotation="tim10"/>
+      <Annotator :selectedAnnotation="selectedAnnotation"/>
     </v-container>
 
   </div>
@@ -149,7 +149,7 @@ export default {
       selectedDatasetName: "",
       runMethods: METHODS,
       showUnassigned: false,
-
+      selectedAnnotation: "tim10"
     }
   },
   methods:{
