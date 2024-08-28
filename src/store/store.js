@@ -185,6 +185,7 @@ export const store = new Vuex.Store({
     issuesWithoutAssignment: [],
     feedbackWithoutAssignment: [],
     selectedData: [],
+    all_uvl_dashboards: [],
   },
   getters,
   mutations: {
