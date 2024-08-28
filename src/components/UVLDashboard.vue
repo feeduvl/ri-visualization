@@ -1,29 +1,23 @@
 <template>
   <div>
-    <v-card>
-      <v-tabs v-model="activeTab">
-        <v-tab v-for="i in tabs" :key="'dyn-tab-' + i" :href="'#tab-' + i">
-          Tab {{ i }}
-        </v-tab>
-
-        <!-- New Tab Button -->
-        <template v-slot:extension>
-          <v-tab @click.prevent="newTab"><v-icon>mdi-plus</v-icon></v-tab>
+    <div class="save-buttons">
+      <v-subheader>Choose saved data or save current data</v-subheader>
+      <v-select class="select-saved-data"
+                v-model="selectedData"
+                :items="getSelectedData"
+                label="Select Data"
+                dense
+      >
+        <template v-slot:item="{ item }" >
+          <div>
+            {{ item }}
+            <i class="material-icons delete-icon" @click.stop="openDeleteSavedData(item)">delete</i>
+          </div>
         </template>
-      </v-tabs>
-
-      <v-tabs-items v-model="activeTab">
-        <v-tab-item v-for="i in tabs" :key="'dyn-tab-item-' + i" :id="'tab-' + i">
-          <v-card flat>
-            <v-card-text>Tab contents {{ i }}</v-card-text>
-            <v-card-actions>
-              <v-btn color="red" @click="closeTab(i)">Close tab</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-tab-item>
-      </v-tabs-items>
-    </v-card>
-
+      </v-select>
+      <v-btn :style="{ backgroundColor: blueFill }" @click="openRestoreDataDialog()">Show Data</v-btn>
+      <p v-if="warningMessage1" style="color: red">{{warningMessage1}}</p>
+    </div>
     <div id="start" >
       <div class="container">
         <v-card class="banner">
@@ -48,28 +42,36 @@
 export default {
   data() {
     return {
-      activeTab: 0,
-      tabs: [],
-      tabCounter: 0
+      selectedData: "",
+
     };
   },
   mounted() {
     console.log("mounted started")
-    this.getSavedData();
     console.log("finish mounted")
+  },
+  activated() {
+    this.getSavedDataNames()
   },
   methods: {
     navigateTo(route) {
       this.activeTab = route.split('/').pop();
       this.$router.push(route);
     },
-    closeTab(x) {
-      /*for (let i = 0; i < this.tabs.length; i++) {
-        if (this.tabs[i] === x) {
-          this.tabs.splice(i, 1)
-        }
-      }*/
-      this.tabs = this.tabs.filter(tab => tab !== x);
+    openRestoreDataDialog(){
+      if(this.selectedData === ""){
+        this.warningMessage1 = "Error: No name selected. Please select a name"
+      }else {
+        this.warningMessage1 = ""
+        this.checkRestoreData = true
+      }
+    },
+    openDeleteSavedData(item) {
+      this.deleteSavedRelations = true
+      this.savedDataToDelete = item
+    },
+    getSelectedData() {
+      return this.$store.state.selectedData
     },
     async getSavedData(){
       console.log("getsaveddata")
@@ -83,9 +85,6 @@ export default {
         this.activeTab = 0;
       }
     },
-    newTab() {
-      this.tabs.push(this.tabCounter++)
-    }
   },
 };
 </script>
