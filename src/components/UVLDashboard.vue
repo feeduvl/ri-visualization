@@ -69,7 +69,7 @@
           ></v-select>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="red" @click="createNewDashboard()" :disabled="!dashboardType || !dashboardName || dashboardNameError">
+          <v-btn color="red" @click="createNewDashboard()" :disabled="!dashboardType || !dashboardName">
             Create
           </v-btn>
           <v-btn dark color="black" @click="closeCreateDashboardDialog()">
