@@ -276,7 +276,7 @@ export default {
         created(){
           console.log("started creation function")
 
-          this.loadAnnotationsOnCreated();
+          //this.loadAnnotationsOnCreated();
           console.log("executed creation function")
 
         },
@@ -789,6 +789,7 @@ export default {
             },
 
             saveAndClose(){
+                console.log("saveAndClose Annotator")
                 this.doSaveAnnotation(false)
                 this.$store.commit("resetAnnotator")
                 this.$store.dispatch("actionGetAllAnnotations")

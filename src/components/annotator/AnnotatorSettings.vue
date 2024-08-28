@@ -340,6 +340,7 @@
             },
 
             reloadFields(){
+                console.log("reloadFields in AnnotatorSettings")
                 this.checkServiceStatus();
                 this.$store.dispatch("actionGetAllRelationships")
                 this.$store.dispatch("actionGetAllTores")

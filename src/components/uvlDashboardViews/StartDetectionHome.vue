@@ -179,6 +179,7 @@ export default {
     "spellchecker-parameter": () => import("./form/SpellcheckerParameter"),
   },
   created() {
+    console.log("created StartDetectionHome")
     this.$store.dispatch('actionGetAllAnnotations');
   },
   computed: {
