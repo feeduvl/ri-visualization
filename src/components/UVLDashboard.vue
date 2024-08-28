@@ -182,11 +182,14 @@ export default {
       }
     },
     validateDashboardName() {
+      console.log(this.dashboardName)
+      console.log(this.dashboardType)
       if (this.$store.state.selectedData.includes(this.dashboardName)) {
         this.dashboardNameError = 'This dashboard name already exists. Please choose a different name.';
       } else {
         this.dashboardNameError = '';
       }
+      console.log(this.dashboardNameError)
     },
   },
   computed: {
