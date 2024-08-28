@@ -52,7 +52,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="red" @click="createNewDashboard(dashboardType)" :disabled="!dashboardType">
-            Show
+            Create
           </v-btn>
           <v-btn dark color="black" @click="closeCreateDashboardDialog()">
             Cancel
@@ -136,9 +136,9 @@ export default {
     createNewDashboard(dashboardType) {
       console.log(dashboardType)
       if (dashboardType === "Annotation") {
-        navigateTo('/uvldashboard/annotation')
+        this.navigateTo('/uvldashboard/annotation')
       } else {
-        navigateTo('/uvldashboard/jira')
+        this.navigateTo('/uvldashboard/jira')
       }
       this.closeCreateDashboardDialog()
     },
