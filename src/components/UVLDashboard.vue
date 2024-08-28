@@ -69,7 +69,7 @@ export default {
       }
     },
     async getSavedData(){
-      await this.$store.dispatch("actionGetSelectedData", this.selectedData);
+      await this.$store.dispatch("actionGetSavedDataNames")
       console.log(this.$store.state.selectedData)
       this.tabs = this.$store.state.selectedData;
       this.tabCounter = this.tabs.length;
