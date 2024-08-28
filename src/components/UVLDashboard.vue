@@ -69,7 +69,7 @@
           ></v-select>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="red" @click="createNewDashboard()" :disabled="!dashboardType || !dashboardName">
+          <v-btn color="red" @click="createNewDashboard()" :disabled="!dashboardType || !dashboardName || dashboardNameError !== ''">
             Create
           </v-btn>
           <v-btn dark color="black" @click="closeCreateDashboardDialog()">
@@ -157,7 +157,7 @@ export default {
       console.log(this.dashboardType)
       console.log(this.$store.state.selectedData)
       if (!this.dashboardNameError) {
-        if (dashboardType === "Annotation") {
+        if (this.dashboardType === "Annotation") {
           this.navigateTo('/uvldashboard/annotation')
         } else {
           this.navigateTo('/uvldashboard/jira')
@@ -170,7 +170,7 @@ export default {
       return this.$store.state.selectedData
     },
     async getSavedData() {
-      console.log("getsaveddata")
+      console.log("get saved data")
       await this.$store.dispatch("actionGetSavedDataNames")
       console.log(this.$store.state.selectedData)
       this.tabs = this.$store.state.selectedData;
