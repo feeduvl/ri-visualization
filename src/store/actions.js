@@ -826,7 +826,7 @@ export const actionSaveData = ({ commit }, savedDataName) => {
 };
 
 export const actionCreateDashboard = ({ commit }, dashboardName, dashboardType) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(() => {
         commit("setIsLoadingData", true);
         console.log("create dashboard");
         console.log(dashboardType);
@@ -834,7 +834,7 @@ export const actionCreateDashboard = ({ commit }, dashboardName, dashboardType) 
         axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/create_dashboard/${dashboardName}/${dashboardType}`)
             .then(response => {
                 commit("setIsLoadingData", false);
-                resolve(response);
+                return(response);
             })
             .catch(error => {
                 commit("setIsLoadingData", false);
@@ -843,8 +843,6 @@ export const actionCreateDashboard = ({ commit }, dashboardName, dashboardType) 
                 if (error.response && error.response.status === 400) {
                     alert("Name already exists! Please choose a different name.");
                 }
-
-                reject(error);
             });
     });
 };
