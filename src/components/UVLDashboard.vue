@@ -162,7 +162,7 @@ export default {
         } else {
           this.navigateTo('/uvldashboard/jira')
         }
-        await this.$store.dispatch("actionCreateDashboard", this.dashboardName, this.dashboardType);
+        this.$store.dispatch("actionCreateDashboard", this.dashboardName, this.dashboardType);
         this.closeCreateDashboardDialog()
       }
     },
