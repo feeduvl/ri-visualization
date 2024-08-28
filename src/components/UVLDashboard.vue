@@ -156,13 +156,13 @@ export default {
     createNewDashboard() {
       console.log(this.dashboardType)
       console.log(this.$store.state.selectedData)
+      this.$store.dispatch("actionCreateDashboard", this.dashboardName, this.dashboardType);
       if (!this.dashboardNameError) {
         if (this.dashboardType === "Annotation") {
           this.navigateTo('/uvldashboard/annotation')
         } else {
           this.navigateTo('/uvldashboard/jira')
         }
-        this.$store.dispatch("actionCreateDashboard", this.dashboardName, this.dashboardType);
         this.closeCreateDashboardDialog()
       }
     },
