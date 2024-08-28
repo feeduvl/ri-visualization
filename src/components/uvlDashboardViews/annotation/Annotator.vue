@@ -274,7 +274,8 @@ export default {
           selectedAnnotation: String,
         },
         created(){
-          /*const loadAnnotationsOnCreated = async () => {
+          console.log("started creation function")
+          const loadAnnotationsOnCreated = async () => {
             try {
               await this.$store.dispatch('actionGetAllAnnotations')
               console.log("got all annotations async")
@@ -282,7 +283,7 @@ export default {
               console.error('Error loading annotations:', error);
             }
           };
-          loadAnnotationsOnCreated()*/
+          loadAnnotationsOnCreated();
           console.log("executed creation function")
 
         },
