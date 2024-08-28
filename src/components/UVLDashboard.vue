@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="save-buttons">
-      <v-subheader>Choose saved data or save current data</v-subheader>
+      <v-subheader>Choose saved dashboard or create new one</v-subheader>
       <v-select class="select-saved-data"
                 v-model="selectedData"
                 :items="getSelectedData"
@@ -16,8 +16,51 @@
         </template>
       </v-select>
       <v-btn :style="{ backgroundColor: blueFill }" @click="openRestoreDataDialog()">Show Data</v-btn>
+      <v-btn :style="{ backgroundColor: blueFill }" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
       <p v-if="warningMessage1" style="color: red">{{warningMessage1}}</p>
     </div>
+    <v-dialog v-model="checkRestoreData" :max-width="400" >
+      <v-card class="restore-data">
+        <v-card-title class="restore-data">
+          <h3>If you choose to display this data, your current data will be deleted.</h3>
+          <h3>Are you sure you want to proceed?</h3>
+        </v-card-title>
+        <v-card-actions>
+          <v-btn color="red" @click="restoreData()">
+            Show
+          </v-btn>
+          <v-btn dark color="black" @click="closeRestoreDataDialog()">
+            Cancel
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="checkCreateDashboard" :max-width="400" >
+      <v-card class="create-data">
+        <v-card-title class="create-data">
+          <h3>If you choose to create a new dashboard, your current changes will be deleted.</h3>
+          <h3>Are you sure you want to proceed?</h3>
+        </v-card-title>
+        <v-card-text>
+          <v-select
+              v-model="dashboardType"
+              :items="dashboardTypes"
+              label="Dashboard type"
+              outlined
+              dense
+          ></v-select>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="red" @click="createNewDashboard(dashboardType)" :disabled="!dashboardType">
+            Show
+          </v-btn>
+          <v-btn dark color="black" @click="closeCreateDashboardDialog()">
+            Cancel
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <div id="start" >
       <div class="container">
         <v-card class="banner">
@@ -43,7 +86,11 @@ export default {
   data() {
     return {
       selectedData: "",
-
+      checkRestoreData: false,
+      warningMessage1: "",
+      checkCreateDashboard: false,
+      dashboardType: null,
+      dashboardTypes: ["Jira", "Annotation"]
     };
   },
   mounted() {
@@ -66,6 +113,16 @@ export default {
         this.checkRestoreData = true
       }
     },
+    closeRestoreDataDialog(){
+      this.checkRestoreData = false
+    },
+
+    openCreateDashboardDialog(){
+        this.checkCreateDashboard = true
+    },
+    closeCreateDashboardDialog(){
+      this.checkCreateDashboard = false
+    },
     // Get names of the saved relations
     getSavedDataNames() {
       this.$store.dispatch("actionGetSavedDataNames")
@@ -75,6 +132,9 @@ export default {
     openDeleteSavedData(item) {
       this.deleteSavedRelations = true
       this.savedDataToDelete = item
+    },
+    createNewDashboard(dashboardType) {
+      console.log(dashboardType)
     },
     getSelectedData() {
       return this.$store.state.selectedData
