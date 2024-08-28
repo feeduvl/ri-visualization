@@ -70,7 +70,7 @@ export default {
     getSavedDataNames() {
       this.$store.dispatch("actionGetSavedDataNames")
       console.log("got saved data names")
-      onsole.log(this.$store.state.selectedData)
+      console.log(this.$store.state.selectedData)
     },
     openDeleteSavedData(item) {
       this.deleteSavedRelations = true
