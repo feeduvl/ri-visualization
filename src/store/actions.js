@@ -825,7 +825,7 @@ export const actionSaveData = ({ commit }, savedDataName) => {
     });
 };
 
-export const actionCreateDashboard = ({ commit }, dashboardName, dashboardType) => {
+export const actionCreateDashboard = ({ commit }, {dashboardName, dashboardType}) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
         console.log("create dashboard");
