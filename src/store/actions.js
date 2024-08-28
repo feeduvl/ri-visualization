@@ -829,6 +829,7 @@ export const actionCreateDashboard = ({ commit }, dashboardName, dashboardType) 
     return new Promise((resolve, reject) => {
         commit("setIsLoadingData", true);
         console.log("create dashboard");
+        console.log(dashboardType);
 
         axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/create_dashboard/${dashboardName}/${dashboardType}`)
             .then(response => {
