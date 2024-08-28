@@ -61,7 +61,7 @@
       </v-card>
     </v-dialog>
 
-    <div id="start" >
+    <!--<div id="start" >
       <div class="container">
         <v-card class="banner">
           <v-tabs
@@ -76,7 +76,7 @@
         </v-card>
       </div>
       <router-view></router-view>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -135,6 +135,12 @@ export default {
     },
     createNewDashboard(dashboardType) {
       console.log(dashboardType)
+      if (dashboardType === "Annotation") {
+        navigateTo('/uvldashboard/annotation')
+      } else {
+        navigateTo('/uvldashboard/jira')
+      }
+      this.closeCreateDashboardDialog()
     },
     getSelectedData() {
       return this.$store.state.selectedData
