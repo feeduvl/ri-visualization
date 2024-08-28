@@ -42,6 +42,13 @@
           <h3>Are you sure you want to proceed?</h3>
         </v-card-title>
         <v-card-text>
+          <!-- Input field for Dashboard Name -->
+          <v-text-field
+              v-model="dashboardName"
+              label="Dashboard Name"
+              outlined
+              dense
+          ></v-text-field>
           <v-select
               v-model="dashboardType"
               :items="dashboardTypes"
@@ -51,7 +58,7 @@
           ></v-select>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="red" @click="createNewDashboard(dashboardType)" :disabled="!dashboardType">
+          <v-btn color="red" @click="createNewDashboard(dashboardType, dashboardName)" :disabled="!dashboardType || !dashboardName">
             Create
           </v-btn>
           <v-btn dark color="black" @click="closeCreateDashboardDialog()">
@@ -133,8 +140,9 @@ export default {
       this.deleteSavedRelations = true
       this.savedDataToDelete = item
     },
-    createNewDashboard(dashboardType) {
+    createNewDashboard(dashboardType, dashboardName) {
       console.log(dashboardType)
+      console.log(this.$store.state.selectedData)
       if (dashboardType === "Annotation") {
         this.navigateTo('/uvldashboard/annotation')
       } else {
