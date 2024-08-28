@@ -300,7 +300,6 @@ export default {
     // Get names of the saved relations
     getSavedDataNames() {
       this.$store.dispatch("actionGetSavedDataNames")
-      console.log("got saved data names")
     },
     async getUnassignedIssues() {
       if(this.showUnassigned){

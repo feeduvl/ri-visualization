@@ -92,6 +92,11 @@ export default {
       }
     },
   },
+  computed: {
+    getSelectedData() {
+      return this.$store.state.selectedData
+    },
+  }
 };
 </script>
 
