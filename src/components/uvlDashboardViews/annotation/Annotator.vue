@@ -275,15 +275,8 @@ export default {
         },
         created(){
           console.log("started creation function")
-          const loadAnnotationsOnCreated = async () => {
-            try {
-              await this.$store.dispatch('actionGetAllAnnotations')
-              console.log("got all annotations async")
-            } catch (error) {
-              console.error('Error loading annotations:', error);
-            }
-          };
-          loadAnnotationsOnCreated();
+
+          this.loadAnnotationsOnCreated();
           console.log("executed creation function")
 
         },
@@ -517,6 +510,15 @@ export default {
         },
 
         methods: {
+            async loadAnnotationsOnCreated (){
+              try {
+                console.log("trying to get annotations async")
+                await this.$store.dispatch('actionGetAllAnnotations')
+                console.log("got all annotations async")
+              } catch (error) {
+                console.error('Error loading annotations:', error);
+              }
+            },
             getToreHighlightColor,
             hideEditConfigurables(){
                 this.showingEditConfigurablesPopup = false;
