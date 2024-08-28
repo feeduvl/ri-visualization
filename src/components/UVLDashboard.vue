@@ -48,7 +48,18 @@
               label="Dashboard Name"
               outlined
               dense
+              :error-messages="dashboardNameError"
+              @input="validateDashboardName"
           ></v-text-field>
+          <!-- Error message -->
+          <v-alert
+              v-if="dashboardNameError"
+              type="error"
+              dense
+          >
+            {{ dashboardNameError }}
+          </v-alert>
+
           <v-select
               v-model="dashboardType"
               :items="dashboardTypes"
@@ -58,7 +69,7 @@
           ></v-select>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="red" @click="createNewDashboard(dashboardType, dashboardName)" :disabled="!dashboardType || !dashboardName">
+          <v-btn color="red" @click="createNewDashboard(dashboardType, dashboardName)" :disabled="!selectedOption || !dashboardName || dashboardNameError">
             Create
           </v-btn>
           <v-btn dark color="black" @click="closeCreateDashboardDialog()">
@@ -97,7 +108,9 @@ export default {
       warningMessage1: "",
       checkCreateDashboard: false,
       dashboardType: null,
-      dashboardTypes: ["Jira", "Annotation"]
+      dashboardTypes: ["Jira", "Annotation"],
+      dashboardName: '', // Dashboard name input
+      dashboardNameError: '', // Error message for invalid dashboard name
     };
   },
   mounted() {
@@ -143,12 +156,14 @@ export default {
     createNewDashboard(dashboardType, dashboardName) {
       console.log(dashboardType)
       console.log(this.$store.state.selectedData)
-      if (dashboardType === "Annotation") {
-        this.navigateTo('/uvldashboard/annotation')
-      } else {
-        this.navigateTo('/uvldashboard/jira')
+      if (!this.dashboardNameError) {
+        if (dashboardType === "Annotation") {
+          this.navigateTo('/uvldashboard/annotation')
+        } else {
+          this.navigateTo('/uvldashboard/jira')
+        }
+        this.closeCreateDashboardDialog()
       }
-      this.closeCreateDashboardDialog()
     },
     getSelectedData() {
       return this.$store.state.selectedData
@@ -165,6 +180,12 @@ export default {
         this.activeTab = 0;
       }
     },
+    validateDashboardName() {
+      if (this.$store.state.selectedData.includes(this.dashboardName)) {
+        this.dashboardNameError = 'This dashboard name already exists. Please choose a different name.';
+      } else {
+        this.dashboardNameError = '';
+      }
   },
   computed: {
     getSelectedData() {
