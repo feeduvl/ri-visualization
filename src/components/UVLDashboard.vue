@@ -66,6 +66,11 @@ export default {
         this.checkRestoreData = true
       }
     },
+    // Get names of the saved relations
+    getSavedDataNames() {
+      this.$store.dispatch("actionGetSavedDataNames")
+      console.log("got saved data names")
+    },
     openDeleteSavedData(item) {
       this.deleteSavedRelations = true
       this.savedDataToDelete = item
