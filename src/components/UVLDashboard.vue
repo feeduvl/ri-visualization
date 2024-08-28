@@ -69,7 +69,7 @@
           ></v-select>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="red" @click="createNewDashboard(dashboardType, dashboardName)" :disabled="!selectedOption || !dashboardName || dashboardNameError">
+          <v-btn color="red" @click="createNewDashboard()" :disabled="!selectedOption || !dashboardName || dashboardNameError">
             Create
           </v-btn>
           <v-btn dark color="black" @click="closeCreateDashboardDialog()">
@@ -153,8 +153,8 @@ export default {
       this.deleteSavedRelations = true
       this.savedDataToDelete = item
     },
-    createNewDashboard(dashboardType, dashboardName) {
-      console.log(dashboardType)
+    createNewDashboard() {
+      console.log(this.dashboardType)
       console.log(this.$store.state.selectedData)
       if (!this.dashboardNameError) {
         if (dashboardType === "Annotation") {
@@ -162,6 +162,7 @@ export default {
         } else {
           this.navigateTo('/uvldashboard/jira')
         }
+        await this.$store.dispatch("actionCreateDashboard", this.dashboardName, this.dashboardType);
         this.closeCreateDashboardDialog()
       }
     },

@@ -802,12 +802,35 @@ export const actionDeleteSavedData = ({ commit }, item) => {
     });
 };
 
-export const actionSaveData = ({ commit }, savedDataName) => {
+export const actionSaveData = ({ commit }, savedDataName) = {
     return new Promise((resolve, reject) => {
         commit("setIsLoadingData", true);
         console.log("save data");
 
         axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/save_data/${savedDataName}`)
+            .then(response => {
+                commit("setIsLoadingData", false);
+                resolve(response);
+            })
+            .catch(error => {
+                commit("setIsLoadingData", false);
+                console.error("Error:", error);
+
+                if (error.response && error.response.status === 400) {
+                    alert("Name already exists! Please choose a different name.");
+                }
+
+                reject(error);
+            });
+    });
+};
+
+export const actionCreateDashboard = ({ commit }, dashboardName, dashboardType) = {
+    return new Promise((resolve, reject) => {
+        commit("setIsLoadingData", true);
+        console.log("create dashboard");
+
+        axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/create_dashboard/${dashboardName}/${dashboardType}`)
             .then(response => {
                 commit("setIsLoadingData", false);
                 resolve(response);
