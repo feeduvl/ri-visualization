@@ -154,7 +154,9 @@ export default {
       this.savedDataToDelete = item
     },
     createNewDashboard() {
-      console.log(this.dashboardType)
+      let dashboardType = this.dashboardType
+      let dashboardName = this.dashboardName
+      console.log(dashboardType)
       console.log(this.$store.state.selectedData)
       this.$store.dispatch("actionCreateDashboard", {dashboardName, dashboardType});
       if (!this.dashboardNameError) {
