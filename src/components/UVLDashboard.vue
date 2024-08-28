@@ -125,22 +125,22 @@ export default {
       this.activeTab = route.split('/').pop();
       this.$router.push(route);
     },
-    openRestoreDataDialog(){
-      if(this.selectedData === ""){
+    openRestoreDataDialog() {
+      if (this.selectedData === "") {
         this.warningMessage1 = "Error: No name selected. Please select a name"
-      }else {
+      } else {
         this.warningMessage1 = ""
         this.checkRestoreData = true
       }
     },
-    closeRestoreDataDialog(){
+    closeRestoreDataDialog() {
       this.checkRestoreData = false
     },
 
-    openCreateDashboardDialog(){
-        this.checkCreateDashboard = true
+    openCreateDashboardDialog() {
+      this.checkCreateDashboard = true
     },
-    closeCreateDashboardDialog(){
+    closeCreateDashboardDialog() {
       this.checkCreateDashboard = false
     },
     // Get names of the saved relations
@@ -168,7 +168,7 @@ export default {
     getSelectedData() {
       return this.$store.state.selectedData
     },
-    async getSavedData(){
+    async getSavedData() {
       console.log("getsaveddata")
       await this.$store.dispatch("actionGetSavedDataNames")
       console.log(this.$store.state.selectedData)
@@ -186,6 +186,7 @@ export default {
       } else {
         this.dashboardNameError = '';
       }
+    },
   },
   computed: {
     getSelectedData() {
