@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card>
-      <v-tabs>
+      <v-tabs v-model="activeTab">
         <v-tab v-for="i in tabs" :key="'dyn-tab-' + i" :href="'#tab-' + i">
           Tab {{ i }}
         </v-tab>
@@ -12,7 +12,7 @@
         </template>
       </v-tabs>
 
-      <v-tabs-items>
+      <v-tabs-items v-model="activeTab">
         <v-tab-item v-for="i in tabs" :key="'dyn-tab-item-' + i" :id="'tab-' + i">
           <v-card flat>
             <v-card-text>Tab contents {{ i }}</v-card-text>
@@ -48,13 +48,15 @@
 export default {
   data() {
     return {
-      activeTab: '',
+      activeTab: 0,
       tabs: [],
       tabCounter: 0
     };
   },
   mounted() {
+    console.log("mounted started")
     this.getSavedData();
+    console.log("finish mounted")
   },
   methods: {
     navigateTo(route) {
@@ -62,17 +64,24 @@ export default {
       this.$router.push(route);
     },
     closeTab(x) {
-      for (let i = 0; i < this.tabs.length; i++) {
+      /*for (let i = 0; i < this.tabs.length; i++) {
         if (this.tabs[i] === x) {
           this.tabs.splice(i, 1)
         }
-      }
+      }*/
+      this.tabs = this.tabs.filter(tab => tab !== x);
     },
     async getSavedData(){
+      console.log("getsaveddata")
       await this.$store.dispatch("actionGetSavedDataNames")
       console.log(this.$store.state.selectedData)
       this.tabs = this.$store.state.selectedData;
       this.tabCounter = this.tabs.length;
+
+      // Automatically select the first tab if there are any tabs
+      if (this.tabs.length > 0) {
+        this.activeTab = 0;
+      }
     },
     newTab() {
       this.tabs.push(this.tabCounter++)
