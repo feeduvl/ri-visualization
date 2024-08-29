@@ -190,6 +190,7 @@ export const store = new Vuex.Store({
     //UVL DASHBOARD
     storedDatasets: [],
     storedThreshold: 0,
+    storedDashboardType: "",
     storedClassifier: "",
     currentDashboardName: ""
   },
@@ -527,8 +528,9 @@ export const store = new Vuex.Store({
     setDashboardData(state, data) {
       state.storedDatasets = data.datasets;
       state.currentDashboardName = data.name;
-      //state.storedThreshold = data.threshold;
-      //state.storedClassifier = data.classifier;
+      state.storedThreshold = data.threshold;
+      state.storedClassifier = data.classifier;
+      state.storedDashboardType = data.type;
     }
 
   },

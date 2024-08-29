@@ -361,6 +361,14 @@ export default {
       }
       await this.$store.dispatch("actionAssignIssuesToManyFeedback", {selectedFeedback, maxSimilarity})
       console.log("relation successful")
+      data_to_store = {
+        datasets: this.selectedDatasets,
+        name: this.$store.state.currentDashboardName,
+        threshold: maxSimilarity,
+        classifier: "",
+        type: "Jira"
+      }
+      this.$store.commit('setDashboardData', response.data)
       await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
       console.log("updated saved_data")
       this.getAllIssues()
