@@ -167,6 +167,7 @@ export default {
         }
         this.closeCreateDashboardDialog()
       }
+      this.getSavedDataNames()
     },
     async loadDashboard(){
       let response = await this.$store.dispatch("actionGetSelectedData", this.selectedDashboard);
@@ -179,9 +180,6 @@ export default {
         this.navigateTo('/uvldashboard/jira')
 
       }
-      this.getSavedDataNames()
-      this.getAllIssues()
-      this.getProjectNames()
       this.checkRestoreData = false
     },
 
