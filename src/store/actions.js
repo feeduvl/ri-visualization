@@ -1056,8 +1056,9 @@ export const actionAssignIssuesToManyFeedback = ({commit}, {selectedFeedback, ma
             .then(response => {
                 console.log("hello, i am done");
                 commit("setIsLoadingData", false);
-                console.log("hello, i am done2");
+                console.log(response);
                 return response;
+                console.log("i didnt return")
             })
             .catch(e => console.error("Error: "+e))
             .finally(() => {
