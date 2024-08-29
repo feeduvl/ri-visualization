@@ -105,6 +105,7 @@ export default {
       const selectedFeedback = this.selectedFeedback
       await this.$store.dispatch("actionAddFeedbackToIssue", {projectName, issueKey, selectedFeedback})
       this.toggleFeedback();
+      await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
     },
     getUnassignedFeedback(){
       let page = this.pagination.page

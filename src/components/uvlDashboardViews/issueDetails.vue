@@ -197,6 +197,7 @@ export default {
       this.getAssignedFeedback()
       this.deleteOneFeedbackDialog = false
       this.itemToDelete = []
+      await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
     },
     dontDelete(){
       this.deleteAllFeedbackDialog = false
@@ -217,6 +218,7 @@ export default {
       await this.$store.dispatch("actionDeleteAssignedFeedbackForIssue", this.issue.key)
       this.getAssignedFeedback()
       this.deleteAllFeedbackDialog = false
+      await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
     },
   },
   mounted() {
