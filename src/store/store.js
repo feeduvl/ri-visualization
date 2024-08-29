@@ -191,6 +191,7 @@ export const store = new Vuex.Store({
     storedDatasets: [],
     storedThreshold: 0,
     storedClassifier: "",
+    currentDashboardName: ""
   },
   getters,
   mutations: {

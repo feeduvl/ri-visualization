@@ -360,6 +360,7 @@ export default {
         maxSimilarity = this.maxSimilarity
       }
       await this.$store.dispatch("actionAssignIssuesToManyFeedback", {selectedFeedback, maxSimilarity})
+      await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
       this.getAllIssues()
     },
     getAllIssues() {
