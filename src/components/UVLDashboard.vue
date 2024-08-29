@@ -172,7 +172,7 @@ export default {
       let response = await this.$store.dispatch("actionGetSelectedData", this.selectedDashboard);
       console.log(response.data)
       console.log(response.data.type)
-      if (response.data.get("type") === "Annotation") {
+      if (response.data.type === "Annotation") {
         this.navigateTo('/uvldashboard/annotation')
       } else {
         this.navigateTo({name: '/uvldashboard/jira', params: {storedDatasets: response.data.datasets}})
