@@ -360,7 +360,9 @@ export default {
         maxSimilarity = this.maxSimilarity
       }
       await this.$store.dispatch("actionAssignIssuesToManyFeedback", {selectedFeedback, maxSimilarity})
+      console.log("relation successful")
       await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
+      console.log("updated saved_data")
       this.getAllIssues()
     },
     getAllIssues() {
