@@ -176,7 +176,7 @@ export default {
       if (response.data.type === "Annotation") {
         this.navigateTo('/uvldashboard/annotation')
       } else {
-        this.navigateTo({name: '/uvldashboard/jira', params: {storedDatasets: response.data.datasets}})
+        this.navigateTo('/uvldashboard/jira')
 
       }
       this.getSavedDataNames()
