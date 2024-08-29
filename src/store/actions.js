@@ -1049,7 +1049,7 @@ export const actionAssignIssuesToFeedback = ({commit}, {selectedFeedback, maxSim
 };
 
 export const actionAssignIssuesToManyFeedback = ({commit}, {selectedFeedback, maxSimilarity}) => {
-    return new Promise(() => {
+    return new Promise((resolve, reject) => {
         commit("setIsLoadingData", true);
 
         axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/assign_many_feedback_to_issues/${maxSimilarity}`, {datasets: selectedFeedback})
@@ -1057,12 +1057,15 @@ export const actionAssignIssuesToManyFeedback = ({commit}, {selectedFeedback, ma
                 console.log("hello, i am done");
                 commit("setIsLoadingData", false);
                 console.log(response);
-                return response;
-                console.log("i didnt return")
+                resolve(response);
+                console.log("i didnt return");
             })
-            .catch(e => console.error("Error: "+e))
+            .catch(e => {
+                console.error("Error: " + e);
+                reject(e); // Reject the promise with the error
+            })
             .finally(() => {
-                console.log("finally")
+                console.log("finally");
             });
     });
 };
