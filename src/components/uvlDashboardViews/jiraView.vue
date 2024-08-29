@@ -526,12 +526,9 @@ export default {
   },
   mounted() {
     console.log("mounted function executed")
-    this.selectedDatasets = this.$props.storedDatasets
+    this.selectedDatasets = this.$store.state.storedDatasets
     this.getAllJiraProjects()
     this.getAllIssues()
-  },
-  props: {
-    storedDatasets: string
   }
 }
 </script>

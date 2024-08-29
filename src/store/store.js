@@ -186,6 +186,11 @@ export const store = new Vuex.Store({
     feedbackWithoutAssignment: [],
     selectedData: [],
     all_uvl_dashboards: [],
+
+    //UVL DASHBOARD
+    storedDatasets: [],
+    storedThreshold: 0,
+    storedClassifier: "",
   },
   getters,
   mutations: {
@@ -516,6 +521,12 @@ export const store = new Vuex.Store({
 
     setAvailableAppReviewCrawlerJobs(state, crawlingJobs){
       state.finishedAppReviewCrawlerJobs = crawlingJobs || [];
+    },
+
+    setDashboardData(state, data) {
+      state.storedDatasets = data.datasets;
+      //state.storedThreshold = data.threshold;
+      //state.storedClassifier = data.classifier;
     }
 
   },
