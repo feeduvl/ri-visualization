@@ -1054,11 +1054,14 @@ export const actionAssignIssuesToManyFeedback = ({commit}, {selectedFeedback, ma
 
         axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/assign_many_feedback_to_issues/${maxSimilarity}`, {datasets: selectedFeedback})
             .then(response => {
+                console.log("hello, i am done");
                 commit("setIsLoadingData", false);
+                console.log("hello, i am done2");
                 return response;
             })
             .catch(e => console.error("Error: "+e))
             .finally(() => {
+                console.log("finally")
             });
     });
 };
