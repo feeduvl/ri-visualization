@@ -3,7 +3,7 @@
     <div class="save-buttons">
       <v-subheader>Choose saved dashboard or create new one</v-subheader>
       <v-select class="select-saved-data"
-                v-model="selectedData"
+                v-model="selectedDashboard"
                 :items="getSelectedData"
                 label="Select Data"
                 dense
@@ -26,7 +26,7 @@
           <h3>Are you sure you want to proceed?</h3>
         </v-card-title>
         <v-card-actions>
-          <v-btn color="red" @click="restoreData()">
+          <v-btn color="red" @click="loadDashboard()">
             Show
           </v-btn>
           <v-btn dark color="black" @click="closeRestoreDataDialog()">
@@ -103,7 +103,7 @@
 export default {
   data() {
     return {
-      selectedData: "",
+      selectedDashboard: "",
       checkRestoreData: false,
       warningMessage1: "",
       checkCreateDashboard: false,
@@ -168,6 +168,20 @@ export default {
         this.closeCreateDashboardDialog()
       }
     },
+    async loadDashboard(){
+      let response = await this.$store.dispatch("actionGetSelectedData", this.selectedDashboard);
+      if (this.dashboardType === "Annotation") {
+        this.navigateTo('/uvldashboard/annotation')
+      } else {
+        this.navigateTo('/uvldashboard/jira')
+
+      }
+      this.getSavedDataNames()
+      this.getAllIssues()
+      this.getProjectNames()
+      this.checkRestoreData = false
+    },
+
     getSelectedData() {
       return this.$store.state.selectedData
     },

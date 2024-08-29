@@ -525,6 +525,7 @@ export default {
     },
   },
   mounted() {
+    console.log("mounted function executed")
     this.getAllJiraProjects()
   },
 }
