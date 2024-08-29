@@ -642,7 +642,7 @@ export const actionStopOccurrence = (date) => {
   });
 };
 
-// app review crawler 
+// app review crawler
 export const actionCrawlApp = ({commit}, settings) => {
   return new Promise(() => {
     console.log("Initialize App Review Crawl");
@@ -732,7 +732,7 @@ export const actionGetRecommendationTores = ({commit}, token) => {
         const {recommendationTores} = response.data;
         commit("setRecommendationTores", recommendationTores);
       })
-      .catch(e => { 
+      .catch(e => {
         console.error("Error getting RecommendationTores: "+e);
       })
       .finally(() => {
@@ -825,12 +825,12 @@ export const actionSaveData = ({ commit }, savedDataName) => {
     });
 };
 
-export const actionCreateDashboard = ({ commit }, {dashboardName, dashboardType}) => {
+export const actionCreateDashboard = ({ commit, state }, {dashboardName, dashboardType}) => {
+    state.currentDashboardName = dashboardName;
     return new Promise(() => {
         commit("setIsLoadingData", true);
         console.log("create dashboard");
         console.log(dashboardType);
-
         axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/create_dashboard/${dashboardName}/${dashboardType}`)
             .then(response => {
                 commit("setIsLoadingData", false);

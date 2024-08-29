@@ -3,6 +3,11 @@
     <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
+    <v-card flat class="header">
+      <v-card-title primary-title>
+        <h2>Selected Dashboard: {{ $store.state.currentDashboardName }}</h2>
+      </v-card-title>
+    </v-card>
     <div class="import-elements">
       <div class="import-buttons">
         <ImportJiraProject class="element1"></ImportJiraProject>
