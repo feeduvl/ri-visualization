@@ -186,6 +186,9 @@ export default {
     component() {
       return getMethodObj(DASHBOARD_METHODS, this.selectedMethod).parameterComponentName;
     },
+    checkForAnnotationFinished() {
+      return this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName)
+    },
     selectedMethod: {
       get() {
         return this.$store.state.selectedMethod;
@@ -209,9 +212,9 @@ export default {
     selectedMethod: function (val) {
       this.updateServiceStatus(val);
     },
-    waitingForAnnotation(val) {
-      if (val === true){
-        //console.log("waiting for annotation")
+
+    checkForAnnotationFinished(val) {
+      if (val) {
         this.updateAnnotationView()
       }
     }
