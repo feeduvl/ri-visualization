@@ -209,8 +209,9 @@ export default {
     selectedMethod: function (val) {
       this.updateServiceStatus(val);
     },
-    checkForAnnotationAvailability: function () {
-      if (this.waitingForAnnotation){
+    waitingForAnnotation(val) {
+      if (val === true){
+        //console.log("waiting for annotation")
         this.updateAnnotationView()
       }
     }
