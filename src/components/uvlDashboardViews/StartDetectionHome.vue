@@ -208,6 +208,11 @@ export default {
   watch: {
     selectedMethod: function (val) {
       this.updateServiceStatus(val);
+    },
+    checkForAnnotationAvailability: function () {
+      if (this.waitingForAnnotation){
+        this.updateAnnotationView()
+      }
     }
   },
   data() {
@@ -301,20 +306,29 @@ export default {
       deleteSnackbarTimeout: 0,
       snackbarText: "",
       snackbarTimeout: 0,
+      waitingForAnnotation: false
     };
   },
   methods: {
-    async assignFeedbackToIssues(){
-      let selectedFeedback =  this.$props.selected_dataset.join('#!#');
+    async assignFeedbackToIssues() {
+      let selectedFeedback = this.$props.selected_dataset.join('#!#');
       //let selectedFeedback = this.selectedDatasets
-      console.log (selectedFeedback)
+      console.log(selectedFeedback)
       let maxSimilarity = 0
       /*if (this.maxSimilarity !== ""){
         maxSimilarity = this.maxSimilarity
       }*/
-      this.$refs.detectionRef.startRun()
-      //await this.$store.dispatch("actionAssignIssuesToFeedback", {selectedFeedback, maxSimilarity})
-      //this.getAllIssues()
+      await this.$refs.detectionRef.startRun()
+      this.updateAnnotationView()
+    },
+    updateAnnotationView() {
+    let annotation = this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName)
+      if (annotation) {
+        this.waitingForAnnotation = false
+        this.$emit('updateAnnotationView', annotation)
+      } else {
+        this.waitingForAnnotation = true
+      }
     },
     updateServiceStatus(service) {
       if (service === "") {

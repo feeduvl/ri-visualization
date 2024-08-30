@@ -22,6 +22,10 @@
                 v-if="!$store.state.selected_annotation"
                 ref="annotatorSettingsRef">
         </AnnotatorSettings>
+      <AnnotatorSettings
+          v-if="!$store.state.selected_annotation"
+          ref="annotatorSettingsRef2">
+      </AnnotatorSettings>
 
         <div class="annotator"
              v-else>
@@ -499,13 +503,13 @@ export default {
 
         mounted(){
           this.$store.commit("updateSelectedAnnotation", this.$props.selectedAnnotation)
-          console.log("annotator loaded")
+          /*console.log("annotator loaded")
           console.log(this.$props.selectedAnnotation)
           console.log(this.$store.state.selected_annotation)
           console.log(this.$store.state.available_annotations)
           let currentAnnotation = this.$store.state.available_annotations.find(a => a.name === this.$props.selectedAnnotation)
           console.log(currentAnnotation)
-          this.$refs.annotatorSettingsRef.viewCodeResults(currentAnnotation)
+          this.$refs.annotatorSettingsRef.viewCodeResults(currentAnnotation)*/
 
         },
 
@@ -820,7 +824,11 @@ export default {
                     }
                     console.error("pageToCode didn't find document for code")
                 }
-            }
+            },
+          updateAnnotationView(annotation){
+              this.$refs.annotatorSettingsRef.viewCodeResults(annotation)
+              this.$refs.annotatorSettingsRef2.startAnnotating(annotation)
+          }
         }
     }
 </script>
