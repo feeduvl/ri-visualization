@@ -11,10 +11,7 @@
         <template v-slot:item="{ item }" >
           <div>
             {{ item }}
-            <!--<i class="material-icons delete-icon" @click.stop="openDeleteSavedData(item)">delete</i>-->
-            <span class="delete-icon-wrapper" @click.stop="openDeleteSavedData(item)">
-              <i class="material-icons delete-icon">delete</i>
-            </span>
+            <i class="material-icons delete-icon" @click.stop="openDeleteSavedData(item)">delete</i>
           </div>
         </template>
       </v-select>
@@ -234,4 +231,18 @@ export default {
   align-items: stretch;
   width: 100%;
 }
+.load-dashboard {
+  float: left;
+  margin-right: 30px;
+  border-right: 1px solid #ccc;
+  padding-right: 80px;
+}
+.select-saved-data {
+  width: 70%;
+  margin-left: 10px;
+}
+.delete-icon {
+  color: red;
+}
+
 </style>
