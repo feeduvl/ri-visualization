@@ -320,7 +320,7 @@ export default {
       }*/
       await this.$refs.detectionRef.startRun()
       console.log("classification startedn, waiting for finishing")
-      this.updateAnnotationView()
+      this.waitingForAnnotation = true
     },
     async updateAnnotationView() {
     let annotation = this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName)
@@ -340,6 +340,7 @@ export default {
         this.$emit('updateAnnotationView', annotation)
       } else {
         this.waitingForAnnotation = true
+        console.log("still looking for an annotation")
       }
     },
     updateServiceStatus(service) {
