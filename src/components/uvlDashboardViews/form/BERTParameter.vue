@@ -119,10 +119,10 @@ export default {
             let params = {
                 method: this.method,
                 dataset: this.$props.dataset.join('#!#'),
-                debug: this.debug,
-                persist: this.persist,
-                name: this.run_name,
-                annotation_name: this.annotation_name,
+                debug: false,
+                persist: true,
+                name: this.$store.state.currentDashboardName,
+                annotation_name: this.$store.state.currentDashboardName,
             };
             return JSON.stringify(params);
         },
