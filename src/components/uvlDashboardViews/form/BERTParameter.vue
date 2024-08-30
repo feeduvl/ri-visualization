@@ -11,7 +11,7 @@
 
             </v-layout>
 
-            <v-layout row wrap>
+            <!--<v-layout row wrap>
                 <v-flex xs3>
                     <v-checkbox v-model="debug" :label="`Include debug information`"></v-checkbox>
                 </v-flex>
@@ -35,7 +35,7 @@
                 <v-flex xs9 />
                 <v-btn small color="primary" @click="resetForm">Reset</v-btn>
                 <v-btn small color="primary" :loading="loading" :disabled="loading" @click="startRun">Start</v-btn>
-            </v-layout>
+            </v-layout>-->
             <v-snackbar v-model="snackbarVisible" :timeout="snackbarTimeout" :top=true>
                 {{ snackbarText }}
 
