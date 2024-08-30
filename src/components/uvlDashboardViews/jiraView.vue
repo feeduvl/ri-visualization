@@ -183,7 +183,7 @@ import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue
 import ImportJiraProject from "@/components/uvlDashboardViews/ImportJiraProject.vue";
 import StartDetectionHome from "@/components/uvlDashboardViews/StartDetectionHome.vue";
 import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFromDB.vue";
-import { getMethodObj, METHODS } from "@/methods";
+import { getMethodObj, DASHBOARD_METHODS } from "@/methods";
 import {POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
 import {setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL} from "@/theme";
 import {MUTATE_SELECTED_DATASET_OUTSIDE, MUTATE_SELECTED_RESULT} from "@/store/types";
@@ -227,7 +227,7 @@ export default {
       loading: false,
       selectedDatasets: [],
       selectedDatasetName: "",
-      runMethods: METHODS,
+      runMethods: DASHBOARD_METHODS,
       showUnassigned: false,
       maxSimilarity: 0,
       headers: [
@@ -475,7 +475,7 @@ export default {
       return this.$store.state.isLoadingData
     },
     component() {
-      return getMethodObj(METHODS, this.selectedMethod).parameterComponentName;
+      return getMethodObj(DASHBOARD_METHODS, this.selectedMethod).parameterComponentName;
     },
     fileInputField() {
       return document.getElementById("file-input-field");

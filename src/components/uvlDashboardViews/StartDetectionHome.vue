@@ -147,7 +147,7 @@ import "moment/locale/de";
 import { GREEN_FILL, RED_FILL, GRAY, PRIMARY } from "@/colors";
 import { DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT } from "@/RESTconf";
 import { mapGetters } from 'vuex'
-import { getMethodObj, getMethodOrChainedObj, METHODS } from "@/methods";
+import { getMethodObj, getMethodOrChainedObj, DASHBOARD_METHODS } from "@/methods";
 import {
   ACTION_DELETE_RESULT,
   ACTION_EDIT_RESULT_NAME,
@@ -184,7 +184,7 @@ export default {
   },
   computed: {
     component() {
-      return getMethodObj(METHODS, this.selectedMethod).parameterComponentName;
+      return getMethodObj(DASHBOARD_METHODS, this.selectedMethod).parameterComponentName;
     },
     selectedMethod: {
       get() {
@@ -216,7 +216,7 @@ export default {
       selectedDataset: "",
       serviceStatus: "NA",
       serviceColor: GRAY,
-      runMethods: METHODS,
+      runMethods: DASHBOARD_METHODS,
       search: "",
       pagination: {
         sortBy: "started_at",
@@ -456,7 +456,7 @@ export default {
         .replaceAll('"', "").replaceAll(",", ", "));
     },
     displayScore(item) {
-      return getMethodObj(METHODS, item.method).scoreFunction(item);
+      return getMethodObj(DASHBOARD_METHODS, item.method).scoreFunction(item);
     },
     displayRunName(name) {
       if (name === "") {
@@ -466,7 +466,7 @@ export default {
       }
     },
     getDisplayName(method) {
-      return getMethodOrChainedObj(METHODS, method).displayName;
+      return getMethodOrChainedObj(DASHBOARD_METHODS, method).displayName;
     },
     async reloadResults() {
       if (!(this._inactive)) {

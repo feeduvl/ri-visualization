@@ -136,6 +136,19 @@ export const METHODS = [
     }
 ]
 
+export const DASHBOARD_METHODS = [
+    {
+        name: "bert-classifier",
+        displayName: "BERT",
+        parameterComponentName: "bert-parameter",
+        parameterComponentPath: "./form/BERTParameter",
+        resultComponentName: "bert-tore-result",
+        resultComponentPath: "./components/result/ClassifierTOREResult",
+        scoreFunction: getScoreEmpty,
+        showInDocumentView: false
+    },
+]
+
 export const CHAINABLE_METHOD_LIST = ["bert-classifier/sner_bert", "bert-classifier/bilstm_bert", "bert-classifier/bert_bert", "bert-classifier/bert"];
 
 export const CHAINABLE_METHODS = [
