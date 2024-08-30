@@ -319,12 +319,24 @@ export default {
         maxSimilarity = this.maxSimilarity
       }*/
       await this.$refs.detectionRef.startRun()
+      console.log("classification startedn, waiting for finishing")
       this.updateAnnotationView()
     },
     updateAnnotationView() {
     let annotation = this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName)
       if (annotation) {
         this.waitingForAnnotation = false
+        console.log("found annotation, now saving it")
+        let data_to_store = {
+          datasets: this.selectedFeedback,
+          name: this.$store.state.currentDashboardName,
+          threshold: "",
+          classifier: this.selectedMethod,
+          type: "Annotation"
+        }
+        this.$store.commit('setDashboardData', data_to_store)
+        await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
+        console.log("saved annotation, now updating view")
         this.$emit('updateAnnotationView', annotation)
       } else {
         this.waitingForAnnotation = true
