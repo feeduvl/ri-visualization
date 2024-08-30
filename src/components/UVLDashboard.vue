@@ -19,6 +19,26 @@
       <v-btn :style="{ backgroundColor: blueFill }" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
       <p v-if="warningMessage1" style="color: red">{{warningMessage1}}</p>
     </div>
+
+    <div>
+      <v-dialog v-model="deleteSavedRelations" :max-width="300" class="delete-all-issues">
+        <v-card>
+          <v-card-title>
+            <h3>Are you sure you want to delete this saved relations?</h3>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn color="red" @click="deleteSavedData">
+              Delete
+            </v-btn>
+            <v-btn dark color="black" @click="dontDeleteIssues()">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+
+
     <v-dialog v-model="checkRestoreData" :max-width="400" >
       <v-card class="restore-data">
         <v-card-title class="restore-data">
@@ -111,6 +131,7 @@ export default {
       dashboardTypes: ["Jira", "Annotation"],
       dashboardName: '', // Dashboard name input
       dashboardNameError: '', // Error message for invalid dashboard name
+      deleteSavedRelations: false
     };
   },
   mounted() {
@@ -204,6 +225,17 @@ export default {
       } else {
         this.dashboardNameError = '';
       }
+    },
+    async deleteSavedData(){
+      let item = this.savedDataToDelete
+      await this.$store.dispatch("actionDeleteSavedData", item);
+      this.getSavedDataNames()
+      this.deleteSavedRelations = false
+      this.savedDataToDelete = []
+    },
+    // Close Delete Dialogs
+    dontDeleteIssues(){
+      this.deleteSavedRelations = false
     },
   },
   computed: {
