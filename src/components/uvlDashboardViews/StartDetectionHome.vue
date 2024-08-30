@@ -322,7 +322,7 @@ export default {
       console.log("classification startedn, waiting for finishing")
       this.updateAnnotationView()
     },
-    updateAnnotationView() {
+    async updateAnnotationView() {
     let annotation = this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName)
       if (annotation) {
         this.waitingForAnnotation = false
