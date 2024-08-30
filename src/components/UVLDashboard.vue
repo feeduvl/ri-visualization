@@ -1,17 +1,20 @@
 <template>
   <div>
-    <div class="save-buttons">
+    <div class="load-dashboard">
       <v-subheader>Choose saved dashboard or create new one</v-subheader>
       <v-select class="select-saved-data"
                 v-model="selectedDashboard"
                 :items="getSelectedData"
-                label="Select Data"
+                label="Select Dashboard"
                 dense
       >
         <template v-slot:item="{ item }" >
           <div>
             {{ item }}
-            <i class="material-icons delete-icon" @click.stop="openDeleteSavedData(item)">delete</i>
+            <!--<i class="material-icons delete-icon" @click.stop="openDeleteSavedData(item)">delete</i>-->
+            <span class="delete-icon-wrapper" @click.stop="openDeleteSavedData(item)">
+              <i class="material-icons delete-icon">delete</i>
+            </span>
           </div>
         </template>
       </v-select>
