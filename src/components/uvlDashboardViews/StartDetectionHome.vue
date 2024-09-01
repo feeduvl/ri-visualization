@@ -188,7 +188,7 @@ export default {
     },
     checkForAnnotationFinished() {
       console.log("checking for annotations")
-      this.$store.dispatch("actionGetAllAnnotations")
+      //this.$store.dispatch("actionGetAllAnnotations")
       return this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName)
     },
     selectedMethod: {

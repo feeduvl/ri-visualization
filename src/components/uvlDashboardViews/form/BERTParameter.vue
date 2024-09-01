@@ -89,7 +89,8 @@ export default {
                 this.displaySnackbar("Please validate your parameter inputs!");
             } else {
                 this.loading = false;
-                axios.post(POST_START_MULTIDETECTION_ENDPOINT, this.getFormData()
+              this.displaySnackbar("Starting Run.");
+              axios.post(POST_START_MULTIDETECTION_ENDPOINT, this.getFormData()
                 ).then(response => {
                     if (response.status > 200 || response.status < 300) {
                         this.displaySnackbar("Run has been finished successfully.");
