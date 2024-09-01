@@ -201,8 +201,10 @@ export default {
     async loadDashboard(){
       let response = await this.$store.dispatch("actionGetSelectedData", this.selectedDashboard);
       console.log(response.data)
+      console.log("response")
       console.log(response.data.type)
       this.$store.commit('setDashboardData', response.data)
+      console.log(this.$store.state.storedDatasets)
       if (response.data.type === "Annotation") {
         this.navigateTo('/uvldashboard/annotation')
       } else {

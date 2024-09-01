@@ -469,6 +469,16 @@ export default {
       a.click();
       URL.revokeObjectURL(url);
     },
+    loadDashboardData(){
+      console.log("loading dashboard data due to beforeRouteUpdate")
+      this.selectedDatasets = this.$store.state.storedDatasets
+      this.maxSimilarity = this.$store.state.storedThreshold
+      this.getAllIssues()
+    }
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.loadDashboardData(); // Called every time the route is updated but the component is reused
+    next(); // Proceed to the next step in the navigation process
   },
   computed:{
     isLoadingData() {
