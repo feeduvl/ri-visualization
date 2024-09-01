@@ -249,7 +249,6 @@ export const lemmasFromSelectedResult = state => {
 };
 
 export const annotationAlgoResults = state => {
-  console.log("results: " + state.results);
   return state.results.filter(r => r.dataset_name === state.annotator_dataset);
 };
 
