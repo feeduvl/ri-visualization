@@ -187,6 +187,7 @@ export default {
       return getMethodObj(DASHBOARD_METHODS, this.selectedMethod).parameterComponentName;
     },
     checkForAnnotationFinished() {
+      console.log("checking for annotations")
       return this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName)
     },
     selectedMethod: {
