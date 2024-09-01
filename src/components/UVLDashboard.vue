@@ -180,6 +180,14 @@ export default {
       console.log(dashboardType)
       console.log(this.$store.state.selectedData)
       this.$store.dispatch("actionCreateDashboard", {dashboardName, dashboardType});
+      let data_to_store = {
+        datasets: [],
+        name: dashboardName,
+        threshold: "",
+        classifier: "",
+        type: dashboardType
+      }
+      this.$store.commit('setDashboardData', data_to_store)
       if (!this.dashboardNameError) {
         if (this.dashboardType === "Annotation") {
           this.navigateTo('/uvldashboard/annotation')
