@@ -94,7 +94,8 @@ export default {
                 ).then(response => {
                     if (response.status > 200 || response.status < 300) {
                         this.displaySnackbar("Run has been finished successfully.");
-                        this.$store.dispatch("actionGetAllAnnotations")
+                      this.$store.dispatch("actionLoadResults")
+                      this.$store.dispatch("actionGetAllAnnotations")
                     } else {
                         this.displaySnackbar("Error finishing run!");
                     }
