@@ -343,9 +343,6 @@ export default {
         await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
         console.log("saved annotation, now updating view")
         this.$emit('updateAnnotationView', annotation)
-      } else {
-        this.waitingForAnnotation = true
-        console.log("still looking for an annotation")
       }
     },
     updateServiceStatus(service) {
