@@ -504,6 +504,11 @@ export default {
         await reloadResults(this.$store);
       }
     },
+    loadDashboardData(){
+      console.log("loading dashboard data due to beforeRouteUpdate")
+      this.selectedMethod = this.$store.state.storedClassifier
+      this.updateAnnotationView()
+    }
   },
   mounted() {
     this.updateServiceStatus(this.selectedMethod);

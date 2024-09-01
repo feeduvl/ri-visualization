@@ -84,7 +84,7 @@
 
     <v-card>
       <div>
-        <StartDetectionHome v-bind:selected_dataset="selectedDatasets" class="element1" @updateAnnotationView="updateAnnotationView"></StartDetectionHome>
+        <StartDetectionHome ref="startDetectionHomeRef" v-bind:selected_dataset="selectedDatasets" class="element1" @updateAnnotationView="updateAnnotationView"></StartDetectionHome>
       </div>
     </v-card>
 
@@ -281,7 +281,21 @@ export default {
         this.getAllIssues()
       }
     },
-
+    loadDashboardData(){
+      console.log("loading dashboard data due to beforeRouteUpdate")
+      this.selectedDatasets = this.$store.state.storedDatasets
+      this.startDetectionHomeRef.loadDashboardData()
+      this.getAllIssues()
+    }
+  },
+  watch: {
+    currentDashboardName(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        if (this.$store.state.storedDashboardType === "Jira"){
+          this.loadDashboardData();
+        }
+      }
+    }
   },
   computed:{
     isLoadingData() {

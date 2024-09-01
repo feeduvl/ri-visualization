@@ -828,7 +828,7 @@ export default {
             updateAnnotation(annotation){
                 console.log("Let me show you something")
                 this.$refs.annotatorSettingsRef.viewCodeResults(annotation)
-                this.$refs.annotatorSettingsRef2.startAnnotating(annotation)
+                //this.$refs.annotatorSettingsRef2.startAnnotating(annotation)
             }
         }
     }
