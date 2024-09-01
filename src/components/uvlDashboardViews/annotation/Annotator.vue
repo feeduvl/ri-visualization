@@ -825,11 +825,11 @@ export default {
                     console.error("pageToCode didn't find document for code")
                 }
             },
-          updateAnnotationView(annotation){
-              console.log("Let me show you something")
-              this.$refs.annotatorSettingsRef.viewCodeResults(annotation)
-              this.$refs.annotatorSettingsRef2.startAnnotating(annotation)
-          }
+            updateAnnotation(annotation){
+                console.log("Let me show you something")
+                this.$refs.annotatorSettingsRef.viewCodeResults(annotation)
+                this.$refs.annotatorSettingsRef2.startAnnotating(annotation)
+            }
         }
     }
 </script>

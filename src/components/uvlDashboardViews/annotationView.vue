@@ -79,7 +79,7 @@
 
     <v-card>
       <div>
-        <StartDetectionHome v-bind:selected_dataset="selectedDatasets" class="element1" @notifyParent="updateAnnotation"></StartDetectionHome>
+        <StartDetectionHome v-bind:selected_dataset="selectedDatasets" class="element1" @notifyParent="updateAnnotationView"></StartDetectionHome>
       </div>
     </v-card>
 
@@ -158,7 +158,9 @@ export default {
       console.log(this.importDialog)
       this.$emit('toggleImport', !this.importDialog);
     },*/
-    updateAnnotation (annotation) {
+
+    updateAnnotationView (annotation) {
+      console.log("annotationView knows it should update")
       this.$refs.annotatorRef.updateAnnotation(annotation)
     },
     getAllJiraProjects() {
