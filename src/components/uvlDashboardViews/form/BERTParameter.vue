@@ -92,9 +92,10 @@ export default {
                 axios.post(POST_START_MULTIDETECTION_ENDPOINT, this.getFormData()
                 ).then(response => {
                     if (response.status > 200 || response.status < 300) {
-                        this.displaySnackbar("Run has been started successfully.");
+                        this.displaySnackbar("Run has been finished successfully.");
+                        this.$store.dispatch("actionGetAllAnnotations")
                     } else {
-                        this.displaySnackbar("Error starting run!");
+                        this.displaySnackbar("Error finishing run!");
                     }
                 }).catch(() => {
                     this.displaySnackbar("Could not contact backend!");

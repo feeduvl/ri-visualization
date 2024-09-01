@@ -188,6 +188,7 @@ export default {
     },
     checkForAnnotationFinished() {
       console.log("checking for annotations")
+      this.$store.dispatch("actionGetAllAnnotations")
       return this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName)
     },
     selectedMethod: {
@@ -343,6 +344,7 @@ export default {
         await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
         console.log("saved annotation, now updating view")
         this.$emit('updateAnnotationView', annotation)
+        console.log("emit done")
       }
     },
     updateServiceStatus(service) {
