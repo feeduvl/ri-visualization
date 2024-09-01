@@ -476,11 +476,20 @@ export default {
       this.getAllIssues()
     }
   },
-  beforeRouteUpdate(to, from, next) {
-    this.loadDashboardData(); // Called every time the route is updated but the component is reused
-    next(); // Proceed to the next step in the navigation process
+  watch: {
+    currentDashboardName(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        if (this.$store.state.storedDashboardType === "Jira"){
+          this.loadDashboardData();
+        }
+      }
+    }
   },
   computed:{
+    currentDashboardName() {
+      // Map the store's state to a computed property
+      return this.$store.state.currentDashboardName;
+    },
     isLoadingData() {
       return this.$store.state.isLoadingData
     },
