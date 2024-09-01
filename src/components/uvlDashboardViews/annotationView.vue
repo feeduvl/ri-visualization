@@ -79,7 +79,7 @@
 
     <v-card>
       <div>
-        <StartDetectionHome v-bind:selected_dataset="selectedDatasets" class="element1" @notifyParent="updateAnnotationView"></StartDetectionHome>
+        <StartDetectionHome v-bind:selected_dataset="selectedDatasets" class="element1" @updateAnnotationView="updateAnnotationView"></StartDetectionHome>
       </div>
     </v-card>
 
