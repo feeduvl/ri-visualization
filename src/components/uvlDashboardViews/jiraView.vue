@@ -5,7 +5,7 @@
     </v-dialog>
     <v-card flat class="header">
       <v-card-title primary-title>
-        <h2>Selected Dashboard: {{ $store.state.currentDashboardName }}</h2>
+        <h2>Selected Jira Dashboard: {{ $store.state.currentDashboardName }}</h2>
       </v-card-title>
     </v-card>
     <div class="import-elements">

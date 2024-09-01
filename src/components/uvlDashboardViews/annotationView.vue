@@ -7,6 +7,11 @@
     <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
+    <v-card flat class="header">
+      <v-card-title primary-title>
+        <h2>Selected Annotation Dashboard: {{ $store.state.currentDashboardName }}</h2>
+      </v-card-title>
+    </v-card>
     <p class="headline-select-jira-project">
       Select Datasets to use:
     </p>

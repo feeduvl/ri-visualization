@@ -216,7 +216,7 @@ export default {
     },
 
     checkForAnnotationFinished(val) {
-      if (val) {
+      if (val && this.waitingForAnnotation) {
         this.updateAnnotationView()
       }
     }
