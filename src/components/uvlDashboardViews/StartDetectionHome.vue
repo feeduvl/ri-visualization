@@ -507,9 +507,9 @@ export default {
     loadDashboardData(){
       console.log("loading dashboard data due to change of Dashboard name")
       this.selectedMethod = this.$store.state.storedClassifier
-      console.log(this.$store.state.currentDashboardName)
       this.updateAnnotationView()
-
+      console.log(this.selectedMethod)
+      console.log(this.$store.state.storedClassifier)
     }
   },
   mounted() {
