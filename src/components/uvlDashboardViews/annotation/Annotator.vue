@@ -825,7 +825,7 @@ export default {
                 console.log("Let me show you something")
                 this.$store.commit("updateSelectedAnnotation", annotation.name)  // repeat startAnnotating here in case implementation changes
                 console.log(this.$store.state.selected_annotation)
-                this.$refs.annotatorSettingsRef.viewCodeResults(annotation)
+                this.$res.annotatorSettingsRef.viewCodeResults(annotation)
                 //this.$refs.annotatorSettingsRef2.startAnnotating(annotation)
             }
         }
