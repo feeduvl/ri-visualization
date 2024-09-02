@@ -292,12 +292,17 @@ export default {
     currentDashboardName(newVal, oldVal) {
       if (newVal !== oldVal) {
         if (this.$store.state.storedDashboardType === "Annotation"){
+          console.log("need to load new annotation dashboard")
           this.loadDashboardData();
         }
       }
     }
   },
   computed:{
+    currentDashboardName() {
+      // Map the store's state to a computed property
+      return this.$store.state.currentDashboardName;
+    },
     isLoadingData() {
       return this.$store.state.isLoadingData
     },
