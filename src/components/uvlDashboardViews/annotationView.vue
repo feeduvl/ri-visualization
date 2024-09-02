@@ -291,7 +291,7 @@ export default {
   watch: {
     currentDashboardName(newVal, oldVal) {
       if (newVal !== oldVal) {
-        if (this.$store.state.storedDashboardType === "Jira"){
+        if (this.$store.state.storedDashboardType === "Annotation"){
           this.loadDashboardData();
         }
       }
