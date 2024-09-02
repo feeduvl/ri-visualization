@@ -330,6 +330,8 @@ export default {
     },
     async updateAnnotationView() {
     let annotation = this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName)
+      console.log(this.$store.state.available_annotations)
+      console.log(this.$store.state.currentDashboardName)
       if (annotation) {
         this.waitingForAnnotation = false
         console.log("found annotation, now saving it")
@@ -345,6 +347,8 @@ export default {
         console.log("saved annotation, now updating view")
         this.$emit('updateAnnotationView', annotation)
         console.log("emit done")
+      } else {
+        console.log("could not find annotation")
       }
     },
     updateServiceStatus(service) {
