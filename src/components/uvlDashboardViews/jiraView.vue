@@ -565,7 +565,7 @@ export default {
     this.getAllJiraProjects()
     this.getAllIssues()
     if (this.$store.state.storedThreshold !== ""){ // Only saved dashboards already have a threshold, not newly created ones
-      console.log("need to load annotation dashboard")
+      console.log("need to load jira dashboard")
       this.loadDashboardData();
     }
   }
