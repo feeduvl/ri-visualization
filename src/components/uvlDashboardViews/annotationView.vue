@@ -236,12 +236,12 @@ export default {
     },
 
     // Close Dialog for import jira issues
-    /*toggleImport(value) {
+    toggleImport(value) {
       console.log("toggleImport");
       this.importDialog = value;
       this.getAllIssues()
       this.getProjectNames()
-    },*/
+    },
     showDataset(dataset) {
       this.updateTheme("Dataset View", THEME_UVL);
       this.$store.commit(MUTATE_SELECTED_DATASET_OUTSIDE, dataset);
@@ -263,7 +263,7 @@ export default {
       }
     },
 
-    /*getAllIssues() {
+    getAllIssues() {
       if(this.showUnassigned){
         this.getUnassignedIssues()
       }else{
@@ -280,12 +280,12 @@ export default {
       }else{
         this.getAllIssues()
       }
-    },*/
+    },
     loadDashboardData(){
       console.log("loading dashboard data due to beforeRouteUpdate")
       this.selectedDatasets = this.$store.state.storedDatasets
       this.$refs.startDetectionHomeRef.loadDashboardData()
-      //this.getAllIssues()
+      this.getAllIssues()
     }
   },
   watch: {

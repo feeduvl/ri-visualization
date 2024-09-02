@@ -835,8 +835,6 @@ export default {
               console.log("get selected annotation now")
               this.$store.dispatch('actionGetSelectedAnnotation');
               this.$store.commit("toggleAnnotatorViewingCodes", true)
-              console.log(this.$store.state.annotatorViewingCodeResults)
-
             },
 
             startAnnotating(annotation){
