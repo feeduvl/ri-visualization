@@ -264,7 +264,7 @@ import AnnotatorInput from "@/components/annotator/AnnotatorInput";
 import CodeView from "@/components/annotator/CodeView";
 import {Code, Code_user_display_prompt} from "@/components/annotator/code";
 import {mapGetters, mapState} from "vuex";
-import AnnotatorSettings from "@/components/annotator/AnnotatorSettings";
+import AnnotatorSettings from "@/components/uvlDashboardViews/annotation/AnnotatorSettings";
 import EditConfigurablesDialog from "@/components/annotator/EditConfigurablesDialog";
 import {getToreHighlightColor} from "@/colors";
 
