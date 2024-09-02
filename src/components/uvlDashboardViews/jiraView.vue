@@ -470,7 +470,7 @@ export default {
       URL.revokeObjectURL(url);
     },
     loadDashboardData(){
-      console.log("loading dashboard data due to beforeRouteUpdate")
+      console.log("loading dashboard data due to change of dashboard name")
       this.selectedDatasets = this.$store.state.storedDatasets
       this.maxSimilarity = this.$store.state.storedThreshold
       this.getAllIssues()
@@ -561,9 +561,13 @@ export default {
   },
   mounted() {
     console.log("mounted function executed")
-    this.selectedDatasets = this.$store.state.storedDatasets
+    //this.selectedDatasets = this.$store.state.storedDatasets
     this.getAllJiraProjects()
     this.getAllIssues()
+    if (this.$store.state.storedThreshold !== ""){ // Only saved dashboards already have a threshold, not newly created ones
+      console.log("need to load annotation dashboard")
+      this.loadDashboardData();
+    }
   }
 }
 </script>

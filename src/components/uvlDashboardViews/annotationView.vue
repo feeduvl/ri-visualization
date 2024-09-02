@@ -331,6 +331,10 @@ export default {
   },
   mounted() {
     this.getAllJiraProjects()
+    if (this.$store.state.storedClassifier !== ""){ // Only saved dashboards already have a classifier, not newly created ones
+      console.log("need to load annotation dashboard")
+      this.loadDashboardData();
+    }
   },
 }
 </script>
