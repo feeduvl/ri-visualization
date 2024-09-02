@@ -135,7 +135,7 @@
       </v-card>
     </v-dialog>
     <div>
-      <v-btn dark color="red" @click="assignFeedbackToIssues()"> Classify
+      <v-btn dark color="red" @click="startClassifier()"> Classify
       </v-btn>
     </div>
   </v-container>
@@ -316,7 +316,7 @@ export default {
     };
   },
   methods: {
-    async assignFeedbackToIssues() {
+    async startClassifier() {
       let selectedFeedback = this.$props.selected_dataset.join('#!#');
       //let selectedFeedback = this.selectedDatasets
       console.log(selectedFeedback)
@@ -334,7 +334,7 @@ export default {
         this.waitingForAnnotation = false
         console.log("found annotation, now saving it")
         let data_to_store = {
-          datasets: this.selectedFeedback,
+          datasets: this.$props.selected_dataset,
           name: this.$store.state.currentDashboardName,
           threshold: "",
           classifier: this.selectedMethod,
