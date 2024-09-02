@@ -284,7 +284,7 @@ export default {
     loadDashboardData(){
       console.log("loading dashboard data due to beforeRouteUpdate")
       this.selectedDatasets = this.$store.state.storedDatasets
-      this.startDetectionHomeRef.loadDashboardData()
+      this.$refs.startDetectionHomeRef.loadDashboardData()
       this.getAllIssues()
     }
   },
