@@ -18,10 +18,10 @@
                 :showRecommendationTore="$store.state.showRecommendationTore">
         </EditConfigurablesDialog>
 
-        <AnnotatorSettings
-                class = "hidden"
+        <!--<AnnotatorSettings
+                v-if="$store.state.selected_annotation"
                 ref="annotatorSettingsRef">
-        </AnnotatorSettings>
+        </AnnotatorSettings>-->
 
         <div class="annotator"
              v-else>
@@ -825,9 +825,25 @@ export default {
                 console.log("Let me show you something")
                 this.$store.commit("updateSelectedAnnotation", annotation.name)  // repeat startAnnotating here in case implementation changes
                 console.log(this.$store.state.selected_annotation)
-                this.$res.annotatorSettingsRef.viewCodeResults(annotation)
+                this.viewCodeResults(annotation)
                 //this.$refs.annotatorSettingsRef2.startAnnotating(annotation)
-            }
+            },
+            viewCodeResults(annotation){
+              console.log("viewCodeResults called")
+              this.$store.commit("updateSelectedAnnotation", annotation.name)  // repeat startAnnotating here in case implementation changes
+              this.$store.commit("updateSentenceTokenizationEnabledForAnnotation", annotation.sentence_tokenization_enabled_for_annotation);
+              console.log("get selected annotation now")
+              this.$store.dispatch('actionGetSelectedAnnotation');
+              this.$store.commit("toggleAnnotatorViewingCodes", true)
+              console.log(this.$store.state.annotatorViewingCodeResults)
+
+            },
+
+            startAnnotating(annotation){
+              this.$store.commit("toggleAnnotatorViewingCodes", false)
+              this.$store.commit("updateSelectedAnnotation", annotation.name)
+              this.$store.dispatch('actionGetSelectedAnnotation');
+            },
         }
     }
 </script>
@@ -895,8 +911,6 @@ export default {
 .annotator-toolbar__algo-results-select input {
     color: #ff6781;
 }
-.hidden {
-  display: none;
-}
+
 
 </style>
