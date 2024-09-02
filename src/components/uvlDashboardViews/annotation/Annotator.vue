@@ -19,7 +19,7 @@
         </EditConfigurablesDialog>
 
         <AnnotatorSettings
-                v-if="$store.state.selected_annotation"
+                v-if="!$store.state.selected_annotation"
                 ref="annotatorSettingsRef">
         </AnnotatorSettings>
 
@@ -823,7 +823,6 @@ export default {
             },
             updateAnnotation(annotation){
                 console.log("Let me show you something")
-                this.$store.commit("updateSelectedAnnotation", annotation.name)  // repeat startAnnotating here in case implementation changes
                 console.log(this.$store.state.selected_annotation)
                 console.log(this.$refs.annotatorSettingsRef)
                 this.$refs.annotatorSettingsRef.viewCodeResults(annotation)
