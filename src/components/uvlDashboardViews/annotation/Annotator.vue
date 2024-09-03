@@ -142,7 +142,7 @@
                     Annotation Settings
                 </v-tooltip>
 
-                <v-tooltip bottom
+                <!--<v-tooltip bottom
                            :key="'toolbar_icon'+1">
                     <template #activator="{on}">
                         <v-icon v-on="on"
@@ -153,7 +153,7 @@
                         </v-icon>
                     </template>
                     <span>Save and exit</span>
-                </v-tooltip>
+                </v-tooltip>-->
 
                 <v-tooltip bottom
                            v-if="!annotatorViewingCodeResults"
