@@ -241,8 +241,9 @@ export default {
     },
 
     async compareDatesOfDatasets() {
+      console.log("comparing daatasets")
       this.datasetsToCheck = this.$store.state.storedDatasetsWithDates.map(storedDataset => {
-        let correspondingDataset = this.$store.state.allDatasetWithDates.find(dataset => dataset.name === storedDataset.name);
+        let correspondingDataset = this.$store.state.allDatasetsWithDates.find(dataset => dataset.name === storedDataset.name);
 
         if (correspondingDataset) {
           const storedDate = new Date(storedDataset.uploaded_at);
