@@ -1392,7 +1392,7 @@ export const actionGetFeedbackNames = ({commit}) => {
 };
 
 export const actionGetFeedbackNamesDates = ({commit}) => {
-    return new Promise(() => {
+    return new Promise((resolve, reject) => {
         commit("setIsLoadingData", true);
         console.log("get feedback with dates")
         axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_feedback_names_dates`)
@@ -1400,10 +1400,11 @@ export const actionGetFeedbackNamesDates = ({commit}) => {
                 const {data} = response;
                 commit("setFeedbackFileNamesDates", data);
                 commit("setIsLoadingData", false);
-                return response;
+                resolve(response);
             })
-            .catch(e => console.error("Error: "+e))
-            .finally(() => {
+            .catch(e => {
+                console.error("Error:", e);
+                reject(e);
             });
     });
 };
