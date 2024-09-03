@@ -823,7 +823,7 @@ export default {
             },
             updateAnnotation(annotation){
                 console.log("Let me show you something")
-                this.$store.commit("resetAnnotator")
+                //this.$store.commit("resetAnnotator")
                 console.log(this.$store.state.selected_annotation)
                 console.log(this.$refs.annotatorSettingsRef)
                 this.$refs.annotatorSettingsRef.viewCodeResults(annotation)

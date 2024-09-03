@@ -190,6 +190,7 @@ export default {
       this.$store.commit('setDashboardData', data_to_store)
       if (!this.dashboardNameError) {
         if (this.dashboardType === "Annotation") {
+          this.$store.commit("resetAnnotator")
           this.navigateTo('/uvldashboard/annotation')
         } else {
           this.navigateTo('/uvldashboard/jira')
@@ -206,6 +207,7 @@ export default {
       this.$store.commit('setDashboardData', response.data)
       console.log(this.$store.state.storedDatasets)
       if (response.data.type === "Annotation") {
+        this.$store.commit("resetAnnotator")
         this.navigateTo('/uvldashboard/annotation')
       } else {
         this.navigateTo('/uvldashboard/jira')
