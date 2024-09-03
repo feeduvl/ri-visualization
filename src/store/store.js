@@ -189,6 +189,8 @@ export const store = new Vuex.Store({
 
     //UVL DASHBOARD
     storedDatasets: [],
+    storedDatasetsWithDates: [],
+    allDatasetsWithDates: [],
     storedThreshold: 0,
     storedDashboardType: "",
     storedClassifier: "",
@@ -526,6 +528,15 @@ export const store = new Vuex.Store({
     },
 
     setDashboardData(state, data) {
+      if (typeof data.datasets[0] === 'object') {
+        // Case: Array of arrays -> contains creation dates of datasets
+        state.storedDatasets = data.datasets.map(item => item.name);
+        state.storedDatasetsWithDates = data.datasets;
+      } else {
+        // Case: Array of values -> only dataset names
+        state.storedDatasets = data.datasets;
+        state.storedDatasetsWithDates = []; // Clear storedDates
+      }
       state.storedDatasets = data.datasets;
       state.currentDashboardName = data.name;
       state.storedThreshold = data.threshold;

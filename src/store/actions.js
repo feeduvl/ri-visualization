@@ -1391,6 +1391,23 @@ export const actionGetFeedbackNames = ({commit}) => {
     });
 };
 
+export const actionGetFeedbackNamesDates = ({commit}) => {
+    return new Promise(() => {
+        commit("setIsLoadingData", true);
+        console.log("get feedback with dates")
+        axios.get(JIRA_DASHBOARD_BASE_URL_FEEDBACK + `/get_feedback_names_dates`)
+            .then(response => {
+                const {data} = response;
+                commit("setFeedbackFileNamesDates", data);
+                commit("setIsLoadingData", false);
+                return response;
+            })
+            .catch(e => console.error("Error: "+e))
+            .finally(() => {
+            });
+    });
+};
+
 export const actionGetAnnotationNames = ({commit}, selectedFeedbackFileName) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);

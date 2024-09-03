@@ -556,6 +556,10 @@ export const setFeedbackFileNames = (state, feedbackFileNames) => {
   state.feedbackFileNames = feedbackFileNames || [];
 };
 
+export const setFeedbackFileNamesDates = (state, feedbackFileNamesDates) => {
+  state.allDatasetsWithDates = feedbackFileNamesDates || [];
+};
+
 export const setAnnotationFileNames = (state, annotationFileNames) => {
   state.annotationFileNames = annotationFileNames || [];
 };

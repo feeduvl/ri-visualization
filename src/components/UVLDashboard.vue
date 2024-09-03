@@ -98,6 +98,19 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="showRefreshDataSetDialog" max-width="400">
+      <v-card>
+        <v-card-title class="headline">New Version of Dataset available!</v-card-title>
+        <v-card-text>
+          There is a newer version of the used dataset "{{ datasetNameToRefresh }}" available. Do you want to refresh your analysis?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="confirmRefresh">Yes</v-btn>
+          <v-btn color="red darken-1" text @click="cancelRefresh">No</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <div id="start" >
       <!--<div class="container">
@@ -120,6 +133,8 @@
 
 <script >
 
+import {actionGetFeedbackNamesDates} from "../store/actions";
+
 export default {
   data() {
     return {
@@ -127,6 +142,10 @@ export default {
       checkRestoreData: false,
       warningMessage1: "",
       checkCreateDashboard: false,
+      showRefreshDataSetDialog: false,
+      datasetNameToRefresh: "",
+      currentDatasetIndex: 0,
+      datasetsToCheck: [],
       dashboardType: null,
       dashboardTypes: ["Jira", "Annotation"],
       dashboardName: '', // Dashboard name input
@@ -205,6 +224,11 @@ export default {
       console.log("response")
       console.log(response.data.type)
       this.$store.commit('setDashboardData', response.data)
+
+      //Check if any dataset is outdated
+      await this.$store.dispatch("actionGetFeedbackNamesDates");
+      await this.compareDatesOfDatasets()
+      console.log("date check completed")
       console.log(this.$store.state.storedDatasets)
       if (response.data.type === "Annotation") {
         this.$store.commit("resetAnnotator")
@@ -214,6 +238,57 @@ export default {
 
       }
       this.checkRestoreData = false
+    },
+
+    async compareDatesOfDatasets() {
+      this.datasetsToCheck = this.$store.state.storedDatasetsWithDates.map(storedDataset => {
+        let correspondingDataset = this.$store.state.allDatasetWithDates.find(dataset => dataset.name === storedDataset.name);
+
+        if (correspondingDataset) {
+          const storedDate = new Date(storedDataset.uploaded_at);
+          const allDatasetDate = new Date(correspondingDataset.uploaded_at);
+
+          if (storedDate.getTime() <= allDatasetDate.getTime()) {
+            console.log(`A newer version exists for dataset: ${storedDataset.name}`);
+            return storedDataset.name; // Return name to show in dialog
+          } else {
+            console.log(`There is no newer dataset: ${storedDataset.name}`);
+          }
+        } else {
+          console.log(`No corresponding dataset found for: ${storedDataset.name}`);
+        }
+        return null;
+      }).filter(name => name !== null);
+
+      if (this.datasetsToCheck.length > 0) {
+        this.showNextDialog();
+      }
+    },
+
+    showNextDialog() {
+      if (this.currentDatasetIndex < this.datasetsToCheck.length) {
+        this.datasetNameToRefresh = this.datasetsToCheck[this.currentDatasetIndex];
+        this.showRefreshDataSetDialog = true;
+      }
+    },
+    confirmRefresh() {
+      this.showRefreshDataSetDialog = false;
+      this.refresh(); // Call the refresh function
+      this.currentDatasetIndex++;
+      if (this.currentDatasetIndex < this.datasetsToCheck.length) {
+        this.showNextDialog();
+      }
+    },
+    cancelRefresh() {
+      this.showRefreshDataSetDialog = false;
+      this.currentDatasetIndex++;
+      if (this.currentDatasetIndex < this.datasetsToCheck.length) {
+        this.showNextDialog();
+      }
+    },
+    refresh() {
+      // Implement your refresh logic here
+      console.log('Refreshing...');
     },
 
     getSelectedData() {
