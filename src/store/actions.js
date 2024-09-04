@@ -342,17 +342,24 @@ export const actionPostCurrentAgreement = ({state, commit}) => {
 };
 
 export const actionDeleteAnnotation = ({dispatch, commit}, name) => {
-  return new Promise(() => {
+  return new Promise((resolve, reject) => {
     console.log("Deleting annotation: "+name);
     commit("setIsLoadingAvailableAnnotations", true);
     axios.delete(ANNOTATION_DELETE_ENDPOINT(name))
       .then(() => {
         console.log("Annotation deleted, fetching available...");
-        dispatch("actionGetAllAnnotations").finally(() =>
-          commit("setIsLoadingAvailableAnnotations", false));
+        dispatch("actionGetAllAnnotations").then(() => {
+          commit("setIsLoadingAvailableAnnotations", false);
+          resolve();
+        })
+          .catch(e => {
+            console.error("Error fetching annotations: " + e);
+            reject(e);
+          });
       })
       .catch(e => {
         console.error("Error deleting annotation: " + e);
+        reject(e);
       })
       .finally(() => {
         commit("setIsLoadingAvailableAnnotations", false);
