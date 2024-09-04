@@ -537,6 +537,7 @@ export const store = new Vuex.Store({
       } else {
         // Case: Array of arrays -> contains creation dates of datasets
         state.storedDatasets = data.datasets.map(item => item.name);
+        console.log(state.storedDatasets)
         state.storedDatasetsWithDates = data.datasets;
         console.log("found array with dates");
       }

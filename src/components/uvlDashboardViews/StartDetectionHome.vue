@@ -332,6 +332,8 @@ export default {
     let annotation = this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName)
       console.log(this.$store.state.available_annotations)
       console.log(this.$store.state.currentDashboardName)
+      console.log("printing props")
+      console.log(this.$props.selected_dataset)
       if (annotation) {
         this.waitingForAnnotation = false
         console.log("found annotation, now saving it")
