@@ -533,10 +533,12 @@ export const store = new Vuex.Store({
         // Case: Array of values -> only dataset names
         state.storedDatasets = data.datasets;
         state.storedDatasetsWithDates = []; // Clear storedDates
+        console.log("found array without dates");
       } else {
         // Case: Array of arrays -> contains creation dates of datasets
         state.storedDatasets = data.datasets.map(item => item.name);
         state.storedDatasetsWithDates = data.datasets;
+        console.log("found array with dates");
       }
       state.currentDashboardName = data.name;
       state.storedThreshold = data.threshold;

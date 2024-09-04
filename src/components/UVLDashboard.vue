@@ -243,6 +243,8 @@ export default {
 
       //Check if any dataset is outdated
       await this.$store.dispatch("actionGetFeedbackNamesDates");
+      console.log(this.$store.state.storedDatasets)
+      console.log(this.$store.state.storedDatasetsWithDates)
       await this.compareDatesOfDatasets()
       console.log("date check completed")
       console.log(this.$store.state.storedDatasets)
