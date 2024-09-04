@@ -322,7 +322,8 @@ export default {
 
     async refreshAnnotation() {
       this.displaySnackbar("Starting Run.");
-      await this.$store.dispatch("actionDeleteAnnotation", this.selectedDashboard)
+      this.$store.state.available_annotations.splice(this.$store.state.available_annotations, 1)[0]
+      //await this.$store.dispatch("actionDeleteAnnotation", this.selectedDashboard)
       axios.post(POST_START_MULTIDETECTION_ENDPOINT, this.getFormData()
       ).then(response => {
         if (response.status > 200 || response.status < 300) {
