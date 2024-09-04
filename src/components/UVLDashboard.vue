@@ -134,6 +134,8 @@
 <script >
 
 import {actionGetFeedbackNamesDates} from "../store/actions";
+import axios from "axios";
+import { POST_START_MULTIDETECTION_ENDPOINT } from "@/RESTconf";
 
 export default {
   data() {
@@ -147,6 +149,7 @@ export default {
       currentDatasetIndex: 0,
       datasetsToCheck: [],
       dashboardType: null,
+      toggleRefresh: false, // if refresh of classification should be done
       dashboardTypes: ["Jira", "Annotation"],
       dashboardName: '', // Dashboard name input
       dashboardNameError: '', // Error message for invalid dashboard name
@@ -233,8 +236,14 @@ export default {
       console.log(this.$store.state.storedDatasets)
       if (response.data.type === "Annotation") {
         this.$store.commit("resetAnnotator")
+        if (this.toggleRefresh){
+          await this.refreshAnnotation()
+        }
         this.navigateTo('/uvldashboard/annotation')
       } else {
+        if (this.toggleRefresh){
+          await this.refreshJira()
+        }
         this.navigateTo('/uvldashboard/jira')
 
       }
@@ -292,9 +301,40 @@ export default {
       this.resolveUserResponse(); // Resolve the promise to proceed without refreshing
     },
 
-    refresh() {
-      // Implement your refresh logic here
-      console.log('Refreshing...');
+    async refreshAnnotation() {
+      this.displaySnackbar("Starting Run.");
+      axios.post(POST_START_MULTIDETECTION_ENDPOINT, this.getFormData()
+      ).then(response => {
+        if (response.status > 200 || response.status < 300) {
+          this.displaySnackbar("Run has been finished successfully.");
+          this.$store.dispatch("actionLoadResults")
+          this.$store.dispatch("actionGetAllAnnotations")
+        } else {
+          this.displaySnackbar("Error finishing run!");
+        }
+      }).catch(() => {
+        this.displaySnackbar("Could not contact backend!");
+        console.log(this.getFormData());
+      });
+    },
+    getFormData() {
+      let params = {
+        method: this.$store.state.storedClassifier,
+        dataset: this.$store.state.storedDatasets.join('#!#'),
+        debug: false,
+        persist: true,
+        name: this.$store.state.currentDashboardName,
+        annotation_name: this.$store.state.currentDashboardName,
+      };
+      return JSON.stringify(params);
+    },
+
+    async refreshJira(){
+      this.displaySnackbar("Starting Relation.");
+      let selectedFeedback = this.$store.state.storedDatasets
+      let maxSimilarity = this.$store.state.storedThreshold
+      await this.$store.dispatch("actionAssignIssuesToManyFeedback", {selectedFeedback, maxSimilarity})
+      await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
     },
 
     getSelectedData() {
