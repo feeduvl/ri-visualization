@@ -528,14 +528,17 @@ export const store = new Vuex.Store({
     },
 
     setDashboardData(state, data) {
-      if (typeof data.datasets[0] === 'object') {
-        // Case: Array of arrays -> contains creation dates of datasets
-        state.storedDatasets = data.datasets.map(item => item.name);
-        state.storedDatasetsWithDates = data.datasets;
-      } else {
+      console.log("setting dashboardData");
+      console.log(data.datasets);
+      console.log(typeof data.datasets[0]);
+      if (typeof data.datasets[0] === 'string') {
         // Case: Array of values -> only dataset names
         state.storedDatasets = data.datasets;
         state.storedDatasetsWithDates = []; // Clear storedDates
+      } else {
+        // Case: Array of arrays -> contains creation dates of datasets
+        state.storedDatasets = data.datasets.map(item => item.name); //TODO: Check of object does not work!!!
+        state.storedDatasetsWithDates = data.datasets;
       }
       state.storedDatasets = data.datasets;
       state.currentDashboardName = data.name;

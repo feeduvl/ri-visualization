@@ -249,7 +249,7 @@ export default {
           const storedDate = new Date(storedDataset.uploaded_at);
           const allDatasetDate = new Date(correspondingDataset.uploaded_at);
 
-          if (storedDate.getTime() <= allDatasetDate.getTime()) {
+          if (storedDate.getTime() < allDatasetDate.getTime()) {
             console.log(`A newer version exists for dataset: ${storedDataset.name}`);
             return storedDataset.name; // Return name to show in dialog
           } else {
