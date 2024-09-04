@@ -150,6 +150,7 @@ export default {
       dashboardTypes: ["Jira", "Annotation"],
       dashboardName: '', // Dashboard name input
       dashboardNameError: '', // Error message for invalid dashboard name
+      resolveUserResponse: null, // To store the resolve function for the promise
       deleteSavedRelations: false
     };
   },
@@ -264,32 +265,33 @@ export default {
       if (this.datasetsToCheck.length > 0) {
         console.log("found updated datasets:")
         console.log (this.datasetsToCheck)
-        this.showNextDialog();
+        await this.showRefreshDialogs();
+        //this.showNextDialog();
       }
     },
 
-    showNextDialog() {
-      console.log("dataset update dialog")
-      if (this.currentDatasetIndex < this.datasetsToCheck.length) {
-        this.datasetNameToRefresh = this.datasetsToCheck[this.currentDatasetIndex];
+    async showRefreshDialogs() {
+      for (let i = 0; i < this.datasetsToCheck.length; i++) {
+        this.datasetNameToRefresh = this.datasetsToCheck[i];
         this.showRefreshDataSetDialog = true;
+
+        await new Promise(resolve => {
+          this.resolveUserResponse = resolve;
+        });
       }
     },
+
     confirmRefresh() {
       this.showRefreshDataSetDialog = false;
       this.refresh(); // Call the refresh function
-      this.currentDatasetIndex++;
-      if (this.currentDatasetIndex < this.datasetsToCheck.length) {
-        this.showNextDialog();
-      }
+      this.resolveUserResponse(); // Resolve the promise to proceed
     },
+
     cancelRefresh() {
       this.showRefreshDataSetDialog = false;
-      this.currentDatasetIndex++;
-      if (this.currentDatasetIndex < this.datasetsToCheck.length) {
-        this.showNextDialog();
-      }
+      this.resolveUserResponse(); // Resolve the promise to proceed without refreshing
     },
+
     refresh() {
       // Implement your refresh logic here
       console.log('Refreshing...');
