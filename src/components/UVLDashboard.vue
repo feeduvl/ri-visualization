@@ -324,6 +324,8 @@ export default {
 
     async refreshAnnotation() {
       this.displaySnackbar("Starting Run.");
+      console.log("starting run")
+      console.log(this.$store.state.available_annotations)
       this.$store.state.available_annotations.splice(this.$store.state.available_annotations, 1)[0]
       console.log(this.$store.state.available_annotations)
       //await this.$store.dispatch("actionDeleteAnnotation", this.selectedDashboard)
