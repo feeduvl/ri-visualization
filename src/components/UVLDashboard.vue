@@ -280,7 +280,12 @@ export default {
     },
 
     async showRefreshDialogs() {
+      this.shouldSkipRemainingDialogs = false;
+
       for (let i = 0; i < this.datasetsToCheck.length; i++) {
+        if (this.shouldSkipRemainingDialogs){
+          break;
+        }
         this.datasetNameToRefresh = this.datasetsToCheck[i];
         this.showRefreshDataSetDialog = true;
 
@@ -292,7 +297,8 @@ export default {
 
     confirmRefresh() {
       this.showRefreshDataSetDialog = false;
-      this.refresh(); // Call the refresh function
+      this.shouldSkipRemainingDialogs = true;
+      this.toggleRefresh = true;
       this.resolveUserResponse(); // Resolve the promise to proceed
     },
 
