@@ -241,7 +241,7 @@ export default {
     },
 
     async compareDatesOfDatasets() {
-      console.log("comparing daatasets")
+      console.log("comparing datasets")
       this.datasetsToCheck = this.$store.state.storedDatasetsWithDates.map(storedDataset => {
         let correspondingDataset = this.$store.state.allDatasetsWithDates.find(dataset => dataset.name === storedDataset.name);
 
@@ -262,11 +262,14 @@ export default {
       }).filter(name => name !== null);
 
       if (this.datasetsToCheck.length > 0) {
+        console.log("found updated datasets:")
+        console.log (this.datasetsToCheck)
         this.showNextDialog();
       }
     },
 
     showNextDialog() {
+      console.log("dataset update dialog")
       if (this.currentDatasetIndex < this.datasetsToCheck.length) {
         this.datasetNameToRefresh = this.datasetsToCheck[this.currentDatasetIndex];
         this.showRefreshDataSetDialog = true;
