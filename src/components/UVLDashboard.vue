@@ -128,6 +128,13 @@
       </div>-->
       <router-view></router-view>
     </div>
+    <v-snackbar v-model="snackbarVisible" :timeout="snackbarTimeout" :top=true>
+      {{ snackbarText }}
+
+      <v-btn small color="primary" text @click="closeSnackbar">
+        Close
+      </v-btn>
+    </v-snackbar>
   </div>
 </template>
 
@@ -136,10 +143,15 @@
 import {actionGetFeedbackNamesDates} from "../store/actions";
 import axios from "axios";
 import { POST_START_MULTIDETECTION_ENDPOINT } from "@/RESTconf";
+import IssueDetails from "./uvlDashboardViews/issueDetails.vue";
+import { SNACKBAR_DISPLAY_TIME } from "@/theme";
 
 export default {
   data() {
     return {
+      snackbarVisible: false,
+      snackbarText: "",
+      snackbarTimeout: SNACKBAR_DISPLAY_TIME,
       selectedDashboard: "",
       checkRestoreData: false,
       warningMessage1: "",
@@ -342,7 +354,14 @@ export default {
       await this.$store.dispatch("actionAssignIssuesToManyFeedback", {selectedFeedback, maxSimilarity})
       await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
     },
-
+    displaySnackbar(message) {
+      this.snackbarText = message;
+      this.snackbarVisible = true;
+    },
+    closeSnackbar() {
+      this.snackbarVisible = false;
+      this.snackbarText = "";
+    },
     getSelectedData() {
       return this.$store.state.selectedData
     },
