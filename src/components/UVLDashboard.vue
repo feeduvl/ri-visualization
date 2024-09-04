@@ -329,25 +329,23 @@ export default {
       this.$store.state.available_annotations.splice(this.$store.state.available_annotations, 1)[0]
       console.log(this.$store.state.available_annotations)
       //await this.$store.dispatch("actionDeleteAnnotation", this.selectedDashboard)
-      axios.post(POST_START_MULTIDETECTION_ENDPOINT, this.getFormData()
-      ).then(response => {
-        if (response.status > 200 || response.status < 300) {
-          this.displaySnackbar("Run has been finished successfully.");
-          this.$store.dispatch("actionLoadResults")
-          this.$store.dispatch("actionGetAllAnnotations")
-        } else {
-          this.displaySnackbar("Error finishing run!");
-        }
-      }).catch(() => {
-        this.displaySnackbar("Could not contact backend!");
-        console.log(this.getFormData());
-      });
 
-      return new Promise((resolve) => {
+      const response = await axios.post(POST_START_MULTIDETECTION_ENDPOINT, this.getFormData());
+
+      if (response.status >= 200 && response.status < 300) {
+        this.displaySnackbar("Run has been finished successfully.");
+        await this.$store.dispatch("actionLoadResults");
+        await this.$store.dispatch("actionGetAllAnnotations");
+      } else {
+        this.displaySnackbar("Error finishing run!");
+      }
+
+      // Return a promise to wait for the store variable update
+      await new Promise((resolve) => {
         const unwatch = this.$watch(
-            () => this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName), // Replace 'someVariable' with your store variable name
+            () => this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName),
             (newValue) => {
-              if (newValue !== '') {
+              if (newValue !== undefined) {
                 console.log('Store variable updated!');
                 unwatch(); // Stop watching after the variable is updated
                 resolve();
@@ -355,6 +353,7 @@ export default {
             }
         );
       });
+      console.log("annotation finished")
     },
     getFormData() {
       let params = {
