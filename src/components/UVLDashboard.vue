@@ -264,6 +264,7 @@ export default {
 
     async compareDatesOfDatasets() {
       console.log("comparing datasets")
+      this.toggleRefresh = false
       this.datasetsToCheck = this.$store.state.storedDatasetsWithDates.map(storedDataset => {
         let correspondingDataset = this.$store.state.allDatasetsWithDates.find(dataset => dataset.name === storedDataset.name);
 
@@ -321,6 +322,7 @@ export default {
 
     async refreshAnnotation() {
       this.displaySnackbar("Starting Run.");
+      await this.$store.dispatch("actionDeleteAnnotation", this.selectedDashboard)
       axios.post(POST_START_MULTIDETECTION_ENDPOINT, this.getFormData()
       ).then(response => {
         if (response.status > 200 || response.status < 300) {
@@ -333,6 +335,19 @@ export default {
       }).catch(() => {
         this.displaySnackbar("Could not contact backend!");
         console.log(this.getFormData());
+      });
+
+      return new Promise((resolve) => {
+        const unwatch = this.$watch(
+            () => this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName), // Replace 'someVariable' with your store variable name
+            (newValue) => {
+              if (newValue !== '') {
+                console.log('Store variable updated!');
+                unwatch(); // Stop watching after the variable is updated
+                resolve();
+              }
+            }
+        );
       });
     },
     getFormData() {
