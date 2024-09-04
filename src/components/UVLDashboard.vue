@@ -331,7 +331,7 @@ export default {
       //await this.$store.dispatch("actionDeleteAnnotation", this.selectedDashboard)
 
       const response = await axios.post(POST_START_MULTIDETECTION_ENDPOINT, this.getFormData());
-
+      console.log(response)
       if (response.status >= 200 && response.status < 300) {
         this.displaySnackbar("Run has been finished successfully.");
         await this.$store.dispatch("actionLoadResults");
@@ -345,7 +345,7 @@ export default {
         const unwatch = this.$watch(
             () => this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName),
             (newValue) => {
-              if (newValue !== undefined) {
+              if (newValue !== null) {
                 console.log('Store variable updated!');
                 unwatch(); // Stop watching after the variable is updated
                 resolve();
