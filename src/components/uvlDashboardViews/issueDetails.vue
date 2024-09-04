@@ -93,7 +93,7 @@ import {
 } from "@/store/types";
 import { setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL } from "@/theme";
 import { loadDataset, reloadResults } from "@/RESTcalls";
-import AddFeedbackToIssue from "../uvlDashboardViews/AddFeedbackToIssue.vue";
+import AddFeedbackToIssue from "./dialogs/AddFeedbackToIssue.vue";
 
 export default {
   name: "issueDetails",
