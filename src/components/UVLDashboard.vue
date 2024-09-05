@@ -306,6 +306,7 @@ export default {
           break;
         }
         this.datasetNameToRefresh = this.datasetsToCheck[i];
+        this.checkRestoreData = false
         this.showRefreshDataSetDialog = true;
 
         await new Promise(resolve => {
