@@ -108,7 +108,7 @@
       <v-card>
         <v-card-title>
           <h3>New Version of Dataset available!</h3>
-          <h4>          There is a newer version of the used dataset "{{ datasetNameToRefresh }}" available. Do you want to refresh your analysis?
+          <h4>There is a newer version of the used dataset "{{ datasetNameToRefresh }}" available. Do you want to refresh your analysis?
           </h4>
         </v-card-title>
         <v-card-text>
