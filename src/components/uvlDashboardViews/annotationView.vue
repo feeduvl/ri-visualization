@@ -282,6 +282,7 @@ export default {
       }
     },*/
     loadDashboardData(){
+      this.$store.commit('setNeedToLoadDashboard', false)
       console.log("loading dashboard data due to beforeRouteUpdate")
       this.selectedDatasets = this.$store.state.storedDatasets
       this.$refs.startDetectionHomeRef.loadDashboardData()
@@ -299,7 +300,6 @@ export default {
     },
     needToLoadDashboard(newValue) {
       if (newValue) {
-        this.$store.commit('setNeedToLoadDashboard', false)
         console.log("needToLoadDashboard was true")
         this.loadDashboardData();
       }
