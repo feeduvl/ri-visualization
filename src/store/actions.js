@@ -819,6 +819,7 @@ export const actionSaveData = ({ commit, state }, savedDataName) => {
             type: state.storedDashboardType,
             threshold: state.storedThreshold,
             classifier: state.storedClassifier,
+            classifier_detail: state.storedClassifierDetail
         })
             .then(response => {
                 commit("setIsLoadingData", false);

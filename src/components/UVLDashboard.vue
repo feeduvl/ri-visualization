@@ -240,6 +240,7 @@ export default {
       console.log("response")
       console.log(response.data.type)
       this.$store.commit('setDashboardData', response.data)
+      this.$store.commit('setClassifierDetail', response.data.classifier_detail)
 
       //Check if any dataset is outdated
       await this.$store.dispatch("actionGetFeedbackNamesDates");
@@ -366,13 +367,15 @@ export default {
     },
     getFormData() {
       let params = {
-        method: this.$store.state.storedClassifier,
+        method: this.$store.state.storedClassifier + "/" + this.$store.state.storedClassifierDetail,
         dataset: this.$store.state.storedDatasets.join('#!#'),
         debug: false,
         persist: true,
         name: this.$store.state.currentDashboardName,
         annotation_name: this.$store.state.currentDashboardName,
       };
+      console.log("getFormData")
+      console.log(params)
       return JSON.stringify(params);
     },
 

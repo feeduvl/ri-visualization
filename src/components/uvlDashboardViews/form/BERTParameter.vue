@@ -83,6 +83,7 @@ export default {
     },
     methods: {
         async startRun() {
+            this.$store.commit('setClassifierDetail', this.method)
             if (!(this.validateDatasetInput())) {
                 this.displaySnackbar("Please select a dataset!");
             } else if (!(this.formValid)) {

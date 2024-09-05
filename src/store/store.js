@@ -195,7 +195,8 @@ export const store = new Vuex.Store({
     storedDashboardType: "",
     storedClassifier: "",
     currentDashboardName: "",
-    needToLoadDashboard: false
+    needToLoadDashboard: false,
+    storedClassifierDetail: "",
   },
   getters,
   mutations: {
@@ -551,6 +552,9 @@ export const store = new Vuex.Store({
       console.log(option);
       state.needToLoadDashboard = option;
     },
+    setClassifierDetail(state, classifier) {
+      state.storedClassifierDetail = classifier;
+    }
 
   },
   actions,
