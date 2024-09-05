@@ -185,8 +185,10 @@ export default {
       if (this.selectedData === "") {
         this.warningMessage1 = "Error: No name selected. Please select a name"
       } else {
-        this.warningMessage1 = ""
-        this.checkRestoreData = true
+        if (this.$store.state.currentDashboardName) {
+          this.warningMessage1 = ""
+          this.checkRestoreData = true
+        }
       }
     },
     closeRestoreDataDialog() {
