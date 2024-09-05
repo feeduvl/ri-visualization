@@ -253,6 +253,7 @@ export default {
         if (this.toggleRefresh){
           await this.refreshAnnotation()
         }
+        this.$store.commit('setNeedToLoadDashboard', true)
         this.navigateTo('/uvldashboard/annotation')
       } else {
         if (this.toggleRefresh){
@@ -361,7 +362,6 @@ export default {
         );
       });
       console.log("annotation finished")
-      this.$store.commit('setNeedToLoadDashboard', true)
 
     },
     getFormData() {
