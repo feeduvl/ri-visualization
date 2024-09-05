@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="load-dashboard">
-      <v-subheader class="subheader">Choose saved dashboard or create new one</v-subheader>
+      <v-subheader class="subheader">Choose to load a saved dashboard or create a new dashboard.</v-subheader>
       <div class="controls">
         <v-select class="select-saved-data"
                   v-model="selectedDashboard"
@@ -11,15 +11,15 @@
         >
           <template v-slot:item="{ item }" >
             <div class="dropdown-item">
-              <span>{{ item }}</span>
+              <span class="item">{{ item }}</span>
               <i class="material-icons delete-icon" @click.stop="openDeleteSavedData(item)">delete</i>
             </div>
           </template>
         </v-select>
-        <v-btn class="blue-button" @click="openRestoreDataDialog()">Show Data</v-btn>
-        <v-btn class="green-button" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
+        <v-btn class="primary" @click="openRestoreDataDialog()">Show Data</v-btn>
+        <v-btn class="success" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
       </div>
-      <p v-if="warningMessage1" style="color: red">{{warningMessage1}}</p>
+      <p v-if="warningMessage1" class="warning">{{warningMessage1}}</p>
     </div>
 
     <div>
@@ -450,7 +450,7 @@ export default {
 .load-dashboard {
   display: flex;
   flex-direction: column;
-  width: 100%; /* Ensure content spans full width */
+  width: 80%; /* Ensure content spans full width */
 }
 .controls {
   display: flex;
@@ -463,14 +463,6 @@ export default {
   margin-left: 10px;*/
   flex: 1;
 }
-.blue-button {
-  background-color: blue;
-  color: white;
-}
-.green-button {
-  background-color: green;
-  color: white;
-}
 .delete-icon {
   cursor: pointer;
   color: red;
@@ -480,5 +472,16 @@ export default {
   font-size: 1.5rem; /* Larger font for the subheader */
   margin-bottom: 10px;
 }
-
+.warning {
+  color: red;
+}
+.dropdown-item {
+  display: flex;
+  justify-content: space-between; /* Ensures the name and icon are spaced apart */
+  align-items: center;
+  width: 100%;
+}
+.item {
+  flex: 1; /* Makes sure the name takes up all available space */
+}
 </style>
