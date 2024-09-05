@@ -316,6 +316,40 @@ export const actionPostCurrentAnnotation = ({state, commit}) => {
   });
 };
 
+export const actionPostCurrentAnnotationAndSaveDashboard = ({state, commit}) => {
+    return new Promise(() => {
+        console.log("Posting annotation: "+state.selected_annotation);
+        commit("postAnnotationCallback");
+        let postTokens = [];
+        for (let t of state.tokens){
+            postTokens.push({...t,
+                num_name_codes: state.token_num_name_codes[t.index],
+                num_tore_codes: state.token_num_tore_codes[t.index]});
+        }
+        for (let documents in state.docs){
+            console.log("Docs in Anno: " + documents)
+        }
+        axios.post(ANNOTATION_POST_ENDPOINT, {
+            uploaded_at: state.annotator_uploaded_at,
+            dataset: state.annotator_dataset,
+            name: state.selected_annotation,
+            tokens: postTokens,
+            tore_relationships: state.tore_relationships,
+            codes: state.codes,
+            docs: state.docs.slice(1, state.docs.length),
+            tores: state.annotation_tores,
+            show_recommendationtore: state.showRecommendationTore,
+            sentence_tokenization_enabled_for_annotation: state.sentenceTokenizationEnabledForAnnotation
+        })
+            .then(() => {
+                console.log("annotation posted");
+                this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName);
+                console.log("Got annotation POST response");
+            })
+            .catch(e => console.error("Error POSTing annotation: "+e));
+    });
+};
+
 export const actionPostCurrentAgreement = ({state, commit}) => {
   return new Promise(() => {
     if (state.selected_agreement !== "") {

@@ -775,8 +775,8 @@ export default {
             },
 
             doSaveAnnotation(autosave){
-                this.$store.dispatch('actionPostCurrentAnnotation')
-                if(autosave){
+                this.$store.dispatch('actionPostCurrentAnnotationAndSaveDashboard')
+              if(autosave){
                     this.doShowSnackbar({msg:"Auto-saved."})
                 } else {
                     this.doShowSnackbar({msg:"Annotation saved."})
