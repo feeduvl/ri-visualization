@@ -194,7 +194,8 @@ export const store = new Vuex.Store({
     storedThreshold: 0,
     storedDashboardType: "",
     storedClassifier: "",
-    currentDashboardName: ""
+    currentDashboardName: "",
+    needToLoadDashboard: false
   },
   getters,
   mutations: {
@@ -545,7 +546,10 @@ export const store = new Vuex.Store({
       state.storedThreshold = data.threshold;
       state.storedClassifier = data.classifier;
       state.storedDashboardType = data.type;
-    }
+    },
+    setNeedToLoadDashboard(state, option){
+      state.needToLoadDashboard = option;
+    },
 
   },
   actions,

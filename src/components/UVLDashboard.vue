@@ -251,6 +251,7 @@ export default {
       if (response.data.type === "Annotation") {
         this.$store.commit("resetAnnotator")
         if (this.toggleRefresh){
+          this.$store.commit('setNeedToLoadDashboard', true)
           await this.refreshAnnotation()
         }
         this.navigateTo('/uvldashboard/annotation')

@@ -296,12 +296,22 @@ export default {
           this.loadDashboardData();
         }
       }
+    },
+    needToLoadDashboard(newValue) {
+      if (newValue) {
+        this.$store.commit('setNeedToLoadDashboard', false)
+        this.loadDashboardData();
+      }
     }
+
   },
   computed:{
     currentDashboardName() {
       // Map the store's state to a computed property
       return this.$store.state.currentDashboardName;
+    },
+    needToLoadDashboard() {
+      return this.$store.state.needToLoadDashboard
     },
     isLoadingData() {
       return this.$store.state.isLoadingData
