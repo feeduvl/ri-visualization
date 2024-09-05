@@ -336,6 +336,8 @@ export default {
         this.displaySnackbar("Run has been finished successfully.");
         await this.$store.dispatch("actionLoadResults");
         await this.$store.dispatch("actionGetAllAnnotations");
+        console.log("new annotation list")
+        console.log(this.$store.state.available_annotations)
       } else {
         this.displaySnackbar("Error finishing run!");
       }
