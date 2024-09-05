@@ -326,7 +326,8 @@ export default {
       this.displaySnackbar("Starting Run.");
       console.log("starting run")
       console.log(this.$store.state.available_annotations)
-      this.$store.state.available_annotations.splice(this.$store.state.available_annotations, 1)[0]
+      let index = this.$store.state.available_annotations.findIndex(item => item.name === this.$store.state.available_annotations);
+      this.$store.state.available_annotations.splice(index, 1)
       console.log(this.$store.state.available_annotations)
       //await this.$store.dispatch("actionDeleteAnnotation", this.selectedDashboard)
 
@@ -350,7 +351,9 @@ export default {
             () => this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName),
             (newValue) => {
               if (newValue !== null) {
-                console.log('Store variable updated!');
+                console.log('Store variable updated:');
+                console.log(newValue)
+                console.log(this.$store.state.available_annotations)
                 unwatch(); // Stop watching after the variable is updated
                 resolve();
               }
