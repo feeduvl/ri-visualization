@@ -16,7 +16,7 @@
             </div>
           </template>
         </v-select>
-        <v-btn class="primary" @click="openRestoreDataDialog()">Show Data</v-btn>
+        <v-btn class="primary" @click="openRestoreDataDialog()">Load Dashboard</v-btn>
         <v-btn class="success" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
       </div>
       <p v-if="warningMessage1" class="warning">{{warningMessage1}}</p>
@@ -60,8 +60,8 @@
     <v-dialog v-model="checkCreateDashboard" :max-width="400" >
       <v-card class="create-data">
         <v-card-title class="create-data">
-          <h3>If you choose to create a new dashboard, your current changes will be deleted.</h3>
-          <h3>Are you sure you want to proceed?</h3>
+          <h3>Please configure the dashboard that you want to create.</h3>
+          <h4>Attention: If you choose to create a new dashboard, changes of a currently edited annotation may be deleted.</h4>
         </v-card-title>
         <v-card-text>
           <!-- Input field for Dashboard Name -->
@@ -85,16 +85,16 @@
           <v-select
               v-model="dashboardType"
               :items="dashboardTypes"
-              label="Dashboard type"
+              label="Dashboard Type"
               outlined
               dense
           ></v-select>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="red" @click="createNewDashboard()" :disabled="!dashboardType || !dashboardName || dashboardNameError !== ''">
+          <v-btn color="green" @click="createNewDashboard()" :disabled="!dashboardType || !dashboardName || dashboardNameError !== ''">
             Create
           </v-btn>
-          <v-btn dark color="black" @click="closeCreateDashboardDialog()">
+          <v-btn color="red" @click="closeCreateDashboardDialog()">
             Cancel
           </v-btn>
         </v-card-actions>
@@ -190,6 +190,8 @@ export default {
         if (this.$store.state.currentDashboardName) {
           this.warningMessage1 = ""
           this.checkRestoreData = true
+        } else {
+          this.loadDashboard()
         }
       }
     },
