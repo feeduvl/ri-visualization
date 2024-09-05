@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div class="load-dashboard">
-      <v-subheader class="subheader">Choose to load a saved dashboard or create a new dashboard.</v-subheader>
+    <v-card>
+      <v-card flat class="header">
+        <v-card-title primary-title>
+          <h2>Choose to load a saved dashboard or create a new dashboard.</h2>
+        </v-card-title>
+      </v-card>
       <div class="controls">
         <v-select class="select-saved-data"
                   v-model="selectedDashboard"
@@ -20,7 +24,7 @@
         <v-btn class="success" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
       </div>
       <p v-if="warningMessage1" class="warning">{{warningMessage1}}</p>
-    </div>
+    </v-card>
 
     <div>
       <v-dialog v-model="deleteSavedRelations" :max-width="300" class="delete-all-issues">
@@ -44,14 +48,14 @@
     <v-dialog v-model="checkRestoreData" :max-width="400" >
       <v-card class="restore-data">
         <v-card-title class="restore-data">
-          <h3>If you choose to display this data, your current data will be deleted.</h3>
+          <h3>If you choose to load a new dashboard, data of your currently edited annotation may me deleted.</h3>
           <h3>Are you sure you want to proceed?</h3>
         </v-card-title>
         <v-card-actions>
-          <v-btn color="red" @click="loadDashboard()">
-            Show
+          <v-btn class="success" @click="loadDashboard()">
+            Open Dashboard
           </v-btn>
-          <v-btn dark color="black" @click="closeRestoreDataDialog()">
+          <v-btn color="red" @click="closeRestoreDataDialog()">
             Cancel
           </v-btn>
         </v-card-actions>
@@ -91,7 +95,7 @@
           ></v-select>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="green" @click="createNewDashboard()" :disabled="!dashboardType || !dashboardName || dashboardNameError !== ''">
+          <v-btn class="success" @click="createNewDashboard()" :disabled="!dashboardType || !dashboardName || dashboardNameError !== ''">
             Create
           </v-btn>
           <v-btn color="red" @click="closeCreateDashboardDialog()">
@@ -102,14 +106,17 @@
     </v-dialog>
     <v-dialog v-model="showRefreshDataSetDialog" max-width="400">
       <v-card>
-        <v-card-title class="headline">New Version of Dataset available!</v-card-title>
+        <v-card-title>
+          <h3>New Version of Dataset available!</h3>
+          <h4>          There is a newer version of the used dataset "{{ datasetNameToRefresh }}" available. Do you want to refresh your analysis?
+          </h4>
+        </v-card-title>
         <v-card-text>
-          There is a newer version of the used dataset "{{ datasetNameToRefresh }}" available. Do you want to refresh your analysis?
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="confirmRefresh">Yes</v-btn>
-          <v-btn color="red darken-1" text @click="cancelRefresh">No</v-btn>
+          <v-btn class="success" text @click="confirmRefresh">Yes</v-btn>
+          <v-btn color="red" text @click="cancelRefresh">No</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -185,7 +192,7 @@ export default {
     },
     openRestoreDataDialog() {
       if (this.selectedData === "") {
-        this.warningMessage1 = "Error: No name selected. Please select a name"
+        this.displaySnackbar("Error: No name selected. Please select a name");
       } else {
         if (this.$store.state.currentDashboardName) {
           this.warningMessage1 = ""
@@ -459,6 +466,7 @@ export default {
   align-items: center;
   gap: 10px; /* Spacing between the dropdown and buttons */
   margin-bottom: 20px;
+  margin-right: 20px;
 }
 .select-saved-data {
   /*width: 50%;
