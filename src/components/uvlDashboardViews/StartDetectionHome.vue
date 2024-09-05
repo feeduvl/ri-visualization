@@ -333,12 +333,16 @@ export default {
       console.log(this.$store.state.available_annotations)
       console.log(this.$store.state.currentDashboardName)
       console.log("printing props")
+      let datasets = this.$props.selected_dataset
+      if (!datasets){ //happens, if existing annotation is loaded
+        datasets = this.$store.state.storedDatasets
+      }
       console.log(this.$props.selected_dataset)
       if (annotation) {
         this.waitingForAnnotation = false
         console.log("found annotation, now saving it")
         let data_to_store = {
-          datasets: this.$props.selected_dataset,
+          datasets: datasets,
           name: this.$store.state.currentDashboardName,
           threshold: "",
           classifier: this.selectedMethod,
