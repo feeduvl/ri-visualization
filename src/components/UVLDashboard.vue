@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <v-card>
       <v-card flat class="header">
         <v-card-title primary-title>
@@ -144,7 +144,7 @@
         Close
       </v-btn>
     </v-snackbar>
-  </div>
+  </v-container>
 </template>
 
 <script >
@@ -191,7 +191,7 @@ export default {
       this.$router.push(route);
     },
     openRestoreDataDialog() {
-      if (this.selectedData === "") {
+      if (this.selectedDashboard === "") {
         this.displaySnackbar("Error: No name selected. Please select a name");
       } else {
         if (this.$store.state.currentDashboardName) {
