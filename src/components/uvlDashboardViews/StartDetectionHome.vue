@@ -335,9 +335,10 @@ export default {
       console.log("printing props")
       let datasets = this.$props.selected_dataset
       if (!datasets){ //happens, if existing annotation is loaded
+        console.log("props empty")
         datasets = this.$store.state.storedDatasets
       }
-      console.log(this.$props.selected_dataset)
+      console.log(datasets)
       if (annotation) {
         this.waitingForAnnotation = false
         console.log("found annotation, now saving it")
