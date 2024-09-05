@@ -367,7 +367,7 @@ export default {
     },
     getFormData() {
       let params = {
-        method: this.$store.state.storedClassifier + "/" + this.$store.state.storedClassifierDetail,
+        method: this.$store.state.storedClassifierDetail,
         dataset: this.$store.state.storedDatasets.join('#!#'),
         debug: false,
         persist: true,
