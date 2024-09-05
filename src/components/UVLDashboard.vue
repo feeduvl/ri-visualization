@@ -326,7 +326,7 @@ export default {
       this.displaySnackbar("Starting Run.");
       console.log("starting run")
       console.log(this.$store.state.available_annotations)
-      let index = this.$store.state.available_annotations.findIndex(item => item.name === this.$store.state.available_annotations);
+      let index = this.$store.state.available_annotations.findIndex(item => item.name === this.$store.state.currentDashboardName);
       this.$store.state.available_annotations.splice(index, 1)
       console.log(this.$store.state.available_annotations)
       //await this.$store.dispatch("actionDeleteAnnotation", this.selectedDashboard)
