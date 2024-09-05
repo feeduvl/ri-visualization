@@ -334,9 +334,11 @@ export default {
       console.log(this.$store.state.currentDashboardName)
       console.log("printing props")
       let datasets = this.$props.selected_dataset
-      if (datasets === []){ //happens, if existing annotation is loaded
+      if (datasets.length <= 0){ //happens, if existing annotation is loaded
         console.log("props empty")
         datasets = this.$store.state.storedDatasets
+      } else {
+        console.log(datasets.length)
       }
       console.log(datasets)
       if (annotation) {
