@@ -334,7 +334,9 @@ export default {
       console.log(response)
       if (response.status >= 200 && response.status < 300) {
         this.displaySnackbar("Run has been finished successfully.");
+        console.log("run finished")
         await this.$store.dispatch("actionLoadResults");
+        console.log("actionLoadResults finished")
         await this.$store.dispatch("actionGetAllAnnotations");
         console.log("new annotation list")
         console.log(this.$store.state.available_annotations)
