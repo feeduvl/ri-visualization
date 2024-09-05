@@ -812,7 +812,8 @@ export const actionDeleteSavedData = ({ commit }, item) => {
 export const actionSaveData = ({ commit, state }, savedDataName) => {
     return new Promise((resolve, reject) => {
         commit("setIsLoadingData", true);
-        console.log("save data");
+        console.log("save data:");
+        console.log(state.storedDatasets)
         axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/save_data/${savedDataName}`, {
             datasets: state.storedDatasets,
             type: state.storedDashboardType,
