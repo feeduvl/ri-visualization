@@ -6,23 +6,27 @@
           <h2>Choose to load a saved dashboard or create a new dashboard.</h2>
         </v-card-title>
       </v-card>
-      <div class="controls">
-        <v-select class="select-saved-data"
-                  v-model="selectedDashboard"
-                  :items="getSelectedData"
-                  label="Select Dashboard"
-                  dense
-        >
-          <template v-slot:item="{ item }" >
-            <div class="dropdown-item">
-              <span class="item">{{ item }}</span>
-              <i class="material-icons delete-icon" @click.stop="openDeleteSavedData(item)">delete</i>
-            </div>
-          </template>
-        </v-select>
-        <v-btn class="primary" @click="openRestoreDataDialog()">Load Dashboard</v-btn>
-        <v-btn class="success" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
-      </div>
+      <v-container>
+        <v-layout row wrap>
+          <v-flex xs4>
+            <v-select class="select-saved-data"
+                      v-model="selectedDashboard"
+                      :items="getSelectedData"
+                      label="Select Dashboard"
+                      dense
+            >
+              <template v-slot:item="{ item }" >
+                <div class="dropdown-item">
+                  <span class="item">{{ item }}</span>
+                  <i class="material-icons delete-icon" @click.stop="openDeleteSavedData(item)">delete</i>
+                </div>
+              </template>
+            </v-select>
+            <v-btn class="primary" @click="openRestoreDataDialog()">Load Dashboard</v-btn>
+            <v-btn class="success" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-container>
       <p v-if="warningMessage1" class="warning">{{warningMessage1}}</p>
     </v-card>
 
@@ -192,7 +196,7 @@ export default {
     },
     openRestoreDataDialog() {
       if (this.selectedDashboard === "") {
-        this.displaySnackbar("Error: No name selected. Please select a name");
+        this.displaySnackbar("Error: No Dashboard selected. Please select a Dashboard");
       } else {
         if (this.$store.state.currentDashboardName) {
           this.warningMessage1 = ""

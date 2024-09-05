@@ -17,15 +17,17 @@
     <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
-    <p class="headline-select-jira-project">
-      Select Datasets to use:
-    </p>
-    <div>
-      <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
-                label="Select dataset" item-text="dataset"
-      ></v-select>
-      <v-btn dark color="blue" @click="addDataset()"> ADD
-      </v-btn>
+    <div class="select-dataset">
+      <p class="headline-select-jira-project">
+        Select Datasets to use:
+      </p>
+      <div class="select-dataset-row">
+        <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
+                  label="Select dataset" item-text="dataset"
+        ></v-select>
+        <v-btn dark color="blue" class="add-dataset-btn" @click="addDataset()"> ADD
+        </v-btn>
+      </div>
     </div>
     <!--<component v-bind:is="component" v-bind:dataset="selectedDataset" />-->
     <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
@@ -574,14 +576,39 @@ export default {
 
 <style scoped>
 .container{
-  display: flex;
+  /*display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
-  width: 100%;
+  width: 100%;*/
+  padding: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.header{
+  margin-bottom: 20px
 }
 .headline-select-jira-project{
   font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.import-elements {
+  margin-bottom: 30px;
+}
+.select-dataset {
+  margin-bottom: 20px;
+}
+.select-dataset-row {
+  display: flex;
+  align-items: center; /* Vertically centers the items */
+  gap: 10px; /* Adds some spacing between the select and button */
+}
+.select-issueTypes {
+  flex: 1; /* Makes the dropdown take up all available space */
+}
+.add-dataset-btn {
+  padding: 8px 16px;
 }
 .main-issue-table{
   margin-top: 10px;
