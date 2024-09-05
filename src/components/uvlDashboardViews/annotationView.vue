@@ -154,7 +154,7 @@ export default {
       selectedDatasetName: "",
       runMethods: DASHBOARD_METHODS,
       showUnassigned: false,
-      selectedAnnotation: "tim10"
+      selectedAnnotation: ""
     }
   },
   methods:{
