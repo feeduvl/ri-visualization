@@ -300,6 +300,7 @@ export default {
     needToLoadDashboard(newValue) {
       if (newValue) {
         this.$store.commit('setNeedToLoadDashboard', false)
+        console.log("needToLoadDashboard was true")
         this.loadDashboardData();
       }
     }

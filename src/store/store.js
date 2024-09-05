@@ -548,6 +548,7 @@ export const store = new Vuex.Store({
       state.storedDashboardType = data.type;
     },
     setNeedToLoadDashboard(state, option){
+      console.log(option);
       state.needToLoadDashboard = option;
     },
 
