@@ -1,22 +1,24 @@
 <template>
   <div>
     <div class="load-dashboard">
-      <v-subheader>Choose saved dashboard or create new one</v-subheader>
-      <v-select class="select-saved-data"
-                v-model="selectedDashboard"
-                :items="getSelectedData"
-                label="Select Dashboard"
-                dense
-      >
-        <template v-slot:item="{ item }" >
-          <div>
-            {{ item }}
-            <i class="material-icons delete-icon" @click.stop="openDeleteSavedData(item)">delete</i>
-          </div>
-        </template>
-      </v-select>
-      <v-btn :style="{ backgroundColor: blueFill }" @click="openRestoreDataDialog()">Show Data</v-btn>
-      <v-btn :style="{ backgroundColor: blueFill }" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
+      <v-subheader class="subheader">Choose saved dashboard or create new one</v-subheader>
+      <div class="controls">
+        <v-select class="select-saved-data"
+                  v-model="selectedDashboard"
+                  :items="getSelectedData"
+                  label="Select Dashboard"
+                  dense
+        >
+          <template v-slot:item="{ item }" >
+            <div class="dropdown-item">
+              <span>{{ item }}</span>
+              <i class="material-icons delete-icon" @click.stop="openDeleteSavedData(item)">delete</i>
+            </div>
+          </template>
+        </v-select>
+        <v-btn class="blue-button" @click="openRestoreDataDialog()">Show Data</v-btn>
+        <v-btn class="green-button" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
+      </div>
       <p v-if="warningMessage1" style="color: red">{{warningMessage1}}</p>
     </div>
 
@@ -445,29 +447,38 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.banner{
-  margin-top: 50px;
-  text-align: center;
-}
-.container{
+.load-dashboard {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
-  width: 100%;
+  width: 100%; /* Ensure content spans full width */
 }
-.load-dashboard {
-  float: left;
-  margin-right: 30px;
-  border-right: 1px solid #ccc;
-  padding-right: 80px;
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Spacing between the dropdown and buttons */
+  margin-bottom: 20px;
 }
 .select-saved-data {
-  width: 70%;
-  margin-left: 10px;
+  /*width: 50%;
+  margin-left: 10px;*/
+  flex: 1;
+}
+.blue-button {
+  background-color: blue;
+  color: white;
+}
+.green-button {
+  background-color: green;
+  color: white;
 }
 .delete-icon {
+  cursor: pointer;
   color: red;
+  margin-left: 10px;
+}
+.subheader {
+  font-size: 1.5rem; /* Larger font for the subheader */
+  margin-bottom: 10px;
 }
 
 </style>
