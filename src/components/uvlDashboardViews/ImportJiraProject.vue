@@ -1,18 +1,22 @@
 <template>
-  <div class="container">
-    <p class="headline-select-jira-project">
+  <v-container>
+    <v-card flat class="header">
+      <v-card-title primary-title>
       Select Project to import:
-    </p>
-    <div>
-      <v-select class="select-issueTypes" v-model="projectName" :items="allAvailableJiraIssues"
-                label="Select project" item-text="name"
-      ></v-select>
-      <v-btn dark :style="{ backgroundColor: blueDark }" @click="openImportDialog()"> Search
-      </v-btn>
-      <!--<v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
-      </v-btn>-->
-    </div>
-    <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
+      </v-card-title>
+    </v-card>
+    <v-card>
+      <div>
+        <v-select class="select-issueTypes" v-model="projectName" :items="allAvailableJiraIssues"
+                  label="Select project" item-text="name"
+        ></v-select>
+        <v-btn dark :style="{ backgroundColor: blueDark }" @click="openImportDialog()"> Search
+        </v-btn>
+        <!--<v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
+        </v-btn>-->
+      </div>
+      <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
+    </v-card>
 
 
 
@@ -70,7 +74,7 @@
       </div>
 
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <script>
