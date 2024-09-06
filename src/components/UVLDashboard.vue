@@ -151,8 +151,8 @@
         Close
       </v-btn>
     </v-snackbar>
+    <router-view></router-view>
   </v-container>
-  <router-view></router-view>
 </template>
 
 <script >
