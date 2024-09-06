@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="jiraview-container">
     <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
@@ -9,7 +9,7 @@
           <h2>Selected Jira Dashboard: {{ $store.state.currentDashboardName }}</h2>
         </v-card-title>
       </v-card>
-      <v-container>
+      <v-container class="inner-container">
         <div class="import-elements">
           <div class="import-buttons">
             <ImportJiraProject class="element1"></ImportJiraProject>
@@ -613,7 +613,7 @@ export default {
   flex: 1; /* Makes the dropdown take up all available space */
 }
 .import-button {
-  padding: 8px 16px;
+  /*padding: 8px 16px;*/
 }
 .main-issue-table{
   margin-top: 10px;
@@ -635,5 +635,14 @@ export default {
   background-color: #ccc !important;
   pointer-events: none !important;
   color: #777 !important;
+}
+.jiraview-container{
+  margin:0;
+  padding-top: 20px;
+  padding-left: 0px;
+  padding-right: 0px
+}
+.inner-container{
+
 }
 </style>

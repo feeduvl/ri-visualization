@@ -8,7 +8,7 @@
       </v-card>
       <v-container>
         <v-layout row wrap>
-          <v-flex xs12 sm6 md4>
+          <v-flex xs12 sm7 md6>
             <v-select class="select-saved-data"
                       v-model="selectedDashboard"
                       :items="getSelectedData"
@@ -23,10 +23,10 @@
               </template>
             </v-select>
           </v-flex>
-          <v-flex xs12 sm6 md4>
+          <v-flex xs12 sm6 md3>
             <v-btn class="primary" @click="openRestoreDataDialog()">Load Dashboard</v-btn>
           </v-flex>
-          <v-flex xs12 sm6 md4>
+          <v-flex xs12 sm6 md3>
             <v-btn class="success" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
           </v-flex>
         </v-layout>
@@ -144,7 +144,6 @@
         </v-card>
       </div>-->
     </div>
-    <router-view></router-view>
     <v-snackbar v-model="snackbarVisible" :timeout="snackbarTimeout" :top=true>
       {{ snackbarText }}
 
@@ -153,6 +152,7 @@
       </v-btn>
     </v-snackbar>
   </v-container>
+  <router-view></router-view>
 </template>
 
 <script >

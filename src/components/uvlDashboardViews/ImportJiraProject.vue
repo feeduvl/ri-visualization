@@ -1,9 +1,9 @@
 <template>
-  <v-container>
+  <!--<v-container>-->
       <p class="headline-select-jira-project">
       Select Project to import:
       </p>
-      <div>
+      <v-layout row wrap>
         <v-select class="select-issueTypes" v-model="projectName" :items="allAvailableJiraIssues"
                   label="Select project" item-text="name"
         ></v-select>
@@ -11,7 +11,7 @@
         </v-btn>
         <!--<v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
         </v-btn>-->
-      </div>
+      </v-layout>
       <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
 
 
@@ -70,7 +70,7 @@
       </div>
 
     </v-dialog>
-  </v-container>
+  <!--</v-container>-->
 </template>
 
 <script>
@@ -238,5 +238,10 @@ export default {
 }
 .import-button {
   padding: 8px 16px;
+}
+.select-jira-row {
+  display: flex;
+  align-items: center; /* Vertically centers the items */
+  gap: 10px; /* Adds some spacing between the select and button */
 }
 </style>
