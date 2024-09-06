@@ -27,7 +27,7 @@
             <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
                       label="Select dataset" item-text="dataset"
             ></v-select>
-            <v-btn dark color="blue" class="add-dataset-btn" @click="addDataset()"> ADD
+            <v-btn dark color="blue" class="import-button" @click="addDataset()"> ADD
             </v-btn>
           </div>
         </div>
@@ -612,7 +612,7 @@ export default {
 .select-issueTypes {
   flex: 1; /* Makes the dropdown take up all available space */
 }
-.add-dataset-btn {
+.import-button {
   padding: 8px 16px;
 }
 .main-issue-table{

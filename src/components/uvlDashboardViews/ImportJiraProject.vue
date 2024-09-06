@@ -1,22 +1,18 @@
 <template>
   <v-container>
-    <v-card flat class="header">
-      <v-card-title primary-title>
+      <p class="headline-select-jira-project">
       Select Project to import:
-      </v-card-title>
-    </v-card>
-    <v-card>
+      </p>
       <div>
         <v-select class="select-issueTypes" v-model="projectName" :items="allAvailableJiraIssues"
                   label="Select project" item-text="name"
         ></v-select>
-        <v-btn dark :style="{ backgroundColor: blueDark }" @click="openImportDialog()"> Search
+        <v-btn dark color="blue" class="import-button" @click="openImportDialog()"> Search
         </v-btn>
         <!--<v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
         </v-btn>-->
       </div>
       <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
-    </v-card>
 
 
 
@@ -237,5 +233,10 @@ export default {
 }
 .headline-select-jira-project{
   font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.import-button {
+  padding: 8px 16px;
 }
 </style>
