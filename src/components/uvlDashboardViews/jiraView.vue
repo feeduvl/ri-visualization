@@ -9,30 +9,36 @@
           <h2>Selected Jira Dashboard: {{ $store.state.currentDashboardName }}</h2>
         </v-card-title>
       </v-card>
-      <v-container class="inner-container">
-        <div class="import-elements">
-          <div class="import-buttons">
+      <v-card>
+        <!--<div class="import-elements">
+          <div class="import-buttons">-->
             <ImportJiraProject class="element1"></ImportJiraProject>
-          </div>
-        </div>
-
+          <!--</div>
+        </div>-->
+      </v-card>
         <v-dialog v-model="isLoadingData" :max-width="300">
           <LoadingView/>
         </v-dialog>
-        <div class="select-dataset">
+      <v-container class="inner-container">
+        <!--<div class="select-dataset">-->
           <p class="headline-select-jira-project">
             Select Datasets to use:
           </p>
-          <div class="select-dataset-row">
+          <v-layout row wrap>
             <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
                       label="Select dataset" item-text="dataset"
             ></v-select>
             <v-btn dark color="blue" class="import-button" @click="addDataset()"> ADD
             </v-btn>
-          </div>
-        </div>
+          </v-layout>
+        <!--</div>-->
         <div class="input-container">
-          <label for="maxSimilarity">Threshold:</label>
+
+          <label for="maxSimilarity">
+            <p class="headline-select-jira-project">
+              Threshold:
+            </p>
+          </label>
           <input id="maxSimilarity" class="chooseSimilarity" type="number" v-model="maxSimilarity" />
         </div>
       </v-container>
@@ -71,13 +77,13 @@
     </v-card> -->
 
 
-    <v-card id="listingWrapper">
-      <v-card flat class="header">
+    <v-card class="dataset-list">
+      <v-card flat>
         <v-card-title primary-title>
           <h2>Selected Datasets</h2>
         </v-card-title>
       </v-card>
-      <v-layout row wrap id="datasetListing">
+      <v-layout row wrap class="datasetListing">
         <v-card
             id="datasetTile"
             max-width="400"
@@ -102,35 +108,29 @@
         <StartDetectionHome class="element1"></StartDetectionHome>
       </div>
     </v-card>-->
-    <div>
+    <div class="d-flex justify-center">
       <v-btn dark color="red" @click="assignFeedbackToIssues()"> Automatically relate feedback to requirements
       </v-btn>
     </div>
 
-
-
-
-
-    <h2>Jira Requirements Headline</h2>
-
-    <div class="main-issue-table">
-      <v-card class="v-card">
+    <v-card class="v-card">
         <v-card-title>
           <h2>Jira Requirements</h2>
-
+        </v-card-title>
           <div class="search-in-table">
             <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
           </div>
 
-          <div class="switch-container">
-            <div class="label-container">
+          <!--<div class="switch-container">
+            <div class="label-container">-->
+              <v-layout row wrap>
               <label for="showUnassigned" class="label-text">Show requirements without assigned feedback:</label>
-            </div>
-            <div class="switch-content">
+            <!--</div>
+            <div class="switch-content">-->
               <v-switch id="showUnassigned" v-model="showUnassigned" @change="getUnassignedIssues"></v-switch>
-            </div>
-          </div>
-        </v-card-title>
+              </v-layout>
+            <!--</div>
+          </div>-->
 
         <v-data-table :headers="headers"
                       :items="getIssues"
@@ -178,7 +178,6 @@
         <v-subheader>Exporting Data</v-subheader>
         <v-btn :style="{ backgroundColor: blueFill }" @click="getAssignedDataToExport()"> Export relations Data to CSV </v-btn>
       </div>
-    </div>
   </v-container>
 
 
@@ -644,5 +643,11 @@ export default {
 }
 .inner-container{
 
+}
+.dataset-list{
+  margin-top: 20px;
+}
+.datasetListing{
+  margin: 20px
 }
 </style>
