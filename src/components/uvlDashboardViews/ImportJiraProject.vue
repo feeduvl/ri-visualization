@@ -1,5 +1,5 @@
 <template>
-  <!--<v-container>-->
+  <v-container>
       <p class="headline-select-jira-project">
       Select Project to import:
       </p>
@@ -70,7 +70,7 @@
       </div>
 
     </v-dialog>
-  <!--</v-container>-->
+  </v-container>--
 </template>
 
 <script>
