@@ -7,7 +7,7 @@
         </v-card-title>
       </v-card>
       <v-container>
-        <v-layout row wrap>
+        <!--<v-layout row wrap>-->
           <v-flex xs4>
             <v-select class="select-saved-data"
                       v-model="selectedDashboard"
@@ -25,7 +25,7 @@
             <v-btn class="primary" @click="openRestoreDataDialog()">Load Dashboard</v-btn>
             <v-btn class="success" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
           </v-flex>
-        </v-layout>
+        <!--</v-layout>-->
       </v-container>
       <p v-if="warningMessage1" class="warning">{{warningMessage1}}</p>
     </v-card>

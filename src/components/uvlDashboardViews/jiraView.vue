@@ -1,34 +1,42 @@
 <template>
-  <div class="container">
+  <v-container>
     <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
-    <v-card flat class="header">
-      <v-card-title primary-title>
-        <h2>Selected Jira Dashboard: {{ $store.state.currentDashboardName }}</h2>
-      </v-card-title>
-    </v-card>
-    <div class="import-elements">
-      <div class="import-buttons">
-        <ImportJiraProject class="element1"></ImportJiraProject>
-      </div>
-    </div>
+    <v-card>
+      <v-card flat class="header">
+        <v-card-title primary-title>
+          <h2>Selected Jira Dashboard: {{ $store.state.currentDashboardName }}</h2>
+        </v-card-title>
+      </v-card>
+      <v-container>
+        <div class="import-elements">
+          <div class="import-buttons">
+            <ImportJiraProject class="element1"></ImportJiraProject>
+          </div>
+        </div>
 
-    <v-dialog v-model="isLoadingData" :max-width="300">
-      <LoadingView/>
-    </v-dialog>
-    <div class="select-dataset">
-      <p class="headline-select-jira-project">
-        Select Datasets to use:
-      </p>
-      <div class="select-dataset-row">
-        <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
-                  label="Select dataset" item-text="dataset"
-        ></v-select>
-        <v-btn dark color="blue" class="add-dataset-btn" @click="addDataset()"> ADD
-        </v-btn>
-      </div>
-    </div>
+        <v-dialog v-model="isLoadingData" :max-width="300">
+          <LoadingView/>
+        </v-dialog>
+        <div class="select-dataset">
+          <p class="headline-select-jira-project">
+            Select Datasets to use:
+          </p>
+          <div class="select-dataset-row">
+            <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
+                      label="Select dataset" item-text="dataset"
+            ></v-select>
+            <v-btn dark color="blue" class="add-dataset-btn" @click="addDataset()"> ADD
+            </v-btn>
+          </div>
+        </div>
+        <div class="input-container">
+          <label for="maxSimilarity">Threshold:</label>
+          <input id="maxSimilarity" class="chooseSimilarity" type="number" v-model="maxSimilarity" />
+        </div>
+      </v-container>
+    </v-card>
     <!--<component v-bind:is="component" v-bind:dataset="selectedDataset" />-->
     <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
     <!--<v-card>
@@ -88,10 +96,7 @@
         </v-card>
       </v-layout>
     </v-card>
-    <div class="input-container">
-      <label for="maxSimilarity">Threshold:</label>
-      <input id="maxSimilarity" class="chooseSimilarity" type="number" v-model="maxSimilarity" />
-    </div>
+
     <!--<v-card>
       <div>
         <StartDetectionHome class="element1"></StartDetectionHome>
@@ -174,7 +179,7 @@
         <v-btn :style="{ backgroundColor: blueFill }" @click="getAssignedDataToExport()"> Export relations Data to CSV </v-btn>
       </div>
     </div>
-  </div>
+  </v-container>
 
 
 </template>
