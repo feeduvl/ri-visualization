@@ -19,12 +19,12 @@
         <v-dialog v-model="isLoadingData" :max-width="300">
           <LoadingView/>
         </v-dialog>
-      <v-container class="inner-container">
+      <div class="inner-container">
         <!--<div class="select-dataset">-->
+        <v-layout row wrap>
           <p class="headline-select-jira-project">
             Select Datasets to use:
           </p>
-          <v-layout row wrap>
             <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
                       label="Select dataset" item-text="dataset"
             ></v-select>
@@ -32,16 +32,16 @@
             </v-btn>
           </v-layout>
         <!--</div>-->
-        <div class="input-container">
+        <v-layout row wrap>
 
-          <label for="maxSimilarity">
+          <!--<label for="maxSimilarity">-->
             <p class="headline-select-jira-project">
               Threshold:
             </p>
-          </label>
+          <!--</label>-->
           <input id="maxSimilarity" class="chooseSimilarity" type="number" v-model="maxSimilarity" />
-        </div>
-      </v-container>
+        </v-layout>
+      </div>
     </v-card>
     <!--<component v-bind:is="component" v-bind:dataset="selectedDataset" />-->
     <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
@@ -83,7 +83,7 @@
           <h2>Selected Datasets</h2>
         </v-card-title>
       </v-card>
-      <v-layout row wrap class="datasetListing">
+      <v-layout row wrap>
         <v-card
             id="datasetTile"
             max-width="400"
@@ -91,6 +91,7 @@
             height="100"
             v-for="dataset in selectedDatasets"
             v-bind:key="dataset"
+            class=dataset-tile"
         >
           <v-card-title><h3>{{ dataset }}</h3></v-card-title>
           <v-btn small outline color="error" @click="showRemoveDataset(dataset)" class="btnAlign">
@@ -113,10 +114,11 @@
       </v-btn>
     </div>
 
-    <v-card class="v-card">
+    <v-card class="jira-requirements">
         <v-card-title>
           <h2>Jira Requirements</h2>
         </v-card-title>
+      <v-card>
           <div class="search-in-table">
             <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
           </div>
@@ -129,6 +131,7 @@
             <div class="switch-content">-->
               <v-switch id="showUnassigned" v-model="showUnassigned" @change="getUnassignedIssues"></v-switch>
               </v-layout>
+      </v-card>
             <!--</div>
           </div>-->
 
@@ -647,7 +650,10 @@ export default {
 .dataset-list{
   margin-top: 20px;
 }
-.datasetListing{
+.dataset-tile{
   margin: 20px
+}
+.jira-requirements{
+  margin-top: 20px;
 }
 </style>
