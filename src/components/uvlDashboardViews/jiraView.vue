@@ -21,18 +21,18 @@
         </v-dialog>
       <v-container class="inner-container">
         <!--<div class="select-dataset">-->
-        <v-layout row wrap>
           <p class="headline-select-jira-project">
             Select Datasets to use:
           </p>
+        <v-layout row wrap>
             <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
                       label="Select dataset" item-text="dataset"
             ></v-select>
             <v-btn class="primary" @click="addDataset()"> ADD
             </v-btn>
-          </v-layout>
+        </v-layout>
         <!--</div>-->
-        <v-layout row wrap>
+        <v-layout row wrap align-center>
 
           <!--<label for="maxSimilarity">-->
             <p class="headline-select-jira-project">
@@ -118,14 +118,14 @@
         <v-card-title>
           <h2>Jira Requirements</h2>
         </v-card-title>
-      <v-card>
+      <v-card class="table-options">
           <div class="search-in-table">
             <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
           </div>
 
           <!--<div class="switch-container">
             <div class="label-container">-->
-              <v-layout row wrap>
+              <v-layout row wrap align-center>
               <label for="showUnassigned" class="label-text">Show requirements without assigned feedback:</label>
             <!--</div>
             <div class="switch-content">-->
@@ -150,18 +150,18 @@
                 {{ props.item[field] }}
               </td>
               <td>
-                <v-icon>{{ isExpanded(props.index) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+                <v-icon>{{ isExpanded(props.index) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }} class="pointer-cursor"</v-icon>
               </td>
               <td>
-                <i class="material-icons delete-icon pointer-cursor"  @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
+                <i class="material-icons delete-icon pointer-cursor" @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
               </td>
             </tr>
 
             <tr v-if="expandedRow === props.index">
               <td :colspan="headers.length + 2">
-                <v-alert :value="true" type="info">
+                <!--<v-alert :value="true" type="info">
                   <strong>Details:</strong> This is additional information for {{ props.item.key }}.
-                </v-alert>
+                </v-alert>-->
                 <issue-details :item="props.item" :page="nestedPage"/>
                 <!-- Additional details or nested components can go here -->
               </td>
@@ -174,11 +174,11 @@
               No matching records found
             </v-alert>
           </template>
-
+          <div class="export-buttons">
+            <v-btn class="primary" @click="getAssignedDataToExport()"> Export relations Data to CSV </v-btn>
+          </div>
         </v-data-table>
-      <div class="export-buttons">
-        <v-btn class="primary" @click="getAssignedDataToExport()"> Export relations Data to CSV </v-btn>
-      </div>
+
       </v-card>
 
   </v-container>
@@ -658,5 +658,9 @@ export default {
 }
 .label-text{
   padding: 5px
+}
+.table-options{
+  margin: 20px;
+  padding: 20px
 }
 </style>

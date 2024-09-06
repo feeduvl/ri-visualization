@@ -2,7 +2,7 @@
   <v-dialog v-model="openDialog" max-width="800">
     <v-card>
       <v-card-title>
-        <h3>Add Feedback</h3>
+        <h3 class="feedback-heading">Add Feedback</h3>
         <div class="search-in-table">
           <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
         </div>
@@ -134,5 +134,8 @@ export default {
 }
 span{
   font-weight: normal;
+}
+.feedback-heading{
+  padding-right: 20px;
 }
 </style>

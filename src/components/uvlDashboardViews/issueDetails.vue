@@ -36,13 +36,13 @@
     </div>
 
     <v-card-title>
-      <h3>Related Feedback</h3>
+      <h2 class="table-headline">Related Feedback</h2>
       <div class="search-in-table">
         <v-text-field v-model="searchFeedback" append-icon="search" label=" Search in table..."></v-text-field>
       </div>
       <div class="service-button">
         <v-btn  @click="openDeleteAllAssignmentsDialog()" small>
-          <i class="material-icons delete-icon">delete_sweep</i>
+          <i class="material-icons delete-icon" style="color: red;">delete_sweep</i>
         </v-btn>
         <v-btn  @click="openAddDialog" small>
           <i class="material-icons add-icon" >add</i>
@@ -231,5 +231,8 @@ export default {
 <style scoped>
 .pointer-cursor {
   cursor: pointer; /* Makes the cursor a hand when hovering over the delete icon */
+}
+.table-headline{
+  padding-right: 20px
 }
 </style>

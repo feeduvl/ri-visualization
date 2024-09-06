@@ -39,9 +39,9 @@
                 <td>{{ props.item.projectName }}</td>
               </template>
             </v-data-table>
+            <v-btn dark color="blue" @click="addSelectedIssues()">Add Issues</v-btn>
+            <v-btn dark color="black" @click="closeDialogIssues()">Cancel</v-btn>
           </v-card>
-          <v-btn dark color="blue" @click="addSelectedIssues()">Add Issues</v-btn>
-          <v-btn dark color="black" @click="closeDialogIssues()">Cancel</v-btn>
         </div>
         <div v-if="dialogIssueTypes">
           <v-card>
