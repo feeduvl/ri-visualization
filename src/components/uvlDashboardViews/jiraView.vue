@@ -35,7 +35,7 @@
         <v-layout row wrap align-center>
 
           <!--<label for="maxSimilarity">-->
-            <p class="headline-select-jira-project">
+            <p class="headline-threshold">
               Threshold:
             </p>
           <!--</label>-->
@@ -150,10 +150,10 @@
                 {{ props.item[field] }}
               </td>
               <td>
-                <v-icon>{{ isExpanded(props.index) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }} class="pointer-cursor"</v-icon>
+                <v-icon>{{ isExpanded(props.index) ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
               </td>
               <td>
-                <i class="material-icons delete-icon pointer-cursor" @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
+                <i class="material-icons delete-icon pointer-cursor" style="color: red;" @click.stop="openDeleteOneRequirementDialog(props.item)">delete</i>
               </td>
             </tr>
 
@@ -598,6 +598,11 @@ export default {
 .headline-select-jira-project{
   font-size: 18px;
   margin-bottom: 10px;
+  font-weight: bold;
+}
+.headline-threshold{
+  font-size: 18px;
+  margin-bottom: 0px;
   font-weight: bold;
 }
 .import-elements {

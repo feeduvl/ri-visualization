@@ -1,11 +1,5 @@
 <template>
   <v-container>
-    <v-card>
-      <v-card flat class="header">
-        <v-card-title primary-title>
-          <h1>Start Analysis</h1>
-        </v-card-title>
-      </v-card>
       <v-container>
         <v-layout row wrap>
           <v-flex xs3>
@@ -26,7 +20,6 @@
       </v-container>
       <v-divider />
       <component v-bind:is="component" v-bind:dataset="this.$props.selected_dataset" ref="detectionRef"/>
-    </v-card>
     <!--<v-card>
       <v-card flat class="header">
         <v-card-title>

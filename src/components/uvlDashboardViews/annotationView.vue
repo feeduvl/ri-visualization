@@ -1,98 +1,101 @@
 <template>
-  <div class="container">
+  <v-container class="annotationview-container">
     <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
-
     <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
-    <v-card flat class="header">
-      <v-card-title primary-title>
-        <h2>Selected Annotation Dashboard: {{ $store.state.currentDashboardName }}</h2>
-      </v-card-title>
-    </v-card>
-    <p class="headline-select-jira-project">
-      Select Datasets to use:
-    </p>
-    <div>
-      <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
-                label="Select dataset" item-text="dataset"
-      ></v-select>
-      <v-btn dark color="blue" @click="addDataset()"> ADD
-      </v-btn>
-    </div>
-
-    <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
-    <!--<v-card>
+    <v-card>
       <v-card flat class="header">
         <v-card-title primary-title>
-          <h2>Select File</h2>
+          <h2>Selected Annotation Dashboard: {{ $store.state.currentDashboardName }}</h2>
         </v-card-title>
       </v-card>
       <v-container>
+        <p class="headline-select-jira-project">
+          Select Datasets to use:
+        </p>
         <v-layout row wrap>
-          <v-flex xs4>
-            <input id="file-input-field" type='file' hidden @change="getFileName"/>
-            <v-text-field
-                label="File Name"
-                v-model="fileDisplayName"
-                readonly
-                prepend-icon="attach_file"
-                class="file-name-field"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs3>
-            <label for="file-input-field" class="v-btn v-btn--small theme--light primary file-action-button file-picker-button">Choose
-              file</label>
-            <v-btn small color="primary" :loading="loading" :disabled="loading" @click="uploadFile(fileDisplayName)">Upload</v-btn>
-          </v-flex>
-          <v-flex xs5>
-            <span :style="{'color': 'gray'}">Currently allowed file types: xlsx, csv and txt. The dataset will be saved with its filename. Uploading a dataset which name already exists will update the dataset. For csv and txt the delimiter is set to '|'.
-            <br /> Note: FCIC and RBAI require UTF-8 compatible encodings. Please consider that any typographic errors and unexpected characters may lead to artifacts in the results.</span>
-          </v-flex>
+          <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
+                    label="Select dataset" item-text="dataset"
+          ></v-select>
+          <v-btn class="primary" @click="addDataset()"> ADD
+          </v-btn>
         </v-layout>
+
+        <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
+
+        <div>
+          <StartDetectionHome ref="startDetectionHomeRef" v-bind:selected_dataset="selectedDatasets" class="element1" @updateAnnotationView="updateAnnotationView"></StartDetectionHome>
+        </div>
       </v-container>
-    </v-card> -->
-
-
-    <v-card id="listingWrapper">
-      <v-card flat class="header">
-        <v-card-title primary-title>
-          <h2>Selected Datasets</h2>
-        </v-card-title>
-      </v-card>
-      <v-layout row wrap id="datasetListing">
-        <v-card
-            id="datasetTile"
-            max-width="400"
-            min-width="360"
-            height="100"
-            v-for="dataset in selectedDatasets"
-            v-bind:key="dataset"
-        >
-          <v-card-title><h3>{{ dataset }}</h3></v-card-title>
-          <v-btn small outline color="error" @click="showRemoveDataset(dataset)" class="btnAlign">
-            Remove
-          </v-btn>
-          <v-btn small color="primary" @click="showDataset(dataset)" class="btnAlign">
-            Show
-          </v-btn>
+      <!--<v-card>
+        <v-card flat class="header">
+          <v-card-title primary-title>
+            <h2>Select File</h2>
+          </v-card-title>
         </v-card>
-      </v-layout>
+        <v-container>
+          <v-layout row wrap>
+            <v-flex xs4>
+              <input id="file-input-field" type='file' hidden @change="getFileName"/>
+              <v-text-field
+                  label="File Name"
+                  v-model="fileDisplayName"
+                  readonly
+                  prepend-icon="attach_file"
+                  class="file-name-field"
+              ></v-text-field>
+            </v-flex>
+            <v-flex xs3>
+              <label for="file-input-field" class="v-btn v-btn--small theme--light primary file-action-button file-picker-button">Choose
+                file</label>
+              <v-btn small color="primary" :loading="loading" :disabled="loading" @click="uploadFile(fileDisplayName)">Upload</v-btn>
+            </v-flex>
+            <v-flex xs5>
+              <span :style="{'color': 'gray'}">Currently allowed file types: xlsx, csv and txt. The dataset will be saved with its filename. Uploading a dataset which name already exists will update the dataset. For csv and txt the delimiter is set to '|'.
+              <br /> Note: FCIC and RBAI require UTF-8 compatible encodings. Please consider that any typographic errors and unexpected characters may lead to artifacts in the results.</span>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card> -->
+
+
+      <v-card class="dataset-list">
+        <v-card flat>
+          <v-card-title primary-title>
+            <h2>Selected Datasets</h2>
+          </v-card-title>
+        </v-card>
+        <v-layout row wrap>
+          <v-card
+              id="datasetTile"
+              max-width="400"
+              min-width="360"
+              height="100"
+              v-for="dataset in selectedDatasets"
+              v-bind:key="dataset"
+              class="dataset-tile"
+          >
+            <v-card-title><h3>{{ dataset }}</h3></v-card-title>
+            <v-btn small outline color="error" @click="showRemoveDataset(dataset)" class="btnAlign">
+              Remove
+            </v-btn>
+            <v-btn small color="primary" @click="showDataset(dataset)" class="btnAlign">
+              Show
+            </v-btn>
+          </v-card>
+        </v-layout>
+      </v-card>
+
+
+
+      <v-container>
+        <Annotator :selectedAnnotation="selectedAnnotation" ref ="annotatorRef"/>
+      </v-container>
     </v-card>
-
-    <v-card>
-      <div>
-        <StartDetectionHome ref="startDetectionHomeRef" v-bind:selected_dataset="selectedDatasets" class="element1" @updateAnnotationView="updateAnnotationView"></StartDetectionHome>
-      </div>
-    </v-card>
-
-    <v-container>
-      <Annotator :selectedAnnotation="selectedAnnotation" ref ="annotatorRef"/>
-    </v-container>
-
-  </div>
+  </v-container>
 
 </template>
 
@@ -360,5 +363,11 @@ export default {
 }
 .headline-select-jira-project{
   font-size: 18px;
+}
+.dataset-list{
+  margin-top: 20px;
+}
+.dataset-tile{
+  margin: 20px
 }
 </style>
