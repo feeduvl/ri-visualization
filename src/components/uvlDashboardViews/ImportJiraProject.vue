@@ -7,7 +7,7 @@
         <v-select class="select-issueTypes" v-model="projectName" :items="allAvailableJiraIssues"
                   label="Select project" item-text="name"
         ></v-select>
-        <v-btn dark color="blue" class="import-button" @click="openImportDialog()"> Search
+        <v-btn class="primary" @click="openImportDialog()"> Search
         </v-btn>
         <!--<v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
         </v-btn>-->

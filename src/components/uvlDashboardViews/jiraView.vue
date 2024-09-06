@@ -9,17 +9,17 @@
           <h2>Selected Jira Dashboard: {{ $store.state.currentDashboardName }}</h2>
         </v-card-title>
       </v-card>
-      <v-card>
+      <div>
         <!--<div class="import-elements">
           <div class="import-buttons">-->
             <ImportJiraProject class="element1"></ImportJiraProject>
           <!--</div>
         </div>-->
-      </v-card>
+      </div>
         <v-dialog v-model="isLoadingData" :max-width="300">
           <LoadingView/>
         </v-dialog>
-      <div class="inner-container">
+      <v-container class="inner-container">
         <!--<div class="select-dataset">-->
         <v-layout row wrap>
           <p class="headline-select-jira-project">
@@ -28,7 +28,7 @@
             <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
                       label="Select dataset" item-text="dataset"
             ></v-select>
-            <v-btn dark color="blue" class="import-button" @click="addDataset()"> ADD
+            <v-btn class="primary" @click="addDataset()"> ADD
             </v-btn>
           </v-layout>
         <!--</div>-->
@@ -41,7 +41,7 @@
           <!--</label>-->
           <input id="maxSimilarity" class="chooseSimilarity" type="number" v-model="maxSimilarity" />
         </v-layout>
-      </div>
+      </v-container>
     </v-card>
     <!--<component v-bind:is="component" v-bind:dataset="selectedDataset" />-->
     <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
@@ -91,7 +91,7 @@
             height="100"
             v-for="dataset in selectedDatasets"
             v-bind:key="dataset"
-            class=dataset-tile"
+            class="dataset-tile"
         >
           <v-card-title><h3>{{ dataset }}</h3></v-card-title>
           <v-btn small outline color="error" @click="showRemoveDataset(dataset)" class="btnAlign">
@@ -110,7 +110,7 @@
       </div>
     </v-card>-->
     <div class="d-flex justify-center">
-      <v-btn dark color="red" @click="assignFeedbackToIssues()"> Automatically relate feedback to requirements
+      <v-btn color="red" @click="assignFeedbackToIssues()"> Automatically relate feedback to requirements
       </v-btn>
     </div>
 
@@ -129,7 +129,7 @@
               <label for="showUnassigned" class="label-text">Show requirements without assigned feedback:</label>
             <!--</div>
             <div class="switch-content">-->
-              <v-switch id="showUnassigned" v-model="showUnassigned" @change="getUnassignedIssues"></v-switch>
+              <v-switch id="showUnassigned" class="label-text" v-model="showUnassigned" @change="getUnassignedIssues"></v-switch>
               </v-layout>
       </v-card>
             <!--</div>
@@ -176,11 +176,11 @@
           </template>
 
         </v-data-table>
-      </v-card>
       <div class="export-buttons">
-        <v-subheader>Exporting Data</v-subheader>
-        <v-btn :style="{ backgroundColor: blueFill }" @click="getAssignedDataToExport()"> Export relations Data to CSV </v-btn>
+        <v-btn class="primary" @click="getAssignedDataToExport()"> Export relations Data to CSV </v-btn>
       </div>
+      </v-card>
+
   </v-container>
 
 
@@ -655,5 +655,8 @@ export default {
 }
 .jira-requirements{
   margin-top: 20px;
+}
+.label-text{
+  padding: 5px
 }
 </style>
