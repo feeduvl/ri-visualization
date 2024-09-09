@@ -30,162 +30,165 @@
               <v-layout column>
 
                 <v-card flat class="header">
-                <template
-                        v-if="!annotatorViewingCodeResults">
-                    <v-autocomplete
-                            class="annotator-string-selection annotator-toolbar__document-select"
-                            :items="$store.state.docs"
-                            v-model="annotatorSelectedDoc"
-                            @change="$store.commit('updateDocTokens')"
-                            item-text="name"
-                            return-object
-                            label="Select a Document"
-                            :disabled="showingInput || $store.state.isLoadingAnnotation"
-                            :loading="$store.state.isLoadingAnnotation">
-                    </v-autocomplete>
+                  <v-layout row wrap>
 
-                    <v-pagination v-if="numberOfAvailablePages > 1"
-                            v-model="selectedPage"
-                            :length="numberOfAvailablePages"
-                        :total-visible="Math.min(9, numberOfAvailablePages)">
+                    <template
+                            v-if="!annotatorViewingCodeResults">
+                        <v-autocomplete
+                                class="annotator-string-selection annotator-toolbar__document-select"
+                                :items="$store.state.docs"
+                                v-model="annotatorSelectedDoc"
+                                @change="$store.commit('updateDocTokens')"
+                                item-text="name"
+                                return-object
+                                label="Select a Document"
+                                :disabled="showingInput || $store.state.isLoadingAnnotation"
+                                :loading="$store.state.isLoadingAnnotation">
+                        </v-autocomplete>
 
-                    </v-pagination>
+                        <v-pagination v-if="numberOfAvailablePages > 1"
+                                v-model="selectedPage"
+                                :length="numberOfAvailablePages"
+                            :total-visible="Math.min(9, numberOfAvailablePages)">
 
-                    <v-autocomplete
-                            v-if="!$store.state.sentenceTokenizationEnabledForAnnotation"
-                            chips
-                            multiple
-                            clearable
-                            label="Part of Speech Highlights"
-                            class="annotator-toolbar__pos-select"
-                            :items="pos_tags"
-                            item-text="name"
-                            item-value="tag"
-                            :loading="$store.state.isLoadingAnnotation"
-                            :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
-                            v-model="annotatorPosTags"
-                    >
+                        </v-pagination>
+
+                        <v-autocomplete
+                                v-if="!$store.state.sentenceTokenizationEnabledForAnnotation"
+                                chips
+                                multiple
+                                clearable
+                                label="Part of Speech Highlights"
+                                class="annotator-toolbar__pos-select"
+                                :items="pos_tags"
+                                item-text="name"
+                                item-value="tag"
+                                :loading="$store.state.isLoadingAnnotation"
+                                :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
+                                v-model="annotatorPosTags"
+                        >
+                            <template v-slot:selection="data">
+                                <v-chip
+                                        v-bind="{...data.attrs, color: data.item.color}"
+                                        :input-value="data.selected"
+                                        close
+                                        @input="(function(item) {
+                                        const index = $store.state.selected_pos_tags.indexOf(item.tag)
+                                        const tags = $store.state.selected_pos_tags
+                                        if (index >= 0) {
+                                            tags.splice(index, 1)
+                                        }
+                                        $store.commit('updateSelectedPosTags', tags)
+                                    })(data.item)"
+                                >{{ data.item.name }}
+                                </v-chip>
+                            </template>
+                        </v-autocomplete>
+
+                        <v-autocomplete
+                                chips
+                                multiple
+                                clearable
+                                label="Highlight Tore"
+                                :items="annotation_tores"
+                                :loading="$store.state.isLoadingAnnotation"
+                                :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
+                                v-model="annotatorTores"
+                        >
                         <template v-slot:selection="data">
-                            <v-chip
-                                    v-bind="{...data.attrs, color: data.item.color}"
-                                    :input-value="data.selected"
-                                    close
-                                    @input="(function(item) {
-                                    const index = $store.state.selected_pos_tags.indexOf(item.tag)
-                                    const tags = $store.state.selected_pos_tags
-                                    if (index >= 0) {
-                                        tags.splice(index, 1)
-                                    }
-                                    $store.commit('updateSelectedPosTags', tags)
-                                })(data.item)"
-                            >{{ data.item.name }}
-                            </v-chip>
+                                <v-chip
+                                        v-bind="{...data.attrs, color: getToreHighlightColor(data.item)}"
+                                        :input-value="data.selected"
+                                        close
+                                        @input="(function(item) {
+                                        const index_selected_tores = $store.state.selected_tores.indexOf(item)
+                                        const selectedTores = $store.state.selected_tores
+                                        if (index_selected_tores >= 0) {
+                                            selectedTores.splice(index_selected_tores, 1)
+                                        }
+                                        $store.commit('updateSelectedTores', selectedTores)
+                                    })(data.item)"
+                                >{{ data.item }}
+                                </v-chip>
+                            </template>
+                        </v-autocomplete>
+                    </template>
+
+                    <template
+                            v-else>
+                        <v-card-title primary-title>
+                          <h2>Coding Results View</h2>
+                        </v-card-title>
+                    </template>
+
+                    <v-tooltip bottom
+                               :key="'toolbar_icon'+0">
+                        <template #activator="{on}">
+                            <v-icon v-on="on"
+                                    :disabled="showingInput || $store.state.isLoadingAnnotation"
+                                    @click="showEditConfigurablesPopup"
+                                    medium>
+                                settings
+                            </v-icon>
                         </template>
-                    </v-autocomplete>
+                        Annotation Seoad this tablettings
+                    </v-tooltip>
 
-                    <v-autocomplete
-                            chips
-                            multiple
-                            clearable
-                            label="Highlight Tore"
-                            :items="annotation_tores"
-                            :loading="$store.state.isLoadingAnnotation"
-                            :disabled="$store.state.annotatorInputVisible || $store.state.isLoadingAnnotation"
-                            v-model="annotatorTores"
-                    >
-                    <template v-slot:selection="data">
-                            <v-chip
-                                    v-bind="{...data.attrs, color: getToreHighlightColor(data.item)}"
-                                    :input-value="data.selected"
-                                    close
-                                    @input="(function(item) {
-                                    const index_selected_tores = $store.state.selected_tores.indexOf(item)
-                                    const selectedTores = $store.state.selected_tores
-                                    if (index_selected_tores >= 0) {
-                                        selectedTores.splice(index_selected_tores, 1)
-                                    }
-                                    $store.commit('updateSelectedTores', selectedTores)
-                                })(data.item)"
-                            >{{ data.item }}
-                            </v-chip>
+                    <!--<v-tooltip bottom
+                               :key="'toolbar_icon'+1">
+                        <template #activator="{on}">
+                            <v-icon v-on="on"
+                                    :disabled="showingInput || $store.state.isLoadingAnnotation"
+                                    @click="saveAndClose"
+                                    medium>
+                                exit_to_app
+                            </v-icon>
                         </template>
-                    </v-autocomplete>
-                </template>
+                        <span>Save and exit</span>
+                    </v-tooltip>-->
 
-                  <template
-                          v-else>
-                      <v-card-title primary-title>
-                        <h2>Coding Results View</h2>
-                      </v-card-title>
-                  </template>
+                    <v-tooltip bottom
+                               v-if="!annotatorViewingCodeResults"
+                               :key="'toolbar_icon'+2">
+                        <template #activator="{on}">
+                            <v-icon v-on="on"
+                                    :disabled="showingInput || $store.state.isLoadingAnnotation"
+                                    @click="doSaveAnnotation(false)"
+                                    medium
+                            >
+                                save
+                            </v-icon>
+                        </template>
+                        <span>Save</span>
+                    </v-tooltip>
 
-                  <v-tooltip bottom
-                             :key="'toolbar_icon'+0">
-                      <template #activator="{on}">
-                          <v-icon v-on="on"
-                                  :disabled="showingInput || $store.state.isLoadingAnnotation"
-                                  @click="showEditConfigurablesPopup"
-                                  medium>
-                              settings
-                          </v-icon>
-                      </template>
-                      Annotation Seoad this tablettings
-                  </v-tooltip>
+                    <v-tooltip bottom
+                               :key="'toolbar_icon'+3">
+                        <template #activator="{on}">
+                            <v-icon v-if="!annotatorViewingCodeResults"
+                                    v-on="on"
+                                    :disabled="showingInput || $store.state.isLoadingAnnotation"
+                                    @click="$store.commit('toggleAnnotatorViewingCodes', true)"
+                                    medium
+                            >
+                                visibility
+                            </v-icon>
+                            <v-icon class="annotate-icon"
+                                    v-else
+                                    v-on="on"
+                                    @click="$store.commit('toggleAnnotatorViewingCodes', false)"
+                                    medium
+                            >
+                                mode
+                            </v-icon>
+                        </template>
+                        <span v-if="!annotatorViewingCodeResults">View Codes</span>
+                        <span v-else>Annotate</span>
+                    </v-tooltip>
+                  </v-layout>
+                </v-card>
 
-                  <!--<v-tooltip bottom
-                             :key="'toolbar_icon'+1">
-                      <template #activator="{on}">
-                          <v-icon v-on="on"
-                                  :disabled="showingInput || $store.state.isLoadingAnnotation"
-                                  @click="saveAndClose"
-                                  medium>
-                              exit_to_app
-                          </v-icon>
-                      </template>
-                      <span>Save and exit</span>
-                  </v-tooltip>-->
-
-                  <v-tooltip bottom
-                             v-if="!annotatorViewingCodeResults"
-                             :key="'toolbar_icon'+2">
-                      <template #activator="{on}">
-                          <v-icon v-on="on"
-                                  :disabled="showingInput || $store.state.isLoadingAnnotation"
-                                  @click="doSaveAnnotation(false)"
-                                  medium
-                          >
-                              save
-                          </v-icon>
-                      </template>
-                      <span>Save</span>
-                  </v-tooltip>
-
-                  <v-tooltip bottom
-                             :key="'toolbar_icon'+3">
-                      <template #activator="{on}">
-                          <v-icon v-if="!annotatorViewingCodeResults"
-                                  v-on="on"
-                                  :disabled="showingInput || $store.state.isLoadingAnnotation"
-                                  @click="$store.commit('toggleAnnotatorViewingCodes', true)"
-                                  medium
-                          >
-                              visibility
-                          </v-icon>
-                          <v-icon class="annotate-icon"
-                                  v-else
-                                  v-on="on"
-                                  @click="$store.commit('toggleAnnotatorViewingCodes', false)"
-                                  medium
-                          >
-                              mode
-                          </v-icon>
-                      </template>
-                      <span v-if="!annotatorViewingCodeResults">View Codes</span>
-                      <span v-else>Annotate</span>
-                  </v-tooltip>
-              </v-card>
-
-              <v-container>
+                <v-container>
                     <v-card class="annotator-token-area"
                             v-if="!$store.state.isLoadingAnnotation && !annotatorViewingCodeResults"
                             ref="annotator">
