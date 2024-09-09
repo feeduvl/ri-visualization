@@ -250,7 +250,7 @@
 <script>
 import Token from "@/components/annotator/Token";
 import AnnotatorInput from "@/components/annotator/AnnotatorInput";
-import CodeView from "@/components/annotator/CodeView";
+import CodeView from "@/components/uvlDashboardViews/annotation/CodeView";
 import {Code, Code_user_display_prompt} from "@/components/annotator/code";
 import {mapGetters, mapState} from "vuex";
 import AnnotatorSettings from "@/components/uvlDashboardViews/annotation/AnnotatorSettings";
