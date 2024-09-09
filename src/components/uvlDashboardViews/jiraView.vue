@@ -19,7 +19,7 @@
         <v-dialog v-model="isLoadingData" :max-width="300">
           <LoadingView/>
         </v-dialog>
-      <v-container class="inner-container">
+      <v-container >
         <!--<div class="select-dataset">-->
           <p class="headline-select-jira-project">
             Add Dataset to Dashboard:
@@ -605,25 +605,8 @@ export default {
   margin-bottom: 0px;
   font-weight: bold;
 }
-.import-elements {
-  margin-bottom: 30px;
-}
-.select-dataset {
-  margin-bottom: 20px;
-}
-.select-dataset-row {
-  display: flex;
-  align-items: center; /* Vertically centers the items */
-  gap: 10px; /* Adds some spacing between the select and button */
-}
 .select-issueTypes {
   flex: 1; /* Makes the dropdown take up all available space */
-}
-.import-button {
-  /*padding: 8px 16px;*/
-}
-.main-issue-table{
-  margin-top: 10px;
 }
 .pointer-cursor {
   cursor: pointer; /* Makes the cursor a hand when hovering over the delete icon */
@@ -638,19 +621,11 @@ export default {
   float: left;
   margin-left: 20px;
 }
-.assign_tore_not_allowed {
-  background-color: #ccc !important;
-  pointer-events: none !important;
-  color: #777 !important;
-}
 .jiraview-container{
   margin:0;
   padding-top: 20px;
   padding-left: 0px;
   padding-right: 0px
-}
-.inner-container{
-
 }
 .dataset-list{
   margin-top: 20px;
