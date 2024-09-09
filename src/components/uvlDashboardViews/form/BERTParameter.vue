@@ -146,6 +146,6 @@ export default {
 
 <style scoped>
 .bert-container{
-  margin-left: 0;
+  padding-left: 0;
 }
 </style>

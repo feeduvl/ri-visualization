@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <p class="classifier-headline">
-      Add Dataset to Dashboard:
+      Classification Method
     </p>
 
     <v-layout row wrap>
