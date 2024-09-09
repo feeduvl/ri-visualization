@@ -19,7 +19,6 @@
         </EditConfigurablesDialog>
 
         <AnnotatorSettings
-                v-if="!$store.state.selected_annotation"
                 ref="annotatorSettingsRef">
         </AnnotatorSettings>
 

@@ -59,9 +59,7 @@
       </v-container>
 
     </v-card>
-    <v-container>
-      <Annotator :selectedAnnotation="selectedAnnotation" ref ="annotatorRef"/>
-    </v-container>
+    <Annotator :selectedAnnotation="selectedAnnotation" ref ="annotatorRef"/>
   </v-container>
 
 </template>
