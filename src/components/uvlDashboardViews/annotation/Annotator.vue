@@ -182,66 +182,67 @@
                     <span v-if="!annotatorViewingCodeResults">View Codes</span>
                     <span v-else>Annotate</span>
                 </v-tooltip>
-
-                <v-card class="annotator-token-area"
-                        v-if="!$store.state.isLoadingAnnotation && !annotatorViewingCodeResults"
-                        ref="annotator">
-                    <Token @annotator-token-click="tokenClicked"
-                           @annotator-token-click-shift="tokenShiftClicked"
-                           @annotator-token-click-ctrl="tokenCtrlClicked"
-                           ref="token"
-                           v-for="token_number in tokensThisPage"
-                           :key="selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1"
-                           v-bind="{
-                           ...$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
-                           inSelectedCode: $store.state.token_in_selected_code[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
-                           hasName: $store.state.token_num_name_codes[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1] > 0,
-                           hasTore: $store.state.token_num_tore_codes[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1] > 0,
-                           linkedTogether: isLinking && $store.state.token_linked_together[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
-                           isLinking: isLinking,
-                           algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma?$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma.toLowerCase():''),
-                           show_tore: $store.state.selected_tores.includes(getToreFromToken($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1])),
-                           toreClass: getToreFromToken(($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1])),
-                           show_pos: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos!==null && $store.state.selected_pos_tags.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos),
-                           posClass: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos,
-                           isSentence: $store.state.sentenceTokenizationEnabledForAnnotation,
-                           annotatorInputVisible: $store.state.annotatorInputVisible
-                       }">
-                    </Token>
-                    <br v-for="(_, emptyLineIndex) of [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]"
-                        :key = "'emptyline'+emptyLineIndex">
-                    <AnnotatorInput
-                            class="annotator-input"
-                            :disabled="mustDisambiguateTokenCode"
-                            ref="input_panel"
-                            :panelIsUp="panelIsUp"
-                            @annotator-input-trash-click="delete_selected_code"
-                            @annotator-input__arrow-icon-click="panelIsUp = !panelIsUp"
-                            @remove-dialog-stylerule="removeDialogStylerule"
-                            @show-edit-configurables="showEditConfigurablesPopup"
-                            @reposition-dialog="positionInput"
-                    />
-                    <v-card
-                            class="disambiguation-prompt"
-                            :style="inputFieldPanelLocationStyle"
-                            v-if="mustDisambiguateTokenCode">
-                        <v-list>
-                            <v-subheader>Do something with this token: </v-subheader>
-                            <v-list-tile
-                                    v-for="(item, i) in multipleCodesPromptList"
-                                    :key="'prompt_'+i"
-                                    :style="i===0?'border: red solid 2px':(i===1?'border: green solid 2px':'')"
-                                    @click="disambiguateTokenCode(item, i, this)()">
-                                {{i>1?`Edit Code - ` +codeDisplayPrompt(item):item.name}}
-                            </v-list-tile>
-                        </v-list>
+                <v-card>
+                    <v-card class="annotator-token-area"
+                            v-if="!$store.state.isLoadingAnnotation && !annotatorViewingCodeResults"
+                            ref="annotator">
+                        <Token @annotator-token-click="tokenClicked"
+                               @annotator-token-click-shift="tokenShiftClicked"
+                               @annotator-token-click-ctrl="tokenCtrlClicked"
+                               ref="token"
+                               v-for="token_number in tokensThisPage"
+                               :key="selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1"
+                               v-bind="{
+                               ...$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
+                               inSelectedCode: $store.state.token_in_selected_code[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
+                               hasName: $store.state.token_num_name_codes[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1] > 0,
+                               hasTore: $store.state.token_num_tore_codes[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1] > 0,
+                               linkedTogether: isLinking && $store.state.token_linked_together[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1],
+                               isLinking: isLinking,
+                               algo_lemma: $store.state.selected_algo_result !== null && $store.getters.lemmasFromSelectedResult.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma?$store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].lemma.toLowerCase():''),
+                               show_tore: $store.state.selected_tores.includes(getToreFromToken($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1])),
+                               toreClass: getToreFromToken(($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1])),
+                               show_pos: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos!==null && $store.state.selected_pos_tags.includes($store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos),
+                               posClass: $store.state.tokens[selected_doc.begin_index + (tokensPerPage * (selectedPage - 1)) + token_number - 1].pos,
+                               isSentence: $store.state.sentenceTokenizationEnabledForAnnotation,
+                               annotatorInputVisible: $store.state.annotatorInputVisible
+                           }">
+                        </Token>
+                        <br v-for="(_, emptyLineIndex) of [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]"
+                            :key = "'emptyline'+emptyLineIndex">
+                        <AnnotatorInput
+                                class="annotator-input"
+                                :disabled="mustDisambiguateTokenCode"
+                                ref="input_panel"
+                                :panelIsUp="panelIsUp"
+                                @annotator-input-trash-click="delete_selected_code"
+                                @annotator-input__arrow-icon-click="panelIsUp = !panelIsUp"
+                                @remove-dialog-stylerule="removeDialogStylerule"
+                                @show-edit-configurables="showEditConfigurablesPopup"
+                                @reposition-dialog="positionInput"
+                        />
+                        <v-card
+                                class="disambiguation-prompt"
+                                :style="inputFieldPanelLocationStyle"
+                                v-if="mustDisambiguateTokenCode">
+                            <v-list>
+                                <v-subheader>Do something with this token: </v-subheader>
+                                <v-list-tile
+                                        v-for="(item, i) in multipleCodesPromptList"
+                                        :key="'prompt_'+i"
+                                        :style="i===0?'border: red solid 2px':(i===1?'border: green solid 2px':'')"
+                                        @click="disambiguateTokenCode(item, i, this)()">
+                                    {{i>1?`Edit Code - ` +codeDisplayPrompt(item):item.name}}
+                                </v-list-tile>
+                            </v-list>
+                        </v-card>
                     </v-card>
+                    <CodeView
+                            @page-to-code="pageToCode"
+                            @show-snackbar="doShowSnackbar"
+                            v-if="annotatorViewingCodeResults">
+                    </CodeView>
                 </v-card>
-                <CodeView
-                        @page-to-code="pageToCode"
-                        @show-snackbar="doShowSnackbar"
-                        v-if="annotatorViewingCodeResults">
-                </CodeView>
             </v-card>
 
         </div>
