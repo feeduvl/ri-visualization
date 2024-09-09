@@ -336,6 +336,7 @@
             },
 
             startAnnotating(annotation){
+                console.log("startAnnotating called")
                 this.$store.commit("toggleAnnotatorViewingCodes", false)
                 this.$store.commit("updateSelectedAnnotation", annotation.name)
                 this.$store.dispatch('actionGetSelectedAnnotation');
