@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <p class="headline">
+    <p class="classifier-headline">
       Add Dataset to Dashboard:
     </p>
 
@@ -562,7 +562,7 @@ table.v-table thead th:not(:first-child) {
 .dialog-title {
   font-weight: 500;
 }
-.headline{
+.classifier-headline{
   font-size: 18px;
   margin-bottom: 10px;
   font-weight: bold;

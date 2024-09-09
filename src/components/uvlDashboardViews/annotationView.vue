@@ -388,5 +388,6 @@ export default {
 }
 .element1 {
   flex: 0.8;
+  padding-left: 0;
 }
 </style>
