@@ -182,7 +182,7 @@
                     <span v-if="!annotatorViewingCodeResults">View Codes</span>
                     <span v-else>Annotate</span>
                 </v-tooltip>
-                <v-card>
+                <v-container>
                     <v-card class="annotator-token-area"
                             v-if="!$store.state.isLoadingAnnotation && !annotatorViewingCodeResults"
                             ref="annotator">
@@ -242,7 +242,7 @@
                             @show-snackbar="doShowSnackbar"
                             v-if="annotatorViewingCodeResults">
                     </CodeView>
-                </v-card>
+                </v-container>
             </v-card>
 
         </div>
