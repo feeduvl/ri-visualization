@@ -27,7 +27,9 @@
         v-else>
             <v-card class="annotator-toolbar"
             >
+              <v-layout column>
 
+                <v-card flat class="header">
                 <template
                         v-if="!annotatorViewingCodeResults">
                     <v-autocomplete
@@ -109,9 +111,7 @@
                         </template>
                     </v-autocomplete>
                 </template>
-              <v-layout column>
 
-              <v-card flat class="header">
                   <template
                           v-else>
                       <v-card-title primary-title>
