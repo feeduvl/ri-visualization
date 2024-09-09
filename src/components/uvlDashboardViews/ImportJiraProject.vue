@@ -1,13 +1,13 @@
 <template>
   <v-container>
       <p class="headline-select-jira-project">
-      Select Project to import:
+      Select JIRA Project to import:
       </p>
       <v-layout row wrap>
         <v-select class="select-issueTypes" v-model="projectName" :items="allAvailableJiraIssues"
                   label="Select project" item-text="name"
         ></v-select>
-        <v-btn class="primary" @click="openImportDialog()"> Search
+        <v-btn class="primary" @click="openImportDialog()"> Add Issues from Project
         </v-btn>
         <!--<v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
         </v-btn>-->

@@ -59,7 +59,7 @@
       </v-container>
 
     </v-card>
-    <Annotator :selectedAnnotation="selectedAnnotation" ref ="annotatorRef"/>
+    <Annotator :selectedAnnotation="selectedAnnotation" ref ="annotatorRef" class="annotator"/>
   </v-container>
 
 </template>
@@ -352,5 +352,8 @@ export default {
 .element1 {
   flex: 0.8;
   padding-left: 0;
+}
+.annotator {
+  margin-top: 20px;
 }
 </style>
