@@ -26,6 +26,33 @@
 
         <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
 
+        <v-card class="dataset-list">
+          <v-card flat>
+            <v-card-title primary-title>
+              <h2>Selected Datasets</h2>
+            </v-card-title>
+          </v-card>
+          <v-layout row wrap>
+            <v-card
+                id="datasetTile"
+                max-width="400"
+                min-width="360"
+                height="100"
+                v-for="dataset in selectedDatasets"
+                v-bind:key="dataset"
+                class="dataset-tile"
+            >
+              <v-card-title><h3>{{ dataset }}</h3></v-card-title>
+              <v-btn small outline color="error" @click="showRemoveDataset(dataset)" class="btnAlign">
+                Remove
+              </v-btn>
+              <v-btn small color="primary" @click="showDataset(dataset)" class="btnAlign">
+                Show
+              </v-btn>
+            </v-card>
+          </v-layout>
+        </v-card>
+
         <div>
           <StartDetectionHome ref="startDetectionHomeRef" v-bind:selected_dataset="selectedDatasets" class="element1" @updateAnnotationView="updateAnnotationView"></StartDetectionHome>
         </div>
@@ -62,32 +89,7 @@
       </v-card> -->
 
 
-      <v-card class="dataset-list">
-        <v-card flat>
-          <v-card-title primary-title>
-            <h2>Selected Datasets</h2>
-          </v-card-title>
-        </v-card>
-        <v-layout row wrap>
-          <v-card
-              id="datasetTile"
-              max-width="400"
-              min-width="360"
-              height="100"
-              v-for="dataset in selectedDatasets"
-              v-bind:key="dataset"
-              class="dataset-tile"
-          >
-            <v-card-title><h3>{{ dataset }}</h3></v-card-title>
-            <v-btn small outline color="error" @click="showRemoveDataset(dataset)" class="btnAlign">
-              Remove
-            </v-btn>
-            <v-btn small color="primary" @click="showDataset(dataset)" class="btnAlign">
-              Show
-            </v-btn>
-          </v-card>
-        </v-layout>
-      </v-card>
+
 
 
 
@@ -363,6 +365,8 @@ export default {
 }
 .headline-select-jira-project{
   font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 .dataset-list{
   margin-top: 20px;
@@ -372,5 +376,17 @@ export default {
 }
 .blue-bg{
   background-color: rgb(0, 189, 187)
+}
+.annotationview-container{
+  margin:0;
+  padding-top: 20px;
+  padding-left: 0px;
+  padding-right: 0px
+}
+.select-issueTypes {
+  flex: 1; /* Makes the dropdown take up all available space */
+}
+.element1 {
+  flex: 0.8;
 }
 </style>
