@@ -19,10 +19,12 @@
         </EditConfigurablesDialog>
 
         <AnnotatorSettings
-                ref="annotatorSettingsRef">
+            v-if="!$store.state.selected_annotation"
+            ref="annotatorSettingsRef">
         </AnnotatorSettings>
 
-        <div class="annotator">
+        <div class="annotator"
+        v-else>
             <v-card class="annotator-toolbar"
             >
 
@@ -812,7 +814,7 @@ export default {
                 //this.$store.commit("resetAnnotator")
                 console.log(this.$store.state.selected_annotation)
                 console.log(this.$refs.annotatorSettingsRef)
-                this.$refs.annotatorSettingsRef.startAnnotating(annotation)
+                this.$refs.annotatorSettingsRef.viewCodeResults(annotation)
                 //this.$refs.annotatorSettingsRef2.startAnnotating(annotation)
             }
         }
