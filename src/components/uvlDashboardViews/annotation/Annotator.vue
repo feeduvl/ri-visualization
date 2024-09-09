@@ -111,10 +111,11 @@
                 </template>
                 <template
                         v-else>
-                    <span class="view-codes-header"
-                    >
-                        Coding Results View
-                    </span>
+                  <v-card flat class="header">
+                    <v-card-title primary-title>
+                      <h2>Coding Results View</h2>
+                    </v-card-title>
+                  </v-card>
                 </template>
 
                 <v-tooltip bottom
