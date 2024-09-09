@@ -128,7 +128,7 @@
       </v-card>
     </v-dialog>
     <div>
-      <v-btn dark color="red" @click="startClassifier()"> Classify
+      <v-btn dark color="red" @click="startClassifier()"> Extract Usage Information
       </v-btn>
     </div>
   </v-container>

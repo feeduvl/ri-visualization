@@ -7,14 +7,14 @@
       <LoadingView/>
     </v-dialog>
     <v-card>
-      <v-card flat class="header">
+      <v-card flat class="header blue-bg">
         <v-card-title primary-title>
-          <h2>Selected Annotation Dashboard: {{ $store.state.currentDashboardName }}</h2>
+          <h2>{{ $store.state.currentDashboardName }}</h2>
         </v-card-title>
       </v-card>
       <v-container>
         <p class="headline-select-jira-project">
-          Select Datasets to use:
+          Add Dataset to Dashboard:
         </p>
         <v-layout row wrap>
           <v-select class="select-issueTypes" v-model="selectedDatasetName" :items="datasets"
@@ -369,5 +369,8 @@ export default {
 }
 .dataset-tile{
   margin: 20px
+}
+.blue-bg{
+  background-color: rgb(0, 189, 187)
 }
 </style>

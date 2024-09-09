@@ -50,18 +50,6 @@
                     </v-pagination>
 
                     <v-autocomplete
-                            class="annotator-string-selection annotator-toolbar__algo-results-select"
-                            :items="$store.getters.annotationAlgoResults"
-                            item-text="name"
-                            return-object
-                            v-model="annotatorAlgoResult"
-                            label="Highlight Algorithm Results"
-                            :disabled="showingInput || $store.state.isLoadingAnnotation"
-                            :loading="$store.state.isLoadingAnnotation"
-                            clearable>
-                    </v-autocomplete>
-
-                    <v-autocomplete
                             v-if="!$store.state.sentenceTokenizationEnabledForAnnotation"
                             chips
                             multiple
@@ -826,7 +814,7 @@ export default {
                 //this.$store.commit("resetAnnotator")
                 console.log(this.$store.state.selected_annotation)
                 console.log(this.$refs.annotatorSettingsRef)
-                this.$refs.annotatorSettingsRef.viewCodeResults(annotation)
+                this.$refs.annotatorSettingsRef.startAnnotating(annotation)
                 //this.$refs.annotatorSettingsRef2.startAnnotating(annotation)
             }
         }
