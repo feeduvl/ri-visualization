@@ -1,134 +1,64 @@
 <template>
   <v-container>
-      <v-container>
-        <v-layout row wrap>
-          <v-flex xs3>
-            <v-select v-model="selectedMethod" :items="runMethods" item-text="displayName" item-value="name"
-              label="Method">
-            </v-select>
-          </v-flex>
-          <v-flex xs1 />
-          <v-flex xs3 id="service-status">
-            <b>Status: <span :style="{ 'color': serviceColor }">{{ serviceStatus }}</span></b>
-          </v-flex>
-          <v-flex xs1 />
-          <!--<v-flex xs3>
-            <v-select v-model="selectedDataset" :items="datasets" label="Dataset">
-            </v-select>
-          </v-flex>-->
-        </v-layout>
-      </v-container>
+    <p class="headline">
+      Add Dataset to Dashboard:
+    </p>
+
+    <v-layout row wrap>
+      <v-flex xs3>
+        <v-select v-model="selectedMethod" :items="runMethods" item-text="displayName" item-value="name"
+          label="Method">
+        </v-select>
+      </v-flex>
+      <v-flex xs1 />
+      <v-flex xs3 id="service-status">
+        <b>Status: <span :style="{ 'color': serviceColor }">{{ serviceStatus }}</span></b>
+      </v-flex>
+      <v-flex xs1 />
+    </v-layout>
+
       <v-divider />
       <component v-bind:is="component" v-bind:dataset="this.$props.selected_dataset" ref="detectionRef"/>
-    <!--<v-card>
-      <v-card flat class="header">
-        <v-card-title>
-          <h1>{{ cardTableTitle }}</h1>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-icon @click="reloadResults" v-bind="attrs" v-on="on" id="reload-btn">
-                refresh
-              </v-icon>
-            </template>
-            <span>Reload Results</span>
-          </v-tooltip>
-          <v-spacer></v-spacer>
-          <v-spacer></v-spacer>
-          <v-spacer></v-spacer>
-          <v-text-field v-model="search" append-icon="search" label="Search for Run Name" single-line hide-details
-            clearable></v-text-field>
-        </v-card-title>
-      </v-card>
-      <v-data-table :headers="tableHeaders" :items="filteredResults" :pagination.sync="pagination" :loading="loading"
-        :search="search">
-        <template slot="items" slot-scope="props">
-          <tr>
-            <td style="text-align:center">{{
-              props.item.started_at.replace("Z", "").replace("T", " ").substring(0, 19)
-            }}
-            </td>
-            <td>{{ getDisplayName(props.item.method) }}</td>
-            <td>{{ props.item.dataset_name }}</td>
-            <td>{{ displayParameter(props.item.params) }}</td>
-            <td>{{ displayRunName(props.item.name) }}</td>
-            <td><span :style="{ 'color': getStatusColor(props.item.status) }">{{ props.item.status.toUpperCase() }}</span>
-            </td>
-            <td>{{ displayScore(props.item) }}</td>
-            <td><span v-if="props.item.status !== 'scheduled' && props.item.status !== 'started'">
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-icon small @click="showResult(props.item)" v-bind="attrs" v-on="on">
-                      visibility
-                    </v-icon>
-                  </template>
-                  <span>Show Result</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-icon small @click="showEditName(props.item)" v-bind="attrs" v-on="on">
-                      edit
-                    </v-icon>
-                  </template>
-                  <span>Edit Name</span>
-                </v-tooltip>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-icon small @click="showDeleteResult(props.item)" v-bind="attrs" v-on="on">
-                      delete
-                    </v-icon>
-                  </template>
-                  <span>Delete Result</span>
-                </v-tooltip>
-              </span>
-              <span v-else>-</span>
-            </td>
-          </tr>
-        </template>
-      </v-data-table>
-    </v-card>-->
+
     <v-snackbar v-model="deleteSnackbarVisible" :timeout="deleteSnackbarTimeout" :top=true>
       Delete Result {{ resultToDelete.name }}?
-
       <v-btn color="error" small :loading="deleteBtn" :disabled="deleteBtn" @click="deleteResult">
         Confirm
       </v-btn>
-
       <v-btn color="primary" small @click="deleteSnackbarVisible = false">
         Cancel
       </v-btn>
     </v-snackbar>
+
     <v-snackbar v-model="snackbarVisible" :timeout="snackbarTimeout" :top=true>
       {{ snackbarText }}
-
       <v-btn color="blue" text @click="closeSnackbar">
         Close
       </v-btn>
     </v-snackbar>
+
     <v-dialog v-model="editDialogVisible" max-width="290">
       <v-card>
         <v-card-title class="text-h5 dialog-title">
           Edit Result Name
         </v-card-title>
-
         <v-card-text>
           <v-text-field v-model="newResultName" label="Name" single-line hide-details clearable></v-text-field>
         </v-card-text>
-
         <v-card-actions>
           <v-spacer></v-spacer>
-
           <v-btn color="primary" text @click="editName" :loading="editBtn" :disabled="editBtn">
             Edit
           </v-btn>
-
           <v-btn color="error" text @click="editDialogVisible = false">
             Cancel
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+
     <div>
-      <v-btn dark color="red" @click="startClassifier()"> Extract Usage Information
+      <v-btn color="red" @click="startClassifier()"> Extract Usage Information
       </v-btn>
     </div>
   </v-container>
@@ -631,5 +561,10 @@ table.v-table thead th:not(:first-child) {
 
 .dialog-title {
   font-weight: 500;
+}
+.headline{
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 </style>
