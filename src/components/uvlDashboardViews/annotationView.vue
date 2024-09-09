@@ -57,46 +57,11 @@
           <StartDetectionHome ref="startDetectionHomeRef" v-bind:selected_dataset="selectedDatasets" class="element1" @updateAnnotationView="updateAnnotationView"></StartDetectionHome>
         </div>
       </v-container>
-      <!--<v-card>
-        <v-card flat class="header">
-          <v-card-title primary-title>
-            <h2>Select File</h2>
-          </v-card-title>
-        </v-card>
-        <v-container>
-          <v-layout row wrap>
-            <v-flex xs4>
-              <input id="file-input-field" type='file' hidden @change="getFileName"/>
-              <v-text-field
-                  label="File Name"
-                  v-model="fileDisplayName"
-                  readonly
-                  prepend-icon="attach_file"
-                  class="file-name-field"
-              ></v-text-field>
-            </v-flex>
-            <v-flex xs3>
-              <label for="file-input-field" class="v-btn v-btn--small theme--light primary file-action-button file-picker-button">Choose
-                file</label>
-              <v-btn small color="primary" :loading="loading" :disabled="loading" @click="uploadFile(fileDisplayName)">Upload</v-btn>
-            </v-flex>
-            <v-flex xs5>
-              <span :style="{'color': 'gray'}">Currently allowed file types: xlsx, csv and txt. The dataset will be saved with its filename. Uploading a dataset which name already exists will update the dataset. For csv and txt the delimiter is set to '|'.
-              <br /> Note: FCIC and RBAI require UTF-8 compatible encodings. Please consider that any typographic errors and unexpected characters may lead to artifacts in the results.</span>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-card> -->
 
-
-
-
-
-
-      <v-container>
-        <Annotator :selectedAnnotation="selectedAnnotation" ref ="annotatorRef"/>
-      </v-container>
     </v-card>
+    <v-container>
+      <Annotator :selectedAnnotation="selectedAnnotation" ref ="annotatorRef"/>
+    </v-container>
   </v-container>
 
 </template>

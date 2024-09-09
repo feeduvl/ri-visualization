@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container class="bert-container">
         <v-form ref="form" v-model="formValid">
             <v-layout row wrap>
                 <v-flex xs3>
@@ -144,4 +144,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.bert-container{
+  margin-left: 0;
+}
+</style>
