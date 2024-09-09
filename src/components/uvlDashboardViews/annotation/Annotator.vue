@@ -22,8 +22,7 @@
                 ref="annotatorSettingsRef">
         </AnnotatorSettings>
 
-        <div class="annotator"
-             v-else>
+        <div class="annotator">
             <v-card class="annotator-toolbar"
             >
 
