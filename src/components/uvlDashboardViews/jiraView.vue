@@ -146,7 +146,7 @@
                       >
           <template slot="items" slot-scope="props">
             <tr @click="toggleExpand(props.index)">
-              <td v-for="field in Object.keys(props.item)" :key="field" class="text-xs-left">
+              <td v-for="field in headers" :key="field" class="text-xs-left">
                 {{ props.item[field] }}
               </td>
               <td>
