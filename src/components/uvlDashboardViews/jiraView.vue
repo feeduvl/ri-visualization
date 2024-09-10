@@ -146,7 +146,7 @@
                       >
           <template slot="items" slot-scope="props">
             <tr @click="toggleExpand(props.index)">
-              <td v-for="field in headers" :key="field" class="text-xs-left">
+              <td v-for="field in Object.keys(props.item)" :key="field" class="text-xs-left">
                 {{ props.item[field] }}
               </td>
               <td>
@@ -240,9 +240,9 @@ export default {
       showUnassigned: false,
       maxSimilarity: 0,
       headers: [
+        {text: "Description", value: "description", sortable: false},
         {text: "Requirement Name", value: "key", sortable: false},
         {text: "Summary", value: "summary", sortable: false},
-        {text: "Description", value: "description", sortable: false},
         {text: "Requirement Type", value: "issueType", sortable: false},
         {text: "Project Name", value: "projectName", sortable: false},
       ],
