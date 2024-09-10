@@ -241,10 +241,10 @@ export default {
       maxSimilarity: 0,
       headers: [
         {text: "Description", value: "description", sortable: false},
-        {text: "Requirement Name", value: "key", sortable: false},
-        {text: "Summary", value: "summary", sortable: false},
         {text: "Requirement Type", value: "issueType", sortable: false},
+        {text: "Requirement Name", value: "key", sortable: false},
         {text: "Project Name", value: "projectName", sortable: false},
+        {text: "Summary", value: "summary", sortable: false},
       ],
 
       pagination: {
