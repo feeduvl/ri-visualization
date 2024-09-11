@@ -509,6 +509,7 @@ export default {
         await this.$store.dispatch("actionDeleteIssue", {projectName, issueKey});
         this.getAllIssues();
         this.getProjectNames();
+        await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
         this.itemToDelete = []
         this.deleteOneRequirement = false
       } catch (error) {
