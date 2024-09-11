@@ -3,6 +3,21 @@
     <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
+    <v-dialog v-model="deleteOneRequirement" :max-width="300" class="delete-all-issues">
+      <v-card>
+        <v-card-title>
+          <h3>Are you sure you want to delete this requirement?</h3>
+        </v-card-title>
+        <v-card-actions>
+          <v-btn color="red" @click="deleteIssue">
+            Delete
+          </v-btn>
+          <v-btn dark color="black" @click="dontDeleteIssues()">
+            Cancel
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-card>
       <v-card flat class="header blue-bg">
         <v-card-title primary-title>
@@ -483,7 +498,27 @@ export default {
       this.selectedDatasets = this.$store.state.storedDatasets
       this.maxSimilarity = this.$store.state.storedThreshold
       this.getAllIssues()
-    }
+    },
+    async deleteIssue(){
+      try {
+        const projectName = this.itemToDelete.projectName
+        const issueKey = this.itemToDelete.key
+        await this.$store.dispatch("actionDeleteIssue", {projectName, issueKey});
+        this.getAllIssues();
+        this.getProjectNames();
+        this.itemToDelete = []
+        this.deleteOneRequirement = false
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    },
+    // Close Delete Dialogs
+    dontDeleteIssues(){
+      this.deleteAllIs = false
+      this.deleteOneRequirement = false
+      this.deleteAllRequirementsByProjectName = false
+      this.deleteSavedRelations = false
+    },
   },
   watch: {
     currentDashboardName(newVal, oldVal) {
