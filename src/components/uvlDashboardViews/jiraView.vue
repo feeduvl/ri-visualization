@@ -340,6 +340,9 @@ export default {
     getFileName() {
       this.uploadedFile = this.fileInputField.files[0];
     },
+    getProjectNames() {
+      this.$store.dispatch("actionGetImportedJiraProjects")
+    },
     displaySnackbar(message) {
       this.snackbarText = message;
       this.snackbarVisible = true;
