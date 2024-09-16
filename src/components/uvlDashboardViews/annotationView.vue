@@ -22,6 +22,14 @@
           ></v-select>
           <v-btn class="primary" @click="addDataset()"> ADD
           </v-btn>
+
+          <!-- File input (hidden) -->
+          <input id="file-input-field" type="file" ref="fileInput" @change="handleFileSelection" style="display: none;"/>
+
+          <!-- Label for the file input, acting as a button -->
+          <label for="file-input-field" class="v-btn theme--light primary file-action-button file-picker-button">
+            Choose file
+          </label>
         </v-layout>
 
         <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
@@ -131,7 +139,13 @@ export default {
       console.log(this.importDialog)
       this.$emit('toggleImport', !this.importDialog);
     },*/
-
+    handleFileSelection(event) {
+      // Get the selected file
+      const file = event.target.files[0];
+      if (file) {
+        this.uploadFile(file);
+      }
+    },
     updateAnnotationView (annotation) {
       console.log("annotationView knows it should update")
       this.$refs.annotatorRef.updateAnnotation(annotation)
@@ -150,20 +164,18 @@ export default {
         this.$store.dispatch("actionGetIssueTypesByProjectNameFromJira", this.projectName)
       }
     },
-    async uploadFile() {
-      if (this.fileInputField.files[0] === undefined) {
-        this.displaySnackbar("Select a file first!");
-        setTimeout(() => {  this.closeSnackbar(); }, SNACKBAR_DISPLAY_TIME);
-      } else if (!(this.fileInputField.files[0].name.endsWith(".csv")) &&
-          !(this.fileInputField.files[0].name.endsWith(".txt")) &&
-          !(this.fileInputField.files[0].name.endsWith(".xlsx"))
+    async uploadFile(file) {
+      let filename = file.name
+      if (!(filename.endsWith(".csv")) &&
+          !(filename.endsWith(".txt")) &&
+          !(filename.endsWith(".xlsx"))
       ) {
         this.displaySnackbar("File type not allowed!");
         setTimeout(() => {  this.closeSnackbar(); }, SNACKBAR_DISPLAY_TIME);
       } else {
         this.loading = true;
         let formData = new FormData();
-        formData.append('file', this.uploadedFile);
+        formData.append('file', file);
         axios.post(POST_UPLOAD_DATASET_ENDPOINT,
             formData,
             {
@@ -188,8 +200,9 @@ export default {
           this.loading = false;
         });
       }
-      console.log(this.uploadedFile['name']);
-      this.displaySnackbar("Please select your uploaded dataset from the dropdown menu.");
+      console.log(filename.split('.')[0]);
+      this.selectedDatasetName = filename.split('.')[0]
+      this.addDataset()
     },
     getFileName() {
       this.uploadedFile = this.fileInputField.files[0];
@@ -216,8 +229,12 @@ export default {
       this.$router.push("/dataset");
     },
     addDataset() {
-      if (!this.selectedDatasets.includes(this.selectedDatasetName,0)) {
-        this.selectedDatasets.push(this.selectedDatasetName);
+      if(this.selectedDatasetName) {
+        if (!this.selectedDatasets.includes(this.selectedDatasetName, 0)) {
+          this.selectedDatasets.push(this.selectedDatasetName);
+        }
+      } else {
+        this.displaySnackbar("Please select a dataset first.")
       }
 
     },
