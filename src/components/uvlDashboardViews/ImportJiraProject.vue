@@ -123,6 +123,7 @@ export default {
       search: "",
       selectedIssuesTypes: [],
       selectedIssues: [],
+      deleteAllIs: false,
     }
   },
   methods:{
