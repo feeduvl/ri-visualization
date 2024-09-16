@@ -382,8 +382,12 @@ export default {
       this.$router.push("/dataset");
     },
     addDataset() {
-      if (!this.selectedDatasets.includes(this.selectedDatasetName,0)) {
-        this.selectedDatasets.push(this.selectedDatasetName);
+      if(this.selectedDatasetName) {
+        if (!this.selectedDatasets.includes(this.selectedDatasetName, 0)) {
+          this.selectedDatasets.push(this.selectedDatasetName);
+        }
+      } else {
+        this.displaySnackbar("Please select a dataset first.")
       }
 
     },
