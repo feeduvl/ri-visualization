@@ -300,7 +300,7 @@ export default {
       console.log(file)
       if (file) {
         // Automatically call the uploadFile method
-        this.uploadFile(file.name);
+        this.uploadFile(file);
       }
     },
 
@@ -318,7 +318,8 @@ export default {
         this.$store.dispatch("actionGetIssueTypesByProjectNameFromJira", this.projectName)
       }
     },
-    async uploadFile(filename) {
+    async uploadFile(file) {
+      filename = file.name
       if (!(filename.endsWith(".csv")) &&
           !(filename.endsWith(".txt")) &&
           !(filename.endsWith(".xlsx"))
@@ -328,7 +329,7 @@ export default {
       } else {
         this.loading = true;
         let formData = new FormData();
-        formData.append('file', filename);
+        formData.append('file', file);
         axios.post(POST_UPLOAD_DATASET_ENDPOINT,
             formData,
             {
