@@ -291,6 +291,9 @@ export default {
       deleteOneRequirement: false,
       itemToDelete: [],
       expandablePage: 1, // Page number of expandable
+      snackbarVisible: false,
+      snackbarTimeout: 0,
+      snackbarText: "",
     }
   },
   methods:{

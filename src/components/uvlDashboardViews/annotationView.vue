@@ -137,7 +137,10 @@ export default {
       selectedDatasetName: "",
       runMethods: DASHBOARD_METHODS,
       showUnassigned: false,
-      selectedAnnotation: ""
+      selectedAnnotation: "",
+      snackbarVisible: false,
+      snackbarTimeout: 0,
+      snackbarText: "",
     }
   },
   methods:{
