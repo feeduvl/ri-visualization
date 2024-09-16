@@ -34,7 +34,7 @@
       <p v-if="$store.state.issuesHaveChanged" class="relation-reload-notification" style="color: red;">
         The relation needs to be restarted in order to make the changed issue selection effective.
       </p>
-      <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
+      <p v-if="!isProjectSelected" class="warning_text" style="color: red">{{ warning }}</p>
 
 
 
@@ -284,5 +284,8 @@ export default {
   display: flex;
   align-items: center; /* Vertically centers the items */
   gap: 10px; /* Adds some spacing between the select and button */
+}
+.warning_text {
+  color: red;
 }
 </style>

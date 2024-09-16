@@ -31,7 +31,7 @@
           </v-flex>
         </v-layout>
       </v-container>
-      <p v-if="warningMessage1" class="warning">{{warningMessage1}}</p>
+      <p v-if="warningMessage1" class="warning_text">{{warningMessage1}}</p>
     </v-card>
 
     <div>
@@ -490,7 +490,7 @@ export default {
   font-size: 1.5rem; /* Larger font for the subheader */
   margin-bottom: 10px;
 }
-.warning {
+.warning_text {
   color: red;
 }
 .dropdown-item {
