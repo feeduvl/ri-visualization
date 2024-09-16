@@ -1,5 +1,12 @@
 <template>
   <v-container class="jiraview-container">
+    <v-snackbar v-model="snackbarVisible" :timeout="snackbarTimeout" :top=true>
+      {{ snackbarText }}
+
+      <v-btn small color="primary" text @click="closeSnackbar">
+        Close
+      </v-btn>
+    </v-snackbar>
     <v-dialog v-model="isLoadingData" :max-width="300">
       <LoadingView/>
     </v-dialog>
