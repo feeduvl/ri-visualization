@@ -31,6 +31,9 @@
         <!--<v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
         </v-btn>-->
       </v-layout>
+      <p v-if="$store.state.issuesHaveChanged" class="relation-reload-notification" style="color: red;">
+        The relation needs to be restarted in order to make the changed issue selection effective.
+      </p>
       <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
 
 
@@ -155,6 +158,7 @@ export default {
       await this.$store.dispatch("actionAddSelectedIssues", {selectedIssuesArray})
       this.selectedIssues = []
       this.toggleImport()
+      this.$store.commit('setIssuesHaveChanged', true);
     },
     closeDialogIssueTypes() {
       this.openDialog = false

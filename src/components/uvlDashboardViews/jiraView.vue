@@ -398,6 +398,7 @@ export default {
       this.$store.commit('setDashboardData', data_to_store)
       await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
       console.log("updated saved_data")
+      this.$store.commit('setIssuesHaveChanged', false);
       this.getAllIssues()
     },
     getAllIssues() {
