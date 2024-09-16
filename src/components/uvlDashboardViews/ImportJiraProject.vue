@@ -204,8 +204,8 @@ export default {
       this.deleteAllIs = true
     },
     getAllIssues() {
-      let page = this.pagination.page
-      let size = this.pagination.rowsPerPage
+      let page = 1 //this.pagination.page
+      let size = 10000 //this.pagination.rowsPerPage
       this.$store.dispatch("actionGetAllIssues", {page, size})
     },
     getProjectNames() {
