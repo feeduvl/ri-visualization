@@ -45,6 +45,14 @@
             ></v-select>
             <v-btn class="primary" @click="addDataset()"> ADD
             </v-btn>
+
+            <!-- File input (hidden) -->
+            <input id="file-input-field" type="file" ref="fileInput" @change="handleFileSelection" style="display: none;"/>
+
+            <!-- Label for the file input, acting as a button -->
+            <label for="file-input-field" class="v-btn v-btn--small theme--light primary file-action-button file-picker-button">
+              Choose file
+            </label>
         </v-layout>
         <!--</div>-->
         <v-layout row wrap align-center>
@@ -215,6 +223,7 @@ import {MUTATE_SELECTED_DATASET_OUTSIDE, MUTATE_SELECTED_RESULT} from "@/store/t
 import {mapGetters} from "vuex";
 import axios from "axios";
 import IssueDetails from "./issueDetails.vue";
+import {loadDatasets} from "../../RESTcalls";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -282,6 +291,18 @@ export default {
       console.log(this.importDialog)
       this.$emit('toggleImport', !this.importDialog);
     },*/
+    handleFileSelection(event) {
+      // Get the selected file (optional: store file data)
+      const file = event.target.files[0];
+
+      // Update the file display name (if needed)
+      if (file) {
+        this.fileDisplayName = file.name;
+        // Automatically call the uploadFile method
+        this.uploadFile(this.fileDisplayName);
+      }
+    },
+
     getAllJiraProjects() {
       this.$store.dispatch("actionGetAllJiraProjects")
     },
@@ -296,20 +317,17 @@ export default {
         this.$store.dispatch("actionGetIssueTypesByProjectNameFromJira", this.projectName)
       }
     },
-    async uploadFile() {
-      if (this.fileInputField.files[0] === undefined) {
-        this.displaySnackbar("Select a file first!");
-        setTimeout(() => {  this.closeSnackbar(); }, SNACKBAR_DISPLAY_TIME);
-      } else if (!(this.fileInputField.files[0].name.endsWith(".csv")) &&
-          !(this.fileInputField.files[0].name.endsWith(".txt")) &&
-          !(this.fileInputField.files[0].name.endsWith(".xlsx"))
+    async uploadFile(filename) {
+      if (!(filename.endsWith(".csv")) &&
+          !(filename.endsWith(".txt")) &&
+          !(filename.endsWith(".xlsx"))
       ) {
         this.displaySnackbar("File type not allowed!");
         setTimeout(() => {  this.closeSnackbar(); }, SNACKBAR_DISPLAY_TIME);
       } else {
         this.loading = true;
         let formData = new FormData();
-        formData.append('file', this.uploadedFile);
+        formData.append('file', filename);
         axios.post(POST_UPLOAD_DATASET_ENDPOINT,
             formData,
             {
@@ -321,9 +339,6 @@ export default {
           if (response.status > 200 || response.status < 300) {
             this.displaySnackbar(response.data.message);
             setTimeout(() => {  this.closeSnackbar(); }, SNACKBAR_DISPLAY_TIME);
-            this.fileInputField.value = null;
-            // Reset file name display
-            this.getFileName();
             loadDatasets(this.$store);
           } else {
             this.displaySnackbar("Error with file upload!");
@@ -335,10 +350,8 @@ export default {
         });
       }
       console.log(this.uploadedFile['name']);
+
       this.displaySnackbar("Please select your uploaded dataset from the dropdown menu.");
-    },
-    getFileName() {
-      this.uploadedFile = this.fileInputField.files[0];
     },
     getProjectNames() {
       this.$store.dispatch("actionGetImportedJiraProjects")
