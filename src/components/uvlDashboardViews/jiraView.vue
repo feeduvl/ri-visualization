@@ -319,7 +319,7 @@ export default {
       }
     },
     async uploadFile(file) {
-      filename = file.name
+      let filename = file.name
       if (!(filename.endsWith(".csv")) &&
           !(filename.endsWith(".txt")) &&
           !(filename.endsWith(".xlsx"))
