@@ -50,7 +50,7 @@
             <input id="file-input-field" type="file" ref="fileInput" @change="handleFileSelection" style="display: none;"/>
 
             <!-- Label for the file input, acting as a button -->
-            <label for="file-input-field" class="v-btn v-btn--small theme--light primary file-action-button file-picker-button">
+            <label for="file-input-field" class="v-btn theme--light primary file-action-button file-picker-button">
               Choose file
             </label>
         </v-layout>
@@ -296,10 +296,11 @@ export default {
       const file = event.target.files[0];
 
       // Update the file display name (if needed)
+      console.log("handlefileselection triggered")
+      console.log(file)
       if (file) {
-        this.fileDisplayName = file.name;
         // Automatically call the uploadFile method
-        this.uploadFile(this.fileDisplayName);
+        this.uploadFile(file);
       }
     },
 
@@ -568,12 +569,6 @@ export default {
     ...mapGetters({
       datasets: 'datasets'
     }),
-    fileDisplayName() {
-      if (this.uploadedFile) {
-        return this.uploadedFile.name;
-      }
-      return ""
-    },
     getIssues() {
       if (this.showUnassigned){
         if(this.search !== ""){
