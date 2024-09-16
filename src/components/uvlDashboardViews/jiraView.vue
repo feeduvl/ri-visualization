@@ -351,9 +351,11 @@ export default {
           this.loading = false;
         });
       }
-      console.log(this.uploadedFile['name']);
+      console.log(filename.split('.')[0]);
+      this.selectedDatasetName = filename.split('.')[0]
+      this.addDataset()
 
-      this.displaySnackbar("Please select your uploaded dataset from the dropdown menu.");
+      //this.displaySnackbar("Please select your uploaded dataset from the dropdown menu.");
     },
     getProjectNames() {
       this.$store.dispatch("actionGetImportedJiraProjects")
