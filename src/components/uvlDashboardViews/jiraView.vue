@@ -300,7 +300,7 @@ export default {
       console.log(file)
       if (file) {
         // Automatically call the uploadFile method
-        this.uploadFile(file);
+        this.uploadFile(file.name);
       }
     },
 
