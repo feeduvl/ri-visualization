@@ -1,5 +1,22 @@
 <template>
   <v-container>
+      <div>
+        <v-dialog v-model="deleteAllIs" :max-width="300" class="delete-all-issues">
+          <v-card>
+            <v-card-title>
+              <h3>Are you sure you want to remove all imported requirements from the dashboard?</h3>
+            </v-card-title>
+            <v-card-actions>
+              <v-btn color="red" @click="deleteAllIssues()">
+                Delete
+              </v-btn>
+              <v-btn dark color="black" @click="dontDeleteIssues()">
+                Cancel
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
       <p class="headline-select-jira-project">
       Select JIRA Project to import:
       </p>
@@ -8,6 +25,8 @@
                   label="Select project" item-text="name"
         ></v-select>
         <v-btn class="primary" @click="openImportDialog()"> Add Issues from Project
+        </v-btn>
+        <v-btn color="red" @click="dialogDeleteAllIssues()"> Remove all Issues from Dashboard
         </v-btn>
         <!--<v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
         </v-btn>-->
@@ -125,7 +144,7 @@ export default {
       this.$store.dispatch('actionGetIssuesByProjectNameFromJira', {projectName, selectedIssuesTypesArray});
     },
     async addSelectedIssues() {
-      await this.deleteAllIssues()
+      ///await this.deleteAllIssues()
       this.dialogIssues = false
       this.openDialog = false
       let selectedIssues = this.selectedIssues
@@ -167,13 +186,22 @@ export default {
       }
       console.log("openImportDialog");
     },
+    // Close Delete Dialogs
+    dontDeleteIssues(){
+      this.deleteAllIs = false
+      this.deleteOneRequirement = false
+      this.deleteAllRequirementsByProjectName = false
+      this.deleteSavedRelations = false
+    },
     async deleteAllIssues() {
       await this.$store.dispatch("actionDeleteAllIssues")
-      //this.getAllIssues()
-      //this.getProjectNames()
+      this.getAllIssues()
+      this.getProjectNames()
       this.deleteAllIs = false
     },
-
+    dialogDeleteAllIssues(){
+      this.deleteAllIs = true
+    },
 
   },
   computed:{
