@@ -104,16 +104,7 @@ export default {
     ImportJiraProject,
     LoadFeedbackFromDB,
     "empty-parameter": () => import("./form/EmptyParameter"),
-    "lda-parameter": () => import("./form/LdaParameter"),
-    "seanmf-parameter": () => import("./form/SeanmfParameter"),
-    "frequency-rbai-parameter": () => import("./form/FrequencyRBAIParameter"),
-    "frequency-fcic-parameter": () => import("./form/FrequencyFCICParameter"),
-    "acceptance-criteria-parameter": () => import("./form/AcceptanceCriteriaParameter"),
-    "stanford-ner-parameter": () => import("./form/StanfordNERParameter"),
-    "bi-lstm-parameter": () => import("./form/BiLSTMParameter"),
     "bert-parameter": () => import("./form/BERTParameter.vue"),
-    "us-similarity-parameter": () => import("./form/UserStorySimilarityParameter"),
-    "ac-completeness-parameter": () => import("./form/AcceptanceCriteriaCompletenessParameter"),
   },
   data() {
     return {
