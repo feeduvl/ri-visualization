@@ -38,7 +38,7 @@ import {
     POST_UPDATE_RECOMMENDATION_DATABASE_ENDPOINT,
     JIRA_DASHBOARD_BASE_URL_ISSUES,
     JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION,
-    JIRA_DASHBOARD_BASE_URL_FEEDBACK
+    JIRA_DASHBOARD_BASE_URL_FEEDBACK, UVL_DASHBOARD_BASE_URL
 } from '../RESTconf';
 import {
   ACTION_RESET_FILTERED_TWEETS,
@@ -815,7 +815,7 @@ export const actionGetSelectedData = ({ commit }, selectedData) => {
     return new Promise((resolve, reject) => {
         commit("setIsLoadingData", true);
         axios
-            .get(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/restore_data/${selectedData}`)
+            .get(UVL_DASHBOARD_BASE_URL + `/restore_data/${selectedData}`)
             .then((response) => {
                 commit("setIsLoadingData", false);
                 resolve(response);
@@ -848,7 +848,7 @@ export const actionSaveData = ({ commit, state }, savedDataName) => {
         commit("setIsLoadingData", true);
         console.log("save data:");
         console.log(state.storedDatasets)
-        axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/save_data/${savedDataName}`, {
+        axios.post(UVL_DASHBOARD_BASE_URL + `/save_data/${savedDataName}`, {
             datasets: state.storedDatasets,
             type: state.storedDashboardType,
             threshold: state.storedThreshold,
@@ -878,7 +878,7 @@ export const actionCreateDashboard = ({ commit, state }, {dashboardName, dashboa
         commit("setIsLoadingData", true);
         console.log("create dashboard");
         console.log(dashboardType);
-        axios.post(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/create_dashboard/${dashboardName}/${dashboardType}`)
+        axios.post(UVL_DASHBOARD_BASE_URL + `/create_dashboard/${dashboardName}/${dashboardType}`)
             .then(response => {
                 commit("setIsLoadingData", false);
                 return(response);
@@ -920,7 +920,7 @@ export const actionGetIssuesWithoutAssignment = ({commit}, {page, size}) => {
 export const actionGetSavedDataNames = ({commit}) => {
     return new Promise(() => {
         commit("setIsLoadingData", true);
-        axios.get(JIRA_DASHBOARD_BASE_URL_ISSUES_FEEDBACK_RELATION + `/get_saved_data_names`)
+        axios.get(UVL_DASHBOARD_BASE_URL + `/get_saved_data_names`)
             .then(response => {
                 const {data} = response;
                 commit("setSavedData", data);
