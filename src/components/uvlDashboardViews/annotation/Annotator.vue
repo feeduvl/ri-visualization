@@ -134,19 +134,6 @@
                         Annotation Seoad this tablettings
                     </v-tooltip>
 
-                    <!--<v-tooltip bottom
-                               :key="'toolbar_icon'+1">
-                        <template #activator="{on}">
-                            <v-icon v-on="on"
-                                    :disabled="showingInput || $store.state.isLoadingAnnotation"
-                                    @click="saveAndClose"
-                                    medium>
-                                exit_to_app
-                            </v-icon>
-                        </template>
-                        <span>Save and exit</span>
-                    </v-tooltip>-->
-
                     <v-tooltip bottom
                                v-if="!annotatorViewingCodeResults"
                                :key="'toolbar_icon'+2">
@@ -340,14 +327,6 @@ export default {
                 }
             },
 
-            /*
-            getDebugTokenInfo(){
-                console.log("Recomputing token 0")
-                if(!this.$store.state.tokens[0]){
-                    return "undefined"
-                }
-                return "Name: "+this.$store.state.tokens[0].name + "Num codes: "+this.$store.state.token_num_codes[0]
-            },*/
             annotatorSelectedDoc: {
                 get(){
                     return this.$store.state.selected_doc;
@@ -496,14 +475,6 @@ export default {
 
         mounted(){
           this.$store.commit("updateSelectedAnnotation", this.$props.selectedAnnotation)
-          /*console.log("annotator loaded")
-          console.log(this.$props.selectedAnnotation)
-          console.log(this.$store.state.selected_annotation)
-          console.log(this.$store.state.available_annotations)
-          let currentAnnotation = this.$store.state.available_annotations.find(a => a.name === this.$props.selectedAnnotation)
-          console.log(currentAnnotation)
-          this.$refs.annotatorSettingsRef.viewCodeResults(currentAnnotation)*/
-
         },
 
         methods: {
@@ -820,11 +791,9 @@ export default {
             },
             updateAnnotation(annotation){
                 console.log("Let me show you something")
-                //this.$store.commit("resetAnnotator")
                 console.log(this.$store.state.selected_annotation)
                 console.log(this.$refs.annotatorSettingsRef)
                 this.$refs.annotatorSettingsRef.viewCodeResults(annotation)
-                //this.$refs.annotatorSettingsRef2.startAnnotating(annotation)
             }
         }
     }

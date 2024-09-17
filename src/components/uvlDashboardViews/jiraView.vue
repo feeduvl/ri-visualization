@@ -297,17 +297,9 @@ export default {
     }
   },
   methods:{
-    /*toggleImport() {
-      console.log(this.importDialog)
-      this.$emit('toggleImport', !this.importDialog);
-    },*/
     handleFileSelection(event) {
       // Get the selected file (optional: store file data)
       const file = event.target.files[0];
-
-      // Update the file display name (if needed)
-      console.log("handlefileselection triggered")
-      console.log(file)
       if (file) {
         // Automatically call the uploadFile method
         this.uploadFile(file);
@@ -364,8 +356,6 @@ export default {
       console.log(filename.split('.')[0]);
       this.selectedDatasetName = filename.split('.')[0]
       this.addDataset()
-
-      //this.displaySnackbar("Please select your uploaded dataset from the dropdown menu.");
     },
     getProjectNames() {
       this.$store.dispatch("actionGetImportedJiraProjects")
@@ -459,14 +449,8 @@ export default {
       this.itemToDelete = item
     },
     toggleExpand(index) {
-      //const index = this.expanded.indexOf(item);
       this.expandedRow = this.expandedRow === index ? null : index;
       this.expandablePage = 1
-      /*if (index >= 0) {
-        this.expanded.splice(index, 1);
-      } else {
-        this.expanded.push(item);
-      }*/
     },
     isExpanded(index) {
       return (this.expandedRow == index);
@@ -635,7 +619,6 @@ export default {
   },
   mounted() {
     console.log("mounted function executed")
-    //this.selectedDatasets = this.$store.state.storedDatasets
     this.getAllJiraProjects()
     this.getAllIssues()
     if (this.$store.state.storedThreshold !== ""){ // Only saved dashboards already have a threshold, not newly created ones
@@ -648,11 +631,6 @@ export default {
 
 <style scoped>
 .container{
-  /*display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
-  width: 100%;*/
   padding: 20px;
   max-width: 100%;
   margin: 0 auto;

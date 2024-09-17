@@ -7,35 +7,8 @@
                         item-text="displayName" item-value="name" label="Classification Methods">
                     </v-select>
                 </v-flex>
-
-
             </v-layout>
 
-            <!--<v-layout row wrap>
-                <v-flex xs3>
-                    <v-checkbox v-model="debug" :label="`Include debug information`"></v-checkbox>
-                </v-flex>
-                <v-flex xs1 />
-                <v-flex xs3>
-                    <v-text-field v-model="run_name" hint="Optional string to name this run." label="Run Name" clearable
-                        persistent-hint></v-text-field>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs3>
-                    <v-checkbox v-model="persist" :label="`Create new annotation from result`"></v-checkbox>
-                </v-flex>
-                <v-flex xs1 />
-                <v-flex xs3>
-                    <v-text-field v-model="annotation_name" hint="Name for the new annotation" label="Annotation Name"
-                        clearable persistent-hint :disabled="!persist"></v-text-field>
-                </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-                <v-flex xs9 />
-                <v-btn small color="primary" @click="resetForm">Reset</v-btn>
-                <v-btn small color="primary" :loading="loading" :disabled="loading" @click="startRun">Start</v-btn>
-            </v-layout>-->
             <v-snackbar v-model="snackbarVisible" :timeout="snackbarTimeout" :top=true>
                 {{ snackbarText }}
 

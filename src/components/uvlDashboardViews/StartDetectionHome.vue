@@ -230,12 +230,8 @@ export default {
   methods: {
     async startClassifier() {
       let selectedFeedback = this.$props.selected_dataset.join('#!#');
-      //let selectedFeedback = this.selectedDatasets
       console.log(selectedFeedback)
       let maxSimilarity = 0
-      /*if (this.maxSimilarity !== ""){
-        maxSimilarity = this.maxSimilarity
-      }*/
       await this.$refs.detectionRef.startRun()
       console.log("classification startedn, waiting for finishing")
       this.waitingForAnnotation = true

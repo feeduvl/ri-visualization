@@ -130,19 +130,6 @@
     </v-dialog>
 
     <div id="start" >
-      <!--<div class="container">
-        <v-card class="banner">
-          <v-tabs
-          >
-            <v-tab :class="{ 'tab': true, 'tab-left': activeTab === '/uvldashboard/jira' }">
-              <v-btn @click="navigateTo('/uvldashboard/jira')" >Jira Mode</v-btn>
-            </v-tab>
-            <v-tab :class="{ 'tab': true, 'tab-right': activeTab === '/uvldashboard/annotation' }">
-              <v-btn @click="navigateTo('/uvldashboard/annotation')" >Annotation Mode</v-btn>
-            </v-tab>
-          </v-tabs>
-        </v-card>
-      </div>-->
     </div>
     <v-snackbar v-model="snackbarVisible" :timeout="snackbarTimeout" :top=true>
       {{ snackbarText }}

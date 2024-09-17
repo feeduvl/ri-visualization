@@ -135,11 +135,6 @@ export default {
     }
   },
   methods:{
-    // selectedDataset,
-    /*toggleImport() {
-      console.log(this.importDialog)
-      this.$emit('toggleImport', !this.importDialog);
-    },*/
     handleFileSelection(event) {
       // Get the selected file
       const file = event.target.files[0];
@@ -217,13 +212,6 @@ export default {
       this.snackbarText = "";
     },
 
-    // Close Dialog for import jira issues
-    /*toggleImport(value) {
-      console.log("toggleImport");
-      this.importDialog = value;
-      this.getAllIssues()
-      this.getProjectNames()
-    },*/
     showDataset(dataset) {
       this.updateTheme("Dataset View", THEME_UVL);
       this.$store.commit(MUTATE_SELECTED_DATASET_OUTSIDE, dataset);
@@ -249,24 +237,6 @@ export default {
       }
     },
 
-    /*getAllIssues() {
-      if(this.showUnassigned){
-        this.getUnassignedIssues()
-      }else{
-        let page = this.pagination.page
-        let size = this.pagination.rowsPerPage
-        this.$store.dispatch("actionGetAllIssues", {page, size})
-      }
-    },
-    async getUnassignedIssues() {
-      if(this.showUnassigned){
-        let page = this.pagination.page
-        let size = this.pagination.rowsPerPage
-        await this.$store.dispatch("actionGetIssuesWithoutAssignment", {page, size})
-      }else{
-        this.getAllIssues()
-      }
-    },*/
     loadDashboardData(){
       this.$store.commit('setNeedToLoadDashboard', false)
       console.log("loading dashboard data due to beforeRouteUpdate")

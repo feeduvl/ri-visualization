@@ -28,8 +28,6 @@
         </v-btn>
         <v-btn color="red" @click="dialogDeleteAllIssues()"> Remove all Issues from Dashboard
         </v-btn>
-        <!--<v-btn dark color="blue" @click="getIssueTypesByProjectName()"> SEARCH
-        </v-btn>-->
       </v-layout>
       <p v-if="$store.state.issuesHaveChanged" class="relation-reload-notification" style="color: red;">
         The relation needs to be restarted in order to make the changed issue selection effective.
@@ -148,7 +146,6 @@ export default {
       this.$store.dispatch('actionGetIssuesByProjectNameFromJira', {projectName, selectedIssuesTypesArray});
     },
     async addSelectedIssues() {
-      ///await this.deleteAllIssues()
       this.dialogIssues = false
       this.openDialog = false
       let selectedIssues = this.selectedIssues
