@@ -147,7 +147,6 @@
 import {actionGetFeedbackNamesDates} from "../store/actions";
 import axios from "axios";
 import { POST_START_MULTIDETECTION_ENDPOINT } from "@/RESTconf";
-import IssueDetails from "./uvlDashboardViews/issueDetails.vue";
 import { SNACKBAR_DISPLAY_TIME } from "@/theme";
 
 export default {
@@ -162,7 +161,6 @@ export default {
       checkCreateDashboard: false,
       showRefreshDataSetDialog: false,
       datasetNameToRefresh: "",
-      currentDatasetIndex: 0,
       datasetsToCheck: [],
       dashboardType: null,
       toggleRefresh: false, // if refresh of classification should be done
@@ -300,7 +298,6 @@ export default {
         console.log("found updated datasets:")
         console.log (this.datasetsToCheck)
         await this.showRefreshDialogs();
-        //this.showNextDialog();
       }
     },
 
@@ -403,21 +400,6 @@ export default {
       this.snackbarVisible = false;
       this.snackbarText = "";
     },
-    getSelectedData() {
-      return this.$store.state.selectedData
-    },
-    async getSavedData() {
-      console.log("get saved data")
-      await this.$store.dispatch("actionGetSavedDataNames")
-      console.log(this.$store.state.selectedData)
-      this.tabs = this.$store.state.selectedData;
-      this.tabCounter = this.tabs.length;
-
-      // Automatically select the first tab if there are any tabs
-      if (this.tabs.length > 0) {
-        this.activeTab = 0;
-      }
-    },
     validateDashboardName() {
       if (this.$store.state.selectedData.includes(this.dashboardName)) {
         this.dashboardNameError = 'This dashboard name already exists. Please choose a different name.';
@@ -451,31 +433,13 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.load-dashboard {
-  display: flex;
-  flex-direction: column;
-  width: 80%; /* Ensure content spans full width */
-}
-.controls {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* Spacing between the dropdown and buttons */
-  margin-bottom: 20px;
-  margin-right: 20px;
-}
 .select-saved-data {
-  /*width: 50%;
-  margin-left: 10px;*/
   flex: 1;
 }
 .delete-icon {
   cursor: pointer;
   color: red;
   margin-left: 10px;
-}
-.subheader {
-  font-size: 1.5rem; /* Larger font for the subheader */
-  margin-bottom: 10px;
 }
 .warning_text {
   color: red;

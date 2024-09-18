@@ -802,7 +802,7 @@ export default {
 
 <style>
 
-    .saved-snackbar .v-snack__wrapper{
+    .saved-snackbar{
         min-width: 0px;
     }
 </style>
@@ -821,12 +821,6 @@ export default {
     width: 100%;
     min-height: 78px;
     padding: 20px
-}
-
-.view-codes-header{
-  font-size: 18px;
-  margin-bottom: 10px;
-  font-weight: bold;
 }
 
 .annotate-icon {
@@ -849,12 +843,6 @@ export default {
     width: 300px;
     flex-grow: 1;
     justify-self: flex-start;
-}
-
-.annotator-toolbar__algo-results-select{
-    width: 300px;
-    flex-grow: 1;
-    justify-self: flex-end;
 }
 
 .annotator-toolbar__algo-results-select input {

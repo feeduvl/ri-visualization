@@ -34,10 +34,6 @@
       </p>
       <p v-if="!isProjectSelected" class="warning_text" style="color: red">{{ warning }}</p>
 
-
-
-
-
     <v-dialog v-model="openDialog" width="70%">
       <div v-if="!isLoadingData">
         <div v-if="dialogIssues">
@@ -94,7 +90,6 @@
 </template>
 
 <script>
-
 
 import LoadingView from "@/components/jiraDashboardViews/dialogs/LoadingView.vue";
 
@@ -164,17 +159,6 @@ export default {
     closeDialogIssues() {
       this.openDialog = false
       this.dialogIssues = false;
-    },
-    getIssueTypesByProjectName() {
-      if (this.projectName === "") {
-        this.warning = "No project selected. Please select a project"
-        return this.isProjectSelected = false
-      } else {
-        this.isProjectSelected = true
-        this.openDialog = true
-        this.dialogIssueTypes = true
-        this.$store.dispatch("actionGetIssueTypesByProjectNameFromJira", this.projectName)
-      }
     },
     openImportDialog(){
       if (this.projectName === "") {
@@ -266,21 +250,10 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  margin-top: 50px;
-}
 .headline-select-jira-project{
   font-size: 18px;
   margin-bottom: 10px;
   font-weight: bold;
-}
-.import-button {
-  padding: 8px 16px;
-}
-.select-jira-row {
-  display: flex;
-  align-items: center; /* Vertically centers the items */
-  gap: 10px; /* Adds some spacing between the select and button */
 }
 .warning_text {
   color: red;

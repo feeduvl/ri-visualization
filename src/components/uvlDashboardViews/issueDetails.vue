@@ -78,21 +78,8 @@
 </template>
 
 <script>
-import axios from "axios";
 import "moment/locale/de";
-import { GREEN_FILL, RED_FILL, GRAY, PRIMARY } from "@/colors";
-import { DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT } from "@/RESTconf";
 import { mapGetters } from 'vuex'
-import { getMethodObj, getMethodOrChainedObj, METHODS } from "@/methods";
-import {
-  ACTION_DELETE_RESULT,
-  ACTION_EDIT_RESULT_NAME,
-  // mutations
-  MUTATE_SELECTED_RESULT,
-  MUTATE_SELECTED_METHOD
-} from "@/store/types";
-import { setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL } from "@/theme";
-import { loadDataset, reloadResults } from "@/RESTcalls";
 import AddFeedbackToIssue from "./dialogs/AddFeedbackToIssue.vue";
 
 export default {
@@ -171,14 +158,6 @@ export default {
   methods: {
     fetchData() {
       this.getAssignedFeedback(); // Fetch assigned feedback for the current item
-      //this.updateTotalItems(); // Update the total items count
-    },
-    updateTotalItems() {
-      // Fetch the updated total items count based on the current item
-      let issueKey = this.item.key;
-      this.$store.dispatch("actionGetTotalAssignedFeedbackItems", issueKey).then(total => {
-        this.totalItems = total;
-      });
     },
     getAssignedFeedback(){
       let issueKey = this.item.key

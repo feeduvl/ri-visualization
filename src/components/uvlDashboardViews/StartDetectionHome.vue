@@ -211,8 +211,6 @@ export default {
         },
       ],
       errors: [],
-      cardTableTitle: "Last Runs",
-      rawData: [],
       resultToDelete: {},
       resultToEdit: {},
       deleteSnackbarVisible: false,
@@ -231,9 +229,8 @@ export default {
     async startClassifier() {
       let selectedFeedback = this.$props.selected_dataset.join('#!#');
       console.log(selectedFeedback)
-      let maxSimilarity = 0
       await this.$refs.detectionRef.startRun()
-      console.log("classification startedn, waiting for finishing")
+      console.log("classification started, waiting for finishing")
       this.waitingForAnnotation = true
     },
     async updateAnnotationView() {
@@ -276,17 +273,6 @@ export default {
         this.checkServiceStatus(service);
       }
     },
-    showResult(item) {
-      this.updateTheme("Detection Results", THEME_UVL)
-      this.$router.push("/results");
-      this.$store.commit(MUTATE_SELECTED_RESULT, item);
-      loadDataset(this.$store, item["dataset_name"]);
-    },
-    showEditName(item) {
-      this.resultToEdit = item;
-      this.newResultName = item.name;
-      this.editDialogVisible = true;
-    },
     editName() {
       this.editBtn = true;
       this.resultToEdit.name = this.newResultName;
@@ -315,10 +301,6 @@ export default {
             this.snackbarVisible = false;
           }, SNACKBAR_DISPLAY_TIME);
         });
-    },
-    showDeleteResult(item) {
-      this.resultToDelete = item;
-      this.deleteSnackbarVisible = true;
     },
     deleteResult() {
       this.deleteBtn = true;
@@ -354,24 +336,6 @@ export default {
       this.snackbarVisible = false;
       this.snackbarText = "";
     },
-    updateTheme(title, theme) {
-      if (theme !== "") {
-        setTheme(title, theme, this.$store);
-      }
-    },
-    getStatusColor(status) {
-      let color;
-      if (status === "finished") {
-        color = GREEN_FILL;
-      } else if (status === "failed") {
-        color = RED_FILL;
-      } else if (status === "started") {
-        color = PRIMARY;
-      } else {
-        color = GRAY;
-      }
-      return color;
-    },
     async checkServiceStatus(service) {
       let status = "checking"
       this.updateStatus(status);
@@ -403,28 +367,6 @@ export default {
         this.serviceColor = RED_FILL;
       }
     },
-    displayParameter(params) {
-      return (JSON.stringify(params).replace("{", "").replace("}", "")
-        .replaceAll('"', "").replaceAll(",", ", "));
-    },
-    displayScore(item) {
-      return getMethodObj(DASHBOARD_METHODS, item.method).scoreFunction(item);
-    },
-    displayRunName(name) {
-      if (name === "") {
-        return "–";
-      } else {
-        return name;
-      }
-    },
-    getDisplayName(method) {
-      return getMethodOrChainedObj(DASHBOARD_METHODS, method).displayName;
-    },
-    async reloadResults() {
-      if (!(this._inactive)) {
-        await reloadResults(this.$store);
-      }
-    },
     loadDashboardData(){
       console.log("loading dashboard data due to change of Dashboard name")
       this.selectedMethod = this.$store.state.storedClassifier
@@ -442,25 +384,12 @@ export default {
       }
     }.bind(this), 30000);
 
-    //setInterval(function () {
-    //  this.reloadResults(this.$store);
-    //}.bind(this), 20000);
-
   }
 }
 
 </script>
 
 <style scoped>
-.header {
-  margin-top: 20px;
-}
-
-.card-title-text {
-  font-size: 2em;
-  text-align: center;
-}
-
 table.v-table tbody tr,
 table.v-table tbody td,
 table.v-table tbody th {
@@ -469,68 +398,13 @@ table.v-table tbody th {
   max-height: 50px;
 }
 
-.row-item {
-  margin: 15px 10px 15px 10px;
-}
-
-.row-header {
-  margin: 15px 10px 35px 10px;
-  position: fixed;
-}
-
-.action-left {
-  margin-right: 5px;
-}
-
-.action-right {
-  margin-left: 5px;
-}
-
 h1 {
   text-align: center;
-}
-
-.list-enter,
-.list-leave-to {
-  transition: all 0.5s;
-  opacity: 0;
-}
-
-.backgroundcolor-red {
-  background-color: rgba(255, 0, 0, 0.04);
-}
-
-.backgroundcolor-yellow {
-  background-color: rgba(255, 249, 196, 0.5);
-}
-
-.backgroundcolor-grey {
-  background-color: rgba(238, 238, 238, 0.04);
-}
-
-.spacing {
-  padding-top: 0;
-}
-
-.pointer {
-  cursor: pointer;
-}
-
-.toggle-effect {
-  background-color: #bdbdbd !important;
-}
-
-.anti-margin {
-  margin-bottom: 0 !important;
 }
 
 #service-status {
   padding-left: 0;
   padding-top: 25px;
-}
-
-#reload-btn {
-  margin-left: 10px;
 }
 
 table.v-table tbody td:first-child,

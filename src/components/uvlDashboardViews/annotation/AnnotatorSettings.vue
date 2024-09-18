@@ -106,33 +106,13 @@
         },
 
         methods: {
-            initializeAnnotation(){
-                this.initializingNewAnnotation = true;
-                this.$store.dispatch('actionGetNewAnnotation', {name: this.addingAnnotationName, dataset: this.createNewAnnotationDataset, sentenceTokenizationEnabledForAnnotation: this.sentenceTokenizationEnabledForAnnotation});
-                this.sentenceTokenizationEnabledForAnnotation = false;
-            },
-
-            deleteAnnotation(){
-                console.log(this.annotationToDelete);
-                this.$store.dispatch("actionDeleteAnnotation", this.annotationToDelete.name)
-                this.annotationToDelete = null;
-            },
-
             viewCodeResults(annotation){
                 console.log("viewCodeResults called")
-                this.$store.commit("updateSelectedAnnotation", annotation.name)  // repeat startAnnotating here in case implementation changes
+                this.$store.commit("updateSelectedAnnotation", annotation.name) // repeat startAnnotating here in case implementation changes
                 this.$store.commit("updateSentenceTokenizationEnabledForAnnotation", annotation.sentence_tokenization_enabled_for_annotation);
                 console.log("get selected annotation now")
                 this.$store.dispatch('actionGetSelectedAnnotation');
                 this.$store.commit("toggleAnnotatorViewingCodes", true)
-            },
-
-            startAnnotating(annotation){
-                console.log("startAnnotating called")
-                this.$store.commit("toggleAnnotatorViewingCodes", false)
-                this.$store.commit("updateSelectedAnnotation", annotation.name)
-                console.log("get selected annotation now")
-                this.$store.dispatch('actionGetSelectedAnnotation');
             },
 
             reloadFields(){
@@ -181,43 +161,12 @@
 </script>
 
 <style scoped>
-    .icon-column  {
-        display: flex;
-        justify-content: center;
-    }
-
-    .header {
-        margin-top: 20px;
-    }
-
-    .card-title-text {
-        font-size: 2em;
-        text-align: center;
-    }
-
     table.v-table tbody tr,
     table.v-table tbody td,
     table.v-table tbody th {
         min-height: 50px;
         height: 50px;
         max-height: 50px;
-    }
-
-    .row-item {
-        margin: 15px 10px 15px 10px;
-    }
-
-    .row-header {
-        margin: 15px 10px 35px 10px;
-        position: fixed;
-    }
-
-    .action-left {
-        margin-right: 5px;
-    }
-
-    .action-right {
-        margin-left: 5px;
     }
 
     h1 {

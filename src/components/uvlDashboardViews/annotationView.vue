@@ -88,7 +88,7 @@ import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFrom
 import { getMethodObj, DASHBOARD_METHODS } from "@/methods";
 import {POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
 import {setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL} from "@/theme";
-import {MUTATE_SELECTED_DATASET_OUTSIDE, MUTATE_SELECTED_RESULT} from "@/store/types";
+import {MUTATE_SELECTED_DATASET_OUTSIDE} from "@/store/types";
 
 import {mapGetters} from "vuex";
 import axios from "axios";
@@ -108,9 +108,6 @@ export default {
   },
   data() {
     return {
-      headersIssueTypes: [
-        {text: "Requirement Type", value: "issueType"},
-      ],
       headers: [
         {text: "Requirement Name", value: "key"},
         {text: "Summary", value: "summary"},
@@ -121,13 +118,10 @@ export default {
       isProjectSelected: true,
       warning: "",
       projectName: "",
-      importDialog: false,
       uploadedFile: "",
       loading: false,
       selectedDatasets: [],
       selectedDatasetName: "",
-      runMethods: DASHBOARD_METHODS,
-      showUnassigned: false,
       selectedAnnotation: "",
       snackbarVisible: false,
       snackbarTimeout: 0,
@@ -148,17 +142,6 @@ export default {
     },
     getAllJiraProjects() {
       this.$store.dispatch("actionGetAllJiraProjects")
-    },
-    getIssueTypesByProjectName() {
-      if (this.projectName === "") {
-        this.warning = "No project selected. Please select a project"
-        return this.isProjectSelected = false
-      } else {
-        this.isProjectSelected = true
-        this.openDialog = true
-        this.dialogIssueTypes = true
-        this.$store.dispatch("actionGetIssueTypesByProjectNameFromJira", this.projectName)
-      }
     },
     async uploadFile(file) {
       let filename = file.name
@@ -183,9 +166,6 @@ export default {
           if (response.status > 200 || response.status < 300) {
             this.displaySnackbar(response.data.message);
             setTimeout(() => {  this.closeSnackbar(); }, SNACKBAR_DISPLAY_TIME);
-            this.fileInputField.value = null;
-            // Reset file name display
-            this.getFileName();
             loadDatasets(this.$store);
           } else {
             this.displaySnackbar("Error with file upload!");
@@ -242,7 +222,6 @@ export default {
       console.log("loading dashboard data due to beforeRouteUpdate")
       this.selectedDatasets = this.$store.state.storedDatasets
       this.$refs.startDetectionHomeRef.loadDashboardData()
-      //this.getAllIssues()
     }
   },
   watch: {
@@ -279,22 +258,10 @@ export default {
     fileInputField() {
       return document.getElementById("file-input-field");
     },
-    allAvailableJiraIssues() {
-      return this.$store.state.availableJiraProjects
-    },
-    allAvailableDataSets(){
-
-    },
 
     ...mapGetters({
       datasets: 'datasets'
     }),
-    fileDisplayName() {
-      if (this.uploadedFile) {
-        return this.uploadedFile.name;
-      }
-      return ""
-    },
   },
   mounted() {
     this.getAllJiraProjects()
@@ -307,13 +274,6 @@ export default {
 </script>
 
 <style scoped>
-.container{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: stretch;
-  width: 100%;
-}
 .headline-select-jira-project{
   font-size: 18px;
   margin-bottom: 10px;

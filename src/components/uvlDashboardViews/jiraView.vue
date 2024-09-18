@@ -32,17 +32,12 @@
         </v-card-title>
       </v-card>
       <div>
-        <!--<div class="import-elements">
-          <div class="import-buttons">-->
-            <ImportJiraProject class="element1"></ImportJiraProject>
-          <!--</div>
-        </div>-->
+        <ImportJiraProject class="element1"></ImportJiraProject>
       </div>
         <v-dialog v-model="isLoadingData" :max-width="300">
           <LoadingView/>
         </v-dialog>
       <v-container >
-        <!--<div class="select-dataset">-->
           <p class="headline-select-jira-project">
             Add Dataset to Dashboard:
           </p>
@@ -61,51 +56,15 @@
               Choose file
             </label>
         </v-layout>
-        <!--</div>-->
         <v-layout row wrap align-center>
-
-          <!--<label for="maxSimilarity">-->
-            <p class="headline-threshold">
-              Threshold:
-            </p>
-          <!--</label>-->
+          <p class="headline-threshold">
+            Threshold:
+          </p>
           <input id="maxSimilarity" class="chooseSimilarity" type="number" v-model="maxSimilarity" />
         </v-layout>
       </v-container>
     </v-card>
-    <!--<component v-bind:is="component" v-bind:dataset="selectedDataset" />-->
     <p v-if="!isProjectSelected" class="warning" style="color: red">{{ warning }}</p>
-    <!--<v-card>
-      <v-card flat class="header">
-        <v-card-title primary-title>
-          <h2>Select File</h2>
-        </v-card-title>
-      </v-card>
-      <v-container>
-        <v-layout row wrap>
-          <v-flex xs4>
-            <input id="file-input-field" type='file' hidden @change="getFileName"/>
-            <v-text-field
-                label="File Name"
-                v-model="fileDisplayName"
-                readonly
-                prepend-icon="attach_file"
-                class="file-name-field"
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs3>
-            <label for="file-input-field" class="v-btn v-btn--small theme--light primary file-action-button file-picker-button">Choose
-              file</label>
-            <v-btn small color="primary" :loading="loading" :disabled="loading" @click="uploadFile(fileDisplayName)">Upload</v-btn>
-          </v-flex>
-          <v-flex xs5>
-            <span :style="{'color': 'gray'}">Currently allowed file types: xlsx, csv and txt. The dataset will be saved with its filename. Uploading a dataset which name already exists will update the dataset. For csv and txt the delimiter is set to '|'.
-            <br /> Note: FCIC and RBAI require UTF-8 compatible encodings. Please consider that any typographic errors and unexpected characters may lead to artifacts in the results.</span>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-card> -->
-
 
     <v-card class="dataset-list">
       <v-card flat>
@@ -134,11 +93,6 @@
       </v-layout>
     </v-card>
 
-    <!--<v-card>
-      <div>
-        <StartDetectionHome class="element1"></StartDetectionHome>
-      </div>
-    </v-card>-->
     <div class="d-flex justify-center">
       <v-btn color="red" @click="assignFeedbackToIssues()"> Automatically relate feedback to requirements
       </v-btn>
@@ -152,18 +106,11 @@
           <div class="search-in-table">
             <v-text-field v-model="search" append-icon="search" label=" Search in table..."></v-text-field>
           </div>
-
-          <!--<div class="switch-container">
-            <div class="label-container">-->
-              <v-layout row wrap align-center>
-              <label for="showUnassigned" class="label-text">Show requirements without assigned feedback:</label>
-            <!--</div>
-            <div class="switch-content">-->
-              <v-switch id="showUnassigned" class="label-text" v-model="showUnassigned" @change="getUnassignedIssues"></v-switch>
-              </v-layout>
+          <v-layout row wrap align-center>
+          <label for="showUnassigned" class="label-text">Show requirements without assigned feedback:</label>
+          <v-switch id="showUnassigned" class="label-text" v-model="showUnassigned" @change="getUnassignedIssues"></v-switch>
+          </v-layout>
       </v-card>
-            <!--</div>
-          </div>-->
 
         <v-data-table :headers="headers"
                       :items="getIssues"
@@ -189,11 +136,7 @@
 
             <tr v-if="expandedRow === props.index">
               <td :colspan="headers.length + 2">
-                <!--<v-alert :value="true" type="info">
-                  <strong>Details:</strong> This is additional information for {{ props.item.key }}.
-                </v-alert>-->
                 <issue-details :item="props.item" :page="nestedPage"/>
-                <!-- Additional details or nested components can go here -->
               </td>
 
             </tr>
@@ -225,7 +168,7 @@ import LoadFeedbackFromDB from "@/components/jiraDashboardViews/LoadFeedbackFrom
 import { getMethodObj, DASHBOARD_METHODS } from "@/methods";
 import {POST_UPLOAD_DATASET_ENDPOINT} from "@/RESTconf";
 import {setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL} from "@/theme";
-import {MUTATE_SELECTED_DATASET_OUTSIDE, MUTATE_SELECTED_RESULT} from "@/store/types";
+import {MUTATE_SELECTED_DATASET_OUTSIDE} from "@/store/types";
 
 import {mapGetters} from "vuex";
 import axios from "axios";
@@ -241,33 +184,17 @@ export default {
     LoadingView,
     ImportJiraProject,
     LoadFeedbackFromDB,
-    "empty-parameter": () => import("./../form/EmptyParameter"),
-    "lda-parameter": () => import("./../form/LdaParameter"),
-    "seanmf-parameter": () => import("./../form/SeanmfParameter"),
-    "frequency-rbai-parameter": () => import("./../form/FrequencyRBAIParameter"),
-    "frequency-fcic-parameter": () => import("./../form/FrequencyFCICParameter"),
-    "acceptance-criteria-parameter": () => import("./../form/AcceptanceCriteriaParameter"),
-    "stanford-ner-parameter": () => import("./../form/StanfordNERParameter"),
-    "bi-lstm-parameter": () => import("./../form/BiLSTMParameter"),
-    "bert-parameter": () => import("./../form/BERTParameter.vue"),
-    "us-similarity-parameter": () => import("./../form/UserStorySimilarityParameter"),
-    "ac-completeness-parameter": () => import("./../form/AcceptanceCriteriaCompletenessParameter"),
   },
   data() {
     return {
       expanded: [],
       expandedRow: null,
-      headersIssueTypes: [
-        {text: "Requirement Type", value: "issueType"},
-      ],
       isProjectSelected: true,
       projectName: "",
       importDialog: false,
-      uploadedFile: "",
       loading: false,
       selectedDatasets: [],
       selectedDatasetName: "",
-      runMethods: DASHBOARD_METHODS,
       showUnassigned: false,
       maxSimilarity: 0,
       headers: [
@@ -308,17 +235,6 @@ export default {
 
     getAllJiraProjects() {
       this.$store.dispatch("actionGetAllJiraProjects")
-    },
-    getIssueTypesByProjectName() {
-      if (this.projectName === "") {
-        this.warning = "No project selected. Please select a project"
-        return this.isProjectSelected = false
-      } else {
-        this.isProjectSelected = true
-        this.openDialog = true
-        this.dialogIssueTypes = true
-        this.$store.dispatch("actionGetIssueTypesByProjectNameFromJira", this.projectName)
-      }
     },
     async uploadFile(file) {
       let filename = file.name
@@ -440,10 +356,6 @@ export default {
         this.getAllIssues()
       }
     },
-    showDetails(item) {
-      console.log(item)
-      this.$router.push({ name: 'assigned_feedback', params: { item: item } });
-    },
     openDeleteOneRequirementDialog(item) {
       this.deleteOneRequirement = true
       this.itemToDelete = item
@@ -560,12 +472,6 @@ export default {
     component() {
       return getMethodObj(DASHBOARD_METHODS, this.selectedMethod).parameterComponentName;
     },
-    fileInputField() {
-      return document.getElementById("file-input-field");
-    },
-    allAvailableJiraIssues() {
-      return this.$store.state.availableJiraProjects
-    },
 
     ...mapGetters({
       datasets: 'datasets'
@@ -613,9 +519,6 @@ export default {
             || projectName.toLowerCase().indexOf(this.search.toLowerCase()) > -1
       });
     },
-    feedbackAndProjectIsSelected() {
-      return this.$store.state.selectedFeedback !== "" && this.$store.state.issues.length > 0;
-    },
   },
   mounted() {
     console.log("mounted function executed")
@@ -630,11 +533,6 @@ export default {
 </script>
 
 <style scoped>
-.container{
-  padding: 20px;
-  max-width: 100%;
-  margin: 0 auto;
-}
 .header{
   margin-bottom: 20px
 }
