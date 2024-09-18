@@ -67,10 +67,10 @@
 <script>
 import axios from "axios";
 import "moment/locale/de";
-import { GREEN_FILL, RED_FILL, GRAY, PRIMARY } from "@/colors";
+import { GREEN_FILL, RED_FILL, GRAY} from "@/colors";
 import { DELETE_RESULT_ENDPOINT, GET_SERVICE_STATUS_ENDPOINT, POST_UPDATE_RESULT_NAME_ENDPOINT } from "@/RESTconf";
 import { mapGetters } from 'vuex'
-import { getMethodObj, getMethodOrChainedObj, DASHBOARD_METHODS } from "@/methods";
+import { getMethodObj, DASHBOARD_METHODS } from "@/methods";
 import {
   ACTION_DELETE_RESULT,
   ACTION_EDIT_RESULT_NAME,
@@ -78,9 +78,7 @@ import {
   MUTATE_SELECTED_RESULT,
   MUTATE_SELECTED_METHOD
 } from "@/store/types";
-import { setTheme, SNACKBAR_DISPLAY_TIME, THEME_UVL } from "@/theme";
-import { loadDataset, reloadResults } from "@/RESTcalls";
-
+import {SNACKBAR_DISPLAY_TIME} from "@/theme";
 export default {
   name: "StartDetectionHome",
   props: {

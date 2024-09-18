@@ -6,7 +6,7 @@
 
 <script>
     import axios from "axios"
-    import {GREEN_FILL, RED_FILL, GRAY, PRIMARY} from "@/colors";
+    import {GREEN_FILL, RED_FILL, GRAY} from "@/colors";
     import {ANNOTATOR_STATUS_ENDPOINT} from "@/RESTconf"
     export default {
         name: "AnnotatorSettings",
@@ -39,7 +39,6 @@
                     },
                     {
                         text: "Last Updated",
-                        align: "center",
                         sortable: true,
                         width: "10%",
                         value: "last_updated",
@@ -48,7 +47,6 @@
                     },
                     {
                         text: "Created",
-                        align: "center",
                         sortable: true,
                         width: "10%",
                         value: "uploaded_at",
@@ -57,7 +55,6 @@
                     },
                     {
                         text: "Dataset",
-                        align: "left",
                         sortable: false,
                         value: "dataset",
                         width: "9%",
@@ -66,7 +63,6 @@
                     },
                     {
                         text: "Actions",
-                        align: "center",
                         sortable: false,
                         value: 'actions',
                         width: "12%",
@@ -171,24 +167,6 @@
 
     h1 {
         text-align: center;
-    }
-
-    .list-enter,
-    .list-leave-to {
-        transition: all 0.5s;
-        opacity: 0;
-    }
-
-    .backgroundcolor-red {
-        background-color: rgba(255, 0, 0, 0.04);
-    }
-
-    .backgroundcolor-yellow {
-        background-color: rgba(255, 249, 196, 0.5);
-    }
-
-    .backgroundcolor-grey {
-        background-color: rgba(238, 238, 238, 0.04);
     }
 
     .spacing {

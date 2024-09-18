@@ -478,15 +478,6 @@ export default {
         },
 
         methods: {
-            async loadAnnotationsOnCreated (){
-              try {
-                console.log("trying to get annotations async")
-                await this.$store.dispatch('actionGetAllAnnotations')
-                console.log("got all annotations async")
-              } catch (error) {
-                console.error('Error loading annotations:', error);
-              }
-            },
             getToreHighlightColor,
             hideEditConfigurables(){
                 this.showingEditConfigurablesPopup = false;
@@ -756,13 +747,6 @@ export default {
                 this.show_snackbar = true;
             },
 
-            saveAndClose(){
-                console.log("saveAndClose Annotator")
-                this.doSaveAnnotation(false)
-                this.$store.commit("resetAnnotator")
-                this.$store.dispatch("actionGetAllAnnotations")
-            },
-
             pageToCode(code){
                 console.log("pageToCode: "+Code_user_display_prompt(code))
                 if(!code){
@@ -802,9 +786,6 @@ export default {
 
 <style>
 
-    .saved-snackbar{
-        min-width: 0px;
-    }
 </style>
 
 <style scoped>
@@ -815,7 +796,7 @@ export default {
 .annotator-toolbar {
     justify-content: flex-end;
     position: sticky;
-    top: 0px;
+    top: 0;
     display: flex;
     align-items: center;
     width: 100%;

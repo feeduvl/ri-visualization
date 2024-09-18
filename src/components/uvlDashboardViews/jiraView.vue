@@ -365,7 +365,7 @@ export default {
       this.expandablePage = 1
     },
     isExpanded(index) {
-      return (this.expandedRow == index);
+      return (this.expandedRow === index);
     },
     async getAssignedDataToExport() {
       let selectedFeedback
@@ -543,7 +543,7 @@ export default {
 }
 .headline-threshold{
   font-size: 18px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   font-weight: bold;
 }
 .select-issueTypes {
@@ -565,8 +565,8 @@ export default {
 .jiraview-container{
   margin:0;
   padding-top: 20px;
-  padding-left: 0px;
-  padding-right: 0px
+  padding-left: 0;
+  padding-right: 0
 }
 .dataset-list{
   margin-top: 20px;

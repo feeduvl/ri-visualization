@@ -25,7 +25,6 @@ export const ROUTE_JIRA_ISSUES = "issues";
 export const ROUTE_JIRA_ISSUES_DETAILS = "issues/:item";
 export const ROUTE_JIRA_FEEDBACK = "feedback";
 export const ROUTE_JIRA_FEEDBACK_DETAILS = "feedback/:item";
-export const ROUTE_JIRA_IMPORT_PROJECTS = "jiraImport";
 
 export const routes = [{
     path: ROUTE_EMPTY,

@@ -180,9 +180,6 @@ export default {
       this.selectedDatasetName = filename.split('.')[0]
       this.addDataset()
     },
-    getFileName() {
-      this.uploadedFile = this.fileInputField.files[0];
-    },
     displaySnackbar(message) {
       this.snackbarText = message;
       this.snackbarVisible = true;
@@ -291,8 +288,8 @@ export default {
 .annotationview-container{
   margin:0;
   padding-top: 20px;
-  padding-left: 0px;
-  padding-right: 0px
+  padding-left: 0;
+  padding-right: 0
 }
 .select-issueTypes {
   flex: 1; /* Makes the dropdown take up all available space */

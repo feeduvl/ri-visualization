@@ -174,7 +174,7 @@
 </template>
 
 <script>
-    import {Code, Code_user_display_prompt} from "@/components/annotator/code"
+    import {Code_user_display_prompt} from "@/components/annotator/code"
     import ModelView from "@/components/annotator/ModelView";
     export default {
         name: "CodeView",
