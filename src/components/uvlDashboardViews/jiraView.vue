@@ -269,7 +269,6 @@ export default {
           this.loading = false;
         });
       }
-      console.log(filename.split('.')[0]);
       this.selectedDatasetName = filename.split('.')[0]
       this.addDataset()
     },
@@ -318,7 +317,6 @@ export default {
     },
     async assignFeedbackToIssues(){
       let selectedFeedback = this.selectedDatasets
-      console.log (selectedFeedback)
       let maxSimilarity = 0
       if (this.maxSimilarity !== ""){
         maxSimilarity = this.maxSimilarity
@@ -334,7 +332,6 @@ export default {
       }
       this.$store.commit('setDashboardData', data_to_store)
       await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
-      console.log("updated saved_data")
       this.$store.commit('setIssuesHaveChanged', false);
       this.getAllIssues()
     },
@@ -425,7 +422,6 @@ export default {
       URL.revokeObjectURL(url);
     },
     loadDashboardData(){
-      console.log("loading dashboard data due to change of dashboard name")
       this.selectedDatasets = this.$store.state.storedDatasets
       this.maxSimilarity = this.$store.state.storedThreshold
       this.getAllIssues()

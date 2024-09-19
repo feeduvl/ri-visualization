@@ -257,13 +257,6 @@ export default {
         props: {
           selectedAnnotation: String,
         },
-        created(){
-          console.log("started creation function")
-
-          //this.loadAnnotationsOnCreated();
-          console.log("executed creation function")
-
-        },
         data: () => {
             return {
 
@@ -774,9 +767,6 @@ export default {
                 }
             },
             updateAnnotation(annotation){
-                console.log("Let me show you something")
-                console.log(this.$store.state.selected_annotation)
-                console.log(this.$refs.annotatorSettingsRef)
                 this.$refs.annotatorSettingsRef.viewCodeResults(annotation)
             }
         }

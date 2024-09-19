@@ -137,7 +137,6 @@ export default {
       }
     },
     updateAnnotationView (annotation) {
-      console.log("annotationView knows it should update")
       this.$refs.annotatorRef.updateAnnotation(annotation)
     },
     getAllJiraProjects() {
@@ -176,7 +175,6 @@ export default {
           this.loading = false;
         });
       }
-      console.log(filename.split('.')[0]);
       this.selectedDatasetName = filename.split('.')[0]
       this.addDataset()
     },
@@ -216,7 +214,6 @@ export default {
 
     loadDashboardData(){
       this.$store.commit('setNeedToLoadDashboard', false)
-      console.log("loading dashboard data due to beforeRouteUpdate")
       this.selectedDatasets = this.$store.state.storedDatasets
       this.$refs.startDetectionHomeRef.loadDashboardData()
     }
@@ -225,14 +222,12 @@ export default {
     currentDashboardName(newVal, oldVal) {
       if (newVal !== oldVal) {
         if (this.$store.state.storedDashboardType === "Annotation"){
-          console.log("need to load new annotation dashboard")
           this.loadDashboardData();
         }
       }
     },
     needToLoadDashboard(newValue) {
       if (newValue) {
-        console.log("needToLoadDashboard was true")
         this.loadDashboardData();
       }
     }
@@ -263,7 +258,6 @@ export default {
   mounted() {
     this.getAllJiraProjects()
     if (this.$store.state.storedClassifier !== ""){ // Only saved dashboards already have a classifier, not newly created ones
-      console.log("need to load annotation dashboard")
       this.loadDashboardData();
     }
   },

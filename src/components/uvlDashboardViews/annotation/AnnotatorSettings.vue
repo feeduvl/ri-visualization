@@ -103,10 +103,8 @@
 
         methods: {
             viewCodeResults(annotation){
-                console.log("viewCodeResults called")
                 this.$store.commit("updateSelectedAnnotation", annotation.name) // repeat startAnnotating here in case implementation changes
                 this.$store.commit("updateSentenceTokenizationEnabledForAnnotation", annotation.sentence_tokenization_enabled_for_annotation);
-                console.log("get selected annotation now")
                 this.$store.dispatch('actionGetSelectedAnnotation');
                 this.$store.commit("toggleAnnotatorViewingCodes", true)
             },

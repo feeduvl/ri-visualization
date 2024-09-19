@@ -124,7 +124,6 @@ export default {
   },
   methods:{
     toggleImport() {
-      console.log(this.importDialog)
       this.$emit('toggleImport', !this.importDialog);
     },
     getAllJiraProjects() {
@@ -170,7 +169,6 @@ export default {
         this.dialogIssueTypes = true
         this.$store.dispatch("actionGetIssueTypesByProjectNameFromJira", this.projectName)
       }
-      console.log("openImportDialog");
     },
     // Close Delete Dialogs
     dontDeleteIssues(){

@@ -89,7 +89,6 @@ export default {
     "bert-parameter": () => import("./form/BERTParameter.vue"),
   },
   created() {
-    console.log("created StartDetectionHome")
     this.$store.dispatch('actionGetAllAnnotations');
   },
   computed: {
@@ -97,8 +96,6 @@ export default {
       return getMethodObj(DASHBOARD_METHODS, this.selectedMethod).parameterComponentName;
     },
     checkForAnnotationFinished() {
-      console.log("checking for annotations")
-      //this.$store.dispatch("actionGetAllAnnotations")
       return this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName)
     },
     selectedMethod: {
@@ -226,22 +223,15 @@ export default {
   methods: {
     async startClassifier() {
       let selectedFeedback = this.$props.selected_dataset.join('#!#');
-      console.log(selectedFeedback)
       await this.$refs.detectionRef.startRun()
       console.log("classification started, waiting for finishing")
       this.waitingForAnnotation = true
     },
     async updateAnnotationView() {
     let annotation = this.$store.state.available_annotations.find(a => a.name === this.$store.state.currentDashboardName)
-      console.log(this.$store.state.available_annotations)
-      console.log(this.$store.state.currentDashboardName)
-      console.log("printing props")
       let datasets = this.$props.selected_dataset
       if (datasets.length <= 0){ //happens, if existing annotation is loaded
-        console.log("props empty")
         datasets = this.$store.state.storedDatasets
-      } else {
-        console.log(datasets.length)
       }
       console.log(datasets)
       if (annotation) {

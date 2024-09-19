@@ -171,10 +171,6 @@ export default {
       deleteSavedRelations: false
     };
   },
-  mounted() {
-    console.log("mounted started")
-    console.log("finish mounted")
-  },
   activated() {
     this.getSavedDataNames()
   },
@@ -209,7 +205,6 @@ export default {
     getSavedDataNames() {
       this.$store.dispatch("actionGetSavedDataNames")
       console.log("got saved data names")
-      console.log(this.$store.state.selectedData)
     },
     openDeleteSavedData(item) {
       this.deleteSavedRelations = true
@@ -218,8 +213,6 @@ export default {
     createNewDashboard() {
       let dashboardType = this.dashboardType
       let dashboardName = this.dashboardName
-      console.log(dashboardType)
-      console.log(this.$store.state.selectedData)
       this.$store.dispatch("actionCreateDashboard", {dashboardName, dashboardType});
       let data_to_store = {
         datasets: [],
@@ -242,19 +235,12 @@ export default {
     },
     async loadDashboard(){
       let response = await this.$store.dispatch("actionGetSelectedData", this.selectedDashboard);
-      console.log(response.data)
-      console.log("response")
-      console.log(response.data.type)
       this.$store.commit('setDashboardData', response.data)
       this.$store.commit('setClassifierDetail', response.data.classifier_detail)
 
       //Check if any dataset is outdated
       await this.$store.dispatch("actionGetFeedbackNamesDates");
-      console.log(this.$store.state.storedDatasets)
-      console.log(this.$store.state.storedDatasetsWithDates)
       await this.compareDatesOfDatasets()
-      console.log("date check completed")
-      console.log(this.$store.state.storedDatasets)
       if (response.data.type === "Annotation") {
         this.$store.commit("resetAnnotator")
         if (this.toggleRefresh){
@@ -273,7 +259,6 @@ export default {
     },
 
     async compareDatesOfDatasets() {
-      console.log("comparing datasets")
       this.toggleRefresh = false
       this.datasetsToCheck = this.$store.state.storedDatasetsWithDates.map(storedDataset => {
         let correspondingDataset = this.$store.state.allDatasetsWithDates.find(dataset => dataset.name === storedDataset.name);
@@ -295,8 +280,6 @@ export default {
       }).filter(name => name !== null);
 
       if (this.datasetsToCheck.length > 0) {
-        console.log("found updated datasets:")
-        console.log (this.datasetsToCheck)
         await this.showRefreshDialogs();
       }
     },
@@ -332,12 +315,8 @@ export default {
 
     async refreshAnnotation() {
       this.displaySnackbar("Starting Run.");
-      console.log("starting run")
-      console.log(this.$store.state.available_annotations)
       let index = this.$store.state.available_annotations.findIndex(item => item.name === this.$store.state.currentDashboardName);
       this.$store.state.available_annotations.splice(index, 1)
-      console.log(this.$store.state.available_annotations)
-      //await this.$store.dispatch("actionDeleteAnnotation", this.selectedDashboard)
 
       const response = await axios.post(POST_START_MULTIDETECTION_ENDPOINT, this.getFormData());
       console.log(response)
