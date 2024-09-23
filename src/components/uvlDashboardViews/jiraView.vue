@@ -147,11 +147,11 @@
               No matching records found
             </v-alert>
           </template>
-          <div class="export-buttons">
-            <v-btn class="primary" @click="getAssignedDataToExport()"> Export relations Data to CSV </v-btn>
-          </div>
-        </v-data-table>
 
+        </v-data-table>
+      <div class="export-buttons">
+        <v-btn class="primary" @click="getAssignedDataToExport()"> Export relations Data to CSV </v-btn>
+      </div>
       </v-card>
 
   </v-container>
