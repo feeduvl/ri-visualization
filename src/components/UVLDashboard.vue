@@ -164,7 +164,7 @@ export default {
       datasetsToCheck: [],
       dashboardType: null,
       toggleRefresh: false, // if refresh of classification should be done
-      dashboardTypes: ["Jira", "Annotation"],
+      dashboardTypes: ["Relation", "Usage Information"],
       dashboardName: '', // Dashboard name input
       dashboardNameError: '', // Error message for invalid dashboard name
       resolveUserResponse: null, // To store the resolve function for the promise
@@ -223,7 +223,7 @@ export default {
       }
       this.$store.commit('setDashboardData', data_to_store)
       if (!this.dashboardNameError) {
-        if (this.dashboardType === "Annotation") {
+        if (this.dashboardType === "Usage Information") {
           this.$store.commit("resetAnnotator")
           this.navigateTo('/uvldashboard/annotation')
         } else {
@@ -241,7 +241,7 @@ export default {
       //Check if any dataset is outdated
       await this.$store.dispatch("actionGetFeedbackNamesDates");
       await this.compareDatesOfDatasets()
-      if (response.data.type === "Annotation") {
+      if (response.data.type === "Usage Information") {
         this.$store.commit("resetAnnotator")
         if (this.toggleRefresh){
           await this.refreshAnnotation()

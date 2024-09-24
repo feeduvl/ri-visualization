@@ -242,7 +242,7 @@ export default {
           name: this.$store.state.currentDashboardName,
           threshold: "",
           classifier: this.selectedMethod,
-          type: "Annotation"
+          type: "Usage Information"
         }
         this.$store.commit('setDashboardData', data_to_store)
         await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)

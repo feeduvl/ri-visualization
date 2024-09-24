@@ -328,7 +328,7 @@ export default {
         name: this.$store.state.currentDashboardName,
         threshold: maxSimilarity,
         classifier: "",
-        type: "Jira"
+        type: "Relation"
       }
       this.$store.commit('setDashboardData', data_to_store)
       await this.$store.dispatch("actionSaveData", this.$store.state.currentDashboardName)
@@ -451,7 +451,7 @@ export default {
   watch: {
     currentDashboardName(newVal, oldVal) {
       if (newVal !== oldVal) {
-        if (this.$store.state.storedDashboardType === "Jira"){
+        if (this.$store.state.storedDashboardType === "Relation"){
           this.loadDashboardData();
         }
       }

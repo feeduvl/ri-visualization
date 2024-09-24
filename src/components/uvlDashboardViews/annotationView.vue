@@ -221,7 +221,7 @@ export default {
   watch: {
     currentDashboardName(newVal, oldVal) {
       if (newVal !== oldVal) {
-        if (this.$store.state.storedDashboardType === "Annotation"){
+        if (this.$store.state.storedDashboardType === "Usage Information"){
           this.loadDashboardData();
         }
       }
