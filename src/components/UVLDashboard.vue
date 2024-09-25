@@ -25,6 +25,12 @@
             </template>
             </v-select>
           </v-flex>
+          <v-flex xs12 sm6 md3>
+            <v-btn class="primary" @click="openRestoreDataDialog()">Load Dashboard</v-btn>
+          </v-flex>
+          <v-flex xs12 sm6 md3>
+            <v-btn class="success" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
+          </v-flex>
         </v-layout>
       </v-container>
       <p v-if="warningMessage1" class="warning_text">{{warningMessage1}}</p>
