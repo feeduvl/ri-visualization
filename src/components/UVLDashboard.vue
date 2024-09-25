@@ -12,22 +12,18 @@
             <v-select class="select-saved-data"
                       v-model="selectedDashboard"
                       :items="getSelectedData"
-                      label="Select Dashboard"
-                      dense
+                      item-text="name"
+            item-value="name"
+            label="Select Dashboard"
+            dense
             >
-              <template v-slot:item="{ item }" >
-                <div class="dropdown-item">
-                  <span class="item">{{ item }}</span>
-                  <i class="material-icons delete-icon" @click.stop="openDeleteSavedData(item)">delete</i>
-                </div>
-              </template>
+            <template v-slot:item="{ item }">
+              <div class="dropdown-item">
+                <span class="item">{{ item.name }} ({{ item.type }})</span>
+                <i class="material-icons delete-icon" @click.stop="openDeleteSavedData(item)">delete</i>
+              </div>
+            </template>
             </v-select>
-          </v-flex>
-          <v-flex xs12 sm6 md3>
-            <v-btn class="primary" @click="openRestoreDataDialog()">Load Dashboard</v-btn>
-          </v-flex>
-          <v-flex xs12 sm6 md3>
-            <v-btn class="success" @click="openCreateDashboardDialog()">Create new Dashboard</v-btn>
           </v-flex>
         </v-layout>
       </v-container>
@@ -380,7 +376,8 @@ export default {
       this.snackbarText = "";
     },
     validateDashboardName() {
-      if (this.$store.state.selectedData.includes(this.dashboardName)) {
+      let allDashboardNames = this.getAllDashboardNames();
+      if (allDashboardNames.includes(this.dashboardName)) {
         this.dashboardNameError = 'This dashboard name already exists. Please choose a different name.';
       } else {
         this.dashboardNameError = '';
@@ -397,11 +394,15 @@ export default {
     dontDeleteIssues(){
       this.deleteSavedRelations = false
     },
+    getAllDashboardNames() {
+      return this.$store.state.selectedData.map(dashboard => dashboard.name);
+    },
   },
   computed: {
     getSelectedData() {
       return this.$store.state.selectedData
     },
+
   }
 };
 </script>
