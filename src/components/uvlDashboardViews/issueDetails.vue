@@ -44,7 +44,7 @@
         <v-btn  @click="openDeleteAllAssignmentsDialog()" small>
           <i class="material-icons delete-icon" style="color: red;">delete_sweep</i>
         </v-btn>
-        <v-btn  @click="openAddDialog" small>
+        <v-btn class="success"  @click="openAddDialog" small>
           <i class="material-icons add-icon" >add</i>
         </v-btn>
       </div>
@@ -68,7 +68,7 @@
         <td>{{ props.item.text }}</td>
         <td>{{ props.item.similarity }}</td>
         <td>
-          <i class="material-icons delete-icon pointer-cursor" @click="openDeleteOneAssignmentDialog(props.item)">delete</i>
+          <i class="material-icons delete-icon pointer-cursor" @click="openDeleteOneAssignmentDialog(props.item)" style="color: red;">delete</i>
         </td>
       </template>
     </v-data-table>

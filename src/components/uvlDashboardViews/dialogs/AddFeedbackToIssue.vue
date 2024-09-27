@@ -38,10 +38,10 @@
         </div>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="addSelectedFeedback" dark color="blue" class="add-feedback">
+        <v-btn @click="addSelectedFeedback" class="success">
           Add Selected Feedback to list
         </v-btn>
-        <v-btn @click="toggleFeedback()" dark color="black">Cancel</v-btn>
+        <v-btn @click="toggleFeedback()" color="red">Cancel</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

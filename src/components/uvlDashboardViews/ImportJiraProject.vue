@@ -55,8 +55,8 @@
                 <td>{{ props.item.projectName }}</td>
               </template>
             </v-data-table>
-            <v-btn dark color="blue" @click="addSelectedIssues()">Add Issues</v-btn>
-            <v-btn dark color="black" @click="closeDialogIssues()">Cancel</v-btn>
+            <v-btn class="success" @click="addSelectedIssues()">Add Issues</v-btn>
+            <v-btn color="red"  @click="closeDialogIssues()">Cancel</v-btn>
           </v-card>
         </div>
         <div v-if="dialogIssueTypes">
@@ -79,14 +79,14 @@
                 <td>{{ props.item.item }}</td>
               </template>
             </v-data-table>
-            <v-btn dark color="blue" @click="getIssuesByTypes()">Search</v-btn>
-            <v-btn dark color="black" @click="closeDialogIssueTypes()">Cancel</v-btn>
+            <v-btn class="success" @click="getIssuesByTypes()">Search</v-btn>
+            <v-btn color="red"  @click="closeDialogIssueTypes()">Cancel</v-btn>
           </v-card>
         </div>
       </div>
 
     </v-dialog>
-  </v-container>--
+  </v-container>
 </template>
 
 <script>
