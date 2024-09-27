@@ -210,7 +210,6 @@ export default {
     },
     openDeleteSavedData(item) {
       this.deleteSavedRelations = true
-      console.log(item)
       this.savedDataToDelete = item.name
     },
     createNewDashboard() {
@@ -398,9 +397,6 @@ export default {
       this.savedDataToDelete = []
       if (item === this.$store.state.currentDashboardName){
         this.navigateTo('/uvldashboard')
-      } else {
-        console.log(item)
-        console.log(this.$store.state.currentDashboardName)
       }
     },
     // Close Delete Dialogs
