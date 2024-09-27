@@ -40,7 +40,7 @@
       <v-dialog v-model="deleteSavedRelations" :max-width="300" class="delete-all-issues">
         <v-card>
           <v-card-title>
-            <h3>Are you sure you want to delete this saved relations?</h3>
+            <h3>Are you sure you want to delete this dashb?</h3>
           </v-card-title>
           <v-card-actions>
             <v-btn color="red" @click="deleteSavedData">
