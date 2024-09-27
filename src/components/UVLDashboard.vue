@@ -210,7 +210,8 @@ export default {
     },
     openDeleteSavedData(item) {
       this.deleteSavedRelations = true
-      this.savedDataToDelete = item
+      console.log(item)
+      this.savedDataToDelete = item.name
     },
     createNewDashboard() {
       let dashboardType = this.dashboardType
