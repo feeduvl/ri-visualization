@@ -395,6 +395,12 @@ export default {
       this.getSavedDataNames()
       this.deleteSavedRelations = false
       this.savedDataToDelete = []
+      if (item === this.$store.state.currentDashboardName){
+        this.navigateTo('/uvldashboard')
+      } else {
+        console.log(item)
+        console.log(this.$store.state.currentDashboardName)
+      }
     },
     // Close Delete Dialogs
     dontDeleteIssues(){
